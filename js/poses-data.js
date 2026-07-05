@@ -1327,7 +1327,7 @@ const POSES_LIBRARY = {
   },
   'kneeling-crouch': {
     id: 'kneeling-crouch', category: 'kneeling', name: 'Kneeling Crouch',
-    difficulty: 'Intermediate', angle: '3/4 View', intent: 'Dynamic', effort: 'Static',
+    difficulty: 'Intermediate', angle: '3/4 View', intent: 'Editorial', effort: 'Static',
     instructions: 'Drop into a low crouch with one knee nearly touching the ground and the other foot planted for balance. Rest one forearm across the raised knee, coiled and alert.',
     tip: 'This ready, coiled stance photographs powerfully from a low angle looking slightly upward at the subject.',
     joints: { leftKnee: 120, rightKnee: 90, spine: -6, leftElbow: 90 },
