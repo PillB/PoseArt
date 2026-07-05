@@ -1,0 +1,175 @@
+/* ============================================================
+   PoseArt Design Tokens — Phase 2 Art Nouveau Design System
+   ============================================================ */
+
+:root {
+  /* ── RAW PALETTE: Peacock Fresco ── */
+  --color-teal-900: #0A2827;
+  --color-teal-800: #0F3B3A;
+  --color-teal-700: #155450;
+  --color-teal-600: #1E7A74;
+  --color-teal-500: #2E958E;
+  --color-teal-400: #5CB3AC;
+  --color-teal-200: #A8D8D3;
+  --color-teal-100: #DDEFED;
+  --color-cobalt-700: #204B87;
+  --color-cobalt-600: #2B5FAD;
+  --color-cobalt-500: #4A79C4;
+  --color-cobalt-200: #C7D6EC;
+  --color-gold-800: #9C7B34;
+  --color-gold-700: #B08D42;
+  --color-gold-600: #C9A24C;
+  --color-gold-500: #D4B368;
+  --color-gold-300: #E6D29B;
+  --color-gold-dark: #D4AF37;
+  --color-parchment-50: #FBF8F0;
+  --color-parchment-100: #F6F0E1;
+  --color-parchment-200: #EFE6D0;
+  --color-ink-900: #1A1613;
+  --color-ink-800: #252019;
+  --color-ink-700: #332C22;
+  --color-botanical-600: #4CAF7D;
+  --color-terracotta-600: #C96A4C;
+  --color-aubergine-600: #6D4A72;
+  --color-white: #FFFFFF;
+  --color-black: #000000;
+
+  /* ── SEMANTIC: LIGHT THEME ── */
+  --bg-canvas: var(--color-parchment-100);
+  --bg-surface: var(--color-parchment-50);
+  --bg-surface-pressed: var(--color-parchment-200);
+  --bg-elevated: #FFFFFF;
+  --text-primary: var(--color-teal-800);
+  --text-secondary: #4A5E5C;
+  --text-disabled: #9AA8A6;
+  --text-on-brand: #FFFFFF;
+  --text-on-gold: var(--color-teal-900);
+  --text-link: var(--color-cobalt-600);
+  --brand-primary: var(--color-teal-600);
+  --brand-primary-hover: var(--color-teal-500);
+  --brand-primary-pressed: var(--color-teal-800);
+  --brand-secondary: var(--color-cobalt-600);
+  --brand-gold: var(--color-gold-600);
+  --border-default: #D8CBA8;
+  --border-focus: var(--color-cobalt-600);
+  --state-success: var(--color-botanical-600);
+  --state-success-bg: #E5F4EC;
+  --state-warning: var(--color-gold-600);
+  --state-warning-bg: #FBF3DF;
+  --state-error: var(--color-terracotta-600);
+  --state-error-bg: #FBEAE3;
+  --overlay-skeleton: rgba(255,255,255,0.75);
+  --overlay-ghost: rgba(246,240,225,0.4);
+  --overlay-scrim-top: linear-gradient(180deg, rgba(10,40,39,0.55) 0%, rgba(10,40,39,0) 100%);
+  --overlay-scrim-bottom: linear-gradient(0deg, rgba(10,40,39,0.65) 0%, rgba(10,40,39,0) 100%);
+  --overlay-text-pill: rgba(10,40,39,0.72);
+
+  /* ── TYPOGRAPHY ── */
+  --font-display: 'Cormorant Garamond', 'Cormorant', Georgia, serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-accent: 'Cinzel Decorative', 'Cinzel', serif;
+  --font-mono: 'SF Mono', 'Roboto Mono', 'Courier New', monospace;
+
+  --type-display-hero: 700 40px/48px var(--font-display);
+  --type-display: 700 32px/40px var(--font-display);
+  --type-h1: 600 24px/32px var(--font-display);
+  --type-h2: 400 20px/28px var(--font-display);
+  --type-h3: 600 18px/26px var(--font-body);
+  --type-body-lg: 400 17px/24px var(--font-body);
+  --type-body: 400 16px/22px var(--font-body);
+  --type-label: 500 14px/20px var(--font-body);
+  --type-caption: 400 12px/16px var(--font-body);
+  --type-overline: 600 11px/14px var(--font-body);
+  --type-hud-score: 600 28px/28px var(--font-mono);
+  --type-hud-lg: 700 44px/44px var(--font-mono);
+  --type-wordmark: 400 22px/22px var(--font-accent);
+  --type-tab-label: 500 11px/14px var(--font-body);
+  --type-chip: 500 13px/18px var(--font-body);
+
+  /* ── SPACING (4px base grid) ── */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+
+  /* ── BORDER RADIUS (organic) ── */
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+  --radius-pill: 999px;
+  --radius-organic: 48px 16px 48px 16px;
+  --radius-circle: 50%;
+
+  /* ── SHADOWS (warm-tinted) ── */
+  --elevation-0: none;
+  --elevation-1: 0 1px 3px rgba(15,59,58,0.08);
+  --elevation-2: 0 4px 12px rgba(15,59,58,0.10);
+  --elevation-3: 0 8px 24px rgba(15,59,58,0.14);
+  --elevation-4: 0 16px 40px rgba(15,59,58,0.18);
+  --elevation-5: 0 24px 56px rgba(15,59,58,0.22);
+  --elevation-gold-glow: 0 0 24px rgba(201,162,76,0.45);
+  --elevation-focus: 0 0 0 3px rgba(43,95,173,0.55);
+
+  /* ── ANIMATION ── */
+  --duration-instant: 100ms;
+  --duration-micro: 150ms;
+  --duration-standard: 250ms;
+  --duration-elaborate: 500ms;
+  --duration-hero: 800ms;
+  --duration-breathe: 2000ms;
+  --duration-draw: 900ms;
+
+  --ease-enter: cubic-bezier(0.4, 0.0, 0.2, 1);
+  --ease-exit: cubic-bezier(0.8, 0.0, 0.4, 0.8);
+  --ease-overshoot: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-linear: linear;
+
+  /* ── LAYOUT ── */
+  --screen-padding: var(--space-6);
+  --camera-padding: var(--space-4);
+  --tab-bar-height: 64px;
+  --bottom-safe: env(safe-area-inset-bottom, 20px);
+}
+
+/* ── DARK THEME ── */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-canvas: var(--color-ink-900);
+    --bg-surface: var(--color-ink-800);
+    --bg-surface-pressed: var(--color-ink-700);
+    --bg-elevated: #3A3226;
+    --text-primary: #F0E9DA;
+    --text-secondary: #C9BFA9;
+    --text-disabled: #6A5F50;
+    --brand-primary: var(--color-teal-400);
+    --brand-gold: var(--color-gold-dark);
+    --border-default: #4A4032;
+    --state-success: #6FCB9A;
+    --state-warning: var(--color-gold-dark);
+    --state-error: #E08868;
+    --overlay-text-pill: rgba(10,8,6,0.82);
+  }
+}
+
+/* ── REDUCED MOTION ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .breathe-animation,
+  .particle-bloom,
+  .ornament-draw { display: none !important; }
+  .breathe-animation-fallback,
+  .particle-bloom-fallback { display: block !important; }
+}
