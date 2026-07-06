@@ -1,0 +1,125 @@
+{
+  "anatomy_key_learnings": [
+    {
+      "topic": "SMPL-X vs Idealized Stick Figures",
+      "finding": "SMPL-X and other advanced systems encode physically realizable actuator configurations with strict mechanical limits and inverse kinematics for collision avoidance. Idealized stick figures use unconstrained axis-angle rotations, allowing impossible positions and self-intersections.",
+      "application_to_poseart": "PoseArt currently uses basic forward kinematics (FK) with a single rotation axis per joint in `buildPose`. Adding joint angle clamping based on human biomechanical limits will prevent impossible poses."
+    },
+    {
+      "topic": "Weight Distribution (80/20 Rule)",
+      "finding": "Natural, flattering poses usually follow an 80/20 weight distribution where 80% of weight is on the back foot and 20% on the front, creating a natural hip pop and spine curve.",
+      "application_to_poseart": "Implementing an auto-balance feature or preset poses that automatically adjust spine tilt and hip rotation (using the existing `hipsTiltDeg`) when leg angles differ significantly."
+    },
+    {
+      "topic": "Joint Hinging vs Locking",
+      "finding": "Locked joints (straight limbs) create visual tension and stiffness. A slight bend in knees, elbows, and wrists is required for a natural appearance.",
+      "application_to_poseart": "Introduce a minimum angle or 'softness' offset for knee and elbow joints to prevent perfectly straight 0-degree angles in default poses."
+    },
+    {
+      "topic": "45-Degree Camera Rule",
+      "finding": "Subjects should almost always be angled 30-45 degrees away from the lens to create a diagonal line and shrink body space in the frame.",
+      "application_to_poseart": "Set the default camera yaw (`state.camYaw`) to 30-45 degrees rather than straight on (0 degrees) for better initial presentation."
+    }
+  ],
+  "skeleton_improvement_techniques": [
+    {
+      "technique": "Soft Joint Bending",
+      "description": "Never allow elbows or knees to be perfectly straight (0 degrees). Add a slight default bend (e.g., 5-10 degrees) to create visual softness.",
+      "implementable_now": true,
+      "implementation_hint": "In `buildPose`, enforce a minimum bend angle for `leftElbow`, `rightElbow`, `leftKnee`, and `rightKnee` if the user sets them close to 0."
+    },
+    {
+      "technique": "Biological Constraints (Joint Angle Limits)",
+      "description": "Restrict joint rotations to natural human limits to prevent broken-looking poses.",
+      "implementable_now": true,
+      "implementation_hint": "Add a configuration object with min/max angles for each joint, and clamp the values in `buildPose` before applying `rotX`, `rotY`, or `rotZ`."
+    },
+    {
+      "technique": "Tapered/Volumetric Bone Rendering",
+      "description": "Instead of drawing straight lines between joints, render tapered polygons to represent muscle mass (thicker at the shoulder/hip, thinner at elbow/knee).",
+      "implementable_now": true,
+      "implementation_hint": "Update the 2D canvas drawing function (`renderFrame`) to use `ctx.beginPath()` with offset points perpendicular to the bone direction, rather than simple `ctx.moveTo()`/`ctx.lineTo()` strokes."
+    },
+    {
+      "technique": "Spine Curvature (S-Curve)",
+      "description": "The spine is not a single rigid stick. A natural pose requires independent rotation for the lower back (lumbar) and upper back (thoracic) to create the S-curve.",
+      "implementable_now": false,
+      "implementation_hint": "The current skeleton only has `spine` and `neck`. You need to add a `midSpine` joint to `T_POSE` and `BONES`, and update `buildPose` to distribute the `spineDeg` rotation across two joints."
+    }
+  ],
+  "competitor_findings": [
+    {
+      "competitor": "PoseMyArt / PoseMuse",
+      "what_they_do_better": "Offers full 3D models with both Forward Kinematics (FK) and Inverse Kinematics (IK), allowing users to drag hands/feet directly. They also have thousands of scene presets.",
+      "steal_this": "IK-like interaction or visual hints. Even without true IK, allow users to select an end-effector (like a hand) and use a slider to bend the elbow to reach a target.",
+      "implementation_hint": "Implement a simple heuristic IK solver or add UI controls that adjust multiple joints simultaneously (e.g., a 'reach' slider)."
+    },
+    {
+      "competitor": "Easy Pose",
+      "what_they_do_better": "Provides sensitive joint control with highlights on movable parts and a mirroring function for symmetrical poses.",
+      "steal_this": "Mirroring function.",
+      "implementation_hint": "Add a UI button that copies joint angles from left side (e.g., `leftShoulder`, `leftElbow`) to right side (`rightShoulder`, `rightElbow`) or vice versa."
+    },
+    {
+      "competitor": "SetPose",
+      "what_they_do_better": "Separates controls (bend, tilt, rotate) and explicitly features 'Biological constraints' to prevent unnatural posing, solving the main complaint against PoseMyArt.",
+      "steal_this": "Explicit toggle for 'Biological Constraints'.",
+      "implementation_hint": "Add a checkbox in the UI that enables/disables the joint angle clamping mentioned in the anatomy section."
+    },
+    {
+      "competitor": "Clip Studio Paint (POSEMANIACS integration)",
+      "what_they_do_better": "Allows locking specific joints to act as a fulcrum, and uses a Pose Scanner to extract poses from 2D images.",
+      "steal_this": "Joint locking.",
+      "implementation_hint": "Add a state array `lockedJoints`. When adjusting a parent joint, if a child is locked, apply counter-rotation to the child to keep its global position fixed."
+    }
+  ],
+  "joint_angle_improvements_per_category": {
+    "boudoir": {
+      "common_problems": ["Flat appearance on the ground", "Stiff limbs"],
+      "anatomical_fixes": ["Arch the spine (negative spine rotation)", "Bend one knee significantly more than the other", "Soft wrists"]
+    },
+    "kneeling": {
+      "common_problems": ["Feet clipping into the ground", "Unnatural center of gravity"],
+      "anatomical_fixes": ["Ensure hips are positioned directly over the knee or heel", "Add ankle rotation to flatten feet against the floor"]
+    },
+    "reclining": {
+      "common_problems": ["Body looks stiff like a board", "Lack of weight compression"],
+      "anatomical_fixes": ["Use the new globalTilt/globalTwist to angle the body", "Ensure the shoulder touching the ground is pushed up slightly (closer to neck)"]
+    },
+    "standing": {
+      "common_problems": ["Static, heavy vertical block", "Locked knees"],
+      "anatomical_fixes": ["Implement 80/20 weight distribution", "Tilt hips (hipsTiltDeg) to match the weight-bearing leg", "Ensure slight knee bends"]
+    },
+    "seated": {
+      "common_problems": ["Hips don't align with the seat", "Legs look perfectly parallel"],
+      "anatomical_fixes": ["Use hip abduction (hipAbductL/R) to spread legs naturally", "Ensure 90-degree bend at hips and knees"]
+    }
+  },
+  "top_5_skeleton_improvements": [
+    {
+      "improvement": "Implement Biological Joint Limits",
+      "why": "Prevents the 'broken doll' effect and forces users into natural pose boundaries, similar to SetPose's biological constraints.",
+      "implementation": "Add an object defining min/max angles for each joint property (e.g., `leftElbow: [0, 150]`) and apply `Math.max(min, Math.min(max, angle))` in `buildPose`."
+    },
+    {
+      "improvement": "Add Joint Mirroring",
+      "why": "Significantly speeds up workflow for symmetrical poses, a key feature praised in Easy Pose.",
+      "implementation": "Add a function that copies values like `jointAngles.leftArm` to `jointAngles.rightArm`."
+    },
+    {
+      "improvement": "Volumetric Bone Rendering",
+      "why": "Transforms the crude stick figure into a more elegant mannequin style without needing full 3D models.",
+      "implementation": "In the canvas `renderFrame` method, draw tapered polygons instead of lines by calculating perpendicular normals to the bone vector and drawing a shape that is wider at the proximal joint and narrower at the distal joint."
+    },
+    {
+      "improvement": "Default 'Soft' Posture",
+      "why": "Locked knees and straight arms make figures look rigid and amateurish.",
+      "implementation": "Change the default angles for elbows and knees from 0 to something like 5 or 10 degrees, and set the default camera yaw to 30-45 degrees."
+    },
+    {
+      "improvement": "Add a Mid-Spine Joint",
+      "why": "A single spine joint cannot represent the natural S-curve of the human back, which is crucial for elegant photography posing.",
+      "implementation": "Modify `T_POSE` to include a `midSpine` joint halfway between `hips` and `spine` (thoracic), update `BONES` to connect them, and distribute spinal rotation across both in `buildPose`."
+    }
+  ]
+}

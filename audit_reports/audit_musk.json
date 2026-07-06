@@ -1,0 +1,272 @@
+{
+  "_meta": {
+    "reviewer": "Elon Musk — brutal product critic / first-principles teardown",
+    "product": "PoseArt v2 — Art Nouveau pose coaching mobile web app",
+    "audit_basis": "Direct source inspection of /home/user/workspace/poseart-app-v2/ (index.html 1865 lines, js/app.js 2019 lines, js/camera.js 602 lines, js/poses-data.js 7527 lines, js/pose-skeleton-3d.js 863 lines, js/pose-animations.js 194 lines, js/pose-sprites.js, css/app.css 1372 lines, css/tokens.css 175 lines, 780 GIF assets, git log). Every finding below is tied to an actual code location, not speculation.",
+    "headline_verdict": "This is a beautifully skinned demo pretending to be a computer vision product. The single most expensive line of code in this app is camera.js line 123, where 'real camera mode' and 'simulation mode' call the exact same fake keypoint generator. Nothing about pose alignment, scoring, or auto-capture is real. Ship this to a paying customer and you are committing fraud with better typography than most fraud."
+  },
+  "first_impression_fails": [
+    {
+      "screen": "OB1 Welcome",
+      "issue": "Hero copy says 'Learn 75+ studio-quality poses' while OB2 two screens later says '300+ Poses' and the actual data file (js/poses-data.js line 3 comment: '300+ poses across 10 categories') undercounts both the real category count (16) and real pose count (540, verified by counting POSES_LIBRARY entries). Three different numbers, none of them correct, shown to a brand-new user in the first 15 seconds.",
+      "competitor_does_better": "VSCO and Lightroom mobile never quote a stat they haven't audited; App Store screenshots and in-app copy are pulled from the same single source of truth at build time.",
+      "fix": "Generate onboarding copy at build time from Object.keys(POSES_LIBRARY).length and POSE_CATEGORIES_RAW.length so the number is always correct and updates automatically as content is added."
+    },
+    {
+      "screen": "OB2 How It Works demo",
+      "issue": "The 'live demo' of the coaching experience is a static SVG ghost figure toggling opacity via a CSS class (js/app.js runOnboardingDemo -> stage.classList.add('demo-active')) — there is no camera, no motion, no actual preview of the core mechanic before the user commits to granting camera permission on OB3.",
+      "competitor_does_better": "PhotoDirector and most AR filter apps let you try the live camera effect immediately, unauthenticated, in a sandboxed permission-free preview, so the 'wow' happens before the ask.",
+      "fix": "Use a pre-recorded example video overlaying real ghost/skeleton tracking on a stand-in model, so users see the actual promised interaction, not a CSS opacity fade."
+    },
+    {
+      "screen": "Camera (session)",
+      "issue": "The alignment scoring HUD, auto-capture, and skeleton overlay all run on synthetic sine-wave keypoints (js/camera.js _simulateKPs) instead of real pose data, even when live camera access has been granted and video is streaming. The user is being told 'You're 92% aligned!' by a number generator that has never looked at the video frame.",
+      "competitor_does_better": "PoseMuse and any modern pose-reference app built on MediaPipe/TensorFlow.js pose landmarks actually reads the camera feed to compute joint angles.",
+      "fix": "Integrate MediaPipe Pose (or TensorFlow.js MoveNet) for real keypoint extraction, or explicitly relabel the feature as 'Practice Mode (no live tracking yet)' until it's real. Do not let fake numbers wear the UI of a real feature."
+    },
+    {
+      "screen": "Library / search filters",
+      "issue": "The 'Favorites' filter pill calls searchPoses('favorite') (index.html line 1452), but searchPoses() only matches literal substrings in name/category/tags/intent (js/app.js line 842-848) — no pose has the word 'favorite' in any of those fields, so this pill always renders 'No poses found', 100% of the time, for every user.",
+      "competitor_does_better": "Any real app (VSCO, Lightroom) treats favorites as a first-class boolean filter against a stored flag, not a text search hack.",
+      "fix": "Rewrite the filter pill handlers to branch on filter type: difficulty pills should filter p.difficulty === value, and the favorites pill should filter against the isFavorite() set, not route everything through the free-text search function."
+    }
+  ],
+  "ux_friction_points": [
+    {
+      "flow": "Onboarding",
+      "step": "OB4 persona selection",
+      "friction": "Users are forced to pick a persona (Photographer/Model/Self-Portrait/Just Exploring) before the 'Start Exploring' button unlocks (js/app.js selectGoal/completeOnboarding), but AppState.selectedGoal is never read anywhere else in the codebase after being set — grep confirms zero downstream usage. The friction of a mandatory choice buys the user nothing: no personalized home screen, no filtered categories, no tailored recommendations.",
+      "fix": "Either make the persona choice actually drive the home screen's featured pose/category ordering, or remove the forced gate entirely and make it an optional, skippable preference."
+    },
+    {
+      "flow": "Onboarding",
+      "step": "Every app load",
+      "friction": "_onboardingCompleted is a plain in-memory boolean (js/app.js line 40), not persisted. Every page refresh forces the user back through all four onboarding screens, including the mandatory persona pick, again. In the sandboxed preview this is dismissed in a code comment as 'expected,' but the underlying storage architecture (js/poses-data.js: 'IN-MEMORY STORAGE (localStorage-free for iframe compatibility)') is the same one that will ship, meaning this isn't a preview quirk — it is the real persistence model.",
+      "fix": "Add real persistence (localStorage/IndexedDB in production, not the iframe sandbox) for onboarding state, gallery, favorites, and session history before this leaves demo status."
+    },
+    {
+      "flow": "Session flow",
+      "step": "Camera capture",
+      "friction": "Auto-capture triggers after holding an 'aligned' score above threshold for 1.5s, but that score is fabricated (see camera.js simulation finding). Functionally, the user is being auto-photographed based on a random walk, not their actual pose — captures will trigger when the user isn't remotely in position, and fail to trigger when they are.",
+      "fix": "Do not enable auto-capture until real pose estimation exists; ship manual shutter as the only mode until then."
+    },
+    {
+      "flow": "Discovery",
+      "step": "Library filter pills (Beginner/Intermediate/Advanced)",
+      "friction": "These 'work' today only by coincidence — they succeed because tag strings happen to contain the literal words 'beginner'/'intermediate'/'advanced' (confirmed: 163+ of 540 poses have 'beginner' in their tags array). This is fragile: renaming a tag, adding a pose without that exact tag word, or a future locale/translation pass silently breaks filtering with no test coverage protecting it.",
+      "fix": "Filter on the structured p.difficulty field directly instead of re-using the free-text search pipe for a categorical filter."
+    },
+    {
+      "flow": "Gallery",
+      "step": "Any interaction beyond the current session",
+      "friction": "Gallery, session history, and favorites are all plain in-memory arrays capped at 100/50/unbounded items respectively (js/poses-data.js _gallery, _sessionHistory, _favorites) with zero persistence. Closing the browser tab or refreshing deletes every captured photo, every session record, and every favorite the user has made. For a photography app, losing photos is the single worst failure mode possible.",
+      "fix": "This is the top-priority engineering fix in the entire app: move to IndexedDB (for images/blobs) plus localStorage (for lightweight metadata) immediately, with an export/backup path as a safety net."
+    },
+    {
+      "flow": "Pose detail",
+      "step": "3D skeleton viewer vs. live camera skeleton overlay",
+      "friction": "The app has two entirely separate 'skeleton' systems that never talk to each other: pose-skeleton-3d.js renders a from-scratch canvas 3D T-pose skeleton in the pose detail sheet (Front/Side/¾/Auto view), while camera.js's live overlay skeleton is driven by the fake simulated keypoints. A user who plays with the nice 3D skeleton in pose detail will reasonably expect the camera skeleton to behave the same way (i.e., respond to real body position) — it doesn't, and there's no code path connecting the two.",
+      "fix": "Unify around one keypoint/skeleton data model, and once real pose estimation exists, drive both the static 3D preview and the live camera overlay from the same computed joint structure."
+    }
+  ],
+  "missing_killer_features": [
+    {
+      "feature": "Real pose detection / body tracking",
+      "why_critical": "This is the entire premise of the product ('pose coaching app') and it does not exist — camera.js proves the core mechanic is theater. Without it, PoseArt is a static reference-image gallery with a very elaborate camera-shaped UI wrapped around it.",
+      "implementation": "Integrate MediaPipe Pose or TensorFlow.js MoveNet (both run client-side, no server round-trip, work in a mobile browser) to extract real 2D/3D keypoints from the video feed each frame, then feed those into the existing _computeAlignment() scoring logic instead of _simulateKPs()."
+    },
+    {
+      "feature": "Persistent storage / cloud backup of captures",
+      "why_critical": "A photography app that loses every photo on refresh cannot be trusted with a single real photoshoot. This is a trust-destroying, not just annoying, gap.",
+      "implementation": "IndexedDB for local persistence immediately; add optional cloud sync (Firebase Storage, S3 + Cognito, or similar) so photos survive device loss and can be accessed cross-device."
+    },
+    {
+      "feature": "Side-by-side reference comparison (ghost overlay vs. actual capture diff)",
+      "why_critical": "PoseMuse-style apps win because they show a user exactly how their result diverges from the reference — this app never surfaces a measurable, visual gap analysis after capture, only a preset-filtered photo.",
+      "implementation": "After capture, render the target pose skeleton (already built in pose-skeleton-3d.js) overlaid semi-transparently on the actual photo, with joint-by-joint deviation callouts."
+    },
+    {
+      "feature": "Multi-shot burst / video capture",
+      "why_critical": "Real photoshoots (which this app explicitly targets — 'photographers and models') need burst sequences to catch the right micro-expression/moment; a single-shutter-per-pose model doesn't match real shoot workflows.",
+      "implementation": "Add a burst mode (capture 5-10 frames over 2 seconds) and let the user pick the best from a filmstrip, similar to iOS Live Photos selection."
+    },
+    {
+      "feature": "Pose progression / body-specific adaptation",
+      "why_critical": "The 'Accessible' category (wheelchair/limited-mobility, 30 poses) is a genuinely good idea, but there's no onboarding flow, filter, or persona path that surfaces it to users who need it — a user with mobility constraints has to already know to search for it.",
+      "implementation": "Surface an accessibility preference during onboarding (this is exactly what the currently-unused selectedGoal/persona mechanism should be doing) and default-filter the library accordingly."
+    },
+    {
+      "feature": "Collaborative / two-person live session (for the Couple category)",
+      "why_critical": "30 dedicated 'Couple' poses exist in the data, but the camera/session flow is built for a single subject with one device; there's no guidance for how two people coordinate a couple pose from one camera position.",
+      "implementation": "Add a split-screen or sequential capture mode with per-person alignment targets for couple poses."
+    }
+  ],
+  "wow_moments_to_add": [
+    {
+      "moment": "Real-time skeleton snap-to-target animation when alignment crosses a threshold",
+      "implementation": "Once real pose estimation is in place, animate the ghost overlay to visually 'lock in' (color shift, subtle haptic, particle burst — the particle bloom effect already exists in the camera screen per index.html, just needs to be triggered by a real signal instead of a fake one) at the exact moment the user's real joints align."
+    },
+    {
+      "moment": "Before/after motion GIF of the user's own progression across a category",
+      "implementation": "Stitch the user's last N captures in a given category into a short auto-generated GIF/reel, similar to how fitness apps create transformation timelines — this uses assets the app already produces (captures) in a way it currently never resurfaces."
+    },
+    {
+      "moment": "Instant AI-suggested next pose based on the just-completed one",
+      "implementation": "After a capture, recommend a complementary pose from the same category/mood using existing tags/intent metadata (already structured in poses-data.js) rather than sending the user back to a static grid."
+    },
+    {
+      "moment": "Shareable 'pose card' export combining the Art Nouveau skeleton overlay art with the final photo",
+      "implementation": "Composite the SVG pose figure or 3D skeleton wireframe artistically behind/beside the user's real photo on export — leverages the app's strongest existing asset (its distinctive Art Nouveau visual language) as a shareable, branded artifact."
+    }
+  ],
+  "information_architecture_issues": [
+    {
+      "issue": "Category count mismatch across the codebase itself: the data file's own header comment claims '300+ poses across 10 categories' (js/poses-data.js line 3) while POSE_CATEGORIES_RAW actually defines 16 categories and POSES_LIBRARY actually contains 540 poses. The onboarding screens separately claim 75+ and 300+. Four different numbers exist for the same two facts inside one shipped product.",
+      "fix": "Establish one computed source of truth (derive counts from the arrays themselves at build/render time) and delete every hardcoded number in comments and UI copy."
+    },
+    {
+      "issue": "780 GIF files exist in gifs/, but only 540 correspond to actual poses in POSES_LIBRARY — 240 GIFs (filenames like 'p18-lounge-r9-seated-back-arch-hands-behind') are orphaned assets with no matching pose entry, suggesting either a larger pose set was planned and cut, or content and code were never reconciled.",
+      "fix": "Either restore the missing 240 poses into POSES_LIBRARY to use the paid-for asset work, or delete the unused GIFs to reduce app payload size (unused media still ships in the bundle)."
+    },
+    {
+      "issue": "css/app.css and the inline <style> block embedded directly in index.html are two divergent stylesheets, not duplicates — a diff shows over 2,300 differing lines, different header comments ('App Stylesheet' vs 'App Styles'), different reset strategies (box-sizing universal selector differs), and different sizing units (dvh usage differs). It's unclear which one actually governs the shipped page, or whether one is dead code silently overridden by CSS cascade order.",
+      "fix": "Delete one of the two stylesheets. Pick a single source of truth for styling and remove the CSS coming from stale iteration history (git log shows 3 commits including 'Library category grid HTML fix' and 'Final QA pass complete' — likely the divergence is leftover from that iteration)."
+    },
+    {
+      "issue": "Two unrelated 'skeleton' systems exist in the code (pose-skeleton-3d.js for the static pose-detail 3D viewer, and camera.js's live overlay skeleton) with no shared data model — confusing for both users conceptually and for future engineers maintaining the code.",
+      "fix": "Consolidate into a single joint/keypoint schema used by both the static 3D preview and the live camera overlay."
+    }
+  ],
+  "onboarding_improvements": [
+    {
+      "issue": "OB3 camera permission screen offers 'Continue in Demo Mode' as a skip option, but there is no visible in-app signal afterward that the user is permanently in fake-data mode — the camera screen's HUD, scoring, and auto-capture look identical in Demo Mode and 'real' mode (both call _simulateKPs per camera.js line 123), so a user who did grant permission has no way to know their real camera feed isn't actually being used for scoring.",
+      "fix": "Until real pose detection ships, clearly and persistently badge the camera screen ('Demo Mode — scoring is simulated') whenever real tracking isn't active, and remove that badge only once genuine computer vision is wired in."
+    },
+    {
+      "issue": "Mandatory persona selection (OB4) has zero downstream effect on the app experience (confirmed: AppState.selectedGoal is set once and never read again anywhere in app.js).",
+      "fix": "Wire persona selection into: default category ordering on Home, default filter pill state in Library, and tailored copy/tips throughout (e.g., 'Self-Portrait' persona should surface auto-capture and timer settings more prominently since there's no second photographer)."
+    },
+    {
+      "issue": "Onboarding replays in full on every page load in the current build because onboarding-complete state is in-memory only, not persisted.",
+      "fix": "Persist onboarding completion (and persona choice) to localStorage/IndexedDB in the production deployment target."
+    }
+  ],
+  "visual_design_issues": [
+    {
+      "screen": "Global / stylesheet architecture",
+      "issue": "Running two divergent stylesheets (inline <style> in index.html vs. css/app.css) risks visually inconsistent rendering depending on load order and cascade specificity — a maintenance and QA risk more than a pure visual one, but it will eventually produce visible bugs (wrong fonts, wrong spacing) as one file drifts further from the other.",
+      "fix": "Consolidate to one stylesheet as noted in information_architecture_issues."
+    },
+    {
+      "screen": "Review screen",
+      "issue": "The 6 photo filter presets (Original/Warm/Film/B&W/Faded/Moody) are implemented purely as CSS filter() strings applied to the <img>/<canvas> (per PRESETS object in app.js), not real color grading — fine for a lightweight look, but positioning this next to genuine editing apps (VSCO, Lightroom) as a comparable feature oversells a handful of CSS brightness/contrast/saturate tweaks.",
+      "fix": "Either invest in real LUT-based or curve-based color grading (even a simple canvas-based approach beats plain CSS filters in quality and consistency across browsers), or reposition these honestly as 'quick looks' rather than implying professional-grade editing."
+    },
+    {
+      "screen": "Camera screen",
+      "issue": "Ghost overlay, skeleton overlay, alignment ring, and particle bloom are all visually polished, well-composed UI — the visual design of this exact screen is the app's strongest asset, which makes it more damaging that all its data is fake. Visually, nothing is wrong here; substantively, everything is.",
+      "fix": "No visual fix needed — wire it to real data (see missing_killer_features)."
+    }
+  ],
+  "copy_improvements": [
+    {
+      "location": "OB1 Welcome hero copy",
+      "current": "Learn 75+ studio-quality poses",
+      "better": "Learn from 540 studio-quality poses across 16 categories — generated dynamically from the actual library size, not hardcoded."
+    },
+    {
+      "location": "OB2 'How It Works' feature card",
+      "current": "300+ Poses",
+      "better": "540 Poses, 16 Categories — matching the real, computed library size."
+    },
+    {
+      "location": "js/poses-data.js file header comment",
+      "current": "// 300+ poses across 10 categories. Auto-computed category counts.",
+      "better": "// 540 poses across 16 categories. — the comment itself is stale and misleads any engineer who reads it before the arrays below; comments describing data should be deleted or auto-generated, not hand-maintained."
+    },
+    {
+      "location": "Camera screen alignment HUD",
+      "current": "Percentage alignment score shown with no qualifier (e.g. '87%')",
+      "better": "While tracking is simulated: '87% (Demo)' — honesty in the number itself, not just a one-time badge that might get missed."
+    },
+    {
+      "location": "Library screen 'Favorites' filter pill label",
+      "current": "Favorites (silently returns 'No poses found' always)",
+      "better": "Either fix the underlying logic so the label is accurate, or don't ship a broken filter with a confident label — a non-functional filter with a normal-looking label is worse than no filter at all because it erodes trust in every other pill next to it."
+    }
+  ],
+  "feature_gaps_vs_competitors": [
+    {
+      "competitor": "PoseMuse",
+      "feature": "AI-driven real-time pose matching feedback using actual camera input",
+      "implementation": "This is PoseArt's single largest gap: PoseMuse's core value prop (live feedback against a target pose) is precisely what PoseArt fakes. Implement via MediaPipe Pose as detailed above; this is table stakes to even compete in this category, not a differentiator."
+    },
+    {
+      "competitor": "PoseMyArt (3D)",
+      "feature": "Fully adjustable, user-manipulable 3D mannequin (drag limbs to compose custom poses)",
+      "implementation": "PoseArt's pose-skeleton-3d.js already has a working from-scratch 3D skeleton renderer with joint coordinates and bone connections — extend it with drag-to-pose interaction on individual joints so users can create and save custom poses instead of only browsing a fixed library."
+    },
+    {
+      "competitor": "Lightroom mobile",
+      "feature": "Real curve/HSL-based color grading with presets built on actual pixel-level adjustments, not CSS filters",
+      "implementation": "Move the Review screen's PRESETS system from CSS filter() strings to canvas-based pixel manipulation (or a lightweight WASM image-processing library) for genuine tonal control."
+    },
+    {
+      "competitor": "VSCO",
+      "feature": "Community feed / discovery of other users' work for inspiration and social proof",
+      "implementation": "PoseArt has zero social or community feature — even a simple opt-in public gallery of anonymized pose attempts (with consent) would add discovery and retention loops VSCO relies on heavily."
+    },
+    {
+      "competitor": "Figure Drawing app / SketchDaily References",
+      "feature": "Timed reference/gesture-drawing mode with randomized pose rotation and countdown timer for artists (not just photographers)",
+      "implementation": "PoseArt's pose library and 3D skeleton are well-suited to also serve figure-drawing artists as a reference tool — add a 'Practice Mode' with a configurable timer (30s/1min/5min gesture drawing intervals) cycling through random poses from the existing library, opening a second user segment (artists) beyond photographers/models."
+    },
+    {
+      "competitor": "PhotoDirector",
+      "feature": "AI-powered auto body/portrait retouching after capture",
+      "implementation": "No post-capture enhancement exists in PoseArt beyond static CSS filters; even a basic AI skin-smoothing/lighting-correction pass on export would materially close this gap."
+    }
+  ],
+  "quick_wins_product": [
+    {
+      "issue": "Favorites filter pill is completely broken (always returns zero results) due to routing through free-text search instead of the actual favorites list.",
+      "fix": "Change the Favorites pill handler to filter against getFavorites()/isFavorite() instead of calling searchPoses('favorite').",
+      "impact": "high"
+    },
+    {
+      "issue": "Camera mode always uses simulated keypoints regardless of whether the user granted real camera access (js/camera.js line 123 ternary resolves to the same function on both branches).",
+      "fix": "As an immediate stopgap short of building real pose detection, at minimum fix the branch to be a genuine conditional and clearly label non-simulation mode as 'coming soon' rather than silently faking it.",
+      "impact": "high"
+    },
+    {
+      "issue": "No persistence for gallery, favorites, or session history — all lost on refresh.",
+      "fix": "Add localStorage/IndexedDB persistence; this is a self-contained, well-scoped engineering task with an enormous trust payoff.",
+      "impact": "high"
+    },
+    {
+      "issue": "Marketing copy numbers (75+, 300+) don't match the real library size (540 poses, 16 categories) or each other.",
+      "fix": "Replace hardcoded numbers in OB1/OB2 copy and the poses-data.js header comment with values computed from the live arrays.",
+      "impact": "medium"
+    },
+    {
+      "issue": "240 of 780 GIF assets in gifs/ are orphaned and unused by any pose in POSES_LIBRARY, inflating app payload for no benefit.",
+      "fix": "Audit and either wire the missing 240 poses into the library or delete the unused GIFs to cut load size.",
+      "impact": "medium"
+    },
+    {
+      "issue": "Two divergent, redundant stylesheets (inline <style> in index.html vs. css/app.css) create maintenance risk and unclear source of truth.",
+      "fix": "Delete one, consolidate on the other.",
+      "impact": "medium"
+    },
+    {
+      "issue": "Mandatory OB4 persona selection has no effect on the app afterward, adding friction for zero personalization payoff.",
+      "fix": "Either wire selectedGoal into home screen/category defaults, or remove the forced selection gate.",
+      "impact": "medium"
+    },
+    {
+      "issue": "Onboarding state (_onboardingCompleted) is in-memory only, forcing new users through all 4 screens on every reload.",
+      "fix": "Persist onboarding completion flag alongside the other storage fixes.",
+      "impact": "medium"
+    }
+  ]
+}

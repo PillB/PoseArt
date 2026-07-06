@@ -1,0 +1,413 @@
+{
+    "critical_theater_issues": [
+        {
+            "title": "Live camera score is fake even when camera is real",
+            "description": "The camera engine obtains a real video stream, then still feeds alignment from _simulateKPs(). The product promises live scoring, auto-capture, and gallery scores, but none of those look at the person. This is the worst kind of theater because the user sees their real camera and assumes the score is about them.",
+            "specific_fix": "Until ML exists, split the experience into two explicit layers: keep live camera + ghost overlay, but add a persistent 'Guide Mode \u2014 scoring demo' badge on camera, review, and gallery. Hide numeric % by default and show 'Manual capture' / 'Hold the ghost line' instead. Disable auto-capture when cameraEngine.simulationMode === false but no detector is present, or make the autocapture CTA say 'Demo auto-capture'. Store score: null for real-camera captures and render 'not scored' instead of a percent.",
+            "wow_factor": 5,
+            "effort": "low"
+        },
+        {
+            "title": "Review screen always displays 92% aligned",
+            "description": "The visible review badge is hard-coded to '92% aligned' while the dynamic score is written into a hidden span. A user can take any photo and still be congratulated with the same fake result.",
+            "specific_fix": "Replace the visible span with one dynamic element. In captureImage(), set review-score.textContent to either `${score}% guide match` in demo mode or 'Captured \u2014 not scored' in live camera mode. Remove the hidden review-score-text element or swap visibility correctly.",
+            "wow_factor": 5,
+            "effort": "low"
+        },
+        {
+            "title": "OB4 asks for a goal and then ignores it",
+            "description": "Goal selection sets AppState.selectedGoal, but home, library ranking, profile, session setup, and copy do not use it. Asking a user for personalization and doing nothing is worse than not asking.",
+            "specific_fix": "Use selectedGoal immediately in three places: update home greeting ('Direct today's subject' / 'Practice your self-portrait flow'), reorder featured pose/category cards, and set profile-goal-label. Photographer: show directing cues and couple/editorial; model: beginner/fashion/fine-art; self-portrait: timer-friendly beginner poses; exploring: trending/mixed. This is just a goal-to-category map plus renderHome().",
+            "wow_factor": 4,
+            "effort": "low"
+        },
+        {
+            "title": "Progress and achievements imply real tracked improvement but are mostly decorative",
+            "description": "Progress rings show fixed 73% and 91%, achievements are visually unlocked/locked without state logic, and scoring is simulated. The progress screen currently manufactures a sense of mastery.",
+            "specific_fix": "If scores are demo-only, relabel progress as 'Practice activity' and remove alignment rings until real scoring exists. Alternatively compute simple honest metrics now: sessions completed, captures saved, poses explored, favorites added. Gate achievements from actual arrays only and grey out score-based achievements with 'requires live scoring'.",
+            "wow_factor": 4,
+            "effort": "low"
+        },
+        {
+            "title": "Profile settings toggles do nothing",
+            "description": "Haptics, Sound, and Auto-Capture toggles are visible settings with no connected behavior. Haptics still fires unconditionally, sound has no sound system, and auto-capture remains controlled by cameraEngine.autocaptureEnabled defaults.",
+            "specific_fix": "Wire toggles to AppState.settings. Check haptics before every navigator.vibrate call. Hide or disable Sound with 'coming later' if no sounds exist. Bind Auto-Capture to cameraEngine.autocaptureEnabled before startCameraSession and update camera UI when off.",
+            "wow_factor": 3,
+            "effort": "low"
+        },
+        {
+            "title": "Save/retake flow secretly saves before user confirms",
+            "description": "captureImage() adds the capture to gallery immediately, while the review screen says Save. If the user taps Retake or closes the review, the rejected capture can still be in gallery. That violates user expectation.",
+            "specific_fix": "Change captureImage() to store a pending window._lastCapture object only. Add to gallery only in saveToGallery(). Retake should clear pending capture. Share can operate on pending canvas without saving.",
+            "wow_factor": 4,
+            "effort": "low"
+        },
+        {
+            "title": "No persistence is presented as a feature, but users lose work on refresh",
+            "description": "The app says 'no data leaves your device' and uses in-memory arrays, so favorites, captures, sessions, onboarding, and profile reset. Privacy is good; surprise data loss is not.",
+            "specific_fix": "Add an honest first-run banner in Gallery/Profile: 'Preview mode: captures stay only until refresh. Download photos you want to keep.' Add a small 'session-only' chip near Favorites/Gallery. Offer one-tap Download All for gallery items. Do not bury this in About copy.",
+            "wow_factor": 4,
+            "effort": "low"
+        }
+    ],
+    "flow_friction_points": [
+        {
+            "title": "Onboarding has four gates before value",
+            "description": "The user must tap Begin, Try it/Skip, camera permission/demo, goal, then Start Exploring before seeing poses. For a pose library, the first real value is delayed too long.",
+            "specific_fix": "Collapse OB2 and OB3 into one interactive 'Try a pose' card with two actions: 'Use camera' and 'Browse first'. Let users skip goal and infer it later from profile or first category. Put 'Browse 745 poses' on OB1 as a secondary CTA.",
+            "wow_factor": 3,
+            "effort": "low"
+        },
+        {
+            "title": "Camera permission copy overpromises live scoring",
+            "description": "OB3 says the app will score alignment live on-device, but there is no real detector. This primes the user for a capability the product cannot deliver yet.",
+            "specific_fix": "Change OB3 copy to: 'Use your camera with a live ghost guide. Scoring is currently a demo until body tracking ships.' Button labels: 'Use Camera Guide' and 'Try Demo'.",
+            "wow_factor": 4,
+            "effort": "low"
+        },
+        {
+            "title": "Home featured pose is static and not goal-aware",
+            "description": "The featured card always starts S-Curve Stand. It makes a 745-pose app feel small and ignores the selected goal.",
+            "specific_fix": "Create getFeaturedPoseForGoal(goal) and rotate one featured pose daily or per tab visit from a goal/category shortlist. Add a small 'because you chose Self-Portrait' line.",
+            "wow_factor": 4,
+            "effort": "low"
+        },
+        {
+            "title": "Home categories open into Library, not back to Home",
+            "description": "The same openCategory() is used from Home and Library, but the category-list back button always calls showTab('library'). If I browse from Home, Back should return Home.",
+            "specific_fix": "Store AppState.categoryReturnTab = AppState.currentTab before openCategory(). Make the category back button call showTab(AppState.categoryReturnTab || 'library').",
+            "wow_factor": 2,
+            "effort": "low"
+        },
+        {
+            "title": "All filter pill does not restore all results",
+            "description": "The All pill only changes active styling. It does not clear the search input or call searchPoses(''), so after Beginner/Favorites the grid can stay hidden or stale.",
+            "specific_fix": "Replace inline filter handlers with setLibraryFilter(filter). For All: clear pose-search-input.value, hide results, show browse label and category grid, and set active pill.",
+            "wow_factor": 3,
+            "effort": "low"
+        },
+        {
+            "title": "Difficulty filters masquerade as search queries",
+            "description": "Beginner/Intermediate/Advanced call searchPoses('beginner') without putting the term in the input. The user sees filtered results but no visible query state.",
+            "specific_fix": "Track activeFilter separately from text search. Render header 'Beginner poses \u2014 247 results'. Combine filter + query when text exists, e.g. beginner + standing.",
+            "wow_factor": 3,
+            "effort": "medium"
+        },
+        {
+            "title": "Session setup timer copy is misleading",
+            "description": "The setup says timer is delay before capture fires, but startCameraSession starts a countdown with an empty callback. The actual capture timer only applies when the user presses shutter.",
+            "specific_fix": "Either remove the automatic countdown on session start, or make its callback capturePhoto(). Best quick fix: rename option subtitle to 'Delay after you tap shutter' and do not start countdown in startCameraSession.",
+            "wow_factor": 3,
+            "effort": "low"
+        },
+        {
+            "title": "Sensitivity setting only changes autocapture threshold, not scoring strictness",
+            "description": "The UI says sensitivity changes how strict alignment scoring is, but startCameraSession only changes autocaptureThreshold and never calls cameraEngine.setSensitivity().",
+            "specific_fix": "Call cameraEngine.setSensitivity(sens) and update the subtitle to 'Scoring and auto-capture strictness'. If fake scoring remains, hide strictness language and say 'Auto-capture threshold'.",
+            "wow_factor": 3,
+            "effort": "low"
+        },
+        {
+            "title": "Next pose in camera is blind cycling",
+            "description": "The camera's next arrow jumps to the next pose in the same category without preview, difficulty, or reason. In a 161-pose boudoir category this feels random.",
+            "specific_fix": "Show a 2-second mini-card after next: pose name, difficulty, one cue, and a tiny figure. Add long-press or swipe-up to open a pose picker filtered to current category.",
+            "wow_factor": 4,
+            "effort": "medium"
+        },
+        {
+            "title": "Pose detail sheet is information-dense before action-oriented",
+            "description": "The sheet puts GIF/SVG, 3D skeleton, tags, instructions, tip, and CTA in one small bottom sheet. On mobile, the primary use is 'show me how to do it now', not read a manual.",
+            "specific_fix": "Add a compact top action row: 'Watch', 'Cue', 'Practice'. Default to one big visual plus one sentence cue. Collapse full instructions behind 'More coaching'. Keep Start Session sticky.",
+            "wow_factor": 4,
+            "effort": "medium"
+        },
+        {
+            "title": "Gallery center tab looks like a capture button but opens gallery",
+            "description": "The raised gold center tab uses camera-like visual language but routes to Gallery. Users expect the center action to start capture or open camera.",
+            "specific_fix": "Either change the icon/label styling to clearly mean Gallery, or make the center button a true 'Practice' action that opens the last/featured pose session setup. Put Gallery as a regular tab if capture is the hero action.",
+            "wow_factor": 4,
+            "effort": "medium"
+        },
+        {
+            "title": "No empty-state shortcut into a specific starter pose",
+            "description": "Empty Gallery and Progress send users to Home/Library generally. They should be launched into a safe first success.",
+            "specific_fix": "Empty states should CTA to 'Try S-Curve Stand \u2014 2 min' or a goal-specific beginner pose, not just browse. Call goToSession(starterPoseId).",
+            "wow_factor": 3,
+            "effort": "low"
+        }
+    ],
+    "quick_wins": [
+        {
+            "title": "Rename fake scores to guide match or remove them",
+            "description": "Percent alignment is currently the highest-trust claim in the app and the least true.",
+            "specific_fix": "Global copy pass: 'aligned' -> 'guide match' only in demo contexts; live camera captures -> 'not scored'. Add CSS chip .demo-badge and render it when !window.hasRealPoseDetector.",
+            "wow_factor": 5,
+            "effort": "low"
+        },
+        {
+            "title": "Make selectedGoal visible immediately",
+            "description": "Even before full personalization, showing the selected goal proves the app listened.",
+            "specific_fix": "On completeOnboarding(), set profile-goal-label and home-sub from a goal label map. Example: Self-Portrait -> 'Timer-friendly poses for solo shoots'.",
+            "wow_factor": 4,
+            "effort": "low"
+        },
+        {
+            "title": "Use goal to reorder category grid",
+            "description": "The same 16-card grid for every user wastes the OB4 question.",
+            "specific_fix": "Before renderCategoryGrid(), sort POSE_CATEGORIES by a goalPriority map. Photographer: couple/editorial/standing first; model: fashion/fine-art/dynamic; self-portrait: standing/seated/leaning; exploring: all balanced.",
+            "wow_factor": 4,
+            "effort": "low"
+        },
+        {
+            "title": "Add a 'Start with 5' beginner collection",
+            "description": "745 poses is impressive but paralyzing. A beginner path gives instant momentum.",
+            "specific_fix": "Add a home collection card that opens a curated list of 5 beginner poses using existing pose IDs. Track currentCollectionIndex for next pose in session.",
+            "wow_factor": 4,
+            "effort": "low"
+        },
+        {
+            "title": "Surface GIFs as the primary pose preview for matching poses",
+            "description": "GIFs are a major asset, but the detail sheet only overlays them briefly for 3.5 seconds and silently falls back.",
+            "specific_fix": "Add a small 'Replay motion' button on the visual. Keep GIF visible until user taps 'Skeleton' or 'Replay ended'; do not auto-hide before the user understands the movement.",
+            "wow_factor": 4,
+            "effort": "low"
+        },
+        {
+            "title": "Convert confirmed orphan GIFs into alias mappings",
+            "description": "The current audit shows 780 GIF files, 745 matched pose GIFs, and 35 unique orphan stems. That is less than the reported 240, but still free value.",
+            "specific_fix": "Create GIF_ALIASES for obvious prefix variants like gif-fashion-turn -> fashion-mid-turn-sweep and fineart-one-leg-balance -> one-leg-balance. In GIF loader, try poseId then aliases then normalized prefix-stripped stems. Add a console report of remaining unmatched files.",
+            "wow_factor": 3,
+            "effort": "medium"
+        },
+        {
+            "title": "Fix copy/count inconsistency around pose totals",
+            "description": "The app copy says 745, README says 761 in places, and pose-data comments still say 300+ across 10 categories. Runtime evaluation shows 745 pose objects and 16 categories.",
+            "specific_fix": "Derive all displayed counts from Object.keys(POSES_LIBRARY).length. Replace hard-coded 745 in HTML/share text and stale 300+/10-category comments. Add window.POSE_COUNT for copy.",
+            "wow_factor": 2,
+            "effort": "low"
+        },
+        {
+            "title": "Stop adding sessions with zero captures as success history",
+            "description": "endSession() saves a session after start even if the user only opened camera and left. That inflates progress.",
+            "specific_fix": "Track AppState.currentSessionCaptureCount = 0 on start. Increment only on confirmed save. Save a session on end only if captureCount > 0 or pose practiced for >30 seconds, and label it honestly.",
+            "wow_factor": 3,
+            "effort": "low"
+        },
+        {
+            "title": "Clear progress history when empty",
+            "description": "loadSessionStats() shows empty state but does not explicitly clear historyList when sessions length is zero, risking stale UI after deletes/future resets.",
+            "specific_fix": "If sessions.length === 0, set historyList.innerHTML = ''. Also set display states for list vs empty explicitly.",
+            "wow_factor": 1,
+            "effort": "low"
+        },
+        {
+            "title": "Make share text accurate",
+            "description": "sharePoseFromSheet() says 'Discover 745 poses' hard-coded. This will go stale and reinforces count inconsistency.",
+            "specific_fix": "Use `${Object.keys(POSES_LIBRARY).length} poses` and include the pose category/difficulty so shared text is useful.",
+            "wow_factor": 2,
+            "effort": "low"
+        },
+        {
+            "title": "Add search examples as tappable chips",
+            "description": "The empty search state suggests terms, but the user must type them manually.",
+            "specific_fix": "Render chips for Confident, Sensual, Beginner, Couple, Chair, Floor under the search box and in empty state. Tapping sets input.value and calls search.",
+            "wow_factor": 3,
+            "effort": "low"
+        },
+        {
+            "title": "Make category cards show subcategory hints",
+            "description": "A card with 'Boudoir 161 poses' is too broad. Users need fast mental anchors.",
+            "specific_fix": "Add a second line like 'bed \u00b7 chair \u00b7 wall \u00b7 couch' from tags for huge categories. For categories over 50, show 'View collections' instead of dumping one long list.",
+            "wow_factor": 4,
+            "effort": "medium"
+        },
+        {
+            "title": "Add confirmation before deleting gallery item",
+            "description": "Delete is a single tap in a no-persistence gallery. Accidental deletion is unrecoverable.",
+            "specific_fix": "Show a bottom toast/action sheet: 'Delete capture?' with Cancel and Delete. Or implement undo toast for 5 seconds by keeping the removed item in memory temporarily.",
+            "wow_factor": 3,
+            "effort": "low"
+        },
+        {
+            "title": "Turn profile settings into real controls or remove them",
+            "description": "Settings that do nothing make the whole app feel fake.",
+            "specific_fix": "Wire Haptics and Auto-Capture now; hide Sound until implemented. Add a tiny 'Session-only preview' note under preferences.",
+            "wow_factor": 3,
+            "effort": "low"
+        }
+    ],
+    "wow_moments": [
+        {
+            "title": "Goal-based first pose path",
+            "description": "After OB4, users should feel the product instantly tailored itself, not just collected a persona.",
+            "specific_fix": "Route each goal to a 5-pose 'first session' collection with a named path: 'Direct a Portrait', 'Model Confidence Flow', 'Solo Tripod Set', 'Explore the Classics'. Home hero starts the path and camera Next follows the path order.",
+            "wow_factor": 5,
+            "effort": "medium"
+        },
+        {
+            "title": "Mucha-style pose card generator after capture",
+            "description": "The brand promise is Art Nouveau, but captures are plain camera photos with CSS filters. A distinctive share artifact would make the app memorable even before ML.",
+            "specific_fix": "On review, add 'Art Card' preset: composite the photo/canvas into a parchment frame with pose name, gold rule, category chip, and 'Move like art'. This is canvas drawing plus existing botanical motifs.",
+            "wow_factor": 5,
+            "effort": "medium"
+        },
+        {
+            "title": "Pose director cue mode",
+            "description": "Photographers need words to direct humans, not just skeletons. This can differentiate from generic pose libraries.",
+            "specific_fix": "Add a 'Director Cue' button in pose detail/session setup that shows three large prompts: 'Say this', 'Watch this body line', 'Camera angle'. Populate from existing instructions/tip with simple templates.",
+            "wow_factor": 5,
+            "effort": "medium"
+        },
+        {
+            "title": "Before-you-shoot silhouette checklist",
+            "description": "Real value can exist without ML: turn each pose into a checklist of body lines users can verify manually.",
+            "specific_fix": "Generate 3 checklist bullets from joints/tags/instructions: e.g. 'Weight on back leg', 'Near hip to camera', 'Chin back to lens'. Show as checkable chips over camera; let users tap them off before capture.",
+            "wow_factor": 4,
+            "effort": "medium"
+        },
+        {
+            "title": "Motion reel for oversized categories",
+            "description": "A long list of 161 boudoir poses is not discovery. A motion reel makes the library feel alive and premium.",
+            "specific_fix": "For categories over 50, add a top horizontal 'flows' reel using existing GIFs: Bed, Chair, Wall, Couch, Floor, Bench. Tapping a flow opens filtered poses by tag/prefix.",
+            "wow_factor": 5,
+            "effort": "medium"
+        }
+    ],
+    "consistency_issues": [
+        {
+            "title": "Pose count and documentation disagree",
+            "description": "User-facing HTML says 745 poses, README headline says 761 poses, README gotchas say count is 761, and poses-data comments say 300+ poses across 10 categories. Runtime count from POSES_LIBRARY is 745 across 16 categories.",
+            "specific_fix": "Create a single computed POSE_COUNT and CATEGORY_COUNT constant after data load. Use it in OB1, OB2, share copy, README, and tests. Update stale comments.",
+            "wow_factor": 2,
+            "effort": "low"
+        },
+        {
+            "title": "Demo mode is not consistently labeled across screens",
+            "description": "OB3 offers Demo Mode, capture draws a demo message only into simulated images, but camera HUD, review, gallery, progress, and scores continue using real-sounding 'aligned' language.",
+            "specific_fix": "Add AppState.mode = 'demo' | 'camera-guide'. Render a demo/session-only badge in camera, review, gallery item meta, and progress. Copy must change based on mode.",
+            "wow_factor": 4,
+            "effort": "low"
+        },
+        {
+            "title": "Two different visual systems compete in pose detail",
+            "description": "The sheet shows a stylized SVG figure, a canvas 3D skeleton, tags, instructions, a GIF overlay, and tiny view buttons in one row. It feels like engineering demos stitched together, not one coherent product.",
+            "specific_fix": "Make the visual area a segmented control: Motion / 3D / Guide. Only one primary visual is visible at a time, with consistent size and controls. Keep secondary visual accessible but not side-by-side clutter.",
+            "wow_factor": 4,
+            "effort": "medium"
+        },
+        {
+            "title": "Category distribution is presented as equal cards despite wildly different depth",
+            "description": "Boudoir has 161 poses, seated 86, reclining 56, while many categories have 30. The grid makes them look equivalent until the user opens a huge list.",
+            "specific_fix": "For categories over 50, render them as 'collections' with sub-filters. Sort by goal or popularity, not raw data order. Show counts as context, not the main label.",
+            "wow_factor": 4,
+            "effort": "medium"
+        },
+        {
+            "title": "Search vibe aliases differ between README and implementation",
+            "description": "README mentions fluid/minimal/creative and high-to-low mappings that are not in app.js. The implementation has a smaller exact-match vibeMap.",
+            "specific_fix": "Move vibeMap to poses-data.js or SEARCH_CONFIG and document from code. Add the missing aliases and synonyms, plus plural forms.",
+            "wow_factor": 3,
+            "effort": "low"
+        },
+        {
+            "title": "Review/gallery item field naming is inconsistent",
+            "description": "README says gallery item has preset/isFav, code uses filter/favorite; saveToGallery reads window._lastCapture that captureImage never sets. This creates dead paths and future bugs.",
+            "specific_fix": "Standardize item schema: {id, poseId, poseName, dataUrl, filter, timestamp, favorite, score, scored}. Set window._pendingCapture intentionally or remove _lastCapture logic.",
+            "wow_factor": 2,
+            "effort": "low"
+        },
+        {
+            "title": "Achievement visuals imply unlocked success on a blank account",
+            "description": "First Pose and Aligned 90%+ appear unlocked by color even before any real user activity. Locked state is only applied to two icons.",
+            "specific_fix": "Compute achievement states from session/favorites/gallery arrays. On empty account, all are locked except maybe 'Started'. Use labels like '0/1' or '0/10' to show progress.",
+            "wow_factor": 3,
+            "effort": "low"
+        },
+        {
+            "title": "Flash implementation contradicts its own CSS cleanup",
+            "description": "HTML defines reusable .flash-overlay and @keyframes camera-flash, but camera.js still creates a style tag and DOM node for every flash.",
+            "specific_fix": "Use a persistent #flash-overlay div or the existing .flash-overlay class. Toggle .flashing instead of injecting/removing style tags.",
+            "wow_factor": 1,
+            "effort": "low"
+        },
+        {
+            "title": "Copy says privacy, but not durability",
+            "description": "'Nothing uploaded' and 'no data leaves your device' are true, but they omit that nothing survives refresh. Privacy copy without durability copy creates false confidence.",
+            "specific_fix": "Pair every privacy claim with a durability statement: 'Private preview: not uploaded, not saved after refresh.' Add Download CTAs where captures exist.",
+            "wow_factor": 3,
+            "effort": "low"
+        },
+        {
+            "title": "Default overlay mode and copy disagree",
+            "description": "Session setup defaults to Avatar, the footer says ghost overlay, and cameraEngine constructor defaults to ghost before app overrides it. Users see multiple labels for the same concept.",
+            "specific_fix": "Rename modes to user-understandable labels: 'Full Guide', 'Skeleton Only', 'Ghost Only', 'Off'. Use 'Full Guide' as default everywhere and update footer/cycle toast.",
+            "wow_factor": 3,
+            "effort": "low"
+        }
+    ],
+    "skeleton_improvement_ideas": [
+        {
+            "title": "Replace stick limbs with tapered capsule limbs",
+            "description": "Straight lines read as a debugging skeleton, not an elegant pose model. Competitors feel better because the figure has mass and silhouette.",
+            "specific_fix": "In the skeleton canvas renderer, draw each bone as a tapered capsule/path with shoulder/hip width, not a uniform stroke. Use thicker upper arms/thighs and thinner forearms/calves. Keep current joints; only change drawing primitives.",
+            "wow_factor": 5,
+            "effort": "medium"
+        },
+        {
+            "title": "Add torso and pelvis surfaces",
+            "description": "Most pose quality comes from ribcage, pelvis, and contrapposto. A line from shoulders to hips cannot communicate twist, arch, or weight shift.",
+            "specific_fix": "Draw semi-transparent ribcage and pelvis ellipses/quads connected by a curved spine. Rotate them from spine, hips, globalTwist, and globalRoll values. This makes S-curves legible immediately.",
+            "wow_factor": 5,
+            "effort": "medium"
+        },
+        {
+            "title": "Use curved Bezier limbs instead of straight segments",
+            "description": "PoseArt is branded as Mucha/elegant, but straight limbs look mannequin-stiff. Human limbs and fashion poses need arcs.",
+            "specific_fix": "For SVG preview and 3D canvas, draw limbs as quadratic curves through elbow/knee control points. Add small wrist/ankle rotations and hand/foot ellipses so endpoints feel intentional.",
+            "wow_factor": 4,
+            "effort": "medium"
+        },
+        {
+            "title": "Add weight-bearing floor/contact cues",
+            "description": "A pose without ground contact floats. Users need to understand which foot, knee, chair, wall, or hand carries weight.",
+            "specific_fix": "Render subtle gold contact shadows under feet/knees/hands based on pose category and globalTilt. In pose data, infer contacts from tags like floor, wall, chair, kneeling, reclining; no new ML required.",
+            "wow_factor": 4,
+            "effort": "medium"
+        },
+        {
+            "title": "Improve 3D material and lighting",
+            "description": "The skeleton currently feels like a raw canvas object. A premium mannequin needs depth: highlight, shadow, and color hierarchy.",
+            "specific_fix": "Use gradient strokes/fills: teal body with gold joints, darker far-side limbs at 45% opacity, near-side limbs brighter, soft shadow under body. Add z-order sorting by projected depth.",
+            "wow_factor": 5,
+            "effort": "medium"
+        },
+        {
+            "title": "Show pose line-of-action",
+            "description": "Artists learn pose from the main gesture line. That is more useful than individual joint angles and fits the Art Nouveau brand.",
+            "specific_fix": "Overlay a single gold Bezier 'line of action' from head through sternum/pelvis to weight-bearing foot. Generate from current projected head, torso midpoint, hip midpoint, and dominant ankle/knee.",
+            "wow_factor": 5,
+            "effort": "low"
+        },
+        {
+            "title": "Add category-specific styling to the mannequin",
+            "description": "All poses currently feel the same regardless of fashion, fine art, boudoir, accessible, or dynamic categories.",
+            "specific_fix": "Tint/ornament by category: fashion = angular shoulder planes; fine-art = longer line-of-action and ballet foot points; boudoir = softer curves/contact shadows; accessible = chair/wheel reference geometry. Use data-category already set on sheet.",
+            "wow_factor": 4,
+            "effort": "medium"
+        },
+        {
+            "title": "Make the ghost overlay beautiful, not diagnostic",
+            "description": "The camera overlay uses dots and lines like a pose-estimation debug view. This undercuts the premium art-coaching promise.",
+            "specific_fix": "Offer a 'Silhouette' overlay: translucent filled body shape from renderPoseFigureSVG at 20-30% opacity with a gold line-of-action. Keep diagnostic skeleton as an advanced toggle, not the default visual language.",
+            "wow_factor": 5,
+            "effort": "low"
+        },
+        {
+            "title": "Make view buttons explain why the 3D view matters",
+            "description": "Front/Side/\u00be/Auto are tiny controls, but users do not know what to inspect in each view.",
+            "specific_fix": "Add one-line labels under the canvas when view changes: Front = 'Check shoulder/hip angles', Side = 'Check arch and lean', \u00be = 'Best camera angle'. This creates coaching value without changing renderer math.",
+            "wow_factor": 3,
+            "effort": "low"
+        }
+    ]
+}

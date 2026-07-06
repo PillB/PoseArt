@@ -1,0 +1,245 @@
+{
+  "meta": {
+    "reviewer_persona": "Mark Zuckerberg, super coder and engineering perfectionist",
+    "codebase": "poseart-app-v2",
+    "files_reviewed": [
+      "js/app.js (2018 lines)",
+      "js/pose-skeleton-3d.js (863 lines)",
+      "js/camera.js (601 lines)",
+      "js/pose-animations.js (194 lines)",
+      "index.html (1864 lines)",
+      "css/app.css (1372 lines)",
+      "css/tokens.css (spot-checked)",
+      "js/pose-sprites.js (46 lines)",
+      "js/poses-data.js (7527 lines, storage section)"
+    ],
+    "summary": "This codebase works as a demo but has one fabrication-level bug (fake pose detection presented as real), a CSS architecture bug that makes ~112 selectors in the primary stylesheet dead on arrival, no data persistence with no user warning, no debounce on search, and a navigation system held together with hardcoded per-screen special cases instead of a real state machine. None of this is production-ready. Ship blockers are called out explicitly below."
+  },
+  "critical_bugs": [
+    {
+      "file": "js/camera.js",
+      "line": 123,
+      "issue": "const raw = this.simulationMode ? this._simulateKPs(ts) : this._simulateKPs(ts); — both branches of the ternary call the exact same function. There is no real pose-estimation/keypoint-detection code path anywhere in the file. Every single frame, whether or not a live camera stream is attached, uses fabricated simulated keypoints. The app presents itself as doing live pose/alignment tracking from the camera feed, but it never actually analyzes a single camera pixel.",
+      "fix": "Either implement a real pose-estimation integration (e.g. MediaPipe Pose / TensorFlow.js PoseNet/MoveNet) feeding real keypoints when a camera stream exists, or if simulation is genuinely the intended v2 scope, remove the misleading branching entirely and make the simulated nature explicit in the UI (e.g. a visible 'Demo Mode' badge) so users aren't misled into thinking their live movement is being scored."
+    },
+    {
+      "file": "index.html + css/app.css",
+      "line": 18,
+      "issue": "index.html contains a large inline <style> block (starting at line 18) that duplicates roughly 112 selectors already defined in the linked css/app.css (loaded earlier in <head> via <link rel=\"stylesheet\" href=\"css/app.css\">). Because the inline block comes after the <link> tag in source order and both have equal specificity, the inline rules always win the cascade. This silently makes ~112 rules in app.css dead code, including core layout selectors: *, html/body, #app, .screen, .screen.active, .screen-scroll, #tab-bar, .tab-item, #toast, #hud-score, #alignment-hud, .gallery-grid, .category-grid, .btn, .btn-gold. Editing app.css to fix a layout bug frequently will have zero visible effect because the inline block silently overrides it.",
+      "fix": "Delete the inline <style> block from index.html entirely and consolidate all rules into css/app.css (single source of truth), or vice versa. Add a CI/lint check that fails the build if any selector appears in both files."
+    },
+    {
+      "file": "index.html (inline <style>, ~line 72) vs css/app.css (~line 654/708)",
+      "line": 72,
+      "issue": "Because of the cascade bug above, the inline .screen-scroll rule (fixed padding-bottom: 100px) wins over the safe-area-aware version in app.css (calc(var(--tab-bar-height) + var(--bottom-safe) + ...)). In practice, on devices with a real bottom safe-area inset (iPhone notch/home-indicator devices), content is clipped or the last item sits under the tab bar/home indicator, because the safe-area-aware CSS is dead code.",
+      "fix": "After deduplicating CSS per the fix above, verify the surviving .screen-scroll rule uses env(safe-area-inset-bottom) plus tab-bar-height, and test on a notched-device simulator."
+    },
+    {
+      "file": "js/app.js",
+      "line": 118,
+      "issue": "window.goBack = function() { showTab(AppState.currentTab); } — 'back' navigation is implemented as 'return to the currently active tab', not 'return to the previous screen'. There is no history/back-stack. For any intermediate screen pushed on top of a tab (category-list, pose-detail-sheet, session-setup, camera flows), goBack() does not actually go back one step — it jumps straight to the tab root, which is not the same thing whenever more than one screen is stacked.",
+      "fix": "Implement a real navigation stack (e.g. AppState.screenStack = []) that showScreen() pushes to and goBack() pops from, falling back to the current tab only when the stack is empty."
+    }
+  ],
+  "performance_issues": [
+    {
+      "file": "index.html line 1443 / js/app.js line 825",
+      "issue": "The search input is wired as <input oninput=\"searchPoses(this.value)\"> with zero debounce/throttle. window.searchPoses (app.js line 825) does Object.values(POSES_LIBRARY).filter(...) — a full linear scan of all 300 poses in js/poses-data.js — on every single keystroke, then rebuilds resultsEl.innerHTML from scratch via matches.map(renderPoseListItem).join(''), where renderPoseListItem itself calls renderPoseFigureSVG (large hardcoded SVG string generation) per matched pose.",
+      "impact": "Typing a 5-character query triggers 5 full linear scans of the pose library plus 5 full innerHTML DOM rebuilds, each rebuilding SVG markup for every match. On lower-end mobile devices this causes visible input lag/jank per keystroke, worst-case with broad early-substring matches that return many results before the user finishes typing.",
+      "fix": "Add a ~150-250ms debounce around the filter+render call, and/or memoize/pre-index pose search keys (e.g. lowercase name/tag index built once at load) instead of Object.values().filter() per keystroke. Also cap rendered SVGs to only the first N visible results, deferring the rest to a 'load more' / virtualization."
+    },
+    {
+      "file": "js/app.js — renderGallery(), renderRecentCaptures(), renderCategoryGrid()",
+      "issue": "All list/grid render functions perform a full container.innerHTML = ... replacement on every invocation rather than diffing or incrementally appending. renderGallery() in particular re-runs and rebuilds the entire grid every time the user navigates to the Gallery tab (app.js ~line 103: if (tabId === 'gallery') renderGallery();), even if the underlying gallery data hasn't changed since the last visit.",
+      "impact": "Unnecessary DOM thrashing/reflow on every tab switch to Gallery; wasted CPU re-parsing and re-inserting markup for images/items that were already rendered correctly, and momentary blank/re-paint flicker.",
+      "fix": "Track a dirty flag (e.g. AppState.galleryDirty) set only when a capture/session is added/removed, and skip re-render if the tab is revisited with no changes. Longer-term, migrate to incremental DOM patching or a lightweight virtual-DOM diff for list views."
+    },
+    {
+      "file": "js/camera.js lines 556-564 (_triggerFlash)",
+      "issue": "_triggerFlash() creates a brand-new <style> element containing @keyframes plus a new flash <div>, appends both to document.head/DOM, and removes them via setTimeout — on every single photo capture.",
+      "impact": "Every capture forces the browser to re-parse and insert a new stylesheet and recompute styles, instead of reusing a single static CSS class/keyframe defined once. This is wasted style-recalculation work triggered repeatedly during a user action that should feel instant.",
+      "fix": "Define the flash keyframes/class once in app.css, and toggle a CSS class on a persistent, reused flash element instead of creating/destroying DOM+stylesheet nodes per capture."
+    },
+    {
+      "file": "js/camera.js lines 566-577 (_triggerParticleBloom)",
+      "issue": "_triggerParticleBloom() creates 18 new DOM elements via document.createElement in a loop on every single photo capture, then clears innerHTML twice (once at start, again via setTimeout at the end).",
+      "impact": "Repeated DOM node churn (create 18 nodes, destroy 18 nodes) on every capture action adds GC pressure and layout cost for a purely decorative effect.",
+      "fix": "Pool/reuse a fixed set of 18 particle elements across captures (toggle visibility/reset animation via class instead of recreating), or replace with a single CSS-only animated pseudo-element/gradient burst."
+    }
+  ],
+  "architecture_problems": [
+    {
+      "issue": "Navigation is not a real state machine. showScreen()/showTab() (app.js lines 68-116) handle the common path, but individual screens hardcode their own back-target instead of going through a shared mechanism — e.g. the category-list back button in index.html (~line 1710) calls showTab('library') directly rather than goBack(), while other screens call the generic goBack(). The Escape-key handler (app.js lines 1920-1932) additionally re-implements its own separate switch-statement navigation logic that must be manually kept in sync with every onclick handler. Any new screen added in the future requires the developer to remember to update three separate places (the screen's own back button, goBack()'s tab fallback, and the Escape handler) or navigation silently breaks for that screen.",
+      "fix": "Introduce a single declarative navigation config (e.g. a map of screenId -> parent/back target) consumed by one goBack()/Escape handler, so adding a screen requires one entry, not three code changes."
+    },
+    {
+      "issue": "AppState (app.js lines 7-26) is a plain mutable global object with public properties mutated directly from dozens of unrelated functions across the file, with no encapsulation, validation, or change notification (no observer/pub-sub, no setters). This is a classic prop-drilling / shared-mutable-global-state anti-pattern that makes it hard to reason about which function changed what state and when, and makes future features (e.g. undo, state persistence, multi-view sync) expensive to retrofit.",
+      "fix": "Wrap AppState behind a small store abstraction with get/set functions (or a minimal pub-sub/reactive pattern) so state changes are traceable and other UI can subscribe to updates instead of relying on ad hoc re-render calls scattered everywhere."
+    },
+    {
+      "issue": "GIF entry-animation injection is implemented via monkey-patching: an IIFE named patchOpenPoseDetailWithGIF (app.js lines ~1953-2018) wraps and reassigns window.openPoseDetail after the fact, rather than the GIF logic living inside the original function or a proper module. The race-condition guards inside it (cancelling _gifFadeTimer/_gifRemoveTimer, checking _currentGifPoseId !== poseId in onload) are correctly written, but the overall pattern — silently rewriting a previously-defined global function from a second location in the file — is fragile and hard to trace/debug; a future refactor of openPoseDetail could easily break the patch without any error, since JS won't warn about a function silently being replaced.",
+      "fix": "Fold the GIF entry-animation logic directly into the original openPoseDetail definition (or extract both into a proper named module/class) instead of monkey-patching window.openPoseDetail after the fact."
+    },
+    {
+      "issue": "js/pose-skeleton-3d.js manages its single live instance via a global mutable singleton, window._activeSkeleton3D, checked and conditionally destroyed in app.js's openPoseDetail (~line 704-738). closePoseSheet() (app.js lines 759-767) does not call .destroy() on the skeleton instance — only stopAutoRotate() — so the instance and its window-level 'mouseup'/'touchend' drag-handler listeners (pose-skeleton-3d.js lines 718-746) persist across close/reopen cycles. This currently doesn't leak unboundedly only because the singleton pattern prevents more than one instance existing at a time — but it is a fragile, implicit contract that's one refactor away from becoming a real leak (e.g. if a second concurrent 3D view is ever added).",
+      "fix": "Call skeleton.destroy() in closePoseSheet() whenever the sheet is dismissed, and re-create fresh on next open, rather than relying on implicit singleton reuse to avoid listener buildup."
+    },
+    {
+      "issue": "js/pose-sprites.js defines a full POSE_SPRITES object (26 hardcoded SVG sprites) and a getPoseSprite() helper, exported via module.exports, and is loaded via <script src=\"js/pose-sprites.js\"> in index.html — but a full-codebase grep found zero call sites for getPoseSprite or POSE_SPRITES anywhere in app.js or index.html. Actual pose rendering instead uses a completely separate, redundant hardcoded 'figures' object inside renderPoseFigureSVG() in app.js. This is dead code shipped to every client for no functional benefit, and a trap for future maintainers who may assume it's the real rendering path.",
+      "fix": "Delete js/pose-sprites.js and its <script> include, or if it was meant to replace the app.js figures object, complete that migration and remove the duplicate."
+    },
+    {
+      "issue": "Data persistence is entirely in-memory (poses-data.js gallery/session/favorites storage, ~lines 7480-7527), explicitly commented as 'localStorage-free for iframe compatibility.' All captured photos, sessions, and favorites are silently lost on any page refresh, tab close, or navigation away, with no persistence layer and no user-facing warning about this limitation.",
+      "fix": "If iframe embedding truly precludes localStorage, use an alternative persistence strategy (IndexedDB with fallback, postMessage to a parent frame, or a backend endpoint) — or at minimum, surface a persistent, visible warning in the UI (e.g. 'Your gallery won't be saved after you close this tab') so users don't lose work unknowingly."
+    }
+  ],
+  "ux_code_issues": [
+    {
+      "file": "js/poses-data.js (~lines 7480-7527)",
+      "issue": "Because gallery/session/favorites data is in-memory only (see architecture_problems), a user who spends time capturing poses, favoriting items, or completing a session gets zero warning before that data vanishes on refresh — this will read as data loss/a bug to end users, not an intentional design choice.",
+      "fix": "Add an explicit, visible in-app notice (e.g. a banner or first-load toast) stating captures/sessions are session-only and won't persist, until real persistence is implemented."
+    },
+    {
+      "file": "js/app.js lines 1936-1943",
+      "issue": "A vertical swipe-up gesture handler is implemented on the camera screen but only shows a placeholder toast: showToast('Swipe up — pose picker coming soon!'). This is a shipped dead/placeholder feature that misleads users into thinking a gesture they discovered actually does something, when it's a stub.",
+      "fix": "Either finish the pose-picker swipe feature before shipping, or remove the gesture handler entirely so unimplemented affordances aren't discoverable in production."
+    },
+    {
+      "file": "index.html lines 1279 and 1314",
+      "issue": "Onboarding copy is internally inconsistent about the size of the pose library: one screen says '75+' poses, another says '300+' poses. The actual count in js/poses-data.js is 300 poses, so the '75+' claim is simply wrong and will confuse or mislead users comparing marketing claims to what they actually see in the library.",
+      "fix": "Fix the '75+' copy to match the real, current pose count (300+), and ideally compute the displayed count dynamically from POSES_LIBRARY.length instead of hardcoding it in two places that can drift apart."
+    },
+    {
+      "file": "js/camera.js lines 505-554 (captureImage)",
+      "issue": "After capture, the transition to the review screen is gated behind an arbitrary setTimeout(() => { window.showScreen && window.showScreen('review'); }, 400) with no error handling if canvas/getContext fails mid-capture — the user simply sees nothing happen if capture silently throws, with no timeout-based fallback UI or error toast.",
+      "fix": "Wrap the capture pipeline in try/catch, show an explicit error toast on failure ('Capture failed, try again'), and drive the review-screen transition off an actual capture-complete event/promise instead of a fixed magic-number delay."
+    },
+    {
+      "file": "js/app.js line 756 (openPoseDetail focus handling)",
+      "issue": "sheet?.querySelector('button')?.focus() grabs literally whichever <button> element appears first in the DOM inside the pose-detail sheet, which in practice is the sheet's close button — meaning opening a pose detail moves keyboard/screen-reader focus straight to 'close', which is a confusing, backwards default for users who just opened the sheet to read content.",
+      "fix": "Focus a more meaningful element on open (e.g. the sheet heading via tabindex=-1, or the primary action button) rather than whatever the first <button> in DOM order happens to be."
+    }
+  ],
+  "accessibility_failures": [
+    {
+      "issue": "index.html line 5 sets <meta name=\"viewport\" content=\"...user-scalable=no, maximum-scale=1.0\">, which disables pinch-to-zoom app-wide. This is a WCAG 1.4.4 (Resize Text) failure and directly harms low-vision users who rely on pinch-zoom to read content.",
+      "fix": "Remove user-scalable=no and maximum-scale=1.0 from the viewport meta tag; allow normal pinch-zoom behavior."
+    },
+    {
+      "issue": "The pose search input (#pose-search-input, index.html line 1443) has no associated <label> or aria-label — only a placeholder attribute, which is not an accessible name per WCAG and disappears once text is entered, leaving screen reader users with no persistent description of the field's purpose.",
+      "fix": "Add a visually-hidden <label for=\"pose-search-input\"> or an aria-label=\"Search poses\" attribute directly on the input."
+    },
+    {
+      "issue": "Filter pills (.filter-pill, index.html lines 1448-1452) toggle an 'active' CSS class via JS to represent selection state, but expose no aria-pressed or aria-selected attribute, so screen reader users have no way to know which filter(s) are currently applied.",
+      "fix": "Add aria-pressed=\"true/false\" (toggled in sync with the active class) to each filter pill button."
+    },
+    {
+      "issue": "Overlay mode chips (index.html lines 1543-1546) are implemented as <div role=\"button\" tabindex=\"0\"> with only an onclick handler and no onkeydown handler — meaning keyboard users who reach the element via Tab and press Enter/Space cannot activate it, unlike category cards elsewhere in the same app which do implement onkeydown=\"if(event.key==='Enter')...\" for the same purpose. This is an inconsistent, incomplete keyboard-accessibility implementation across visually-similar interactive controls.",
+      "fix": "Replace the <div role=\"button\"> chips with native <button> elements (free keyboard activation), or at minimum add the same onkeydown Enter/Space handling already used for category cards elsewhere in the codebase."
+    },
+    {
+      "issue": "Neither the pose-detail-sheet nor pose-sheet-overlay bottom sheets implement a focus trap. Once opened, keyboard (Tab) users can tab straight out of the open sheet into background page content that is supposed to be inert/covered, which is disorienting and breaks the expected modal contract.",
+      "fix": "Implement a focus trap (contain Tab/Shift+Tab cycling within the open sheet, restore focus to the triggering element on close) for both sheet/overlay components."
+    },
+    {
+      "issue": "The #toast notification element has no aria-live region attribute, so messages like 'Saved to favorites!' or 'Camera access granted' are shown only visually — screen reader users receive no announcement when a toast appears.",
+      "fix": "Add aria-live=\"polite\" (and role=\"status\") to the #toast container so assistive tech announces new messages automatically."
+    }
+  ],
+  "missing_error_handling": [
+    {
+      "file": "js/camera.js",
+      "location": "getUserMedia call / camera initialization (startCamera flow)",
+      "fix": "getUserMedia failures currently fall back generically to simulation mode regardless of the actual error type (permission denied vs. no camera hardware vs. camera already in use by another app vs. insecure context). Branch on err.name (NotAllowedError, NotFoundError, NotReadableError, etc.) and show a distinct, actionable message per case (e.g. 'Camera permission denied — enable it in Settings' vs. 'No camera detected on this device') instead of one generic toast/fallback for every failure mode."
+    },
+    {
+      "file": "js/camera.js",
+      "location": "flipCamera() lines 99-106",
+      "fix": "flipCamera() calls stopCamera() then await startCamera() with no guard against re-entrancy. A user double-tapping the flip button rapidly can trigger overlapping stop/start cycles racing against each other. Add an in-flight flag (e.g. this._flipping) that ignores/queues additional flip calls until the current one resolves."
+    },
+    {
+      "file": "js/camera.js",
+      "location": "captureImage() lines 505-554",
+      "fix": "No try/catch around canvas drawImage/getContext/toDataURL calls; if any of these throw (e.g. tainted canvas from a cross-origin stream edge case), the user sees no feedback and the app appears frozen at the fixed 400ms setTimeout. Wrap the capture logic in try/catch and surface an error toast on failure."
+    },
+    {
+      "file": "index.html / js/app.js",
+      "location": "sharePhoto() error path — actually a positive counter-example",
+      "fix": "Not a bug, but noting for completeness: sharePhoto() (app.js lines 477-520) already correctly wraps the Web Share API call in try/catch, checks e.name !== 'AbortError' to suppress error toasts on user-cancelled shares, and falls back to a download. This pattern should be replicated for captureImage()/getUserMedia() above rather than reinvented differently each time."
+    }
+  ],
+  "code_quality": [
+    {
+      "issue": "js/camera.js line 123 contains a no-op ternary (this.simulationMode ? x : x) that misleads readers into thinking there's conditional logic where there is none — this is the kind of thing a code reviewer should never approve, and strongly suggests the real branch was deleted/never implemented and nobody caught it in review.",
+      "fix": "Remove the dead ternary and either implement the real branch or make the always-simulated behavior explicit (const raw = this._simulateKPs(ts); // TODO: real pose estimation not yet implemented)."
+    },
+    {
+      "issue": "112 CSS selectors are duplicated verbatim between index.html's inline <style> block and css/app.css, meaning the same rule has to be edited (or forgotten to be edited) in two places, and the linked stylesheet is largely non-functional dead weight.",
+      "fix": "Consolidate to a single stylesheet source; add a lint/CI check that fails if any selector is defined in both files."
+    },
+    {
+      "issue": "js/pose-sprites.js (46 lines, POSE_SPRITES + getPoseSprite) is entirely unreferenced dead code shipped to production.",
+      "fix": "Delete the file and its <script> tag."
+    },
+    {
+      "issue": "Navigation logic is duplicated across at least three independent code paths (per-screen hardcoded back buttons, goBack()'s tab-only fallback, and the separate Escape-key switch statement in app.js lines 1920-1932), with no single source of truth for 'what happens when the user goes back from screen X.'",
+      "fix": "Centralize into one navigation config/table consumed by all three entry points."
+    },
+    {
+      "issue": "AppState is a bare mutable global object mutated from dozens of functions with no accessors, validation, or observability — acceptable for a quick prototype, not for anything intended to grow further.",
+      "fix": "Introduce a minimal store pattern with get/set and optional subscribe, even without adopting a full framework."
+    }
+  ],
+  "quick_wins": [
+    {
+      "issue": "Search input has no debounce, causing a full pose-library scan and DOM rebuild on every keystroke.",
+      "fix": "Wrap searchPoses in a ~200ms debounce.",
+      "effort": "low"
+    },
+    {
+      "issue": "js/pose-sprites.js is dead code loaded on every page load for no benefit.",
+      "fix": "Delete the file and remove its <script src=\"js/pose-sprites.js\"> tag from index.html.",
+      "effort": "low"
+    },
+    {
+      "issue": "camera.js line 123 has a no-op ternary that always simulates keypoints.",
+      "fix": "Remove the dead branch: const raw = this._simulateKPs(ts); and add a TODO noting real pose detection is unimplemented.",
+      "effort": "low"
+    },
+    {
+      "issue": "Viewport meta tag disables pinch-zoom (accessibility failure).",
+      "fix": "Remove user-scalable=no, maximum-scale=1.0 from the <meta name=\"viewport\"> tag in index.html line 5.",
+      "effort": "low"
+    },
+    {
+      "issue": "#toast has no aria-live region, so screen readers miss all toast messages.",
+      "fix": "Add aria-live=\"polite\" role=\"status\" to the #toast element.",
+      "effort": "low"
+    },
+    {
+      "issue": "Onboarding copy inconsistently states '75+' vs '300+' poses (index.html lines 1279 and 1314).",
+      "fix": "Correct the '75+' copy to '300+' (or bind both to POSES_LIBRARY.length dynamically).",
+      "effort": "low"
+    },
+    {
+      "issue": "closePoseSheet() never calls skeleton.destroy(), leaving window-level mouseup/touchend listeners bound indefinitely between sheet opens.",
+      "fix": "Call window._activeSkeleton3D.destroy() inside closePoseSheet() before clearing the reference.",
+      "effort": "low"
+    },
+    {
+      "issue": "Placeholder swipe-up gesture on camera screen just shows a 'coming soon' toast in production.",
+      "fix": "Remove the gesture handler (or ship the real feature) before release.",
+      "effort": "low"
+    },
+    {
+      "issue": "_triggerFlash() creates and destroys a new <style> element on every photo capture instead of reusing one static CSS class.",
+      "fix": "Move the flash keyframes into app.css once and toggle a class on a persistent element.",
+      "effort": "medium"
+    },
+    {
+      "issue": "112 duplicate CSS selectors between index.html's inline styles and css/app.css make app.css largely dead code.",
+      "fix": "Remove the inline <style> block and consolidate rules into app.css only.",
+      "effort": "medium"
+    }
+  ]
+}

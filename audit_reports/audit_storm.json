@@ -1,0 +1,258 @@
+{
+  "competitive_landscape": [
+    {
+      "app": "PoseMy.Art (PoseMyArt)",
+      "strengths": [
+        "Works across every device size (mobile, tablet, desktop) with the same feature set (posemy.art)",
+        "Massive free-tier library: 4,800+ premade scenes, 5,800+ premade poses, 2,400+ motion-captured animations that can be paused mid-frame for natural dynamic poses (https://posemy.art/blog/best-posing-software/)",
+        "Basic-shape mannequins (hip/torso/head) let artists study underlying anatomy separate from realistic skin models (https://posemy.art/blog/best-posing-software/)",
+        "Combines Inverse Kinematics (drag limbs) and Forward Kinematics (rotate bones) for full manual control while still offering one-click premade poses (https://posemy.art/blog/ultimate-posemyart-toolkit/)",
+        "Exports to OpenPose/Depth/Canny/Normals for AI art pipelines, extending its life beyond traditional drawing reference (https://inspirationtuts.com/posemy-art-your-ultimate-3d-posing-and-animation-tool/)",
+        "Directional lighting and shadow controls let users study form and lighting, not just silhouette (https://posemy.art/blog/features-you-might-be-overlooking/)"
+      ],
+      "weaknesses": [
+        "Free tier limited to 5 pose refreshes at a time, pushing frequent paywall friction (YouTube walkthrough, https://www.youtube.com/watch?v=_2uJ5fjF51Q)",
+        "Joint manipulation is reported as unintuitive and slow for newcomers — one Instagram reviewer noted it took 30 minutes to position a single foot naturally (https://www.instagram.com/reel/CvZ8-hWOlk4/)",
+        "Primarily a 3D posing/reference tool, not a guided practice or coaching experience — no structured lessons, timers, or feedback loop"
+      ],
+      "steal_this": "Offer a large free pose/scene library, basic-shape overlays for anatomy study, and pausable motion-reference content — but pair it with PoseArt's structured practice/coaching loop that PoseMy.Art lacks."
+    },
+    {
+      "app": "Line of Action",
+      "strengths": [
+        "Purpose-built for timed gesture practice with configurable session lengths (30 seconds to 5+ minutes) and category filters (https://line-of-action.com; Artistcoveries recap)",
+        "Built-in structured curriculum ('the bean', line-of-action stroke, secondary lines) that teaches a repeatable drawing method, not just random reference images (https://www.youtube.com/watch?v=fm447EfB5ws)",
+        "Classroom/session mode with built-in breaks supports sustained practice habits (Scribd practice-tools summary)",
+        "Explicit content toggle (nude/clothed) respects user comfort and trust from the first interaction"
+      ],
+      "weaknesses": [
+        "Session history / past-drawing review is paywalled, frustrating users who want free self-critique (Reddit r/learnart thread on Line of Action subscription)",
+        "Interface is utilitarian/dated compared to modern app polish — no camera or AR components at all",
+        "Some users report the sourced photo shapes aren't clear enough for perspective practice (Reddit r/krita)"
+      ],
+      "steal_this": "Adopt the timed-session structure, difficulty ramping, and built-in pedagogical method (bean/gesture/line-of-action) as a guided 'practice mode' inside PoseArt, but keep session history and review free to build trust and habit."
+    },
+    {
+      "app": "SketchDaily",
+      "strengths": [
+        "Simple, focused figure-photo archive with adjustable timers (30 sec–5 min) purely for gesture practice, no feature bloat (https://www.youtube.com/watch?v=7M1lMdSI_fs)",
+        "Clear practice philosophy embedded in the tool itself: get the full pose down in the first 10 seconds before refining details",
+        "Supports both nude and clothed figure options for different comfort levels"
+      ],
+      "weaknesses": [
+        "No skeleton/AR overlay, no mobile-native camera integration",
+        "No scoring, streaks, or progress tracking — purely a reference randomizer"
+      ],
+      "steal_this": "Borrow the '10-second full pose, then refine' pedagogical framing as in-app coaching copy/tooltips during PoseArt's timed practice sessions."
+    },
+    {
+      "app": "Adobe Fresco (Pose Tool)",
+      "strengths": [
+        "Physics-based 'Pose Tool' lets users grab any part of a drawn character/line and reposition it fluidly while preserving texture — no AI, no redrawing required (https://www.youtube.com/watch?v=fYGDC3YsoYw)",
+        "Positioned as a premium, polished, professional-grade tool integrated into a broader creative suite, reinforcing trust in a paid tier",
+        "Recently improved precision and pin-based control, showing continuous iteration based on user feedback (https://www.youtube.com/watch?v=CKpLDDqfoms)"
+      ],
+      "weaknesses": [
+        "Only affects a single layer at a time; can't yet group multiple layers for complex multi-character poses (per Adobe engineers, YouTube)",
+        "Aimed at refining already-drawn art, not at providing external pose references or camera-based coaching — a fundamentally different use case than PoseArt"
+      ],
+      "steal_this": "Consider a lightweight in-app 'nudge/adjust' interaction model (physics-based dragging) if PoseArt ever lets users tweak a reference pose overlay's limb angles."
+    },
+    {
+      "app": "Lenso / Tho Chup (AI Photo & Pose Guide)",
+      "strengths": [
+        "One-tap AI pose suggestions generate 3 custom pose ideas with reference images overlaid directly on the live camera viewfinder (https://apps.apple.com/gb/app/lenso-ai-photo-pose-guide/id6761168004)",
+        "Real-time photo scoring across 5 dimensions (Composition, Subject Match, Angle, Lighting, Lens) before the shutter is even pressed",
+        "Combines skeleton overlay, frame alignment guides, and directional arrows simultaneously for guided shooting",
+        "Auto-organizes shoots into sessions by date so users can track progress over time"
+      ],
+      "weaknesses": [
+        "Feature-dense (beauty filters, full photo editor, manual camera controls) risks overwhelming a first-time user without strong progressive disclosure",
+        "Positions itself as an all-in-one photo app rather than a focused pose-coaching/learning tool"
+      ],
+      "steal_this": "This is PoseArt's closest direct competitor pattern — the multi-dimension real-time score (Composition/Angle/Lighting/etc.) and simultaneous skeleton+frame+arrow overlay is the gold-standard camera UX to match or exceed."
+    },
+    {
+      "app": "PoseCam / ModelPoser / CameraPose / Pose Guide Camera (ghost-overlay pose apps)",
+      "strengths": [
+        "PoseCam: semi-transparent pose guide directly on the live camera feed with drag-to-reposition, pinch-to-resize, rotate-to-match-angle, and adjustable opacity — full manual control over the overlay itself (App Store listing)",
+        "ModelPoser: 'ghosting overlay' as its named signature feature, positions itself for both photographers directing clients and solo creators using a tripod; fully offline with no accounts/tracking (privacy-first positioning) (App Store)",
+        "CameraPose: lets users load ANY reference photo from their gallery (not just curated poses) and ghost-overlay it live — highly flexible",
+        "Pose Guide Camera: simple category-based flow (Solo/Couple/Group) plus a 'Random Mode' for decision fatigue, with built-in gallery review"
+      ],
+      "weaknesses": [
+        "Most are single-purpose 'ghost overlay' utilities with shallow pose libraries (100–500 poses) compared to PoseArt's 745",
+        "None appear to combine live skeleton/AI pose detection (only static image overlay) — they overlay a picture, not a tracked skeleton, so alignment still requires the user's own judgment",
+        "Minimal or no coaching/educational content — purely operational tools"
+      ],
+      "steal_this": "Adopt the manual overlay controls (drag/pinch/rotate/opacity) as a fallback/manual mode alongside PoseArt's presumably more advanced AI skeleton tracking, and offer 'load your own reference photo' as a power-user feature."
+    },
+    {
+      "app": "Unscripted / Posica (photographer business + posing apps)",
+      "strengths": [
+        "Bundles posing library (14,000+ poses/prompts) with full business tooling: sun tracker, client galleries, bookings, contracts, invoices, automated emails — a genuine all-in-one for working photographers (unscriptedphotographers.com)",
+        "Crowdsourced pose content from working photographers keeps the library feeling current and field-tested",
+        "Sun tracker feature directly ties a creative decision (lighting) to a practical scheduling tool"
+      ],
+      "weaknesses": [
+        "Business-tool bloat could distract from the core posing/coaching experience for hobbyist or solo users",
+        "Requires subscription to unlock the full pose library, and reviewers note it can feel like a big commitment upfront"
+      ],
+      "steal_this": "A lightweight 'golden hour / lighting tracker' tied to pose suggestions (e.g., recommend soft-light poses when scheduled during golden hour) could be a differentiating, non-obvious feature for PoseArt."
+    }
+  ],
+  "ux_best_practices": [
+    {
+      "practice": "Progressive disclosure over front-loaded tutorials",
+      "evidence": "Nielsen Norman Group research (cited via Digia) shows progressive disclosure reduces task completion time by 20–40% and improves comprehension; contextual/behavior-triggered disclosure lifts onboarding completion to 75% versus a 53% baseline for linear flows (Chameleon 2026 15M-interaction dataset) (https://www.digia.tech/post/progressive-disclosure-mobile-ux/, https://usertourkit.com/blog/progressive-disclosure-onboarding)",
+      "apply_to_poseart": "Teach camera overlay, timers, and scoring one at a time as the user naturally reaches each feature — not in a single walkthrough before they've posed once."
+    },
+    {
+      "practice": "Time-to-value under 30–60 seconds",
+      "evidence": "Fastest-retaining apps get users to one meaningful action in under 30 seconds; every additional onboarding step costs roughly 8–20% of remaining users (https://www.appypie.com/blog/app-onboarding-best-practices, https://www.snoopr.co/blog/why-do-users-skip-mobile-app-onboarding)",
+      "apply_to_poseart": "Let a new user open the camera and try a pose overlay immediately after a single value-proposition screen, deferring account creation and permission requests until after that first 'aha' moment."
+    },
+    {
+      "practice": "Real-time multi-dimensional feedback before capture",
+      "evidence": "Lenso/Tho Chup scores photos live across 5 dimensions (Composition, Subject Match, Angle, Lighting, Lens) before the shutter fires, and a CHI research paper found real-time guidance (RG) camera interfaces produced significantly higher aesthetic-quality ratings than static gridline overlays, per both expert photographers and crowd raters (https://apps.apple.com/gb/app/lenso-ai-photo-pose-guide/id6761168004; https://ronaldazuma.com/papers/CHI15_paper_final.pdf)",
+      "apply_to_poseart": "Surface a live composite score (pose match %, framing, lighting) directly on the camera view rather than only after the photo is taken, since this measurably improves final photo quality and user confidence."
+    },
+    {
+      "practice": "Manual override on top of automated overlays",
+      "evidence": "PoseCam and CameraPose let users drag, pinch, resize, rotate, and adjust opacity of the ghost overlay manually, addressing situations where automated alignment doesn't match body type or camera angle (App Store listings)",
+      "apply_to_poseart": "Even with AI skeleton tracking, give users manual drag/resize/opacity controls on the pose overlay for edge cases (unusual body types, awkward camera placement, group shots)."
+    },
+    {
+      "practice": "Structured pedagogy embedded in the tool, not just content",
+      "evidence": "Line of Action and SketchDaily succeed by teaching a repeatable method (e.g., 'get the full pose in the first 10 seconds,' 'the bean' shape) rather than just supplying random images (https://www.youtube.com/watch?v=fm447EfB5ws, https://www.youtube.com/watch?v=7M1lMdSI_fs)",
+      "apply_to_poseart": "Bake brief coaching microcopy or voice cues into each pose session (e.g., 'find your center of gravity first') rather than treating the 745-pose library as pure content."
+    },
+    {
+      "practice": "Basic-shape / anatomy-first reference modes",
+      "evidence": "PoseMyArt's basic-shape mannequin models (showing hip/torso/head masses) are called out by users as a standout, rarely-replicated feature (https://posemy.art/blog/best-posing-software/)",
+      "apply_to_poseart": "Offer a simplified 'gesture/skeleton only' rendering mode for the 745 poses to support fundamentals practice, distinct from full photographic reference."
+    },
+    {
+      "practice": "Haptics as a confirmation channel, never the sole channel",
+      "evidence": "Apple/Android and independent UX guides agree haptics should reinforce, not replace, visual/audio state; use a small, consistent vocabulary (e.g., UINotificationFeedbackGenerator's distinct success/warning/error patterns) and always pair with a visible signal (https://developer.android.com/develop/ui/views/haptics/haptics-principles, https://www.uiuxatlas.com/lessons/interaction-design/haptic-feedback-design/)",
+      "apply_to_poseart": "Use a light tap when pose alignment is achieved and a distinct double-tap/error pattern for major misalignment, always shown simultaneously as a visual color change on the skeleton overlay."
+    },
+    {
+      "practice": "Privacy-first, no-login-required core usage",
+      "evidence": "ModelPoser markets '100% offline, no accounts, no tracking' as a core selling point for professional/creative tools used in sensitive contexts (App Store listing); GoodFirms 2025 survey found 86% of users avoid apps requesting excessive permissions and 43% uninstall over data concerns (search results on onboarding statistics)",
+      "apply_to_poseart": "Especially relevant given PoseArt likely touches boudoir/figure content — allow full core functionality (browsing poses, camera overlay) without forced account creation or camera-roll access until the user chooses to save/export."
+    }
+  ],
+  "onboarding_patterns": [
+    {
+      "pattern": "3-screen maximum onboarding ('3-Screen Rule')",
+      "success_metric": "3-step onboarding tours see 72% completion vs. only 16% for 7-step tours (Chameleon 2025 Benchmark Report, 550M+ user actions) (https://www.snoopr.co/blog/why-do-users-skip-mobile-app-onboarding)",
+      "implementation": "Screen 1: value promise with a real product screenshot/demo (not illustrations); Screen 2 (optional): one personalization question (e.g., 'What do you want to draw/shoot?'); Screen 3: single permission ask with a stated benefit, framed as an action verb (e.g., 'Enable camera' not 'Allow camera access')."
+    },
+    {
+      "pattern": "Delayed/contextual permission priming",
+      "success_metric": "82% of users want a clear reason for a permission request before granting it; apps that explain the 'why' before the system prompt see notably higher opt-in rates (GoodFirms 2025 survey, via https://www.snoopr.co/blog/why-do-users-skip-mobile-app-onboarding; https://www.boundev.ai/blog/mobile-app-onboarding-ux-retention)",
+      "implementation": "Show a custom pre-permission screen explaining camera access ('See pose overlays live on your camera') immediately before the OS system dialog, and defer notification/photo-library permissions until the user tries to save or gets reminded of a streak."
+    },
+    {
+      "pattern": "Guided first win instead of blank empty state",
+      "success_metric": "70% of first-session churn happens in the 60 seconds after onboarding ends due to confusion about what to do next, not because users disliked onboarding itself (RubyRoid Labs 2026 analysis, via https://hivevaultarc.com/blog/app-onboarding-conversion-revenue)",
+      "implementation": "Immediately after onboarding, auto-load a pre-selected easy pose with the camera overlay already active so the user's very first action is a completed pose-match, not an empty pose-library screen."
+    },
+    {
+      "pattern": "Progressive/staged onboarding across sessions",
+      "success_metric": "Session-based reveal models (core loop only in Session 1, one added feature in Session 2, etc.) are linked to materially higher activation; personalized/staged onboarding paths lift Day-30 retention by up to 52% versus generic flows (fanana.io strategy guide; Loyalty.cx/Moxo & Talmundo data) (https://fanana.io/articles/app-user-onboarding-optimization-guide.html, https://loyalty.cx/saas-onboarding-optimization/)",
+      "implementation": "Session 1: camera overlay + one pose only. Session 2: introduce the 745-pose library/browse/filter. Session 3: introduce scoring history, streaks, or export/sharing. Trigger each reveal by return visit, not by a fixed timer."
+    },
+    {
+      "pattern": "Self-triggered (opt-in) tours over forced blanket tours",
+      "success_metric": "Self-triggered tours double engagement compared to automatically-triggered ones; progress indicators improve completion by 12% (Chameleon 2025 Benchmark Report) (https://www.chameleon.io/benchmark-report)",
+      "implementation": "Replace any mandatory swipe-through tutorial with a dismissible 'Show me how this works' entry point plus a visible step counter (e.g., '2 of 3') for any tour a user does start."
+    },
+    {
+      "pattern": "Guest/no-login exploration before commitment",
+      "success_metric": "Apps offering try-before-signup exploration reduce the drop-off tied to upfront account creation; one-click social login sees 60% higher onboarding completion than manual signup forms (UserGuiding 2026 stats compendium) (https://userguiding.com/blog/user-onboarding-statistics)",
+      "implementation": "Let users browse the 745-pose library and try the camera overlay in guest mode; only require sign-in to save history, sync across devices, or unlock premium content."
+    }
+  ],
+  "camera_overlay_patterns": [
+    {
+      "pattern": "Simultaneous skeleton + frame alignment + directional arrows + live score",
+      "source": "Lenso/Tho Chup 'Guided Camera with Pose Detection' feature stack (https://apps.apple.com/gb/app/lenso-ai-photo-pose-guide/id6761168004)",
+      "implementation": "Render the detected user skeleton in one color and the target pose skeleton in a second (Art Nouveau-appropriate) accent color simultaneously; overlay directional arrows only for the joints most out of alignment, and show a running composite match percentage in a fixed on-screen badge."
+    },
+    {
+      "pattern": "Manual drag / pinch / rotate / opacity control of the reference overlay",
+      "source": "PoseCam 'Ghost Overlay Mode' and CameraPose (Google Play listings)",
+      "implementation": "Add a manual adjustment layer beneath the AI overlay so users can reposition, resize, rotate, or fade the target pose image when auto-alignment struggles (odd angles, cropped frames, multiple people)."
+    },
+    {
+      "pattern": "Color-coded joint confidence and angle measurement",
+      "source": "PoseScope app — GPU-accelerated skeleton overlay with 'joint confidence tracking' and real-time angle measurement modes (App Store)",
+      "implementation": "Color each joint dot by detection confidence (e.g., green=high confidence, yellow=uncertain, red=occluded) so users understand why an overlay might look 'off' rather than assuming the app is broken."
+    },
+    {
+      "pattern": "Success feedback via color shift + gentle haptic, not intrusive pop-ups",
+      "source": "Physical-therapy/fitness pose-correction implementations that turn overlay lines green on correct alignment and start a hold-duration timer (IJSRET paper on AI pose correction; https://ijsret.com/wp-content/uploads/IJSRET_V11_issue3_1052.pdf)",
+      "implementation": "When PoseArt detects a matched pose, shift the overlay skeleton to green and fire a single light haptic tap (UIImpactFeedbackGenerator-light equivalent) rather than a modal dialog, preserving flow during a posing session."
+    },
+    {
+      "pattern": "On-device processing for privacy and speed",
+      "source": "PoseScope: '100% on-device processing — your data never leaves your phone,' using Metal GPU rendering for 60fps overlays (App Store)",
+      "implementation": "Run pose-matching inference on-device (e.g., via MediaPipe/BlazePose or Apple Vision framework) rather than sending camera frames to a server, both for latency (needed for real-time feedback) and for user trust given sensitive content categories like boudoir."
+    },
+    {
+      "pattern": "Load-your-own-reference-image flexibility",
+      "source": "CameraPose and PoseMyArt's 'Add Image' feature let users import any photo as a live-camera ghost overlay (Google Play; https://posemy.art/blog/features-you-might-be-overlooking/)",
+      "implementation": "Beyond the curated 745-pose library, let users import a personal reference photo (e.g., from Pinterest or a past shoot) and overlay it the same way as a library pose."
+    }
+  ],
+  "missing_features_industry_standard": [
+    {
+      "feature": "Session/progress history with browsable past attempts",
+      "why_standard": "Line of Action users specifically complain when history is paywalled, and Lenso auto-groups shoots into dated sessions as a core retention feature — tracking progress over time is treated as baseline, not premium, in comparable apps (Reddit r/learnart; Lenso App Store listing)"
+    },
+    {
+      "feature": "Sun/lighting condition awareness tied to shoot planning",
+      "why_standard": "Photographer-facing posing apps (Unscripted, Posica) universally bundle a sun/golden-hour tracker because lighting quality is treated as inseparable from pose quality in the photography-coaching category (unscriptedphotographers.com; posica.app)"
+    },
+    {
+      "feature": "Vibe/emotion-based pose search, not just body-position taxonomy",
+      "why_standard": "ModelPoser differentiates with 'Vibe-Based Search' (Confident, Vulnerable, Playful) instead of purely anatomical categories, matching how photographers/subjects actually think about a shoot's mood (App Store listing)"
+    },
+    {
+      "feature": "Hand-pose-specific sub-library",
+      "why_standard": "PoseMyArt calls out hand poses as a dedicated, heavily-used feature because hands are broadly recognized as the hardest part of any pose to get right; ModelPoser also ships specific hand-placement categories to fix 'awkward hands' (posemy.art blog; ModelPoser App Store listing)"
+    },
+    {
+      "feature": "Offline/no-account core mode",
+      "why_standard": "Multiple direct competitors (ModelPoser, PoseScope) market full offline functionality and zero account requirement as a trust and reliability baseline, particularly relevant for sensitive/private shoot content categories like boudoir (App Store listings)"
+    },
+    {
+      "feature": "Load-your-own-photo overlay",
+      "why_standard": "CameraPose and PoseMyArt both let users bring an outside reference (screenshot, Pinterest save, past client photo) into the live-overlay tool rather than restricting users to the curated library alone (Google Play; posemy.art)"
+    }
+  ],
+  "wow_differentiators": [
+    {
+      "idea": "AI skeleton match + ghost overlay hybrid (tracked skeleton, not just a static image overlay)",
+      "rationale": "Nearly all pose-guide competitors (PoseCam, ModelPoser, CameraPose, Pose Guide Camera) only overlay a static reference photo; none combine that with true real-time AI skeleton detection and a live match score the way Lenso does. Merging PoseArt's 745-pose Art Nouveau-styled library with true pose-estimation tracking (e.g., MediaPipe/BlazePose, 33 keypoints) would leapfrog both categories at once (comparison across App Store/Google Play listings and https://www.linkedin.com/pulse/your-body-phone-ai-coach-real-time-pose-estimation-android-santilli-qtxpf)."
+    },
+    {
+      "idea": "Art Nouveau-styled skeleton/overlay rendering (whiplash-curve joint connectors instead of generic dots-and-lines)",
+      "rationale": "Design research on Art Nouveau UI notes its 'sinuous curves,' 'whiplash motif,' and ornamental, nature-inspired lines are rare but distinctive in interfaces when done well, delivering emotional resonance that generic minimalist camera UIs lack (https://www.pixeldarts.com/en/post/ambivalence-in-ui-styles-from-minimalism-to-art-nouveau, https://elements.envato.com/learn/art-nouveau-aesthetic). Rendering the live pose-match skeleton with stylized curved connectors and gold/jewel-tone accent colors (rather than a stock green fitness-app skeleton) would make PoseArt visually unmistakable and directly tie its aesthetic identity to its core functional UI, not just its marketing chrome."
+    },
+    {
+      "idea": "Lighting+pose joint recommendation engine",
+      "rationale": "Competitors treat lighting (sun trackers) and posing as separate features bolted together. A model that recommends specific poses from the 745-pose library based on current/scheduled light conditions (e.g., 'soft window light detected — try these 12 boudoir poses optimized for side-lighting') would be a genuinely novel synthesis not seen in any reviewed competitor (unscriptedphotographers.com sun tracker; boudoir lighting guidance from https://www.format.com/online-portfolio-website/boudoir-photography/guide)."
+    },
+    {
+      "idea": "Vibe-based + gesture-fundamentals dual mode toggle",
+      "rationale": "PoseArt could serve both the figure-drawing audience (who want SketchDaily/Line of Action-style gesture fundamentals with basic-shape overlays) and the photography/boudoir audience (who want ModelPoser-style vibe search) from the same 745-pose library by adding a single mode toggle — 'Draw' vs. 'Shoot' — that changes overlay rendering (skeleton/basic-shapes vs. photographic ghost) and search taxonomy (anatomical vs. emotional) without maintaining two separate content sets."
+    },
+    {
+      "idea": "Consent- and comfort-first onboarding for sensitive content categories",
+      "rationale": "Given boudoir content is part of PoseArt's likely scope, an explicit content-comfort toggle at first launch (mirroring Line of Action's nude/clothed setting) paired with a stated no-cloud-storage/on-device-processing privacy promise (as PoseScope and ModelPoser both market) would differentiate PoseArt as trustworthy in a category where privacy anxiety is a real adoption barrier (Line of Action forum reference; ModelPoser and PoseScope App Store listings)."
+    }
+  ]
+}
