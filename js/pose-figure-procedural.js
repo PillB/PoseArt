@@ -199,6 +199,73 @@
         skel.rightShoulder.y = skel.neck.y - 0.07;
       }
     }
+
+    // 5. v11: Kneeling ankle grounding.
+    // In a real kneeling pose, the knee is on the floor and the shin folds
+    // back under the thigh so the ankle sits ~level with the knee (heels-
+    // under-glutes for both-knees-down, or shin flat on floor for knights-
+    // kneel back leg). The FK builder produces knees at y ≈ -0.38 and ankles
+    // at y ≈ -0.80 by default; without correction, the raw pose looks like
+    // a standing figure with slightly bent knees.
+    //
+    // Skeleton convention (see pose-skeleton-3d.js T_POSE):
+    //   • Higher Y = up, hips at y = 0.12, knees at -0.38, ankles at -0.80.
+    //   • The floor plane sits at approximately y = -0.85.
+    //   • Deviation-schema kneeling angle stored as negative (e.g. -90).
+    if (pose && pose.category === 'kneeling' && pose.joints && skel.hips) {
+      var kneeL = pose.joints.leftKnee || 0;
+      var kneeR = pose.joints.rightKnee || 0;
+      var hipL  = pose.joints.leftHip  || 0;
+      var hipR  = pose.joints.rightHip || 0;
+
+      // Both knees strongly bent (or hips deeply flexed) = sitting on heels.
+      var groundedL = kneeL <= -80 || kneeL >= 110 || hipL >= 60;
+      var groundedR = kneeR <= -80 || kneeR >= 110 || hipR >= 60;
+
+      // Target: knee sits ON the ground, ankle folds back BEHIND the knee at
+      // roughly the same Y (shin horizontal, foot below-behind hips).
+      var GROUND_Y = -0.85;
+      var pid = (pose.id || '').toLowerCase();
+      var isKnightsKneel = /knight|kneel-one|one-knee-down|single-knee|proposal/.test(pid);
+
+      if (isKnightsKneel) {
+        // One knee down (usually the more-bent one), other foot planted forward.
+        var leftIsDown = kneeL <= kneeR;
+        if (leftIsDown && skel.leftKnee && skel.leftAnkle) {
+          skel.leftKnee.y  = GROUND_Y + 0.06;
+          skel.leftAnkle.y = GROUND_Y + 0.02;
+          skel.leftAnkle.z = (skel.leftKnee.z || 0) - 0.14;
+          skel.leftAnkle.x = skel.leftKnee.x - 0.01;
+        } else if (skel.rightKnee && skel.rightAnkle) {
+          skel.rightKnee.y  = GROUND_Y + 0.06;
+          skel.rightAnkle.y = GROUND_Y + 0.02;
+          skel.rightAnkle.z = (skel.rightKnee.z || 0) - 0.14;
+          skel.rightAnkle.x = skel.rightKnee.x + 0.01;
+        }
+      } else {
+        if (groundedL && skel.leftKnee && skel.leftAnkle) {
+          skel.leftKnee.y  = GROUND_Y + 0.06;
+          skel.leftAnkle.y = GROUND_Y + 0.02;
+          skel.leftAnkle.z = (skel.leftKnee.z || 0) - 0.14;
+          skel.leftAnkle.x = skel.leftKnee.x - 0.01;
+        }
+        if (groundedR && skel.rightKnee && skel.rightAnkle) {
+          skel.rightKnee.y  = GROUND_Y + 0.06;
+          skel.rightAnkle.y = GROUND_Y + 0.02;
+          skel.rightAnkle.z = (skel.rightKnee.z || 0) - 0.14;
+          skel.rightAnkle.x = skel.rightKnee.x + 0.01;
+        }
+        // Also lower hips so the torso reads as “sitting on heels” rather than
+        // standing with bent knees.
+        if (groundedL && groundedR) {
+          var hipDrop = 0.14;
+          skel.hips.y -= hipDrop;
+          if (skel.leftHip)  skel.leftHip.y  -= hipDrop;
+          if (skel.rightHip) skel.rightHip.y -= hipDrop;
+          if (skel.spine)    skel.spine.y    -= hipDrop * 0.5;
+        }
+      }
+    }
   }
 
   function degToRad(d) { return d * Math.PI / 180; }
@@ -438,7 +505,10 @@
     var tags = ((pose.tags || []).join(' ') + ' ' + (pose.instructions || '') + ' ' + name).toLowerCase();
     var all  = id + ' ' + tags;
     // Category-first checks (must precede id-prefix matches).
-    if (cat === 'accessible') return 'chair';
+    // v11: accessible category renders a wheelchair, not a generic chair.
+    // Exception: an explicit `pose.prop` override still wins (handled above).
+    if (cat === 'accessible') return 'wheelchair';
+    if (/wheelchair|mobility-aid|adaptive-chair/.test(all)) return 'wheelchair';
     if (/p11-armchair|boudoir-armchair|\barmchair\b|lounge-chair|throne-sit|ottoman|lounger|arm\s*chair/.test(all)) return 'armchair';
     if (/\bsofa\b|\bcouch\b|settee/.test(all)) return 'sofa';
     if (/p15-chair|p3-chair|^chair-|-chair-|-chair$|boudoir-chair|window-seat|throne|stool/.test(all) || /\bchair\b/.test(tags)) return 'chair';
@@ -449,14 +519,22 @@
     if (/\btube\b|posing[- ]tube|p17-tube|p12-tube/.test(all)) return 'tube';
     if (cat === 'leaning' && !/floor/.test(all)) return 'wall';
     if (cat === 'lean-seat') return 'chair';
-    if (cat === 'reclining') return 'bed';
+    // v11: reclining poses without an explicit surface get a floor prop
+    // (was 'bed' universally, which forced a headboard on floor-recline poses).
+    if (cat === 'reclining') {
+      if (/\bfloor\b|starfish|prone|\bmat\b/.test(all)) return 'floor';
+      return 'bed';
+    }
+    // v11: kneeling poses on the ground get a subtle floor line so ankles
+    // read as grounded rather than floating.
+    if (cat === 'kneeling') return 'floor';
     if (cat === 'boudoir') {
       if (/window-light|window-lean|wall-lean|frame-lean|against-wall/.test(all)) return 'wall';
       if (/chair|straddle-chair|throne/.test(all)) return 'chair';
       if (/bench/.test(all)) return 'bench';
       if (/couch|sofa/.test(all)) return 'sofa';
       // Explicit floor keyword suppresses the bed heuristic below.
-      if (/floor-|-floor|floor-lounge|floor-stretch/.test(all)) return null;
+      if (/floor-|-floor|floor-lounge|floor-stretch/.test(all)) return 'floor';
       if (/recline|lounge|mattress|pillow|sheet|prone|lying|lie-down|hip-raise-lying/.test(all)) return 'bed';
       var j = pose.joints || {};
       // Steep tilt with recline-like context implies bed.
@@ -499,8 +577,30 @@
       case 'doorframe':  return buildDoorframeProp(b);
       case 'tube':       return buildTubeProp(b);
       case 'wheelchair': return buildWheelchairProp(b);
+      case 'floor':      return buildFloorProp(b);
       default:           return '';
     }
+  }
+
+  // v11: subtle floor plane for reclining-on-floor + kneeling poses.
+  // Draws a soft horizontal shadow-ellipse under the figure plus a thin
+  // ground line, giving the pose an anchor without competing with the figure.
+  function buildFloorProp(b) {
+    var groundY = Math.min(b.footY + 4, 268);
+    var shadowCx = b.cx;
+    var shadowRx = Math.max(60, b.w * 0.55);
+    var out = '<g opacity="0.9">';
+    // Soft cast shadow — larger, lower opacity.
+    out += '<ellipse cx="' + shadowCx.toFixed(1) + '" cy="' + (groundY + 3).toFixed(1) +
+           '" rx="' + shadowRx.toFixed(1) + '" ry="6" fill="' + PROP_COLOR_DARK + '" opacity="0.14"/>';
+    // Ground line — soft, doesn’t compete with figure.
+    out += '<line x1="10" y1="' + groundY.toFixed(1) + '" x2="190" y2="' + groundY.toFixed(1) +
+           '" stroke="' + PROP_COLOR_WALLD + '" stroke-width="1" opacity="0.42" stroke-linecap="round"/>';
+    // Faint parallel line for depth.
+    out += '<line x1="20" y1="' + (groundY + 3).toFixed(1) + '" x2="180" y2="' + (groundY + 3).toFixed(1) +
+           '" stroke="' + PROP_COLOR_WALLD + '" stroke-width="0.6" opacity="0.22"/>';
+    out += '</g>';
+    return out;
   }
 
   function buildChairProp(b) {
@@ -586,14 +686,34 @@
     return out;
   }
 
+  // v11: wall prop now spans the full stage width behind the figure with a
+  // wainscot/skirting line, art-nouveau vertical seam, and grounded floor.
+  // Previous version was a thin strip beside the figure which floated the pose.
   function buildWallProp(b) {
-    var out = '<g opacity="0.55">';
-    var stripW = 42;
-    var xLeft = Math.max(0, b.cx - b.w/2 - 12);
-    out += '<rect x="' + xLeft.toFixed(1) + '" y="6" width="' + stripW + '" height="260" fill="' + PROP_COLOR_WALL + '"/>';
-    out += '<rect x="' + (xLeft + stripW - 6).toFixed(1) + '" y="6" width="3" height="260" fill="' + PROP_COLOR_WALLD + '" opacity="0.6"/>';
-    var floorY = Math.min(b.footY + 8, 260);
-    out += '<rect x="0" y="' + floorY.toFixed(1) + '" width="200" height="2" fill="' + PROP_COLOR_WALLD + '" opacity="0.4"/>';
+    var out = '<g opacity="0.72">';
+    var floorY = Math.min(b.footY + 6, 264);
+    // Full-width wall face behind figure.
+    out += '<rect x="0" y="0" width="200" height="' + floorY.toFixed(1) + '" fill="' + PROP_COLOR_WALL + '" opacity="0.55"/>';
+    // Wainscot band (art-nouveau vertical proportion — lower third).
+    var wainY = floorY - 62;
+    out += '<rect x="0" y="' + wainY.toFixed(1) + '" width="200" height="62" fill="' + PROP_COLOR_WALLD + '" opacity="0.35"/>';
+    out += '<line x1="0" y1="' + wainY.toFixed(1) + '" x2="200" y2="' + wainY.toFixed(1) +
+           '" stroke="' + PROP_COLOR_DARK + '" stroke-width="0.8" opacity="0.35"/>';
+    // Two vertical seams for spatial anchoring — placed to bracket the figure.
+    var seamL = Math.max(14, b.cx - b.w * 0.75);
+    var seamR = Math.min(186, b.cx + b.w * 0.75);
+    out += '<line x1="' + seamL.toFixed(1) + '" y1="4" x2="' + seamL.toFixed(1) + '" y2="' + floorY.toFixed(1) +
+           '" stroke="' + PROP_COLOR_DARK + '" stroke-width="0.6" opacity="0.32"/>';
+    out += '<line x1="' + seamR.toFixed(1) + '" y1="4" x2="' + seamR.toFixed(1) + '" y2="' + floorY.toFixed(1) +
+           '" stroke="' + PROP_COLOR_DARK + '" stroke-width="0.6" opacity="0.25"/>';
+    // Floor plane — solid strip that meets the wall for grounded feel.
+    out += '<rect x="0" y="' + floorY.toFixed(1) + '" width="200" height="' + (280 - floorY).toFixed(1) +
+           '" fill="' + PROP_COLOR_SOFT + '" opacity="0.35"/>';
+    out += '<line x1="0" y1="' + floorY.toFixed(1) + '" x2="200" y2="' + floorY.toFixed(1) +
+           '" stroke="' + PROP_COLOR_DARK + '" stroke-width="1" opacity="0.45"/>';
+    // Cast shadow — anchors figure to the floor at contact point.
+    out += '<ellipse cx="' + b.cx.toFixed(1) + '" cy="' + (floorY + 3).toFixed(1) +
+           '" rx="' + Math.max(38, b.w * 0.55).toFixed(1) + '" ry="4" fill="' + PROP_COLOR_DARK + '" opacity="0.20"/>';
     out += '</g>';
     return out;
   }

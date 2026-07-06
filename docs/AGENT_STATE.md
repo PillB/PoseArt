@@ -108,11 +108,16 @@ These have been re-verified in this session and are now marked FIXED below. The 
 - [x] Simulation mode: `_computeAlignment` demo bell-curve so demo users actually hit autocapture (FIXED v5)
 
 ### SKELETON / ANATOMY (Phase C targets)
-- [ ] Poses look like crude stick figures: straight limbs, no S-curves, no weight shift
-- [ ] Knee/elbow/hand positioning needs anatomical accuracy review
-- [ ] Boudoir poses especially need proper lean, curve, and joint angle review
-- [ ] Joint limits may be clamping valid poses (hipAbductL/R was clamped to ±25)
-- [ ] 3D skeleton has no body volume rendering — pure lines/dots, no elegance
+- [x] Poses look like crude stick figures: straight limbs, no S-curves, no weight shift
+      (v9: S-curve + weight-shift + feminine shoulder-drop invariants in `applyAestheticInvariants`)
+- [x] Knee/elbow/hand positioning needs anatomical accuracy review
+      (v9: AnatomyLimits.clamp with per-category coupling rules)
+- [x] Boudoir poses especially need proper lean, curve, and joint angle review
+      (v9: `globalTilt/Twist/Roll` + boudoir prop inference + isArched detection)
+- [x] Joint limits may be clamping valid poses (hipAbductL/R was clamped to ±25)
+      (v9: relaxed via AnatomyLimits per-category ROM tables)
+- [x] 3D skeleton has no body volume rendering — pure lines/dots, no elegance
+      (v9: `buildTorsoVolume` + `buildPelvis` + `buildHead` add rounded volumes over the rig)
 
 ---
 
@@ -214,16 +219,28 @@ Rules in `scripts/apply_principles_v2.js`:
 - Standing / editorial / dynamic / eccentric unchanged (were already OK).
 
 ### Known remaining issues (candidates for v3 / renderer work)
-1. **Couple** — renderer needs partner-overlay support to draw two figures.
-2. **Accessible** — needs a wheelchair prop under the figure.
-3. **Leaning** — needs a wall prop.
-4. **Reclining** — needs a floor/bed surface prop.
-5. **Seated (armchair sub-poses 41–60)** — several still read as sprawled;
+1. [x] **Couple** — renderer needs partner-overlay support to draw two figures.
+       (v9: `COUPLE_PLACEMENT` + `buildPartnerSkel` render partner behind primary with per-pose placement)
+2. [x] **Accessible** — needs a wheelchair prop under the figure.
+       (v11: `inferProp` for `category==='accessible'` now returns `'wheelchair'`; `buildWheelchairProp` renders wheels + spokes + push rim)
+3. [x] **Leaning** — needs a wall prop.
+       (v11: `buildWallProp` rewritten — full-stage wall with wainscot band + floor plane + cast shadow, was thin strip before)
+4. [x] **Reclining** — needs a floor/bed surface prop.
+       (v11: `buildFloorProp` added; `inferProp` routes floor-recline / prone / starfish / mat poses to floor, keeps bed for bed-recline poses)
+5. [ ] **Seated (armchair sub-poses 41–60)** — several still read as sprawled;
    likely need explicit armchair prop + torso re-orient.
-6. **Kneeling** — could still lower ankles to the ground plane in the renderer
-   when knees ≥ 90° (currently corrected via joint data, not renderer).
-7. **240 orphaned GIFs** in `/gifs/` — unrelated cleanup task.
+6. [x] **Kneeling** — could still lower ankles to the ground plane in the renderer
+       when knees ≥ 90° (currently corrected via joint data, not renderer).
+       (v11: `applyAestheticInvariants` rule 5 grounds ankles at floor plane and drops hips into a seiza when both knees are strongly bent; knights-kneel style single-knee-down variant handled separately)
+7. [x] **240 orphaned GIFs** in `/gifs/` — unrelated cleanup task.
+       (v10: real count was 35, removed via `xargs -a /tmp/orphaned_gifs.txt rm`; pose↔GIF count now matches at 745)
 
-These are logged as tracking items; they require renderer changes (props,
-two-figure support) rather than another data-layer sweep.
+Remaining item (5): armchair sub-poses need a targeted torso-orient sweep
+plus armchair prop refinement. Tracked for a future data-layer pass.
+
+### v11 additions (this session)
+- `buildFloorProp` — subtle horizontal ground line + soft cast shadow for reclining-floor / kneeling poses
+- Wall prop rewrite — full-stage wall + wainscot band + floor + cast shadow
+- Wheelchair mapping — `accessible` category and `wheelchair|mobility-aid|adaptive-chair` keywords now route to `buildWheelchairProp`
+- Kneeling ankle grounding — ankles snap to floor plane at knee-level Y with shin folded behind (heels-under-glutes for both-knees-down, single-leg for knights-kneel)
 
