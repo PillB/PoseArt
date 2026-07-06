@@ -420,6 +420,228 @@
     return null;
   }
 
+  // ═══ PROP SYSTEM (v3) ══════════════════════════════════════════════════════════
+  // Renders furniture / architectural context behind the figure.
+
+  var PROP_COLOR       = '#8A7A62';
+  var PROP_COLOR_DARK  = '#5C4E3B';
+  var PROP_COLOR_SOFT  = '#B8A585';
+  var PROP_COLOR_WALL  = '#DFD6C4';
+  var PROP_COLOR_WALLD = '#C7BCA7';
+
+  function inferProp(pose) {
+    if (!pose) return null;
+    if (pose.prop) return pose.prop;
+    var id  = (pose.id || '').toLowerCase();
+    var cat = pose.category || '';
+    var name = (pose.name || '').toLowerCase();
+    var tags = ((pose.tags || []).join(' ') + ' ' + (pose.instructions || '') + ' ' + name).toLowerCase();
+    var all  = id + ' ' + tags;
+    // Category-first checks (must precede id-prefix matches).
+    if (cat === 'accessible') return 'chair';
+    if (/p11-armchair|boudoir-armchair|\barmchair\b|lounge-chair|throne-sit|ottoman|lounger|arm\s*chair/.test(all)) return 'armchair';
+    if (/\bsofa\b|\bcouch\b|settee/.test(all)) return 'sofa';
+    if (/p15-chair|p3-chair|^chair-|-chair-|-chair$|boudoir-chair|window-seat|throne|stool/.test(all) || /\bchair\b/.test(tags)) return 'chair';
+    if (/\bbench\b/.test(all)) return 'bench';
+    if (/\bbed\b|mattress|bedsheet|\bon\s+(a|the)\s+bed\b|pillow-hug|boudoir-mattress|boudoir-sheet|boudoir-pillow/.test(all)) return 'bed';
+    if (/doorframe|door-side|door-lean/.test(all)) return 'doorframe';
+    if (/\bwall\b|\bcolumn\b|\bpillar\b|\bfence\b|\bgate\b|\bcorner\b/.test(all) && cat !== 'kneeling' && cat !== 'reclining') return 'wall';
+    if (/\btube\b|posing[- ]tube|p17-tube|p12-tube/.test(all)) return 'tube';
+    if (cat === 'leaning' && !/floor/.test(all)) return 'wall';
+    if (cat === 'lean-seat') return 'chair';
+    if (cat === 'reclining') return 'bed';
+    if (cat === 'boudoir') {
+      if (/window-light|window-lean|wall-lean|frame-lean|against-wall/.test(all)) return 'wall';
+      if (/chair|straddle-chair|throne/.test(all)) return 'chair';
+      if (/bench/.test(all)) return 'bench';
+      if (/couch|sofa/.test(all)) return 'sofa';
+      // Explicit floor keyword suppresses the bed heuristic below.
+      if (/floor-|-floor|floor-lounge|floor-stretch/.test(all)) return null;
+      if (/recline|lounge|mattress|pillow|sheet|prone|lying|lie-down|hip-raise-lying/.test(all)) return 'bed';
+      var j = pose.joints || {};
+      // Steep tilt with recline-like context implies bed.
+      if (((j.globalTilt || 0) < -50 || (j.globalTilt || 0) > 50)) return 'bed';
+    }
+    return null;
+  }
+
+  function projectSkelBounds(skel, opts) {
+    var minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+    var footY = -Infinity, hipY = 145, hipX = 100;
+    for (var k in skel) {
+      if (!Object.prototype.hasOwnProperty.call(skel, k)) continue;
+      var p = projectTo(skel[k], opts);
+      if (p.x < minX) minX = p.x;
+      if (p.x > maxX) maxX = p.x;
+      if (p.y < minY) minY = p.y;
+      if (p.y > maxY) maxY = p.y;
+      if (/Ankle|Foot/.test(k) && p.y > footY) footY = p.y;
+      if (k === 'hips') { hipY = p.y; hipX = p.x; }
+    }
+    if (footY === -Infinity) footY = maxY;
+    return { minX: minX, maxX: maxX, minY: minY, maxY: maxY,
+             cx: (minX + maxX) / 2, cy: (minY + maxY) / 2,
+             w: maxX - minX, h: maxY - minY,
+             footY: footY, hipY: hipY, hipX: hipX };
+  }
+
+  function buildProp(pose, skel, opts) {
+    var kind = inferProp(pose);
+    if (!kind) return '';
+    var b = projectSkelBounds(skel, opts);
+    switch (kind) {
+      case 'chair':      return buildChairProp(b);
+      case 'armchair':   return buildArmchairProp(b);
+      case 'bench':      return buildBenchProp(b);
+      case 'sofa':       return buildSofaProp(b);
+      case 'bed':        return buildBedProp(b);
+      case 'wall':       return buildWallProp(b);
+      case 'doorframe':  return buildDoorframeProp(b);
+      case 'tube':       return buildTubeProp(b);
+      case 'wheelchair': return buildWheelchairProp(b);
+      default:           return '';
+    }
+  }
+
+  function buildChairProp(b) {
+    var seatY = Math.max(b.hipY + 12, b.footY - 40);
+    var seatX = b.hipX;
+    var seatW = 78, seatH = 8, backH = 60;
+    var legH  = Math.max(20, b.footY - seatY - 4);
+    var out = '<g opacity="0.72">';
+    out += '<rect x="' + (seatX - seatW/2).toFixed(1) + '" y="' + seatY.toFixed(1) + '" width="' + seatW + '" height="' + seatH + '" rx="1.5" fill="' + PROP_COLOR + '"/>';
+    out += '<rect x="' + (seatX - seatW/2 + 3).toFixed(1) + '" y="' + (seatY - backH).toFixed(1) + '" width="' + (seatW - 6) + '" height="' + backH + '" rx="2" fill="' + PROP_COLOR_DARK + '" opacity="0.85"/>';
+    var legY = seatY + seatH;
+    out += '<rect x="' + (seatX - seatW/2 + 2).toFixed(1) + '" y="' + legY.toFixed(1) + '" width="4" height="' + legH + '" fill="' + PROP_COLOR_DARK + '"/>';
+    out += '<rect x="' + (seatX + seatW/2 - 6).toFixed(1) + '" y="' + legY.toFixed(1) + '" width="4" height="' + legH + '" fill="' + PROP_COLOR_DARK + '"/>';
+    out += '</g>';
+    return out;
+  }
+
+  function buildArmchairProp(b) {
+    var seatY = Math.max(b.hipY + 14, b.footY - 44);
+    var seatX = b.hipX;
+    var seatW = 100, seatH = 14, backH = 66, armW = 10, armH = 30;
+    var legH  = Math.max(14, b.footY - seatY - seatH - 2);
+    var out = '<g opacity="0.72">';
+    out += '<rect x="' + (seatX - seatW/2 + armW - 2).toFixed(1) + '" y="' + (seatY - backH).toFixed(1) + '" width="' + (seatW - 2*armW + 4) + '" height="' + backH + '" rx="6" fill="' + PROP_COLOR_SOFT + '"/>';
+    out += '<rect x="' + (seatX - seatW/2 + 4).toFixed(1) + '" y="' + seatY.toFixed(1) + '" width="' + (seatW - 8) + '" height="' + seatH + '" rx="4" fill="' + PROP_COLOR_SOFT + '"/>';
+    out += '<rect x="' + (seatX - seatW/2).toFixed(1) + '" y="' + (seatY - armH).toFixed(1) + '" width="' + armW + '" height="' + (armH + seatH) + '" rx="4" fill="' + PROP_COLOR + '"/>';
+    out += '<rect x="' + (seatX + seatW/2 - armW).toFixed(1) + '" y="' + (seatY - armH).toFixed(1) + '" width="' + armW + '" height="' + (armH + seatH) + '" rx="4" fill="' + PROP_COLOR + '"/>';
+    if (legH > 0) {
+      var legY = seatY + seatH;
+      out += '<rect x="' + (seatX - seatW/2 + 4).toFixed(1) + '" y="' + legY.toFixed(1) + '" width="5" height="' + legH + '" fill="' + PROP_COLOR_DARK + '"/>';
+      out += '<rect x="' + (seatX + seatW/2 - 9).toFixed(1) + '" y="' + legY.toFixed(1) + '" width="5" height="' + legH + '" fill="' + PROP_COLOR_DARK + '"/>';
+    }
+    out += '</g>';
+    return out;
+  }
+
+  function buildBenchProp(b) {
+    var seatY = Math.max(b.hipY + 12, b.footY - 30);
+    var seatX = b.hipX;
+    var seatW = 130, seatH = 8;
+    var legH  = Math.max(14, b.footY - seatY - seatH - 2);
+    var out = '<g opacity="0.72">';
+    out += '<rect x="' + (seatX - seatW/2).toFixed(1) + '" y="' + seatY.toFixed(1) + '" width="' + seatW + '" height="' + seatH + '" rx="1.5" fill="' + PROP_COLOR + '"/>';
+    if (legH > 0) {
+      out += '<rect x="' + (seatX - seatW/2 + 6).toFixed(1) + '" y="' + (seatY + seatH).toFixed(1) + '" width="5" height="' + legH + '" fill="' + PROP_COLOR_DARK + '"/>';
+      out += '<rect x="' + (seatX + seatW/2 - 11).toFixed(1) + '" y="' + (seatY + seatH).toFixed(1) + '" width="5" height="' + legH + '" fill="' + PROP_COLOR_DARK + '"/>';
+    }
+    out += '</g>';
+    return out;
+  }
+
+  function buildSofaProp(b) {
+    var seatY = Math.max(b.hipY + 14, b.footY - 44);
+    var seatX = b.hipX;
+    var seatW = 160, seatH = 16, backH = 60, armW = 12;
+    var legH  = Math.max(10, b.footY - seatY - seatH - 2);
+    var out = '<g opacity="0.72">';
+    out += '<rect x="' + (seatX - seatW/2 + armW - 2).toFixed(1) + '" y="' + (seatY - backH).toFixed(1) + '" width="' + (seatW - 2*armW + 4) + '" height="' + backH + '" rx="8" fill="' + PROP_COLOR_SOFT + '"/>';
+    out += '<rect x="' + (seatX - seatW/2 + 4).toFixed(1) + '" y="' + seatY.toFixed(1) + '" width="' + (seatW - 8) + '" height="' + seatH + '" rx="6" fill="' + PROP_COLOR_SOFT + '"/>';
+    out += '<rect x="' + (seatX - seatW/2).toFixed(1) + '" y="' + (seatY - 24).toFixed(1) + '" width="' + armW + '" height="' + (24 + seatH) + '" rx="5" fill="' + PROP_COLOR + '"/>';
+    out += '<rect x="' + (seatX + seatW/2 - armW).toFixed(1) + '" y="' + (seatY - 24).toFixed(1) + '" width="' + armW + '" height="' + (24 + seatH) + '" rx="5" fill="' + PROP_COLOR + '"/>';
+    if (legH > 0) {
+      out += '<rect x="' + (seatX - seatW/2 + 4).toFixed(1) + '" y="' + (seatY + seatH).toFixed(1) + '" width="5" height="' + legH + '" fill="' + PROP_COLOR_DARK + '"/>';
+      out += '<rect x="' + (seatX + seatW/2 - 9).toFixed(1) + '" y="' + (seatY + seatH).toFixed(1) + '" width="5" height="' + legH + '" fill="' + PROP_COLOR_DARK + '"/>';
+    }
+    out += '</g>';
+    return out;
+  }
+
+  function buildBedProp(b) {
+    // Anchor bed just below the figure's lowest point (side-lying, prone, or seated on bed).
+    var groundY = b.maxY + 2;
+    var bedX = b.cx;
+    var bedW = Math.max(b.w + 40, 160);
+    var bedH = 18;
+    var out = '<g opacity="0.68">';
+    out += '<rect x="' + (bedX - bedW/2).toFixed(1) + '" y="' + (groundY - bedH*0.4).toFixed(1) + '" width="' + bedW + '" height="' + bedH + '" rx="5" fill="' + PROP_COLOR_SOFT + '"/>';
+    out += '<rect x="' + (bedX - bedW/2 - 2).toFixed(1) + '" y="' + (groundY - bedH*0.4 + bedH).toFixed(1) + '" width="' + (bedW + 4) + '" height="5" fill="' + PROP_COLOR_DARK + '"/>';
+    var hbH = 44;
+    out += '<rect x="' + (bedX - bedW/2 - 2).toFixed(1) + '" y="' + (groundY - bedH*0.4 - hbH).toFixed(1) + '" width="6" height="' + (hbH + bedH) + '" fill="' + PROP_COLOR + '"/>';
+    out += '<ellipse cx="' + (bedX - bedW/2 + 22).toFixed(1) + '" cy="' + (groundY - bedH*0.4 + 2).toFixed(1) + '" rx="18" ry="5" fill="#FFFFFF" opacity="0.6"/>';
+    out += '</g>';
+    return out;
+  }
+
+  function buildWallProp(b) {
+    var out = '<g opacity="0.55">';
+    var stripW = 42;
+    var xLeft = Math.max(0, b.cx - b.w/2 - 12);
+    out += '<rect x="' + xLeft.toFixed(1) + '" y="6" width="' + stripW + '" height="260" fill="' + PROP_COLOR_WALL + '"/>';
+    out += '<rect x="' + (xLeft + stripW - 6).toFixed(1) + '" y="6" width="3" height="260" fill="' + PROP_COLOR_WALLD + '" opacity="0.6"/>';
+    var floorY = Math.min(b.footY + 8, 260);
+    out += '<rect x="0" y="' + floorY.toFixed(1) + '" width="200" height="2" fill="' + PROP_COLOR_WALLD + '" opacity="0.4"/>';
+    out += '</g>';
+    return out;
+  }
+
+  function buildDoorframeProp(b) {
+    var out = '<g opacity="0.55">';
+    var xLeft = Math.max(0, b.cx - b.w/2 - 8);
+    var frameW = 44;
+    out += '<rect x="' + xLeft.toFixed(1) + '" y="6" width="' + frameW + '" height="260" fill="' + PROP_COLOR_WALL + '"/>';
+    out += '<rect x="' + (xLeft + frameW - 4).toFixed(1) + '" y="6" width="5" height="210" fill="' + PROP_COLOR_DARK + '" opacity="0.7"/>';
+    out += '<rect x="' + (xLeft + frameW - 4).toFixed(1) + '" y="6" width="5" height="5" fill="' + PROP_COLOR_DARK + '"/>';
+    var floorY = Math.min(b.footY + 8, 260);
+    out += '<rect x="0" y="' + floorY.toFixed(1) + '" width="200" height="2" fill="' + PROP_COLOR_WALLD + '" opacity="0.4"/>';
+    out += '</g>';
+    return out;
+  }
+
+  function buildTubeProp(b) {
+    var tubeY = b.hipY + 8;
+    var tubeX = b.hipX;
+    var tubeW = 60, tubeH = 22;
+    var out = '<g opacity="0.72">';
+    out += '<ellipse cx="' + tubeX.toFixed(1) + '" cy="' + tubeY.toFixed(1) + '" rx="' + (tubeW/2) + '" ry="' + (tubeH/2) + '" fill="' + PROP_COLOR + '"/>';
+    out += '<ellipse cx="' + (tubeX - 4).toFixed(1) + '" cy="' + (tubeY - 2).toFixed(1) + '" rx="' + (tubeW/2 - 6) + '" ry="3" fill="' + PROP_COLOR_SOFT + '" opacity="0.5"/>';
+    out += '</g>';
+    return out;
+  }
+
+  function buildWheelchairProp(b) {
+    var seatY = Math.max(b.hipY + 14, b.footY - 60);
+    var seatX = b.hipX;
+    var seatW = 68, seatH = 10, backH = 82, wheelR = 30;
+    var out = '<g opacity="0.72">';
+    out += '<rect x="' + (seatX - seatW/2 + 4).toFixed(1) + '" y="' + (seatY - backH).toFixed(1) + '" width="6" height="' + backH + '" fill="' + PROP_COLOR_DARK + '"/>';
+    out += '<rect x="' + (seatX - seatW/2 + 4).toFixed(1) + '" y="' + (seatY - backH).toFixed(1) + '" width="' + (seatW - 8) + '" height="' + backH + '" rx="3" fill="' + PROP_COLOR + '" opacity="0.55"/>';
+    out += '<rect x="' + (seatX - seatW/2).toFixed(1) + '" y="' + seatY.toFixed(1) + '" width="' + seatW + '" height="' + seatH + '" rx="1.5" fill="' + PROP_COLOR + '"/>';
+    var wheelCy = seatY + seatH + 10;
+    out += '<circle cx="' + (seatX + 6).toFixed(1) + '" cy="' + wheelCy.toFixed(1) + '" r="' + wheelR + '" fill="none" stroke="' + PROP_COLOR_DARK + '" stroke-width="3"/>';
+    out += '<circle cx="' + (seatX + 6).toFixed(1) + '" cy="' + wheelCy.toFixed(1) + '" r="6" fill="' + PROP_COLOR_DARK + '"/>';
+    for (var a = 0; a < 6; a++) {
+      var ang = a * Math.PI / 3;
+      out += '<line x1="' + (seatX + 6).toFixed(1) + '" y1="' + wheelCy.toFixed(1) + '" x2="' + (seatX + 6 + Math.cos(ang) * wheelR).toFixed(1) + '" y2="' + (wheelCy + Math.sin(ang) * wheelR).toFixed(1) + '" stroke="' + PROP_COLOR_DARK + '" stroke-width="1.5" opacity="0.7"/>';
+    }
+    out += '<circle cx="' + (seatX - seatW/2 - 4).toFixed(1) + '" cy="' + (wheelCy + wheelR - 8).toFixed(1) + '" r="7" fill="none" stroke="' + PROP_COLOR_DARK + '" stroke-width="2"/>';
+    out += '</g>';
+    return out;
+  }
+
   /**
    * Render a pose (from POSES_LIBRARY) as an SVG string.
    * Options: { width, height, large, view: 'front'|'side'|'quarter'|'auto',
@@ -466,6 +688,8 @@
     }).sort(function (m, n) { return m.depth - n.depth; });
 
     var parts = [];
+    // Props draw first so figure sits ON TOP of them.
+    parts.push(buildProp(pose, skel, opts));
     parts.push(buildShadow(skel, opts));
     parts.push(buildPelvis(skel, opts));
     parts.push(buildTorsoVolume(skel, opts));
