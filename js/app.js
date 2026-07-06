@@ -757,7 +757,13 @@ window.openPoseDetail = function(poseId) {
     `;
   }
 
-  if (animEl) animEl.innerHTML = renderPoseFigureSVG(pose, true);
+  if (animEl) {
+    if (window.PoseAnimation && typeof window.PoseAnimation.mount === 'function') {
+      window.PoseAnimation.mount(animEl, pose, { width: 220, height: 300 });
+    } else {
+      animEl.innerHTML = renderPoseFigureSVG(pose, true);
+    }
+  }
 
   // Initialize/update 3D skeleton
   setTimeout(() => {
@@ -855,6 +861,11 @@ window.closePoseSheet = function() {
   const sheet   = document.getElementById('pose-detail-sheet');
   if (overlay) overlay.classList.remove('visible');
   if (sheet)   sheet.classList.remove('visible');
+  // Stop the tween loop so backgrounded modals don't burn CPU
+  const animEl = document.getElementById('pose-detail-animation');
+  if (animEl && window.PoseAnimation && typeof window.PoseAnimation.unmountAll === 'function') {
+    window.PoseAnimation.unmountAll(animEl);
+  }
   if (window._activeSkeleton3D) {
     window._activeSkeleton3D.stopAutoRotate();
     // Destroy skeleton to release window-level mouseup/touchend listeners
@@ -2173,11 +2184,9 @@ console.log('%cPoseArt v2.0 — Move like art.', 'color:#C9A24C;font-family:seri
 console.log('%cArt Nouveau Pose Coaching · Gallery + Ghost Overlay', 'color:#1E7A74;font-family:sans-serif;font-size:11px;');
 
 // ── GIF PLAYER INTEGRATION ─────────────────────────────────────────────────
-// When a pose is opened, show the entry-animation GIF for 3s, then switch to
-// the static SVG figure for better reference quality.
-// FIX v7.1: Cancel pending timers + remove ALL old GIF elements immediately on
-// every openPoseDetail call so stale GIFs from previous poses never bleed through.
-(function patchOpenPoseDetailWithGIF() {
+// Disabled in v5: replaced by PoseAnimation JS tween mounted directly in the
+// pose detail sheet. See js/pose-animation.js.
+if (false) (function patchOpenPoseDetailWithGIF() {
   const _orig = window.openPoseDetail;
 
   // GIF base path
