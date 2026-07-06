@@ -1,11 +1,32 @@
 # AGENT_STATE.md — PoseArt Deep Audit + Skeleton Perfection
-**Updated:** 2026-07-05 21:15
-**Phase:** Rig upgrade + navigation ship-blockers landed (branch `fix/rig-upgrade-nav`)
+**Updated:** 2026-07-05 21:45
+**Phase:** POSING_PRINCIPLES + renderer v2 + full-library principle sweep (branch `feat/posing-principles-and-rig`)
 **Mission:** Stanford STORM methodology + Zuckerberg/Musk/STORM model council + skeleton anatomy improvement + red-team until zero issues.
 
 ---
 
-## 2026-07-05 SESSION LOG — Rig upgrade + nav fixes
+## 2026-07-05 SESSION LOG — Posing principles + renderer v2 + full-library sweep
+
+**User-requested scope (verbatim):** "Focus on 1, 2 and 3 in order… after you finish with the poses of the standing category proceed to the rest of the categories in sequence from leaning to boudoir and so on."
+
+**Landed:**
+1. **`docs/POSING_PRINCIPLES.md`** (325 lines) — cheat sheet distilled from the 18 PDFs (Believe in Boudoir / Yuliya Panchenko flow sets + top-10 category sets + male + unconventional). Covers three universal rules (toes pointed, back arched, shoulders dropped), feminine vs. masculine rig traits, aesthetic-triangle / negative-space rule, hand styles, foot styles, spine S-curve, weight shift, category-by-category taxonomy, and 14 testable rules for the renderer.
+2. **Renderer v2.0** (`js/pose-figure-procedural.js`, 260→519 lines) — bakes each principle into rendering: gender inference, hand-style inference (soft/fist/crossed/contact), foot-style inference (pointed/ball/flat), gaze inference, weight-side inference, `applyAestheticInvariants()` that mutates the FK skeleton before render to enforce asymmetric arms, weight-shift hip drop, opposite-shoulder lift, spine arch and feminine shoulder drop. Feet drawn separately via `buildFoot()` so they can be styled by gender. Every rule tagged `[§N]` back to `POSING_PRINCIPLES.md`.
+3. **Systematic per-pose fix pipeline** (`scripts/apply_principles.js`) — batch-applies principle-derived joint edits across all 745 poses in 16 categories. Rules:
+   - `§1.1` Point toes on feminine straight-leg poses (378 applications)
+   - `§1.2` Arch back for feminine standing/leaning/boudoir/etc. (22 applications)
+   - `§1.3` Drop shoulders asymmetrically (integrated where needed)
+   - `§2`  Masculine adjustments: flat feet, wider stance, neutral spine (11 applications)
+   - `§3`  Aesthetic-triangle: bend at least one arm (4 applications)
+   - `§3.4` Break exact left/right mirror symmetry (107 applications)
+   - `§6`  Weight-shift for standing feminine (36 applications)
+   - `§7`  Contrapposto counter-curve
+   - **Total:** 558 principle applications across 428 of 745 poses (57%). Backup written to `js/poses-data.js.bak-<stamp>`.
+4. **QA screenshots** (`qa_screenshots/all_before.png`, `all_after.png`, `standing_before.png`, `standing_after.png`) — full 16-category × 3-sample grids plus the entire 47-pose standing category before/after.
+
+---
+
+## 2026-07-05 EARLIER — Rig upgrade + nav fixes (PR #1)
 
 **User-requested scope (verbatim):** "Focus on fix the two ship blocker and the rig upgrade".
 
