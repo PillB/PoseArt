@@ -796,7 +796,12 @@
     var gaze    = inferGaze(pose);
 
     var joints = (pose && pose.joints) || {};
-    var skel = global.PoseSkeleton3D._internals.buildPose(joints);
+    // Tag joints with pose category so AnatomyLimits knows to apply
+    // seated coupling rules (calf-under-thigh, cross-leg deep-fold).
+    var jointsWithMeta = {};
+    for (var jk in joints) if (Object.prototype.hasOwnProperty.call(joints, jk)) jointsWithMeta[jk] = joints[jk];
+    if (pose && pose.category) jointsWithMeta.__category = pose.category;
+    var skel = global.PoseSkeleton3D._internals.buildPose(jointsWithMeta);
     applyAestheticInvariants(skel, pose, gender);
 
     var opts = { yaw: yaw, pitch: pitch, viewW: 200, viewH: 280 };

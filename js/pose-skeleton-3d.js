@@ -71,10 +71,16 @@
     leftHip: true, rightHip: true, hips: true
   };
 
-  var COLOR_LEFT   = '#1A6B6A';
-  var COLOR_RIGHT  = '#0F3B3A';
-  var COLOR_CENTER = '#0F3B3A';
-  var COLOR_GOLD   = '#C9A24C';
+  // ---- WOODEN MANNEQUIN PALETTE v7 --------------------------
+  // The 3D skeleton is now visually distinct from the 2D avatar:
+  // warm wood tones + rounded segmented capsules + articulated
+  // hand/foot glyphs mimic a classic artist's articulated wooden
+  // manikin ("drawing doll").
+  var COLOR_LEFT   = '#B98860'; // walnut highlight (figure's left)
+  var COLOR_RIGHT  = '#7B4E31'; // walnut deep shadow (figure's right)
+  var COLOR_CENTER = '#8E5A38'; // walnut midtone (spine, head)
+  var COLOR_GOLD   = '#D9A75C'; // brass pin (key joints)
+  var COLOR_JOINT_STROKE = '#4B2E1B'; // dark walnut edge
 
   // Bone width profiles: [nearWidth, farWidth] in px — tapered capsule effect
   var BONE_WIDTHS = {
@@ -185,8 +191,8 @@
   //    hips:         + = pelvis tilts left (left hip drops)
   //    leftHip:      + = left leg swings FORWARD
   //    rightHip:     + = right leg swings FORWARD
-  //    leftKnee:     + = shin bends BACKWARD
-  //    rightKnee:    + = shin bends BACKWARD
+  //    leftKnee:     + = shin FLEXES (calf folds toward hamstring) — anatomical
+  //    rightKnee:    + = shin FLEXES (calf folds toward hamstring) — anatomical
   //    leftAnkle:    + = dorsiflexion (toe up); - = plantarflexion
   //    rightAnkle:   same
   //    hipAbductL/R: + = leg spreads outward (Z-axis) for seated
@@ -197,6 +203,17 @@
   // ----------------------------------------------------------
   function buildPose(jointAngles) {
     jointAngles = jointAngles || {};
+    // Apply anatomy limits (ROM + coupling rules) before FK if module is present.
+    // Caller can override by passing __skipAnatomyLimits: true (used internally
+    // by animation lerp so we don't double-clamp keyframes that were already
+    // sanitized at author time).
+    if (typeof global !== 'undefined' && global.AnatomyLimits &&
+        !jointAngles.__skipAnatomyLimits) {
+      jointAngles = global.AnatomyLimits.clamp(jointAngles, {
+        category: jointAngles.__category || '',
+        isSeated: !!jointAngles.__isSeated
+      });
+    }
     var s = cloneSkeleton(T_POSE);
     var hp, kp, ap, ep;
 
@@ -300,15 +317,22 @@
       s.rightFoot  = rotX(s.rightFoot,  hp, -rHipDeg);
     }
 
-    // ---- KNEES: shin bends backward (5° soft minimum avoids mannequin locked-knee) ----
+    // ---- KNEES: anatomical flex — shin folds toward hamstring ----
+    // Sign fix v7: knee flex now uses OPPOSITE sign from hip flex so
+    // that after hip flex forward, the knee folds the calf DOWN under
+    // the thigh instead of pointing UP (previous bug).
+    // Hip flex uses rotX(..., -hipDeg); knee uses rotX(..., +kneeDeg).
+    // Also enforce anatomy limits: knees never hyperextend past 0°.
     var lKneeDeg = Math.max(jointAngles.leftKnee || 0, 5);
+    if (lKneeDeg > 145) lKneeDeg = 145;
     kp = s.leftKnee;
-    s.leftAnkle = rotX(s.leftAnkle, kp, -lKneeDeg);
-    s.leftFoot  = rotX(s.leftFoot,  kp, -lKneeDeg);
+    s.leftAnkle = rotX(s.leftAnkle, kp, lKneeDeg);
+    s.leftFoot  = rotX(s.leftFoot,  kp, lKneeDeg);
     var rKneeDeg = Math.max(jointAngles.rightKnee || 0, 5);
+    if (rKneeDeg > 145) rKneeDeg = 145;
     kp = s.rightKnee;
-    s.rightAnkle = rotX(s.rightAnkle, kp, -rKneeDeg);
-    s.rightFoot  = rotX(s.rightFoot,  kp, -rKneeDeg);
+    s.rightAnkle = rotX(s.rightAnkle, kp, rKneeDeg);
+    s.rightFoot  = rotX(s.rightFoot,  kp, rKneeDeg);
 
     // ---- ANKLES: foot flexion/extension ----
     var lAnkleDeg = jointAngles.leftAnkle || 0;
@@ -462,39 +486,70 @@
     if (!a || !b) return;
     var pa = project(state, a), pb = project(state, b);
     var avgZ = (pa.z + pb.z) / 2;
-    var alpha = depthToAlpha(avgZ) * (state.ghostMode ? 0.60 : 0.95);
+    var alpha = depthToAlpha(avgZ) * (state.ghostMode ? 0.75 : 1.0);
     var baseColor = getBoneColor(side);
 
-    // Tapered capsule: look up width profile for this bone pair
+    // Wooden mannequin: use per-bone width profile but scaled up ~1.4x
+    // for a chunkier, drawing-doll silhouette. Bones are drawn as
+    // ROUNDED CAPSULES rather than hard trapezoids for that curved,
+    // lathe-turned look.
     var boneKey = aKey + '-' + bKey;
     var widths = BONE_WIDTHS[boneKey] || [5.5, 3.5];
-    var wA = depthToWidth(pa.z, widths[0]);
-    var wB = depthToWidth(pb.z, widths[1]);
+    var wA = depthToWidth(pa.z, widths[0]) * 1.35;
+    var wB = depthToWidth(pb.z, widths[1]) * 1.35;
 
     ctx.save();
-    // Draw tapered bone as a filled trapezoid path for volume
     var dx = pb.x - pa.x, dy = pb.y - pa.y;
     var len = Math.sqrt(dx*dx + dy*dy);
     if (len < 1) { ctx.restore(); return; }
-    var nx = -dy / len, ny = dx / len; // perpendicular normal
-    // Gradient along bone for depth cueing (near side = lighter)
-    var grad = ctx.createLinearGradient(pa.x, pa.y, pb.x, pb.y);
-    var nearAlpha = alpha * (side === 'L' ? 0.92 : side === 'R' ? 0.78 : 0.88);
-    var farAlpha  = alpha * (side === 'L' ? 0.70 : side === 'R' ? 0.58 : 0.72);
-    grad.addColorStop(0, hexToRgba(baseColor, nearAlpha));
-    grad.addColorStop(1, hexToRgba(baseColor, farAlpha));
+    var nx = -dy / len, ny = dx / len; // perpendicular
+    var tx = dx / len,  ty = dy / len; // tangent
+
+    // Wood grain gradient across the bone (perpendicular) — creates
+    // the illusion of a curved, cylindrical wooden segment.
+    var mid1x = (pa.x + pb.x) / 2, mid1y = (pa.y + pb.y) / 2;
+    var wMid = (wA + wB) / 2;
+    var grad = ctx.createLinearGradient(
+      mid1x - nx * wMid, mid1y - ny * wMid,
+      mid1x + nx * wMid, mid1y + ny * wMid
+    );
+    var deep = COLOR_RIGHT;
+    var mid  = baseColor;
+    var high = COLOR_LEFT;
+    grad.addColorStop(0.00, hexToRgba(deep, alpha * 0.85));
+    grad.addColorStop(0.35, hexToRgba(mid,  alpha * 0.98));
+    grad.addColorStop(0.55, hexToRgba(high, alpha * 1.00));
+    grad.addColorStop(1.00, hexToRgba(deep, alpha * 0.75));
+
+    // Capsule body: rectangle sides + rounded caps (drawn as arcs)
     ctx.beginPath();
+    // start at 'a' side top edge, sweep around cap, down far side to 'b', cap, back
+    var startAngle = Math.atan2(ny, nx);
     ctx.moveTo(pa.x + nx * wA, pa.y + ny * wA);
-    ctx.lineTo(pb.x + nx * wB, pb.y + ny * wB);
+    ctx.arc(pa.x, pa.y, wA, startAngle, startAngle + Math.PI, false);
     ctx.lineTo(pb.x - nx * wB, pb.y - ny * wB);
-    ctx.lineTo(pa.x - nx * wA, pa.y - ny * wA);
+    ctx.arc(pb.x, pb.y, wB, startAngle + Math.PI, startAngle + 2 * Math.PI, false);
     ctx.closePath();
     ctx.fillStyle = grad;
     ctx.fill();
-    // Subtle edge stroke for definition
-    ctx.lineWidth = 0.8;
-    ctx.strokeStyle = hexToRgba(baseColor, alpha * 0.4);
+
+    // Thin darker edge for definition
+    ctx.lineWidth = 1.0;
+    ctx.strokeStyle = hexToRgba(COLOR_JOINT_STROKE, alpha * 0.55);
     ctx.stroke();
+
+    // Subtle central highlight streak (wood-grain sheen) — a very thin
+    // pale line offset by ~25% of the bone width, giving the tube a
+    // cylindrical look.
+    var sheenOffset = (wA + wB) * 0.5 * 0.30;
+    ctx.beginPath();
+    ctx.moveTo(pa.x - nx * sheenOffset, pa.y - ny * sheenOffset);
+    ctx.lineTo(pb.x - nx * sheenOffset, pb.y - ny * sheenOffset);
+    ctx.lineWidth = Math.max(1.0, (wA + wB) * 0.10);
+    ctx.strokeStyle = hexToRgba('#F1D4A5', alpha * 0.38);
+    ctx.lineCap = 'round';
+    ctx.stroke();
+
     ctx.restore();
   }
 
@@ -507,41 +562,200 @@
     var isKey = !!KEY_JOINTS[key];
     var isHead = key === 'head';
     var isNeck = key === 'neck';
-    // Lithe redesign: head is ~1/8 body height (realistic), joints are slim
-    var baseRadius = isHead ? 8.5 : (isNeck ? 3.5 : (isKey ? 4.5 : 3));
-    var radius = baseRadius * (0.75 + 0.5 * Math.max(0, Math.min(1, (proj.z + 0.8) / 1.6)));
+    var isWrist = key === 'leftWrist' || key === 'rightWrist';
+    var isAnkle = key === 'leftAnkle' || key === 'rightAnkle';
+
+    // Wooden mannequin joint sizes — chunkier ball-joints at knees,
+    // elbows, wrists, ankles. Head is an oval, not a sphere.
+    var baseRadius;
+    if (isHead)       baseRadius = 12.5;
+    else if (isNeck)  baseRadius = 4.5;
+    else if (isKey)   baseRadius = 6.5;   // shoulders, hips, pelvis-center
+    else if (isWrist || isAnkle) baseRadius = 5.0;
+    else              baseRadius = 5.5;   // elbows, knees
+
+    var radius = baseRadius * (0.80 + 0.4 * Math.max(0, Math.min(1, (proj.z + 0.8) / 1.6)));
     var alpha = depthToAlpha(proj.z);
-    var color = isKey ? COLOR_GOLD : COLOR_CENTER;
-    var fillAlpha = state.ghostMode ? Math.min(1, alpha * (isKey ? 0.9 : 0.65)) : alpha;
+
     ctx.save();
+
+    if (isHead) {
+      // Head: egg-shaped wooden ball, slightly taller than wide
+      var rx = radius * 0.85, ry = radius * 1.05;
+      var grad = ctx.createRadialGradient(
+        proj.x - rx * 0.35, proj.y - ry * 0.35, rx * 0.10,
+        proj.x, proj.y, ry
+      );
+      grad.addColorStop(0.0, hexToRgba('#E8C69B', alpha));
+      grad.addColorStop(0.5, hexToRgba(COLOR_LEFT, alpha));
+      grad.addColorStop(1.0, hexToRgba(COLOR_RIGHT, alpha * 0.95));
+      ctx.beginPath();
+      ctx.ellipse(proj.x, proj.y, rx, ry, 0, 0, Math.PI * 2);
+      ctx.fillStyle = grad;
+      ctx.fill();
+      ctx.lineWidth = 1.2;
+      ctx.strokeStyle = hexToRgba(COLOR_JOINT_STROKE, alpha * 0.65);
+      ctx.stroke();
+      // Grain seam (subtle vertical hairline)
+      ctx.beginPath();
+      ctx.moveTo(proj.x, proj.y - ry * 0.7);
+      ctx.lineTo(proj.x, proj.y + ry * 0.7);
+      ctx.strokeStyle = hexToRgba(COLOR_JOINT_STROKE, alpha * 0.20);
+      ctx.lineWidth = 0.7;
+      ctx.stroke();
+    } else {
+      // All other joints: spherical ball with wood-tone radial gradient
+      var color = isKey ? COLOR_GOLD : COLOR_LEFT;
+      var edgeColor = isKey ? '#8A6A2E' : COLOR_JOINT_STROKE;
+      var grad2 = ctx.createRadialGradient(
+        proj.x - radius * 0.35, proj.y - radius * 0.35, radius * 0.10,
+        proj.x, proj.y, radius
+      );
+      grad2.addColorStop(0.0, hexToRgba('#F1D4A5', alpha));
+      grad2.addColorStop(0.55, hexToRgba(color, alpha));
+      grad2.addColorStop(1.0, hexToRgba(COLOR_RIGHT, alpha * 0.85));
+      ctx.beginPath();
+      ctx.arc(proj.x, proj.y, Math.max(radius, 2.5), 0, Math.PI * 2);
+      ctx.fillStyle = grad2;
+      ctx.fill();
+      ctx.lineWidth = 1.0;
+      ctx.strokeStyle = hexToRgba(edgeColor, alpha * 0.60);
+      ctx.stroke();
+
+      // Brass pin dot for key joints (shoulders, hips, pelvis)
+      if (isKey) {
+        ctx.beginPath();
+        ctx.arc(proj.x, proj.y, Math.max(radius * 0.28, 1.2), 0, Math.PI * 2);
+        ctx.fillStyle = hexToRgba('#5A3E1E', alpha * 0.85);
+        ctx.fill();
+      }
+    }
+    ctx.restore();
+  }
+
+  // ---- Articulated hand glyph (palm + 3 finger stubs) ----------
+  function drawHand(state, wristKey, elbowKey, side) {
+    var skel = state.displaySkeleton;
+    var w = skel[wristKey], e = skel[elbowKey];
+    if (!w || !e) return;
+    var pw = project(state, w), pe = project(state, e);
+    // Forearm direction, extended past wrist
+    var dx = pw.x - pe.x, dy = pw.y - pe.y;
+    var len = Math.sqrt(dx*dx + dy*dy) || 1;
+    var tx = dx / len, ty = dy / len;   // pointing away from elbow
+    var nx = -ty, ny = tx;              // perpendicular
+    var alpha = depthToAlpha(pw.z) * (state.ghostMode ? 0.75 : 1.0);
+
+    var palmLen  = 9 * (0.75 + 0.35 * Math.max(0, Math.min(1, (pw.z + 0.8) / 1.6)));
+    var palmWid  = 5;
+    var fingerLen = palmLen * 0.55;
+
+    var ctx = state.ctx;
+    ctx.save();
+
+    // Palm: rounded rect centered along forearm tangent
+    var palmCx = pw.x + tx * palmLen * 0.35;
+    var palmCy = pw.y + ty * palmLen * 0.35;
+    var palmFar1x = palmCx + tx * palmLen * 0.5, palmFar1y = palmCy + ty * palmLen * 0.5;
+    var palmNear1x = palmCx - tx * palmLen * 0.5, palmNear1y = palmCy - ty * palmLen * 0.5;
     ctx.beginPath();
-    ctx.arc(proj.x, proj.y, Math.max(radius, 2), 0, Math.PI*2);
-    ctx.fillStyle = hexToRgba(color, fillAlpha);
+    ctx.moveTo(palmNear1x + nx * palmWid, palmNear1y + ny * palmWid);
+    ctx.lineTo(palmFar1x + nx * palmWid, palmFar1y + ny * palmWid);
+    ctx.arc(palmFar1x, palmFar1y, palmWid, Math.atan2(ny, nx), Math.atan2(ny, nx) + Math.PI, false);
+    ctx.lineTo(palmNear1x - nx * palmWid, palmNear1y - ny * palmWid);
+    ctx.arc(palmNear1x, palmNear1y, palmWid, Math.atan2(ny, nx) + Math.PI, Math.atan2(ny, nx) + 2 * Math.PI, false);
+    ctx.closePath();
+
+    var grad = ctx.createLinearGradient(palmCx - nx*palmWid, palmCy - ny*palmWid,
+                                        palmCx + nx*palmWid, palmCy + ny*palmWid);
+    grad.addColorStop(0.0, hexToRgba(COLOR_RIGHT, alpha * 0.85));
+    grad.addColorStop(0.5, hexToRgba(COLOR_LEFT,  alpha * 0.98));
+    grad.addColorStop(1.0, hexToRgba(COLOR_RIGHT, alpha * 0.80));
+    ctx.fillStyle = grad;
     ctx.fill();
-    if (isKey) {
-      ctx.lineWidth = 1.5;
-      ctx.strokeStyle = hexToRgba('#0F3B3A', 0.45);
+    ctx.lineWidth = 0.8;
+    ctx.strokeStyle = hexToRgba(COLOR_JOINT_STROKE, alpha * 0.55);
+    ctx.stroke();
+
+    // Three finger stubs at the far end of the palm
+    var tipx = palmCx + tx * (palmLen * 0.5);
+    var tipy = palmCy + ty * (palmLen * 0.5);
+    for (var f = -1; f <= 1; f++) {
+      var fx = tipx + nx * (f * 2.5);
+      var fy = tipy + ny * (f * 2.5);
+      var endx = fx + tx * fingerLen;
+      var endy = fy + ty * fingerLen;
+      ctx.beginPath();
+      ctx.moveTo(fx, fy);
+      ctx.lineTo(endx, endy);
+      ctx.lineWidth = 2.2;
+      ctx.lineCap = 'round';
+      ctx.strokeStyle = hexToRgba(COLOR_LEFT, alpha * 0.85);
       ctx.stroke();
     }
-    if (isHead) {
-      // Slim stroke ring
-      ctx.lineWidth = 1.5;
-      ctx.strokeStyle = hexToRgba(COLOR_CENTER, fillAlpha * 0.6);
-      ctx.stroke();
-      // Tiny chin indicator — a small oval below head center
-      var chinR = radius * 0.35;
+    // Thumb — shorter stub angled outward from palm base
+    var thumbSign = side === 'L' ? -1 : 1;
+    var thBx = palmNear1x + nx * palmWid * thumbSign;
+    var thBy = palmNear1y + ny * palmWid * thumbSign;
+    var thEx = thBx + (tx + nx * thumbSign * 0.8) * (fingerLen * 0.55);
+    var thEy = thBy + (ty + ny * thumbSign * 0.8) * (fingerLen * 0.55);
+    ctx.beginPath();
+    ctx.moveTo(thBx, thBy);
+    ctx.lineTo(thEx, thEy);
+    ctx.lineWidth = 2.4;
+    ctx.strokeStyle = hexToRgba(COLOR_LEFT, alpha * 0.85);
+    ctx.stroke();
+
+    ctx.restore();
+  }
+
+  // ---- Articulated foot glyph (heel + toe stubs) -------------
+  function drawFoot(state, footKey, ankleKey, side) {
+    var skel = state.displaySkeleton;
+    var f = skel[footKey], a = skel[ankleKey];
+    if (!f || !a) return;
+    var pf = project(state, f), pa = project(state, a);
+    var dx = pf.x - pa.x, dy = pf.y - pa.y;
+    var len = Math.sqrt(dx*dx + dy*dy) || 1;
+    var tx = dx / len, ty = dy / len;
+    var nx = -ty, ny = tx;
+    var alpha = depthToAlpha(pf.z) * (state.ghostMode ? 0.75 : 1.0);
+
+    var footLen = 12 * (0.75 + 0.35 * Math.max(0, Math.min(1, (pf.z + 0.8) / 1.6)));
+    var footWid = 5.5;
+
+    var ctx = state.ctx;
+    ctx.save();
+
+    // Heel + toe capsule
+    var heelx = pa.x + tx * 3, heely = pa.y + ty * 3;
+    var toex  = heelx + tx * footLen, toey = heely + ty * footLen;
+    ctx.beginPath();
+    ctx.moveTo(heelx + nx * footWid, heely + ny * footWid);
+    ctx.lineTo(toex + nx * footWid * 0.7, toey + ny * footWid * 0.7);
+    ctx.arc(toex, toey, footWid * 0.7, Math.atan2(ny, nx), Math.atan2(ny, nx) + Math.PI, false);
+    ctx.lineTo(heelx - nx * footWid, heely - ny * footWid);
+    ctx.arc(heelx, heely, footWid, Math.atan2(ny, nx) + Math.PI, Math.atan2(ny, nx) + 2 * Math.PI, false);
+    ctx.closePath();
+    var grad = ctx.createLinearGradient(heelx - nx*footWid, heely - ny*footWid,
+                                        heelx + nx*footWid, heely + ny*footWid);
+    grad.addColorStop(0.0, hexToRgba(COLOR_RIGHT, alpha * 0.85));
+    grad.addColorStop(0.5, hexToRgba(COLOR_LEFT,  alpha * 0.98));
+    grad.addColorStop(1.0, hexToRgba(COLOR_RIGHT, alpha * 0.80));
+    ctx.fillStyle = grad;
+    ctx.fill();
+    ctx.lineWidth = 0.9;
+    ctx.strokeStyle = hexToRgba(COLOR_JOINT_STROKE, alpha * 0.55);
+    ctx.stroke();
+
+    // Three toe-stub markers at the tip
+    for (var t = -1; t <= 1; t++) {
+      var toeBx = toex + nx * (t * 1.8);
+      var toeBy = toey + ny * (t * 1.8);
       ctx.beginPath();
-      ctx.ellipse(proj.x, proj.y + radius * 0.85, chinR * 0.6, chinR * 0.4, 0, 0, Math.PI * 2);
-      ctx.fillStyle = hexToRgba(COLOR_CENTER, fillAlpha * 0.45);
+      ctx.arc(toeBx + tx * 1.2, toeBy + ty * 1.2, 1.4, 0, Math.PI * 2);
+      ctx.fillStyle = hexToRgba(COLOR_LEFT, alpha * 0.85);
       ctx.fill();
-      // Gold halo ring
-      ctx.beginPath();
-      ctx.arc(proj.x, proj.y, radius + 3.5, 0, Math.PI * 2);
-      ctx.strokeStyle = hexToRgba(COLOR_GOLD, 0.22);
-      ctx.lineWidth = 1;
-      ctx.setLineDash([3, 5]);
-      ctx.stroke();
-      ctx.setLineDash([]);
     }
     ctx.restore();
   }
@@ -707,46 +921,63 @@
   }
 
   function drawTorsoVolume(state) {
-    // Draw semi-transparent torso/ribcage ellipse for visual volume
+    // Draw a substantial wooden torso segment — shaped like the
+    // barrel-chest of an artist mannequin.
     var skel = state.displaySkeleton;
     if (!skel.leftShoulder || !skel.rightShoulder || !skel.spine) return;
     var pLS = project(state, skel.leftShoulder);
     var pRS = project(state, skel.rightShoulder);
     var pSp = project(state, skel.spine);
     var cx = (pLS.x + pRS.x) / 2;
-    var cy = (pLS.y + pRS.y) / 2 + (pSp.y - (pLS.y + pRS.y)/2) * 0.35;
-    var rx = Math.abs(pRS.x - pLS.x) * 0.42;
-    var ry = Math.abs(pSp.y - cy) * 0.75;
+    var cy = (pLS.y + pRS.y) / 2 + (pSp.y - (pLS.y + pRS.y)/2) * 0.5;
+    var rx = Math.abs(pRS.x - pLS.x) * 0.50;
+    var ry = Math.abs(pSp.y - cy) * 1.0;
     if (rx < 4 || ry < 4) return;
+    var alpha = depthToAlpha((pLS.z + pRS.z + pSp.z) / 3);
     var ctx = state.ctx;
     ctx.save();
+    // Wood radial gradient for volumetric feel
+    var grad = ctx.createRadialGradient(cx - rx * 0.3, cy - ry * 0.4, rx * 0.2,
+                                         cx, cy, Math.max(rx, ry));
+    grad.addColorStop(0.0, hexToRgba('#D8AB7C', alpha * 0.92));
+    grad.addColorStop(0.6, hexToRgba(COLOR_LEFT, alpha * 0.95));
+    grad.addColorStop(1.0, hexToRgba(COLOR_RIGHT, alpha * 0.90));
     ctx.beginPath();
     ctx.ellipse(cx, cy, Math.max(rx, 6), Math.max(ry, 8), 0, 0, Math.PI * 2);
-    ctx.fillStyle = 'rgba(15,59,58,0.07)';
+    ctx.fillStyle = grad;
     ctx.fill();
-    ctx.strokeStyle = 'rgba(15,59,58,0.12)';
-    ctx.lineWidth = 0.5;
+    ctx.strokeStyle = hexToRgba(COLOR_JOINT_STROKE, alpha * 0.55);
+    ctx.lineWidth = 1.0;
     ctx.stroke();
     ctx.restore();
   }
 
   function drawPelvisVolume(state) {
-    // Draw a subtle pelvis ellipse
+    // Wooden pelvis block — wider than tall.
     var skel = state.displaySkeleton;
     if (!skel.leftHip || !skel.rightHip || !skel.hips) return;
     var pLH = project(state, skel.leftHip);
     var pRH = project(state, skel.rightHip);
     var cx = (pLH.x + pRH.x) / 2;
-    var cy = (pLH.y + pRH.y) / 2;
-    var rx = Math.abs(pRH.x - pLH.x) * 0.55;
-    var ry = rx * 0.5;
+    var cy = (pLH.y + pRH.y) / 2 + 3;
+    var rx = Math.abs(pRH.x - pLH.x) * 0.75;
+    var ry = rx * 0.55;
     if (rx < 3) return;
+    var alpha = depthToAlpha((pLH.z + pRH.z) / 2);
     var ctx = state.ctx;
     ctx.save();
+    var grad = ctx.createRadialGradient(cx - rx * 0.3, cy - ry * 0.3, rx * 0.15,
+                                         cx, cy, rx);
+    grad.addColorStop(0.0, hexToRgba('#D8AB7C', alpha * 0.90));
+    grad.addColorStop(0.6, hexToRgba(COLOR_LEFT, alpha * 0.92));
+    grad.addColorStop(1.0, hexToRgba(COLOR_RIGHT, alpha * 0.88));
     ctx.beginPath();
     ctx.ellipse(cx, cy, Math.max(rx, 5), Math.max(ry, 3), 0, 0, Math.PI * 2);
-    ctx.fillStyle = 'rgba(15,59,58,0.06)';
+    ctx.fillStyle = grad;
     ctx.fill();
+    ctx.strokeStyle = hexToRgba(COLOR_JOINT_STROKE, alpha * 0.55);
+    ctx.lineWidth = 1.0;
+    ctx.stroke();
     ctx.restore();
   }
 
@@ -756,27 +987,56 @@
     ctx.clearRect(0, 0, state.width, state.height);
     drawAccessory(state);
     drawGroundShadow(state);
-    drawLineOfAction(state);
+
+    // Torso + pelvis wooden blocks drawn first (behind bones)
     drawTorsoVolume(state);
     drawPelvisVolume(state);
 
-    var bonesDepth = BONES.map(function(bone) {
-      var a = state.displaySkeleton[bone[0]], b = state.displaySkeleton[bone[1]];
+    // Bones + hands + feet + joints all sorted by depth so that
+    // near-camera elements paint on top of far-camera ones. This
+    // gives the wooden mannequin proper occlusion.
+    var elements = [];
+    for (var b = 0; b < BONES.length; b++) {
+      var bone = BONES[b];
+      var a = state.displaySkeleton[bone[0]], bb = state.displaySkeleton[bone[1]];
+      if (!a || !bb) continue;
       var za = applyCamera(a, state.yaw, state.pitch).z;
-      var zb = applyCamera(b, state.yaw, state.pitch).z;
-      return { bone: bone, depth: (za+zb)/2 };
-    });
-    bonesDepth.sort(function(m,n) { return m.depth - n.depth; });
-    for (var i = 0; i < bonesDepth.length; i++) {
-      drawBone(state, bonesDepth[i].bone[0], bonesDepth[i].bone[1], bonesDepth[i].bone[2]);
+      var zb = applyCamera(bb, state.yaw, state.pitch).z;
+      elements.push({ type: 'bone', bone: bone, depth: (za + zb) / 2 });
     }
-
-    var jointsDepth = Object.keys(state.displaySkeleton).map(function(k) {
-      return { key: k, depth: applyCamera(state.displaySkeleton[k], state.yaw, state.pitch).z };
-    });
-    jointsDepth.sort(function(m,n) { return m.depth - n.depth; });
-    for (var j = 0; j < jointsDepth.length; j++) {
-      drawJoint(state, jointsDepth[j].key);
+    // Hand + foot glyphs are treated as depth-sorted elements too
+    if (state.displaySkeleton.leftWrist) {
+      elements.push({ type: 'hand', side: 'L', keys: ['leftWrist','leftElbow'],
+        depth: applyCamera(state.displaySkeleton.leftWrist, state.yaw, state.pitch).z });
+    }
+    if (state.displaySkeleton.rightWrist) {
+      elements.push({ type: 'hand', side: 'R', keys: ['rightWrist','rightElbow'],
+        depth: applyCamera(state.displaySkeleton.rightWrist, state.yaw, state.pitch).z });
+    }
+    if (state.displaySkeleton.leftFoot) {
+      elements.push({ type: 'foot', side: 'L', keys: ['leftFoot','leftAnkle'],
+        depth: applyCamera(state.displaySkeleton.leftFoot, state.yaw, state.pitch).z });
+    }
+    if (state.displaySkeleton.rightFoot) {
+      elements.push({ type: 'foot', side: 'R', keys: ['rightFoot','rightAnkle'],
+        depth: applyCamera(state.displaySkeleton.rightFoot, state.yaw, state.pitch).z });
+    }
+    var jointKeys = Object.keys(state.displaySkeleton);
+    for (var j = 0; j < jointKeys.length; j++) {
+      // Skip 'leftFoot' and 'rightFoot' as joints — already drawn as glyphs
+      if (jointKeys[j] === 'leftFoot' || jointKeys[j] === 'rightFoot') continue;
+      elements.push({
+        type: 'joint', key: jointKeys[j],
+        depth: applyCamera(state.displaySkeleton[jointKeys[j]], state.yaw, state.pitch).z
+      });
+    }
+    elements.sort(function (m, n) { return m.depth - n.depth; });
+    for (var i = 0; i < elements.length; i++) {
+      var el = elements[i];
+      if      (el.type === 'bone')  drawBone(state, el.bone[0], el.bone[1], el.bone[2]);
+      else if (el.type === 'hand')  drawHand(state, el.keys[0], el.keys[1], el.side);
+      else if (el.type === 'foot')  drawFoot(state, el.keys[0], el.keys[1], el.side);
+      else if (el.type === 'joint') drawJoint(state, el.key);
     }
   }
 
