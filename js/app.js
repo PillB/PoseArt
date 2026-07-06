@@ -39,6 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.PoseArtStorage.installAutosave();
   }
   initStatusBarTime();
+  hydrateIcons();
   renderCategoryGrid();
   renderCategoryThumbs();
   renderRecentCaptures();
@@ -69,6 +70,25 @@ function checkOnboardingStatus() {
     showScreen('ob1');
   }
 }
+
+// ── ICON HYDRATION ─────────────────────────────────────────────
+// Replaces static [data-icon="name"] placeholders in HTML with SVGs
+// from the PoseArtIcons registry. Safe to call multiple times; skips
+// nodes that already contain an <svg>.
+function hydrateIcons(root) {
+  if (!window.PoseArtIcons) return;
+  var scope = root || document;
+  var nodes = scope.querySelectorAll('[data-icon]');
+  nodes.forEach(function (el) {
+    if (el.querySelector('svg')) return;
+    var name = el.getAttribute('data-icon');
+    var size = parseInt(el.getAttribute('data-icon-size') || '24', 10);
+    if (window.PoseArtIcons.has(name)) {
+      el.innerHTML = window.PoseArtIcons.render(name, { size: size });
+    }
+  });
+}
+window.hydrateIcons = hydrateIcons;
 
 // ── TIME ───────────────────────────────────────────────────────
 function initStatusBarTime() {
@@ -495,7 +515,7 @@ function startCountdown(seconds, callback) {
     count--;
     if (count <= 0) {
       clearInterval(interval);
-      numEl.textContent = '📸';
+      numEl.innerHTML = window.PoseArtIcons ? window.PoseArtIcons.render('camera', {size: 56}) : 'GO';
       setTimeout(() => {
         display.style.opacity = '0';
         callback?.();
@@ -713,7 +733,7 @@ function renderGallery() {
     const thumb = item.dataUrl && !item.isSim
       ? `<img class="gallery-thumb" src="${item.dataUrl}" alt="${item.poseName}" style="filter:${cssFilterFor(item.filter)}">`
       : `<div class="gallery-sim-thumb">${renderPoseFigureSVG(POSES_LIBRARY[item.poseId] || null, false)}</div>`;
-    const fav = item.favorite ? '<div class="gallery-fav-badge" aria-label="Favorited">♥</div>' : '';
+    const fav = item.favorite ? `<div class="gallery-fav-badge" aria-label="Favorited">${window.PoseArtIcons ? window.PoseArtIcons.render('heart', {size: 14}) : ''}</div>` : '';
     return `
       <div class="gallery-item" onclick="openGalleryItem('${item.id}')" role="listitem" tabindex="0"
            onkeydown="if(event.key==='Enter')openGalleryItem('${item.id}')" aria-label="${item.poseName}, ${item.score}% aligned">
@@ -939,7 +959,7 @@ window.toggleFavFromSheet = function(event) {
     btn.style.transform = 'scale(1.4)';
     setTimeout(() => { btn.style.transform = ''; }, 200);
   }
-  showToast(isNowFav ? '♥ Saved to favorites' : 'Removed from favorites');
+  showToast(isNowFav ? 'Saved to favorites' : 'Removed from favorites');
 };
 
 window.sharePoseFromSheet = function() {
@@ -982,7 +1002,7 @@ function renderCategoryGrid() {
          style="cursor:pointer" tabindex="0" aria-label="${cat.name} category, ${cat.count} poses"
          onkeydown="if(event.key==='Enter')openCategory('${cat.id}')">
       <div class="category-card-bg" style="background:${cat.color};display:flex;align-items:center;justify-content:center;">
-        <span style="font-size:52px;opacity:0.4;line-height:1;" aria-hidden="true">${cat.emoji}</span>
+        <span class="cat-icon" aria-hidden="true">${window.PoseArtIcons ? window.PoseArtIcons.render(cat.id, {size: 64}) : ''}</span>
       </div>
       <div class="category-card-scrim"></div>
       <div class="category-card-content">
@@ -1088,7 +1108,7 @@ const _searchPosesImmediate = function(query) {
 
   if (matches.length === 0) {
     resultsEl.innerHTML = `<div class="search-empty">
-      <div style="font-size:40px;margin-bottom:8px;">🔍</div>
+      <div class="empty-inline-icon" style="margin-bottom:8px;color:var(--color-gold-600);opacity:0.6;">${window.PoseArtIcons ? window.PoseArtIcons.render('search', {size: 40}) : ''}</div>
       <div style="font:var(--type-h3);color:var(--text-secondary);">No poses found</div>
       <div style="font:var(--type-body);color:var(--text-secondary);margin-top:4px;">Try: boudoir, standing, confident, elegant, beginner</div>
     </div>`;
@@ -1103,7 +1123,7 @@ const _searchPosesImmediate = function(query) {
   const qSafe = esc(q);
   const isVibe = !!vibeCategories;
   const headerText = isVibe
-    ? `✨ ${qSafe.charAt(0).toUpperCase()+qSafe.slice(1)} vibes — ${matches.length} poses`
+    ? `${window.PoseArtIcons ? window.PoseArtIcons.render('sparkle', {size: 14}) : ''} ${qSafe.charAt(0).toUpperCase()+qSafe.slice(1)} vibes — ${matches.length} poses`
     : `${matches.length} result${matches.length !== 1 ? 's' : ''} for "${qSafe}"`;
 
   resultsEl.innerHTML = `<div class="search-results-header">${headerText}</div><div class="pose-list">${matches.map(renderPoseListItem).join('')}</div>`;
@@ -1163,14 +1183,15 @@ window.showFavorites = function() {
 
   if (favIds.length === 0) {
     resultsEl.innerHTML = `<div class="search-empty">
-      <div style="font-size:40px;margin-bottom:12px;">♥</div>
+      <div class="empty-inline-icon" style="margin-bottom:12px;color:var(--color-gold-600);opacity:0.7;">${window.PoseArtIcons ? window.PoseArtIcons.render('heart', {size: 44}) : ''}</div>
       <div style="font:var(--type-h3);color:var(--text-secondary);">No favorites yet</div>
-      <div style="font:var(--type-body);color:var(--text-secondary);margin-top:4px;">Tap the ♥ on any pose to save it here.</div>
+      <div style="font:var(--type-body);color:var(--text-secondary);margin-top:4px;">Tap the heart on any pose to save it here.</div>
     </div>`;
     return;
   }
   const favPoses = favIds.map(id => POSES_LIBRARY[id]).filter(Boolean);
-  resultsEl.innerHTML = `<div class="search-results-header">♥ ${favPoses.length} favorite${favPoses.length !== 1 ? 's' : ''}</div><div class="pose-list">${favPoses.map(renderPoseListItem).join('')}</div>`;
+  const heartMini = window.PoseArtIcons ? window.PoseArtIcons.render('heart', {size: 14}) : '';
+  resultsEl.innerHTML = `<div class="search-results-header"><span class="header-icon">${heartMini}</span> ${favPoses.length} favorite${favPoses.length !== 1 ? 's' : ''}</div><div class="pose-list">${favPoses.map(renderPoseListItem).join('')}</div>`;
 };
 
 
@@ -1199,7 +1220,7 @@ function loadSessionStats() {
       const dateStr = date.toLocaleDateString([], { month: 'short', day: 'numeric' });
       return `
         <div class="session-history-item" onclick="openPoseDetail('${s.poseId}')" role="listitem">
-          <div class="session-thumb"><span style="font-size:24px;" aria-hidden="true">📸</span></div>
+          <div class="session-thumb">${window.PoseArtIcons ? window.PoseArtIcons.render('camera', {size: 24}) : ''}</div>
           <div class="session-info">
             <h3>${s.poseName}</h3>
             <p>${dateStr} · ${timeStr}</p>
@@ -2244,7 +2265,11 @@ function renderCategoryThumbs() {
   if (thumbEl) {
     const pose = POSES_LIBRARY['scurve-stand'] || Object.values(POSES_LIBRARY)[0];
     thumbEl.innerHTML = renderPoseFigureSVG(pose, false);
-    thumbEl.style.background = 'linear-gradient(160deg, #DDEFED, #F6F0E1)';
+    // v12 polish: warmer, subtler background that harmonises with teal card
+    thumbEl.style.background = 'linear-gradient(160deg, rgba(246,240,225,0.92), rgba(221,239,237,0.88))';
+    thumbEl.style.borderRadius = 'var(--radius-md)';
+    thumbEl.style.padding = '6px';
+    thumbEl.style.boxShadow = 'inset 0 0 0 1px rgba(201,162,76,0.25)';
   }
 }
 

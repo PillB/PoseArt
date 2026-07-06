@@ -1457,6 +1457,111 @@ img { max-width: 100%; }
 .flash-overlay.flashing {
   animation: camera-flash 0.4s ease-out forwards;
 }
+
+/* ═════════════════════════════════════════════════════════════════════════
+   ICON SYSTEM (v12) — Art Nouveau line-art SVGs
+   ═════════════════════════════════════════════════════════════════════════ */
+
+/* Category tile — line-art on gradient background */
+.category-card-bg .cat-icon {
+  color: #F6F0E1;
+  opacity: 0.72;
+  filter: drop-shadow(0 1px 6px rgba(0,0,0,0.4));
+  line-height: 0;
+  pointer-events: none;
+}
+.cat-icon svg { display: block; stroke-width: 1.5; }
+
+/* Onboarding persona buttons */
+.persona-btn .persona-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  color: var(--color-gold-600);
+  line-height: 0;
+  height: 34px;
+  margin-bottom: 4px;
+}
+.persona-icon svg { display: block; }
+
+/* Filter pill inline icon */
+.pill-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  color: currentColor;
+  line-height: 0;
+  margin-left: 4px;
+  vertical-align: -2px;
+}
+.pill-icon svg { display: block; }
+
+/* Tip callout hint icon */
+.tip-callout .hint-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  color: var(--color-gold-600);
+  flex-shrink: 0;
+  line-height: 0;
+}
+.hint-icon svg { display: block; }
+
+/* Empty states — large frame/heart/search icons */
+#gallery-empty .empty-icon {
+  color: var(--color-gold-600);
+  opacity: 0.5;
+  margin-bottom: var(--space-3);
+  line-height: 0;
+  display: inline-flex;
+  justify-content: center;
+  font-size: 0; /* clear old emoji sizing */
+}
+.empty-icon svg { display: block; }
+.empty-inline-icon { display: inline-flex; justify-content: center; line-height: 0; }
+.empty-inline-icon svg { display: block; margin: 0 auto; }
+
+/* Achievement badges */
+.achievement-icon {
+  color: var(--color-gold-600);
+  font-size: 0;
+}
+.achievement-icon svg { display: block; }
+.achievement-icon.locked {
+  color: rgba(160,145,120,0.85);
+  opacity: 0.55;
+  background: rgba(160,145,120,0.08);
+  border-color: rgba(160,145,120,0.28);
+}
+
+/* Onboarding hero icon (empty history state) */
+.onboarding-hero-icon {
+  display: inline-flex; justify-content: center;
+  line-height: 0;
+}
+.onboarding-hero-icon svg { display: block; margin: 0 auto; }
+
+/* Gallery favorite badge */
+.gallery-fav-badge {
+  color: #C96A8C;
+  line-height: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 4px;
+}
+.gallery-fav-badge svg { display: block; }
+
+/* Session thumb */
+.session-thumb {
+  color: var(--color-gold-600);
+  opacity: 0.85;
+}
+.session-thumb svg { display: block; margin: 0 auto; }
+
+/* Search results header icon inline */
+.search-results-header .header-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  color: var(--color-gold-600);
+  vertical-align: -2px;
+  margin-right: 4px;
+}
+.search-results-header .header-icon svg { display: block; }
+
+/* Countdown display uses camera icon after zero-count reveal */
+#countdown-num svg { display: block; margin: 0 auto; color: var(--color-gold-600); }
 </style>
 </head>
 <body>
@@ -1588,22 +1693,22 @@ img { max-width: 100%; }
 
     <div class="persona-grid">
       <button class="persona-btn" data-testid="persona-photographer" onclick="selectGoal(this, 'photographer')">
-        <span class="persona-icon" aria-hidden="true">📷</span>
+        <span class="persona-icon" data-icon="camera" data-icon-size="32" aria-hidden="true"></span>
         <span class="persona-name">Photographer</span>
         <span class="persona-desc">Directing subjects on set</span>
       </button>
       <button class="persona-btn" data-testid="persona-model" onclick="selectGoal(this, 'model')">
-        <span class="persona-icon" aria-hidden="true">🧍</span>
+        <span class="persona-icon" data-icon="standing" data-icon-size="32" aria-hidden="true"></span>
         <span class="persona-name">Model / Subject</span>
         <span class="persona-desc">Posing in front of the lens</span>
       </button>
       <button class="persona-btn" data-testid="persona-selfportrait" onclick="selectGoal(this, 'self-portrait')">
-        <span class="persona-icon" aria-hidden="true">🤳</span>
+        <span class="persona-icon" data-icon="selfie" data-icon-size="32" aria-hidden="true"></span>
         <span class="persona-name">Self-Portrait</span>
         <span class="persona-desc">Solo shoots, timer &amp; tripod</span>
       </button>
       <button class="persona-btn" data-testid="persona-exploring" onclick="selectGoal(this, 'exploring')">
-        <span class="persona-icon" aria-hidden="true">✨</span>
+        <span class="persona-icon" data-icon="sparkle" data-icon-size="32" aria-hidden="true"></span>
         <span class="persona-name">Just Exploring</span>
         <span class="persona-desc">Curious to see what's here</span>
       </button>
@@ -1686,7 +1791,7 @@ img { max-width: 100%; }
       <button class="filter-pill" data-testid="filter-beginner" aria-pressed="false" onclick="document.querySelectorAll('.filter-pill').forEach(p=>{p.classList.remove('active');p.setAttribute('aria-pressed','false')});this.classList.add('active');this.setAttribute('aria-pressed','true');searchPoses('beginner')">Beginner</button>
       <button class="filter-pill" data-testid="filter-intermediate" aria-pressed="false" onclick="document.querySelectorAll('.filter-pill').forEach(p=>{p.classList.remove('active');p.setAttribute('aria-pressed','false')});this.classList.add('active');this.setAttribute('aria-pressed','true');searchPoses('intermediate')">Intermediate</button>
       <button class="filter-pill" data-testid="filter-advanced" aria-pressed="false" onclick="document.querySelectorAll('.filter-pill').forEach(p=>{p.classList.remove('active');p.setAttribute('aria-pressed','false')});this.classList.add('active');this.setAttribute('aria-pressed','true');searchPoses('advanced')">Advanced</button>
-      <button class="filter-pill" data-testid="filter-favorites" aria-pressed="false" onclick="document.querySelectorAll('.filter-pill').forEach(p=>{p.classList.remove('active');p.setAttribute('aria-pressed','false')});this.classList.add('active');this.setAttribute('aria-pressed','true');showFavorites()">Favorites ♥</button>
+      <button class="filter-pill" data-testid="filter-favorites" aria-pressed="false" onclick="document.querySelectorAll('.filter-pill').forEach(p=>{p.classList.remove('active');p.setAttribute('aria-pressed','false')});this.classList.add('active');this.setAttribute('aria-pressed','true');showFavorites()">Favorites <span class="pill-icon" data-icon="heart" data-icon-size="14" aria-hidden="true"></span></button>
     </div>
 
     <div class="screen-scroll">
@@ -1744,7 +1849,7 @@ img { max-width: 100%; }
       <p id="detail-instructions">Instructions will appear here.</p>
 
       <div class="tip-callout" id="detail-tip-wrap">
-        <span aria-hidden="true">💡</span>
+        <span class="hint-icon" data-icon="idea" data-icon-size="18" aria-hidden="true"></span>
         <span id="detail-tip">Tip text appears here.</span>
       </div>
 
@@ -1884,7 +1989,7 @@ img { max-width: 100%; }
     <div class="screen-scroll">
       <div class="gallery-grid" id="gallery-grid" role="list"></div>
       <div id="gallery-empty">
-        <div class="empty-icon" aria-hidden="true">🖼️</div>
+        <div class="empty-icon" data-icon="frame" data-icon-size="64" aria-hidden="true"></div>
         <h3>No captures yet</h3>
         <p>Start a session and hold your pose — captures will land here automatically.</p>
         <button class="btn btn-teal" style="margin-top:10px;" onclick="showTab('home')">Find a Pose</button>
@@ -2016,16 +2121,16 @@ img { max-width: 100%; }
 
       <div class="section-label">Achievements</div>
       <div class="achievement-row">
-        <div class="achievement-badge"><div class="achievement-icon" aria-hidden="true">🌱</div><div class="achievement-label">First Pose</div></div>
-        <div class="achievement-badge"><div class="achievement-icon" aria-hidden="true">🎯</div><div class="achievement-label">Aligned 90%+</div></div>
-        <div class="achievement-badge"><div class="achievement-icon locked" aria-hidden="true">🔥</div><div class="achievement-label">7-Day Streak</div></div>
-        <div class="achievement-badge"><div class="achievement-icon locked" aria-hidden="true">🏆</div><div class="achievement-label">50 Sessions</div></div>
+        <div class="achievement-badge"><div class="achievement-icon" data-icon="bud" data-icon-size="28" aria-hidden="true"></div><div class="achievement-label">First Pose</div></div>
+        <div class="achievement-badge"><div class="achievement-icon" data-icon="target" data-icon-size="28" aria-hidden="true"></div><div class="achievement-label">Aligned 90%+</div></div>
+        <div class="achievement-badge"><div class="achievement-icon locked" data-icon="flame" data-icon-size="28" aria-hidden="true"></div><div class="achievement-label">7-Day Streak</div></div>
+        <div class="achievement-badge"><div class="achievement-icon locked" data-icon="laurel" data-icon-size="28" aria-hidden="true"></div><div class="achievement-label">50 Sessions</div></div>
       </div>
 
       <div class="section-label">Recent Sessions</div>
       <div id="session-history-list"></div>
       <div id="session-history-empty" style="display:none; text-align:center; padding:32px 24px;">
-        <div style="font-size:48px; margin-bottom:12px;" aria-hidden="true">🌱</div>
+        <div class="onboarding-hero-icon" data-icon="bud" data-icon-size="56" aria-hidden="true" style="margin-bottom:12px;color:var(--color-gold-600);"></div>
         <div style="font:var(--type-h3); color:var(--text-primary); margin-bottom:8px;">Your journey starts here</div>
         <div style="font:var(--type-body); color:var(--text-secondary); margin-bottom:24px;">Complete your first session to see your progress and session history.</div>
         <button class="btn btn-gold" onclick="showTab('library')" style="padding:12px 28px;">Browse Poses</button>
@@ -2111,6 +2216,7 @@ img { max-width: 100%; }
 </div>
 
 <!-- ══════════════════════ SCRIPTS ══════════════════════ -->
+<script src="js/icons.js"></script>
 <script src="js/poses-data.js"></script>
 <script src="js/persistence.js"></script>
 <script src="js/anatomy-limits.js"></script>
