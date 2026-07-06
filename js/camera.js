@@ -22,6 +22,9 @@ class CameraEngine {
     this.autocaptureThreshold = 85;
     this.autocaptureHoldMs = 1500;
     this.captureHeldMs = 0;
+    // v8 red-team fix: cooldown to prevent RAF loop from firing repeat captures
+    // while the review screen is up. Cleared on re-entry to the camera screen.
+    this.autocaptureCooldownUntil = 0;
     this.lastFrameTime = 0;
     this.animFrame = null;
     this.overlayMode = 'ghost'; // ghost | skeleton | avatar | off
@@ -94,6 +97,9 @@ class CameraEngine {
     if (this.stream) { this.stream.getTracks().forEach(t => t.stop()); this.stream = null; }
     if (this.videoEl) this.videoEl.srcObject = null;
     if (this.hintTimer) { clearTimeout(this.hintTimer); this.hintTimer = null; }
+    // v8 red-team fix: reset autocapture bookkeeping so the next session starts clean.
+    this.captureHeldMs = 0;
+    this.autocaptureCooldownUntil = 0;
   }
 
   async flipCamera() {
@@ -119,6 +125,16 @@ class CameraEngine {
   }
 
   _processFrame(ts) {
+    // v8 red-team fix (defense in depth): if we're no longer on the camera screen,
+    // stop the loop. RAF should have been cancelled by stopCamera, but this catches
+    // any leaked frames.
+    const cameraScreen = document.getElementById('screen-camera');
+    if (cameraScreen && !cameraScreen.classList.contains('active')) {
+      this.isRunning = false;
+      if (this.animFrame) { cancelAnimationFrame(this.animFrame); this.animFrame = null; }
+      return;
+    }
+
     this.simFrame++;
     const raw = this._simulateKPs(ts); // TODO: replace with real pose detection when ML model is integrated
     const smoothed = this._smoothKPs(raw);
@@ -136,7 +152,8 @@ class CameraEngine {
 
     // Autocapture logic
     const effectiveThreshold = this.autocaptureThreshold;
-    if (this.autocaptureEnabled && score >= effectiveThreshold) {
+    const inCooldown = ts < this.autocaptureCooldownUntil;
+    if (this.autocaptureEnabled && !inCooldown && score >= effectiveThreshold) {
       this.captureHeldMs += 33;
       if (this.captureHeldMs >= this.autocaptureHoldMs) {
         this.captureHeldMs = 0;
@@ -367,9 +384,12 @@ class CameraEngine {
       const normErr = Math.min(delta / 45, 1.0);
 
       if (rawDelta > 8) {
-        // Mirror hints for front camera
+        // v8 red-team fix: mirror BOTH the label key and hint for front camera so
+        // "Left elbow" chip doesn't tell the user to "Bend your right elbow more."
+        // Emit the mirrored key so CameraPoseGuide labels it correctly and the
+        // hint text matches (user's on-screen right = mirrored left).
         const hintJoint = (this.facingMode === 'user') ? this._mirrorJoint(joint) : joint;
-        errors[joint] = {
+        errors[hintJoint] = {
           measured: meas, target: targetAngle, delta: rawDelta,
           severity: rawDelta > 25 ? 'high' : rawDelta > 12 ? 'medium' : 'low',
           hint: this._jointToHint(hintJoint, meas, targetAngle)
@@ -533,6 +553,11 @@ class CameraEngine {
   // ── CAPTURE ──────────────────────────────────────────────────
   _triggerAutoCapture() {
     if (!this.isRunning) return;
+    // v8 red-team fix: install a cooldown so the RAF loop can't fire another
+    // auto-capture while the review screen is up. If the user retakes, we
+    // clear this cooldown in startCameraSession / retakePhoto.
+    this.autocaptureCooldownUntil = performance.now() + 8000;
+    this.captureHeldMs = 0;
     // Increment per-session counter so endSession knows a capture occurred (Z11/Z12).
     if (window.AppState) window.AppState.capturedCount++;
     this.captureImage(true);

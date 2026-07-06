@@ -90,6 +90,23 @@ function initStatusBarTime() {
 
 // ── SCREEN & TAB NAVIGATION ────────────────────────────────────
 window.showScreen = function(screenId, pushToStack) {
+  // v8 red-team fix: if we're leaving the camera screen for anything other
+  // than 'review' or 'camera', stop the render loop so we don't leak captures.
+  // For 'review' we keep the engine paused (autocapture cooldown handles it).
+  const wasCamera = AppState.currentScreen === 'camera';
+  const leavingCamera = wasCamera && screenId !== 'camera';
+  if (leavingCamera && typeof cameraEngine !== 'undefined' && cameraEngine) {
+    if (screenId === 'review') {
+      // Pause frame processing without tearing down the stream so 'retake' can resume
+      // quickly. isRunning=false stops the RAF loop; cooldown prevents late fires.
+      cameraEngine.isRunning = false;
+      if (cameraEngine.animFrame) { cancelAnimationFrame(cameraEngine.animFrame); cameraEngine.animFrame = null; }
+      cameraEngine.captureHeldMs = 0;
+    } else {
+      cameraEngine.stopCamera();
+    }
+  }
+
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
 
   const target = document.getElementById('screen-' + screenId);
@@ -235,7 +252,20 @@ window.completeOnboardingSkip = function() {
 // ── SESSION FLOW ───────────────────────────────────────────────
 window.goToSession = function(poseId) {
   if (typeof window.closePoseSheet === 'function') window.closePoseSheet();
-  if (poseId) AppState.selectedPoseId = poseId;
+  // v8 red-team fix: validate poseId exists in library. If a bogus id is passed
+  // (deep link, stale storage, dev-tools), keep the previously selected pose or
+  // fall back to the first pose in the library so the camera doesn't crash.
+  if (poseId && POSES_LIBRARY[poseId]) {
+    AppState.selectedPoseId = poseId;
+  } else if (poseId) {
+    showToast('That pose isn\u2019t available. Showing the first pose instead.');
+    const first = Object.keys(POSES_LIBRARY)[0];
+    if (first) AppState.selectedPoseId = first;
+  }
+  if (!AppState.selectedPoseId || !POSES_LIBRARY[AppState.selectedPoseId]) {
+    const first = Object.keys(POSES_LIBRARY)[0];
+    if (first) AppState.selectedPoseId = first;
+  }
   showScreen('session-setup', true);
   updateSessionSetupUI();
 }
@@ -523,6 +553,17 @@ window.retakePhoto = function() {
   // Show demo mode badge if in demo mode
   const demoBadge = document.getElementById('demo-mode-pill');
   if (demoBadge) demoBadge.style.display = AppState.isDemoMode ? 'block' : 'none';
+  // v8 red-team fix: re-enable the engine loop. showScreen('review') paused it;
+  // clear the autocapture cooldown, reset hold counters, and restart the RAF.
+  if (typeof cameraEngine !== 'undefined' && cameraEngine) {
+    cameraEngine.autocaptureCooldownUntil = 0;
+    cameraEngine.captureHeldMs = 0;
+    cameraEngine.autocaptureEnabled = true;
+    if (!cameraEngine.isRunning) {
+      cameraEngine.isRunning = true;
+      cameraEngine._startRenderLoop();
+    }
+  }
 }
 
 // Save the reviewed capture to the gallery (it's already added on capture;
@@ -534,6 +575,30 @@ window.saveToGallery = function() {
     // Persist any preset currently applied
     const activePreset = document.querySelector('.preset-chip.active');
     if (activePreset) last.filter = activePreset.getAttribute('data-preset') || 'none';
+  }
+  // v8 red-team fix: record a session when the user commits a capture. Previously
+  // saveToGallery jumped straight to the gallery tab, bypassing endSession, so
+  // the Progress screen showed 0 sessions even after multiple captures.
+  if (AppState.capturedCount > 0 && typeof saveSession === 'function') {
+    const pose = POSES_LIBRARY[AppState.selectedPoseId];
+    try {
+      saveSession({
+        id: Date.now(),
+        poseId: AppState.selectedPoseId,
+        poseName: pose?.name || 'Unknown',
+        score: (typeof cameraEngine !== 'undefined' && cameraEngine) ? (cameraEngine.lastAlignmentScore || 0) : 0,
+        timestamp: new Date().toISOString(),
+        capturedCount: AppState.capturedCount
+      });
+      if (typeof loadSessionStats === 'function') loadSessionStats();
+    } catch (e) { /* non-fatal */ }
+    AppState.capturedCount = 0;
+  }
+  // v8: fully stop the camera when leaving to the gallery so the RAF loop
+  // and stream release cleanly. showTab -> showScreen already does this,
+  // but be explicit for the review->gallery path.
+  if (typeof cameraEngine !== 'undefined' && cameraEngine) {
+    cameraEngine.stopCamera();
   }
   showToast('Saved to your Gallery ✓');
   // v5: only warn about data loss when persistence is actually unavailable.
@@ -936,7 +1001,8 @@ function renderCategoryGrid() {
 // Open a full scrollable list of poses in the category.
 window.openCategory = function(catId) {
   const cat = POSE_CATEGORIES.find(c => c.id === catId);
-  if (!cat) return;
+  // v8 red-team fix: soft-fail with a toast so devs/users learn why nothing happened.
+  if (!cat) { showToast('That category isn\u2019t available.'); return; }
 
   const poses = Object.values(POSES_LIBRARY).filter(p => p.category === catId);
 
@@ -1029,10 +1095,16 @@ const _searchPosesImmediate = function(query) {
     return;
   }
 
+  // v8 red-team fix: escape user query before injecting via innerHTML. Even though
+  // `matches` filtering requires the query to substring-match a pose field, the
+  // header still echoes `q` unconditionally when there are matches; escaping
+  // closes a latent XSS surface if a pose field ever contains HTML-ish text.
+  const esc = (s) => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const qSafe = esc(q);
   const isVibe = !!vibeCategories;
   const headerText = isVibe
-    ? `✨ ${q.charAt(0).toUpperCase()+q.slice(1)} vibes — ${matches.length} poses`
-    : `${matches.length} result${matches.length !== 1 ? 's' : ''} for "${q}"`;
+    ? `✨ ${qSafe.charAt(0).toUpperCase()+qSafe.slice(1)} vibes — ${matches.length} poses`
+    : `${matches.length} result${matches.length !== 1 ? 's' : ''} for "${qSafe}"`;
 
   resultsEl.innerHTML = `<div class="search-results-header">${headerText}</div><div class="pose-list">${matches.map(renderPoseListItem).join('')}</div>`;
 };
@@ -2140,11 +2212,12 @@ function personalizeHome() {
   const goalCategory = { photographer: 'editorial', model: 'fashion', 'self-portrait': 'standing' };
   const goalLabel = { photographer: 'Photographer', model: 'Model', 'self-portrait': 'Self-Portrait', exploring: 'Just Exploring' };
 
-  // Greeting
+  // v8 red-team fix: greeting always addresses the person, not their goal label.
+  // Previously produced awkward "Good day, Self-Portrait." for self-portrait users
+  // and "Good day, Just Exploring." for the default. Now consistently "Artist".
   const greetEl = document.getElementById('home-greeting');
   if (greetEl) {
-    const who = goalLabel[goal] || 'Artist';
-    greetEl.innerHTML = 'Good day, ' + who + '<span class="accent-dot">.</span>';
+    greetEl.innerHTML = 'Good day, Artist<span class="accent-dot">.</span>';
   }
   // Profile label
   const profEl = document.getElementById('profile-goal-label');

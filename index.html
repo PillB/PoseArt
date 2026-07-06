@@ -1002,8 +1002,9 @@ img { max-width: 100%; }
   position: absolute; bottom: 100px; left: 20px; right: 20px;
   color: #fff; z-index: 5;
 }
-#gallery-detail-title { font: var(--type-h1); color: #fff; }
-#gallery-detail-meta { font: var(--type-caption); color: var(--color-gold-300); margin-top: 4px; }
+#gallery-detail-title { font: var(--type-h1); color: #fff; text-shadow: 0 2px 8px rgba(0,0,0,0.65); }
+#gallery-detail-meta { font: var(--type-caption); color: var(--color-gold-300); margin-top: 4px; text-shadow: 0 1px 4px rgba(0,0,0,0.7); }
+.gallery-detail-info { padding: 12px 14px; background: linear-gradient(0deg, rgba(10,40,39,0.72) 0%, rgba(10,40,39,0.35) 65%, transparent 100%); border-radius: 12px; backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px); }
 .gallery-detail-actions {
   position: absolute; bottom: 0; left: 0; right: 0;
   display: flex; justify-content: space-around;
@@ -1919,7 +1920,7 @@ img { max-width: 100%; }
       </div>
 
       <div class="app-info-row">
-        PoseArt — Move like art.<br>Art Nouveau pose coaching · In-memory only, no data leaves your device.
+        PoseArt — Move like art.<br>Art Nouveau pose coaching · Saved locally on this device · Nothing sent to any server.
       </div>
     </div>
   </section>
