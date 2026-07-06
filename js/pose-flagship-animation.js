@@ -733,6 +733,41 @@
           }},
         { t: 1.00, ease: 'inout', joints: target }
       ])
+    },
+
+    // ─── FLEXIBILITY (flexibility-themed backbend — canonical spine arch) ─
+    // Note: no 'flexibility' category exists in the library; this arc represents
+    // the flexibility archetype via 'back-arch' (standing, Advanced, artistic).
+    // Chest opens first, arms sweep back through T-pose, then the spine
+    // articulates into a deep backbend, head releases last for that signature
+    // dancer/gymnast silhouette.
+    'back-arch': {
+      duration: 2200, hold: 1600, rest: 500,
+      arc: (target) => ([
+        { t: 0.00, ease: 'out', joints: {} },
+        { t: 0.30, ease: 'inout', joints: {                                        // chest lifts, feet slightly wider
+            spine: -6, hips: 6,
+            hipAbductL: 6, hipAbductR: 6,
+            leftShoulder: -35, rightShoulder: -35,
+            leftElbow: 20, rightElbow: 20
+          }},
+        { t: 0.60, ease: 'inout', joints: {                                        // arms open into wide T, spine begins to arch
+            spine: -16, hips: 8, neck: -2,
+            hipAbductL: 8, hipAbductR: 8,
+            leftShoulder: -55, rightShoulder: -55,
+            leftElbow: 45, rightElbow: 40,
+            leftHip: -3, rightHip: 3
+          }},
+        { t: 0.85, ease: 'out', joints: {                                          // deep spine arch, arms lift up-and-back, head releases
+            spine: -24, hips: 10, neck: 3,
+            hipAbductL: 10, hipAbductR: 10,
+            leftShoulder: -45, rightShoulder: -40,
+            leftElbow: 60, rightElbow: 45,
+            leftHip: -5, rightHip: 5,
+            leftKnee: 8, rightKnee: 8
+          }},
+        { t: 1.00, ease: 'inout', joints: target }                                 // final backbend target
+      ])
     }
   };
 
