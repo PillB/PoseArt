@@ -6186,7 +6186,7 @@ const POSES_LIBRARY = {
     tags: ["seated", "chair", "straddle", "backrest"],
     instructions: "Sit backward on the chair, straddling the seat and facing the chair back. Fold arms and rest them along the top rail of the chair back, chest lifted, chin resting toward the forearms or turned to camera.",
     tip: "Keep the chest lifted off the chair back so the pose doesn't collapse; use the arms on the rail as a frame, not a crutch.",
-    joints: { spine: 12, neck: -4.4, hips: 0, globalTilt: 0, globalRoll: 0, globalTwist: 55, leftShoulder: -60, rightShoulder: -72, leftElbow: 100, rightElbow: 95, shoulderFwdL: 35, shoulderFwdR: 25, leftHip: 95, rightHip: 95, leftKnee: 110, rightKnee: 98, leftAnkle: 0, rightAnkle: 0, hipAbductL: 25, hipAbductR: 25 }
+    joints: { spine: 8, neck: -6, hips: 0, globalTilt: 0, globalRoll: 0, globalTwist: 55, leftShoulder: -60, rightShoulder: -72, leftElbow: 100, rightElbow: 95, shoulderFwdL: 35, shoulderFwdR: 25, leftHip: 90, rightHip: 90, leftKnee: 95, rightKnee: 95, leftAnkle: -3, rightAnkle: -3, hipAbductL: 30, hipAbductR: 30 }
   },
   "p15-chair-s4-side-perch-legs-extended": {
     id: "p15-chair-s4-side-perch-legs-extended", name: "Chair Side Perch Extended Legs",
@@ -6194,7 +6194,7 @@ const POSES_LIBRARY = {
     tags: ["seated", "chair", "extended-legs", "side-lean"],
     instructions: "Perch on the edge of the chair seat sideways, extend both legs out to one side crossed at the ankles, lean the torso back slightly supported by one arm on the seat or chair frame, other hand resting on the thigh. Turn head to camera.",
     tip: "Point the toes and lengthen the extended legs fully to create an elegant diagonal line across the frame.",
-    joints: { spine: -20, neck: -10, hips: -15, globalTilt: -30, globalRoll: -10, globalTwist: 20, leftShoulder: -100, rightShoulder: -25, leftElbow: 35, rightElbow: 70, shoulderFwdL: -10, shoulderFwdR: 15, leftHip: 70, rightHip: 65, leftKnee: 90, rightKnee: 90, leftAnkle: 15, rightAnkle: 12, hipAbductL: -25, hipAbductR: -22 }
+    joints: { spine: 5, neck: -6, hips: 5, globalTilt: 0, globalRoll: 0, globalTwist: 20, leftShoulder: -50, rightShoulder: -30, leftElbow: 60, rightElbow: 40, shoulderFwdL: 10, shoulderFwdR: 5, leftHip: 60, rightHip: 30, leftKnee: 95, rightKnee: 25, leftAnkle: 0, rightAnkle: 0, hipAbductL: -15, hipAbductR: 25 }
   },
   "p15-chair-s5-side-saddle-look-back": {
     id: "p15-chair-s5-side-saddle-look-back", name: "Chair Side-Saddle Look Back",
@@ -6218,7 +6218,7 @@ const POSES_LIBRARY = {
     tags: ["seated", "chair", "recline", "arms-overhead"],
     instructions: "Sit back into the chair, let the spine relax into a slight recline against the chair back, raise both arms overhead or behind the head, chest lifted and open, legs extended loosely in front, gaze soft to camera.",
     tip: "Lifting the arms overhead automatically lifts and lengthens the torso — keep the ribs from flaring by engaging the core slightly.",
-    joints: { spine: -22, neck: -18, hips: -8, globalRoll: 0, globalTwist: 8, leftShoulder: -131, rightShoulder: -140, leftElbow: 30, rightElbow: 35, shoulderFwdL: 10, shoulderFwdR: 10, leftHip: 60, rightHip: 80, leftKnee: 90, rightKnee: 90, leftAnkle: 5, rightAnkle: 3, hipAbductL: 8, hipAbductR: 8 }
+    joints: { spine: -18, neck: -12, hips: -6, globalTilt: -20, globalRoll: 0, globalTwist: 5, leftShoulder: -131, rightShoulder: -140, leftElbow: 30, rightElbow: 35, shoulderFwdL: 10, shoulderFwdR: 10, leftHip: 85, rightHip: 90, leftKnee: 90, rightKnee: 90, leftAnkle: 5, rightAnkle: 3, hipAbductL: 8, hipAbductR: 8 }
   },
   "p15-chair-s8-profile-cross-legged": {
     id: "p15-chair-s8-profile-cross-legged", name: "Chair Profile Cross-Legged",
@@ -6266,7 +6266,7 @@ const POSES_LIBRARY = {
     tags: ["seated", "armchair", "recline", "extended-legs"],
     instructions: "Sit back into the armchair and slide the hips slightly forward, extend both legs diagonally out across the frame, hands resting on the armrest and the seat between the legs. Head turned toward camera, relaxed gaze.",
     tip: "Sliding the hips slightly forward off the back cushion elongates the legs' line across the frame — anchor the shoulders against the chair back for support.",
-    joints: { spine: -16, neck: -6, hips: 15, globalTilt: -25, globalRoll: -15, globalTwist: 18, leftShoulder: -70, rightShoulder: -30, leftElbow: 81, rightElbow: 60, shoulderFwdL: 20, shoulderFwdR: 15, leftHip: 80, rightHip: 80, leftKnee: 90, rightKnee: 90, leftAnkle: 10, rightAnkle: 8, hipAbductL: -20, hipAbductR: -18 }
+    joints: { spine: -14, neck: -6, hips: 5, globalTilt: -18, globalRoll: -10, globalTwist: 15, leftShoulder: -70, rightShoulder: -30, leftElbow: 81, rightElbow: 60, shoulderFwdL: 20, shoulderFwdR: 15, leftHip: 60, rightHip: 55, leftKnee: 30, rightKnee: 35, leftAnkle: 0, rightAnkle: 0, hipAbductL: -12, hipAbductR: -10 }
   },
   "p11-armchair-s4-one-leg-kicked-up-armrest": {
     id: "p11-armchair-s4-one-leg-kicked-up-armrest", name: "Armchair One Leg Kicked Over Armrest",
@@ -6274,7 +6274,7 @@ const POSES_LIBRARY = {
     tags: ["seated", "armchair", "leg-over-armrest", "playful"],
     instructions: "Sit in the chair and hook one leg up and over the armrest, extending it out to the side, the other leg stays grounded bent on the seat. One hand grips the same-side armrest, the other rests near the hip. Head turns to camera.",
     tip: "Flex the extended foot and point through the toes to keep the kicked-up leg looking intentional rather than accidental.",
-    joints: { spine: -8, neck: -8, hips: 10, globalTilt: -12, globalRoll: 15, globalTwist: 12, leftShoulder: -60, rightShoulder: -25, leftElbow: 79, rightElbow: 70, shoulderFwdL: 10, shoulderFwdR: 10, leftHip: 118, rightHip: 92, leftKnee: 90, rightKnee: 98, leftAnkle: 8, rightAnkle: -5, hipAbductL: 25, hipAbductR: -5 }
+    joints: { spine: -6, neck: -6, hips: 8, globalTilt: -5, globalRoll: 8, globalTwist: 10, leftShoulder: -55, rightShoulder: -25, leftElbow: 70, rightElbow: 60, shoulderFwdL: 10, shoulderFwdR: 10, leftHip: 110, rightHip: 90, leftKnee: 105, rightKnee: 95, leftAnkle: 8, rightAnkle: -5, hipAbductL: 30, hipAbductR: -5 }
   },
   "p11-armchair-s5-both-legs-over-armrest-smile": {
     id: "p11-armchair-s5-both-legs-over-armrest-smile", name: "Armchair Both Legs Draped Over Armrest",
@@ -6282,7 +6282,7 @@ const POSES_LIBRARY = {
     tags: ["seated", "armchair", "legs-over-armrest", "playful"],
     instructions: "Sit sideways in the chair with the back against one armrest, drape both legs together over the opposite armrest, hands resting on the seat and the near armrest, head turned to camera with a natural smile.",
     tip: "Let the shoulders sink into the back cushion so the pose feels playful and at ease, not braced.",
-    joints: { spine: -8, neck: -5.5, hips: 8, globalTilt: 20, globalRoll: 30, globalTwist: 25, leftShoulder: -50, rightShoulder: -40, leftElbow: 81, rightElbow: 75, shoulderFwdL: 20, shoulderFwdR: 10, leftHip: 70, rightHip: 68, leftKnee: 90, rightKnee: 90, leftAnkle: 8, rightAnkle: 8, hipAbductL: -18, hipAbductR: -18 }
+    joints: { spine: -5, neck: -4, hips: 5, globalTilt: 0, globalRoll: 5, globalTwist: 60, leftShoulder: -50, rightShoulder: -40, leftElbow: 81, rightElbow: 75, shoulderFwdL: 20, shoulderFwdR: 10, leftHip: 95, rightHip: 90, leftKnee: 60, rightKnee: 65, leftAnkle: 8, rightAnkle: 8, hipAbductL: 15, hipAbductR: 15 }
   },
   "p11-armchair-s6-kneeling-back-view-armrest-grip": {
     id: "p11-armchair-s6-kneeling-back-view-armrest-grip", name: "Armchair Kneeling Back View Armrest Grip",
@@ -6290,7 +6290,7 @@ const POSES_LIBRARY = {
     tags: ["seated", "armchair", "kneeling", "back-view"],
     instructions: "Kneel on the chair seat facing the back of the chair, one hand gripping the top of the backrest, the other resting on the hip. Arch the back slightly, turn the head to look back over the shoulder toward camera.",
     tip: "Keep weight balanced through both knees on the cushion — this is an advanced pose requiring core engagement to hold the back arch safely.",
-    joints: { spine: -18, neck: -20, hips: -10, globalTilt: -15, globalRoll: 10, globalTwist: 50, leftShoulder: -140, rightShoulder: -20, leftElbow: 45, rightElbow: 75, shoulderFwdL: 15, shoulderFwdR: 10, leftHip: 118, rightHip: 118, leftKnee: 140, rightKnee: 138, leftAnkle: -30, rightAnkle: -28, hipAbductL: 10, hipAbductR: 10 }
+    joints: { spine: 5, neck: -8, hips: -5, globalTilt: 0, globalRoll: 5, globalTwist: 50, leftShoulder: -140, rightShoulder: -20, leftElbow: 45, rightElbow: 75, shoulderFwdL: 15, shoulderFwdR: 10, leftHip: 95, rightHip: 95, leftKnee: 115, rightKnee: 115, leftAnkle: -20, rightAnkle: -18, hipAbductL: 5, hipAbductR: 5 }
   },
   "p11-armchair-s7-lean-back-arm-behind-head": {
     id: "p11-armchair-s7-lean-back-arm-behind-head", name: "Armchair Lean Back Arm Behind Head",
@@ -6306,7 +6306,7 @@ const POSES_LIBRARY = {
     tags: ["standing-at-chair", "armchair", "profile", "leaning"],
     instructions: "Stand behind the armchair in profile, lean the torso forward over the top of the chair back, both hands resting flat on top of the backrest, hips pushed back slightly, head turned to camera.",
     tip: "Push the hips back as the torso leans forward to create a long, elegant line from shoulders to heels.",
-    joints: { spine: -8, neck: -5.5, hips: 20, globalTilt: 25, globalRoll: 0, globalTwist: 35, leftShoulder: -70, rightShoulder: -82, leftElbow: 35, rightElbow: 15, shoulderFwdL: 35, shoulderFwdR: 25, leftHip: 80, rightHip: 80, leftKnee: 90, rightKnee: 90, leftAnkle: 0, rightAnkle: 0, hipAbductL: 5, hipAbductR: 5 }
+    joints: { spine: 25, neck: 5, hips: 12, globalTilt: 15, globalRoll: 0, globalTwist: 35, leftShoulder: -70, rightShoulder: -82, leftElbow: 35, rightElbow: 15, shoulderFwdL: 35, shoulderFwdR: 25, leftHip: 45, rightHip: 45, leftKnee: 15, rightKnee: 15, leftAnkle: 0, rightAnkle: 0, hipAbductL: 5, hipAbductR: 5 }
   },
   "p11-armchair-s9-standing-front-hands-armrests": {
     id: "p11-armchair-s9-standing-front-hands-armrests", name: "Armchair Standing Front Hands on Armrests",
@@ -6314,7 +6314,7 @@ const POSES_LIBRARY = {
     tags: ["standing-at-chair", "armchair", "front-view", "hands-on-armrests"],
     instructions: "Stand in front of the chair facing camera, lean forward slightly and place both hands on the armrests, weight shifted onto the balls of the feet, one knee softly bent, chest lifted, direct gaze.",
     tip: "Keep the weight forward through the balanced arms so the pose looks grounded and intentional, not off-balance.",
-    joints: { spine: -8, neck: -9, hips: 5, globalTilt: 12, globalRoll: 0, globalTwist: 0, leftShoulder: -55, rightShoulder: -67, leftElbow: 95, rightElbow: 95, shoulderFwdL: 20, shoulderFwdR: 20, leftHip: 80, rightHip: 80, leftKnee: 90, rightKnee: 90, leftAnkle: 0, rightAnkle: -5, hipAbductL: 5, hipAbductR: 5 }
+    joints: { spine: 22, neck: -4, hips: 8, globalTilt: 12, globalRoll: 0, globalTwist: 0, leftShoulder: -55, rightShoulder: -67, leftElbow: 95, rightElbow: 95, shoulderFwdL: 20, shoulderFwdR: 20, leftHip: 40, rightHip: 40, leftKnee: 12, rightKnee: 12, leftAnkle: 0, rightAnkle: -3, hipAbductL: 5, hipAbductR: 5 }
   },
   "p11-armchair-s10-floor-recline-head-on-armrest": {
     id: "p11-armchair-s10-floor-recline-head-on-armrest", name: "Floor Recline Head Resting on Armrest",
@@ -6322,7 +6322,7 @@ const POSES_LIBRARY = {
     tags: ["floor", "armchair", "recline", "head-back"],
     instructions: "Recline on the floor in front of the chair, use the armrest as a headrest, arch the back gently, one arm raised overhead resting near the hair, the other hand resting on the floor or hip. Extend both legs, one bent, one straight.",
     tip: "Let the head tip fully back into the armrest for a genuine, weightless look — avoid straining the neck to look at camera.",
-    joints: { spine: -18, neck: -28, hips: -12, globalTilt: -45, globalRoll: -5, globalTwist: 10, leftShoulder: -131, rightShoulder: -40, leftElbow: 35, rightElbow: 80, shoulderFwdL: 10, shoulderFwdR: 10, leftHip: 80, rightHip: 95, leftKnee: 90, rightKnee: 105, leftAnkle: 8, rightAnkle: -10, hipAbductL: 5, hipAbductR: 10 }
+    joints: { spine: -12, neck: -18, hips: -8, globalTilt: -70, globalRoll: -5, globalTwist: 10, leftShoulder: -110, rightShoulder: -40, leftElbow: 35, rightElbow: 80, shoulderFwdL: 10, shoulderFwdR: 10, leftHip: 45, rightHip: 50, leftKnee: 20, rightKnee: 30, leftAnkle: 8, rightAnkle: -10, hipAbductL: 5, hipAbductR: 10 }
   },
   "p16-bed-b1-prone-smile-ankles-crossed": {
     id: "p16-bed-b1-prone-smile-ankles-crossed", name: "Bed Prone Smile Crossed Ankles",
