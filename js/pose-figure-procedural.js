@@ -647,6 +647,130 @@
    * Options: { width, height, large, view: 'front'|'side'|'quarter'|'auto',
    *            animate: bool (default true), gender: 'feminine'|'masculine' }
    */
+  // ─── Couple partner placement config ──────────────────────────
+  // For each of the 30 couple pose ids, describe how the partner is placed.
+  //   dx: horizontal SVG offset (partner shifted relative to primary; +x = right)
+  //   dy: vertical SVG offset (rare — piggyback partner sits higher)
+  //   mirror: flip partner horizontally (creates facing / mirrored appearance)
+  //   partnerJoints: optional override — reduce/rotate the partner rig relative to primary
+  //   scale: optional (0.9-1.1) for size variation
+  var COUPLE_PLACEMENT = {
+    // Facing pairs — partner mirrored, shifted opposite side, very close
+    'couple-embrace':           { dx: -22, dy: 0, mirror: true, tag: 'facing' },
+    'forehead-touch':           { dx: -20, dy: 0, mirror: true, tag: 'facing' },
+    'forehead-touch-hands-held':{ dx: -22, dy: 0, mirror: true, tag: 'facing' },
+    'nose-to-nose':             { dx: -18, dy: 0, mirror: true, tag: 'facing' },
+    'cheek-to-cheek':           { dx: -20, dy: 0, mirror: true, tag: 'facing' },
+    'whisper-ear':              { dx: -22, dy: 0, mirror: true, tag: 'facing' },
+    'romantic-reach':           { dx: -26, dy: 0, mirror: true, tag: 'facing' },
+    'waltz-hold':               { dx: -26, dy: 0, mirror: true, tag: 'facing' },
+    'slow-dance':               { dx: -22, dy: 0, mirror: true, tag: 'facing' },
+    'lead-dance-hand':          { dx: -28, dy: 0, mirror: true, tag: 'facing' },
+    // Back-to-back — partner mirrored + reversed, touching backs
+    'back-to-back':             { dx: -24, dy: 0, mirror: true, tag: 'back-to-back' },
+    'seated-together-back':     { dx: -24, dy: 0, mirror: true, tag: 'back-to-back' },
+    'facing-away-hold':         { dx: 22, dy: 0, mirror: false, tag: 'back-to-back' },
+    // Side-by-side — partner offset to one side, same orientation
+    'side-hug':                 { dx: 26, dy: 0, mirror: false, tag: 'side' },
+    'hand-in-hand-walk':        { dx: 30, dy: 0, mirror: false, tag: 'side' },
+    'hand-in-hand-walk-couple': { dx: 30, dy: 0, mirror: false, tag: 'side' },
+    'shoulder-to-shoulder':     { dx: 26, dy: 0, mirror: false, tag: 'side' },
+    'side-by-side-lean':        { dx: 26, dy: 0, mirror: false, tag: 'side' },
+    'together-arms-up':         { dx: 30, dy: 0, mirror: false, tag: 'side' },
+    'both-look-camera-hold-hands': { dx: 30, dy: 0, mirror: false, tag: 'side' },
+    'partners-lean':            { dx: 26, dy: 0, mirror: false, tag: 'side' },
+    // Behind — partner behind (drawn as ghost figure lower opacity)
+    'over-shoulder':            { dx: 12,  dy: 4,  mirror: false, tag: 'behind' },
+    'over-shoulder-look':       { dx: 12,  dy: 4,  mirror: false, tag: 'behind' },
+    'over-shoulder-look-couple':{ dx: 12,  dy: 4,  mirror: false, tag: 'behind' },
+    'one-holds-other-waist':    { dx: 22,  dy: 0,  mirror: true,  tag: 'facing' },
+    'cradled-from-behind':      { dx: 8,   dy: -4, mirror: false, tag: 'behind' },
+    // Piggyback — partner elevated slightly + behind (small offset so they overlap the primary's back)
+    'piggyback':                { dx: -4,  dy: -22, mirror: false, tag: 'piggyback' },
+    'piggyback-couple':         { dx: -4,  dy: -22, mirror: false, tag: 'piggyback' },
+    // Asymmetric — one stands, one sits
+    'one-leans-other-stands':   { dx: 26, dy: 0, mirror: false, tag: 'lean' },
+    'sitting-one-standing-one': { dx: 26, dy: 12, mirror: false, tag: 'sit-stand', partnerSit: true },
+    'seated-one-stands-behind': { dx: 0,  dy: -8, mirror: false, tag: 'behind', partnerSit: false, primarySit: true }
+  };
+
+  // Build a partner skeleton by cloning primary skeleton, optionally mirroring,
+  // and applying tag-specific joint tweaks (e.g. mirror flip for facing).
+  function buildPartnerSkel(primarySkel, placement, pose) {
+    var s = {};
+    for (var k in primarySkel) {
+      if (!Object.prototype.hasOwnProperty.call(primarySkel, k)) continue;
+      var p = primarySkel[k];
+      s[k] = { x: p.x, y: p.y, z: p.z };
+    }
+    if (placement.mirror) {
+      // Swap left/right joint labels — then flip x-signs so figure faces the other way.
+      var swaps = [
+        ['leftShoulder',  'rightShoulder'],
+        ['leftElbow',     'rightElbow'],
+        ['leftWrist',     'rightWrist'],
+        ['leftHip',       'rightHip'],
+        ['leftKnee',      'rightKnee'],
+        ['leftAnkle',     'rightAnkle']
+      ];
+      for (var i = 0; i < swaps.length; i++) {
+        var tmp = s[swaps[i][0]];
+        s[swaps[i][0]] = s[swaps[i][1]];
+        s[swaps[i][1]] = tmp;
+      }
+      // Mirror X — flip about hips.x
+      var hx = s.hips ? s.hips.x : 0;
+      for (var k2 in s) {
+        if (!Object.prototype.hasOwnProperty.call(s, k2)) continue;
+        s[k2].x = hx - (s[k2].x - hx);
+      }
+    }
+    // Piggyback: partner rides on primary's back. Just leave the pose as-is
+    // and rely on the dy offset in COUPLE_PLACEMENT to elevate the figure.
+    // (Complex joint retargeting produced runaway projections; the offset alone reads well.)
+    if (placement.partnerSit) {
+      // Partner is seated — collapse knees and drop hips a bit
+      if (s.hips)       { s.hips.y -= 8; }
+      if (s.leftKnee)   { s.leftKnee.y -= 4; s.leftKnee.z += 8; }
+      if (s.rightKnee)  { s.rightKnee.y -= 4; s.rightKnee.z += 8; }
+      if (s.leftAnkle)  { s.leftAnkle.y -= 12; s.leftAnkle.z += 4; }
+      if (s.rightAnkle) { s.rightAnkle.y -= 12; s.rightAnkle.z += 4; }
+    }
+    return s;
+  }
+
+  // Extracted: build all SVG parts for a single figure given skel + gender + styles.
+  // Returns array of SVG strings (does NOT include the prop or outer <g>).
+  function buildFigureParts(skel, opts, footSty, handSL, handSR, gaze) {
+    var bonesWithDepth = BONES.map(function (bone) {
+      var a = skel[bone[0]], b = skel[bone[1]];
+      var za = applyCamera(a, opts.yaw, opts.pitch).z;
+      var zb = applyCamera(b, opts.yaw, opts.pitch).z;
+      return { bone: bone, depth: (za + zb) / 2 };
+    }).sort(function (m, n) { return m.depth - n.depth; });
+    var parts = [];
+    parts.push(buildShadow(skel, opts));
+    parts.push(buildPelvis(skel, opts));
+    parts.push(buildTorsoVolume(skel, opts));
+    for (var i = 0; i < bonesWithDepth.length; i++) {
+      var bd = bonesWithDepth[i];
+      if (bd.bone[0] === 'neck' && bd.bone[1] === 'spine') continue;
+      if (bd.bone[0] === 'spine' && bd.bone[1] === 'hips') continue;
+      var a = skel[bd.bone[0]], b = skel[bd.bone[1]];
+      parts.push(buildBoneSvg(a, b, bd.bone[2], bd.bone[3], opts));
+    }
+    parts.push(buildFoot(skel, 'L', opts, footSty));
+    parts.push(buildFoot(skel, 'R', opts, footSty));
+    parts.push(buildHand(skel, 'L', opts, handSL));
+    parts.push(buildHand(skel, 'R', opts, handSR));
+    parts.push(buildJointDot(skel, 'leftShoulder', opts));
+    parts.push(buildJointDot(skel, 'rightShoulder', opts));
+    parts.push(buildJointDot(skel, 'leftHip', opts));
+    parts.push(buildJointDot(skel, 'rightHip', opts));
+    parts.push(buildHead(skel, opts, gaze));
+    return parts;
+  }
+
   function renderPoseSVG(pose, options) {
     if (!global.PoseSkeleton3D || !global.PoseSkeleton3D._internals) {
       return '<svg width="80" height="120"><text x="40" y="60" text-anchor="middle" font-size="10" fill="#999">no rig</text></svg>';
@@ -673,46 +797,35 @@
 
     var joints = (pose && pose.joints) || {};
     var skel = global.PoseSkeleton3D._internals.buildPose(joints);
-
-    // ─── Apply principles-based invariants to the skeleton ──
     applyAestheticInvariants(skel, pose, gender);
 
     var opts = { yaw: yaw, pitch: pitch, viewW: 200, viewH: 280 };
 
-    // Depth-sort bones so back-of-body draws first
-    var bonesWithDepth = BONES.map(function (bone) {
-      var a = skel[bone[0]], b = skel[bone[1]];
-      var za = applyCamera(a, opts.yaw, opts.pitch).z;
-      var zb = applyCamera(b, opts.yaw, opts.pitch).z;
-      return { bone: bone, depth: (za + zb) / 2 };
-    }).sort(function (m, n) { return m.depth - n.depth; });
-
     var parts = [];
     // Props draw first so figure sits ON TOP of them.
     parts.push(buildProp(pose, skel, opts));
-    parts.push(buildShadow(skel, opts));
-    parts.push(buildPelvis(skel, opts));
-    parts.push(buildTorsoVolume(skel, opts));
 
-    for (var i = 0; i < bonesWithDepth.length; i++) {
-      var bd = bonesWithDepth[i];
-      if (bd.bone[0] === 'neck' && bd.bone[1] === 'spine') continue;
-      if (bd.bone[0] === 'spine' && bd.bone[1] === 'hips') continue;
-      var a = skel[bd.bone[0]], b = skel[bd.bone[1]];
-      parts.push(buildBoneSvg(a, b, bd.bone[2], bd.bone[3], opts));
+    // Couple mode: render partner behind primary at reduced opacity.
+    var isCouple = pose && pose.category === 'couple' && COUPLE_PLACEMENT[pose.id];
+    if (isCouple) {
+      var placement = COUPLE_PLACEMENT[pose.id];
+      // If primary should sit, apply sit-collapse to primary skel
+      if (placement.primarySit) {
+        if (skel.hips)       skel.hips.y -= 8;
+        if (skel.leftKnee)   { skel.leftKnee.y -= 4; skel.leftKnee.z += 8; }
+        if (skel.rightKnee)  { skel.rightKnee.y -= 4; skel.rightKnee.z += 8; }
+        if (skel.leftAnkle)  { skel.leftAnkle.y -= 12; skel.leftAnkle.z += 4; }
+        if (skel.rightAnkle) { skel.rightAnkle.y -= 12; skel.rightAnkle.z += 4; }
+      }
+      var partnerSkel = buildPartnerSkel(skel, placement, pose);
+      // Wrap partner SVG in a <g transform> for offset + slight transparency.
+      var partnerParts = buildFigureParts(partnerSkel, opts, footSty, handSR, handSL, gaze);
+      var pOpacity = placement.tag === 'behind' ? 0.7 : 0.85;
+      parts.push('<g transform="translate(' + placement.dx + ',' + placement.dy + ')" opacity="' + pOpacity + '">' + partnerParts.join('') + '</g>');
     }
 
-    // Hands & feet with the inferred styles
-    parts.push(buildFoot(skel, 'L', opts, footSty));
-    parts.push(buildFoot(skel, 'R', opts, footSty));
-    parts.push(buildHand(skel, 'L', opts, handSL));
-    parts.push(buildHand(skel, 'R', opts, handSR));
-
-    parts.push(buildJointDot(skel, 'leftShoulder', opts));
-    parts.push(buildJointDot(skel, 'rightShoulder', opts));
-    parts.push(buildJointDot(skel, 'leftHip', opts));
-    parts.push(buildJointDot(skel, 'rightHip', opts));
-    parts.push(buildHead(skel, opts, gaze));
+    // Primary figure parts.
+    parts = parts.concat(buildFigureParts(skel, opts, footSty, handSL, handSR, gaze));
 
     var animateTag = '';
     if (animate) {
