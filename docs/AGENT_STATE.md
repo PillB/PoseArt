@@ -113,3 +113,80 @@ Each fix must pass 3 conditions before marking complete:
 1. node --check passes on modified JS files
 2. Playwright test confirms behavior in live app
 3. No regression in adjacent features (screenshot before/after)
+
+## v2 Session Log (per-category visual review + category-aware fixes)
+
+### Trigger
+User challenged the "reviewed all categories" claim from v1 (which was a batch
+principles sweep, not a per-category visual review) and asked for actual
+category-by-category verification with category-specific fixes.
+
+### Method
+1. Rendered every one of the 16 categories to a single grid PNG containing all
+   poses, joints, IDs, names, and instructions
+   (`qa_screenshots/review/<cat>.png`).
+2. Visually walked every grid and flagged category-specific problems.
+3. Wrote `scripts/apply_principles_v2.js` — category-aware fixer with 9 rules
+   (F1–F9) targeting the *specific* problems found per category.
+4. Applied the fixer (228 pose objects touched across 7 categories).
+5. Re-rendered all 16 categories to `qa_screenshots/review_v2/` and reviewed
+   each again to verify improvements.
+
+### Category findings (before v2)
+- **Standing (47)**: mostly OK; extreme lean variants at the tail wrap wrongly.
+- **Leaning (49)**: no wall prop → figures read as standing. Poses themselves OK.
+- **Lean-seat (30)**: needs slight forward torso tilt for readability.
+- **Seated (86)**: many armchair / recline sub-poses appear horizontal because
+  they inherited `globalTilt` from a legacy bulk edit and had knees fully
+  extended.
+- **Kneeling (32)**: figures read as standing with bent knees; shins not flat.
+- **Reclining (56)**: some floating mid-air, but poses are horizontal (correct).
+- **Boudoir (161)**: **CRITICAL**: all 161 poses carried `globalTilt: 50` from
+  legacy corruption; ~93 upright standing / kneeling / sitting poses were
+  wrongly tilted onto the floor.
+- **Couple (30)**: renders as single figure (renderer limitation).
+- **Accessible (30)**: no wheelchair prop; figures also often had legs extended
+  making them read as standing.
+- **Editorial / Fine-art / Fashion (90)**: mostly OK.
+- **Low-to-high / High-to-low (60)**: a few fully-horizontal poses at mid-motion
+  read as broken; needed clamped tilt.
+- **Dynamic / Eccentric (74)**: mostly OK with intentional weirdness.
+
+### Fixes applied (v2)
+Rules in `scripts/apply_principles_v2.js`:
+- **F1** BOUDOIR: strip erroneous `globalTilt` from upright poses (kneel/sit
+  keywords) — 106 fires
+- **F2** BOUDOIR: clamp remaining `globalTilt` to ±85
+- **F3** SEATED / LEAN-SEAT: guarantee knee ≥ 85° and hip flex — 99 fires
+- **F4** KNEELING: knees ≥ 90° + shins along floor — 27 fires
+- **F5** RECLINING: ensure `globalTilt` (default +75 supine / -75 prone)
+- **F6** LEAN-SEAT: add 10° forward spine tilt — 30 fires
+- **F7** ACCESSIBLE: guarantee seated (knees ≥ 85°, no `globalTilt`) — 6 fires
+- **F8** HIGH-TO-LOW / LOW-TO-HIGH: clamp `globalTilt` to ±40 — 3 fires
+- **F9** Universal: clamp all joints to ±170
+
+**Total:** 228 pose objects modified. Backup at
+`.backups/poses-data.js.bak-v2-<stamp>`.
+
+### After v2 — verification
+- Boudoir upright poses now stand upright, reclining poses still recline.
+- Kneeling figures now sit lower with knees flat.
+- Seated poses have proper knee angles.
+- Accessible figures read as seated (no wheelchair prop rendered but posture correct).
+- Reclining is horizontal as expected.
+- Standing / editorial / dynamic / eccentric unchanged (were already OK).
+
+### Known remaining issues (candidates for v3 / renderer work)
+1. **Couple** — renderer needs partner-overlay support to draw two figures.
+2. **Accessible** — needs a wheelchair prop under the figure.
+3. **Leaning** — needs a wall prop.
+4. **Reclining** — needs a floor/bed surface prop.
+5. **Seated (armchair sub-poses 41–60)** — several still read as sprawled;
+   likely need explicit armchair prop + torso re-orient.
+6. **Kneeling** — could still lower ankles to the ground plane in the renderer
+   when knees ≥ 90° (currently corrected via joint data, not renderer).
+7. **240 orphaned GIFs** in `/gifs/` — unrelated cleanup task.
+
+These are logged as tracking items; they require renderer changes (props,
+two-figure support) rather than another data-layer sweep.
+
