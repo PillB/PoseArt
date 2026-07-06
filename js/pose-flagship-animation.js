@@ -173,6 +173,566 @@
           }},
         { t: 1.00, ease: 'inout', joints: target }
       ])
+    },
+
+    // ─── STANDING (4 additional) ─────────────────────────────────────────
+
+    // Standing S-curve — weight shifts first onto right leg, then upper
+    // body counter-curves. Similar to contrapposto but stronger hip swing.
+    'scurve-stand': {
+      duration: 1800, hold: 1500, rest: 500,
+      arc: (target) => ([
+        { t: 0.00, ease: 'out', joints: {} },
+        { t: 0.45, ease: 'inout', joints: {                                        // hips swing to model's right
+            hips: 12, hipAbductR: 12,
+            rightHip: 12, rightKnee: 8,
+            leftKnee: 8
+          }},
+        { t: 0.80, ease: 'inout', joints: {                                        // arms begin to answer the curve
+            hips: 18, hipAbductR: 16,
+            spine: -6, leftShoulder: -14, rightShoulder: 8,
+            leftElbow: 45, rightElbow: 35
+          }},
+        { t: 1.00, ease: 'inout', joints: target }
+      ])
+    },
+
+    // Hip shift — pronounced weight transfer + one arm bent tight to waist.
+    'hip-shift': {
+      duration: 1700, hold: 1400, rest: 500,
+      arc: (target) => ([
+        { t: 0.00, ease: 'out', joints: {} },
+        { t: 0.50, ease: 'inout', joints: {                                        // hip pushes out, opposite leg softens
+            hips: 14, hipAbductR: 14,
+            leftHip: 12, rightHip: -8,
+            leftKnee: 8, rightKnee: 8
+          }},
+        { t: 0.85, ease: 'out', joints: {                                          // upper body shapes up
+            hips: 18, hipAbductR: 18, hipAbductL: 8,
+            spine: -10, leftShoulder: -10, leftElbow: 60,
+            rightShoulder: 4, rightElbow: 18
+          }},
+        { t: 1.00, ease: 'inout', joints: target }
+      ])
+    },
+
+    // Model walk — one leg steps forward, hips and shoulders counter-rotate.
+    'model-walk': {
+      duration: 1900, hold: 1400, rest: 500,
+      arc: (target) => ([
+        { t: 0.00, ease: 'out', joints: {} },
+        { t: 0.30, ease: 'inout', joints: {                                        // weight loads onto back leg
+            hips: 6, rightHip: -6, rightKnee: 4,
+            leftHip: 4
+          }},
+        { t: 0.70, ease: 'inout', joints: {                                        // front leg swings through
+            hips: 10, leftHip: 12, leftKnee: 10,
+            rightHip: -12, rightKnee: 4,
+            leftShoulder: 8, rightShoulder: -8,
+            leftElbow: 55, rightElbow: 40
+          }},
+        { t: 1.00, ease: 'out', joints: target }
+      ])
+    },
+
+    // Crossed arms — arms fold in toward chest through a bent-elbow arc.
+    'crossed-arms-stand': {
+      duration: 1700, hold: 1400, rest: 500,
+      arc: (target) => ([
+        { t: 0.00, ease: 'out', joints: {} },
+        { t: 0.35, ease: 'inout', joints: {                                        // arms drop then elbows bend out
+            leftShoulder: -25, rightShoulder: -25,
+            leftElbow: 50, rightElbow: 50,
+            hips: 6
+          }},
+        { t: 0.75, ease: 'inout', joints: {                                        // forearms sweep across body
+            leftShoulder: -40, rightShoulder: -32,
+            leftElbow: 95, rightElbow: 95,
+            shoulderFwdL: 18, shoulderFwdR: 15,
+            hips: 10
+          }},
+        { t: 1.00, ease: 'inout', joints: target }
+      ])
+    },
+
+    // ─── BOUDOIR (×2) ────────────────────────────────────────────────────
+
+    // Boudoir standing S-curve: exaggerated feminine hip cock + shoulder
+    // drop + soft arms. Weight shifts first, then upper-body arcs in.
+    'boudoir-s-curve-stand': {
+      duration: 1900, hold: 1500, rest: 500,
+      arc: (target) => ([
+        { t: 0.00, ease: 'out', joints: {} },
+        { t: 0.40, ease: 'inout', joints: {                                        // hip cocks out to the right
+            hips: 10, hipAbductR: 14,
+            rightHip: 12, rightKnee: 12,
+            leftHip: 18, leftKnee: 18
+          }},
+        { t: 0.75, ease: 'inout', joints: {                                        // spine arches, shoulders soften
+            hips: 14, hipAbductR: 18, hipAbductL: 5,
+            leftHip: 26, leftKnee: 26, rightHip: 18, rightKnee: 22,
+            spine: 10, neck: 6,
+            leftShoulder: -14, rightShoulder: 4,
+            leftElbow: 55, rightElbow: 40
+          }},
+        { t: 1.00, ease: 'inout', joints: target }
+      ])
+    },
+
+    // Boudoir elegant recline: figure tips onto its side, one knee draws
+    // up, then arms settle. globalTilt introduced early so silhouette
+    // reads horizontal before the joint articulation lands.
+    'boudoir-elegant-recline': {
+      duration: 2000, hold: 1500, rest: 500,
+      arc: (target) => ([
+        { t: 0.00, ease: 'out', joints: {} },
+        { t: 0.30, ease: 'inout', joints: {                                        // body tips down
+            globalTilt: 40, globalRoll: -4,
+            leftHip: 8, rightHip: 8,
+            leftKnee: 5, rightKnee: 20
+          }},
+        { t: 0.65, ease: 'inout', joints: {                                        // fully on side, top knee draws up
+            globalTilt: 70, globalRoll: -8,
+            spine: 6, neck: 8,
+            leftHip: 14, leftKnee: 8,
+            rightHip: 10, rightKnee: 45,
+            leftElbow: 22, rightShoulder: -22, rightElbow: 14
+          }},
+        { t: 1.00, ease: 'inout', joints: target }
+      ])
+    },
+
+    // ─── COUPLE ──────────────────────────────────────────────────────────
+
+    // Close embrace — shoulders round forward, arms wrap in, hips soften.
+    'couple-embrace': {
+      duration: 2000, hold: 1500, rest: 500,
+      arc: (target) => ([
+        { t: 0.00, ease: 'out', joints: {} },
+        { t: 0.35, ease: 'inout', joints: {                                        // arms lift out to receive
+            leftShoulder: -35, rightShoulder: -35,
+            leftElbow: 22, rightElbow: 22,
+            hips: 6
+          }},
+        { t: 0.75, ease: 'inout', joints: {                                        // shoulders roll in, arms wrap
+            leftShoulder: -22, rightShoulder: 8,
+            leftElbow: 28, rightElbow: 28,
+            shoulderFwdL: 22, shoulderFwdR: 22,
+            spine: -6, hips: 10, globalRoll: -4,
+            leftKnee: 15, rightKnee: 8
+          }},
+        { t: 1.00, ease: 'inout', joints: target }
+      ])
+    },
+
+    // ─── DYNAMIC (×2) ────────────────────────────────────────────────────
+
+    // Mid-jump — compress, then explode upward through a stretched arc.
+    'mid-jump': {
+      duration: 1800, hold: 1200, rest: 500,
+      arc: (target) => ([
+        { t: 0.00, ease: 'out', joints: {} },
+        { t: 0.30, ease: 'inout', joints: {                                        // deep crouch load
+            leftHip: 40, rightHip: 40,
+            leftKnee: 65, rightKnee: 65,
+            hipAbductL: 8, hipAbductR: 8,
+            leftShoulder: -30, rightShoulder: -30,
+            leftElbow: 40, rightElbow: 40,
+            spine: 5
+          }},
+        { t: 0.65, ease: 'out', joints: {                                          // extension — arms swing overhead, legs punch down
+            leftHip: -5, rightHip: -5,
+            leftKnee: 15, rightKnee: 15,
+            leftShoulder: -110, rightShoulder: -105,
+            leftElbow: 30, rightElbow: 25,
+            spine: -8, hips: 12
+          }},
+        { t: 1.00, ease: 'back', joints: target }                                  // airborne apex — arrive with punch
+      ])
+    },
+
+    // Dynamic reach — one arm launches out laterally while opposite arm
+    // counter-balances; slight lunge underneath.
+    'dynamic-reach': {
+      duration: 1900, hold: 1400, rest: 500,
+      arc: (target) => ([
+        { t: 0.00, ease: 'out', joints: {} },
+        { t: 0.35, ease: 'inout', joints: {                                        // wind up — arms open into T
+            leftShoulder: -85, rightShoulder: -85,
+            leftElbow: 40, rightElbow: 30,
+            hips: 8, leftKnee: 12, rightKnee: 8
+          }},
+        { t: 0.70, ease: 'out', joints: {                                          // reach fires, opposite arm swings back
+            leftShoulder: -105, leftElbow: 55,
+            rightShoulder: 20, rightElbow: 32,
+            spine: -6, hips: 12,
+            leftHip: -6, leftKnee: 18, rightKnee: 10
+          }},
+        { t: 1.00, ease: 'back', joints: target }
+      ])
+    },
+
+    // ─── ECCENTRIC ───────────────────────────────────────────────────────
+
+    // Hair flip — head tilts back, one arm sweeps up through the hair,
+    // hips punch out for attitude.
+    'hair-flip': {
+      duration: 1800, hold: 1400, rest: 500,
+      arc: (target) => ([
+        { t: 0.00, ease: 'out', joints: {} },
+        { t: 0.35, ease: 'inout', joints: {                                        // hip pushes out, chin lifts
+            hips: 10, neck: 6, spine: -4,
+            leftKnee: 8, rightKnee: 8
+          }},
+        { t: 0.70, ease: 'inout', joints: {                                        // left arm sweeps up through T toward head
+            leftShoulder: -80, leftElbow: 55,
+            rightElbow: 25,
+            hips: 14, spine: -6, neck: 10,
+            shoulderFwdL: 10
+          }},
+        { t: 1.00, ease: 'out', joints: target }
+      ])
+    },
+
+    // ─── EDITORIAL ───────────────────────────────────────────────────────
+
+    // Sharp angles — everything hits geometry at once with hard beats;
+    // hips lock first, then arms snap into their angles.
+    'editorial-sharp-angles-stand': {
+      duration: 1700, hold: 1500, rest: 500,
+      arc: (target) => ([
+        { t: 0.00, ease: 'out', joints: {} },
+        { t: 0.35, ease: 'in', joints: {                                           // hips lock into angle first
+            hips: 14, leftHip: 10, leftKnee: 8, rightKnee: 15,
+            spine: -8
+          }},
+        { t: 0.70, ease: 'in', joints: {                                           // arms bend into their sharp positions
+            hips: 18, leftHip: 15, leftKnee: 10, rightKnee: 20,
+            spine: -12, neck: 10,
+            leftShoulder: 15, leftElbow: 60,
+            rightShoulder: -10, rightElbow: 50
+          }},
+        { t: 1.00, ease: 'back', joints: target }
+      ])
+    },
+
+    // ─── FASHION ─────────────────────────────────────────────────────────
+
+    // Classic power stance — feet plant wide, elbows come up into akimbo
+    // with a decisive final beat.
+    'fashion-power-stance-classic': {
+      duration: 1700, hold: 1600, rest: 500,
+      arc: (target) => ([
+        { t: 0.00, ease: 'in', joints: {} },
+        { t: 0.30, ease: 'out', joints: {                                          // stance plants wide
+            hipAbductL: 12, hipAbductR: 12,
+            leftHip: -18, leftKnee: 18,
+            rightHip: -3, rightKnee: 0
+          }},
+        { t: 0.65, ease: 'inout', joints: {                                        // arms bend up toward hips
+            hipAbductL: 10, hipAbductR: 10,
+            leftHip: -25, leftKnee: 25, rightHip: -5,
+            leftShoulder: -40, rightShoulder: -40,
+            leftElbow: 60, rightElbow: 60,
+            spine: -6
+          }},
+        { t: 1.00, ease: 'back', joints: target }
+      ])
+    },
+
+    // ─── FINE-ART (×2) ───────────────────────────────────────────────────
+
+    // Classic arabesque — back leg lifts and extends behind, one arm
+    // reaches forward, spine arches. Balance leg plants first.
+    'fineart-classic-arabesque': {
+      duration: 2100, hold: 1600, rest: 500,
+      arc: (target) => ([
+        { t: 0.00, ease: 'out', joints: {} },
+        { t: 0.30, ease: 'inout', joints: {                                        // weight on standing (left) leg
+            leftHip: -3, leftAnkle: -12,
+            spine: -4
+          }},
+        { t: 0.65, ease: 'inout', joints: {                                        // right leg lifts behind, torso tips forward
+            leftHip: -5, leftAnkle: -18,
+            rightHip: -40, rightKnee: 0, rightAnkle: -18,
+            spine: -6, globalTwist: 12,
+            leftShoulder: -35, leftElbow: 60,
+            rightShoulder: 10, rightElbow: 45
+          }},
+        { t: 1.00, ease: 'inout', joints: target }
+      ])
+    },
+
+    // Classical contrapposto — canonical fine-art weight shift; slower,
+    // more sculptural pacing than the standing 'contrapposto'.
+    'fineart-contrapposto-classic': {
+      duration: 1900, hold: 1600, rest: 500,
+      arc: (target) => ([
+        { t: 0.00, ease: 'out', joints: {} },
+        { t: 0.45, ease: 'inout', joints: {                                        // hip weight shift, opposite knee softens
+            hips: 5, leftHip: 12, rightHip: -20, rightKnee: 5
+          }},
+        { t: 0.80, ease: 'inout', joints: {                                        // torso counter-curve, gaze softens
+            hips: 6, leftHip: 18, rightHip: -28, rightKnee: 5,
+            spine: 7, neck: 10,
+            leftShoulder: -45, rightShoulder: 25,
+            leftElbow: 5, rightElbow: 5
+          }},
+        { t: 1.00, ease: 'inout', joints: target }
+      ])
+    },
+
+    // ─── HIGH-TO-LOW ─────────────────────────────────────────────────────
+
+    // Standing peak start — figure stands tall with arms reaching up,
+    // slight backward lean as the peak of the descent sequence.
+    'highlow-standing-peak-start': {
+      duration: 1900, hold: 1500, rest: 500,
+      arc: (target) => ([
+        { t: 0.00, ease: 'out', joints: {} },
+        { t: 0.35, ease: 'inout', joints: {                                        // arms sweep out to T
+            leftShoulder: -95, rightShoulder: -95,
+            leftElbow: 10, rightElbow: 10,
+            hipAbductL: 8, hipAbductR: 8
+          }},
+        { t: 0.70, ease: 'inout', joints: {                                        // arms come overhead, chest lifts, slight back lean
+            leftShoulder: -125, rightShoulder: -122,
+            leftElbow: 12, rightElbow: 12,
+            spine: -10, neck: 8,
+            globalTilt: -15,                                                        // mid-transition tilt (clamped)
+            hips: 6, hipAbductL: 10, hipAbductR: 10
+          }},
+        { t: 1.00, ease: 'inout', joints: target }
+      ])
+    },
+
+    // ─── KNEELING (×2) ───────────────────────────────────────────────────
+
+    // Knight's kneel — one knee drops first (right), then torso settles,
+    // then arms find their rest positions.
+    'knights-kneel': {
+      duration: 2000, hold: 1500, rest: 500,
+      arc: (target) => ([
+        { t: 0.00, ease: 'out', joints: {} },
+        { t: 0.35, ease: 'inout', joints: {                                        // right leg begins to fold
+            rightHip: 0, rightKnee: 55,
+            leftHip: 20, leftKnee: 30
+          }},
+        { t: 0.70, ease: 'inout', joints: {                                        // both knees loaded, torso begins to settle
+            leftHip: 60, leftKnee: 75, leftAnkle: -8,
+            rightHip: 0, rightKnee: 90, rightAnkle: -15,
+            spine: -3, neck: -4,
+            leftShoulder: -12, leftElbow: 50,
+            rightShoulder: -8, rightElbow: 40
+          }},
+        { t: 1.00, ease: 'inout', joints: target }
+      ])
+    },
+
+    // Kneeling reach — both knees fold first, then arms sweep overhead
+    // through a wide arc.
+    'kneeling-reach': {
+      duration: 2000, hold: 1500, rest: 500,
+      arc: (target) => ([
+        { t: 0.00, ease: 'out', joints: {} },
+        { t: 0.35, ease: 'inout', joints: {                                        // sink to both knees
+            leftHip: 55, leftKnee: 70, leftAnkle: -25,
+            rightHip: 55, rightKnee: 70, rightAnkle: -25
+          }},
+        { t: 0.70, ease: 'inout', joints: {                                        // arms sweep out to T, torso lengthens
+            leftHip: 75, leftKnee: 85, leftAnkle: -32,
+            rightHip: 75, rightKnee: 85, rightAnkle: -32,
+            leftShoulder: -55, rightShoulder: -55,
+            leftElbow: 60, rightElbow: 60,
+            spine: -6
+          }},
+        { t: 1.00, ease: 'out', joints: target }
+      ])
+    },
+
+    // ─── LEAN-SEAT ───────────────────────────────────────────────────────
+
+    // Elbow prop — seated posture with weight leaning onto forward elbow.
+    // Hips fold first, then torso tips forward onto the propping arm.
+    'elbow-prop': {
+      duration: 1900, hold: 1500, rest: 500,
+      arc: (target) => ([
+        { t: 0.00, ease: 'out', joints: {} },
+        { t: 0.35, ease: 'inout', joints: {                                        // sit down
+            leftHip: 55, rightHip: 55,
+            leftKnee: 70, rightKnee: 70,
+            hips: 5
+          }},
+        { t: 0.70, ease: 'inout', joints: {                                        // torso tips forward, elbows come up
+            leftHip: 65, rightHip: 65,
+            leftKnee: 85, rightKnee: 85,
+            spine: 6, neck: -8, hips: 8,
+            leftShoulder: -22, rightShoulder: -22,
+            leftElbow: 55, rightElbow: 55,
+            shoulderFwdL: 10, shoulderFwdR: 10
+          }},
+        { t: 1.00, ease: 'inout', joints: target }
+      ])
+    },
+
+    // ─── LEANING ─────────────────────────────────────────────────────────
+
+    // Wall lean — full-body tips sideways (globalRoll) then hips shift out
+    // as if a wall is catching the shoulder.
+    'wall-lean': {
+      duration: 1900, hold: 1500, rest: 500,
+      arc: (target) => ([
+        { t: 0.00, ease: 'out', joints: {} },
+        { t: 0.40, ease: 'inout', joints: {                                        // tip toward the wall
+            globalRoll: 10, hips: 6,
+            hipAbductL: 6, hipAbductR: 6
+          }},
+        { t: 0.75, ease: 'inout', joints: {                                        // shoulder finds the wall, hip pushes out
+            globalRoll: 16, hips: 10,
+            hipAbductL: 10, hipAbductR: 10,
+            spine: -8, neck: -6,
+            leftShoulder: -8, leftElbow: 30, rightElbow: 18
+          }},
+        { t: 1.00, ease: 'inout', joints: target }
+      ])
+    },
+
+    // ─── LOW-TO-HIGH ─────────────────────────────────────────────────────
+
+    // Floor seated start — figure lowers to a seated floor pose (globalTilt
+    // rises toward a partial recline), knees fold, arms find the ground.
+    'lowhigh-floor-seated-start': {
+      duration: 2100, hold: 1500, rest: 500,
+      arc: (target) => ([
+        { t: 0.00, ease: 'out', joints: {} },
+        { t: 0.35, ease: 'inout', joints: {                                        // squat down
+            leftHip: 40, rightHip: 40,
+            leftKnee: 55, rightKnee: 55,
+            spine: -5
+          }},
+        { t: 0.70, ease: 'inout', joints: {                                        // seat lands, torso reclines slightly
+            globalTilt: 18,                                                        // partial recline (clamped ≤ 40)
+            leftHip: 15, rightHip: 15,
+            leftKnee: 45, rightKnee: 40,
+            spine: -6, neck: 20, hips: 8,
+            leftShoulder: 15, rightShoulder: 15,
+            leftElbow: 60, rightElbow: 60,
+            hipAbductL: 8, hipAbductR: 8
+          }},
+        { t: 1.00, ease: 'inout', joints: target }
+      ])
+    },
+
+    // ─── RECLINING ───────────────────────────────────────────────────────
+
+    // Side recline — figure rotates down onto its side; globalTilt swings
+    // hard through the arc. Legs align, then arms settle.
+    'side-recline': {
+      duration: 2200, hold: 1500, rest: 500,
+      arc: (target) => ([
+        { t: 0.00, ease: 'out', joints: {} },
+        { t: 0.30, ease: 'inout', joints: {                                        // torso begins to tip
+            globalTilt: -35,
+            leftHip: -5, rightHip: -3,
+            leftKnee: 5, rightKnee: 5
+          }},
+        { t: 0.65, ease: 'inout', joints: {                                        // fully horizontal
+            globalTilt: -65,
+            neck: -10, spine: -4,
+            leftHip: -8, rightHip: -5,
+            leftShoulder: -8, leftElbow: 55,
+            rightShoulder: 6, rightElbow: 55
+          }},
+        { t: 1.00, ease: 'inout', joints: target }
+      ])
+    },
+
+    // ─── SEATED (×2) ─────────────────────────────────────────────────────
+
+    // Soft sit — figure lowers, hips fold ≈90°, knees track forward.
+    'soft-sit': {
+      duration: 1900, hold: 1500, rest: 500,
+      arc: (target) => ([
+        { t: 0.00, ease: 'out', joints: {} },
+        { t: 0.40, ease: 'inout', joints: {                                        // squat halfway
+            leftHip: 50, rightHip: 50,
+            leftKnee: 60, rightKnee: 60,
+            spine: 4, hipAbductL: 12, hipAbductR: 12
+          }},
+        { t: 0.75, ease: 'inout', joints: {                                        // seated posture almost final
+            leftHip: 75, rightHip: 75,
+            leftKnee: 82, rightKnee: 85,
+            spine: 7, neck: -3, hipAbductL: 18, hipAbductR: 18,
+            leftElbow: 45, rightElbow: 35, rightShoulder: -12
+          }},
+        { t: 1.00, ease: 'inout', joints: target }
+      ])
+    },
+
+    // Cross-legged — hips fold first, then knees splay wide, then
+    // forearms rest on knees.
+    'floor-cross-leg': {
+      duration: 2100, hold: 1500, rest: 500,
+      arc: (target) => ([
+        { t: 0.00, ease: 'out', joints: {} },
+        { t: 0.35, ease: 'inout', joints: {                                        // sink down
+            leftHip: 55, rightHip: 55,
+            leftKnee: 80, rightKnee: 80,
+            hipAbductL: 15, hipAbductR: 15
+          }},
+        { t: 0.75, ease: 'inout', joints: {                                        // knees splay open cross-legged
+            leftHip: 75, rightHip: 75,
+            leftKnee: 120, rightKnee: 120,
+            hipAbductL: 22, hipAbductR: 22,
+            spine: -5, leftShoulder: -18, rightShoulder: -25,
+            leftElbow: 70, rightElbow: 70
+          }},
+        { t: 1.00, ease: 'inout', joints: target }
+      ])
+    },
+
+    // ─── ACCESSIBLE (×2) ─────────────────────────────────────────────────
+
+    // Wheelchair — expressive arms: seated base first, then arms open into
+    // an asymmetric gesture (one out, one high).
+    'wheelchair-arms': {
+      duration: 2000, hold: 1500, rest: 500,
+      arc: (target) => ([
+        { t: 0.00, ease: 'out', joints: {} },
+        { t: 0.35, ease: 'inout', joints: {                                        // sit into chair
+            leftHip: 70, rightHip: 70,
+            leftKnee: 80, rightKnee: 80,
+            leftAnkle: -10, rightAnkle: -10
+          }},
+        { t: 0.70, ease: 'inout', joints: {                                        // arms open — left mid, right up
+            leftHip: 80, rightHip: 80,
+            leftKnee: 85, rightKnee: 85,
+            leftShoulder: -30, leftElbow: 20,
+            rightShoulder: -90, rightElbow: 55,
+            spine: 3
+          }},
+        { t: 1.00, ease: 'out', joints: target }
+      ])
+    },
+
+    // Sky reach — seated (accessible) reaching both arms overhead.
+    'upper-reach': {
+      duration: 2000, hold: 1500, rest: 500,
+      arc: (target) => ([
+        { t: 0.00, ease: 'out', joints: {} },
+        { t: 0.35, ease: 'inout', joints: {                                        // seated base
+            leftHip: 70, rightHip: 70,
+            leftKnee: 85, rightKnee: 85
+          }},
+        { t: 0.70, ease: 'inout', joints: {                                        // arms out to T then up
+            leftHip: 80, rightHip: 80,
+            leftKnee: 90, rightKnee: 90,
+            leftShoulder: -100, rightShoulder: -95,
+            leftElbow: 40, rightElbow: 40,
+            spine: 4, neck: 8
+          }},
+        { t: 1.00, ease: 'inout', joints: target }
+      ])
     }
   };
 
