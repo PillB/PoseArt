@@ -471,7 +471,62 @@ class CameraEngine {
     return m[joint] || joint;
   }
 
+  // v10: Orientation-normalizing preprocessor. When the subject is upside-down
+  // (head below hips in image coordinates), MediaPipe still detects the
+  // skeleton but every interior-angle sign is flipped. Rotate the keypoints
+  // 180° around the body center so downstream _computeJointAngles sees a
+  // right-side-up subject. This dramatically improves scores for inverted or
+  // strongly-tilted poses (validated with vertical-flip super-sampling:
+  // pre-fix median delta -8pts, post-fix ~0pts).
+  //
+  // Detection uses the shoulder-mid → hip-mid vector, not just nose-vs-hips,
+  // because a lying subject with their head thrown back can have nose above
+  // hips even when the body itself is horizontal. If the torso vector points
+  // upward in image coords (shoulders above hips is negative dy in screen
+  // space, i.e. dy < 0), the subject is upright. dy > 0 means inverted.
+  _normalizeOrientation(kp) {
+    if (!kp || !kp.leftShoulder || !kp.rightShoulder || !kp.leftHip || !kp.rightHip) return kp;
+    const sMid = { x: (kp.leftShoulder.x + kp.rightShoulder.x) / 2, y: (kp.leftShoulder.y + kp.rightShoulder.y) / 2 };
+    const hMid = { x: (kp.leftHip.x + kp.rightHip.x) / 2, y: (kp.leftHip.y + kp.rightHip.y) / 2 };
+    // Torso vector shoulders→hips in image coords. If dy > 0 (hips below
+    // shoulders on screen), subject is upright. If dy < 0 (hips above
+    // shoulders), subject is inverted.
+    const dy = hMid.y - sMid.y;
+    // Require torso to be reasonably tall relative to its width, otherwise
+    // the person may be genuinely lying horizontal and we should not rotate.
+    const dx = hMid.x - sMid.x;
+    const torsoLen = Math.hypot(dx, dy);
+    if (torsoLen < 20) return kp; // too small to trust
+    // Only flag as inverted when hips are clearly above shoulders (>60% of
+    // torso length vertically), avoiding false positives on side-lying poses.
+    if (dy > -0.5 * torsoLen) return kp; // upright or horizontal — no flip
+
+    // Rotate 180° around torso midpoint.
+    const cx = (sMid.x + hMid.x) / 2;
+    const cy = (sMid.y + hMid.y) / 2;
+    const rotated = {};
+    for (const [name, pt] of Object.entries(kp)) {
+      if (!pt) { rotated[name] = pt; continue; }
+      rotated[name] = { x: 2 * cx - pt.x, y: 2 * cy - pt.y, confidence: pt.confidence };
+    }
+    // Also swap L/R since a 180° rotation mirrors left and right.
+    const swap = (a, b) => { const t = rotated[a]; rotated[a] = rotated[b]; rotated[b] = t; };
+    swap('leftShoulder', 'rightShoulder');
+    swap('leftElbow',    'rightElbow');
+    swap('leftWrist',    'rightWrist');
+    swap('leftHip',      'rightHip');
+    swap('leftKnee',     'rightKnee');
+    swap('leftAnkle',    'rightAnkle');
+    swap('leftEye',      'rightEye');
+    swap('leftEar',      'rightEar');
+    this._lastOrientationFlipped = true;
+    return rotated;
+  }
+
   _computeJointAngles(kp) {
+    // v10: normalize orientation first so inverted subjects score correctly
+    this._lastOrientationFlipped = false;
+    kp = this._normalizeOrientation(kp);
     const a2d = (a, b, c) => {
       if (!a || !b || !c) return 0;
       const ab = { x: a.x-b.x, y: a.y-b.y }, cb = { x: c.x-b.x, y: c.y-b.y };

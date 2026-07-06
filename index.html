@@ -6,6 +6,28 @@
 <title>PoseArt — Move like art.</title>
 <meta name="description" content="PoseArt — an Art Nouveau pose-coaching camera companion. Move like art.">
 
+<!-- Theme + PWA -->
+<meta name="theme-color" content="#0F3B3A">
+<meta name="color-scheme" content="light dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="PoseArt">
+
+<!-- Favicon: inline SVG (peacock-teal P monogram in gold ring) -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%230F3B3A' stroke='%23C9A24C' stroke-width='2'/%3E%3Cpath d='M11 8v16M11 8h6a4 4 0 010 8h-6' stroke='%23C9A24C' stroke-width='2.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230F3B3A'/%3E%3Cpath d='M11 8v16M11 8h6a4 4 0 010 8h-6' stroke='%23C9A24C' stroke-width='2.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+
+<!-- Open Graph -->
+<meta property="og:title" content="PoseArt — Move like art.">
+<meta property="og:description" content="An Art Nouveau pose-coaching camera companion. 745 poses across 16 categories with live alignment feedback.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="PoseArt">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="PoseArt — Move like art.">
+<meta name="twitter:description" content="An Art Nouveau pose-coaching camera companion. 745 poses across 16 categories.">
+
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -242,6 +264,115 @@ img { max-width: 100%; }
   font: var(--type-caption);
   color: var(--color-parchment-100);
   opacity: 0.85;
+}
+
+/* ── OB2 live-alignment demo animation (7s loop) ── */
+.ob2-demo-figure { position: relative; z-index: 1; }
+.ob2-align-ring {
+  animation: ob2-ring-fill 7s ease-in-out infinite;
+  will-change: stroke-dashoffset, stroke;
+}
+@keyframes ob2-ring-fill {
+  0%   { stroke-dashoffset: 300; stroke: #F6F0E1; opacity: 0.55; }
+  55%  { stroke-dashoffset: 90;  stroke: #E7CB7A; opacity: 0.9; }
+  72%  { stroke-dashoffset: 12;  stroke: #C9A24C; opacity: 1; }
+  78%  { stroke-dashoffset: 0;   stroke: #C9A24C; opacity: 1; }
+  92%  { stroke-dashoffset: 0;   stroke: #C9A24C; opacity: 0.9; }
+  100% { stroke-dashoffset: 300; stroke: #F6F0E1; opacity: 0.55; }
+}
+.ob2-user {
+  transform-origin: 100px 140px;
+  animation: ob2-user-align 7s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+@keyframes ob2-user-align {
+  0%   { transform: translate(6px, 4px) rotate(-3deg); opacity: 0.55; }
+  30%  { transform: translate(3px, 2px) rotate(-1.5deg); opacity: 0.7; }
+  60%  { transform: translate(1px, 1px) rotate(-0.5deg); opacity: 0.85; }
+  75%  { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+  90%  { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+  100% { transform: translate(6px, 4px) rotate(-3deg); opacity: 0.55; }
+}
+.ob2-flash {
+  animation: ob2-flash-pulse 7s ease-out infinite;
+  will-change: opacity;
+}
+@keyframes ob2-flash-pulse {
+  0%, 74%   { opacity: 0; }
+  76%       { opacity: 0.65; }
+  82%       { opacity: 0.15; }
+  100%      { opacity: 0; }
+}
+.ob2-demo-hud {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  pointer-events: none;
+  z-index: 2;
+}
+.ob2-demo-score {
+  font: var(--type-h2);
+  color: var(--color-parchment-100);
+  letter-spacing: 0.02em;
+  animation: ob2-score-count 7s steps(1, end) infinite;
+  min-width: 3ch;
+  text-align: right;
+}
+@keyframes ob2-score-count {
+  0%, 14%   { color: #F6F0E1; }
+  15%, 34%  { color: #F6F0E1; }
+  35%, 54%  { color: #E7CB7A; }
+  55%, 74%  { color: #E7CB7A; }
+  75%, 99%  { color: #C9A24C; text-shadow: 0 0 12px rgba(201,162,76,0.8); }
+  100%      { color: #F6F0E1; text-shadow: none; }
+}
+.ob2-demo-score::before {
+  content: "55%";
+  animation: ob2-score-text 7s steps(1, end) infinite;
+}
+.ob2-demo-score { font-size: 0; line-height: 1; }
+.ob2-demo-score::before { font-size: 22px; font-weight: 600; }
+@keyframes ob2-score-text {
+  0%, 19%   { content: "55%"; }
+  20%, 44%  { content: "68%"; }
+  45%, 69%  { content: "82%"; }
+  70%, 89%  { content: "94%"; }
+  90%, 99%  { content: "98%"; }
+  100%      { content: "55%"; }
+}
+.ob2-demo-label {
+  font: var(--type-caption);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--color-parchment-100);
+  font-size: 0;
+  line-height: 1;
+}
+.ob2-demo-label::before {
+  content: "ALMOST";
+  font-size: 11px;
+  animation: ob2-label-text 7s steps(1, end) infinite;
+}
+@keyframes ob2-label-text {
+  0%, 19%   { content: "ALMOST"; color: #F6F0E1; }
+  20%, 44%  { content: "CLOSER"; color: #F6F0E1; }
+  45%, 69%  { content: "NEARLY"; color: #E7CB7A; }
+  70%, 89%  { content: "ALIGNED"; color: #C9A24C; }
+  90%, 99%  { content: "CAPTURED"; color: #C9A24C; }
+  100%      { content: "ALMOST"; color: #F6F0E1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ob2-align-ring, .ob2-user, .ob2-flash,
+  .ob2-demo-score, .ob2-demo-score::before, .ob2-demo-label::before {
+    animation: none;
+  }
+  .ob2-align-ring { stroke-dashoffset: 0; }
+  .ob2-demo-score::before { content: "94%"; }
+  .ob2-demo-label::before { content: "ALIGNED"; color: #C9A24C; }
 }
 
 .ob2-cards { padding: 4px 20px; display: flex; flex-direction: column; gap: 12px; }
@@ -1371,16 +1502,39 @@ img { max-width: 100%; }
       <p>Three simple ideas power every session.</p>
     </div>
 
+    <!-- v10 red-team fix #3: OB2 demo now shows the actual camera mechanic:
+         a ghost target skeleton, a live alignment ring that fills from 40→100%,
+         and an auto-capture flash + label transition. Pure SVG + CSS/SMIL, no JS. -->
     <div id="ob2-demo-stage" data-testid="ob2-demo-stage">
-      <svg class="ghost-figure" width="90" height="130" viewBox="0 0 200 280" fill="none">
-        <circle cx="100" cy="38" r="24" stroke="#C9A24C" stroke-width="1" stroke-dasharray="4 6" opacity="0.5"/>
-        <circle cx="100" cy="38" r="16" fill="#F6F0E1" opacity="0.85"/>
-        <path d="M78 68 Q70 95 79 124 Q86 142 84 160 Q90 164 100 164 Q110 164 116 160 Q114 142 121 124 Q130 95 122 68 Z" fill="#F6F0E1" opacity="0.75"/>
-        <path d="M79 78 Q58 70 46 82 Q40 94 50 104" stroke="#F6F0E1" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.75"/>
-        <path d="M121 82 Q142 86 148 102 Q152 114 144 122" stroke="#F6F0E1" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.75"/>
-        <path d="M84 160 Q76 186 70 226 Q80 234 100 234 Q120 234 130 226 Q124 186 116 160 Z" fill="#F6F0E1" opacity="0.6"/>
+      <svg class="ob2-demo-figure" width="140" height="200" viewBox="0 0 200 280" fill="none" aria-hidden="true">
+        <!-- alignment ring — fills from cream (low) to gold (aligned) -->
+        <circle cx="100" cy="140" r="92" stroke="rgba(246,240,225,0.15)" stroke-width="3" fill="none"/>
+        <circle class="ob2-align-ring" cx="100" cy="140" r="92" stroke="#C9A24C"
+                stroke-width="4" fill="none" stroke-linecap="round"
+                stroke-dasharray="578" stroke-dashoffset="300"
+                transform="rotate(-90 100 140)"/>
+        <!-- ghost figure (target) -->
+        <g class="ob2-ghost">
+          <circle cx="100" cy="58" r="18" stroke="#C9A24C" stroke-width="1.5" stroke-dasharray="3 5" fill="none"/>
+          <path d="M100 78 L100 160" stroke="#C9A24C" stroke-width="2" stroke-dasharray="3 5" fill="none"/>
+          <path d="M100 92 L72 118 M100 92 L128 118" stroke="#C9A24C" stroke-width="2" stroke-dasharray="3 5" fill="none"/>
+          <path d="M100 160 L78 218 M100 160 L122 218" stroke="#C9A24C" stroke-width="2" stroke-dasharray="3 5" fill="none"/>
+        </g>
+        <!-- user skeleton (fills into alignment) -->
+        <g class="ob2-user">
+          <circle cx="100" cy="58" r="14" fill="#F6F0E1" opacity="0.9"/>
+          <path d="M100 78 L100 158" stroke="#F6F0E1" stroke-width="6" stroke-linecap="round"/>
+          <path d="M100 94 L74 116 M100 94 L126 116" stroke="#F6F0E1" stroke-width="6" stroke-linecap="round"/>
+          <path d="M100 158 L80 216 M100 158 L120 216" stroke="#F6F0E1" stroke-width="6" stroke-linecap="round"/>
+        </g>
+        <!-- capture flash -->
+        <rect class="ob2-flash" x="0" y="0" width="200" height="280" fill="#F6F0E1" opacity="0"/>
       </svg>
-      <div class="demo-hint">Ghost overlay guides your pose in real time</div>
+      <div class="ob2-demo-hud" aria-hidden="true">
+        <span class="ob2-demo-score"></span>
+        <span class="ob2-demo-label"></span>
+      </div>
+      <div class="demo-hint">Hold alignment — PoseArt captures automatically</div>
     </div>
 
     <div class="ob2-cards">

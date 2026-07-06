@@ -2006,6 +2006,62 @@ const POSES_LIBRARY = {
     tags: ['playful', 'beginner', 'reclining', 'classic']
   },
 
+  // ══ v10: bench-recline gap fill (validation-driven — see pose_qa/validation_results_v2.json) ══
+  'bench-back-recline-knees-up': {
+    id: 'bench-back-recline-knees-up', category: 'reclining', name: 'Bench Back Recline, Knees Up',
+    difficulty: 'Beginner', angle: 'Side', intent: 'Photography', effort: 'Static',
+    instructions: 'Lie on your back along the bench with both knees bent up and feet planted on the bench surface. Let one hand rest near the head and the other along the torso, tilting the chin slightly back.',
+    tip: 'Keep the knees bent at ~130° and pointed slightly toward the camera to shorten the leg line and shape a strong triangle.',
+    joints: { globalTilt: -80, globalRoll: 0, spine: -78, neck: -25, leftShoulder: 70, rightShoulder: -150, leftElbow: -115, rightElbow: -120, leftHip: -90, rightHip: -90, leftKnee: 135, rightKnee: 140 },
+    color: 'var(--color-parchment-200)', figure: 'side-recline',
+    tags: ['reclining', 'bench', 'boudoir', 'beginner', 'photography']
+  },
+  'bench-side-recline-elbow-prop': {
+    id: 'bench-side-recline-elbow-prop', category: 'reclining', name: 'Bench Side Recline, Elbow Prop',
+    difficulty: 'Beginner', angle: '3/4 View', intent: 'Photography', effort: 'Static',
+    instructions: 'Lie on your side along the bench propped up on the bottom elbow, top hand resting on the head or draped forward. Bend both knees stacked and let the top hip roll slightly forward.',
+    tip: 'Push the top hip forward and the shoulders back — that opposition carves the S-curve when side-reclining.',
+    joints: { globalTilt: -75, globalRoll: -20, spine: -75, neck: -60, leftShoulder: 40, rightShoulder: -70, leftElbow: -130, rightElbow: 105, leftHip: -105, rightHip: -95, leftKnee: 120, rightKnee: 120 },
+    color: 'var(--color-parchment-200)', figure: 'side-recline',
+    tags: ['reclining', 'bench', 'boudoir', 'beginner', 'photography', 'elegant']
+  },
+  'bench-recline-arm-overhead': {
+    id: 'bench-recline-arm-overhead', category: 'reclining', name: 'Bench Recline, Arm Overhead',
+    difficulty: 'Beginner', angle: '3/4 View', intent: 'Photography', effort: 'Static',
+    instructions: 'Recline back along the bench with both knees bent and slightly parted. Sweep one arm up over the head with the elbow bent, letting the fingers rest near the hair, and drop the other hand to the hip.',
+    tip: 'Roll the chest a few degrees toward the camera — a flat-back recline looks stiff, a slight tilt looks intentional.',
+    joints: { globalTilt: -70, globalRoll: 15, spine: -70, neck: 25, leftShoulder: -10, rightShoulder: -15, leftElbow: -150, rightElbow: -135, leftHip: 20, rightHip: 40, leftKnee: -95, rightKnee: -140 },
+    color: 'var(--color-parchment-200)', figure: 'side-recline',
+    tags: ['reclining', 'bench', 'boudoir', 'beginner', 'photography']
+  },
+  'floor-against-bench-knee-up': {
+    id: 'floor-against-bench-knee-up', category: 'seated', name: 'Floor Sit Against Bench, Knee Up',
+    difficulty: 'Beginner', angle: 'Front', intent: 'Photography', effort: 'Static',
+    instructions: 'Sit on the floor with your back leaning against the front of a bench. Bend one knee up to the chest, extend the other leg forward, and rest both hands loosely on the raised knee.',
+    tip: 'Let the extended leg cross slightly over centerline — it prevents the pose from looking symmetrical and stiff.',
+    joints: { globalTilt: 0, globalRoll: 0, spine: 0, neck: -8, leftShoulder: 170, rightShoulder: 175, leftElbow: 20, rightElbow: -25, leftHip: 170, rightHip: -85, leftKnee: -180, rightKnee: 90 },
+    color: 'var(--color-parchment-200)', figure: 'floor-seated',
+    tags: ['seated', 'bench', 'floor', 'boudoir', 'beginner']
+  },
+  'bench-side-lounge-legs-crossed': {
+    id: 'bench-side-lounge-legs-crossed', category: 'reclining', name: 'Bench Side Lounge, Legs Crossed',
+    difficulty: 'Beginner', angle: 'Side', intent: 'Photography', effort: 'Static',
+    instructions: 'Lie on your side along the bench with the bottom arm extended long and the top arm draped along the hip. Cross the top leg over the bottom one so the top knee floats slightly forward.',
+    tip: 'Cross at the shins rather than the thighs — high crossings shorten the legs, low crossings preserve the line.',
+    joints: { globalTilt: -85, globalRoll: -10, spine: -80, neck: -10, leftShoulder: -5, rightShoulder: 10, leftElbow: -20, rightElbow: -15, leftHip: -5, rightHip: 10, leftKnee: 15, rightKnee: 30 },
+    color: 'var(--color-parchment-200)', figure: 'side-recline',
+    tags: ['reclining', 'bench', 'elegant', 'beginner']
+  },
+  'bench-recline-legs-up-wall': {
+    id: 'bench-recline-legs-up-wall', category: 'reclining', name: 'Bench Recline, Legs Up',
+    difficulty: 'Intermediate', angle: 'Side', intent: 'Photography', effort: 'Static',
+    instructions: 'Recline back on the bench and lift both legs up so they angle above the torso, knees softly bent. Rest one hand behind the head and the other along the bench edge.',
+    tip: 'Point the toes and rotate the ankles slightly — floppy feet ruin the long L-shape.',
+    joints: { globalTilt: -75, globalRoll: 0, spine: -75, neck: -15, leftShoulder: -20, rightShoulder: -155, leftElbow: -60, rightElbow: -100, leftHip: -120, rightHip: -130, leftKnee: 100, rightKnee: 110 },
+    color: 'var(--color-parchment-200)', figure: 'side-recline',
+    tags: ['reclining', 'bench', 'boudoir', 'intermediate', 'photography']
+  },
+
   // ══════════════ DYNAMIC (30) ══════════════
   'dynamic-reach': {
     id: 'dynamic-reach', category: 'dynamic', name: 'Dynamic Reach',
