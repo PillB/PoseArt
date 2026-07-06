@@ -1,7 +1,23 @@
 # AGENT_STATE.md — PoseArt Deep Audit + Skeleton Perfection
-**Updated:** 2026-07-05 20:38
-**Phase:** Phase A — Model Council Parallel Audit (starting)
+**Updated:** 2026-07-05 21:15
+**Phase:** Rig upgrade + navigation ship-blockers landed (branch `fix/rig-upgrade-nav`)
 **Mission:** Stanford STORM methodology + Zuckerberg/Musk/STORM model council + skeleton anatomy improvement + red-team until zero issues.
+
+---
+
+## 2026-07-05 SESSION LOG — Rig upgrade + nav fixes
+
+**User-requested scope (verbatim):** "Focus on fix the two ship blocker and the rig upgrade".
+
+**Landed:**
+1. **Procedural pose-figure renderer** (`js/pose-figure-procedural.js`, new, ~260 lines) — projects each pose's `joints` object through `PoseSkeleton3D._internals.buildPose()` to guarantee every one of the 761 poses now has legs, hips, and per-pose limb angles. Depth-tapered bones, torso trapezoid, pelvis ellipse, ground shadow, gold halo, SMIL idle-breathing animation. Wired into `renderPoseFigureSVG` (`js/app.js:1105`) with try/catch fallback to the legacy sprite renderer. **Root cause it fixes:** `pose-sprites.js` only had 26 hard-coded sprites, so ~735 poses previously fell back to the `standing-neutral` sprite ("no legs, stubby figures").
+2. **Onboarding tap ship-blocker** (`js/app.js` `checkOnboardingStatus`) — initial page load left `#tab-bar` at default opacity, so its (invisible) SVGs intercepted taps on OB CTAs. Now calls `showScreen('ob1')` explicitly to fire the hide-tabs branch. Playwright-confirmed: full onboarding chain now succeeds.
+3. **Sticky Start-Session CTA** (`index.html` inline `<style>`) — `.sheet-cta-sticky` is now a flex-`0 0 auto` sibling of `.sheet-body` (which is `flex: 1 1 auto; min-height: 0`), so the CTA stays pinned at the bottom of the pose-detail sheet regardless of scroll position. Confirmed via Playwright: after `scrollTop = 9999` the CTA button is still `inViewport: true`.
+4. **X-tilt spin controls** (`index.html:1574-1575`) — added `↑ Top` and `↓ Low` buttons that call `setSkelView('top')` / `setSkelView('low')` (presets already existed in `VIEW_ANGLES`).
+
+**Playwright end-to-end verification:** onboarding → home → library → category → pose-detail → session-setup → camera all pass with screenshots in `qa_screenshots/final_*.png`.
+
+**Deferred (not in this scope):** CSS-cascade audit, goBack history stack, orphaned GIFs, per-pose forensic anatomy review, model council, iteration cycles.
 
 ---
 

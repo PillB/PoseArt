@@ -638,7 +638,8 @@ img { max-width: 100%; }
   display: flex; align-items: center; justify-content: center;
   z-index: 2;
 }
-.sheet-body { overflow-y: auto; padding: 8px 24px 28px; }
+.sheet-body { overflow-y: auto; padding: 8px 24px 20px; flex: 1 1 auto; min-height: 0; }
+.sheet-cta-sticky { flex: 0 0 auto; padding: 12px 24px 18px; background: var(--bg-surface, #FAF7F0); box-shadow: 0 -6px 14px rgba(15,59,58,0.06); z-index: 5; }
 .sheet-figure { display: flex; justify-content: center; margin: 4px 0 8px; }
 #detail-title { font: var(--type-display); color: var(--text-primary); text-align: center; margin-bottom: 10px; }
 #detail-tags { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 16px; }
@@ -1570,6 +1571,8 @@ img { max-width: 100%; }
             <button class="skel-view-btn" data-testid="btn-skel-front" onclick="setSkelView('front')" style="font-size:10px; padding:3px 7px; border-radius:6px; border:1px solid #0F3B3A; background:transparent; color:#0F3B3A; cursor:pointer;">Front</button>
             <button class="skel-view-btn" data-testid="btn-skel-side" onclick="setSkelView('side-left')" style="font-size:10px; padding:3px 7px; border-radius:6px; border:1px solid #0F3B3A; background:transparent; color:#0F3B3A; cursor:pointer;">Side</button>
             <button class="skel-view-btn" data-testid="btn-skel-quarter" onclick="setSkelView('quarter-front-left')" style="font-size:10px; padding:3px 7px; border-radius:6px; border:1px solid #0F3B3A; background:transparent; color:#0F3B3A; cursor:pointer;">¾</button>
+            <button class="skel-view-btn" data-testid="btn-skel-top" onclick="setSkelView('top')" style="font-size:10px; padding:3px 7px; border-radius:6px; border:1px solid #0F3B3A; background:transparent; color:#0F3B3A; cursor:pointer;" title="Tilt down">↑ Top</button>
+            <button class="skel-view-btn" data-testid="btn-skel-low" onclick="setSkelView('low')" style="font-size:10px; padding:3px 7px; border-radius:6px; border:1px solid #0F3B3A; background:transparent; color:#0F3B3A; cursor:pointer;" title="Tilt up">↓ Low</button>
             <button class="skel-view-btn active" data-testid="btn-skel-auto" onclick="setSkelView('auto')" style="font-size:10px; padding:3px 7px; border-radius:6px; border:1px solid #C9A24C; background:rgba(201,162,76,0.15); color:#0F3B3A; cursor:pointer;">Auto ↺</button>
           </div>
         </div>
@@ -1586,9 +1589,9 @@ img { max-width: 100%; }
         <span id="detail-tip">Tip text appears here.</span>
       </div>
 
-      <div class="sheet-cta">
-        <button class="btn btn-gold btn-block" data-testid="btn-start-session-detail" onclick="goToSession()">Start Session</button>
-      </div>
+    </div>
+    <div class="sheet-cta-sticky">
+      <button class="btn btn-gold btn-block" data-testid="btn-start-session-detail" onclick="goToSession()">Start Session</button>
     </div>
   </div>
 
@@ -1951,6 +1954,7 @@ img { max-width: 100%; }
 <!-- ══════════════════════ SCRIPTS ══════════════════════ -->
 <script src="js/poses-data.js"></script>
 <script src="js/pose-skeleton-3d.js"></script>
+<script src="js/pose-figure-procedural.js"></script>
 <script src="js/camera.js"></script>
 <script src="js/app.js"></script>
 <script src="js/pose-animations.js"></script>

@@ -48,8 +48,13 @@ let _onboardingCompleted = false;
 function checkOnboardingStatus() {
   if (_onboardingCompleted) {
     showTab('home');
+  } else {
+    // Ensure tab-bar is hidden while onboarding — the initial HTML `active`
+    // class on ob1 doesn't run showScreen(), so opacity/pointer-events
+    // wouldn't be set. Without this, the invisible tab-bar SVGs still
+    // intercept taps on the onboarding CTAs.
+    showScreen('ob1');
   }
-  // else: stays on OB-1 (default)
 }
 
 // ── TIME ───────────────────────────────────────────────────────
@@ -1102,7 +1107,25 @@ window.showToast = function(message) {
 }
 
 // ── POSE FIGURE SVG RENDERER ────────────────────────────────────
+// v3: prefers the procedural renderer that projects pose.joints via
+// PoseSkeleton3D.buildPose. This guarantees every pose in the library
+// (761+ poses) renders with proper legs, hips, and per-pose limb
+// angles instead of falling back to a generic sprite.
 function renderPoseFigureSVG(pose, large = false) {
+  if (pose && pose.joints && window.PoseFigureProcedural &&
+      typeof window.PoseFigureProcedural.render === 'function') {
+    try {
+      return window.PoseFigureProcedural.render(pose, {
+        large: large,
+        width: large ? 200 : 110,
+        height: large ? 280 : 150,
+        animate: true
+      });
+    } catch (e) {
+      // fall through to legacy sprite lookup
+      console.warn('procedural pose render failed, falling back:', e);
+    }
+  }
   const w = large ? 200 : 110;
   const h = large ? 280 : 150;
   const color = '#0F3B3A';
