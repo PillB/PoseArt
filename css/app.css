@@ -995,7 +995,6 @@ html, body {
   background: rgba(10,40,39,0.5);
   z-index: 20;
 }
-#countdown-display.visible { display: flex; }
 #countdown-number {
   font: 700 80px/80px var(--font-display);
   color: #F6F0E1;

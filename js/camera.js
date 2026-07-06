@@ -120,7 +120,7 @@ class CameraEngine {
 
   _processFrame(ts) {
     this.simFrame++;
-    const raw = this.simulationMode ? this._simulateKPs(ts) : this._simulateKPs(ts);
+    const raw = this._simulateKPs(ts); // TODO: replace with real pose detection when ML model is integrated
     const smoothed = this._smoothKPs(raw);
     const { score, errors } = this._computeAlignment(smoothed, this.currentPose);
     this._updateScore(score);
@@ -499,6 +499,8 @@ class CameraEngine {
   // ── CAPTURE ──────────────────────────────────────────────────
   _triggerAutoCapture() {
     if (!this.isRunning) return;
+    // Increment per-session counter so endSession knows a capture occurred (Z11/Z12).
+    if (window.AppState) window.AppState.capturedCount++;
     this.captureImage(true);
   }
 
@@ -565,15 +567,31 @@ class CameraEngine {
 
   _triggerParticleBloom() {
     const c = document.getElementById('particle-bloom');
-    if (!c) return; c.innerHTML = '';
+    if (!c) return;
+    // Pool the 18 particle nodes once; reuse them across captures (Z4).
+    if (!this._particlePool) {
+      this._particlePool = [];
+      for (let i = 0; i < 18; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        c.appendChild(p);
+        this._particlePool.push(p);
+      }
+    }
     for (let i = 0; i < 18; i++) {
       const a = (i/18)*2*Math.PI, d = 80 + Math.random()*60;
-      const p = document.createElement('div');
-      p.className = 'particle';
-      p.style.cssText = `--dx:${Math.cos(a)*d}px;--dy:${Math.sin(a)*d}px;width:${6+Math.random()*6}px;height:${6+Math.random()*6}px;background:${Math.random()>0.5?'var(--brand-gold)':'var(--state-success)'};animation-delay:${Math.random()*100}ms;animation-duration:${450+Math.random()*200}ms;`;
-      c.appendChild(p);
+      const p = this._particlePool[i];
+      p.style.animation = 'none';
+      p.style.cssText = `--dx:${Math.cos(a)*d}px;--dy:${Math.sin(a)*d}px;width:${6+Math.random()*6}px;height:${6+Math.random()*6}px;background:${Math.random()>0.5?'var(--brand-gold)':'var(--state-success)'};opacity:1;`;
+      void p.offsetWidth; // force reflow so the animation restarts
+      p.style.animationDelay = `${Math.random()*100}ms`;
+      p.style.animationDuration = `${450+Math.random()*200}ms`;
+      p.style.animationName = '';
     }
-    setTimeout(() => { c.innerHTML = ''; }, 900);
+    clearTimeout(this._particleTimer);
+    this._particleTimer = setTimeout(() => {
+      this._particlePool.forEach(p => { p.style.opacity = '0'; });
+    }, 900);
   }
 
   setOverlayMode(mode) {

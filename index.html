@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>PoseArt — Move like art.</title>
 <meta name="description" content="PoseArt — an Art Nouveau pose-coaching camera companion. Move like art.">
 
@@ -13,7 +13,6 @@
 
 <!-- Design tokens -->
 <link rel="stylesheet" href="css/tokens.css">
-<link rel="stylesheet" href="css/app.css">
 
 <style>
 /* ============================================================
@@ -736,6 +735,14 @@ img { max-width: 100%; }
   text-shadow: 0 0 40px rgba(201,162,76,0.6);
 }
 
+/* ── Ported from removed app.css (only live, non-duplicated rules) ── */
+#halo-rays { position: absolute; inset: -20px; transition: opacity 0.3s; }
+#gallery-detail-fav { color: rgba(246,240,225,0.8); }
+#gallery-detail-fav.active { color: var(--color-terracotta-600); }
+#cat-pose-list { flex: 1; overflow-y: auto; }
+.tab-item:active { transform: scale(0.92); }
+#shutter-btn:active { transform: scale(0.92); background: rgba(246,240,225,0.3); }
+
 /* ── CAMERA SCREEN ── */
 #screen-camera { background: #000; }
 .camera-stage { position: relative; flex: 1; overflow: hidden; background: #000; }
@@ -1243,6 +1250,76 @@ img { max-width: 100%; }
 /* ── SCROLLBAR HIDING (mobile look) ── */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-thumb { background: rgba(201,162,76,0.3); border-radius: 4px; }
+
+/* ── SHEET HEADER BAR (fav + share) ── */
+.sheet-header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 4px 0;
+  position: relative;
+}
+.sheet-header-actions {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.sheet-action-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(15,59,58,0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.sheet-action-btn:active { transform: scale(0.9); background: rgba(15,59,58,0.12); }
+.pose-fav-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(201,162,76,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.2s var(--ease-overshoot);
+  -webkit-tap-highlight-color: transparent;
+}
+.pose-fav-btn.active { background: rgba(201,76,76,0.15); }
+.pose-fav-btn.active svg path { fill: #C96A4C; stroke: #C96A4C; }
+.pose-fav-btn:active { transform: scale(1.3); }
+
+/* ── SEARCH RESULTS HEADER ── */
+.search-results-header {
+  font: var(--type-label);
+  color: var(--text-secondary);
+  padding: 4px 0 12px;
+  text-align: center;
+}
+
+/* ── FLASH ANIMATION (reusable) ── */
+@keyframes camera-flash {
+  0% { opacity: 0; }
+  20% { opacity: 0.9; }
+  100% { opacity: 0; }
+}
+.flash-overlay {
+  position: fixed;
+  inset: 0;
+  background: #fff;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0;
+}
+.flash-overlay.flashing {
+  animation: camera-flash 0.4s ease-out forwards;
+}
 </style>
 </head>
 <body>
@@ -1276,7 +1353,7 @@ img { max-width: 100%; }
     <div class="ob-wordmark">Pose<span class="accent">Art</span></div>
     <div class="ob-gold-rule"></div>
     <div class="ob-tagline">Move like art.</div>
-    <p class="ob-sub">Learn 75+ studio-quality poses with a live ghost overlay that guides your body into place.</p>
+    <p class="ob-sub">Learn 745 studio-quality poses with a live ghost overlay that guides your body into place.</p>
 
     <button class="btn btn-gold" data-testid="btn-begin" onclick="showScreen('ob2')">Begin</button>
   </section>
@@ -1311,7 +1388,7 @@ img { max-width: 100%; }
       <div class="ob2-card">
         <div class="ob2-card-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1E7A74" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></div>
         <div>
-          <div class="ob2-card-title">300+ Poses</div>
+          <div class="ob2-card-title">745 Poses</div>
           <div class="ob2-card-desc">Standing, seated, kneeling, reclining, couple, and accessible categories.</div>
         </div>
       </div>
@@ -1387,7 +1464,7 @@ img { max-width: 100%; }
 
     <div class="screen-scroll">
       <div class="home-header">
-        <div class="home-greeting">Good day, Artist<span class="accent-dot">.</span></div>
+        <div class="home-greeting" id="home-greeting">Good day, Artist<span class="accent-dot">.</span></div>
         <div class="home-sub">Ready to strike a new pose?</div>
       </div>
 
@@ -1395,8 +1472,8 @@ img { max-width: 100%; }
         <div class="featured-card-figure" id="thumb-scurve"></div>
         <div class="featured-card-body">
           <div class="featured-overline">FEATURED POSE</div>
-          <div class="featured-name">S-Curve Stand</div>
-          <button class="btn btn-gold" data-testid="btn-start-session-home" onclick="goToSession('scurve-stand')">Start Session</button>
+          <div class="featured-name" id="featured-name">S-Curve Stand</div>
+          <button class="btn btn-gold" id="featured-start-btn" data-testid="btn-start-session-home" onclick="goToSession('scurve-stand')">Start Session</button>
         </div>
       </div>
 
@@ -1440,16 +1517,16 @@ img { max-width: 100%; }
       <div class="library-title">Pose Library</div>
       <div class="search-bar">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-        <input type="text" id="pose-search-input" data-testid="input-pose-search" placeholder="Search poses, moods, categories…" oninput="searchPoses(this.value)">
+        <input type="text" id="pose-search-input" data-testid="input-pose-search" placeholder="Search poses, moods, categories…" aria-label="Search poses by name, mood, or category" oninput="searchPoses(this.value)">
       </div>
     </div>
 
     <div class="filter-pills" role="list">
-      <button class="filter-pill active" data-testid="filter-all" onclick="document.querySelectorAll('.filter-pill').forEach(p=>p.classList.remove('active'));this.classList.add('active')">All</button>
-      <button class="filter-pill" data-testid="filter-beginner" onclick="document.querySelectorAll('.filter-pill').forEach(p=>p.classList.remove('active'));this.classList.add('active');searchPoses('beginner')">Beginner</button>
-      <button class="filter-pill" data-testid="filter-intermediate" onclick="document.querySelectorAll('.filter-pill').forEach(p=>p.classList.remove('active'));this.classList.add('active');searchPoses('intermediate')">Intermediate</button>
-      <button class="filter-pill" data-testid="filter-advanced" onclick="document.querySelectorAll('.filter-pill').forEach(p=>p.classList.remove('active'));this.classList.add('active');searchPoses('advanced')">Advanced</button>
-      <button class="filter-pill" data-testid="filter-favorites" onclick="document.querySelectorAll('.filter-pill').forEach(p=>p.classList.remove('active'));this.classList.add('active');searchPoses('favorite')">Favorites</button>
+      <button class="filter-pill active" data-testid="filter-all" aria-pressed="true" onclick="document.querySelectorAll('.filter-pill').forEach(p=>{p.classList.remove('active');p.setAttribute('aria-pressed','false')});this.classList.add('active');this.setAttribute('aria-pressed','true')">All</button>
+      <button class="filter-pill" data-testid="filter-beginner" aria-pressed="false" onclick="document.querySelectorAll('.filter-pill').forEach(p=>{p.classList.remove('active');p.setAttribute('aria-pressed','false')});this.classList.add('active');this.setAttribute('aria-pressed','true');searchPoses('beginner')">Beginner</button>
+      <button class="filter-pill" data-testid="filter-intermediate" aria-pressed="false" onclick="document.querySelectorAll('.filter-pill').forEach(p=>{p.classList.remove('active');p.setAttribute('aria-pressed','false')});this.classList.add('active');this.setAttribute('aria-pressed','true');searchPoses('intermediate')">Intermediate</button>
+      <button class="filter-pill" data-testid="filter-advanced" aria-pressed="false" onclick="document.querySelectorAll('.filter-pill').forEach(p=>{p.classList.remove('active');p.setAttribute('aria-pressed','false')});this.classList.add('active');this.setAttribute('aria-pressed','true');searchPoses('advanced')">Advanced</button>
+      <button class="filter-pill" data-testid="filter-favorites" aria-pressed="false" onclick="document.querySelectorAll('.filter-pill').forEach(p=>{p.classList.remove('active');p.setAttribute('aria-pressed','false')});this.classList.add('active');this.setAttribute('aria-pressed','true');showFavorites()">Favorites ♥</button>
     </div>
 
     <div class="screen-scroll">
@@ -1465,12 +1542,40 @@ img { max-width: 100%; }
   <div id="pose-sheet-overlay" onclick="closePoseSheet()"></div>
   <div class="bottom-sheet" id="pose-detail-sheet">
     <div class="sheet-handle"></div>
-    <button class="sheet-close" data-testid="btn-close-pose-sheet" onclick="closePoseSheet()" aria-label="Close">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0F3B3A" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
-    </button>
+    <div class="sheet-header-bar">
+      <button class="sheet-close" data-testid="btn-close-pose-sheet" onclick="closePoseSheet()" aria-label="Close">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0F3B3A" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+      <div class="sheet-header-actions">
+        <button class="pose-fav-btn" id="sheet-fav-btn" data-testid="btn-sheet-fav" onclick="toggleFavFromSheet(event)" aria-label="Add to favorites" aria-pressed="false">
+          <svg width="20" height="20" viewBox="0 0 16 16" fill="none"><path d="M8 14S1 9.5 1 5.5C1 3.5 2.5 2 4.5 2c1 0 2 .5 3.5 2C9.5 2.5 10.5 2 12.5 2 14.5 2 15 3.5 15 5.5 15 9.5 8 14 8 14Z" stroke="#C96A4C" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="sheet-action-btn" id="sheet-share-btn" data-testid="btn-sheet-share" onclick="sharePoseFromSheet()" aria-label="Share pose">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0F3B3A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        </button>
+      </div>
+    </div>
     <div class="sheet-body">
-      <div class="sheet-figure" id="pose-detail-animation"></div>
-      <h2 id="detail-title">Pose Name</h2>
+      <!-- Row: figure SVG + 3D skeleton side by side -->
+      <div style="display:flex; gap:10px; align-items:flex-start; padding: 0 4px;">
+        <div style="flex:0 0 auto;">
+          <div class="sheet-figure" id="pose-detail-animation" style="margin:0;"></div>
+        </div>
+        <div class="skeleton-3d-wrap" style="flex:1; text-align:center; padding:0;">
+          <canvas id="pose-skeleton-3d-canvas" width="180" height="190" 
+            style="border-radius:12px; background:rgba(15,59,58,0.06); touch-action:none; cursor:grab; max-width:100%;"
+            data-testid="canvas-skeleton-3d">
+          </canvas>
+          <div class="skeleton-view-btns" style="display:flex; gap:4px; justify-content:center; margin-top:4px; flex-wrap:wrap;">
+            <button class="skel-view-btn" data-testid="btn-skel-front" onclick="setSkelView('front')" style="font-size:10px; padding:3px 7px; border-radius:6px; border:1px solid #0F3B3A; background:transparent; color:#0F3B3A; cursor:pointer;">Front</button>
+            <button class="skel-view-btn" data-testid="btn-skel-side" onclick="setSkelView('side-left')" style="font-size:10px; padding:3px 7px; border-radius:6px; border:1px solid #0F3B3A; background:transparent; color:#0F3B3A; cursor:pointer;">Side</button>
+            <button class="skel-view-btn" data-testid="btn-skel-quarter" onclick="setSkelView('quarter-front-left')" style="font-size:10px; padding:3px 7px; border-radius:6px; border:1px solid #0F3B3A; background:transparent; color:#0F3B3A; cursor:pointer;">¾</button>
+            <button class="skel-view-btn active" data-testid="btn-skel-auto" onclick="setSkelView('auto')" style="font-size:10px; padding:3px 7px; border-radius:6px; border:1px solid #C9A24C; background:rgba(201,162,76,0.15); color:#0F3B3A; cursor:pointer;">Auto ↺</button>
+          </div>
+        </div>
+      </div>
+
+      <h2 id="detail-title" style="margin-top:10px;">Pose Name</h2>
       <div id="detail-tags"></div>
 
       <div class="sheet-section-title">Instructions</div>
@@ -1522,10 +1627,10 @@ img { max-width: 100%; }
         <div class="option-row" style="flex-direction:column; align-items:stretch; gap:10px;">
           <div class="option-label">Overlay Mode</div>
           <div class="overlay-mode-row" id="overlay-mode-selector">
-            <div class="overlay-mode-chip active" data-testid="overlay-avatar">Avatar</div>
-            <div class="overlay-mode-chip" data-testid="overlay-skeleton">Skeleton</div>
-            <div class="overlay-mode-chip" data-testid="overlay-ghost">Ghost</div>
-            <div class="overlay-mode-chip" data-testid="overlay-off">Off</div>
+            <button class="overlay-mode-chip active" data-testid="overlay-avatar" onclick="selectOverlayMode(this,'avatar')" aria-pressed="true">Avatar</button>
+            <button class="overlay-mode-chip" data-testid="overlay-skeleton" onclick="selectOverlayMode(this,'skeleton')" aria-pressed="false">Skeleton</button>
+            <button class="overlay-mode-chip" data-testid="overlay-ghost" onclick="selectOverlayMode(this,'ghost')" aria-pressed="false">Ghost</button>
+            <button class="overlay-mode-chip" data-testid="overlay-off" onclick="selectOverlayMode(this,'off')" aria-pressed="false">Off</button>
           </div>
         </div>
       </div>
@@ -1533,6 +1638,8 @@ img { max-width: 100%; }
 
     <div class="setup-footer">
       <button class="btn btn-gold btn-block" id="begin-session-btn" data-testid="btn-begin-capture" onclick="startCameraSession()">Begin Capture →</button>
+      <p style="text-align:center;font-size:11px;color:var(--text-muted);margin:8px 0 0;line-height:1.4;">Opens your camera with the ghost overlay — align your body, hit the shutter.</p>
+      <button class="btn btn-outline btn-block" style="margin-top:8px;font-size:13px;" data-testid="btn-browse-only" onclick="goBack()">← Back to Pose</button>
     </div>
   </section>
 
@@ -1556,6 +1663,7 @@ img { max-width: 100%; }
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
         </button>
         <div id="camera-pose-name">Pose Name</div>
+        <div id="demo-mode-pill" data-testid="pill-demo-mode" style="display:none;position:absolute;left:50%;top:52px;transform:translateX(-50%);background:rgba(201,162,76,0.92);color:#0F3B3A;font:600 11px/1 var(--font-body);letter-spacing:0.5px;padding:5px 10px;border-radius:999px;z-index:30;">DEMO MODE</div>
         <div class="camera-topbar-actions">
           <button class="camera-icon-btn" id="flash-btn" data-testid="btn-flash" onclick="toggleFlash()" aria-label="Toggle flash">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>
@@ -1580,6 +1688,7 @@ img { max-width: 100%; }
         </div>
       </div>
 
+
       <div id="hint-banner"><div id="hint-text">Align with the ghost guide</div></div>
       <div id="autocapture-progress-wrap"><div id="autocapture-progress"></div></div>
       <div id="particle-bloom" aria-hidden="true"></div>
@@ -1591,8 +1700,8 @@ img { max-width: 100%; }
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2M9 2h6"/></svg>
         </button>
         <button id="shutter-btn" data-testid="btn-shutter" onclick="capturePhoto()" aria-label="Capture photo"></button>
-        <button class="camera-side-btn" data-testid="btn-open-library-camera" onclick="showTab('library')" aria-label="Pose library">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        <button class="camera-side-btn" data-testid="btn-next-pose" onclick="goToNextPose()" aria-label="Next pose">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </button>
       </div>
     </div>
@@ -1687,7 +1796,7 @@ img { max-width: 100%; }
   <!-- ══════════════════════ CATEGORY LIST SCREEN ══════════════════════ -->
   <section id="screen-category-list" class="screen">
     <div class="cat-list-header" id="category-list-header">
-      <button class="icon-btn" data-testid="btn-back-category-list" onclick="showTab('library')" aria-label="Back">
+      <button class="icon-btn" data-testid="btn-back-category-list" onclick="goBack()" aria-label="Back">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0F3B3A" stroke-width="2" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
       </button>
       <div class="cat-list-header-text">
@@ -1753,6 +1862,12 @@ img { max-width: 100%; }
 
       <div class="section-label">Recent Sessions</div>
       <div id="session-history-list"></div>
+      <div id="session-history-empty" style="display:none; text-align:center; padding:32px 24px;">
+        <div style="font-size:48px; margin-bottom:12px;" aria-hidden="true">🌱</div>
+        <div style="font:var(--type-h3); color:var(--text-primary); margin-bottom:8px;">Your journey starts here</div>
+        <div style="font:var(--type-body); color:var(--text-secondary); margin-bottom:24px;">Complete your first session to see your progress and session history.</div>
+        <button class="btn btn-gold" onclick="showTab('library')" style="padding:12px 28px;">Browse Poses</button>
+      </div>
     </div>
   </section>
 
@@ -1829,14 +1944,15 @@ img { max-width: 100%; }
   </nav>
 
   <!-- ══════════════════════ TOAST ══════════════════════ -->
-  <div id="toast"><span id="toast-text"></span></div>
+  <div id="toast" role="status" aria-live="polite"><span id="toast-text"></span></div>
 
 </div>
 
 <!-- ══════════════════════ SCRIPTS ══════════════════════ -->
 <script src="js/poses-data.js"></script>
-<script src="js/pose-sprites.js"></script>
+<script src="js/pose-skeleton-3d.js"></script>
 <script src="js/camera.js"></script>
 <script src="js/app.js"></script>
+<script src="js/pose-animations.js"></script>
 </body>
 </html>
