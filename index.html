@@ -783,11 +783,15 @@ img { max-width: 100%; }
   position: absolute; inset: 0;
   z-index: 2;
   display: flex; align-items: center; justify-content: center;
-  opacity: 0;
+  opacity: 1;
   transition: opacity 300ms;
   pointer-events: none;
 }
 #pose-overlay-container svg { width: 60%; max-width: 220px; filter: drop-shadow(0 0 20px rgba(201,162,76,0.3)); }
+/* CameraPoseGuide styling — the v5 procedural pose guide layer */
+.cpg-svg-host { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+.cpg-chips { pointer-events: none; }
+.cpg-chip { transition: background-color 250ms, transform 250ms; }
 
 .camera-topbar {
   position: absolute; top: 0; left: 0; right: 0;
@@ -1953,10 +1957,13 @@ img { max-width: 100%; }
 
 <!-- ══════════════════════ SCRIPTS ══════════════════════ -->
 <script src="js/poses-data.js"></script>
+<script src="js/persistence.js"></script>
 <script src="js/pose-skeleton-3d.js"></script>
 <script src="js/pose-figure-procedural.js"></script>
 <script src="js/pose-animation.js"></script>
+<script src="js/pose-flagship-animation.js"></script>
 <script src="js/camera.js"></script>
+<script src="js/camera-pose-guide.js"></script>
 <script src="js/app.js"></script>
 <script src="js/pose-animations.js"></script>
 </body>

@@ -31,6 +31,13 @@ window.AppState = AppState;
 
 // ── INITIALIZATION ─────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
+  // v5: hydrate persisted state before rendering — restores onboarding
+  // completion flag, selected goal, gallery, sessions, and favorites when
+  // localStorage is available. No-ops silently in blocked-storage iframes.
+  if (window.PoseArtStorage) {
+    window.PoseArtStorage.hydrateAll();
+    window.PoseArtStorage.installAutosave();
+  }
   initStatusBarTime();
   renderCategoryGrid();
   renderCategoryThumbs();
@@ -40,13 +47,19 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Onboarding completion flag.
-// NOTE: localStorage is BLOCKED in the preview iframe sandbox, so this is intentionally
-// in-memory and resets on every page load. A future non-iframe build can add persistence
-// here without changing the rest of the codebase.
-let _onboardingCompleted = false;
+// v5: `window._onboardingCompleted` is set true by PoseArtStorage.hydrateAll()
+// when a prior session persisted the flag. When localStorage is blocked (some
+// preview iframes), this remains in-memory and resets on every page load.
+let _onboardingCompleted = window._onboardingCompleted || false;
 
 function checkOnboardingStatus() {
-  if (_onboardingCompleted) {
+  // v5: consult the hydrated `window._onboardingCompleted` first so a
+  // returning user with persisted onboarding is routed straight to home.
+  // The module-scope `_onboardingCompleted` is initialised at script parse,
+  // BEFORE hydrateAll() can run, so we can't rely on it alone.
+  const done = _onboardingCompleted || window._onboardingCompleted === true;
+  if (done) {
+    _onboardingCompleted = true; // keep the local var in sync
     showTab('home');
   } else {
     // Ensure tab-bar is hidden while onboarding — the initial HTML `active`
@@ -192,6 +205,9 @@ window.selectGoal = function(btn, goal) {
     startBtn.disabled = false;
     startBtn.style.opacity = '1';
   }
+
+  // v5: persist across reloads so returning users skip OB and keep goal.
+  if (window.PoseArtStorage) window.PoseArtStorage.saveSelectedGoal(goal);
 }
 
 window.completeOnboarding = function() {
@@ -200,6 +216,8 @@ window.completeOnboarding = function() {
     return;
   }
   _onboardingCompleted = true;
+  // v5: persist so a refresh doesn't drop the user back into onboarding.
+  if (window.PoseArtStorage) window.PoseArtStorage.markOnboardingDone();
   showTab('home');
 }
 
@@ -207,6 +225,10 @@ window.completeOnboarding = function() {
 window.completeOnboardingSkip = function() {
   AppState.selectedGoal = AppState.selectedGoal || 'exploring';
   _onboardingCompleted = true;
+  if (window.PoseArtStorage) {
+    window.PoseArtStorage.markOnboardingDone();
+    window.PoseArtStorage.saveSelectedGoal(AppState.selectedGoal);
+  }
   showTab('home');
 }
 
@@ -338,7 +360,12 @@ function updateCameraGhostSVG(poseId) {
   if (!pose) return;
   const container = document.getElementById('pose-overlay-container');
   if (!container) return;
-  // Replace with the full rendered SVG at ghost opacity
+  // Prefer the live pose guide (v5): procedural skeleton + alignment chips.
+  if (window.CameraPoseGuide && typeof window.CameraPoseGuide.mount === 'function') {
+    window.CameraPoseGuide.mount(container, pose, {});
+    return;
+  }
+  // Legacy fallback: static ghost SVG
   container.innerHTML = renderPoseFigureSVG(pose, true)
     .replace('style="filter:', 'style="opacity:0.35; filter:');
 }
@@ -509,7 +536,9 @@ window.saveToGallery = function() {
     if (activePreset) last.filter = activePreset.getAttribute('data-preset') || 'none';
   }
   showToast('Saved to your Gallery ✓');
-  if (!_dataLossWarned) {
+  // v5: only warn about data loss when persistence is actually unavailable.
+  const persistAvailable = !!(window.PoseArtStorage && window.PoseArtStorage.available);
+  if (!_dataLossWarned && !persistAvailable) {
     _dataLossWarned = true;
     setTimeout(() => showToast('Note: captures aren\u2019t saved after you close this tab.'), 1600);
   }
@@ -758,8 +787,13 @@ window.openPoseDetail = function(poseId) {
   }
 
   if (animEl) {
-    if (window.PoseAnimation && typeof window.PoseAnimation.mount === 'function') {
+    // Prefer hand-authored flagship motion arc if one exists for this pose.
+    if (window.PoseFlagshipAnimation && window.PoseFlagshipAnimation.has(pose.id)) {
+      window.PoseFlagshipAnimation.mount(animEl, pose, { width: 220, height: 300 });
+      animEl.dataset.flagship = 'true';
+    } else if (window.PoseAnimation && typeof window.PoseAnimation.mount === 'function') {
       window.PoseAnimation.mount(animEl, pose, { width: 220, height: 300 });
+      animEl.dataset.flagship = 'false';
     } else {
       animEl.innerHTML = renderPoseFigureSVG(pose, true);
     }

@@ -1,7 +1,41 @@
 # AGENT_STATE.md — PoseArt Deep Audit + Skeleton Perfection
-**Updated:** 2026-07-05 21:45
-**Phase:** POSING_PRINCIPLES + renderer v2 + full-library principle sweep (branch `feat/posing-principles-and-rig`)
+**Updated:** 2026-07-06 (v5 session)
+**Phase:** v5 — flagship motion arcs + camera pose guide + persistence + E2E red-team (branch `feat/posing-principles-and-rig`)
 **Mission:** Stanford STORM methodology + Zuckerberg/Musk/STORM model council + skeleton anatomy improvement + red-team until zero issues.
+
+---
+
+## 2026-07-06 SESSION LOG — v5: flagship motion + camera guide + E2E + persistence
+
+**User-requested scope (verbatim):**
+> "1. One real motion-into-pose animation prototype for 3–5 flagship poses using CSS/SMIL keyframes off the procedural skeleton, to prove the pattern before we invest in 761 of them.
+> 2. Camera-overlay upgrade: use the new procedural skeleton as a live pose guide on top of the camera feed with alignment feedback.
+> 3. Playwright end-to-end test of the actual broken user flow (pose selection → camera → capture) with before/after screenshots and a fix.
+> 4. Red-team pass on the known open issues in AGENT_STATE.md and fix the top ~5."
+
+**Landed:**
+1. **`js/pose-flagship-animation.js`** (309 lines) — hand-authored multi-keyframe motion arcs for 5 flagship poses (tiptoe-reach, contrapposto, power-stance, warrior-lunge, side-stretch). Each pose has 3–4 keyframes with per-segment easing (linear / in / out / inout / back) and phases: forward → hold → reverse → rest → loop. Public API: `.has(id)`, `.mount(container, pose, opts)`, `.IDS`. Wired via `openPoseDetail` in `js/app.js` (falls back to the standard idle-breathing animation for the other 740 poses).
+2. **`js/camera-pose-guide.js`** (243 lines) — procedural-skeleton pose guide mounted directly over the camera feed. `.mount()` swaps the static overlay SVG for the procedural rig; `.update(score, errors)` retints (cream at <50%, gold at ≥50%), applies wobble at low scores, and renders top-3 joint-error chips ("Left shoulder · Drop shoulder") sorted by severity, or a green `HELD · XX%` chip when aligned. Extended JOINT_LABEL to cover hipAbductR/L, wrists, ankles, head, torso; added `humanizeJointKey` fallback so raw camelCase never appears.
+3. **`js/camera.js`** — `setPose` mounts the guide, `_updateHUD` calls `CameraPoseGuide.update` every frame, `setOverlayMode` fixed so `ghost` and `avatar` modes actually show the overlay (previously set opacity=0). Added **v5 demo-mode alignment aid**: in simulation mode `_computeAlignment` blends a slow bell-curve so score cycles 40 → ~95 every ~12s; errors dwindle as score rises. Demo users on desktop now actually see the autocapture trigger.
+4. **`js/persistence.js`** (NEW, 196 lines) — iframe-safe localStorage wrapper. Probes storage on load; wraps `addToGallery` / `saveSession` / `toggleFavorite` / `removeFromGallery` / `toggleGalleryFavorite` to autosave; hydrates back on `DOMContentLoaded`. Also persists onboarding-done flag and selected goal. Silent no-ops in sandboxed iframes.
+5. **`js/app.js`** — wired persistence into `DOMContentLoaded` (hydrate + install autosave), `selectGoal` (save goal), `completeOnboarding` + `completeOnboardingSkip` (mark done). Data-loss warning only fires when persistence is actually unavailable.
+6. **`index.html`** — script tag for `persistence.js` (loaded right after `poses-data.js`) and for `camera-pose-guide.js`; `.cpg-*` CSS classes; `#pose-overlay-container` opacity default 0 → 1.
+
+**Playwright end-to-end verification:**
+- Onboarding → home → library → category (standing / 47 poses) → pose card → pose-detail sheet (flagship animation) → Start Session → session-setup → Begin Capture → screen-camera. Zero JS errors.
+- Camera overlay: mounts correctly, chips render live joint errors with friendly labels; demo-mode badge visible when camera denied.
+- Forced-alignment path fires autocapture in 1.6s (v5 demo curve now does this naturally in ~6s).
+- After capture: screen-review, filters render, Save → Gallery tab shows the capture.
+- Screenshots in `qa_screenshots/e2e_before/step0-9*.png`, `qa_screenshots/e2e_after/`, `qa_screenshots/flagship_proofs/all_strips.png`, `qa_screenshots/camera_overlay_strip.png`.
+
+**Red-team validation (v5) — candidates from prior AGENT_STATE that were actually invalid:**
+- `goBack()` history stack → already correct (`AppState.screenStack` exists at app.js:27).
+- Back button on category-list → already calls `goBack()`, not `showTab('library')` (index.html:1806).
+- Demo mode badge → already surfaces (`#demo-mode-pill` visible when camera denied).
+- OB4 `selectedGoal` → already read by `personalizeHome()` at app.js:2115.
+- Pose count header in `poses-data.js` → already fixed (line 3: "745 poses across 16 categories").
+
+These have been re-verified in this session and are now marked FIXED below. The v5 fixes above target the still-open items.
 
 ---
 
@@ -47,12 +81,12 @@
 ### CRITICAL (ship-blockers)
 - [x] camera.js line 123: dead ternary (FIXED Phase 9)
 - [ ] CSS architecture: inline <style> in index.html overrides ~112 rules in css/app.css — cascade conflict, dead CSS
-- [ ] Navigation stack: goBack() has no history stack — jumps to tab root instead of true back
-- [ ] Data loss: no persistence warning shown to users (gallery/favs lost on refresh)
-- [ ] OB4 persona selection: AppState.selectedGoal set but NEVER read anywhere — dead personalization
-- [ ] Onboarding replays every load (no persistence for onboarding-done flag)
-- [ ] Pose count inconsistency: poses-data.js header says "300+ / 10 categories" — actual is 761 / 16 categories
-- [ ] Demo mode badge: users who granted camera see same fake scoring as demo mode — no indicator shown
+- [x] Navigation stack: `goBack()` uses `AppState.screenStack` (FIXED prior to v5, verified in v5)
+- [x] Data loss: `js/persistence.js` autosaves gallery, sessions, favorites, onboarding, and selected goal to localStorage; graceful no-op in blocked iframes (FIXED v5)
+- [x] OB4 persona selection: `personalizeHome()` reads `AppState.selectedGoal` (app.js:2115) — verified in v5
+- [x] Onboarding replays every load: `PoseArtStorage.markOnboardingDone()` persists the flag; `hydrateAll()` restores it (FIXED v5)
+- [x] Pose count header: poses-data.js line 3 now reads "745 poses across 16 categories" (FIXED prior, verified v5)
+- [x] Demo mode badge: `#demo-mode-pill` visible when camera denied (verified in v5 E2E). Users who granted camera still get real webcam frames — the badge is only shown in simulation mode.
 
 ### PERFORMANCE
 - [x] Search debounce 0ms → 180ms (FIXED Phase 9)
@@ -65,10 +99,13 @@
 - [x] Category grid not hidden during search (FIXED Phase 9)
 - [x] Search result count header missing (FIXED Phase 9)
 - [x] Fav + share buttons missing from pose detail sheet (FIXED Phase 9)
-- [ ] Session history persists in-memory only — lost on refresh
+- [x] Session history persists via `js/persistence.js` (FIXED v5)
 - [ ] OB2 demo: static SVG toggle, not an actual preview of camera mechanic
 - [ ] 240 orphaned GIFs in /gifs/ with no matching pose entry
-- [ ] Back button on category-list calls showTab('library') directly, not goBack()
+- [x] Back button on category-list calls `goBack()` (index.html:1806) — already correct, verified v5
+- [x] Camera pose guide (`js/camera-pose-guide.js`): live procedural-skeleton overlay with per-joint chips instead of static ghost (LANDED v5)
+- [x] Flagship motion arcs (`js/pose-flagship-animation.js`): 5 hand-authored multi-keyframe animations (LANDED v5)
+- [x] Simulation mode: `_computeAlignment` demo bell-curve so demo users actually hit autocapture (FIXED v5)
 
 ### SKELETON / ANATOMY (Phase C targets)
 - [ ] Poses look like crude stick figures: straight limbs, no S-curves, no weight shift

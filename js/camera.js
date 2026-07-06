@@ -382,7 +382,35 @@ class CameraEngine {
     const avgError = weightSum > 0 ? totalError / weightSum : 0;
     const base = Math.round((1 - avgError) * 100);
     const osc = Math.sin(this.simFrame * 0.08) * 4;
-    return { score: Math.max(0, Math.min(100, base + osc)), errors };
+    let score = Math.max(0, Math.min(100, base + osc));
+
+    // v5 demo-mode aid: without a camera, `base` stays low (~30-45%) forever
+    // and users never see the autocapture trigger — they think it's broken.
+    // In simulationMode, blend a slow "user finding the pose" curve so we
+    // spend ~4-6s in ALMOST, then briefly cross 85%+ so the auto-capture
+    // fires. Errors dwindle as the score rises.
+    if (this.simulationMode) {
+      const secs = this.simFrame / 30; // ~30fps assumed
+      const cycle = 12; // seconds per full alignment cycle
+      const phase = (secs % cycle) / cycle; // 0→1→0
+      // Bell-shaped curve peaking near cycle midpoint; peak ~92%
+      const bell = Math.exp(-Math.pow((phase - 0.55) * 3.2, 2));
+      const demoScore = 40 + bell * 55; // floor 40, peak ~95
+      score = Math.max(score, demoScore);
+      // Dampen errors proportionally so chips fade as alignment approaches 100%.
+      if (score > 60) {
+        const errKeys = Object.keys(errors);
+        const keepFrac = Math.max(0, 1 - (score - 60) / 40);
+        const keepCount = Math.round(errKeys.length * keepFrac);
+        // Drop the smallest-delta errors first so we keep the most useful ones.
+        errKeys
+          .sort((a, b) => (errors[a].delta || 0) - (errors[b].delta || 0))
+          .slice(0, errKeys.length - keepCount)
+          .forEach(k => delete errors[k]);
+      }
+    }
+
+    return { score, errors };
   }
 
   _mirrorJoint(joint) {
@@ -469,6 +497,12 @@ class CameraEngine {
     }
 
     this._updateHalo(d);
+
+    // CameraPoseGuide: live procedural-skeleton pose guide + per-joint chips.
+    // Feature-flagged behind window.CameraPoseGuide so old builds still work.
+    if (window.CameraPoseGuide && typeof window.CameraPoseGuide.update === 'function') {
+      window.CameraPoseGuide.update(d, errors || {});
+    }
   }
 
   _updateHalo(score) {
@@ -601,10 +635,12 @@ class CameraEngine {
     const ghostCvs   = document.getElementById('ghost-canvas');
     if (!skelCanvas) return;
     switch(mode) {
-      case 'ghost':    if(overlay) overlay.style.opacity='0'; skelCanvas.style.opacity='1'; if(ghostCvs) ghostCvs.style.opacity='1'; break;
-      case 'avatar':   if(overlay) overlay.style.opacity='0.65'; skelCanvas.style.opacity='1'; if(ghostCvs) ghostCvs.style.opacity='1'; break;
-      case 'skeleton': if(overlay) overlay.style.opacity='0'; skelCanvas.style.opacity='1'; if(ghostCvs) ghostCvs.style.opacity='0'; break;
-      case 'off':      if(overlay) overlay.style.opacity='0'; skelCanvas.style.opacity='0'; if(ghostCvs) ghostCvs.style.opacity='0'; break;
+      // v5: the pose-overlay-container now hosts CameraPoseGuide (the procedural
+      // skeleton guide), so it should be visible in 'ghost' and 'avatar' modes.
+      case 'ghost':    if(overlay) overlay.style.opacity='1';    skelCanvas.style.opacity='1'; if(ghostCvs) ghostCvs.style.opacity='0'; break;
+      case 'avatar':   if(overlay) overlay.style.opacity='1';    skelCanvas.style.opacity='1'; if(ghostCvs) ghostCvs.style.opacity='0'; break;
+      case 'skeleton': if(overlay) overlay.style.opacity='0';    skelCanvas.style.opacity='1'; if(ghostCvs) ghostCvs.style.opacity='0'; break;
+      case 'off':      if(overlay) overlay.style.opacity='0';    skelCanvas.style.opacity='0'; if(ghostCvs) ghostCvs.style.opacity='0'; break;
     }
   }
 
@@ -613,6 +649,12 @@ class CameraEngine {
     this.currentScore = 45;
     this.captureHeldMs = 0;
     this.smoothedKeypoints = {};
+    // Mount the procedural pose guide into the overlay container.
+    if (window.CameraPoseGuide && typeof window.CameraPoseGuide.mount === 'function') {
+      const container = document.getElementById('pose-overlay-container');
+      const pose = (typeof POSES_LIBRARY !== 'undefined') ? POSES_LIBRARY[poseId] : null;
+      if (container && pose) window.CameraPoseGuide.mount(container, pose, {});
+    }
   }
 }
 
