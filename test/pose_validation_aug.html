@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Pose Detection - Augmented Test</title>
+<script src="../js/poses-data.js"></script>
+<script src="../js/camera.js"></script>
+</head>
+<body>
+<pre id="out">Loading...</pre>
+<script>
+async function run() {
+  const manifest = await (await fetch('keypoints_manifest_augmented.json')).json();
+  const engine = new CameraEngine();
+  engine.facingMode = 'user';
+  engine.skeletonCanvas = { getBoundingClientRect: () => ({ width: 430, height: 932 }) };
+
+  const results = [];
+  for (const item of manifest) {
+    const kps = {};
+    for (const [k, v] of Object.entries(item.keypoints)) {
+      kps[k] = { x: v.x, y: v.y, confidence: 1.0 };
+    }
+    let max = 0, topId = null, topCat = null;
+    for (const pid of Object.keys(POSES_LIBRARY)) {
+      const r = engine._computeAlignment(kps, pid);
+      if (r.score > max) { max = r.score; topId = pid; topCat = POSES_LIBRARY[pid].category; }
+    }
+    results.push({ ...item, max_score: max, top_id: topId, top_cat: topCat });
+  }
+
+  // Group by (pdf, photo) and compare variants
+  const byOrig = {};
+  for (const r of results) {
+    const key = r.pdf + '/' + r.photo;
+    (byOrig[key] = byOrig[key] || {})[r.variant] = r;
+  }
+  // For each original: compute robustness metrics
+  const robustness = [];
+  for (const [key, variants] of Object.entries(byOrig)) {
+    const orig = variants.orig;
+    if (!orig) continue;
+    const rot5deltas = ['rot-5','rot+5','rot-15','rot+15','flip-h','flip-v']
+      .filter(v => variants[v])
+      .map(v => ({ variant: v, delta: variants[v].max_score - orig.max_score, top_id: variants[v].top_id, orig_top: orig.top_id }));
+    robustness.push({ key, orig_score: orig.max_score, deltas: rot5deltas });
+  }
+
+  // Summary
+  let out = `Augmented validation - ${results.length} variant scores\n\n`;
+  const scores = results.map(r => r.max_score).sort((a,b)=>a-b);
+  out += `Median max_score: ${scores[Math.floor(scores.length/2)]}\n`;
+  out += `>=85%: ${results.filter(r=>r.max_score>=85).length}/${results.length}\n`;
+  out += `>=70%: ${results.filter(r=>r.max_score>=70).length}/${results.length}\n\n`;
+
+  // Robustness: how much does score drop under rotations?
+  const variantDelta = {};
+  for (const rob of robustness) {
+    for (const d of rob.deltas) {
+      (variantDelta[d.variant] = variantDelta[d.variant] || []).push(d.delta);
+    }
+  }
+  out += `Score delta by augmentation (variant vs original):\n`;
+  for (const [v, deltas] of Object.entries(variantDelta)) {
+    const sorted = deltas.sort((a,b)=>a-b);
+    const med = sorted[Math.floor(sorted.length/2)];
+    const min = sorted[0], max = sorted[sorted.length-1];
+    const mean = deltas.reduce((a,b)=>a+b,0)/deltas.length;
+    out += `  ${v.padEnd(8)} median=${med>=0?'+':''}${med}  mean=${mean.toFixed(1)}  range=[${min},${max}]\n`;
+  }
+
+  // Rotational stability: how often does top_id change under small rotation?
+  let topFlips = 0, topSame = 0;
+  for (const rob of robustness) {
+    for (const d of rob.deltas) {
+      if (['rot-5','rot+5'].includes(d.variant)) {
+        if (d.top_id === d.orig_top) topSame++; else topFlips++;
+      }
+    }
+  }
+  out += `\nTop-1 pose stability under ±5° rotation: ${topSame} same / ${topSame+topFlips} total (${(100*topSame/(topSame+topFlips)).toFixed(1)}%)\n`;
+
+  document.getElementById('out').textContent = out;
+  window.__aug_results = results;
+  window.__aug_robustness = robustness;
+  window.__aug_done = true;
+}
+run();
+</script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>PoseArt Detection Validation Harness</title>
+<script src="../js/poses-data.js"></script>
+<script src="../js/camera.js"></script>
+<style>
+body { font-family: monospace; padding: 20px; background: #111; color: #eee; }
+.res { margin: 4px 0; padding: 4px 8px; }
+.ok { background: #1a3a1a; }
+.bad { background: #3a1a1a; }
+.top5 { font-size: 11px; color: #aaa; margin-left: 20px; }
+</style>
+</head>
+<body>
+<h1>PoseArt Detection Harness</h1>
+<div id="results"></div>
+<pre id="summary"></pre>
+
+<script>
+// Load all keypoint files by name via fetch; keypoints are served via a JSON manifest
+async function loadManifest() {
+  const r = await fetch('keypoints_manifest.json');
+  return await r.json();
+}
+
+async function run() {
+  const manifest = await loadManifest();
+  const engine = new CameraEngine();
+  engine.facingMode = 'user'; // as used in front-camera mode
+  engine.skeletonCanvas = { getBoundingClientRect: () => ({ width: 430, height: 932 }) };
+
+  const results = [];
+  for (const item of manifest) {
+    const kps = item.keypoints;
+    // Force full confidence (algorithmic test — MediaPipe visibility isn't the same as PoseArt confidence)
+    const kpsFull = {};
+    for (const [k, v] of Object.entries(kps)) kpsFull[k] = { x: v.x, y: v.y, confidence: 1.0 };
+
+    // Score against every pose in POSES_LIBRARY
+    const scores = [];
+    for (const pid of Object.keys(POSES_LIBRARY)) {
+      const r = engine._computeAlignment(kpsFull, pid);
+      scores.push({ id: pid, score: r.score, cat: POSES_LIBRARY[pid].category });
+    }
+    scores.sort((a,b) => b.score - a.score);
+    results.push({
+      pdf: item.pdf, photo: item.photo,
+      expected_category: item.expected_category,
+      max_score: scores[0].score,
+      top5: scores.slice(0, 5),
+    });
+  }
+
+  // Render
+  const box = document.getElementById('results');
+  const above85 = results.filter(r => r.max_score >= 85).length;
+  const above70 = results.filter(r => r.max_score >= 70).length;
+  const median = results.map(r => r.max_score).sort((a,b)=>a-b)[Math.floor(results.length/2)];
+  document.getElementById('summary').textContent = `
+    Photos: ${results.length}
+    Median max_score: ${median}
+    >= 85%: ${above85}/${results.length}
+    >= 70%: ${above70}/${results.length}
+  `;
+  for (const r of results) {
+    const div = document.createElement('div');
+    div.className = 'res ' + (r.max_score >= 85 ? 'ok' : 'bad');
+    div.innerHTML = `[${r.max_score}%] <b>${r.pdf}/${r.photo}</b> (expected: ${r.expected_category})<div class="top5">${r.top5.map(s=>`${s.score}% ${s.id} [${s.cat}]`).join(' · ')}</div>`;
+    box.appendChild(div);
+  }
+
+  // Signal completion for Playwright
+  window.__validationDone = true;
+  window.__validationResults = results;
+}
+
+run();
+</script>
+</body>
+</html>
