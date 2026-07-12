@@ -507,24 +507,9 @@
     // silhouette stays lithe rather than puffy. The shadow is drawn under
     // the bone fill, so we stroke the bone path first with the shadow, then
     // re-fill without the shadow for a clean inner color.
-    // PR-v2 (v1.2) — Phase 2/3 forensic audit found "ghost = avatar" on 8/16
-    // poses. Root cause: the glow (shadowBlur=8, alpha=0.55) was too subtle at
-    // the 160×180 session-setup preview size to read as "water". The ghost
-    // looked like a solid cyan silhouette — not qualitatively different from
-    // the avatar's dark-teal silhouette. Strengthened the water aesthetic:
-    //   - shadowBlur 8 → 14 (wider, softer glow halo around each bone)
-    //   - shadowColor alpha 0.55 → 0.70 (more luminous)
-    //   - Added a second inner highlight stroke (1px, white-cyan, 0.35 alpha)
-    //     along each bone to simulate water surface reflection. This is the
-    //     visual cue that distinguishes "water ghost" from "solid cyan figure".
-    // REASONING [PR-v2]: the directive (Part H #13) says the ghost should be
-    // "more watery and lithe" — not just a color swap. The original PR-2
-    // swapped the color (teal→cyan) but didn't add the surface-reflection
-    // cue that makes water read as water. The inner highlight stroke is the
-    // equivalent of the specular highlight on a water surface.
     if (state.ghostMode) {
-      ctx.shadowColor = hexToRgba(COLOR_GHOST, 0.70);
-      ctx.shadowBlur = 14;
+      ctx.shadowColor = hexToRgba(COLOR_GHOST, 0.55);
+      ctx.shadowBlur = 8;
     }
     // Draw tapered bone as a filled trapezoid path for volume
     var dx = pb.x - pa.x, dy = pb.y - pa.y;
@@ -549,19 +534,6 @@
     ctx.lineWidth = 0.8;
     ctx.strokeStyle = hexToRgba(baseColor, alpha * 0.4);
     ctx.stroke();
-    // PR-v2 (v1.2): ghost water-surface highlight — a thin bright-cyan stroke
-    // along the near-edge of the bone (the side facing the light/camera) to
-    // simulate specular reflection on a water surface. This is the visual cue
-    // that distinguishes "water ghost" from "solid cyan silhouette". Without
-    // it, the VLM reads the ghost as just a color-swapped avatar.
-    if (state.ghostMode) {
-      ctx.beginPath();
-      ctx.moveTo(pa.x + nx * wA * 0.5, pa.y + ny * wA * 0.5);
-      ctx.lineTo(pb.x + nx * wB * 0.5, pb.y + ny * wB * 0.5);
-      ctx.lineWidth = 1.0;
-      ctx.strokeStyle = hexToRgba('#9FD9E8', Math.min(0.45, alpha * 0.55)); // light cyan
-      ctx.stroke();
-    }
     ctx.restore();
   }
 
@@ -642,9 +614,7 @@
       // the skull. This is the same trick used by PoseAnimator (TF.js) for
       // gaze direction.
       var headModel = skel.head;
-      // PR-v2 (v1.2): eyeOffsetX 0.05→0.06 so the two eyes are distinguishable
-      // at front view rather than reading as a single blob at small sizes.
-      var eyeOffsetX = 0.06;   // lateral spread in model units
+      var eyeOffsetX = 0.05;   // lateral spread in model units
       var eyeOffsetY = 0.02;   // slightly above head center
       var eyeOffsetZ = 0.07;   // forward (toward camera at yaw=0) in model units
       // Apply the figure's own yaw/pitch via applyCamera so the eyes land on
@@ -653,16 +623,9 @@
       var eyeR_model = { x: headModel.x + eyeOffsetX, y: headModel.y + eyeOffsetY, z: headModel.z + eyeOffsetZ };
       var eyeL_proj = project(state, eyeL_model);
       var eyeR_proj = project(state, eyeR_model);
-      // PR-v2 (v1.2) — Phase 2/3 forensic audit finding: "face always toward
-      // camera" was flagged on 16/16 poses. Root cause: the original eye radius
-      // (1.6 * (0.55 + 0.6 * depthT) ≈ 1.0-1.6px) was sub-pixel at the 160×180
-      // session-setup preview size, so the VLM (and users) couldn't see the
-      // eyes rotating with the figure. Increased to 2.8 * (0.6 + 0.7 * depthT)
-      // ≈ 2.2-3.6px — clearly visible at 160×180 and still proportionate at
-      // 430×932 camera size. Also widened the lateral spread (eyeOffsetX
-      // 0.05→0.06) so the two eyes are distinguishable at front view rather
-      // than reading as a single blob.
-      var eyeR = Math.max(1.2, 2.8 * (0.6 + 0.7 * depthT));
+      // Eye radius scales with depth so a back-view eye (z very negative)
+      // shrinks to invisibility — natural occlusion cue.
+      var eyeR = Math.max(0.6, 1.6 * (0.55 + 0.6 * depthT));
       // Render only the eye whose projected z is in front of the skull center
       // (z greater than head z — i.e., closer to camera). Back-facing eye is
       // skipped so we don't get "X-ray" eyes through the skull.
@@ -715,27 +678,7 @@
   // ----------------------------------------------------------
   // Categories: leaning -> wall on figure's right; seated/lean-seat -> seat plane;
   //             reclining/prone/supine -> floor/mat; kneeling -> floor mat;
-  //             boudoir -> soft surface (bed/divan); dynamic/standing -> none.
-  // PR-v2 (v1.2) — Phase 2/3 forensic audit found "object missing" on 7/16 poses.
-  // Root cause: ACCESSORY_CATS didn't cover high-to-low, low-to-high, accessible,
-  // eccentric, or couple categories. Many of these poses imply floor contact
-  // (high-to-low, low-to-high are floor-to-standing trajectories), chair use
-  // (accessible = wheelchair → chair per directive Part H #38), or floor work
-  // (eccentric often uses floor). Added:
-  //   - 'high-to-low' → 'floor' (descent poses end on floor)
-  //   - 'low-to-high' → 'floor' (rise poses start on floor)
-  //   - 'accessible'  → 'chair' (directive #38: chair not wheelchair)
-  //   - 'eccentric'   → 'floor' (most eccentric poses are floor-based)
-  //   - 'couple'      → 'floor' is NOT added here — couple poses are usually
-  //     standing; if a specific couple pose needs a prop, it should set
-  //     pose.category to a more specific value or we add a per-pose prop field
-  //     in a future PR.
-  // REASONING [PR-v2]: the VLM flagged "object missing" on poses like
-  // 'lowhigh-floor-side-push-up-start' (cat=low-to-high, description mentions
-  // floor) and 'highlow-full-recline-final-settle' (cat=high-to-low, description
-  // mentions floor). The old map had no entry for these categories, so
-  // drawAccessory() returned early and no floor was drawn — making the pose
-  // look like it was floating in space.
+  //             boudoir -> soft surface (bed/divan); dynamic/standing -> none
   var ACCESSORY_CATS = {
     'leaning'     : 'wall',
     'lean-seat'   : 'chair',
@@ -744,12 +687,7 @@
     'prone'       : 'floor',
     'supine'      : 'floor',
     'kneeling'    : 'floor',
-    'boudoir'     : 'bed',
-    // PR-v2 (v1.2) additions:
-    'high-to-low' : 'floor',
-    'low-to-high' : 'floor',
-    'accessible'  : 'chair',
-    'eccentric'   : 'floor'
+    'boudoir'     : 'bed'
   };
 
   function drawAccessory(state) {
@@ -788,30 +726,9 @@
     }
 
     if (type === 'floor') {
-      // Horizontal mat/floor ellipse at bottom of figure.
-      // PR-v2 (v1.2) — Phase 2/3 forensic audit fix: the old code used
-      // `shadow.y - 0.04` as the floor Y, which for reclining/supine poses
-      // (globalTilt ≈ 90°) places the floor BELOW the body's lowest point —
-      // often off-screen at the 160×180 preview size. The VLM flagged
-      // "object missing" on 7/16 poses, most of which were reclining/floor
-      // poses where the floor wasn't visible.
-      //
-      // Fix: for poses with |globalTilt| >= 45° (reclining/prone/supine),
-      // place the floor at a fixed world-space y = -0.95 (just below the
-      // T-pose ankle height of -0.80) so it's always visible at the bottom
-      // of the canvas regardless of body orientation. For upright poses
-      // (kneeling, etc.), keep the old shadow-relative behavior.
-      var gTilt = (state.currentPose && state.currentPose.head) ?
-        0 : 0; // placeholder — we check the actual globalTilt below
-      // Read globalTilt from the current pose's joints — but state doesn't
-      // store the raw joints. Instead, infer recline from the skeleton's
-      // head Y vs hip Y: if head.y is close to hip.y (both near 0 or
-      // negative), the body is horizontal.
-      var sk = state.displaySkeleton;
-      var isReclining = sk.head && sk.hips &&
-        Math.abs(sk.head.y - sk.hips.y) < 0.35; // head and hips at similar height = horizontal
+      // Horizontal mat/floor ellipse at bottom of figure
       var shadow = getShadowCenter(state);
-      var floorY = isReclining ? -0.95 : shadow.y - 0.04;
+      var floorY = shadow.y - 0.04;
       var fLeft  = project(state, { x: -0.55, y: floorY, z:  0.3 });
       var fRight = project(state, { x:  0.55, y: floorY, z:  0.3 });
       var fBack  = project(state, { x:  0,    y: floorY, z: -0.3 });

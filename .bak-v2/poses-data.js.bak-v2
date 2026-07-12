@@ -33,26 +33,7 @@ const POSES_LIBRARY = {
     difficulty: 'Beginner', angle: '3/4 View', intent: 'Photography', effort: 'Static',
     instructions: 'Plant feet hip-width apart, shift 70% of weight onto the back leg, and let the front knee soften and turn 15° outward. Push the near hip toward camera while dropping the opposite shoulder to carve an S-curve. Lengthen the neck upward.',
     tip: 'Angle the torso 45° from camera and turn the chin back toward the lens — never square both shoulders.',
-    // PR-v2 (v1.2) — Phase 2/3 forensic audit fix. Root cause: "pose too subtle".
-    // The description calls for a DRAMATIC S-curve: "shift 70% of weight onto
-    // the back leg" (big weight shift), "push the near hip toward camera"
-    // (significant hip forward), "dropping the opposite shoulder" (clear
-    // shoulder drop). The old joint values were too conservative:
-    //   - spine 15° → 25° (more visible forward lean for the S-curve)
-    //   - hips 14° → 22° (stronger lateral pelvis tilt for weight shift)
-    //   - leftShoulder -10 → -25 (left shoulder raised more for asymmetry)
-    //   - rightShoulder 8 → 18 (right shoulder dropped more)
-    //   - leftHip 8 → 20 (left leg forward = bent front knee)
-    //   - rightKnee 10 → 5 (back leg straighter — bears 70% weight)
-    //   - leftKnee 10 → 35 (front knee softened/turned out)
-    //   - hipAbductL 10 → 15, hipAbductR 10 → 12 (slightly wider stance)
-    //   - neck -3 → -8 (chin turned back toward lens)
-    // REASONING [PR-v2]: The S-curve is THE canonical photography pose. If it
-    // reads as "neutral standing", the entire pose library's credibility is
-    // undermined. The joint values need to be bold enough to read at 160×180
-    // preview size. 70% weight shift = significant hip pop; "dropping the
-    // opposite shoulder" = at least 15° shoulder asymmetry.
-    joints: {spine: 25, hips: 22, neck: -8, leftShoulder: -25, rightShoulder: 18, leftElbow: 70, rightElbow: 50, hipAbductL: 15, hipAbductR: 12, leftHip: 20, rightKnee: 5, leftKnee: 35},
+    joints: {spine: 15, hips: 14, neck: -3.0, leftShoulder: -10, rightShoulder: 8, leftElbow: 70, rightElbow: 50, hipAbductL: 10, hipAbductR: 10, leftHip: 8, rightKnee: 10, leftKnee: 10},
     color: 'var(--color-teal-100)', figure: 'scurve',
     tags: ['portrait', 'beginner', 'standing', 'classic']
   },
@@ -659,26 +640,7 @@ const POSES_LIBRARY = {
     difficulty: 'Beginner', angle: '3/4 View', intent: 'Social', effort: 'Static',
     instructions: 'Rest both forearms flat on the top rail of a fence, leaning the torso forward with weight sunk fully into the rail rather than hovering above it. Cross one foot behind the other for a casual stance.',
     tip: 'Sink real weight into the fence rather than hovering above it — that\'s what reads as natural.',
-    // PR-v2 (v1.2) — Phase 2/3 forensic audit fix. Root causes:
-    //   1. spine was -12 (backward arch) but description says "leaning FORWARD".
-    //      Per convention (Part A.10: spine negative = backward arch, positive
-    //      = forward fold), this is a SIGN ERROR. Fixed: spine -12 → 28 (forward lean).
-    //   2. hipAbductL/R both +10 (legs spread) but description says "cross one
-    //      foot behind the other". For crossed ankles, one leg should cross
-    //      inward (negative hipAbduct). Fixed: hipAbductR 10 → -12 (right leg
-    //      crosses behind left).
-    //   3. shoulderFwdL/R too small (4, -10) to convey "forearms flat on rail"
-    //      (arms reaching forward to the fence). Fixed: shoulderFwdL 4 → 35,
-    //      shoulderFwdR -10 → 30 (both arms reach forward toward the fence).
-    //   4. leftShoulder/rightShoulder too small (-10, 8) — arms should be
-    //      raised forward to reach the fence rail. Fixed: leftShoulder -10 →
-    //      -55, rightShoulder 8 → -50 (arms raised forward toward rail).
-    //   5. elbows at 95° — correct (forearms folded over the rail). Kept.
-    // REASONING [PR-v2]: "Description is king" (directive Part A.10 rule #1).
-    // The description explicitly says forward lean + crossed feet + forearms on
-    // rail. The old data encoded a backward arch with spread feet and arms at
-    // the sides — the opposite of the description.
-    joints: {spine: 28, hips: 5, neck: -4, leftShoulder: -55, rightShoulder: -50, leftElbow: 95, rightElbow: 95, hipAbductL: 10, hipAbductR: -12, leftKnee: 10, rightKnee: 10, shoulderFwdL: 35, shoulderFwdR: 30},
+    joints: {spine: -12, hips: 5, neck: -4, leftShoulder: -10, rightShoulder: 8, leftElbow: 95, rightElbow: 95, hipAbductL: 10, hipAbductR: 10, leftKnee: 10, rightKnee: 10, shoulderFwdL: 4, shoulderFwdR: -10},
     color: 'var(--color-cobalt-200)', figure: 'elbow-prop',
     tags: ['casual', 'beginner', 'leaning', 'outdoor']
   },
@@ -2682,33 +2644,7 @@ const POSES_LIBRARY = {
     difficulty: 'Beginner', angle: 'Front', intent: 'Artistic', effort: 'Static',
     instructions: 'Raise both arms upward with a joyful, open expression, chest lifting and face brightening. Let the gaze follow the hands toward the sky.',
     tip: 'A genuine upward gaze following the hands adds real energy to the reach.',
-    // PR-v2 (v1.2) — Phase 2/3 forensic audit fix. Root causes:
-    //   1. spine was 5 (slight forward fold) but description says "chest
-    //      LIFTING" which is a back arch. Per convention, spine negative =
-    //      backward arch. Fixed: spine 5 → -15 (chest lift / back arch).
-    //   2. neck was 12 but description says "gaze follow the hands toward the
-    //      sky" — head should tilt UP (neck extension). The convention has
-    //      neck as side-tilt, not pitch. We approximate upward gaze by keeping
-    //      neck small (0) since the rig doesn't have a neck-pitch joint. The
-    //      back arch (spine -15) will lift the chest and implicitly the gaze.
-    //   3. leftShoulder -136 / rightShoulder -120 — both arms ARE raised in
-    //      the data, but the VLM saw only the left arm raised. Root cause:
-    //      the avatar SVG glyph 'chair-reach-diagonal' shows only one arm
-    //      raised (it's a hand-crafted glyph, not procedural). The skeleton/
-    //      ghost DO show both arms, but the VLM may have been generalizing
-    //      from the avatar row. To make the skeleton/ghost more clearly
-    //      symmetric, I equalized both shoulders to -130 (was -136/-120,
-    //      a 16° asymmetry that made the right arm look less raised).
-    //   4. elbows 70/70 — correct (soft bend overhead). Kept.
-    //   5. leftHip/rightHip 40/40 + leftKnee/rightKnee 30/30 — both legs
-    //      flexed and bent. The description doesn't mention legs, but for
-    //      "accessible" category (chair user), the hips should be at 90°
-    //      (seated). Increased: leftHip/rightHip 40 → 90 (seated hip flexion),
-    //      leftKnee/rightKnee 30 → 90 (seated knee bend).
-    // REASONING [PR-v2]: "Description is king" + directive Part H #38 "Use a
-    // chair instead of wheelchair (for accessible category)". The pose should
-    // show a seated figure (chair user) with both arms raised joyfully.
-    joints: { spine: -15, neck: 0, leftShoulder: -130, leftElbow: 70, rightShoulder: -130, rightElbow: 70, leftHip: 90, leftKnee: 90, rightHip: 90, rightKnee: 90 },
+    joints: { spine: 5, neck: 12, leftShoulder: -136, leftElbow: 70, rightShoulder: -120, rightElbow: 70, leftHip: 40, leftKnee: 30, rightHip: 40, rightKnee: 30 },
     color: 'rgba(76,175,125,0.15)', figure: 'chair-reach-diagonal',
     tags: ['joyful', 'beginner', 'accessible', 'artistic']
   },
@@ -4286,37 +4222,7 @@ const POSES_LIBRARY = {
       effort: 'Static',
       instructions: 'Round the upper spine deliberately forward while the lower body stays powerful and grounded, hands clasped low in front. Lift the gaze up beneath lowered brows for a brooding, intense mood.',
       tip: 'Ground the legs firmly so the hunch reads as stylistic choice, not poor posture.',
-      // PR-v2 (v1.2) — Phase 2/3 forensic audit fix. Root causes:
-      //   1. The POSE NAME says "Arms Crossed Overhead" but the DESCRIPTION
-      //      (which is king per directive Part A.10 rule #1) says "hands
-      //      clasped LOW in front" + "round upper spine FORWARD". The data
-      //      matched the NAME (arms overhead: leftShoulder -130, rightShoulder
-      //      -116) not the DESCRIPTION. Per "description is king", fixed the
-      //      joints to match the description:
-      //        - Arms DOWN and crossed in front: leftShoulder -130 → 15 (arm
-      //          hanging down), rightShoulder -116 → 18, shoulderFwdL 8 → 40
-      //          (arm forward across body), shoulderFwdR -6 → -40 (arm forward
-      //          across body mirrored), elbows 100/100 → 110/110 (deeply bent
-      //          so forearms cross low in front).
-      //        - Spine forward: spine 10 → 30 (deliberate forward round).
-      //        - Neck: 25 → 0 (description says "lift gaze up" but the rig's
-      //          neck joint is side-tilt, not pitch; set to 0 to avoid an
-      //          accidental head tilt that would contradict "brooding").
-      //   2. hips 15 — slight lateral pelvis tilt. Kept (subtle weight shift
-      //      is fine for "grounded" stance).
-      //   3. leftHip -7 / rightHip 12 — mild asymmetry. Kept.
-      //   4. leftKnee 10 / rightKnee 5 — barely bent. For "powerful and
-      //      grounded" legs, increased slightly: 10/5 → 15/12 (soft knees,
-      //      not locked).
-      // REASONING [PR-v2]: The directive explicitly says "Description is king.
-      // Rename display name and id to match description; never rename
-      // description to match render." The description describes a hunched,
-      // brooding pose with hands low — NOT arms overhead. The name
-      // "Arms Crossed Overhead" is itself drift from the description. A future
-      // PR should rename this pose to "Brooding Hunch" or similar; for now we
-      // fix the joints to match the description (the truth) and note the name
-      // drift for a follow-up rename pass.
-      joints: {spine: 30, hips: 15, neck: 0, leftShoulder: 15, rightShoulder: 18, leftElbow: 110, rightElbow: 110, leftHip: -7, rightKnee: 12, leftKnee: 15, rightHip: 12, shoulderFwdL: 40, shoulderFwdR: -40},
+      joints: {spine: 10, hips: 15, neck: 25, leftShoulder: -130, rightShoulder: -116, leftElbow: 100, rightElbow: 100, leftHip: -7, rightKnee: 5, leftKnee: 10, rightHip: 12, shoulderFwdL: 8, shoulderFwdR: -6},
       color: 'var(--color-purple-100)',
       figure: 'arm-reach',
       tags: ['mystery', 'overhead', 'shadow', 'graphic'],
@@ -5871,33 +5777,7 @@ const POSES_LIBRARY = {
       effort: 'Static',
       instructions: 'Continue lowering the torso until both hands reach the floor while arching the back slightly and bending the knees deeply, nearing the sequence\'s lowest point. Let the neck relax and the head hang naturally.',
       tip: 'Combine depth and arch here for a visually rich descending near-final shape.',
-      // PR-v2 (v1.2) — Phase 2/3 forensic audit fix. Root causes:
-      //   1. spine was 10 (forward fold) but description says "arching the
-      //      back slightly" = back arch = spine NEGATIVE. Sign error. Fixed:
-      //      spine 10 → -18 (back arch).
-      //   2. leftKnee 18 / rightKnee 5 — description says "bending the knees
-      //      DEEPLY". 18°/5° is barely bent. Fixed: leftKnee 18 → 85,
-      //      rightKnee 5 → 80 (deep knee bend).
-      //   3. leftHip 15 / rightHip 10 — hips barely flexed. For a reclining
-      //      pose with knees deeply bent, hips should be flexed more to bring
-      //      knees toward chest. Fixed: leftHip 15 → 70, rightHip 10 → 65.
-      //   4. neck 8 — description says "let the neck relax and head hang". A
-      //      small neck tilt is fine; kept at 8.
-      //   5. leftShoulder -10 / rightShoulder 8 — arms should reach the floor
-      //      ("both hands reach the floor"). Arms need to extend downward.
-      //      With globalTilt=82 (nearly supine), arms extending "down" in
-      //      body-space rotate to "toward floor" in world-space. Increased
-      //      shoulder flexion: leftShoulder -10 → -60, rightShoulder 8 → -55
-      //      (arms reaching overhead in body-space → toward floor when supine).
-      //   6. leftElbow 65 / rightElbow 45 — slightly bent, fine for reaching.
-      //      Kept.
-      //   7. globalTilt 82 — nearly supine (correct for "full recline").
-      //      Kept.
-      // REASONING [PR-v2]: "Description is king". The description says back
-      // arch + deep knee bend + hands on floor + relaxed neck. The old data
-      // had forward spine + straight knees + arms at sides — none of which
-      // match.
-      joints: { globalTilt: 82, spine: -18, neck: 8, leftShoulder: -60, leftElbow: 65, rightShoulder: -55, rightElbow: 45, leftHip: 70, leftKnee: 85, rightHip: 65, rightKnee: 80 },
+      joints: { globalTilt: 82, spine: 10, neck: 8, leftShoulder: -10, leftElbow: 65, rightShoulder: 8, rightElbow: 45, leftHip: 15, leftKnee: 18, rightHip: 10, rightKnee: 5 },
       color: 'var(--color-amber-100)',
       figure: 'side-recline',
       tags: ['recline', 'final', 'soft', 'sequence'],
