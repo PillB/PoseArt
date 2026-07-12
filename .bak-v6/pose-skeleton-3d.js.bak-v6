@@ -770,20 +770,16 @@
     // future PR can add dedicated fence/bench/table renderers.
     var desc = state.poseDescription || '';
     if (desc) {
-      // PR-v6 (v1.6) Iter A3: fence/railing is now a DISTINCT prop type.
-      // A fence is a horizontal rail the figure leans ON (in front, at
-      // waist height), not a vertical surface behind. Drawing it as 'wall'
-      // placed it behind the figure — wrong for fence-lean poses.
-      if (/\bfence\b|rail(ing)?\b/i.test(desc)) type = 'fence';
+      if (/\bfence\b|rail\b/i.test(desc)) type = 'wall'; // fence ≈ wall (horizontal rail)
       else if (/\bchair\b|armchair|stool\b/i.test(desc)) type = 'chair';
       else if (/\bwall\b/i.test(desc)) type = 'wall';
       else if (/\bfloor\b|ground\b|mat\b/i.test(desc)) type = 'floor';
       else if (/\bbed\b|mattress\b|pillow\b/i.test(desc)) type = 'bed';
-      else if (/\bcouch\b|sofa\b/i.test(desc)) type = 'bed';
-      else if (/\bbench\b/i.test(desc)) type = 'chair';
-      else if (/\btable\b/i.test(desc)) type = 'chair';
-      else if (/\btube\b/i.test(desc)) type = 'chair';
-      else if (/\blounge\b/i.test(desc)) type = 'bed';
+      else if (/\bcouch\b|sofa\b/i.test(desc)) type = 'bed'; // couch ≈ bed surface
+      else if (/\bbench\b/i.test(desc)) type = 'chair'; // bench ≈ chair surface
+      else if (/\btable\b/i.test(desc)) type = 'chair'; // table ≈ chair surface
+      else if (/\btube\b/i.test(desc)) type = 'chair'; // tube ≈ chair surface
+      else if (/\blounge\b/i.test(desc)) type = 'bed'; // lounge ≈ bed surface
     }
     if (!type) return;
     var ctx = state.ctx;
@@ -792,93 +788,59 @@
     ctx.save();
 
     if (type === 'wall') {
-      // PR-v6 (v1.6) Iter A1 — wall positioning fix.
-      //
-      // OLD (v1.5): wall drawn at model-space x=+1.0 (figure's RIGHT side).
-      // This was wrong for most leaning poses, where the description says
-      // "lean back against wall" — the wall should be BEHIND the figure
-      // (negative Z in model space), not to the side. VLM confirmed: "No
-      // wall is visible in the skeleton row; the wall should be behind the
-      // figure (supporting the upper back/shoulders)."
-      //
-      // NEW (v1.6): draw the wall as a vertical plane at z=-0.25 (behind the
-      // figure). The wall spans the full width of the figure (x=-0.6..+0.6)
-      // so it's visible at all yaw angles. At front view (yaw=0), the wall
-      // appears as a faint vertical band behind the figure. At side view
-      // (yaw=90), the wall recedes into perspective. At back view (yaw=180),
-      // the wall is in front of the camera (behind the figure from the
-      // viewer's perspective).
-      //
-      // The wall is drawn as a filled rectangle (not just a line) so it
-      // reads as a solid surface. Hatching is added for texture.
-      var wTopL = project(state, { x: -0.65, y:  1.7, z: -0.28 });
-      var wTopR = project(state, { x:  0.65, y:  1.7, z: -0.28 });
-      var wBotL = project(state, { x: -0.65, y: -0.20, z: -0.28 });
-      var wBotR = project(state, { x:  0.65, y: -0.20, z: -0.28 });
-      // Fill the wall as a semi-transparent rectangle
+      // Vertical wall line on the right side of the figure
+      // Project a vertical stripe at x=+1.0 in model space
+      var top    = project(state, { x: 1.0, y:  1.6, z: 0 });
+      var bottom = project(state, { x: 1.0, y: -0.15, z: 0 });
       ctx.beginPath();
-      ctx.moveTo(wTopL.x, wTopL.y);
-      ctx.lineTo(wTopR.x, wTopR.y);
-      ctx.lineTo(wBotR.x, wBotR.y);
-      ctx.lineTo(wBotL.x, wBotL.y);
-      ctx.closePath();
-      ctx.fillStyle = 'rgba(180,160,130,0.12)';
-      ctx.fill();
-      // Wall outline (left + right edges + top + bottom)
-      ctx.strokeStyle = 'rgba(180,160,130,0.40)';
-      ctx.lineWidth = 2;
+      ctx.moveTo(top.x, top.y);
+      ctx.lineTo(bottom.x, bottom.y);
+      ctx.strokeStyle = 'rgba(180,160,130,0.45)';
+      ctx.lineWidth = 4;
       ctx.lineCap = 'round';
       ctx.stroke();
-      // Vertical hatching to suggest wall texture
-      var hatchSteps = 5;
-      for (var hi = 1; hi < hatchSteps; hi++) {
-        var hfrac = hi / hatchSteps;
-        var hx = -0.65 + 1.3 * hfrac;
-        var hTop = project(state, { x: hx, y:  1.7, z: -0.28 });
-        var hBot = project(state, { x: hx, y: -0.20, z: -0.28 });
+      // Hatching to suggest wall texture
+      var steps = 6;
+      for (var i = 0; i <= steps; i++) {
+        var frac = i / steps;
+        var py = top.y + (bottom.y - top.y) * frac;
         ctx.beginPath();
-        ctx.moveTo(hTop.x, hTop.y);
-        ctx.lineTo(hBot.x, hBot.y);
-        ctx.strokeStyle = 'rgba(180,160,130,0.15)';
+        ctx.moveTo(top.x - 12, py);
+        ctx.lineTo(top.x + 2, py);
+        ctx.strokeStyle = 'rgba(180,160,130,0.18)';
         ctx.lineWidth = 1;
         ctx.stroke();
       }
     }
 
     if (type === 'floor') {
-      // PR-v6 (v1.6) Iter A2 — floor positioning fix for reclining poses.
+      // Horizontal mat/floor ellipse at bottom of figure.
+      // PR-v2 (v1.2) — Phase 2/3 forensic audit fix: the old code used
+      // `shadow.y - 0.04` as the floor Y, which for reclining/supine poses
+      // (globalTilt ≈ 90°) places the floor BELOW the body's lowest point —
+      // often off-screen at the 160×180 preview size. The VLM flagged
+      // "object missing" on 7/16 poses, most of which were reclining/floor
+      // poses where the floor wasn't visible.
       //
-      // OLD (v1.5): for reclining poses, floor was placed at y=-0.95 (below
-      // the T-pose ankle height). But a reclining figure (globalTilt≈90°)
-      // has its body horizontal at y≈0, so the floor at y=-0.95 was far
-      // below the body — not visually associated with it. VLM confirmed:
-      // "No floor or mat is visible under the figure."
-      //
-      // NEW (v1.6): for reclining poses, place the floor at the body's
-      // lowest point minus a small offset (so the floor is just under the
-      // body, visually supporting it). For upright poses, keep the
-      // shadow-relative behavior. Also increase the floor's alpha and size
-      // so it's more visible.
+      // Fix: for poses with |globalTilt| >= 45° (reclining/prone/supine),
+      // place the floor at a fixed world-space y = -0.95 (just below the
+      // T-pose ankle height of -0.80) so it's always visible at the bottom
+      // of the canvas regardless of body orientation. For upright poses
+      // (kneeling, etc.), keep the old shadow-relative behavior.
+      var gTilt = (state.currentPose && state.currentPose.head) ?
+        0 : 0; // placeholder — we check the actual globalTilt below
+      // Read globalTilt from the current pose's joints — but state doesn't
+      // store the raw joints. Instead, infer recline from the skeleton's
+      // head Y vs hip Y: if head.y is close to hip.y (both near 0 or
+      // negative), the body is horizontal.
       var sk = state.displaySkeleton;
-      // PR-v6: widened threshold from 0.35 to 0.50 — the old threshold was
-      // exactly at the boundary for globalTilt=82° poses (head-hips diff =
-      // 0.35), causing isReclining to be false when it should be true.
       var isReclining = sk.head && sk.hips &&
-        Math.abs(sk.head.y - sk.hips.y) < 0.50;
+        Math.abs(sk.head.y - sk.hips.y) < 0.35; // head and hips at similar height = horizontal
       var shadow = getShadowCenter(state);
-      // PR-v6: for reclining poses, place the floor at the body's lowest
-      // point PLUS a small downward offset. The old shadow.y - 0.08 placed
-      // the floor at y≈-0.67 which projected to pixel y≈204 — too close to
-      // the bottom edge of the 280px canvas (cell height ≈220px after
-      // label/header). New: use shadow.y - 0.02 so the floor is right at
-      // the body's lowest point, visually supporting it.
-      var floorY = isReclining ? (shadow.y - 0.02) : (shadow.y - 0.04);
-      // Wider floor for reclining poses (body is horizontal, needs wider surface)
-      var floorHalfWidth = isReclining ? 0.85 : 0.55;
-      var floorDepth = isReclining ? 0.5 : 0.3;
-      var fLeft  = project(state, { x: -floorHalfWidth, y: floorY, z:  floorDepth });
-      var fRight = project(state, { x:  floorHalfWidth, y: floorY, z:  floorDepth });
-      var fBack  = project(state, { x:  0,              y: floorY, z: -floorDepth });
+      var floorY = isReclining ? -0.95 : shadow.y - 0.04;
+      var fLeft  = project(state, { x: -0.55, y: floorY, z:  0.3 });
+      var fRight = project(state, { x:  0.55, y: floorY, z:  0.3 });
+      var fBack  = project(state, { x:  0,    y: floorY, z: -0.3 });
       // Draw a flat rectangle / mat shape
       ctx.beginPath();
       ctx.moveTo(fLeft.x,  fLeft.y  + 8);
@@ -886,13 +848,10 @@
       ctx.lineTo(fBack.x + 28, fBack.y + 2);
       ctx.lineTo(fBack.x - 28, fBack.y + 2);
       ctx.closePath();
-      // PR-v6: increased alpha for better visibility (0.10 → 0.18 → 0.30 → 0.45)
-      // VLM feedback: 0.30 still not visible on parchment. 0.45 with thicker
-      // stroke should be clearly visible.
-      ctx.fillStyle = 'rgba(80,160,140,0.45)';
+      ctx.fillStyle = 'rgba(80,160,140,0.10)';
       ctx.fill();
-      ctx.strokeStyle = 'rgba(60,140,120,0.75)';
-      ctx.lineWidth = 2.5;
+      ctx.strokeStyle = 'rgba(80,160,140,0.35)';
+      ctx.lineWidth = 1.5;
       ctx.stroke();
     }
 
@@ -953,49 +912,6 @@
       ctx.strokeStyle = 'rgba(220,180,200,0.30)';
       ctx.lineWidth = 1;
       ctx.stroke();
-    }
-
-    if (type === 'fence') {
-      // PR-v6 (v1.6) Iter A3 — dedicated fence/railing prop.
-      // A fence is a horizontal rail at waist height (y≈0.4 in model space)
-      // that the figure leans ON (in front, positive Z). Drawn as:
-      //   - A horizontal top rail (the surface the arms rest on)
-      //   - 2-3 vertical posts supporting the rail
-      // The fence is positioned in FRONT of the figure (z=+0.5) so the
-      // figure's arms can rest on it.
-      var fenceY = 0.35; // waist height in model space
-      var fenceZ = 0.45;  // in front of figure
-      var fLeft  = project(state, { x: -0.6, y: fenceY, z: fenceZ });
-      var fRight = project(state, { x:  0.6, y: fenceY, z: fenceZ });
-      // Top rail (horizontal line)
-      ctx.beginPath();
-      ctx.moveTo(fLeft.x, fLeft.y);
-      ctx.lineTo(fRight.x, fRight.y);
-      ctx.strokeStyle = 'rgba(140,110,70,0.65)';
-      ctx.lineWidth = 4;
-      ctx.lineCap = 'round';
-      ctx.stroke();
-      // Second rail (lower, for realism)
-      var fLeft2  = project(state, { x: -0.6, y: fenceY - 0.12, z: fenceZ });
-      var fRight2 = project(state, { x:  0.6, y: fenceY - 0.12, z: fenceZ });
-      ctx.beginPath();
-      ctx.moveTo(fLeft2.x, fLeft2.y);
-      ctx.lineTo(fRight2.x, fRight2.y);
-      ctx.strokeStyle = 'rgba(140,110,70,0.45)';
-      ctx.lineWidth = 3;
-      ctx.stroke();
-      // Vertical posts at left, center, right
-      var postXs = [-0.6, 0, 0.6];
-      for (var pi = 0; pi < postXs.length; pi++) {
-        var pTop = project(state, { x: postXs[pi], y: fenceY, z: fenceZ });
-        var pBot = project(state, { x: postXs[pi], y: -0.3, z: fenceZ });
-        ctx.beginPath();
-        ctx.moveTo(pTop.x, pTop.y);
-        ctx.lineTo(pBot.x, pBot.y);
-        ctx.strokeStyle = 'rgba(140,110,70,0.50)';
-        ctx.lineWidth = 3;
-        ctx.stroke();
-      }
     }
 
     ctx.restore();
@@ -1164,55 +1080,6 @@
     for (var j = 0; j < jointsDepth.length; j++) {
       drawJoint(state, jointsDepth[j].key);
     }
-    // PR-v6 (v1.6) Iter A2: for reclining poses, re-draw the floor AFTER the
-    // figure so it's visible. The pre-figure floor (drawn in drawAccessory)
-    // gets covered by the horizontal body. This post-figure pass draws a
-    // semi-transparent floor band that extends below the figure's silhouette.
-    if (state.displaySkeleton.head && state.displaySkeleton.hips &&
-        Math.abs(state.displaySkeleton.head.y - state.displaySkeleton.hips.y) < 0.50) {
-      drawRecliningFloorOverlay(state);
-    }
-  }
-
-  // PR-v6 (v1.6) Iter A2 — Reclining floor overlay (post-figure).
-  // Draws a wide semi-transparent floor band at the bottom of the canvas
-  // AFTER the figure is drawn. This ensures the floor is visible even when
-  // the horizontal body covers the pre-figure floor (drawn in drawAccessory).
-  // The band is drawn in screen space (not projected) so it always appears
-  // at the bottom of the canvas regardless of camera angle.
-  function drawRecliningFloorOverlay(state) {
-    var ctx = state.ctx;
-    var w = state.width, h = state.height;
-    var fitScale = Math.min(w, h) * 0.40 * state.scale;
-    // Find the lowest projected point of the skeleton (screen Y)
-    var skel = state.displaySkeleton;
-    var maxScreenY = 0;
-    for (var k in skel) {
-      if (Object.prototype.hasOwnProperty.call(skel, k)) {
-        var p = project(state, skel[k]);
-        if (p.y > maxScreenY) maxScreenY = p.y;
-      }
-    }
-    // Draw a floor band from maxScreenY to the bottom of the canvas
-    var floorTop = maxScreenY - 4;
-    var floorBottom = h;
-    if (floorBottom - floorTop < 10) floorTop = floorBottom - 20; // minimum 20px band
-    ctx.save();
-    // Gradient: more opaque at top, fading toward bottom
-    var grad = ctx.createLinearGradient(0, floorTop, 0, floorBottom);
-    grad.addColorStop(0, 'rgba(80,160,140,0.40)');
-    grad.addColorStop(0.5, 'rgba(80,160,140,0.25)');
-    grad.addColorStop(1, 'rgba(80,160,140,0.10)');
-    ctx.fillStyle = grad;
-    ctx.fillRect(0, floorTop, w, floorBottom - floorTop);
-    // Top edge line for definition
-    ctx.strokeStyle = 'rgba(60,140,120,0.60)';
-    ctx.lineWidth = 1.5;
-    ctx.beginPath();
-    ctx.moveTo(0, floorTop);
-    ctx.lineTo(w, floorTop);
-    ctx.stroke();
-    ctx.restore();
   }
 
   // ----------------------------------------------------------
@@ -1695,11 +1562,6 @@
         ctx.fill();
       }
       ctx.restore();
-    }
-    // PR-v6 (v1.6) Iter A2: reclining floor overlay for avatar too
-    if (skel.head && skel.hips &&
-        Math.abs(skel.head.y - skel.hips.y) < 0.50) {
-      drawRecliningFloorOverlay(state);
     }
   }
 

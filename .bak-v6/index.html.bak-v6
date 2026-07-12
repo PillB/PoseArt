@@ -1926,17 +1926,6 @@ img { max-width: 100%; }
       <div class="app-info-row">
         PoseArt — Move like art.<br>Art Nouveau pose coaching · In-memory only, no data leaves your device.
       </div>
-
-      <!-- PR-v6 (v1.6): Custom Pose Editor access button -->
-      <div class="settings-section" style="margin-top:16px;">
-        <div class="settings-section-title">Creative Tools</div>
-        <button class="btn btn-gold btn-block" onclick="openPoseEditor()" style="padding:14px;font:600 14px/1 var(--font-body);">
-          ✎ Open Custom Pose Editor
-        </button>
-        <div style="font:var(--type-caption);color:var(--text-secondary);margin-top:6px;text-align:center;">
-          Create custom poses with joint sliders. Save to library or use in session.
-        </div>
-      </div>
     </div>
   </section>
 
@@ -1965,113 +1954,6 @@ img { max-width: 100%; }
       <span class="tab-label">Profile</span>
     </button>
   </nav>
-
-  <!-- ══════════════════════ CUSTOM POSE EDITOR (PR-v6 v1.6) ══════════════════════ -->
-  <section id="screen-custom-pose-editor" class="screen">
-    <div class="screen-scroll" style="padding-bottom:120px;">
-      <div class="status-bar">
-        <button class="icon-btn" onclick="goBack()" aria-label="Back">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
-        </button>
-        <span style="font:var(--type-h3);color:var(--text-primary);">Custom Pose Editor</span>
-        <button class="icon-btn" id="pose-editor-help-btn" onclick="showToast('Drag sliders to pose the figure. Save to add to library.')" aria-label="Help">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-        </button>
-      </div>
-
-      <!-- Live procedural preview (avatar + skeleton side by side) -->
-      <div style="display:flex;gap:12px;padding:12px;justify-content:center;background:rgba(15,59,58,0.04);border-radius:12px;margin:8px 0;">
-        <div style="text-align:center;">
-          <div id="pose-editor-avatar-preview" style="width:140px;height:180px;"></div>
-          <div style="font:600 10px/1 var(--font-body);color:var(--text-secondary);margin-top:4px;">AVATAR</div>
-        </div>
-        <div style="text-align:center;">
-          <div id="pose-editor-skeleton-preview" style="width:140px;height:180px;"></div>
-          <div style="font:600 10px/1 var(--font-body);color:var(--text-secondary);margin-top:4px;">SKELETON</div>
-        </div>
-        <div style="text-align:center;">
-          <div id="pose-editor-ghost-preview" style="width:140px;height:180px;"></div>
-          <div style="font:600 10px/1 var(--font-body);color:var(--text-secondary);margin-top:4px;">GHOST</div>
-        </div>
-      </div>
-
-      <!-- Pose name input -->
-      <div style="padding:8px 16px;">
-        <label style="font:600 11px/1 var(--font-body);color:var(--text-secondary);display:block;margin-bottom:6px;">POSE NAME</label>
-        <input type="text" id="pose-editor-name" placeholder="My Custom Pose" style="width:100%;padding:10px 12px;border:1px solid var(--rule);border-radius:8px;font:var(--type-body);background:var(--bg-canvas);color:var(--text-primary);">
-      </div>
-
-      <!-- Joint sliders -->
-      <div id="pose-editor-sliders" style="padding:8px 16px;">
-        <!-- Sliders injected by JS -->
-      </div>
-
-      <!-- Category + overlay selectors -->
-      <div style="padding:8px 16px;display:flex;gap:8px;">
-        <div style="flex:1;">
-          <label style="font:600 11px/1 var(--font-body);color:var(--text-secondary);display:block;margin-bottom:6px;">CATEGORY</label>
-          <select id="pose-editor-category" style="width:100%;padding:10px;border:1px solid var(--rule);border-radius:8px;font:var(--type-body);background:var(--bg-canvas);">
-            <option value="standing">Standing</option>
-            <option value="seated">Seated</option>
-            <option value="leaning">Leaning</option>
-            <option value="kneeling">Kneeling</option>
-            <option value="reclining">Reclining</option>
-            <option value="dynamic">Dynamic</option>
-            <option value="boudoir">Boudoir</option>
-            <option value="editorial">Editorial</option>
-            <option value="fine-art">Fine Art</option>
-            <option value="fashion">Fashion</option>
-          </select>
-        </div>
-        <div style="flex:1;">
-          <label style="font:600 11px/1 var(--font-body);color:var(--text-secondary);display:block;margin-bottom:6px;">VIEW ANGLE</label>
-          <select id="pose-editor-view-angle" onchange="updatePoseEditorPreview()" style="width:100%;padding:10px;border:1px solid var(--rule);border-radius:8px;font:var(--type-body);background:var(--bg-canvas);">
-            <option value="0,0">Front</option>
-            <option value="22.5,0">1/8 Turn</option>
-            <option value="45,0">1/4 Turn</option>
-            <option value="67.5,0">3/8 Turn</option>
-            <option value="90,0">Side</option>
-            <option value="135,0">3/4 Turn</option>
-            <option value="180,0">Back</option>
-            <option value="0,60">Up View</option>
-            <option value="0,-45">Down View</option>
-          </select>
-        </div>
-      </div>
-
-      <!-- Description -->
-      <div style="padding:8px 16px;">
-        <label style="font:600 11px/1 var(--font-body);color:var(--text-secondary);display:block;margin-bottom:6px;">DESCRIPTION (drives prop rendering)</label>
-        <textarea id="pose-editor-description" placeholder="e.g. Lean against a wall with arms crossed" oninput="updatePoseEditorPreview()" style="width:100%;padding:10px 12px;border:1px solid var(--rule);border-radius:8px;font:var(--type-body);background:var(--bg-canvas);color:var(--text-primary);min-height:60px;resize:vertical;"></textarea>
-      </div>
-
-      <!-- Action buttons -->
-      <div style="padding:12px 16px;display:flex;gap:8px;flex-wrap:wrap;">
-        <button class="btn btn-outline" onclick="undoPoseEdit()" id="pose-editor-undo-btn" style="flex:1;min-width:80px;">↶ Undo</button>
-        <button class="btn btn-outline" onclick="redoPoseEdit()" id="pose-editor-redo-btn" style="flex:1;min-width:80px;">↷ Redo</button>
-        <button class="btn btn-outline" onclick="resetPoseEditor()" style="flex:1;min-width:80px;">Reset</button>
-        <button class="btn btn-gold" onclick="saveCustomPose()" style="flex:1;min-width:80px;">Save Pose</button>
-        <button class="btn btn-outline" onclick="loadCustomPoseList()" style="flex:1;min-width:80px;">Load</button>
-        <button class="btn btn-outline" onclick="useCustomPoseInSession()" style="flex:1;min-width:100px;">Use in Session</button>
-      </div>
-
-      <!-- Saved custom poses list -->
-      <div id="pose-editor-saved-list" style="padding:8px 16px;"></div>
-
-      <!-- Bug report integration (Iter D3) -->
-      <div style="padding:8px 16px;margin-top:12px;border-top:1px solid var(--rule);">
-        <div style="font:600 12px/1 var(--font-body);color:var(--text-secondary);margin-bottom:8px;">REPORT A BUG</div>
-        <textarea id="pose-editor-bug-comment" placeholder="Describe the issue with this pose..." style="width:100%;padding:10px 12px;border:1px solid var(--rule);border-radius:8px;font:var(--type-body);background:var(--bg-canvas);min-height:50px;resize:vertical;"></textarea>
-        <select id="pose-editor-bug-type" style="width:100%;padding:10px;margin-top:8px;border:1px solid var(--rule);border-radius:8px;font:var(--type-body);background:var(--bg-canvas);">
-          <option value="pose-layout">Pose layout issue</option>
-          <option value="animation">Animation issue</option>
-          <option value="prop">Prop/object issue</option>
-          <option value="other">Other</option>
-        </select>
-        <button class="btn btn-outline" onclick="submitBugReportFromEditor()" style="width:100%;margin-top:8px;">Submit Bug Report with Pose Data</button>
-      </div>
-    </div>
-  </section>
 
   <!-- ══════════════════════ TOAST ══════════════════════ -->
   <div id="toast" role="status" aria-live="polite"><span id="toast-text"></span></div>

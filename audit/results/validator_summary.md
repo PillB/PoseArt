@@ -1,15 +1,15 @@
 # PoseArt Programmatic Joint Validator Report
 
-**Validator date:** 2026-07-12T21:54:54.279Z
+**Validator date:** 2026-07-12T21:58:11.595Z
 **Total poses scanned:** 745
-**Poses with issues:** 8 (1.1%)
-**Poses clean:** 737 (98.9%)
+**Poses with issues:** 6 (0.8%)
+**Poses clean:** 739 (99.2%)
 
 ## Issue type tally
 
 | Issue type | Count |
 |---|---|
-| recline_missing | 7 |
+| recline_missing | 5 |
 | arm_direction | 1 |
 | sign_error | 0 |
 | too_subtle | 0 |
@@ -32,7 +32,7 @@
 | kneeling | 0 | 32 | 0.0% |
 | lean-seat | 0 | 30 | 0.0% |
 | leaning | 1 | 49 | 2.0% |
-| low-to-high | 3 | 30 | 10.0% |
+| low-to-high | 1 | 30 | 3.3% |
 | reclining | 0 | 56 | 0.0% |
 | seated | 0 | 86 | 0.0% |
 | standing | 0 | 47 | 0.0% |
@@ -43,8 +43,6 @@
 |---|---|---|
 | fineart-standing-still-life-drape | fine-art | recline_missing:globalTilt |
 | fineart-standing-hand-to-heart | fine-art | recline_missing:globalTilt |
-| lowhigh-roll-to-side-rise-begin | low-to-high | recline_missing:globalTilt |
-| lowhigh-hands-knees-push-up | low-to-high | recline_missing:globalTilt |
 | lowhigh-kneel-lean-forward-rise | low-to-high | recline_missing:globalTilt |
 | highlow-knees-bending-controlled | high-to-low | recline_missing:globalTilt |
 | highlow-arms-wide-falling-open | high-to-low | recline_missing:globalTilt |
@@ -60,18 +58,6 @@
 
 ### fineart-standing-hand-to-heart (fine-art)
 **Name:** Hand to Heart Stillness
-**Issues (1):**
-- **recline_missing** — description says lying/reclining but globalTilt <45° (not horizontal)
-  - Fix: globalTilt should be 80-90° (supine) or -80 to -90° (prone)
-
-### lowhigh-roll-to-side-rise-begin (low-to-high)
-**Name:** Roll to Side Rising Begin
-**Issues (1):**
-- **recline_missing** — description says lying/reclining but globalTilt <45° (not horizontal)
-  - Fix: globalTilt should be 80-90° (supine) or -80 to -90° (prone)
-
-### lowhigh-hands-knees-push-up (low-to-high)
-**Name:** Hands and Knees Push-Up Point
 **Issues (1):**
 - **recline_missing** — description says lying/reclining but globalTilt <45° (not horizontal)
   - Fix: globalTilt should be 80-90° (supine) or -80 to -90° (prone)

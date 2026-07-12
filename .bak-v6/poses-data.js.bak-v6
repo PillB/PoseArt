@@ -4500,7 +4500,6 @@ const POSES_LIBRARY = {
       effort: 'Static',
       instructions: 'Recline on one side with the torso rotated toward camera while the hips stay turned away, head propped on a bent arm. Sweep the free arm gracefully overhead along the body\'s line to extend the silhouette.',
       tip: 'Exaggerate the torque between hips and shoulders for the strongest sculptural line.',
-    // PR-v6 (v1.6) Iter C2 — fix recline_missing: description says "Recline on one side" — should be semi-reclined (globalTilt=50). Added globalTilt:50.
     // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder 8→-110, rightShoulder 28→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
       joints: { spine: 32, neck: 27, leftShoulder: -110, leftElbow: 40, rightShoulder: -110, rightElbow: 18, leftHip: 100, leftKnee: 100, leftAnkle: -30, rightKnee: 120, rightAnkle: -35, shoulderFwdL: 8, shoulderFwdR: -6 },
       color: 'var(--color-gold-100)',
@@ -4704,7 +4703,6 @@ const POSES_LIBRARY = {
       effort: 'Static',
       instructions: 'Lie on the back and raise one leg straight toward the ceiling while the other stays flat on the floor, arms resting softly at the sides. Point the raised foot to complete a clean vertical line against the horizontal body.',
       tip: 'Keep both the raised leg and the floor leg perfectly straight for maximum contrast.',
-    // PR-v6 (v1.6) Iter C2 — fix recline_missing: description says "Lie on the back" — should be supine (globalTilt=85). Added globalTilt:85.
     // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder 8→-110, rightShoulder 28→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
       joints: { spine: 15, neck: 10, leftShoulder: -110, leftElbow: 40, rightShoulder: -110, rightElbow: 18, leftHip: 5, leftAnkle: -18, rightKnee: 5, rightAnkle: -18, shoulderFwdL: 8, shoulderFwdR: -6 },
       color: 'var(--color-gold-100)',
@@ -5396,8 +5394,7 @@ const POSES_LIBRARY = {
       effort: 'Transitional',
       instructions: 'Begin lying flat on the back, arms relaxed at the sides — the absolute lowest point in an extended rising sequence. Keep the body relaxed and grounded to contrast strongly with later standing frames.',
       tip: 'Shoot straight down from directly above for the most dramatic low-point framing.',
-    // PR-v6 (v1.6) Iter C2 — fix recline_missing: description says "lying flat on the back" — should be supine (globalTilt=88). Was globalTilt:25, now 88.
-      joints: {spine: 15, hips: 10, neck: 15, leftShoulder: -10, rightShoulder: 8, leftElbow: 70, rightElbow: 50, hipAbductL: 10, hipAbductR: 10, leftHip: 30, rightHip: 20, leftKnee: 90, rightKnee: 60, globalTilt: 88, leftAnkle: -15},
+      joints: {spine: 15, hips: 10, neck: 15, leftShoulder: -10, rightShoulder: 8, leftElbow: 70, rightElbow: 50, hipAbductL: 10, hipAbductR: 10, leftHip: 30, rightHip: 20, leftKnee: 90, rightKnee: 60, globalTilt: 25, leftAnkle: -15},
       color: 'var(--color-sky-100)',
       figure: 'side-recline',
       tags: ['floor', 'transition', 'rising', 'sequence'],
@@ -5410,8 +5407,7 @@ const POSES_LIBRARY = {
       effort: 'Transitional',
       instructions: 'Roll from lying flat onto one side, propping onto a bent forearm as the first movement toward rising, top leg beginning to bend for leverage. Keep the motion fluid as the earliest stage of getting up.',
       tip: 'Make this feel like the natural first step anyone takes when rising off the floor.',
-    // PR-v6 (v1.6) Iter C2 — fix recline_missing: description implies floor work — semi-reclined (globalTilt=70). Was globalTilt:25, now 70.
-      joints: {spine: 15, neck: 25, leftShoulder: -10, rightShoulder: 8, leftElbow: 70, rightElbow: 50, leftHip: 80, rightHip: 20, leftKnee: 90, rightKnee: 100, globalTilt: 70, leftAnkle: -15},
+      joints: {spine: 15, neck: 25, leftShoulder: -10, rightShoulder: 8, leftElbow: 70, rightElbow: 50, leftHip: 80, rightHip: 20, leftKnee: 90, rightKnee: 100, globalTilt: 25, leftAnkle: -15},
       color: 'var(--color-sky-100)',
       figure: 'kneeling-forward',
       tags: ['transition', 'all-fours', 'rising', 'sequence'],
@@ -6597,8 +6593,7 @@ const POSES_LIBRARY = {
     tags: ["seated", "chair", "recline", "arms-overhead"],
     instructions: "Sit back into the chair, let the spine relax into a slight recline against the chair back, raise both arms overhead or behind the head, chest lifted and open, legs extended loosely in front, gaze soft to camera.",
     tip: "Lifting the arms overhead automatically lifts and lengthens the torso — keep the ribs from flaring by engaging the core slightly.",
-    // PR-v6 (v1.6) Iter C2 — fix recline_missing: description says "recline against chair back" — increase recline from -35 to -45. Was globalTilt:-35, now -45.
-    joints: { spine: -22, neck: -18, hips: -8, globalTilt: -45, globalRoll: 0, globalTwist: 8, leftShoulder: -131, rightShoulder: -140, leftElbow: 30, rightElbow: 35, shoulderFwdL: 10, shoulderFwdR: 10, leftHip: 60, rightHip: 58, leftKnee: 25, rightKnee: 30, leftAnkle: 5, rightAnkle: 3, hipAbductL: 8, hipAbductR: 8 }
+    joints: { spine: -22, neck: -18, hips: -8, globalTilt: -35, globalRoll: 0, globalTwist: 8, leftShoulder: -131, rightShoulder: -140, leftElbow: 30, rightElbow: 35, shoulderFwdL: 10, shoulderFwdR: 10, leftHip: 60, rightHip: 58, leftKnee: 25, rightKnee: 30, leftAnkle: 5, rightAnkle: 3, hipAbductL: 8, hipAbductR: 8 }
   },
   "p15-chair-s8-profile-cross-legged": {
     id: "p15-chair-s8-profile-cross-legged", name: "Chair Profile Cross-Legged",

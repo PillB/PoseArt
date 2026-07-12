@@ -78,6 +78,47 @@ This file is append-only and records the v1.1 through v1.8 implementation sequen
 - Commands batched: 8
 - Phase completed within budget: ✅
 
+### Action: Commit verified v1.5 phase
+**Files modified:** Git history; commit `6ff3af5`.
+**Expected result:** Atomic exact-title commit.
+**Actual result:** Commit created successfully.
+**Verification:** Latest log returned `6ff3af5`.
+**VLM check:** Recorded above.
+**Status:** ✅ PASS
+
+---
+## Phase v1.6 — Prop Positioning + Custom Pose Editor + Bug Report — 2026-07-12 America/Lima
+
+### Action: Read complete report and plan
+**Files modified:** Log only.
+**Expected result:** Understand all 12 iterations before edits.
+**Actual result:** Read all 239 lines. Plan: back up five runtime/HTML files; reconstruct cumulative target from v1.1; apply incremental delta; install portable editor verifier; run syntax, validator, both mass suites, editor E2E, prop screenshots/vision, adjacent checks; retrospective and exact commit.
+**Verification:** Stop on 20 sliders, 3 previews, save/undo/redo/bug report pass and renderer regressions green.
+**VLM check:** Wall behind, floor below recline, distinct fence rail/posts.
+**Status:** ✅ PASS
+
+### Action: Implement and verify v1.6 deep audit/editor
+**Files modified:** `.bak-v6/`, `index.html`, runtime JS, portable editor/prop verifiers, validator artifacts, v1.6 screenshots.
+**Expected result:** Correct prop geometry, deliver functional editor/bug report, preserve all renderers.
+**Actual result:** Incremental target applied. Validator scans 745 with 739 clean (5 recline, 1 arm remaining under later regex). Both renderers pass 745/745. Corrected E2E verifier confirms 20 sliders, 3 previews, undo 25°→0°, redo 0°→25°, save, and one bug report with zero errors. Visual screenshots clearly show hatched wall behind figure, brown two-rail/three-post fence in front, and teal gradient floor/mat below reclining body.
+**Verification:** Syntax, mass, validator, editor, and prop browser commands exit 0.
+**VLM check:** Wall YES; fence rail/posts YES; reclining floor YES; editor mobile screenshot captured.
+**Status:** ✅ PASS
+
+### Retrospective:
+- What went well: Direct visual inspection confirms all three prop fixes; editor history was tested against its real debounce.
+- What didn't: Original verifier waited only 200ms for a 400ms debounce and falsely printed undo failure while still passing; the verifier was corrected and assertions enforced.
+- What to do differently next phase: Treat test scripts as code under audit and require failure exit codes for every claimed assertion.
+
+### Token Usage Log — Phase v1.6
+- Estimated tokens consumed: under 14,000
+- Turns used: 12 tool actions
+- Subagents spawned: 0
+- Subagent polls: 0
+- Files re-read unnecessarily: 0
+- Commands batched: 6
+- Phase completed within budget: ✅
+
 ### Action: Commit verified v1.4 phase
 **Files modified:** Git history; commit `e7a2f26`.
 **Expected result:** Atomic v1.4 commit with exact title.

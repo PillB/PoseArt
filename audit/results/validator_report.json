@@ -1,18 +1,18 @@
 {
   "totalPoses": 745,
-  "posesWithIssues": 8,
-  "posesClean": 737,
+  "posesWithIssues": 6,
+  "posesClean": 739,
   "tally": {
     "sign_error": 0,
     "too_subtle": 0,
     "object_mismatch": 0,
     "object_missing": 0,
-    "recline_missing": 7,
+    "recline_missing": 5,
     "arm_direction": 1
   },
   "byCategory": {
     "fine-art": 2,
-    "low-to-high": 3,
+    "low-to-high": 1,
     "high-to-low": 2,
     "leaning": 1
   },
@@ -38,34 +38,6 @@
         {
           "type": "recline_missing",
           "joint": "globalTilt",
-          "issue": "description says lying/reclining but globalTilt <45° (not horizontal)",
-          "fix": "globalTilt should be 80-90° (supine) or -80 to -90° (prone)"
-        }
-      ]
-    },
-    {
-      "poseId": "lowhigh-roll-to-side-rise-begin",
-      "poseName": "Roll to Side Rising Begin",
-      "category": "low-to-high",
-      "issues": [
-        {
-          "type": "recline_missing",
-          "joint": "globalTilt",
-          "value": 25,
-          "issue": "description says lying/reclining but globalTilt <45° (not horizontal)",
-          "fix": "globalTilt should be 80-90° (supine) or -80 to -90° (prone)"
-        }
-      ]
-    },
-    {
-      "poseId": "lowhigh-hands-knees-push-up",
-      "poseName": "Hands and Knees Push-Up Point",
-      "category": "low-to-high",
-      "issues": [
-        {
-          "type": "recline_missing",
-          "joint": "globalTilt",
-          "value": 25,
           "issue": "description says lying/reclining but globalTilt <45° (not horizontal)",
           "fix": "globalTilt should be 80-90° (supine) or -80 to -90° (prone)"
         }
