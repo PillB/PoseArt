@@ -1,0 +1,178 @@
+const { chromium } = require('playwright');
+const fs = require('fs');
+const path = require('path');
+
+(async () => {
+  const outDir = path.join(process.cwd(), 'audit', 'screenshots', 'v1.9');
+  fs.mkdirSync(outDir, { recursive: true });
+  const browser = await chromium.launch({ headless: true });
+  const context = await browser.newContext({
+    viewport: { width: 430, height: 932 },
+    deviceScaleFactor: 2,
+    isMobile: true,
+    hasTouch: true,
+    reducedMotion: 'reduce',
+  });
+  const page = await context.newPage();
+  page.setDefaultTimeout(10000);
+  const errors = [];
+  page.on('pageerror', e => errors.push(e.message));
+  page.on('console', m => { if (m.type() === 'error' && !m.text().includes('Camera')) errors.push(m.text()); });
+
+  await page.goto('http://localhost:8095/index.html', { waitUntil: 'networkidle' });
+  await page.evaluate(() => localStorage.clear());
+  await page.reload({ waitUntil: 'networkidle' });
+  await page.evaluate(() => window.completeOnboardingSkip());
+  await page.waitForTimeout(250);
+  await page.evaluate(() => {
+    toggleFavorite('scurve-stand');
+    saveSession({ poseId: 'scurve-stand', score: 88, timestamp: new Date().toISOString() });
+    window.cycleOption('sensitivity');
+  });
+
+  // Persist a real capture through the camera/review flow.
+  await page.evaluate(() => {
+    window.AppState.sessionOptions.timerIndex = 0;
+    window.goToSession('scurve-stand');
+  });
+  await page.waitForTimeout(200);
+  await page.evaluate(() => window.startCameraSession());
+  await page.waitForTimeout(1000);
+  await page.evaluate(() => window.capturePhoto());
+  await page.waitForTimeout(600);
+  await page.evaluate(() => window.saveToGallery());
+  await page.waitForTimeout(1100);
+  const beforeRefresh = await page.evaluate(() => ({
+    gallery: getGallery().length,
+    home: document.getElementById('screen-gallery')?.classList.contains('active'),
+  }));
+
+  // Persist a custom pose.
+  await page.evaluate(() => window.openPoseEditor());
+  await page.waitForTimeout(250);
+  await page.evaluate(() => {
+    document.getElementById('pose-editor-name').value = 'Persistent Test Pose';
+    document.getElementById('pose-editor-description').value = 'Persistent custom standing pose';
+    window.onEditorSliderChange('spine', '22');
+  });
+  await page.waitForTimeout(450);
+  await page.evaluate(() => window.saveCustomPose());
+  await page.waitForTimeout(150);
+
+  // Persist marketplace ownership through visible UI.
+  await page.evaluate(() => window.openMarketplace());
+  await page.waitForTimeout(350);
+  const freeButton = page.locator('#mp-pack-grid button', { hasText: 'FREE' }).first();
+  if (await freeButton.isVisible()) await freeButton.click();
+  await page.waitForTimeout(250);
+
+  await page.reload({ waitUntil: 'networkidle' });
+  await page.waitForTimeout(400);
+  const restored = await page.evaluate(() => ({
+    onboardingSkipped: document.getElementById('screen-home')?.classList.contains('active'),
+    gallery: getGallery().length,
+    customInLibrary: !!POSES_LIBRARY[Object.keys(POSES_LIBRARY).find(k => POSES_LIBRARY[k]?.name === 'Persistent Test Pose')],
+    favorite: isFavorite('scurve-stand'),
+    sessionHistory: getSessionHistory().length,
+    sensitivityIndex: window.AppState.sessionOptions.sensitivityIndex,
+    storageKeys: Object.keys(localStorage).filter(k => k.startsWith('poseart_')).sort(),
+  }));
+  await page.evaluate(() => window.openPoseEditor());
+  await page.waitForTimeout(250);
+  const customVisible = await page.locator('#pose-editor-saved-list').getByText('Persistent Test Pose').isVisible();
+
+  await page.evaluate(() => window.openMarketplace());
+  await page.waitForTimeout(350);
+  const ownedAfterRefresh = await page.locator('#mp-pack-grid button', { hasText: 'Open Pack' }).count();
+
+  // Reduced motion and ARIA live score.
+  await page.evaluate(() => window.openPoseDetail('scurve-stand'));
+  await page.waitForTimeout(350);
+  const reducedMotion = await page.locator('#pose-detail-animation canvas').evaluate(el => {
+    const s = getComputedStyle(el);
+    return { animationName: s.animationName, animationDuration: s.animationDuration };
+  });
+  const focusTrap = await page.evaluate(() => {
+    const sheet = document.getElementById('pose-detail-sheet');
+    const focusable = Array.from(sheet.querySelectorAll('button:not([disabled]), [tabindex]:not([tabindex="-1"])')).filter(el => el.offsetParent !== null);
+    const first = focusable[0], last = focusable[focusable.length - 1];
+    last.focus();
+    return { firstId: first?.dataset?.testid || first?.id || '', lastId: last?.dataset?.testid || last?.id || '' };
+  });
+  await page.keyboard.press('Tab');
+  focusTrap.wrappedToFirst = await page.evaluate(() => {
+    const el = document.activeElement;
+    return el?.dataset?.testid === 'btn-close-pose-sheet' || el?.classList.contains('sheet-close');
+  });
+  const liveScore = await page.evaluate(() => {
+    window.cameraEngine.currentScore = 88;
+    window.cameraEngine._updateHUD(88, {});
+    return document.getElementById('score-live-region')?.textContent;
+  });
+
+  // Legacy removal: every standing thumbnail must be a rendered canvas.
+  await page.evaluate(() => { window.closePoseSheet(); window.openCategory('standing'); });
+  await page.waitForTimeout(700);
+  const avatars = await page.evaluate(() => ({
+    total: document.querySelectorAll('canvas[data-pose-avatar="1"]').length,
+    rendered: document.querySelectorAll('canvas[data-pose-avatar="1"][data-pose-rendered="1"]').length,
+    legacySvg: document.querySelectorAll('.pose-list-item svg[viewBox="0 0 200 280"]').length,
+  }));
+
+  // Populate 50+ lightweight captures and verify bounded DOM before/after scroll.
+  await page.evaluate(() => {
+    for (let i = 0; i < 55; i++) {
+      addToGallery({
+        id: 'virtual-' + i,
+        dataUrl: null,
+        isSim: true,
+        poseId: i % 2 ? 'scurve-stand' : 'power-stance',
+        poseName: 'Virtual Capture ' + i,
+        score: 70 + (i % 25),
+        timestamp: new Date().toISOString(),
+        favorite: false,
+      });
+    }
+    window.showTab('gallery');
+  });
+  await page.waitForTimeout(600);
+  const galleryBeforeScroll = await page.evaluate(() => ({
+    totalData: getGallery().length,
+    domItems: document.querySelectorAll('#gallery-grid .gallery-item').length,
+    firstLabel: document.querySelector('#gallery-grid .gallery-item')?.getAttribute('aria-label') || '',
+  }));
+  await page.locator('#gallery-virtual-bottom').scrollIntoViewIfNeeded();
+  await page.waitForTimeout(700);
+  const galleryAfterScroll = await page.evaluate(() => ({
+    domItems: document.querySelectorAll('#gallery-grid .gallery-item').length,
+    firstLabel: document.querySelector('#gallery-grid .gallery-item')?.getAttribute('aria-label') || '',
+    horizontalOverflow: document.body.scrollWidth > window.innerWidth,
+  }));
+  await page.screenshot({ path: path.join(outDir, 'gallery-virtualized.png'), fullPage: false });
+
+  const result = {
+    beforeRefresh, restored, customVisible, ownedAfterRefresh,
+    reducedMotion, focusTrap, liveScore, avatars,
+    galleryBeforeScroll, galleryAfterScroll, errors,
+  };
+  console.log(JSON.stringify(result, null, 2));
+
+  const ok =
+    beforeRefresh.gallery >= 1 &&
+    restored.onboardingSkipped &&
+    restored.gallery >= 1 &&
+    restored.customInLibrary && customVisible &&
+    restored.favorite && restored.sessionHistory >= 1 && restored.sensitivityIndex === 2 &&
+    ownedAfterRefresh >= 1 &&
+    (reducedMotion.animationName === 'none' || parseFloat(reducedMotion.animationDuration) <= 0.001) &&
+    focusTrap.wrappedToFirst &&
+    /Alignment: 88%, aligned/i.test(liveScore || '') &&
+    avatars.total >= 47 && avatars.total === avatars.rendered && avatars.legacySvg === 0 &&
+    galleryBeforeScroll.totalData >= 56 &&
+    galleryBeforeScroll.domItems <= 20 && galleryAfterScroll.domItems <= 20 &&
+    galleryBeforeScroll.firstLabel !== galleryAfterScroll.firstLabel &&
+    !galleryAfterScroll.horizontalOverflow &&
+    errors.length === 0;
+  if (!ok) process.exitCode = 1;
+  await browser.close();
+})().catch(e => { console.error(e); process.exit(1); });

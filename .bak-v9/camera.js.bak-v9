@@ -32,8 +32,6 @@ class CameraEngine {
     this.simFrame = 0;
     this.hintPersistStart = null;
     this._sensitivity = 1.0; // multiplier: Strict=0.7, Balanced=1.0, Relaxed=1.4
-    this._lastAnnouncedScore = null;
-    this._lastAnnouncedLabel = null;
   }
 
   get captureProgress() {
@@ -538,16 +536,6 @@ class CameraEngine {
     else              { color = 'var(--state-error)';   label = 'ADJUST';  hudEl?.classList.remove('aligned'); }
     ringEl.style.stroke = color;
     if (labelEl) labelEl.textContent = label;
-
-    // PR-v9 (v1.9) — Announce meaningful score changes without flooding the
-    // screen reader on every animation frame. Always announce label changes;
-    // otherwise announce in five-point increments.
-    const liveEl = document.getElementById('score-live-region');
-    if (liveEl && (label !== this._lastAnnouncedLabel || this._lastAnnouncedScore === null || Math.abs(d - this._lastAnnouncedScore) >= 5)) {
-      liveEl.textContent = `Alignment: ${d}%, ${label.toLowerCase()}`;
-      this._lastAnnouncedScore = d;
-      this._lastAnnouncedLabel = label;
-    }
 
     // Autocapture progress bar
     if (progEl) {

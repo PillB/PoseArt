@@ -6,7 +6,7 @@
       "category": "stale_state",
       "description": "Onboarding replays every load (no persistence)",
       "fix": "this is by-design for iframe sandbox, but non-iframe builds should persist",
-      "timestamp": "2026-07-12T22:09:22.489Z"
+      "timestamp": "2026-07-12T22:55:04.727Z"
     }
   ],
   "consoleErrors": [

@@ -78,6 +78,114 @@ This file is append-only and records the v1.1 through v1.8 implementation sequen
 - Commands batched: 8
 - Phase completed within budget: ✅
 
+---
+## Pre-Phase v1.9 Research — 2026-07-12 America/Lima
+
+### Action: Audit updated bundle, repository state, and restore accountability log
+**Files modified:** `logs/developer-agent-log.md` restored from the new bundle’s preserved developer-agent log.
+**Expected result:** Preserve completed v1.1–v1.8 history and establish the new v1.9 baseline without replaying phases.
+**Actual result:** Eight verified phase commits remain intact through `db33e7f`. The updated bundle adds the 250-line v1.9 review report and preserved logs. The tracked work log had been removed from the workspace; the bundle copy contains the post-v1.8 commit record and was restored verbatim before appending v1.9 work. Existing untracked bundle/ZIP/`.DS_Store` files remain outside implementation scope.
+**Verification:** Compared bundle log against `HEAD`; bundle copy extends the committed log with the v1.8 hash entry.
+**VLM check:** Not applicable.
+**Status:** ✅ PASS
+
+---
+## Phase v1.9 — Persistence, Accessibility, Legacy Cleanup, Virtual Gallery — 2026-07-12 America/Lima
+
+### Action: Read complete v1.9 review and relevant source architecture
+**Files modified:** `logs/developer-agent-log.md` only.
+**Expected result:** Root-cause all four authorized v1.9 workstreams before source edits.
+**Actual result:** Read all 250 report lines plus current storage, initialization, gallery, avatar fallback, editor, marketplace, score-HUD, and stylesheet paths. Root causes: all mutable collections are lexical in-memory arrays; startup renders before restoration; the 89-glyph fallback remains reachable in avatar error paths; score changes lack an ARIA live target; animations ignore reduced-motion; gallery maps every item into DOM at once.
+**Verification:** Symbol inventory confirmed mutation points for gallery/favorites/sessions/onboarding/editor/marketplace/session options and legacy renderer boundaries.
+**VLM check:** Planned after gallery/browser implementation.
+**Status:** ✅ PASS
+
+### Action: Phase v1.9 implementation plan and stopping criteria
+**Files modified:** Planned `.bak-v9/`, `js/poses-data.js`, `js/app.js`, `js/camera.js`, `index.html`, new v1.9 Playwright verification script, audit screenshots, work log, final report.
+**Expected result:** Implement report-authorized P0/P1/P2 work without external services.
+**Actual result:** Plan: (1) back up every target, (2) add safe namespaced persistence and restore-before-render, wiring every mutation, (3) add reduced-motion CSS, score live region, keyboard sheet focus handling, (4) remove the legacy renderer and all fallback calls, (5) virtualize gallery to a maximum 20 item window with IntersectionObserver sentinel, (6) run syntax + both mass suites + validator, (7) Playwright persistence/accessibility/avatar/gallery tests, Lighthouse or equivalent accessibility audit, VLM screenshot inspection, full vibe/edge regressions, (8) retrospective and exact v1.9 commit.
+**Verification:** Stopping criteria are all ten v1.9 gates passing, or three failed attempts on one item followed by escalation. Budget: ≤30 turns/~40K tokens. No subagents.
+**VLM check:** Gallery thumbnails must be visually intact after virtualization and refresh.
+**Status:** ✅ PASS
+
+### Action: Create v1.9 backups and implement resilient persistence foundation
+**Files modified:** `.bak-v9/{poses-data,app,camera,index}.bak-v9`, `js/poses-data.js`, `js/app.js`.
+**Expected result:** Preserve pre-v1.9 state and persist every authorized user-data class without breaking iframe/private-mode operation.
+**Actual result:** Four SHA-verified backups created. Added guarded `persist`/`restore` wrappers, restored gallery/favorites/session history, and persist their mutations. App restores onboarding, goal, session options, custom poses, marketplace packs/ownership/publications; restored custom poses re-register in `POSES_LIBRARY`; all relevant mutations persist. The obsolete data-loss toast now confirms device storage.
+**Verification:** Modified files pass `node --check`; skeleton and avatar mass suites remain 745/745; validator remains 0/745.
+**VLM check:** Functional/state change; browser refresh verification pending.
+**Status:** ✅ PASS
+
+### Action: Remove legacy glyph renderer and retain procedural-only preview behavior
+**Files modified:** `js/app.js` (pre-change backup already in `.bak-v9`).
+**Expected result:** Delete the 89-glyph map and every fallback call while keeping graceful renderer-unavailable placeholders.
+**Actual result:** Removed approximately 960 lines containing `renderPoseFigureSVGLegacy` and `figures`; primary canvas/MutationObserver path is now exclusive. Renderer absence/failure produces an accessible neutral placeholder instead of divergent hand-authored art.
+**Verification:** `rg` finds no legacy renderer or figures map; `node --check` passes; avatar mass suite remains 745/745. Live 99/99 observer rerun pending server startup.
+**VLM check:** Browser thumbnail visual verification pending.
+**Status:** ✅ PASS
+
+### Action: Implement WCAG motion, live-score, and modal keyboard improvements
+**Files modified:** `index.html`, `js/camera.js`, `js/app.js` (all backed up).
+**Expected result:** Honor reduced motion, expose meaningful score changes, and keep Tab focus within the visible pose-detail modal.
+**Actual result:** Added `.sr-only`, a global reduced-motion media query, polite atomic score live region, five-point/label-change announcement throttling, and Tab/Shift+Tab focus wrapping in pose detail.
+**Verification:** All modified JS syntax-valid; both 745-pose renderer suites pass.
+**VLM check:** Accessibility behavior requires Playwright/media-emulation verification, pending.
+**Status:** ✅ PASS
+
+### Action: Implement bounded virtual gallery window
+**Files modified:** `js/app.js` (backed up).
+**Expected result:** Preserve gallery scroll range while limiting capture-card DOM nodes to 20 or fewer.
+**Actual result:** Added an 18-card window, proportional grid spacers, top/bottom IntersectionObserver sentinels, ten-item window steps, observer cleanup, and explicit pending-avatar rendering. Empty-state behavior remains intact.
+**Verification:** Syntax clean; validator 0/745; skeleton/avatar mass suites 745/745. Browser 50-item population/scroll test pending.
+**VLM check:** Gallery screenshot pending.
+**Status:** ✅ PASS
+
+### Action: Run v1.9 persistence, accessibility, legacy-removal, and virtual-gallery browser verification
+**Files modified:** `scripts/verify_v19.js`, `.bak-v9/verify_v19.js.bak-v9`, `audit/screenshots/v1.9/gallery-virtualized.png`.
+**Expected result:** Prove state survives refresh, accessibility behavior is active, every thumbnail is procedural, and 50+ captures stay bounded to ≤20 DOM cards.
+**Actual result:** After one verifier-selector correction, the expanded test passes. A real camera capture survives refresh; onboarding stays completed; custom pose is visible and registered; favorite, session history, sensitivity option, free-pack ownership, and all expected storage keys survive refresh. Reduced motion reports `animationName:none`; score live region announces `Alignment: 88%, aligned`; Tab wraps from the last to first pose-sheet control. Standing category renders 50/50 procedural canvases with zero legacy glyph SVGs. A 56-item gallery holds 18 cards before/after scrolling and advances from Virtual Capture 44 to 34 with no overflow or console errors.
+**Verification:** `scripts/verify_v19.js` exit `0`; screenshot stored under `audit/screenshots/v1.9/`.
+**VLM check:** Targeted question: “Are gallery thumbnails rendering correctly?” YES—the screenshot shows distinct dark-teal procedural figures, gold eyes/halos, capture labels, scores, consistent cards, and no blank/broken thumbnails.
+**Status:** ✅ PASS
+
+### Action: Run Lighthouse and full regression suite
+**Files modified:** `audit/results/v1.9-lighthouse.json`, refreshed vibe-audit artifacts.
+**Expected result:** Accessibility ≥90; observer, eight flows, and ten edge cases remain green.
+**Actual result:** Lighthouse accessibility score is 94. Remaining audit opportunities are color contrast and a single-main landmark, neither below the required threshold. MutationObserver renders 99/99 canvases. Vibe audit: 0 CRITICAL, 0 HIGH, 1 historical/by-design MEDIUM. Edge audit: 10/10, zero issues. Both renderer suites remain 745/745 and validator remains 0/745.
+**Verification:** Lighthouse, observer, vibe, edge, syntax, smoke, and validator commands all exit `0`.
+**VLM check:** Gallery visual result recorded above.
+**Status:** ✅ PASS
+
+### Retrospective:
+- What went well: All ten v1.9 gates pass; persistence is verified through real refresh boundaries; dead glyph code is removed; accessibility reaches 94; gallery card DOM remains bounded at 18.
+- What didn't: The first v1.9 verifier referenced a pre-procedural wrapper class, and its initial SVG selector counted unrelated UI icons. Both were verifier issues, backed up and narrowed before the successful third run.
+- What to do differently next phase: No requested phase remains. Future work should address Lighthouse contrast/main-landmark opportunities and real MediaPipe pose detection.
+
+### Token Usage Log — Phase v1.9
+- Estimated tokens consumed: under 32,000
+- Turns used: under 30
+- Subagents spawned: 0
+- Subagent polls: 0
+- Files re-read unnecessarily: 0
+- Commands batched: 12
+- Phase completed within budget: ✅
+
+### Action: Prepare v1.9 commit
+**Files modified:** Git history will contain the self-referential v1.9 commit; exact hash is available via `git log --oneline -1` after commit.
+**Expected result:** Ninth atomic phase commit with the required exact title.
+**Actual result:** All implementation and verification prerequisites are complete; commit pending final staged-diff audit.
+**Verification:** Final report below records the commit as the v1.9 self commit to avoid an impossible commit-hash self-reference.
+**VLM check:** Complete.
+**Status:** ✅ PASS
+
+### Action: Commit verified v1.8 phase
+**Files modified:** Git history; commit `db33e7f`.
+**Expected result:** Eighth atomic phase commit.
+**Actual result:** Commit created successfully with failure-mode fixes, hardened audits, backups, and screenshots.
+**Verification:** `git log --oneline -1` returned `db33e7f`.
+**VLM check:** Recorded above.
+**Status:** ✅ PASS
+
 ### Action: Commit verified v1.7 phase
 **Files modified:** Git history; commit `35f4ecf`.
 **Expected result:** Atomic exact-title commit.
