@@ -247,21 +247,7 @@ function updateSessionSetupOverlayPreview(mode) {
   if (!figEl) return;
   const pose = POSES_LIBRARY[AppState.selectedPoseId];
   if (!pose) return;
-  // PR-4 (v1.1) — directive Part H #14: "no overlay in the session selector
-  // keeps the avatar which is wrong because it subverts user explicit choice".
-  // Previously this function showed the avatar SVG for any mode that wasn't
-  // 'skeleton' — including 'ghost' and 'off'. So if the user picked 'ghost',
-  // the preview still showed the avatar, implying "you'll get the avatar".
-  // Now each mode shows its own faithful preview:
-  //   avatar   → SVG glyph (Art Nouveau figure)
-  //   skeleton → procedural PoseSkeleton3D canvas (dark-teal rig)
-  //   ghost    → procedural PoseSkeleton3D canvas in ghostMode (cyan water)
-  //   off      → empty placeholder with a subtle "no overlay" hint
-  // REASONING [PR-4]: the preview is a contract. If the user picks "ghost"
-  // and sees a ghost preview, they trust that the camera will show a ghost.
-  // The old behavior (showing avatar for ghost/off) broke that trust and
-  // led to the user-reported bug where the camera overlay didn't match the
-  // session-setup chip the user tapped.
+  // Show skeleton canvas or SVG based on mode
   if (mode === 'skeleton') {
     figEl.innerHTML = '<canvas id="setup-skel-canvas" width="160" height="180" style="border-radius:10px;background:rgba(15,59,58,0.06);max-width:100%;"></canvas>';
     setTimeout(() => {
@@ -272,39 +258,7 @@ function updateSessionSetupOverlayPreview(mode) {
         sk.setPose(pose.joints || {}, { animateEntry: true, category: pose.category || '' });
       }
     }, 30);
-  } else if (mode === 'ghost') {
-    // PR-4 (v1.1): procedural ghost preview using the same renderGhostFrame
-    // helper that the camera overlay now uses. This gives the user an
-    // accurate preview of the cyan water silhouette they'll see during the
-    // session. The canvas is sized to match the avatar SVG slot (160×180)
-    // so the chip layout doesn't shift when switching modes.
-    figEl.innerHTML = '<canvas id="setup-ghost-canvas" width="160" height="180" style="border-radius:10px;background:rgba(15,59,58,0.06);max-width:100%;"></canvas>';
-    setTimeout(() => {
-      const c = document.getElementById('setup-ghost-canvas');
-      if (c && window.PoseSkeleton3D && typeof window.PoseSkeleton3D.renderGhostFrame === 'function') {
-        try {
-          window.PoseSkeleton3D.renderGhostFrame(c, 160, 180, pose.joints || {}, {
-            category: pose.category || '',
-            yaw: 20,
-            pitch: 5,
-            scale: 0.85
-          });
-        } catch (e) {
-          // Fallback to avatar SVG if procedural ghost fails (defensive —
-          // shouldn't happen, but a blank preview is worse than a fallback).
-          figEl.innerHTML = renderPoseFigureSVG(pose, false);
-        }
-      } else {
-        // PoseSkeleton3D not loaded yet — fall back to avatar SVG.
-        figEl.innerHTML = renderPoseFigureSVG(pose, false);
-      }
-    }, 30);
-  } else if (mode === 'off') {
-    // PR-4 (v1.1): honest empty state — don't show a figure that implies
-    // an overlay will be present. The hint text explains what 'off' means.
-    figEl.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;width:100%;height:180px;border-radius:10px;background:rgba(15,59,58,0.04);color:var(--text-secondary);font:var(--type-body);text-align:center;padding:0 16px;">No overlay<br><span style="font-size:11px;opacity:0.7;">Camera only, no pose guide</span></div>';
   } else {
-    // 'avatar' or any unknown mode → SVG glyph
     figEl.innerHTML = renderPoseFigureSVG(pose, false);
   }
 }
@@ -357,21 +311,6 @@ window.startCameraSession = async function() {
   // Surface simulation state so users know captures are faked (Z8).
   const demoPill = document.getElementById('demo-mode-pill');
   if (demoPill) demoPill.style.display = cameraEngine.simulationMode ? 'block' : 'none';
-
-  // PR-5 (v1.1) — show the SIMULATED SCORING pill whenever the scoring
-  // pipeline is faked. Today the camera engine ALWAYS uses _simulateKPs
-  // (camera.js:123), so the pill shows in every session, even when the
-  // camera is on. When real ML pose detection is integrated, the pill
-  // should be hidden when actual keypoints are being measured.
-  // REASONING [PR-5]: the gold DEMO MODE pill only shows when
-  // simulationMode=true (no camera). Users who granted camera permission
-  // see no indicator, yet their score is still computed from a swaying
-  // simulated skeleton — not their actual body. This is a trust/ethics
-  // bug: the auto-capture fires based on a fake score, so users get
-  // "captured" photos without ever having matched the pose. The pill
-  // makes this honest until ML integration lands.
-  const simPill = document.getElementById('simulated-scoring-pill');
-  if (simPill) simPill.style.display = 'block'; // always shown until ML integrated
 
   const timerVal = AppState.sessionOptions.timer[AppState.sessionOptions.timerIndex];
   if (timerVal !== 'Off') {
@@ -1191,7 +1130,7 @@ function renderPoseFigureSVG(pose, large = false) {
       <path d="M75 80 Q55 85 48 100 Q45 112 52 118" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.8"/>
       <path d="M125 80 Q145 85 152 100 Q155 112 148 118" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.8"/>
       <path d="M80 160 Q76 196 74 232 Q84 238 100 238 Q116 238 126 232 Q124 196 120 160 Z" fill="${color}" opacity="0.6"/>${neckOrn}
-      <ellipse cx="82" cy="236" rx="10" ry="4.5" fill="${color}" opacity="0.5"/><ellipse cx="118" cy="235" rx="10" ry="4.5" fill="${color}" opacity="0.4"/>`),
+      <ellipse cx="87" cy="236" rx="13" ry="5" fill="${color}" opacity="0.5"/><ellipse cx="113" cy="235" rx="11" ry="4.5" fill="${color}" opacity="0.4"/>`),
 
     'arm-reach': S(`${halo}${head}${neck}
       <path d="M78 68 Q72 100 82 130 Q88 148 86 165 Q92 170 100 170 Q108 170 114 165 Q112 148 118 130 Q128 100 122 68 Z" fill="${color}" opacity="0.72"/>

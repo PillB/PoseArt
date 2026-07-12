@@ -23,8 +23,8 @@ PoseArt is a mobile-first web application that uses your phone camera to provide
 | **Alignment scoring** | 0–100% score using EMA-smoothed joint angle deltas vs. reference pose |
 | **Auto-capture** | Fires automatically when score ≥85% for ≥1.5 seconds |
 | **Mucha avatar** | Art Nouveau SVG figure with golden halo/nimbus that fills with alignment |
-| **16 pose categories** | Standing, Seated, Leaning-Standing, Leaning-Seated, Kneeling, Reclining, Dynamic, Eccentric, Couple, Accessible, Boudoir, Editorial, Fine Art, Fashion, Low-to-High, High-to-Low |
-| **745 poses (library)** | S-Curve Stand, Soft Sit, Wall Lean, Power Recline, Kneeling Arch, Editorial Arm Reach, etc. — see `js/poses-data.js` for the canonical count (auto-computed from `POSES_LIBRARY`) |
+| **10 pose categories** | Standing, Seated, Leaning-Standing, Leaning-Seated, Kneeling, Reclining, Dynamic, Eccentric, Couple, Accessible |
+| **12 poses (MVP)** | S-Curve Stand, Soft Sit, Wall Lean, Power Recline, Kneeling Arch, Editorial Arm Reach, etc. |
 | **Pose library** | Browse by category, search, favorites |
 | **Session setup** | Timer delay, feedback mode, overlay style, detection sensitivity |
 | **Progress tracking** | Session count, poses tried, best score, history with timestamps |
@@ -85,14 +85,13 @@ Camera pipeline (web / simulation mode):
 
 ```
 poseart-app/
-├── index.html              # All 23 screens (SPA, screen visibility toggling) + inline <style> (the live stylesheet; css/app.css was retired in v1.1 — see PR-6)
+├── index.html              # All 23 screens (SPA, screen visibility toggling)
 ├── css/
-│   └── tokens.css          # Design tokens (colors, type, spacing, radius, shadow, animation)
+│   ├── tokens.css          # Design tokens (colors, type, spacing, radius, shadow, animation)
+│   └── app.css             # Full Art Nouveau styles — all components, screens, animations
 └── js/
-    ├── poses-data.js       # Pose library (16 categories, 745 poses), in-memory session/favorites storage
+    ├── poses-data.js       # Pose library (10 categories, 12 poses), in-memory session/favorites storage
     ├── camera.js           # CameraEngine class — camera init, EMA, scoring, skeleton canvas, auto-capture
-    ├── pose-skeleton-3d.js # Procedural 3D skeleton/ghost rig (canvas-based, FK pipeline shared by all three renderers)
-    ├── pose-animations.js  # CSS keyframes for avatar SVG entry + idle breathing
     └── app.js              # App controller — navigation, onboarding, session flow, UI interactions
 ```
 

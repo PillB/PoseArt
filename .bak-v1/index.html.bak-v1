@@ -1664,18 +1664,6 @@ img { max-width: 100%; }
         </button>
         <div id="camera-pose-name">Pose Name</div>
         <div id="demo-mode-pill" data-testid="pill-demo-mode" style="display:none;position:absolute;left:50%;top:52px;transform:translateX(-50%);background:rgba(201,162,76,0.92);color:#0F3B3A;font:600 11px/1 var(--font-body);letter-spacing:0.5px;padding:5px 10px;border-radius:999px;z-index:30;">DEMO MODE</div>
-        <!-- PR-5 (v1.1) — directive Part H #18 / AGENT_STATE.md "Demo mode badge:
-             users who granted camera see same fake scoring as demo mode — no
-             indicator shown". The camera-engine scoring pipeline still uses
-             _simulateKPs (camera.js:123 TODO: replace with real pose detection)
-             even when the user has granted camera permission. Without this
-             badge, users believe their real posture is being scored when it's
-             actually a simulated breathing/swaying skeleton. The badge is
-             intentionally visually distinct from the gold DEMO MODE pill
-             (muted teal, smaller) so the user understands: camera is on, but
-             scoring is still simulated. Will be removed when MediaPipe /
-             Vision pose detection is integrated (Phase 6 of the directive). -->
-        <div id="simulated-scoring-pill" data-testid="pill-simulated-scoring" style="display:none;position:absolute;left:50%;top:78px;transform:translateX(-50%);background:rgba(15,59,58,0.85);color:#F6F0E1;font:600 10px/1 var(--font-body);letter-spacing:0.4px;padding:4px 9px;border-radius:999px;z-index:30;border:1px solid rgba(201,162,76,0.4);">SIMULATED SCORING</div>
         <div class="camera-topbar-actions">
           <button class="camera-icon-btn" id="flash-btn" data-testid="btn-flash" onclick="toggleFlash()" aria-label="Toggle flash">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>

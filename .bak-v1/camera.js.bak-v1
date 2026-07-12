@@ -148,92 +148,17 @@ class CameraEngine {
   }
 
   // ── GHOST OVERLAY (target pose silhouette) ─────────────────────
-  // PR-2 (v1.1) — Phase 1 architectural fix: the ghost overlay now derives
-  // from the SAME procedural rig (PoseSkeleton3D.renderGhostFrame) as the
-  // avatar and skeleton renderers, eliminating the architectural drift
-  // warned about in directive Part A.10 rule #4 and Part C Phase 1 step 4
-  // ("ghost = avatar glyph — architectural, fix at rig level not per-pose").
-  //
-  // The legacy `_generateGhostKPs` heuristic stick-figure is retained as a
-  // fallback path (Part C Phase 1 step 7: "Keep the pre-refactor code as a
-  // safety fallback — try/catch around procedural, fall back to legacy path
-  // only on failure"). The procedural path is wrapped in try/catch; any
-  // unexpected exception (e.g., a future regression in pose-skeleton-3d.js)
-  // will silently fall back to the legacy rendering so the camera screen
-  // never goes blank mid-session.
-  //
-  // Visual side-effect: the procedural ghost is a fully-posed 3D figure
-  // (matching the pose-detail skeleton) rather than a canonical standing
-  // stick figure with joint-angle offsets. This means a reclining pose now
-  // shows a horizontal ghost, a kneeling pose shows a kneeling ghost, etc.
-  // — which is the correct behavior, but a visible change from before.
-  // REASONING [PR-2]: the legacy ghost used a fixed canonical standing
-  // skeleton and applied small sin(θ) offsets to elbows/knees. For 60% of
-  // poses (seated, kneeling, reclining, boudoir, etc.) this produced a
-  // ghost that looked like a standing person with slightly bent limbs —
-  // wildly mismatched from the actual target pose. Users couldn't tell what
-  // pose they were supposed to be hitting. The procedural path uses the
-  // exact same buildPose(joints) FK pipeline as the skeleton renderer, so
-  // the ghost is always anatomically correct.
   _drawGhostOverlay() {
     const canvas = this.ghostCanvas;
     if (!canvas || this.overlayMode === 'off') return;
 
-    if (this.overlayMode !== 'ghost' && this.overlayMode !== 'avatar') return;
-
-    // PR-2 (v1.1): procedural path — try first, fall back to legacy on failure.
-    if (window.PoseSkeleton3D && typeof window.PoseSkeleton3D.renderGhostFrame === 'function') {
-      try {
-        const pose = this.currentPose && POSES_LIBRARY[this.currentPose];
-        const joints = pose ? (pose.joints || {}) : {};
-        const rect = canvas.getBoundingClientRect();
-        const w = rect.width || 430;
-        const h = rect.height || 932;
-        // Render the procedural ghost. Yaw is mirrored for front camera so
-        // the ghost visually matches the user's mirror image (the user's
-        // skeleton is also drawn mirrored via the canvas transform in
-        // captureImage). Pitch is set to 5° so the user sees a slight
-        // 3/4 view of the ghost — more elegant than a flat front view.
-        const yaw = this.facingMode === 'user' ? -20 : 20;
-        // Scale the ghost to fill ~70% of the camera viewport height — large
-        // enough to be a useful alignment reference, small enough that the
-        // user can see their own video around it.
-        const scale = Math.min(w, h) / 320; // base 320 → scale up for larger viewports
-        window.PoseSkeleton3D.renderGhostFrame(canvas, w, h, joints, {
-          category: pose ? (pose.category || '') : '',
-          yaw: yaw,
-          pitch: 5,
-          scale: scale
-        });
-        // If aligned (score >= 85), overlay a subtle gold tint on top of the
-        // cyan ghost to signal success. This preserves the original
-        // "isAligned ? gold : white" UX cue without re-architecting the
-        // procedural rig's color system.
-        if (this.currentScore >= 85) {
-          const ctx2 = canvas.getContext('2d');
-          ctx2.save();
-          ctx2.globalCompositeOperation = 'source-atop';
-          ctx2.fillStyle = 'rgba(201,162,76,0.18)';
-          ctx2.fillRect(0, 0, canvas.width / (window.devicePixelRatio || 1), canvas.height / (window.devicePixelRatio || 1));
-          ctx2.restore();
-        }
-        return; // procedural path succeeded — skip legacy
-      } catch (err) {
-        // Log and fall through to legacy path. Never throw out of the
-        // render loop — that would freeze the camera.
-        console.warn('[PoseArt] Procedural ghost render failed, falling back to legacy:', err && err.message);
-      }
-    }
-
-    // ── LEGACY PATH (fallback) ──
-    // Original stick-figure ghost using _generateGhostKPs heuristic.
-    // Kept intact so any unforeseen regression in PoseSkeleton3D doesn't
-    // leave the user without a ghost overlay. See PR-2 comment above.
     const rect = canvas.getBoundingClientRect();
     canvas.width = rect.width || 430;
     canvas.height = rect.height || 932;
     const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    if (this.overlayMode !== 'ghost' && this.overlayMode !== 'avatar') return;
 
     const ghostKPs = this._generateGhostKPs(canvas.width, canvas.height);
     const isAligned = this.currentScore >= 85;
@@ -675,28 +600,9 @@ class CameraEngine {
     const skelCanvas = document.getElementById('skeleton-canvas');
     const ghostCvs   = document.getElementById('ghost-canvas');
     if (!skelCanvas) return;
-    // PR-2 (v1.1) — overlay mode matrix cleanup. Previously 'avatar' mode
-    // showed BOTH the avatar SVG (overlay-container at 0.65) AND the ghost
-    // canvas at full opacity, producing a muddy double-image. With the new
-    // procedural ghost (cyan water aesthetic) the clash would be even more
-    // jarring (cyan silhouette behind a dark teal glyph). The new matrix
-    // treats each mode as a distinct single-overlay mode:
-    //   ghost    → procedural cyan ghost only (target pose reference)
-    //   avatar   → SVG glyph only (Art Nouveau figure at 0.65 opacity)
-    //   skeleton → user skeleton only (live detected/simulated keypoints)
-    //   off      → nothing
-    // 'avatar' no longer paints the ghost canvas — the SVG glyph IS the
-    // target reference in that mode. 'ghost' no longer paints the SVG.
-    // 'skeleton' was already correct.
-    // REASONING [PR-2]: showing two pose references at once doesn't help
-    // alignment — it confuses the user about which one to match. The
-    // directive (Part A.3 rule #14: "no overlay in the session selector
-    // keeps the avatar which is wrong because it subverts user explicit
-    // choice") is honored: the user's explicit overlay choice is now
-    // respected as a single, unambiguous reference.
     switch(mode) {
       case 'ghost':    if(overlay) overlay.style.opacity='0'; skelCanvas.style.opacity='1'; if(ghostCvs) ghostCvs.style.opacity='1'; break;
-      case 'avatar':   if(overlay) overlay.style.opacity='0.65'; skelCanvas.style.opacity='1'; if(ghostCvs) ghostCvs.style.opacity='0'; break;
+      case 'avatar':   if(overlay) overlay.style.opacity='0.65'; skelCanvas.style.opacity='1'; if(ghostCvs) ghostCvs.style.opacity='1'; break;
       case 'skeleton': if(overlay) overlay.style.opacity='0'; skelCanvas.style.opacity='1'; if(ghostCvs) ghostCvs.style.opacity='0'; break;
       case 'off':      if(overlay) overlay.style.opacity='0'; skelCanvas.style.opacity='0'; if(ghostCvs) ghostCvs.style.opacity='0'; break;
     }

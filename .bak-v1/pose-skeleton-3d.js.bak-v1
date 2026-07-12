@@ -75,24 +75,8 @@
   var COLOR_RIGHT  = '#0F3B3A';
   var COLOR_CENTER = '#0F3B3A';
   var COLOR_GOLD   = '#C9A24C';
-  // PR-2 (v1.1) — Phase 1 directive: ghost must be "more watery and lithe"
-  // (Part H #13) and derive from the SAME procedural rig as the avatar /
-  // skeleton (Part A.10 rule #4). COLOR_GHOST is the cyan-aqua (~#3EA9B8)
-  // specified in Phase 1 step 5. Used as the bone + joint fill whenever
-  // state.ghostMode is true, replacing the dark teal COLOR_CENTER so the
-  // ghost reads as a luminous water silhouette rather than "faded skeleton".
-  var COLOR_GHOST  = '#3EA9B8';
-  var COLOR_GHOST_DEEP = '#2E8AA8';
 
-  // Bone width profiles: [nearWidth, farWidth] in px — tapered capsule effect.
-  // PR-1 (v1.1): Per Phase 4 directive #15/#36 the key-joint "ball" bones
-  // (leftShoulder↔rightShoulder clavicle bar, leftHip↔rightHip pelvis bar)
-  // have been slimmed 45% in the perpendicular / short-axis direction so the
-  // halo of the shoulder/hip ball no longer dwarfs the actual limb capsule.
-  // Limb bones are left untouched — only the "shape" bars were the culprit.
-  // REASONING [PR-1]: the directive's "45% thinner" rule is explicitly about
-  // the shoulder-to-shoulder shape; thinning limb bones would over-emaciate
-  // the figure and break the lithe-but-readable silhouette established in v3.0.
+  // Bone width profiles: [nearWidth, farWidth] in px — tapered capsule effect
   var BONE_WIDTHS = {
     'head-neck':          [7, 5],
     'neck-spine':         [9, 7],
@@ -112,11 +96,7 @@
     'rightKnee-rightAnkle':   [5, 3],
     'rightAnkle-rightFoot':   [3, 2],
     'leftHip-rightHip':       [10, 8],
-    // PR-1 (v1.1): was [10, 8]. Reduced 45% to [5.5, 4.4] so the clavicle bar
-    // stops reading as a chunky yoke above the ribcage and matches the lithe
-    // limb profile. Visual side-effect: at extreme yaw (back view) the
-    // shoulder bar is thinner, which actually improves the silhouette read.
-    'leftShoulder-rightShoulder': [5.5, 4.4]
+    'leftShoulder-rightShoulder': [10, 8]
   };
 
   // ----------------------------------------------------------
@@ -469,13 +449,7 @@
     ctx.restore();
   }
 
-  function getBoneColor(state, side) {
-    // PR-2 (v1.1): when ghostMode is on, the entire figure uses the cyan-aqua
-    // palette so it reads as "water" rather than a transparent dark-teal
-    // clone of the avatar. Side differentiation is suppressed in ghost mode
-    // (L/R/C all return COLOR_GHOST) — the directive calls for a lithe
-    // silhouette, not a labeled anatomy chart.
-    if (state && state.ghostMode) return COLOR_GHOST;
+  function getBoneColor(side) {
     if (side === 'L') return COLOR_LEFT;
     if (side === 'R') return COLOR_RIGHT;
     return COLOR_CENTER;
@@ -488,11 +462,8 @@
     if (!a || !b) return;
     var pa = project(state, a), pb = project(state, b);
     var avgZ = (pa.z + pb.z) / 2;
-    // PR-2 (v1.1): ghost alpha raised from 0.60 → 0.78 so the water silhouette
-    // is readable against the live camera feed (which is bright/noisy). The
-    // old 0.60 was tuned for the parchment app background, not video.
-    var alpha = depthToAlpha(avgZ) * (state.ghostMode ? 0.78 : 0.95);
-    var baseColor = getBoneColor(state, side);
+    var alpha = depthToAlpha(avgZ) * (state.ghostMode ? 0.60 : 0.95);
+    var baseColor = getBoneColor(side);
 
     // Tapered capsule: look up width profile for this bone pair
     var boneKey = aKey + '-' + bKey;
@@ -501,16 +472,6 @@
     var wB = depthToWidth(pb.z, widths[1]);
 
     ctx.save();
-    // PR-2 (v1.1): ghost water-glow. canvas shadowBlur + shadowColor gives the
-    // "feGaussianBlur + feMerge" effect the directive specifies for SVG
-    // filters, applied per-bone. We keep shadowBlur modest (8px) so the
-    // silhouette stays lithe rather than puffy. The shadow is drawn under
-    // the bone fill, so we stroke the bone path first with the shadow, then
-    // re-fill without the shadow for a clean inner color.
-    if (state.ghostMode) {
-      ctx.shadowColor = hexToRgba(COLOR_GHOST, 0.55);
-      ctx.shadowBlur = 8;
-    }
     // Draw tapered bone as a filled trapezoid path for volume
     var dx = pb.x - pa.x, dy = pb.y - pa.y;
     var len = Math.sqrt(dx*dx + dy*dy);
@@ -546,42 +507,19 @@
     var isKey = !!KEY_JOINTS[key];
     var isHead = key === 'head';
     var isNeck = key === 'neck';
-    // PR-1 (v1.1) — Phase 4 directive #15 "halo over the ball joint which are
-    // too big make them half as big" + directive #33 "make the head a bit
-    // longer". Key joints (shoulders, hips, hips-center) shrunk from 4.5→2.5
-    // (~45% reduction). Non-key joints shrunk 3→2.2 (~27% — kept readable for
-    // limb endpoints). Head made longer: baseRadius 8.5→9.5 plus a vertical
-    // stretch factor of 1.18 so the skull reads as an oval, not a circle.
-    // REASONING [PR-1]: a true 50% cut on non-key joints (3→1.5) makes elbows
-    // and wrists vanish at far depth due to the 0.75–1.25 depth scaling
-    // (1.5 * 0.75 = 1.13 px, below the Math.max(radius, 2) floor anyway, so
-    // the floor dominates and the reduction is invisible). 2.2 stays above
-    // the floor at near depth (2.2 * 1.25 = 2.75 px, visible).
-    var baseRadius = isHead ? 9.5 : (isNeck ? 3.0 : (isKey ? 2.5 : 2.2));
-    var depthT = Math.max(0, Math.min(1, (proj.z + 0.8) / 1.6));
-    var radius = baseRadius * (0.75 + 0.5 * depthT);
+    // Lithe redesign: head is ~1/8 body height (realistic), joints are slim
+    var baseRadius = isHead ? 8.5 : (isNeck ? 3.5 : (isKey ? 4.5 : 3));
+    var radius = baseRadius * (0.75 + 0.5 * Math.max(0, Math.min(1, (proj.z + 0.8) / 1.6)));
     var alpha = depthToAlpha(proj.z);
-    // PR-2 (v1.1): in ghostMode every joint is cyan-aqua (COLOR_GHOST) so the
-    // silhouette is unified — no gold key joints, no dark-teal center. Key
-    // joints keep their slight stroke ring for anatomical readability.
-    var color = state.ghostMode ? COLOR_GHOST : (isKey ? COLOR_GOLD : COLOR_CENTER);
+    var color = isKey ? COLOR_GOLD : COLOR_CENTER;
     var fillAlpha = state.ghostMode ? Math.min(1, alpha * (isKey ? 0.9 : 0.65)) : alpha;
     ctx.save();
     ctx.beginPath();
-    if (isHead) {
-      // PR-1 (v1.1): draw head as a vertical ellipse (1.18 stretch) so it
-      // reads as a longer skull — directive #33 "make the head a bit longer".
-      ctx.ellipse(proj.x, proj.y, Math.max(radius, 2), Math.max(radius * 1.18, 2.4), 0, 0, Math.PI * 2);
-    } else {
-      ctx.arc(proj.x, proj.y, Math.max(radius, 2), 0, Math.PI*2);
-    }
+    ctx.arc(proj.x, proj.y, Math.max(radius, 2), 0, Math.PI*2);
     ctx.fillStyle = hexToRgba(color, fillAlpha);
     ctx.fill();
     if (isKey) {
-      // PR-1 (v1.1): was 1.5 → 1.0. Slimmer ring stroke matches the smaller
-      // key-joint ball. A thick stroke on a tiny circle just looks like a
-      // filled donut and obscures the limb attachment point.
-      ctx.lineWidth = 1.0;
+      ctx.lineWidth = 1.5;
       ctx.strokeStyle = hexToRgba('#0F3B3A', 0.45);
       ctx.stroke();
     }
@@ -596,79 +534,14 @@
       ctx.ellipse(proj.x, proj.y + radius * 0.85, chinR * 0.6, chinR * 0.4, 0, 0, Math.PI * 2);
       ctx.fillStyle = hexToRgba(COLOR_CENTER, fillAlpha * 0.45);
       ctx.fill();
-      // PR-1 (v1.1) — directive #33/#34: "add two divots to simulate eyes"
-      // and "face eyes appear to always face to the screen even if you turn
-      // the sprite". Compute eye positions in model space relative to head,
-      // then project so they rotate WITH the figure instead of always facing
-      // the screen. We use the head's local +Z (forward) and local +X (right)
-      // vectors derived from the difference between head and neck in screen
-      // space + the camera yaw. Two small dark divots placed slightly forward
-      // (+Z) and to each side (±X) of the head center, then re-projected.
-      // REASONING [PR-1]: the previous chin indicator was a single oval always
-      // offset by +radius*0.85 in screen-down direction — it never rotated
-      // with the figure, so a 3/4 turn or back view still showed a "chin"
-      // implying the face was toward the camera. The new eye divots use the
-      // head's actual 3D orientation in model space, so when the body yaw
-      // rotates 90° to side profile, both eyes collapse to a single dot on
-      // the visible side; at 180° (back view) they disappear entirely behind
-      // the skull. This is the same trick used by PoseAnimator (TF.js) for
-      // gaze direction.
-      var headModel = skel.head;
-      var eyeOffsetX = 0.05;   // lateral spread in model units
-      var eyeOffsetY = 0.02;   // slightly above head center
-      var eyeOffsetZ = 0.07;   // forward (toward camera at yaw=0) in model units
-      // Apply the figure's own yaw/pitch via applyCamera so the eyes land on
-      // the visible side of the head at every turn angle.
-      var eyeL_model = { x: headModel.x - eyeOffsetX, y: headModel.y + eyeOffsetY, z: headModel.z + eyeOffsetZ };
-      var eyeR_model = { x: headModel.x + eyeOffsetX, y: headModel.y + eyeOffsetY, z: headModel.z + eyeOffsetZ };
-      var eyeL_proj = project(state, eyeL_model);
-      var eyeR_proj = project(state, eyeR_model);
-      // Eye radius scales with depth so a back-view eye (z very negative)
-      // shrinks to invisibility — natural occlusion cue.
-      var eyeR = Math.max(0.6, 1.6 * (0.55 + 0.6 * depthT));
-      // Render only the eye whose projected z is in front of the skull center
-      // (z greater than head z — i.e., closer to camera). Back-facing eye is
-      // skipped so we don't get "X-ray" eyes through the skull.
-      var headProjZ = proj.z;
-      if (eyeL_proj.z >= headProjZ - 0.05) {
-        ctx.beginPath();
-        ctx.arc(eyeL_proj.x, eyeL_proj.y, eyeR, 0, Math.PI * 2);
-        ctx.fillStyle = hexToRgba('#0F3B3A', Math.min(1, fillAlpha * 0.85));
-        ctx.fill();
-      }
-      if (eyeR_proj.z >= headProjZ - 0.05) {
-        ctx.beginPath();
-        ctx.arc(eyeR_proj.x, eyeR_proj.y, eyeR, 0, Math.PI * 2);
-        ctx.fillStyle = hexToRgba('#0F3B3A', Math.min(1, fillAlpha * 0.85));
-        ctx.fill();
-      }
-      // PR-2 (v1.1): in ghost mode the head halo becomes a soft cyan glow
-      // ring (no dashes) — matches the "water-like" aesthetic and avoids the
-      // gold dashed ring which reads as "anatomy chart marker" rather than
-      // "ethereal figure". Solid stroke + low alpha + larger radius gives a
-      // halo that reads as light bleed, not a labeled callout.
-      if (state.ghostMode) {
-        ctx.beginPath();
-        ctx.arc(proj.x, proj.y, radius + 5.5, 0, Math.PI * 2);
-        ctx.strokeStyle = hexToRgba(COLOR_GHOST, 0.30);
-        ctx.lineWidth = 1.5;
-        ctx.stroke();
-        // Inner secondary glow for water-like luminance falloff
-        ctx.beginPath();
-        ctx.arc(proj.x, proj.y, radius + 2.5, 0, Math.PI * 2);
-        ctx.strokeStyle = hexToRgba(COLOR_GHOST, 0.18);
-        ctx.lineWidth = 1;
-        ctx.stroke();
-      } else {
-        // Gold halo ring (original avatar/skeleton behavior)
-        ctx.beginPath();
-        ctx.arc(proj.x, proj.y, radius + 3.5, 0, Math.PI * 2);
-        ctx.strokeStyle = hexToRgba(COLOR_GOLD, 0.22);
-        ctx.lineWidth = 1;
-        ctx.setLineDash([3, 5]);
-        ctx.stroke();
-        ctx.setLineDash([]);
-      }
+      // Gold halo ring
+      ctx.beginPath();
+      ctx.arc(proj.x, proj.y, radius + 3.5, 0, Math.PI * 2);
+      ctx.strokeStyle = hexToRgba(COLOR_GOLD, 0.22);
+      ctx.lineWidth = 1;
+      ctx.setLineDash([3, 5]);
+      ctx.stroke();
+      ctx.setLineDash([]);
     }
     ctx.restore();
   }
@@ -809,11 +682,7 @@
   }
 
   function drawLineOfAction(state) {
-    // Draw a subtle gold Bezier 'line of action' from head through spine/pelvis to weighted foot.
-    // PR-2 (v1.1): suppressed in ghostMode — the gold dashed curve reads as
-    // an anatomy-chart annotation and clashes with the cyan water aesthetic.
-    // Bones + joints already convey the line of action implicitly.
-    if (state.ghostMode) return;
+    // Draw a subtle gold Bezier 'line of action' from head through spine/pelvis to weighted foot
     var skel = state.displaySkeleton;
     if (!skel.head || !skel.spine || !skel.hips) return;
     var pH = project(state, skel.head);
@@ -838,29 +707,7 @@
   }
 
   function drawTorsoVolume(state) {
-    // Draw semi-transparent torso/ribcage ellipse for visual volume.
-    // PR-2 (v1.1): suppressed in ghostMode — the dark-teal rgba(15,59,58,0.07)
-    // fill conflicts with the cyan water palette and reads as a muddy patch
-    // behind the luminous bones. The ghost silhouette is carried by bones +
-    // halo alone, which matches the "lithe" directive.
-    if (state.ghostMode) return;
-    // PR-1 (v1.1) — directive #32: "the shape for the torso that goes from
-    // hip to neck goes up too much and clips half the head it should stop
-    // before the bottom of the head". The original `ry = abs(pSp.y - cy)*0.75`
-    // could push the top of the ellipse above the head's bottom edge when:
-    //   (a) a pose clamps the shoulders up (e.g. arms overhead rotating the
-    //       shoulder girdle upward via spine forward-fold), or
-    //   (b) the camera pitch tilts down so head and shoulders project close
-    //       together in screen-y.
-    // Fix: clamp the top of the ellipse (cy - ry) so it never crosses above
-    //      headBottomY = headCenterY - headRadius*0.6 (i.e. roughly the chin).
-    // If the clamp activates, we shrink ry rather than move cy, so the
-    // ellipse stays anchored at the spine/shoulder midpoint (which is the
-    // anatomical ribcage center) and only its top edge recedes.
-    // REASONING [PR-1]: shrinking (not translating) preserves the visual
-    // connection between ribcage and pelvis volume ellipses; translating
-    // the whole torso down would create a gap between ribcage and pelvis
-    // that looks like the figure has been severed at the waist.
+    // Draw semi-transparent torso/ribcage ellipse for visual volume
     var skel = state.displaySkeleton;
     if (!skel.leftShoulder || !skel.rightShoulder || !skel.spine) return;
     var pLS = project(state, skel.leftShoulder);
@@ -871,22 +718,6 @@
     var rx = Math.abs(pRS.x - pLS.x) * 0.42;
     var ry = Math.abs(pSp.y - cy) * 0.75;
     if (rx < 4 || ry < 4) return;
-    // PR-1 (v1.1): torso-vs-head intersection guard.
-    if (skel.head) {
-      var headProj = project(state, skel.head);
-      // Head "longer" in v1.1 — see drawJoint. Use 9.5 * 1.18 worst-case.
-      var headRadiusPx = 9.5 * (0.75 + 0.5 * 0.5) * 1.18; // ≈ 8.86 px
-      var headBottomY = headProj.y + headRadiusPx * 0.6; // chin line
-      var torsoTopY = cy - ry;
-      if (torsoTopY < headBottomY) {
-        // Clamp: keep cy, shrink ry so torsoTopY stops at headBottomY.
-        // A small +2px breathing margin keeps the ellipse from kissing the
-        // chin outline (which would still read as a visual clip even if
-        // technically not overlapping).
-        ry = Math.max(4, cy - headBottomY - 2);
-        if (ry < 4) return; // torso fully behind head — skip drawing entirely
-      }
-    }
     var ctx = state.ctx;
     ctx.save();
     ctx.beginPath();
@@ -900,9 +731,7 @@
   }
 
   function drawPelvisVolume(state) {
-    // Draw a subtle pelvis ellipse.
-    // PR-2 (v1.1): suppressed in ghostMode (same rationale as drawTorsoVolume).
-    if (state.ghostMode) return;
+    // Draw a subtle pelvis ellipse
     var skel = state.displaySkeleton;
     if (!skel.leftHip || !skel.rightHip || !skel.hips) return;
     var pLH = project(state, skel.leftHip);
@@ -925,28 +754,6 @@
     if (!state.ctx) return;
     var ctx = state.ctx;
     ctx.clearRect(0, 0, state.width, state.height);
-    // PR-2 (v1.1): ghost-mode cyan halo behind the figure. Per Phase 1
-    // directive step 5 ("Add a subtle cyan <ellipse> halo behind the figure").
-    // Drawn BEFORE accessories/shadow so it sits at the bottom of the layer
-    // stack and bones/joints composite over it. Sized to the canvas's smaller
-    // dimension so the halo reads as ambient glow rather than a framed ring.
-    if (state.ghostMode) {
-      var fitScale = Math.min(state.width, state.height) * 0.40 * state.scale;
-      var haloCx = state.width / 2;
-      var haloCy = state.height / 2 + fitScale * 0.1; // nudge down toward chest
-      var haloRx = fitScale * 0.95;
-      var haloRy = fitScale * 1.25;
-      var haloGrad = ctx.createRadialGradient(haloCx, haloCy, 0, haloCx, haloCy, haloRy);
-      haloGrad.addColorStop(0, hexToRgba(COLOR_GHOST, 0.22));
-      haloGrad.addColorStop(0.5, hexToRgba(COLOR_GHOST, 0.08));
-      haloGrad.addColorStop(1, hexToRgba(COLOR_GHOST, 0.0));
-      ctx.save();
-      ctx.beginPath();
-      ctx.ellipse(haloCx, haloCy, Math.max(haloRx, 8), Math.max(haloRy, 8), 0, 0, Math.PI * 2);
-      ctx.fillStyle = haloGrad;
-      ctx.fill();
-      ctx.restore();
-    }
     drawAccessory(state);
     drawGroundShadow(state);
     drawLineOfAction(state);
@@ -1071,57 +878,8 @@
     s.id = STYLE_ID;
     s.textContent =
       '@keyframes poseSkeleton3DBreathe{0%{transform:scale(1)}50%{transform:scale(1.018)}100%{transform:scale(1)}}' +
-      // PR-3 (v1.1): directive #17 "only the skeleton sprites are animated
-      // why not all?" — apply the breathing animation to BOTH the regular
-      // skeleton canvas and the new ghost canvas so all three renderers
-      // (avatar SVG via CSS in pose-animations.js, skeleton canvas, ghost
-      // canvas) share a continuous idle motion. The selector lists both
-      // class names; pose-skeleton-3d-canvas is the existing class, and
-      // pose-ghost-canvas is the new class applied by renderGhostFrame.
-      '.pose-skeleton-3d-canvas,.pose-ghost-canvas{animation:poseSkeleton3DBreathe 3.5s ease-in-out infinite;touch-action:none;}';
+      '.pose-skeleton-3d-canvas{animation:poseSkeleton3DBreathe 3.5s ease-in-out infinite;touch-action:none;}';
     document.head.appendChild(s);
-  }
-
-  // PR-1 (v1.1) — defensive polyfill for CanvasRenderingContext2D.roundRect.
-  // Used by drawAccessory() when rendering the boudoir bed surface.
-  // roundRect() is available in Chrome 99+, Safari 16+, Firefox 113+ — i.e.
-  // all evergreen browsers since 2022 — but older iOS Safari (15.x and
-  // earlier) still hits this code path. Without the polyfill, 161 boudoir /
-  // bed-using poses would throw "ctx.roundRect is not a function" and the
-  // entire renderFrame would abort, leaving the canvas blank. The polyfill
-  // is a no-op on browsers that already implement roundRect natively.
-  // REASONING [PR-1]: discovered during the 745-pose mass regression test
-  // (scripts/smoke_test_skeleton.js TEST 5). The polyfill is conservative —
-  // it only assigns if the prototype lacks the method, and the
-  // implementation follows the WHATWG spec for the rounded-rect path.
-  if (typeof CanvasRenderingContext2D !== 'undefined' &&
-      typeof CanvasRenderingContext2D.prototype.roundRect !== 'function') {
-    CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
-      // r can be a number or an array of corner radii; normalize.
-      var radii;
-      if (typeof r === 'number') radii = [r, r, r, r];
-      else if (Array.isArray(r)) {
-        if (r.length === 1) radii = [r[0], r[0], r[0], r[0]];
-        else if (r.length === 2) radii = [r[0], r[1], r[0], r[1]];
-        else if (r.length === 3) radii = [r[0], r[1], r[2], r[1]];
-        else radii = [r[0], r[1], r[2], r[3]];
-      } else radii = [0, 0, 0, 0];
-      // Clamp radii so they never exceed half the shorter side.
-      var maxR = Math.min(w, h) / 2;
-      radii = radii.map(function (rr) { return Math.max(0, Math.min(rr, maxR)); });
-      this.beginPath();
-      this.moveTo(x + radii[0], y);
-      this.lineTo(x + w - radii[1], y);
-      this.arcTo(x + w, y, x + w, y + radii[1], radii[1]);
-      this.lineTo(x + w, y + h - radii[2]);
-      this.arcTo(x + w, y + h, x + w - radii[2], y + h, radii[2]);
-      this.lineTo(x + radii[3], y + h);
-      this.arcTo(x, y + h, x, y + h - radii[3], radii[3]);
-      this.lineTo(x, y + radii[0]);
-      this.arcTo(x, y, x + radii[0], y, radii[0]);
-      this.closePath();
-      return this;
-    };
   }
 
   // ----------------------------------------------------------
@@ -1208,64 +966,7 @@
       s.ctx = null; s.canvas = null; this._state = null; return this;
     },
 
-    // PR-2 (v1.1) — Phase 1 architectural fix: one-shot ghost renderer.
-    // Renders a single water-aesthetic ghost frame onto `canvas` for the
-    // given `joints` (the pose.joints object from poses-data.js), without
-    // taking over the canvas lifecycle or binding drag handlers.
-    //
-    // This is the bridge that lets camera.js's ghost overlay derive from
-    // the SAME procedural rig as the avatar/skeleton (Part A.10 rule #4),
-    // eliminating the architectural drift where _generateGhostKPs used a
-    // bespoke stick-figure heuristic that didn't match PoseSkeleton3D.
-    //
-    // Caller is responsible for sizing the canvas (width/height) before
-    // invoking. The helper uses the canvas's current 2D context, scales for
-    // devicePixelRatio, and renders one frame. It does NOT start a RAF loop
-    // — for animation, the caller should re-invoke this per frame OR use the
-    // full init() lifecycle.
-    renderGhostFrame: function(canvas, width, height, joints, options) {
-      if (!canvas || !canvas.getContext) return;
-      options = options || {};
-      var w = width  || canvas.clientWidth  || 220;
-      var h = height || canvas.clientHeight || 280;
-      var dpr = (typeof window !== 'undefined' && window.devicePixelRatio) || 1;
-      // Only resize canvas backing store if dimensions actually changed,
-      // to avoid clearing it unnecessarily when called from a RAF loop.
-      if (canvas.width !== w * dpr || canvas.height !== h * dpr) {
-        canvas.width  = w * dpr;
-        canvas.height = h * dpr;
-        canvas.style.width  = w + 'px';
-        canvas.style.height = h + 'px';
-      }
-      // PR-3 (v1.1): tag canvas with pose-ghost-canvas so the breathing
-      // animation selector matches and the ghost has continuous idle motion
-      // (directive #17 — "all 3 renderers must animate").
-      if (canvas.classList && typeof canvas.classList.add === 'function') {
-        canvas.classList.add('pose-ghost-canvas');
-      }
-      ensureStyleInjected();
-      var ctx = canvas.getContext('2d');
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0); // reset transform then scale
-      ctx.clearRect(0, 0, w, h);
-      // Build a transient state — no canvas/DOM binding, no drag handlers.
-      var state = createState();
-      state.canvas = canvas;
-      state.ctx = ctx;
-      state.width = w;
-      state.height = h;
-      state.dpr = dpr;
-      state.scale = options.scale || 1;
-      state.ghostMode = true; // force ghost water aesthetic
-      state.yaw = (typeof options.yaw === 'number') ? options.yaw : 20;
-      state.pitch = (typeof options.pitch === 'number') ? options.pitch : 5;
-      state.currentPose = buildPose(joints || {});
-      state.displaySkeleton = cloneSkeleton(state.currentPose);
-      state.poseCategory = options.category || '';
-      renderFrame(state);
-      return this;
-    },
-
-    _internals: { T_POSE: T_POSE, BONES: BONES, VIEW_ANGLES: VIEW_ANGLES, buildPose: buildPose, renderFrame: renderFrame, createState: createState }
+    _internals: { T_POSE: T_POSE, BONES: BONES, VIEW_ANGLES: VIEW_ANGLES, buildPose: buildPose }
   };
 
   global.PoseSkeleton3D = PoseSkeleton3D;
