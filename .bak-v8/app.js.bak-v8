@@ -3,39 +3,6 @@
 // Gallery tab, category list, search, sharing, onboarding rework
 // ============================================================
 
-// PR-v8 (v1.8) — Global Error Boundary.
-// Vibe-coded apps commonly lack error boundaries, causing white-screen
-// crashes when uncaught JS errors occur. This global handler catches
-// uncaught errors and promise rejections, logs them, and shows a
-// non-blocking toast instead of crashing the app.
-// Per directive Phase 8: "Silent errors + no error boundaries" is a
-// common vibe-coded failure mode to preempt.
-(function setupGlobalErrorHandler() {
-  if (typeof window === 'undefined') return;
-  if (window._errorBoundarySetup) return;
-  window._errorBoundarySetup = true;
-
-  window.addEventListener('error', function(e) {
-    console.error('[PoseArt Error Boundary]', e.error || e.message);
-    // Show a non-blocking toast
-    if (typeof window.showToast === 'function') {
-      window.showToast('⚠ Something went wrong. Try again.');
-    }
-    // Prevent the default white-screen crash
-    e.preventDefault();
-  });
-
-  window.addEventListener('unhandledrejection', function(e) {
-    console.error('[PoseArt Error Boundary] Unhandled promise rejection:', e.reason);
-    if (typeof window.showToast === 'function') {
-      window.showToast('⚠ Background task failed. Try again.');
-    }
-    e.preventDefault();
-  });
-
-  console.log('%cPoseArt Error Boundary active.', 'color:#4CAF7D;font-size:10px;');
-})();
-
 // ── STATE ─────────────────────────────────────────────────────
 const AppState = {
   currentScreen: 'ob1',
@@ -699,16 +666,6 @@ function renderGallery() {
     grid.innerHTML = '';
     grid.style.display = 'none';
     if (empty) empty.style.display = 'flex';
-    // PR-v8 (v1.8): reset the rendered flag so the next render after items
-    // are added doesn't get short-circuited by the stale flag.
-    // This was the root cause of "gallery not updating after capture" —
-    // the gallery showed empty, set rendered='1', then when a capture was
-    // added and showTab('gallery') called renderGallery, the short-circuit
-    // at the top skipped the rebuild because galleryDirty was true but
-    // rendered was already '1'. Now we reset rendered when the gallery is
-    // empty so the next non-empty render always rebuilds.
-    delete grid.dataset.rendered;
-    AppState.galleryDirty = false;
     return;
   }
 

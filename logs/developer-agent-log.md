@@ -78,6 +78,47 @@ This file is append-only and records the v1.1 through v1.8 implementation sequen
 - Commands batched: 8
 - Phase completed within budget: ✅
 
+### Action: Commit verified v1.7 phase
+**Files modified:** Git history; commit `35f4ecf`.
+**Expected result:** Atomic exact-title commit.
+**Actual result:** Commit created successfully.
+**Verification:** Latest log returned `35f4ecf`.
+**VLM check:** Recorded above.
+**Status:** ✅ PASS
+
+---
+## Phase v1.8 — Vibe-Coded Failure-Mode Audit — 2026-07-12 America/Lima
+
+### Action: Read complete report and plan
+**Files modified:** Log only.
+**Expected result:** Understand all failure-mode findings and three fixes.
+**Actual result:** Read all 137 lines. Plan: back up index/app/pose data carried by cumulative patch; reconstruct/apply only v1.8 delta; install portable vibe/edge audits; syntax, validator, both mass suites, 8 flows/10 edges, screenshots/visual, final retrospective and commit.
+**Verification:** Stop only at 0 critical/high and all edge cases passing.
+**VLM check:** Skip link/gallery behavior are functional; final UI screenshot if produced.
+**Status:** ✅ PASS
+
+### Action: Implement and verify v1.8 failure-mode fixes
+**Files modified:** `.bak-v8/`, `index.html`, `js/app.js`, portable vibe/edge scripts, edge-script backup, audit artifacts, log.
+**Expected result:** Skip intro, active error boundary, fresh gallery transition, 0 critical/high, all ten edges pass.
+**Actual result:** Incremental v1.8 target applied. Validator stays 0/745; both mass suites stay 745/745. Comprehensive audit passes 8 flows with 0 CRITICAL, 0 HIGH, 1 MEDIUM by-design onboarding replay and zero real console errors. Corrected edge audit passes all 10: XSS-safe search, 50 switches, no skeleton leak, gallery 0→1 after capture with timer Off, all overlay modes, five undo/redos, double-purchase prevention, Escape, data-loss flag, and 430px no-overflow.
+**Verification:** `/tmp/v18-{validator,skel,avatar,vibe,edge2}.txt`; all required exit 0.
+**VLM check:** Functional phase; marketplace/editor/prop visual evidence from prior phases remains valid. Skip link exists on OB1 and full mobile audit screenshots are stored in `audit/vibe-audit/`.
+**Status:** ✅ PASS
+
+### Retrospective:
+- What went well: All eight flows and ten corrected edge tests pass; gallery stale-state fix is demonstrated by count/items 1 after capture.
+- What didn't: Original edge harness repeated earlier test defects—default 5-second timer, insufficient history debounce, and lexical marketplace-state access. The app was not at fault; the harness was backed up and corrected.
+- What to do differently next phase: No implementation phase remains; preserve UI-driven, failure-enforcing test conventions for maintenance.
+
+### Token Usage Log — Phase v1.8
+- Estimated tokens consumed: under 15,000
+- Turns used: 15 tool actions
+- Subagents spawned: 0
+- Subagent polls: 0
+- Files re-read unnecessarily: 0
+- Commands batched: 7
+- Phase completed within budget: ✅
+
 ### Action: Commit verified v1.6 phase
 **Files modified:** Git history; commit `f37d29a`.
 **Expected result:** Atomic exact-title commit.

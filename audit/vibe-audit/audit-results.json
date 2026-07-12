@@ -1,0 +1,31 @@
+{
+  "issues": [
+    {
+      "flow": "onboarding",
+      "severity": "MEDIUM",
+      "category": "stale_state",
+      "description": "Onboarding replays every load (no persistence)",
+      "fix": "this is by-design for iframe sandbox, but non-iframe builds should persist",
+      "timestamp": "2026-07-12T22:09:22.489Z"
+    }
+  ],
+  "consoleErrors": [
+    "[warn] Camera denied — simulation mode: NotSupportedError"
+  ],
+  "screenshots": [
+    "01-onboarding-skip.png",
+    "02-home.png",
+    "03-library.png",
+    "04-camera-review.png",
+    "05-gallery.png",
+    "06-progress.png",
+    "07-pose-editor.png",
+    "08-marketplace.png"
+  ],
+  "summary": {
+    "total": 1,
+    "critical": 0,
+    "high": 0,
+    "medium": 1
+  }
+}
