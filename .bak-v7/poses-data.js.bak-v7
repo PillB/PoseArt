@@ -1488,12 +1488,11 @@ const POSES_LIBRARY = {
     difficulty: 'Beginner', angle: '3/4 View', intent: 'Social', effort: 'Static',
     instructions: 'Lie on one side propped up on one elbow, top leg straight or bent slightly forward and bottom leg straight beneath it. Rest the head in the raised hand or lift it for a longer neckline.',
     tip: 'Arch the back slightly and lift the head high — it elongates the neck and accentuates curves.',
-    // PR-v7 (v1.7) — fix too_subtle: "propped up on one elbow" — raise the propping arm. leftShoulder -10→-100, rightShoulder 8→-100.
     joints: {
         globalTilt: 75,
         neck: 8,
-        leftShoulder: -100,
-        rightShoulder: -100,
+        leftShoulder: -10,
+        rightShoulder: 8,
         leftElbow: 65,
         rightElbow: 45,
         leftHip: 30,
@@ -3093,8 +3092,7 @@ const POSES_LIBRARY = {
       effort: 'Static',
       instructions: 'Reach both arms upward and drape them gently behind the head, wrists soft and crossed loosely. Arch the spine subtly and let the ribcage lift.',
       tip: 'Let the wrists fall softly rather than locking them -- tension breaks the graceful line.',
-    // PR-v7 (v1.7) — fix too_subtle: arms overhead but shoulders not raised. Set both to -110°.
-      joints: {spine: -12, neck: 3.9, leftShoulder: -110, rightShoulder: -110, leftElbow: 55, rightElbow: 45, leftHip: 5, rightHip: 20, leftKnee: 30, rightKnee: 10, globalTilt: 50, leftAnkle: -18, rightAnkle: -18},
+      joints: {spine: -12, neck: 3.9, leftShoulder: 60, rightShoulder: 20, leftElbow: 55, rightElbow: 45, leftHip: 5, rightHip: 20, leftKnee: 30, rightKnee: 10, globalTilt: 50, leftAnkle: -18, rightAnkle: -18},
       color: 'var(--color-teal-100)',
       figure: 'boudoir-drape',
       tags: ['arch', 's-curve', 'arms', 'dramatic'],
@@ -3200,8 +3198,7 @@ const POSES_LIBRARY = {
       instructions: 'Kneel upright with knees hip-width apart, then arch the back and let the head fall gently backward. Reach both arms down to rest on the heels, hips pressed forward.',
       tip: 'Coach small movements -- a few degrees of arch change the shape dramatically.',
     // PR-v3 (v1.3) — auto-fix spine sign error: description says "arch back" but spine is positive (forward fold). Was spine:32, now spine:-32.
-    // PR-v7 (v1.7) — fix too_subtle: arms overhead but shoulders not raised. Set both to -110°.
-      joints: { globalTilt: 50, spine: -32, neck: 27, leftShoulder: -110, leftElbow: 55, rightShoulder: -110, rightElbow: 80, leftHip: 10, leftKnee: 30, leftAnkle: -18, rightHip: 20, rightKnee: 110, rightAnkle: -35 },
+      joints: { globalTilt: 50, spine: -32, neck: 27, leftShoulder: -12, leftElbow: 55, rightShoulder: 8, rightElbow: 80, leftHip: 10, leftKnee: 30, leftAnkle: -18, rightHip: 20, rightKnee: 110, rightAnkle: -35 },
       color: 'var(--color-teal-100)',
       figure: 'kneeling-back-arch',
       tags: ['kneeling', 'arch', 'dramatic', 'triangles'],
@@ -4505,8 +4502,7 @@ const POSES_LIBRARY = {
       tip: 'Exaggerate the torque between hips and shoulders for the strongest sculptural line.',
     // PR-v6 (v1.6) Iter C2 — fix recline_missing: description says "Recline on one side" — should be semi-reclined (globalTilt=50). Added globalTilt:50.
     // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder 8→-110, rightShoulder 28→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    // PR-v7 (v1.7) — fix recline_missing: description says "Recline on one side". Added globalTilt:50.
-      joints: { globalTilt: 50, spine: 32, neck: 27, leftShoulder: -110, leftElbow: 40, rightShoulder: -110, rightElbow: 18, leftHip: 100, leftKnee: 100, leftAnkle: -30, rightKnee: 120, rightAnkle: -35, shoulderFwdL: 8, shoulderFwdR: -6 },
+      joints: { spine: 32, neck: 27, leftShoulder: -110, leftElbow: 40, rightShoulder: -110, rightElbow: 18, leftHip: 100, leftKnee: 100, leftAnkle: -30, rightKnee: 120, rightAnkle: -35, shoulderFwdL: 8, shoulderFwdR: -6 },
       color: 'var(--color-gold-100)',
       figure: 'fine-art-pietà',
       tags: ['pieta', 'emotional', 'kneeling', 'classical'],
@@ -4655,8 +4651,7 @@ const POSES_LIBRARY = {
       instructions: 'Lie on the back and curve the spine gently upward into a soft bridge shape, resting both arms overhead along the floor. Move slowly and with control, as if the body were being carved from marble.',
       tip: 'Shoot from above to reveal the full curved silhouette against the floor.',
     // PR-v3 (v1.3) — auto-fix spine sign error: description says back arch but spine is positive (forward fold). Was spine:15, now spine:-15.
-    // PR-v7 (v1.7) — fix recline_missing: "Lie on the back" → globalTilt:85.
-      joints: {globalTilt: 85,spine: -15, neck: -9.8, leftShoulder: -110, rightShoulder: -110, leftElbow: 40, leftHip: 10, rightKnee: 5, rightElbow: 18, leftAnkle: -18, rightAnkle: -18, shoulderFwdL: 8, shoulderFwdR: -6},
+      joints: {spine: -15, neck: -9.8, leftShoulder: -110, rightShoulder: -110, leftElbow: 40, leftHip: 10, rightKnee: 5, rightElbow: 18, leftAnkle: -18, rightAnkle: -18, shoulderFwdL: 8, shoulderFwdR: -6},
       color: 'var(--color-gold-100)',
       figure: 'standing-front',
       tags: ['drape', 'fabric', 'timeless', 'classical'],
@@ -4711,8 +4706,7 @@ const POSES_LIBRARY = {
       tip: 'Keep both the raised leg and the floor leg perfectly straight for maximum contrast.',
     // PR-v6 (v1.6) Iter C2 — fix recline_missing: description says "Lie on the back" — should be supine (globalTilt=85). Added globalTilt:85.
     // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder 8→-110, rightShoulder 28→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    // PR-v7 (v1.7) — actually applied globalTilt:85 (v1.6 script failed to add it).
-      joints: { globalTilt: 85, spine: 15, neck: 10, leftShoulder: -110, leftElbow: 40, rightShoulder: -110, rightElbow: 18, leftHip: 5, leftAnkle: -18, rightKnee: 5, rightAnkle: -18, shoulderFwdL: 8, shoulderFwdR: -6 },
+      joints: { spine: 15, neck: 10, leftShoulder: -110, leftElbow: 40, rightShoulder: -110, rightElbow: 18, leftHip: 5, leftAnkle: -18, rightKnee: 5, rightAnkle: -18, shoulderFwdL: 8, shoulderFwdR: -6 },
       color: 'var(--color-gold-100)',
       figure: 'standing-front',
       tags: ['introspective', 'stillness', 'minimal', 'classical'],
@@ -5587,8 +5581,7 @@ const POSES_LIBRARY = {
       effort: 'Transitional',
       instructions: 'Lie on the back and press the hips up into a bridge shape as an athletic starting point for the rising sequence, both feet planted firmly. This unconventional start adds visual interest to the low end.',
       tip: 'Reach for this bridge start in fitness or athletic-themed pose sequences.',
-    // PR-v7 (v1.7) — fix recline_missing: "Lie on the back" → globalTilt 25→85.
-      joints: { globalTilt: 85, spine: 30, neck: 20, leftShoulder: -10, leftElbow: 70, rightShoulder: 8, rightElbow: 50, leftHip: 70, leftKnee: 100, leftAnkle: -35, rightHip: 20, rightKnee: 90, rightAnkle: -35 },
+      joints: { globalTilt: 25, spine: 30, neck: 20, leftShoulder: -10, leftElbow: 70, rightShoulder: 8, rightElbow: 50, leftHip: 70, leftKnee: 100, leftAnkle: -35, rightHip: 20, rightKnee: 90, rightAnkle: -35 },
       color: 'var(--color-sky-100)',
       figure: 'low-high-kneel-rise',
       tags: ['kneeling', 'forward-lean', 'natural', 'sequence'],
@@ -5712,8 +5705,7 @@ const POSES_LIBRARY = {
       instructions: 'Continue the forward fall with the torso now well past horizontal, both arms trailing behind and up as if caught by the motion, knees beginning to bend to absorb the descent. Let the head relax and follow the movement.',
       tip: 'Shoot from a slightly elevated angle looking down for this dynamic midpoint.',
     // PR-v3 (v1.3) — auto-fix spine sign error: description says back arch but spine is positive (forward fold). Was spine:15, now spine:-15.
-    // PR-v7 (v1.7) — fix recline_missing: "torso past horizontal" → globalTilt -25→60.
-      joints: { globalTilt: 60, spine: -15, neck: 10, leftShoulder: -10, leftElbow: 70, rightShoulder: 8, rightElbow: 50, leftHip: 100, leftKnee: 100, rightHip: 10, rightKnee: 110 },
+      joints: { globalTilt: -25, spine: -15, neck: 10, leftShoulder: -10, leftElbow: 70, rightShoulder: 8, rightElbow: 50, leftHip: 100, leftKnee: 100, rightHip: 10, rightKnee: 110 },
       color: 'var(--color-amber-100)',
       figure: 'high-low-descent',
       tags: ['descent', 'controlled', 'strength', 'sequence'],
@@ -5899,8 +5891,7 @@ const POSES_LIBRARY = {
       effort: 'Transitional',
       instructions: 'Complete the descent lying fully prone on the floor, arms relaxed forward, face turned to one side — the absolute lowest point of the sequence. Keep the body completely relaxed and settled.',
       tip: 'Shoot straight down from above for the most dramatic contrast against the standing start.',
-    // PR-v7 (v1.7) — fix recline_missing: "lying fully prone" → globalTilt -25→-85.
-      joints: { globalTilt: -85, spine: 20, neck: 15, leftShoulder: 60, leftElbow: 70, rightShoulder: 20, rightElbow: 50, leftHip: 50, leftKnee: 45, rightHip: 10, rightKnee: 80 },
+      joints: { globalTilt: -25, spine: 20, neck: 15, leftShoulder: 60, leftElbow: 70, rightShoulder: 20, rightElbow: 50, leftHip: 50, leftKnee: 45, rightHip: 10, rightKnee: 80 },
       color: 'var(--color-amber-100)',
       figure: 'high-low-descent',
       tags: ['descent', 'open', 'dramatic', 'sequence'],
@@ -6246,8 +6237,7 @@ const POSES_LIBRARY = {
     instructions: "Stand in profile beside the wall. Raise one leg and place the foot flat against the wall at knee-to-hip height, creating a strong bent-leg silhouette. Rest weight fully on the standing leg. Let the arms hang naturally or one hand rest on the raised thigh, and keep the torso upright and elongated.",
     tip: "Rotate the raised knee slightly outward rather than straight forward, this keeps the hip open and avoids looking like a static stretch.",
     // PR-v4 (v1.4) — auto-fix too-subtle joints: spine 14→18, leftShoulder -55→-110, rightShoulder -15→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    // PR-v7 (v1.7) — revert shoulder raise: description says "Let the arms hang naturally" → arms at sides, not overhead. leftShoulder -110→-5, rightShoulder -110→-5.
-    joints: { spine: 18, neck: 6, hips: 0, leftShoulder: -5, rightShoulder: -5, leftElbow: 60, rightElbow: 15, shoulderFwdL: -3, shoulderFwdR: 0, leftHip: 75, rightHip: -3, leftKnee: 95, rightKnee: 5, leftAnkle: 14, rightAnkle: 0, hipAbductL: 22, hipAbductR: 0, globalTwist: 0, globalRoll: 0, globalTilt: 0 }
+    joints: { spine: 18, neck: 6, hips: 0, leftShoulder: -110, rightShoulder: -110, leftElbow: 60, rightElbow: 15, shoulderFwdL: -3, shoulderFwdR: 0, leftHip: 75, rightHip: -3, leftKnee: 95, rightKnee: 5, leftAnkle: 14, rightAnkle: 0, hipAbductL: 22, hipAbductR: 0, globalTwist: 0, globalRoll: 0, globalTilt: 0 }
   },
   "p12-wall-s9-side-stretch-wall": {
     id: "p12-wall-s9-side-stretch-wall", name: "Side Stretch with Wall Support",

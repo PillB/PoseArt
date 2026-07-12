@@ -78,6 +78,47 @@ This file is append-only and records the v1.1 through v1.8 implementation sequen
 - Commands batched: 8
 - Phase completed within budget: ✅
 
+### Action: Commit verified v1.6 phase
+**Files modified:** Git history; commit `f37d29a`.
+**Expected result:** Atomic exact-title commit.
+**Actual result:** Commit created successfully.
+**Verification:** Latest log returned `f37d29a`.
+**VLM check:** Recorded above.
+**Status:** ✅ PASS
+
+---
+## Phase v1.7 — Marketplace + 100% Validator Clean — 2026-07-12 America/Lima
+
+### Action: Read complete report and plan
+**Files modified:** Log only.
+**Expected result:** Understand marketplace, final data/regex cleanup, and E2E criteria.
+**Actual result:** Read all 219 lines. Plan: backups; cumulative target reconstruction; portable marketplace verifier; syntax, validator 0/745, both mass suites, purchase/publish/search E2E, visual screenshot, side effects, retrospective, exact commit.
+**Verification:** Stop only at validator zero and marketplace functional.
+**VLM check:** Mobile pack grid names/prices/ratings.
+**Status:** ✅ PASS
+
+### Action: Implement and verify v1.7 marketplace/validator milestone
+**Files modified:** `.bak-v7/`, `index.html`, `js/app.js`, `js/poses-data.js`, marketplace verifier/backups, validator artifacts, v1.7 screenshots.
+**Expected result:** Marketplace full flow and 0/745 issues.
+**Actual result:** Validator reports 745 clean, every issue tally zero. Both mass suites remain 745/745. Corrected E2E test uses visible UI instead of inaccessible lexical variables: 6 seed packs, 2 free-filter results, free+paid purchases producing 2 owned packs, creator dashboard, one published pack, and 2 boudoir search results; zero console errors.
+**Verification:** All commands exit 0; browse and creator screenshots captured.
+**VLM check:** Browse grid visibly shows pack names, creators, descriptions, ratings, sales, FREE/$ prices, filters, and two-column mobile layout: YES.
+**Status:** ✅ PASS
+
+### Retrospective:
+- What went well: Critical 0/745 milestone is reproducible; marketplace purchase/publish/search work through real UI.
+- What didn't: Original verifier accessed module-scoped `let` values via `window`, skipping purchases and crashing after publish. It was backed up, corrected, and made failure-enforcing.
+- What to do differently next phase: Prefer public UI behavior and DOM assertions over internal-state coupling.
+
+### Token Usage Log — Phase v1.7
+- Estimated tokens consumed: under 13,000
+- Turns used: 13 tool actions
+- Subagents spawned: 0
+- Subagent polls: 0
+- Files re-read unnecessarily: 0
+- Commands batched: 6
+- Phase completed within budget: ✅
+
 ### Action: Commit verified v1.5 phase
 **Files modified:** Git history; commit `6ff3af5`.
 **Expected result:** Atomic exact-title commit.

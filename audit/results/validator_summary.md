@@ -1,20 +1,20 @@
 # PoseArt Programmatic Joint Validator Report
 
-**Validator date:** 2026-07-12T21:58:11.595Z
+**Validator date:** 2026-07-12T22:02:49.875Z
 **Total poses scanned:** 745
-**Poses with issues:** 6 (0.8%)
-**Poses clean:** 739 (99.2%)
+**Poses with issues:** 0 (0.0%)
+**Poses clean:** 745 (100.0%)
 
 ## Issue type tally
 
 | Issue type | Count |
 |---|---|
-| recline_missing | 5 |
-| arm_direction | 1 |
 | sign_error | 0 |
 | too_subtle | 0 |
 | object_mismatch | 0 |
 | object_missing | 0 |
+| recline_missing | 0 |
+| arm_direction | 0 |
 
 ## Issues per category
 
@@ -27,12 +27,12 @@
 | eccentric | 0 | 44 | 0.0% |
 | editorial | 0 | 30 | 0.0% |
 | fashion | 0 | 30 | 0.0% |
-| fine-art | 2 | 30 | 6.7% |
-| high-to-low | 2 | 30 | 6.7% |
+| fine-art | 0 | 30 | 0.0% |
+| high-to-low | 0 | 30 | 0.0% |
 | kneeling | 0 | 32 | 0.0% |
 | lean-seat | 0 | 30 | 0.0% |
-| leaning | 1 | 49 | 2.0% |
-| low-to-high | 1 | 30 | 3.3% |
+| leaning | 0 | 49 | 0.0% |
+| low-to-high | 0 | 30 | 0.0% |
 | reclining | 0 | 56 | 0.0% |
 | seated | 0 | 86 | 0.0% |
 | standing | 0 | 47 | 0.0% |
@@ -41,48 +41,6 @@
 
 | Pose | Category | Issues |
 |---|---|---|
-| fineart-standing-still-life-drape | fine-art | recline_missing:globalTilt |
-| fineart-standing-hand-to-heart | fine-art | recline_missing:globalTilt |
-| lowhigh-kneel-lean-forward-rise | low-to-high | recline_missing:globalTilt |
-| highlow-knees-bending-controlled | high-to-low | recline_missing:globalTilt |
-| highlow-arms-wide-falling-open | high-to-low | recline_missing:globalTilt |
-| p12-wall-s8-one-leg-up-wall | leaning | arm_direction:shoulders |
 
 ## All poses with issues (full list)
-
-### fineart-standing-still-life-drape (fine-art)
-**Name:** Still Life Drape Stand
-**Issues (1):**
-- **recline_missing** — description says lying/reclining but globalTilt <45° (not horizontal)
-  - Fix: globalTilt should be 80-90° (supine) or -80 to -90° (prone)
-
-### fineart-standing-hand-to-heart (fine-art)
-**Name:** Hand to Heart Stillness
-**Issues (1):**
-- **recline_missing** — description says lying/reclining but globalTilt <45° (not horizontal)
-  - Fix: globalTilt should be 80-90° (supine) or -80 to -90° (prone)
-
-### lowhigh-kneel-lean-forward-rise (low-to-high)
-**Name:** Kneel Lean Forward Into Rise
-**Issues (1):**
-- **recline_missing** — description says lying/reclining but globalTilt <45° (not horizontal)
-  - Fix: globalTilt should be 80-90° (supine) or -80 to -90° (prone)
-
-### highlow-knees-bending-controlled (high-to-low)
-**Name:** Knees Bending Controlled Drop
-**Issues (1):**
-- **recline_missing** — description says lying/reclining but globalTilt <45° (not horizontal)
-  - Fix: globalTilt should be 80-90° (supine) or -80 to -90° (prone)
-
-### highlow-arms-wide-falling-open (high-to-low)
-**Name:** Arms Wide Falling Open
-**Issues (1):**
-- **recline_missing** — description says lying/reclining but globalTilt <45° (not horizontal)
-  - Fix: globalTilt should be 80-90° (supine) or -80 to -90° (prone)
-
-### p12-wall-s8-one-leg-up-wall (leaning)
-**Name:** One Leg Raised Against Wall
-**Issues (1):**
-- **arm_direction** — description says arms at sides but shoulders are raised (< -30°)
-  - Fix: shoulders should be near 0° for arms at sides
 

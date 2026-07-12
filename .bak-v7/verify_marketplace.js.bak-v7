@@ -1,0 +1,147 @@
+// Verify the marketplace works end-to-end
+const { chromium } = require('playwright');
+const path = require('path');
+const fs = require('fs');
+const screenshotPath = path.join(process.cwd(), 'audit', 'screenshots', 'v1.7', 'marketplace.png');
+fs.mkdirSync(path.dirname(screenshotPath), { recursive: true });
+
+(async () => {
+  const browser = await chromium.launch({ headless: true });
+  const context = await browser.newContext({
+    viewport: { width: 430, height: 932 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true,
+  });
+  const page = await context.newPage();
+  page.setDefaultTimeout(8000);
+  const errors = [];
+  page.on('console', msg => { if (msg.type() === 'error') errors.push(`[error] ${msg.text()}`); });
+  page.on('pageerror', err => errors.push(`[pageerror] ${err.message}`));
+
+  await page.goto('http://localhost:8095/index.html', { waitUntil: 'networkidle' });
+  await page.evaluate(() => window.completeOnboardingSkip && window.completeOnboardingSkip());
+  await page.waitForTimeout(500);
+
+  // Open marketplace
+  console.log('Opening marketplace...');
+  await page.evaluate(() => window.openMarketplace && window.openMarketplace());
+  await page.waitForTimeout(500);
+
+  // Check browse view
+  const packCount = await page.evaluate(() => document.querySelectorAll('#mp-pack-grid > div').length);
+  console.log('Packs in browse grid:', packCount);
+
+  // Test filter: free only
+  console.log('Testing free filter...');
+  await page.evaluate(() => window.setMpFilter('free'));
+  await page.waitForTimeout(200);
+  const freeCount = await page.evaluate(() => document.querySelectorAll('#mp-pack-grid > div').length);
+  console.log('Free packs:', freeCount);
+
+  // Reset filter
+  await page.evaluate(() => window.setMpFilter('all'));
+  await page.waitForTimeout(200);
+
+  // Test purchase (free pack)
+  console.log('Testing free pack purchase...');
+  const freePackId = await page.evaluate(() => {
+    const packs = window._marketplacePacks || [];
+    const free = packs.find(p => p.price === 0);
+    return free ? free.id : null;
+  });
+  if (freePackId) {
+    await page.evaluate((id) => window.purchasePack(id), freePackId);
+    await page.waitForTimeout(300);
+    const ownedCount = await page.evaluate(() => window._ownedPacks.length);
+    console.log('Owned packs after free purchase:', ownedCount);
+  }
+
+  // Test paid pack purchase
+  console.log('Testing paid pack purchase...');
+  const paidPackId = await page.evaluate(() => {
+    const packs = window._marketplacePacks || [];
+    const paid = packs.find(p => p.price > 0);
+    return paid ? paid.id : null;
+  });
+  if (paidPackId) {
+    await page.evaluate((id) => window.purchasePack(id), paidPackId);
+    await page.waitForTimeout(1500); // wait for mock checkout
+    const ownedAfterPaid = await page.evaluate(() => window._ownedPacks.length);
+    console.log('Owned packs after paid purchase:', ownedAfterPaid);
+  }
+
+  // Test "My Packs" tab
+  console.log('Testing My Packs tab...');
+  await page.evaluate(() => window.switchMarketplaceTab('mine'));
+  await page.waitForTimeout(200);
+  const ownedVisible = await page.evaluate(() => {
+    return document.querySelectorAll('#mp-owned-list > div').length;
+  });
+  console.log('Owned packs visible:', ownedVisible);
+
+  // Test creator dashboard
+  console.log('Testing creator dashboard...');
+  await page.evaluate(() => window.switchMarketplaceTab('creator'));
+  await page.waitForTimeout(200);
+  const earningsText = await page.evaluate(() => document.getElementById('mp-creator-earnings')?.textContent);
+  console.log('Creator earnings:', earningsText);
+
+  // Test publish (requires saved custom poses — create one first)
+  console.log('Testing pack publishing...');
+  await page.evaluate(() => {
+    // Create a custom pose first
+    window.openPoseEditor();
+  });
+  await page.waitForTimeout(300);
+  await page.evaluate(() => {
+    document.getElementById('pose-editor-name').value = 'Test Pose';
+    window.onEditorSliderChange('spine', '25');
+    window.saveCustomPose();
+  });
+  await page.waitForTimeout(200);
+
+  // Go back to marketplace creator tab
+  await page.evaluate(() => window.openMarketplace());
+  await page.waitForTimeout(300);
+  await page.evaluate(() => window.switchMarketplaceTab('creator'));
+  await page.waitForTimeout(200);
+
+  // Publish
+  await page.evaluate(() => {
+    document.getElementById('mp-new-pack-name').value = 'Test Pack';
+    document.getElementById('mp-new-pack-price').value = '2.99';
+    document.getElementById('mp-new-pack-category').value = 'standing';
+    window.publishPack();
+  });
+  await page.waitForTimeout(200);
+  const publishedCount = await page.evaluate(() => window._publishedPacks.length);
+  console.log('Published packs:', publishedCount);
+
+  // Screenshot
+  await page.screenshot({ path: '/home/z/my-project/audit/sprites-v8/marketplace-creator.png', fullPage: false });
+
+  // Test search
+  console.log('Testing search...');
+  await page.evaluate(() => window.switchMarketplaceTab('browse'));
+  await page.waitForTimeout(200);
+  await page.evaluate(() => {
+    document.getElementById('mp-search').value = 'boudoir';
+    window.filterMarketplace();
+  });
+  await page.waitForTimeout(200);
+  const searchResults = await page.evaluate(() => document.querySelectorAll('#mp-pack-grid > div').length);
+  console.log('Search results for "boudoir":', searchResults);
+
+  console.log('\n=== Console errors ===');
+  errors.slice(0, 5).forEach(e => console.log(e));
+
+  await browser.close();
+  console.log('\n=== SUMMARY ===');
+  const ok = packCount >= 6 && freeCount >= 2 && ownedVisible >= 2 && publishedCount >= 1 && searchResults >= 1;
+  console.log('Browse grid populated:', packCount >= 6);
+  console.log('Free filter works:', freeCount >= 2);
+  console.log('Purchase works:', ownedVisible >= 2);
+  console.log('Creator dashboard works:', earningsText !== null);
+  console.log('Publish works:', publishedCount >= 1);
+  console.log('Search works:', searchResults >= 1);
+  console.log(ok ? '\n✅ ALL MARKETPLACE TESTS PASSED' : '\n❌ Some tests failed');
+})();
+

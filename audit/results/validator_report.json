@@ -1,106 +1,15 @@
 {
   "totalPoses": 745,
-  "posesWithIssues": 6,
-  "posesClean": 739,
+  "posesWithIssues": 0,
+  "posesClean": 745,
   "tally": {
     "sign_error": 0,
     "too_subtle": 0,
     "object_mismatch": 0,
     "object_missing": 0,
-    "recline_missing": 5,
-    "arm_direction": 1
+    "recline_missing": 0,
+    "arm_direction": 0
   },
-  "byCategory": {
-    "fine-art": 2,
-    "low-to-high": 1,
-    "high-to-low": 2,
-    "leaning": 1
-  },
-  "results": [
-    {
-      "poseId": "fineart-standing-still-life-drape",
-      "poseName": "Still Life Drape Stand",
-      "category": "fine-art",
-      "issues": [
-        {
-          "type": "recline_missing",
-          "joint": "globalTilt",
-          "issue": "description says lying/reclining but globalTilt <45° (not horizontal)",
-          "fix": "globalTilt should be 80-90° (supine) or -80 to -90° (prone)"
-        }
-      ]
-    },
-    {
-      "poseId": "fineart-standing-hand-to-heart",
-      "poseName": "Hand to Heart Stillness",
-      "category": "fine-art",
-      "issues": [
-        {
-          "type": "recline_missing",
-          "joint": "globalTilt",
-          "issue": "description says lying/reclining but globalTilt <45° (not horizontal)",
-          "fix": "globalTilt should be 80-90° (supine) or -80 to -90° (prone)"
-        }
-      ]
-    },
-    {
-      "poseId": "lowhigh-kneel-lean-forward-rise",
-      "poseName": "Kneel Lean Forward Into Rise",
-      "category": "low-to-high",
-      "issues": [
-        {
-          "type": "recline_missing",
-          "joint": "globalTilt",
-          "value": 25,
-          "issue": "description says lying/reclining but globalTilt <45° (not horizontal)",
-          "fix": "globalTilt should be 80-90° (supine) or -80 to -90° (prone)"
-        }
-      ]
-    },
-    {
-      "poseId": "highlow-knees-bending-controlled",
-      "poseName": "Knees Bending Controlled Drop",
-      "category": "high-to-low",
-      "issues": [
-        {
-          "type": "recline_missing",
-          "joint": "globalTilt",
-          "value": -25,
-          "issue": "description says lying/reclining but globalTilt <45° (not horizontal)",
-          "fix": "globalTilt should be 80-90° (supine) or -80 to -90° (prone)"
-        }
-      ]
-    },
-    {
-      "poseId": "highlow-arms-wide-falling-open",
-      "poseName": "Arms Wide Falling Open",
-      "category": "high-to-low",
-      "issues": [
-        {
-          "type": "recline_missing",
-          "joint": "globalTilt",
-          "value": -25,
-          "issue": "description says lying/reclining but globalTilt <45° (not horizontal)",
-          "fix": "globalTilt should be 80-90° (supine) or -80 to -90° (prone)"
-        }
-      ]
-    },
-    {
-      "poseId": "p12-wall-s8-one-leg-up-wall",
-      "poseName": "One Leg Raised Against Wall",
-      "category": "leaning",
-      "issues": [
-        {
-          "type": "arm_direction",
-          "joint": "shoulders",
-          "value": [
-            -110,
-            -110
-          ],
-          "issue": "description says arms at sides but shoulders are raised (< -30°)",
-          "fix": "shoulders should be near 0° for arms at sides"
-        }
-      ]
-    }
-  ]
+  "byCategory": {},
+  "results": []
 }
