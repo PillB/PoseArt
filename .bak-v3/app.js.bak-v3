@@ -269,7 +269,7 @@ function updateSessionSetupOverlayPreview(mode) {
       if (c && window.PoseSkeleton3D) {
         const sk = Object.create(window.PoseSkeleton3D);
         sk.init(c, 160, 180);
-        sk.setPose(pose.joints || {}, { animateEntry: true, category: pose.category || '', description: pose.instructions || '' });
+        sk.setPose(pose.joints || {}, { animateEntry: true, category: pose.category || '' });
       }
     }, 30);
   } else if (mode === 'ghost') {
@@ -285,7 +285,6 @@ function updateSessionSetupOverlayPreview(mode) {
         try {
           window.PoseSkeleton3D.renderGhostFrame(c, 160, 180, pose.joints || {}, {
             category: pose.category || '',
-            description: pose.instructions || '',
             yaw: 20,
             pitch: 5,
             scale: 0.85
@@ -832,7 +831,7 @@ window.openPoseDetail = function(poseId) {
         window._activeSkeleton3D = Object.create(window.PoseSkeleton3D);
         window._activeSkeleton3D.init(skelCanvas, cw, ch);
       }
-      window._activeSkeleton3D.setPose(pose.joints || {}, { animateEntry: true, category: pose.category || '', description: pose.instructions || '' });
+      window._activeSkeleton3D.setPose(pose.joints || {}, { animateEntry: true, category: pose.category || '' });
       // Smart camera: adjust pitch/yaw based on pose type for best initial view
       (function() {
         var joints = pose.joints || {};

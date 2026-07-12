@@ -755,32 +755,6 @@
   function drawAccessory(state) {
     var cat = state.poseCategory || '';
     var type = ACCESSORY_CATS[cat];
-    // PR-v3 (v1.3) — description-driven prop override. The validator found
-    // 154 object_mismatch + 35 object_missing issues where the description
-    // mentions a specific prop (chair, wall, fence, floor, bed, bench, table,
-    // tube, couch, lounge) but the category-based accessory doesn't match.
-    // Rather than requiring per-pose prop fields in poses-data.js (which
-    // would need 745 data entries), we parse the pose description at render
-    // time and override the accessory type when a specific object keyword is
-    // found. This lifts all 745 poses at once.
-    // REASONING [PR-v3]: "Description is king" (directive Part A.10 rule #1).
-    // If the description says "fence", we should draw a fence-like prop even
-    // if the category is "leaning" (which maps to "wall"). The fence is
-    // drawn as a wall variant (horizontal rail instead of vertical) — a
-    // future PR can add dedicated fence/bench/table renderers.
-    var desc = state.poseDescription || '';
-    if (desc) {
-      if (/\bfence\b|rail\b/i.test(desc)) type = 'wall'; // fence ≈ wall (horizontal rail)
-      else if (/\bchair\b|armchair|stool\b/i.test(desc)) type = 'chair';
-      else if (/\bwall\b/i.test(desc)) type = 'wall';
-      else if (/\bfloor\b|ground\b|mat\b/i.test(desc)) type = 'floor';
-      else if (/\bbed\b|mattress\b|pillow\b/i.test(desc)) type = 'bed';
-      else if (/\bcouch\b|sofa\b/i.test(desc)) type = 'bed'; // couch ≈ bed surface
-      else if (/\bbench\b/i.test(desc)) type = 'chair'; // bench ≈ chair surface
-      else if (/\btable\b/i.test(desc)) type = 'chair'; // table ≈ chair surface
-      else if (/\btube\b/i.test(desc)) type = 'chair'; // tube ≈ chair surface
-      else if (/\blounge\b/i.test(desc)) type = 'bed'; // lounge ≈ bed surface
-    }
     if (!type) return;
     var ctx = state.ctx;
     var w = state.width, h = state.height;
@@ -1269,8 +1243,6 @@
       state.currentPose = posed;
       if (options.category !== undefined) state.poseCategory = options.category;
       if (options.ghost !== undefined) state.ghostMode = !!options.ghost;
-      // PR-v3 (v1.3): pass description for description-driven prop detection
-      if (options.description !== undefined) state.poseDescription = options.description;
       if (options.animateEntry !== false) {
         state.entryAnimActive = true; state.entryAnimStart = null;
       } else {
@@ -1372,8 +1344,6 @@
       state.currentPose = buildPose(joints || {});
       state.displaySkeleton = cloneSkeleton(state.currentPose);
       state.poseCategory = options.category || '';
-      // PR-v3 (v1.3): pass description for description-driven prop detection
-      state.poseDescription = options.description || '';
       renderFrame(state);
       return this;
     },

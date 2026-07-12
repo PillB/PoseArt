@@ -78,6 +78,63 @@ This file is append-only and records the v1.1 through v1.8 implementation sequen
 - Commands batched: 8
 - Phase completed within budget: ✅
 
+### Action: Commit verified v1.2 phase
+**Files modified:** Git history; commit `976d742`.
+**Expected result:** Atomic v1.2 commit with exact report title and verified artifacts.
+**Actual result:** Commit `976d742` created successfully; external bundle and `.DS_Store` excluded.
+**Verification:** `git log --oneline -1` returned the expected hash/title.
+**VLM check:** Recorded above.
+**Status:** ✅ PASS
+
+---
+## Phase v1.3 — Full-Library Validator + Spine Sign Fixes + Description-Driven Props — 2026-07-12 America/Lima
+
+### Action: Read complete v1.3 report and plan implementation
+**Files modified:** `logs/developer-agent-log.md`.
+**Expected result:** Understand validator rules, 108 sign fixes, renderer data flow, side effects, and patch provenance before edits.
+**Actual result:** Read all 465 report lines. The patch is cumulative from v1.1 across four runtime files, confirmed by direct dry-run conflicts against v1.2. Root cause is twofold: systematic spine-sign disagreement with written descriptions and category-only props that ignore explicit object words.
+**Verification:** Patch inventory contains `app.js`, `camera.js`, `pose-skeleton-3d.js`, and `poses-data.js`; dry-run fails only because earlier cumulative hunks already exist.
+**VLM check:** Planned for `boudoir-chair-straddle` and `throne-sit`.
+**Status:** ✅ PASS
+
+### Action: Phase v1.3 implementation plan
+**Files modified:** Planned runtime files above, `.bak-v3/`, `scripts/joint_validator.js`, `scripts/fix_spine_signs.js`, browser verifier, validator artifacts, screenshots, log.
+**Expected result:** Reconstruct the cumulative target from v1.1 originals, apply only the v1.3 delta, and install portable audit scripts.
+**Actual result:** Plan established: backups; `/tmp` target reconstruction; incremental `apply_patch`; normalize bundled script absolute paths; syntax + validator expected 44 sign errors + 745/745 smoke; live prop/spine screenshots and adjacent controls; retrospective; exact PR-v3 commit.
+**Verification:** Stopping criteria recorded before runtime edits.
+**VLM check:** Description remains ground truth.
+**Status:** ✅ PASS
+
+### Action: Back up, reconstruct, and apply the v1.3 incremental target
+**Files modified:** `.bak-v3/`, `js/app.js`, `js/camera.js`, `js/pose-skeleton-3d.js`, `js/poses-data.js`, `scripts/joint_validator.js`, `scripts/fix_spine_signs.js`.
+**Expected result:** Add 108 annotated spine corrections and propagate pose descriptions through all renderer callers without losing v1.2.
+**Actual result:** Reconstructed four cumulative targets from v1.1 originals and applied only 1,173 lines of incremental diff. Installed portable validator/fixer copies with repository-relative paths. Description now selects explicit props and flows through setPose/renderGhostFrame from app and camera.
+**Verification:** Runtime target reconstruction and `apply_patch` succeeded; backups exist for all four runtime files.
+**VLM check:** Deferred to browser screenshots.
+**Status:** ✅ PASS
+
+### Action: Run validator, mass regression, browser, prop, and spine checks
+**Files modified:** `audit/results/validator_report.json`, `audit/results/validator_summary.md`, `scripts/verify_v13_browser.js`, `.bak-v3/verify_v13_browser.js.bak-v3`, `audit/screenshots/v1.3/*.png`.
+**Expected result:** Scan 745 poses, reduce sign errors, keep 745/745 rendering, show chair for throne-sit and backward arch for chair-straddle.
+**Actual result:** Syntax passed for six modified/new JS files. Validator scanned 745/745 with 29 sign errors, 82 too-subtle, 7 recline, 1 arm-direction, and zero object missing/mismatch. These differ from historical v1.3 counts because the supplied bundle’s validator is a later refined version; the reproducible runtime result is logged rather than altered to fit the report. Smoke passed 745/745. Chromium rendered chair-straddle, throne-sit, chair-lean-forward, and bedsheet controls with zero errors. Throne screenshot visibly contains seat, two legs, and back/arm support. Chair-straddle side view shows the corrected slight backward spinal arc while seated at the chair.
+**Verification:** `/tmp/poseart-v13-validator.txt`, smoke and browser outputs all exit `0`; validator artifacts written under `audit/results/`.
+**VLM check:** Chair visible: YES. Backward arch: YES in side view; chest/head line extends behind the pelvis while maintaining chair contact. Environment vision used because `z-ai` is absent.
+**Status:** ✅ PASS
+
+### Retrospective:
+- What went well: The hybrid validator/visual workflow covered all 745 records and confirmed both systemic prop selection and a representative sign correction.
+- What didn't: Historical validator counts cannot be reproduced with the later bundled validator; reporting actual tool output is the only defensible approach.
+- What to do differently next phase: Continue carrying the single installed validator forward and compare relative changes from this reproducible baseline.
+
+### Token Usage Log — Phase v1.3
+- Estimated tokens consumed: under 22,000
+- Turns used: 15 tool actions
+- Subagents spawned: 0
+- Subagent polls: 0
+- Files re-read unnecessarily: 0
+- Commands batched: 7
+- Phase completed within budget: ✅
+
 ### Action: Commit verified v1.1 phase
 **Files modified:** Git index/history only; commit `acd6cea`.
 **Expected result:** One atomic phase commit containing verified v1.1 implementation, backups, tests, screenshots, and log while excluding the supplied bundle and `.DS_Store` files.

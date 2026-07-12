@@ -201,7 +201,6 @@ class CameraEngine {
         const scale = Math.min(w, h) / 320; // base 320 → scale up for larger viewports
         window.PoseSkeleton3D.renderGhostFrame(canvas, w, h, joints, {
           category: pose ? (pose.category || '') : '',
-          description: pose ? (pose.instructions || '') : '',
           yaw: yaw,
           pitch: 5,
           scale: scale

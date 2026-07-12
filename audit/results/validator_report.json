@@ -1,0 +1,1732 @@
+{
+  "totalPoses": 745,
+  "posesWithIssues": 107,
+  "posesClean": 638,
+  "tally": {
+    "sign_error": 29,
+    "too_subtle": 82,
+    "object_mismatch": 0,
+    "object_missing": 0,
+    "recline_missing": 7,
+    "arm_direction": 1
+  },
+  "byCategory": {
+    "standing": 14,
+    "seated": 14,
+    "leaning": 16,
+    "kneeling": 5,
+    "reclining": 4,
+    "dynamic": 1,
+    "eccentric": 4,
+    "couple": 2,
+    "accessible": 1,
+    "boudoir": 23,
+    "editorial": 4,
+    "fine-art": 7,
+    "fashion": 2,
+    "low-to-high": 5,
+    "high-to-low": 5
+  },
+  "results": [
+    {
+      "poseId": "model-walk",
+      "poseName": "Model Walk",
+      "category": "standing",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "spine",
+          "value": 14,
+          "issue": "dramatic description but spine <15°",
+          "fix": "increase |spine| to 20-35°"
+        },
+        {
+          "type": "too_subtle",
+          "joint": "hips",
+          "value": 10,
+          "issue": "description says hip pop/weight shift but hips <12°",
+          "fix": "hips should be 18-30° for visible weight shift"
+        }
+      ]
+    },
+    {
+      "poseId": "back-arch",
+      "poseName": "Back Arch",
+      "category": "standing",
+      "issues": [
+        {
+          "type": "sign_error",
+          "joint": "spine",
+          "value": 28,
+          "issue": "description says \"arch spine back\" but spine is positive (forward fold)",
+          "fix": "spine should be negative (backward arch)"
+        },
+        {
+          "type": "too_subtle",
+          "joint": "hips",
+          "value": 10,
+          "issue": "description says hip pop/weight shift but hips <12°",
+          "fix": "hips should be 18-30° for visible weight shift"
+        }
+      ]
+    },
+    {
+      "poseId": "chest-open",
+      "poseName": "Chest Open",
+      "category": "standing",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "spine",
+          "value": -6,
+          "issue": "dramatic description but spine <15°",
+          "fix": "increase |spine| to 20-35°"
+        },
+        {
+          "type": "too_subtle",
+          "joint": "hips",
+          "value": 10,
+          "issue": "description says hip pop/weight shift but hips <12°",
+          "fix": "hips should be 18-30° for visible weight shift"
+        }
+      ]
+    },
+    {
+      "poseId": "weight-forward",
+      "poseName": "Weight Forward",
+      "category": "standing",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "spine",
+          "value": 6,
+          "issue": "dramatic description but spine <15°",
+          "fix": "increase |spine| to 20-35°"
+        },
+        {
+          "type": "too_subtle",
+          "joint": "hips",
+          "value": 10,
+          "issue": "description says hip pop/weight shift but hips <12°",
+          "fix": "hips should be 18-30° for visible weight shift"
+        }
+      ]
+    },
+    {
+      "poseId": "car-lean",
+      "poseName": "Car Lean",
+      "category": "leaning",
+      "issues": [
+        {
+          "type": "sign_error",
+          "joint": "hipAbduct",
+          "value": [
+            10,
+            10
+          ],
+          "issue": "description says \"cross legs\" but both hipAbduct values are positive (spread)",
+          "fix": "one hipAbduct should be negative (crossed)"
+        },
+        {
+          "type": "too_subtle",
+          "joint": "hips",
+          "value": 10,
+          "issue": "description says hip pop/weight shift but hips <12°",
+          "fix": "hips should be 18-30° for visible weight shift"
+        }
+      ]
+    },
+    {
+      "poseId": "pillar-wrap",
+      "poseName": "Pillar Wrap",
+      "category": "leaning",
+      "issues": [
+        {
+          "type": "sign_error",
+          "joint": "hipAbduct",
+          "value": [
+            10,
+            10
+          ],
+          "issue": "description says \"cross legs\" but both hipAbduct values are positive (spread)",
+          "fix": "one hipAbduct should be negative (crossed)"
+        },
+        {
+          "type": "too_subtle",
+          "joint": "spine",
+          "value": 14,
+          "issue": "dramatic description but spine <15°",
+          "fix": "increase |spine| to 20-35°"
+        }
+      ]
+    },
+    {
+      "poseId": "boudoir-asymmetric-stool",
+      "poseName": "Asymmetric Stool Sit",
+      "category": "boudoir",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "spine",
+          "value": -8,
+          "issue": "dramatic description but spine <15°",
+          "fix": "increase |spine| to 20-35°"
+        },
+        {
+          "type": "too_subtle",
+          "joint": "hips",
+          "value": 8,
+          "issue": "description says hip pop/weight shift but hips <12°",
+          "fix": "hips should be 18-30° for visible weight shift"
+        }
+      ]
+    },
+    {
+      "poseId": "fineart-standing-still-life-drape",
+      "poseName": "Still Life Drape Stand",
+      "category": "fine-art",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "shoulders",
+          "value": [
+            8,
+            28
+          ],
+          "issue": "description says arms overhead but shoulders not raised enough (< -80°)",
+          "fix": "shoulders should be < -100° for overhead"
+        },
+        {
+          "type": "recline_missing",
+          "joint": "globalTilt",
+          "issue": "description says lying/reclining but globalTilt <45° (not horizontal)",
+          "fix": "globalTilt should be 80-90° (supine) or -80 to -90° (prone)"
+        }
+      ]
+    },
+    {
+      "poseId": "lowhigh-full-standing-peak",
+      "poseName": "Full Standing Peak Reach",
+      "category": "low-to-high",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "spine",
+          "value": 10,
+          "issue": "dramatic description but spine <15°",
+          "fix": "increase |spine| to 20-35°"
+        },
+        {
+          "type": "too_subtle",
+          "joint": "shoulders",
+          "value": [
+            60,
+            20
+          ],
+          "issue": "description says arms overhead but shoulders not raised enough (< -80°)",
+          "fix": "shoulders should be < -100° for overhead"
+        }
+      ]
+    },
+    {
+      "poseId": "p12-wall-s8-one-leg-up-wall",
+      "poseName": "One Leg Raised Against Wall",
+      "category": "leaning",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "spine",
+          "value": 14,
+          "issue": "dramatic description but spine <15°",
+          "fix": "increase |spine| to 20-35°"
+        },
+        {
+          "type": "arm_direction",
+          "joint": "shoulders",
+          "value": [
+            -55,
+            -15
+          ],
+          "issue": "description says arms at sides but shoulders are raised (< -30°)",
+          "fix": "shoulders should be near 0° for arms at sides"
+        }
+      ]
+    },
+    {
+      "poseId": "p09-unconv-s1-forward-bend-heels",
+      "poseName": "Standing Forward Bend in Heels",
+      "category": "eccentric",
+      "issues": [
+        {
+          "type": "sign_error",
+          "joint": "spine",
+          "value": -37,
+          "issue": "description says forward lean/fold but spine is negative (backward arch)",
+          "fix": "spine should be positive (forward fold)"
+        },
+        {
+          "type": "too_subtle",
+          "joint": "hips",
+          "value": 0,
+          "issue": "description says hip pop/weight shift but hips <12°",
+          "fix": "hips should be 18-30° for visible weight shift"
+        }
+      ]
+    },
+    {
+      "poseId": "p09-unconv-s7-seated-box-arm-overhead",
+      "poseName": "Seated on Box, Legs Wide, Arm Overhead",
+      "category": "eccentric",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "spine",
+          "value": 8,
+          "issue": "dramatic description but spine <15°",
+          "fix": "increase |spine| to 20-35°"
+        },
+        {
+          "type": "too_subtle",
+          "joint": "shoulders",
+          "value": [
+            70,
+            -10
+          ],
+          "issue": "description says arms overhead but shoulders not raised enough (< -80°)",
+          "fix": "shoulders should be < -100° for overhead"
+        }
+      ]
+    },
+    {
+      "poseId": "hip-shift",
+      "poseName": "Hip Shift",
+      "category": "standing",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "spine",
+          "value": -8,
+          "issue": "dramatic description but spine <15°",
+          "fix": "increase |spine| to 20-35°"
+        }
+      ]
+    },
+    {
+      "poseId": "crossed-arms-stand",
+      "poseName": "Crossed Arms",
+      "category": "standing",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "hips",
+          "value": 10,
+          "issue": "description says hip pop/weight shift but hips <12°",
+          "fix": "hips should be 18-30° for visible weight shift"
+        }
+      ]
+    },
+    {
+      "poseId": "hand-in-pocket",
+      "poseName": "Hand in Pocket",
+      "category": "standing",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "hips",
+          "value": 10,
+          "issue": "description says hip pop/weight shift but hips <12°",
+          "fix": "hips should be 18-30° for visible weight shift"
+        }
+      ]
+    },
+    {
+      "poseId": "tiptoe-reach",
+      "poseName": "Tiptoe Reach",
+      "category": "standing",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "spine",
+          "value": -8,
+          "issue": "dramatic description but spine <15°",
+          "fix": "increase |spine| to 20-35°"
+        }
+      ]
+    },
+    {
+      "poseId": "hands-clasped-front",
+      "poseName": "Hands Clasped Front",
+      "category": "standing",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "hips",
+          "value": 10,
+          "issue": "description says hip pop/weight shift but hips <12°",
+          "fix": "hips should be 18-30° for visible weight shift"
+        }
+      ]
+    },
+    {
+      "poseId": "profile-stand",
+      "poseName": "Profile Stand",
+      "category": "standing",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "spine",
+          "value": 12,
+          "issue": "dramatic description but spine <15°",
+          "fix": "increase |spine| to 20-35°"
+        }
+      ]
+    },
+    {
+      "poseId": "runway-stop",
+      "poseName": "Runway Stop",
+      "category": "standing",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "spine",
+          "value": -8,
+          "issue": "dramatic description but spine <15°",
+          "fix": "increase |spine| to 20-35°"
+        }
+      ]
+    },
+    {
+      "poseId": "soft-sit",
+      "poseName": "Soft Sit",
+      "category": "seated",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "spine",
+          "value": 5,
+          "issue": "dramatic description but spine <15°",
+          "fix": "increase |spine| to 20-35°"
+        }
+      ]
+    },
+    {
+      "poseId": "chair-back-lean",
+      "poseName": "Chair Back Lean",
+      "category": "seated",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "spine",
+          "value": 8,
+          "issue": "dramatic description but spine <15°",
+          "fix": "increase |spine| to 20-35°"
+        }
+      ]
+    },
+    {
+      "poseId": "lounger-recline",
+      "poseName": "Lounger Recline",
+      "category": "seated",
+      "issues": [
+        {
+          "type": "sign_error",
+          "joint": "hipAbduct",
+          "value": [
+            10,
+            10
+          ],
+          "issue": "description says \"cross legs\" but both hipAbduct values are positive (spread)",
+          "fix": "one hipAbduct should be negative (crossed)"
+        }
+      ]
+    },
+    {
+      "poseId": "wall-lean",
+      "poseName": "Wall Lean",
+      "category": "leaning",
+      "issues": [
+        {
+          "type": "sign_error",
+          "joint": "hipAbduct",
+          "value": [
+            10,
+            10
+          ],
+          "issue": "description says \"cross legs\" but both hipAbduct values are positive (spread)",
+          "fix": "one hipAbduct should be negative (crossed)"
+        }
+      ]
+    },
+    {
+      "poseId": "doorframe-lean",
+      "poseName": "Doorframe Lean",
+      "category": "leaning",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "spine",
+          "value": 14,
+          "issue": "dramatic description but spine <15°",
+          "fix": "increase |spine| to 20-35°"
+        }
+      ]
+    },
+    {
+      "poseId": "elbow-ledge",
+      "poseName": "Elbow Ledge",
+      "category": "leaning",
+      "issues": [
+        {
+          "type": "sign_error",
+          "joint": "spine",
+          "value": -14,
+          "issue": "description says forward lean/fold but spine is negative (backward arch)",
+          "fix": "spine should be positive (forward fold)"
+        }
+      ]
+    },
+    {
+      "poseId": "column-lean",
+      "poseName": "Column Lean",
+      "category": "leaning",
+      "issues": [
+        {
+          "type": "sign_error",
+          "joint": "hipAbduct",
+          "value": [
+            10,
+            10
+          ],
+          "issue": "description says \"cross legs\" but both hipAbduct values are positive (spread)",
+          "fix": "one hipAbduct should be negative (crossed)"
+        }
+      ]
+    },
+    {
+      "poseId": "tree-lean",
+      "poseName": "Tree Lean",
+      "category": "leaning",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "hips",
+          "value": 10,
+          "issue": "description says hip pop/weight shift but hips <12°",
+          "fix": "hips should be 18-30° for visible weight shift"
+        }
+      ]
+    },
+    {
+      "poseId": "railing-lean",
+      "poseName": "Railing Lean",
+      "category": "leaning",
+      "issues": [
+        {
+          "type": "sign_error",
+          "joint": "hipAbduct",
+          "value": [
+            10,
+            10
+          ],
+          "issue": "description says \"cross legs\" but both hipAbduct values are positive (spread)",
+          "fix": "one hipAbduct should be negative (crossed)"
+        }
+      ]
+    },
+    {
+      "poseId": "cross-legged-wall",
+      "poseName": "Cross-Legged Wall",
+      "category": "leaning",
+      "issues": [
+        {
+          "type": "sign_error",
+          "joint": "hipAbduct",
+          "value": [
+            10,
+            10
+          ],
+          "issue": "description says \"cross legs\" but both hipAbduct values are positive (spread)",
+          "fix": "one hipAbduct should be negative (crossed)"
+        }
+      ]
+    },
+    {
+      "poseId": "ledge-lean-elbow",
+      "poseName": "Ledge Lean Elbow",
+      "category": "leaning",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "hips",
+          "value": 10,
+          "issue": "description says hip pop/weight shift but hips <12°",
+          "fix": "hips should be 18-30° for visible weight shift"
+        }
+      ]
+    },
+    {
+      "poseId": "hip-pop-wall",
+      "poseName": "Hip Pop Wall",
+      "category": "leaning",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "spine",
+          "value": 14,
+          "issue": "dramatic description but spine <15°",
+          "fix": "increase |spine| to 20-35°"
+        }
+      ]
+    },
+    {
+      "poseId": "gate-lean",
+      "poseName": "Gate Lean",
+      "category": "leaning",
+      "issues": [
+        {
+          "type": "sign_error",
+          "joint": "hipAbduct",
+          "value": [
+            10,
+            10
+          ],
+          "issue": "description says \"cross legs\" but both hipAbduct values are positive (spread)",
+          "fix": "one hipAbduct should be negative (crossed)"
+        }
+      ]
+    },
+    {
+      "poseId": "bench-lean-side",
+      "poseName": "Bench Lean Side",
+      "category": "leaning",
+      "issues": [
+        {
+          "type": "sign_error",
+          "joint": "hipAbduct",
+          "value": [
+            10,
+            10
+          ],
+          "issue": "description says \"cross legs\" but both hipAbduct values are positive (spread)",
+          "fix": "one hipAbduct should be negative (crossed)"
+        }
+      ]
+    },
+    {
+      "poseId": "prayer-kneeling",
+      "poseName": "Prayer Kneeling",
+      "category": "kneeling",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "spine",
+          "value": 5,
+          "issue": "dramatic description but spine <15°",
+          "fix": "increase |spine| to 20-35°"
+        }
+      ]
+    },
+    {
+      "poseId": "one-knee-look-up",
+      "poseName": "One Knee Look Up",
+      "category": "kneeling",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "shoulders",
+          "value": [
+            -10,
+            8
+          ],
+          "issue": "description says arms overhead but shoulders not raised enough (< -80°)",
+          "fix": "shoulders should be < -100° for overhead"
+        }
+      ]
+    },
+    {
+      "poseId": "kneeling-look-back",
+      "poseName": "Kneeling Look Back",
+      "category": "kneeling",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "shoulders",
+          "value": [
+            -10,
+            8
+          ],
+          "issue": "description says arms overhead but shoulders not raised enough (< -80°)",
+          "fix": "shoulders should be < -100° for overhead"
+        }
+      ]
+    },
+    {
+      "poseId": "kneeling-lean-hands-floor",
+      "poseName": "Kneeling Lean Hands Floor",
+      "category": "kneeling",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "spine",
+          "value": -12,
+          "issue": "dramatic description but spine <15°",
+          "fix": "increase |spine| to 20-35°"
+        }
+      ]
+    },
+    {
+      "poseId": "prone-chin",
+      "poseName": "Prone Chin",
+      "category": "reclining",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "shoulders",
+          "value": [
+            -10,
+            8
+          ],
+          "issue": "description says arms overhead but shoulders not raised enough (< -80°)",
+          "fix": "shoulders should be < -100° for overhead"
+        }
+      ]
+    },
+    {
+      "poseId": "basketball-reach",
+      "poseName": "Basketball Reach",
+      "category": "dynamic",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "spine",
+          "value": 10,
+          "issue": "dramatic description but spine <15°",
+          "fix": "increase |spine| to 20-35°"
+        }
+      ]
+    },
+    {
+      "poseId": "catwalk-extreme",
+      "poseName": "Catwalk Extreme",
+      "category": "eccentric",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "spine",
+          "value": -5,
+          "issue": "dramatic description but spine <15°",
+          "fix": "increase |spine| to 20-35°"
+        }
+      ]
+    },
+    {
+      "poseId": "couple-embrace",
+      "poseName": "Close Embrace",
+      "category": "couple",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "spine",
+          "value": 5,
+          "issue": "dramatic description but spine <15°",
+          "fix": "increase |spine| to 20-35°"
+        }
+      ]
+    },
+    {
+      "poseId": "cradled-from-behind",
+      "poseName": "Cradled From Behind",
+      "category": "couple",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "spine",
+          "value": 5,
+          "issue": "dramatic description but spine <15°",
+          "fix": "increase |spine| to 20-35°"
+        }
+      ]
+    },
+    {
+      "poseId": "chair-lean-back-casual",
+      "poseName": "Chair Lean Back Casual",
+      "category": "accessible",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "spine",
+          "value": 14,
+          "issue": "dramatic description but spine <15°",
+          "fix": "increase |spine| to 20-35°"
+        }
+      ]
+    },
+    {
+      "poseId": "boudoir-arm-overhead-stretch",
+      "poseName": "Overhead Arm Stretch",
+      "category": "boudoir",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "spine",
+          "value": 10,
+          "issue": "dramatic description but spine <15°",
+          "fix": "increase |spine| to 20-35°"
+        }
+      ]
+    },
+    {
+      "poseId": "boudoir-sheet-pull",
+      "poseName": "The Sheet Pull",
+      "category": "boudoir",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "spine",
+          "value": 10,
+          "issue": "dramatic description but spine <15°",
+          "fix": "increase |spine| to 20-35°"
+        }
+      ]
+    },
+    {
+      "poseId": "boudoir-triangle-pocket",
+      "poseName": "The Triangle Pocket",
+      "category": "boudoir",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "spine",
+          "value": -10,
+          "issue": "dramatic description but spine <15°",
+          "fix": "increase |spine| to 20-35°"
+        }
+      ]
+    },
+    {
+      "poseId": "boudoir-embrace-pose",
+      "poseName": "The Embrace Pose",
+      "category": "boudoir",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "spine",
+          "value": -11,
+          "issue": "dramatic description but spine <15°",
+          "fix": "increase |spine| to 20-35°"
+        }
+      ]
+    },
+    {
+      "poseId": "boudoir-tippy-toe-cross",
+      "poseName": "The Tippy-Toe Cross",
+      "category": "boudoir",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "hips",
+          "value": 5,
+          "issue": "description says hip pop/weight shift but hips <12°",
+          "fix": "hips should be 18-30° for visible weight shift"
+        }
+      ]
+    },
+    {
+      "poseId": "boudoir-corner-pocket",
+      "poseName": "Corner Pocket Press",
+      "category": "boudoir",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "hips",
+          "value": 10,
+          "issue": "description says hip pop/weight shift but hips <12°",
+          "fix": "hips should be 18-30° for visible weight shift"
+        }
+      ]
+    },
+    {
+      "poseId": "editorial-sharp-angles-stand",
+      "poseName": "Sharp Angles Stand",
+      "category": "editorial",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "spine",
+          "value": -10,
+          "issue": "dramatic description but spine <15°",
+          "fix": "increase |spine| to 20-35°"
+        }
+      ]
+    },
+    {
+      "poseId": "editorial-negative-space-arm",
+      "poseName": "Negative Space Arm Line",
+      "category": "editorial",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "shoulders",
+          "value": [
+            60,
+            20
+          ],
+          "issue": "description says arms overhead but shoulders not raised enough (< -80°)",
+          "fix": "shoulders should be < -100° for overhead"
+        }
+      ]
+    },
+    {
+      "poseId": "editorial-floor-lie-diagonal",
+      "poseName": "Floor Diagonal Lie",
+      "category": "editorial",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "spine",
+          "value": 10,
+          "issue": "dramatic description but spine <15°",
+          "fix": "increase |spine| to 20-35°"
+        }
+      ]
+    },
+    {
+      "poseId": "editorial-side-lunge-sharp",
+      "poseName": "Sharp Side Lunge",
+      "category": "editorial",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "shoulders",
+          "value": [
+            30,
+            -10
+          ],
+          "issue": "description says arms overhead but shoulders not raised enough (< -80°)",
+          "fix": "shoulders should be < -100° for overhead"
+        }
+      ]
+    },
+    {
+      "poseId": "fineart-contrapposto-classic",
+      "poseName": "Classical Contrapposto",
+      "category": "fine-art",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "spine",
+          "value": 10,
+          "issue": "dramatic description but spine <15°",
+          "fix": "increase |spine| to 20-35°"
+        }
+      ]
+    },
+    {
+      "poseId": "fineart-standing-back-bend-soft",
+      "poseName": "Soft Standing Back Bend",
+      "category": "fine-art",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "shoulders",
+          "value": [
+            8,
+            28
+          ],
+          "issue": "description says arms overhead but shoulders not raised enough (< -80°)",
+          "fix": "shoulders should be < -100° for overhead"
+        }
+      ]
+    },
+    {
+      "poseId": "fineart-seated-profile-still",
+      "poseName": "Seated Profile Stillness",
+      "category": "fine-art",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "shoulders",
+          "value": [
+            8,
+            28
+          ],
+          "issue": "description says arms overhead but shoulders not raised enough (< -80°)",
+          "fix": "shoulders should be < -100° for overhead"
+        }
+      ]
+    },
+    {
+      "poseId": "fineart-standing-hand-to-heart",
+      "poseName": "Hand to Heart Stillness",
+      "category": "fine-art",
+      "issues": [
+        {
+          "type": "recline_missing",
+          "joint": "globalTilt",
+          "issue": "description says lying/reclining but globalTilt <45° (not horizontal)",
+          "fix": "globalTilt should be 80-90° (supine) or -80 to -90° (prone)"
+        }
+      ]
+    },
+    {
+      "poseId": "fineart-kneeling-both-arms-extend-fwd",
+      "poseName": "Kneeling Arms Extend Forward",
+      "category": "fine-art",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "shoulders",
+          "value": [
+            60,
+            20
+          ],
+          "issue": "description says arms overhead but shoulders not raised enough (< -80°)",
+          "fix": "shoulders should be < -100° for overhead"
+        }
+      ]
+    },
+    {
+      "poseId": "fineart-standing-devant-extension",
+      "poseName": "Standing Devant Extension",
+      "category": "fine-art",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "spine",
+          "value": 10,
+          "issue": "dramatic description but spine <15°",
+          "fix": "increase |spine| to 20-35°"
+        }
+      ]
+    },
+    {
+      "poseId": "fashion-accessory-focus-hand",
+      "poseName": "Accessory Focus Hand",
+      "category": "fashion",
+      "issues": [
+        {
+          "type": "sign_error",
+          "joint": "hipAbduct",
+          "value": [
+            10,
+            10
+          ],
+          "issue": "description says \"cross legs\" but both hipAbduct values are positive (spread)",
+          "fix": "one hipAbduct should be negative (crossed)"
+        }
+      ]
+    },
+    {
+      "poseId": "fashion-editorial-brand-stare",
+      "poseName": "Brand Forward Stare",
+      "category": "fashion",
+      "issues": [
+        {
+          "type": "sign_error",
+          "joint": "hipAbduct",
+          "value": [
+            10,
+            10
+          ],
+          "issue": "description says \"cross legs\" but both hipAbduct values are positive (spread)",
+          "fix": "one hipAbduct should be negative (crossed)"
+        }
+      ]
+    },
+    {
+      "poseId": "lowhigh-roll-to-side-rise-begin",
+      "poseName": "Roll to Side Rising Begin",
+      "category": "low-to-high",
+      "issues": [
+        {
+          "type": "recline_missing",
+          "joint": "globalTilt",
+          "value": 25,
+          "issue": "description says lying/reclining but globalTilt <45° (not horizontal)",
+          "fix": "globalTilt should be 80-90° (supine) or -80 to -90° (prone)"
+        }
+      ]
+    },
+    {
+      "poseId": "lowhigh-hands-knees-push-up",
+      "poseName": "Hands and Knees Push-Up Point",
+      "category": "low-to-high",
+      "issues": [
+        {
+          "type": "recline_missing",
+          "joint": "globalTilt",
+          "value": 25,
+          "issue": "description says lying/reclining but globalTilt <45° (not horizontal)",
+          "fix": "globalTilt should be 80-90° (supine) or -80 to -90° (prone)"
+        }
+      ]
+    },
+    {
+      "poseId": "lowhigh-standing-side-reach-peak",
+      "poseName": "Standing Side Reach Peak",
+      "category": "low-to-high",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "hips",
+          "value": 10,
+          "issue": "description says hip pop/weight shift but hips <12°",
+          "fix": "hips should be 18-30° for visible weight shift"
+        }
+      ]
+    },
+    {
+      "poseId": "lowhigh-kneel-lean-forward-rise",
+      "poseName": "Kneel Lean Forward Into Rise",
+      "category": "low-to-high",
+      "issues": [
+        {
+          "type": "recline_missing",
+          "joint": "globalTilt",
+          "value": 25,
+          "issue": "description says lying/reclining but globalTilt <45° (not horizontal)",
+          "fix": "globalTilt should be 80-90° (supine) or -80 to -90° (prone)"
+        }
+      ]
+    },
+    {
+      "poseId": "highlow-standing-peak-start",
+      "poseName": "Standing Peak Starting Point",
+      "category": "high-to-low",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "shoulders",
+          "value": [
+            -10,
+            8
+          ],
+          "issue": "description says arms overhead but shoulders not raised enough (< -80°)",
+          "fix": "shoulders should be < -100° for overhead"
+        }
+      ]
+    },
+    {
+      "poseId": "highlow-knees-bending-controlled",
+      "poseName": "Knees Bending Controlled Drop",
+      "category": "high-to-low",
+      "issues": [
+        {
+          "type": "recline_missing",
+          "joint": "globalTilt",
+          "value": -25,
+          "issue": "description says lying/reclining but globalTilt <45° (not horizontal)",
+          "fix": "globalTilt should be 80-90° (supine) or -80 to -90° (prone)"
+        }
+      ]
+    },
+    {
+      "poseId": "highlow-standing-tiptoe-start-tall",
+      "poseName": "Standing Tiptoe Tall Start",
+      "category": "high-to-low",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "spine",
+          "value": 10,
+          "issue": "dramatic description but spine <15°",
+          "fix": "increase |spine| to 20-35°"
+        }
+      ]
+    },
+    {
+      "poseId": "highlow-arms-wide-falling-open",
+      "poseName": "Arms Wide Falling Open",
+      "category": "high-to-low",
+      "issues": [
+        {
+          "type": "recline_missing",
+          "joint": "globalTilt",
+          "value": -25,
+          "issue": "description says lying/reclining but globalTilt <45° (not horizontal)",
+          "fix": "globalTilt should be 80-90° (supine) or -80 to -90° (prone)"
+        }
+      ]
+    },
+    {
+      "poseId": "highlow-kneel-settle-final",
+      "poseName": "Kneel Settle Final Point",
+      "category": "high-to-low",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "spine",
+          "value": 10,
+          "issue": "dramatic description but spine <15°",
+          "fix": "increase |spine| to 20-35°"
+        }
+      ]
+    },
+    {
+      "poseId": "p14-standing-s1-hip-sway-side-glance",
+      "poseName": "Overhead Arm Contrapposto",
+      "category": "standing",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "hips",
+          "value": 10,
+          "issue": "description says hip pop/weight shift but hips <12°",
+          "fix": "hips should be 18-30° for visible weight shift"
+        }
+      ]
+    },
+    {
+      "poseId": "p14-standing-s5-back-to-camera-look",
+      "poseName": "Back-to-Camera Over-Shoulder Look",
+      "category": "standing",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "spine",
+          "value": -6,
+          "issue": "dramatic description but spine <15°",
+          "fix": "increase |spine| to 20-35°"
+        }
+      ]
+    },
+    {
+      "poseId": "p14-standing-s7-one-hand-hair",
+      "poseName": "One Hand in Hair, Weight Shift",
+      "category": "standing",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "hips",
+          "value": 10,
+          "issue": "description says hip pop/weight shift but hips <12°",
+          "fix": "hips should be 18-30° for visible weight shift"
+        }
+      ]
+    },
+    {
+      "poseId": "p12-wall-s1-back-lean-arms-up",
+      "poseName": "Wall Back-Lean Arms Overhead",
+      "category": "leaning",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "hips",
+          "value": 8,
+          "issue": "description says hip pop/weight shift but hips <12°",
+          "fix": "hips should be 18-30° for visible weight shift"
+        }
+      ]
+    },
+    {
+      "poseId": "p13-floor-s10-recline-ottoman-arms-up",
+      "poseName": "Backlit Recline Against Ottoman, Arms Overhead",
+      "category": "reclining",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "shoulders",
+          "value": [
+            75,
+            70
+          ],
+          "issue": "description says arms overhead but shoulders not raised enough (< -80°)",
+          "fix": "shoulders should be < -100° for overhead"
+        }
+      ]
+    },
+    {
+      "poseId": "p10-bench-s2-all-fours-arch-back",
+      "poseName": "All-Fours Arched Back on Bench",
+      "category": "seated",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "hips",
+          "value": 0,
+          "issue": "description says hip pop/weight shift but hips <12°",
+          "fix": "hips should be 18-30° for visible weight shift"
+        }
+      ]
+    },
+    {
+      "poseId": "p09-unconv-s2-bridge-pose-floor",
+      "poseName": "Floor Bridge Pose",
+      "category": "eccentric",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "hips",
+          "value": 0,
+          "issue": "description says hip pop/weight shift but hips <12°",
+          "fix": "hips should be 18-30° for visible weight shift"
+        }
+      ]
+    },
+    {
+      "poseId": "p15-chair-s10-twist-both-hands-rail",
+      "poseName": "Chair Twist Both Hands on Rail",
+      "category": "seated",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "spine",
+          "value": 5,
+          "issue": "dramatic description but spine <15°",
+          "fix": "increase |spine| to 20-35°"
+        }
+      ]
+    },
+    {
+      "poseId": "p11-armchair-s6-kneeling-back-view-armrest-grip",
+      "poseName": "Armchair Kneeling Back View Armrest Grip",
+      "category": "seated",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "hips",
+          "value": -10,
+          "issue": "description says hip pop/weight shift but hips <12°",
+          "fix": "hips should be 18-30° for visible weight shift"
+        }
+      ]
+    },
+    {
+      "poseId": "p11-armchair-s9-standing-front-hands-armrests",
+      "poseName": "Armchair Standing Front Hands on Armrests",
+      "category": "seated",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "hips",
+          "value": 5,
+          "issue": "description says hip pop/weight shift but hips <12°",
+          "fix": "hips should be 18-30° for visible weight shift"
+        }
+      ]
+    },
+    {
+      "poseId": "p18-lounge-r8-side-lying-head-propped",
+      "poseName": "Side-Lying with Head Propped on Hand",
+      "category": "reclining",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "spine",
+          "value": 8,
+          "issue": "dramatic description but spine <15°",
+          "fix": "increase |spine| to 20-35°"
+        }
+      ]
+    },
+    {
+      "poseId": "p08-male-r6-lying-back-eyes-closed-fist-face",
+      "poseName": "Lying Back with Eyes Closed and Fist Near Face",
+      "category": "boudoir",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "spine",
+          "value": -13,
+          "issue": "dramatic description but spine <15°",
+          "fix": "increase |spine| to 20-35°"
+        }
+      ]
+    },
+    {
+      "poseId": "p06-chair-b1-seated-legs-crossed-shin",
+      "poseName": "Chair Seated Legs Crossed at Shin",
+      "category": "boudoir",
+      "issues": [
+        {
+          "type": "sign_error",
+          "joint": "hipAbduct",
+          "value": [
+            10,
+            16
+          ],
+          "issue": "description says \"cross legs\" but both hipAbduct values are positive (spread)",
+          "fix": "one hipAbduct should be negative (crossed)"
+        }
+      ]
+    },
+    {
+      "poseId": "p06-chair-b2-seated-hand-forehead",
+      "poseName": "Chair Seated Hand to Forehead",
+      "category": "boudoir",
+      "issues": [
+        {
+          "type": "sign_error",
+          "joint": "hipAbduct",
+          "value": [
+            8,
+            12
+          ],
+          "issue": "description says \"cross legs\" but both hipAbduct values are positive (spread)",
+          "fix": "one hipAbduct should be negative (crossed)"
+        }
+      ]
+    },
+    {
+      "poseId": "p06-chair-b3-seated-knees-bent-hands-clasped",
+      "poseName": "Chair Seated Both Knees Bent Hands Together",
+      "category": "boudoir",
+      "issues": [
+        {
+          "type": "sign_error",
+          "joint": "hipAbduct",
+          "value": [
+            10,
+            10
+          ],
+          "issue": "description says \"cross legs\" but both hipAbduct values are positive (spread)",
+          "fix": "one hipAbduct should be negative (crossed)"
+        }
+      ]
+    },
+    {
+      "poseId": "p06-chair-b5-legs-crossed-hair-hip",
+      "poseName": "Chair Legs Crossed Hair Touch Hip Hand",
+      "category": "boudoir",
+      "issues": [
+        {
+          "type": "sign_error",
+          "joint": "hipAbduct",
+          "value": [
+            10,
+            12
+          ],
+          "issue": "description says \"cross legs\" but both hipAbduct values are positive (spread)",
+          "fix": "one hipAbduct should be negative (crossed)"
+        }
+      ]
+    },
+    {
+      "poseId": "p06-chair-b10-armrest-hip-hand-leg",
+      "poseName": "Chair Armrest Seated Hip and Leg Hands",
+      "category": "boudoir",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "hips",
+          "value": -8,
+          "issue": "description says hip pop/weight shift but hips <12°",
+          "fix": "hips should be 18-30° for visible weight shift"
+        }
+      ]
+    },
+    {
+      "poseId": "p06-chair-b11-armrest-hair-eyes-closed",
+      "poseName": "Chair Armrest Seated Hair Touch Eyes Closed",
+      "category": "boudoir",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "hips",
+          "value": -8,
+          "issue": "description says hip pop/weight shift but hips <12°",
+          "fix": "hips should be 18-30° for visible weight shift"
+        }
+      ]
+    },
+    {
+      "poseId": "p05-bench-b6-side-sit-lean-armrest",
+      "poseName": "Bench Side Sitting Lean Toward Armrest",
+      "category": "boudoir",
+      "issues": [
+        {
+          "type": "sign_error",
+          "joint": "hipAbduct",
+          "value": [
+            8,
+            10
+          ],
+          "issue": "description says \"cross legs\" but both hipAbduct values are positive (spread)",
+          "fix": "one hipAbduct should be negative (crossed)"
+        }
+      ]
+    },
+    {
+      "poseId": "p05-bench-b7-kneeling-hip-knee-touch",
+      "poseName": "Bench Kneeling Hip and Knee Touch",
+      "category": "boudoir",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "hips",
+          "value": -5,
+          "issue": "description says hip pop/weight shift but hips <12°",
+          "fix": "hips should be 18-30° for visible weight shift"
+        }
+      ]
+    },
+    {
+      "poseId": "p02-couch-c5-lying-sideways-elevated-hip-hand",
+      "poseName": "Couch Lying Sideways Upper Body Elevated Hip Hand",
+      "category": "boudoir",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "hips",
+          "value": -8,
+          "issue": "description says hip pop/weight shift but hips <12°",
+          "fix": "hips should be 18-30° for visible weight shift"
+        }
+      ]
+    },
+    {
+      "poseId": "p02-couch-c7-lying-sideways-twisted-breast-touch",
+      "poseName": "Couch Lying Sideways Twisted Toward Camera",
+      "category": "boudoir",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "hips",
+          "value": -5,
+          "issue": "description says hip pop/weight shift but hips <12°",
+          "fix": "hips should be 18-30° for visible weight shift"
+        }
+      ]
+    },
+    {
+      "poseId": "p02-couch-c9-armrest-seated-hip-hand-eyes-closed",
+      "poseName": "Couch Armrest Seated Hip Hand Eyes Closed",
+      "category": "boudoir",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "hips",
+          "value": -10,
+          "issue": "description says hip pop/weight shift but hips <12°",
+          "fix": "hips should be 18-30° for visible weight shift"
+        }
+      ]
+    },
+    {
+      "poseId": "p03-bed-b1-prone-belly-legs-crossed-shin",
+      "poseName": "Bed Prone Belly Legs Crossed at Shin",
+      "category": "boudoir",
+      "issues": [
+        {
+          "type": "sign_error",
+          "joint": "hipAbduct",
+          "value": [
+            5,
+            5
+          ],
+          "issue": "description says \"cross legs\" but both hipAbduct values are positive (spread)",
+          "fix": "one hipAbduct should be negative (crossed)"
+        }
+      ]
+    },
+    {
+      "poseId": "p03-bed-b2-prone-belly-arch-hips-up-eyes-closed",
+      "poseName": "Bed Prone Belly Arch Hips Up",
+      "category": "boudoir",
+      "issues": [
+        {
+          "type": "sign_error",
+          "joint": "hipAbduct",
+          "value": [
+            5,
+            5
+          ],
+          "issue": "description says \"cross legs\" but both hipAbduct values are positive (spread)",
+          "fix": "one hipAbduct should be negative (crossed)"
+        }
+      ]
+    },
+    {
+      "poseId": "p03-bed-b3-prone-belly-arch-legs-extended-crossed",
+      "poseName": "Bed Prone Belly Arch Legs Extended Crossed",
+      "category": "boudoir",
+      "issues": [
+        {
+          "type": "sign_error",
+          "joint": "hipAbduct",
+          "value": [
+            5,
+            5
+          ],
+          "issue": "description says \"cross legs\" but both hipAbduct values are positive (spread)",
+          "fix": "one hipAbduct should be negative (crossed)"
+        }
+      ]
+    },
+    {
+      "poseId": "p03-bed-b5-prone-belly-elevated-hands-crossed-facing",
+      "poseName": "Bed Prone Belly Elevated Hands Crossed Facing Camera",
+      "category": "boudoir",
+      "issues": [
+        {
+          "type": "sign_error",
+          "joint": "hipAbduct",
+          "value": [
+            18,
+            5
+          ],
+          "issue": "description says \"cross legs\" but both hipAbduct values are positive (spread)",
+          "fix": "one hipAbduct should be negative (crossed)"
+        }
+      ]
+    },
+    {
+      "poseId": "p04-wall-w8-arms-chest-against-wall-back-camera",
+      "poseName": "Wall Chest Against Wall Back to Camera",
+      "category": "leaning",
+      "issues": [
+        {
+          "type": "sign_error",
+          "joint": "hipAbduct",
+          "value": [
+            5,
+            5
+          ],
+          "issue": "description says \"cross legs\" but both hipAbduct values are positive (spread)",
+          "fix": "one hipAbduct should be negative (crossed)"
+        }
+      ]
+    },
+    {
+      "poseId": "p01-master-s1-chair-legs-side-crossed",
+      "poseName": "Chair Sit Legs Extended Side Crossed",
+      "category": "seated",
+      "issues": [
+        {
+          "type": "sign_error",
+          "joint": "hipAbduct",
+          "value": [
+            8,
+            15
+          ],
+          "issue": "description says \"cross legs\" but both hipAbduct values are positive (spread)",
+          "fix": "one hipAbduct should be negative (crossed)"
+        }
+      ]
+    },
+    {
+      "poseId": "p01-master-s2-chair-hand-forehead",
+      "poseName": "Chair Sit One Arm Elevated Hand to Forehead",
+      "category": "seated",
+      "issues": [
+        {
+          "type": "sign_error",
+          "joint": "hipAbduct",
+          "value": [
+            6,
+            12
+          ],
+          "issue": "description says \"cross legs\" but both hipAbduct values are positive (spread)",
+          "fix": "one hipAbduct should be negative (crossed)"
+        }
+      ]
+    },
+    {
+      "poseId": "p01-master-s5-chair-hair-touch-hip",
+      "poseName": "Chair Sit Legs Extended Hair Touch Hip Hand",
+      "category": "seated",
+      "issues": [
+        {
+          "type": "sign_error",
+          "joint": "hipAbduct",
+          "value": [
+            8,
+            14
+          ],
+          "issue": "description says \"cross legs\" but both hipAbduct values are positive (spread)",
+          "fix": "one hipAbduct should be negative (crossed)"
+        }
+      ]
+    },
+    {
+      "poseId": "p01-master-s10-chair-armrest-sit-hip-leg",
+      "poseName": "Sitting on Armrest Hand on Hip Hand on Leg",
+      "category": "seated",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "hips",
+          "value": 5,
+          "issue": "description says hip pop/weight shift but hips <12°",
+          "fix": "hips should be 18-30° for visible weight shift"
+        }
+      ]
+    },
+    {
+      "poseId": "p01-master-s11-chair-armrest-sit-hair",
+      "poseName": "Sitting on Armrest Hand on Hip Hand in Hair Eyes Closed",
+      "category": "seated",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "hips",
+          "value": 5,
+          "issue": "description says hip pop/weight shift but hips <12°",
+          "fix": "hips should be 18-30° for visible weight shift"
+        }
+      ]
+    },
+    {
+      "poseId": "p01-master-s14-chair-floor-back-against-knees-apart",
+      "poseName": "Floor Seated Against Chair Knees Apart Facing Camera",
+      "category": "seated",
+      "issues": [
+        {
+          "type": "sign_error",
+          "joint": "hipAbduct",
+          "value": [
+            20,
+            20
+          ],
+          "issue": "description says \"cross legs\" but both hipAbduct values are positive (spread)",
+          "fix": "one hipAbduct should be negative (crossed)"
+        }
+      ]
+    },
+    {
+      "poseId": "p01-master-s16-chair-floor-lying-head-on-chair",
+      "poseName": "Floor Lying Head Resting on Chair Eyes Closed",
+      "category": "reclining",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "hips",
+          "value": 0,
+          "issue": "description says hip pop/weight shift but hips <12°",
+          "fix": "hips should be 18-30° for visible weight shift"
+        }
+      ]
+    },
+    {
+      "poseId": "p01-master-s17-chair-back-seat-hair-touch",
+      "poseName": "Sitting on Chair Back Hand on Armrest Hand in Hair",
+      "category": "seated",
+      "issues": [
+        {
+          "type": "sign_error",
+          "joint": "hipAbduct",
+          "value": [
+            6,
+            10
+          ],
+          "issue": "description says \"cross legs\" but both hipAbduct values are positive (spread)",
+          "fix": "one hipAbduct should be negative (crossed)"
+        }
+      ]
+    },
+    {
+      "poseId": "p01-master-b7-bench-kneel-hip-knee-touch",
+      "poseName": "Bench Kneeling Hand on Hip Hand on Knee",
+      "category": "kneeling",
+      "issues": [
+        {
+          "type": "too_subtle",
+          "joint": "hips",
+          "value": 0,
+          "issue": "description says hip pop/weight shift but hips <12°",
+          "fix": "hips should be 18-30° for visible weight shift"
+        }
+      ]
+    }
+  ]
+}
