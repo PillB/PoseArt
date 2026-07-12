@@ -78,6 +78,47 @@ This file is append-only and records the v1.1 through v1.8 implementation sequen
 - Commands batched: 8
 - Phase completed within budget: ✅
 
+### Action: Commit verified v1.3 phase
+**Files modified:** Git history; commit `fe1c88c`.
+**Expected result:** Atomic v1.3 commit with exact report title.
+**Actual result:** Commit created successfully with runtime changes, portable audit scripts, validator artifacts, backups, and screenshots.
+**Verification:** `git log --oneline -1` returned `fe1c88c`.
+**VLM check:** Recorded above.
+**Status:** ✅ PASS
+
+---
+## Phase v1.4 — Procedural Avatar + Batch Too-Subtle Amplifier — 2026-07-12 America/Lima
+
+### Action: Read complete v1.4 report and write phase plan
+**Files modified:** `logs/developer-agent-log.md`.
+**Expected result:** Understand procedural avatar architecture, amplifier thresholds, validator regex, known inline-script limitation, and verification.
+**Actual result:** Read all 447 lines. Plan: back up four runtime files; reconstruct cumulative target from v1.1; apply incremental delta; install portable amplifier/avatar smoke script; run syntax, both 745-pose smoke suites, validator, live avatar screenshots, adjacent controls; retrospective and exact commit.
+**Verification:** Direct patch treatment remains cumulative per report and prior phases. Stopping criteria: both renderers 745/745, validator reduced, procedural avatar pixels/rotation verified, zero browser errors.
+**VLM check:** Target scurve/back-arch visual parity and rotation.
+**Status:** ✅ PASS
+
+### Action: Implement and verify v1.4 procedural avatar and amplifier
+**Files modified:** `.bak-v4/`, `js/app.js`, `js/pose-skeleton-3d.js`, `js/poses-data.js`, `scripts/smoke_test_avatar.js`, `scripts/fix_too_subtle.js`, `scripts/verify_v14_browser.js`, validator artifacts, v1.4 screenshots.
+**Expected result:** Unify avatar with buildPose, amplify subtle joints, and preserve both renderer libraries.
+**Actual result:** Applied incremental cumulative target. Both skeleton and avatar mass tests pass 745/745. Validator now reports 37/745 issues: 29 sign, 7 recline, 1 arm direction, and **0 too_subtle/object issues**. Direct Chromium avatar rendering produced three distinct pixel hashes for front/side/back and zero errors. Visual inspection confirms filled dark-teal silhouette, gold eyes/halo, and distinct rotation.
+**Verification:** Syntax pass; `/tmp/v14-{skel,avatar,validator,browser}.txt` all successful.
+**VLM check:** Avatar rotates: YES; front and side silhouettes are visibly distinct and retain the S-curve’s asymmetrical weight/leg structure.
+**Status:** ✅ PASS
+
+### Retrospective:
+- What went well: Architectural unification and batch tuning passed 1,490 renderer cases with validator too-subtle reduced to zero under the portable regex.
+- What didn't: v1.4’s inline-script delivery limitation is real; direct rendering works, but automatic insertion awaits v1.5 MutationObserver.
+- What to do differently next phase: Verify actual inserted canvases rather than only the renderer API.
+
+### Token Usage Log — Phase v1.4
+- Estimated tokens consumed: under 16,000
+- Turns used: 10 tool actions
+- Subagents spawned: 0
+- Subagent polls: 0
+- Files re-read unnecessarily: 0
+- Commands batched: 6
+- Phase completed within budget: ✅
+
 ### Action: Commit verified v1.2 phase
 **Files modified:** Git history; commit `976d742`.
 **Expected result:** Atomic v1.2 commit with exact report title and verified artifacts.

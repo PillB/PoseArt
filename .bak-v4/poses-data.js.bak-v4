@@ -70,8 +70,7 @@ const POSES_LIBRARY = {
     difficulty: 'Beginner', angle: '3/4 View', intent: 'Photography', effort: 'Static',
     instructions: 'Stand with feet a few inches apart, then drive one hip sharply outward to carve a C-curve through the spine. Rest the same-side hand on that hip, elbow winged out, opposite arm relaxed. Sink weight into the opposite foot.',
     tip: 'The triangle of negative space between elbow and waist visually narrows the torso — keep it open.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: spine -8→-18. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    joints: { spine: -18, neck: -5, leftShoulder: -10, leftElbow: 45, rightShoulder: 8, rightElbow: 18, hips: 18, leftHip: 15, leftKnee: 10, rightHip: -8, rightKnee: 10, hipAbductL: 10, hipAbductR: 10 },
+    joints: { spine: -8, neck: -5, leftShoulder: -10, leftElbow: 45, rightShoulder: 8, rightElbow: 18, hips: 18, leftHip: 15, leftKnee: 10, rightHip: -8, rightKnee: 10, hipAbductL: 10, hipAbductR: 10 },
     color: 'var(--color-teal-100)', figure: 'hip-shift',
     tags: ['flattering', 'beginner', 'standing']
   },
@@ -80,8 +79,7 @@ const POSES_LIBRARY = {
     difficulty: 'Intermediate', angle: '3/4 View', intent: 'Editorial', effort: 'Active',
     instructions: 'Catch yourself mid-stride with the front knee extended and heel just touching down. Swing the opposite arm forward naturally while the trailing arm drifts back. Shift weight fully onto the leading leg for a confident runway line.',
     tip: 'Take a real step just before the shutter fires — genuine motion reads far more natural than a held pose.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: spine 14→18, hips 10→16. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    joints: {spine: 18, hips: 16, neck: -8.8, leftShoulder: 15, rightShoulder: -15, leftElbow: 70, rightElbow: 50, hipAbductL: 10, hipAbductR: 10, leftHip: 12, rightHip: -12, leftKnee: 10, rightKnee: 10},
+    joints: {spine: 14, hips: 10, neck: -8.8, leftShoulder: 15, rightShoulder: -15, leftElbow: 70, rightElbow: 50, hipAbductL: 10, hipAbductR: 10, leftHip: 12, rightHip: -12, leftKnee: 10, rightKnee: 10},
     color: 'var(--color-teal-200)', figure: 'catwalk-stride',
     tags: ['editorial', 'intermediate', 'standing', 'motion']
   },
@@ -90,8 +88,7 @@ const POSES_LIBRARY = {
     difficulty: 'Beginner', angle: 'Front', intent: 'Photography', effort: 'Static',
     instructions: 'Stand tall with feet hip-width apart, then fold arms loosely across the chest, forearms resting rather than gripping. Tilt the head 10° toward one shoulder for warmth. Drop shoulder blades down and back to keep the chest open.',
     tip: 'Rest the hands lightly on the biceps — a tight grip reads as defensive, not confident.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: hips 10→16. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    joints: {spine: -8, hips: 16, neck: -6, leftShoulder: -30, rightShoulder: -12, leftElbow: 100, rightElbow: 100, hipAbductL: 10, hipAbductR: 10, leftKnee: 10, rightKnee: 10, leftHip: -6, rightHip: 6, shoulderFwdL: 12, shoulderFwdR: -10},
+    joints: {spine: -8, hips: 10, neck: -6, leftShoulder: -30, rightShoulder: -12, leftElbow: 100, rightElbow: 100, hipAbductL: 10, hipAbductR: 10, leftKnee: 10, rightKnee: 10, leftHip: -6, rightHip: 6, shoulderFwdL: 12, shoulderFwdR: -10},
     color: 'var(--color-teal-100)', figure: 'crossed-arms-stand',
     tags: ['confident', 'beginner', 'standing', 'front']
   },
@@ -100,8 +97,7 @@ const POSES_LIBRARY = {
     difficulty: 'Beginner', angle: '3/4 View', intent: 'Social', effort: 'Static',
     instructions: 'Turn the body three-quarters to camera and slide one hand into the pocket, letting that shoulder drop naturally. Keep the opposite arm loose with a soft bend at the elbow. Shift weight onto the back leg to angle the hips away from the lens.',
     tip: 'Leave the thumb hooked outside the pocket — it keeps the hand reading relaxed, not stuffed.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: hips 10→16. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    joints: {spine: 13, hips: 16, neck: -8.8, leftShoulder: -12, leftElbow: 40, hipAbductL: 10, hipAbductR: 10, rightElbow: 18, leftKnee: 10, rightKnee: 10, leftHip: -6, rightHip: 6},
+    joints: {spine: 13, hips: 10, neck: -8.8, leftShoulder: -12, leftElbow: 40, hipAbductL: 10, hipAbductR: 10, rightElbow: 18, leftKnee: 10, rightKnee: 10, leftHip: -6, rightHip: 6},
     color: 'var(--color-teal-200)', figure: 'hip-shift',
     tags: ['casual', 'beginner', 'standing', 'social']
   },
@@ -110,8 +106,7 @@ const POSES_LIBRARY = {
     difficulty: 'Intermediate', angle: '3/4 View', intent: 'Editorial', effort: 'Static',
     instructions: 'Shift weight onto the back foot, then lift one shoulder half an inch while dropping the other, creating a diagonal line across the collarbones. Let the dropped-shoulder arm hang loose while the raised side stays soft, not tense.',
     tip: 'Line the raised shoulder against the dropped opposite hip — that diagonal is the whole point.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder -18→-110, rightShoulder 8→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    joints: {spine: 6, hips: 13, neck: -8.8, leftShoulder: -110, rightShoulder: -110, leftElbow: 70, rightElbow: 50, hipAbductL: 10, hipAbductR: 10, rightHip: 6, leftKnee: 10, rightKnee: 10, leftHip: -12},
+    joints: {spine: 6, hips: 13, neck: -8.8, leftShoulder: -18, rightShoulder: 8, leftElbow: 70, rightElbow: 50, hipAbductL: 10, hipAbductR: 10, rightHip: 6, leftKnee: 10, rightKnee: 10, leftHip: -12},
     color: 'var(--color-teal-100)', figure: 'scurve',
     tags: ['editorial', 'intermediate', 'standing']
   },
@@ -147,8 +142,7 @@ const POSES_LIBRARY = {
     difficulty: 'Intermediate', angle: 'Front', intent: 'Artistic', effort: 'Active',
     instructions: 'Rise onto the balls of both feet and stretch one arm fully overhead, fingers reaching past the fingertips\' natural limit. Keep the standing leg\'s calf engaged and let the ribcage lift with the reach, lengthening the whole torso.',
     tip: 'Point the toes of a slightly lifted back foot to extend the leg line even further.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: spine -8→-18. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    joints: {spine: -18, hips: 10, neck: -10, leftShoulder: -132, rightShoulder: 20, leftElbow: 70, rightElbow: 50, hipAbductL: 10, hipAbductR: 10, leftKnee: 10, rightKnee: 10, leftHip: -6, rightHip: 6},
+    joints: {spine: -8, hips: 10, neck: -10, leftShoulder: -132, rightShoulder: 20, leftElbow: 70, rightElbow: 50, hipAbductL: 10, hipAbductR: 10, leftKnee: 10, rightKnee: 10, leftHip: -6, rightHip: 6},
     color: 'var(--color-teal-100)', figure: 'tiptoe-reach',
     tags: ['artistic', 'intermediate', 'standing', 'elongated']
   },
@@ -176,7 +170,7 @@ const POSES_LIBRARY = {
     instructions: 'Stand with feet hip-width apart and glutes lightly engaged, then arch the spine backward while the head tilts back and arms drift out to the sides. Press the hips slightly forward to support the curve through the lower back.',
     tip: 'Engage the core before arching — it protects the lumbar spine and keeps the line controlled, not collapsed.',
     // PR-v3 (v1.3) — auto-fix spine sign error: description says forward lean/fold but spine is negative (backward arch). Was spine:-28, now spine:28.
-    joints: {spine: 28, hips: 16, neck: 5.4, leftShoulder: -40, rightShoulder: -22, leftElbow: 70, rightElbow: 50, hipAbductL: 10, hipAbductR: 10, leftKnee: 10, rightKnee: 10, leftHip: -6, rightHip: 6},
+    joints: {spine: 28, hips: 10, neck: 5.4, leftShoulder: -40, rightShoulder: -22, leftElbow: 70, rightElbow: 50, hipAbductL: 10, hipAbductR: 10, leftKnee: 10, rightKnee: 10, leftHip: -6, rightHip: 6},
     color: 'var(--color-teal-200)', figure: 'scurve',
     tags: ['artistic', 'advanced', 'standing', 'expressive']
   },
@@ -194,8 +188,7 @@ const POSES_LIBRARY = {
     difficulty: 'Beginner', angle: 'Front', intent: 'Photography', effort: 'Static',
     instructions: 'Stand tall with feet hip-width apart, then draw both shoulder blades together and down the back to open the chest fully. Let the arms hang slightly externally rotated at your sides with palms facing forward.',
     tip: 'Imagine pinching a pencil between the shoulder blades — it opens the chest without hiking the shoulders.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: spine -6→-18, hips 10→16. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    joints: { spine: -18, neck: -5, leftShoulder: 0, leftElbow: 70, rightShoulder: 18, rightElbow: 50, hips: 16, leftHip: -6, leftKnee: 10, rightHip: 6, rightKnee: 10, hipAbductL: 10, hipAbductR: 10 },
+    joints: { spine: -6, neck: -5, leftShoulder: 0, leftElbow: 70, rightShoulder: 18, rightElbow: 50, hips: 10, leftHip: -6, leftKnee: 10, rightHip: 6, rightKnee: 10, hipAbductL: 10, hipAbductR: 10 },
     color: 'var(--color-teal-200)', figure: 'standing-front',
     tags: ['confident', 'beginner', 'standing', 'front']
   },
@@ -204,8 +197,7 @@ const POSES_LIBRARY = {
     difficulty: 'Beginner', angle: '3/4 View', intent: 'Photography', effort: 'Static',
     instructions: 'Stagger the feet slightly and shift weight onto the back foot, then clasp both hands loosely at the low hip line. Rotate the torso a quarter turn away from camera while the chin stays angled back toward the lens.',
     tip: 'Rest clasped hands low near the hips, not the stomach, to keep the torso reading long.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: hips 10→16. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    joints: {spine: 13, hips: 16, neck: -8.8, leftShoulder: -10, rightShoulder: 8, leftElbow: 60, rightElbow: 60, hipAbductL: 10, hipAbductR: 10, leftHip: -6, leftKnee: 10, rightKnee: 10, rightHip: 12},
+    joints: {spine: 13, hips: 10, neck: -8.8, leftShoulder: -10, rightShoulder: 8, leftElbow: 60, rightElbow: 60, hipAbductL: 10, hipAbductR: 10, leftHip: -6, leftKnee: 10, rightKnee: 10, rightHip: 12},
     color: 'var(--color-teal-100)', figure: 'standing-front',
     tags: ['polished', 'beginner', 'standing']
   },
@@ -223,8 +215,7 @@ const POSES_LIBRARY = {
     difficulty: 'Beginner', angle: 'Side', intent: 'Editorial', effort: 'Static',
     instructions: 'Rotate fully sideways until the body forms a clean profile line to the camera. Lengthen the spine, pull the chin back and slightly up, and let the near arm relax straight at your side.',
     tip: 'Pull the chin back and up, not just up — that\'s what keeps a profile jawline sharp instead of soft.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: spine 12→18. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    joints: { spine: 18, neck: 8, leftShoulder: -10, leftElbow: 70, rightShoulder: 8, rightElbow: 50, hips: 10, leftHip: -6, leftKnee: 10, rightHip: 6, rightKnee: 10, hipAbductL: 10, hipAbductR: 10 },
+    joints: { spine: 12, neck: 8, leftShoulder: -10, leftElbow: 70, rightShoulder: 8, rightElbow: 50, hips: 10, leftHip: -6, leftKnee: 10, rightHip: 6, rightKnee: 10, hipAbductL: 10, hipAbductR: 10 },
     color: 'var(--color-teal-100)', figure: 'profile-stand',
     tags: ['editorial', 'beginner', 'standing', 'profile']
   },
@@ -233,8 +224,7 @@ const POSES_LIBRARY = {
     difficulty: 'Intermediate', angle: 'Front', intent: 'Editorial', effort: 'Static',
     instructions: 'Plant feet in a narrow stance with one foot slightly ahead, stopping sharply as if at the end of a runway walk. Square the shoulders to camera and lock a strong, unblinking gaze.',
     tip: 'Freeze right as the front foot lands — the stop should read as the end of a stride, not a static pose.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: spine -8→-18. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    joints: { spine: -18, neck: -5, leftShoulder: -10, leftElbow: 70, rightShoulder: 8, rightElbow: 50, hips: 10, leftHip: -8, leftKnee: 10, rightHip: 8, rightKnee: 10, hipAbductL: 10, hipAbductR: 10 },
+    joints: { spine: -8, neck: -5, leftShoulder: -10, leftElbow: 70, rightShoulder: 8, rightElbow: 50, hips: 10, leftHip: -8, leftKnee: 10, rightHip: 8, rightKnee: 10, hipAbductL: 10, hipAbductR: 10 },
     color: 'var(--color-teal-200)', figure: 'standing-front',
     tags: ['editorial', 'intermediate', 'standing', 'fashion']
   },
@@ -262,7 +252,7 @@ const POSES_LIBRARY = {
     instructions: 'Step one foot forward and shift body weight fully onto it, letting the back heel lift slightly off the ground. Lean the torso a few degrees toward the camera to read as engaged and present.',
     tip: 'A forward weight shift reads as approachable — ideal for warm, conversational portrait moments.',
     // PR-v3 (v1.3) — auto-fix spine sign error: description says forward lean/fold but spine is negative (backward arch). Was spine:-6, now spine:6.
-    joints: {spine: 18, hips: 16, neck: -4, leftShoulder: -10, rightShoulder: 8, leftElbow: 70, rightElbow: 50, hipAbductL: 10, hipAbductR: 10, leftKnee: 10, rightKnee: 10, leftHip: -6, rightHip: 6},
+    joints: {spine: 6, hips: 10, neck: -4, leftShoulder: -10, rightShoulder: 8, leftElbow: 70, rightElbow: 50, hipAbductL: 10, hipAbductR: 10, leftKnee: 10, rightKnee: 10, leftHip: -6, rightHip: 6},
     color: 'var(--color-teal-100)', figure: 'hip-shift',
     tags: ['approachable', 'beginner', 'standing']
   },
@@ -337,7 +327,7 @@ const POSES_LIBRARY = {
     instructions: 'Perch on the front third of the seat rather than sinking fully back, keeping the spine tall. Lean the torso a few degrees forward from the hips and angle both knees to one side rather than square to camera.',
     tip: 'Sitting on the front edge blocks slouching and keeps the whole silhouette reading elegant.',
     // PR-v3 (v1.3) — auto-fix spine sign error: description says forward lean/fold but spine is negative (backward arch). Was spine:-5, now spine:5.
-    joints: {spine: 18, neck: -5, leftElbow: 65, rightElbow: 45, hipAbductL: 20, hipAbductR: 20, leftHip: 85, rightHip: 85, leftKnee: 90, rightKnee: 95, leftAnkle: -15, rightAnkle: -15, rightShoulder: -12, shoulderFwdL: 7, shoulderFwdR: -5},
+    joints: {spine: 5, neck: -5, leftElbow: 65, rightElbow: 45, hipAbductL: 20, hipAbductR: 20, leftHip: 85, rightHip: 85, leftKnee: 90, rightKnee: 95, leftAnkle: -15, rightAnkle: -15, rightShoulder: -12, shoulderFwdL: 7, shoulderFwdR: -5},
     color: 'var(--color-teal-200)', figure: 'seated-side',
     tags: ['portrait', 'beginner', 'seated']
   },
@@ -401,8 +391,7 @@ const POSES_LIBRARY = {
     difficulty: 'Beginner', angle: '3/4 View', intent: 'Photography', effort: 'Static',
     instructions: 'Sit with both feet flat, then cross one ankle over the opposite knee into a figure-four shape. Rest a hand on the raised ankle and keep the torso lifted and open toward camera.',
     tip: 'Angle the raised knee slightly away from camera so it doesn\'t block the line of the torso.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder -20→-110, rightShoulder -32→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    joints: {spine: 4, neck: -8.2, leftShoulder: -110, rightShoulder: -110, leftElbow: 100, rightElbow: 100, leftHip: 80, rightHip: 80, leftKnee: 95, rightKnee: 60, leftAnkle: -15, rightAnkle: -15, shoulderFwdL: 12, shoulderFwdR: -10},
+    joints: {spine: 4, neck: -8.2, leftShoulder: -20, rightShoulder: -32, leftElbow: 100, rightElbow: 100, leftHip: 80, rightHip: 80, leftKnee: 95, rightKnee: 60, leftAnkle: -15, rightAnkle: -15, shoulderFwdL: 12, shoulderFwdR: -10},
     color: 'var(--color-teal-200)', figure: 'seated-side',
     tags: ['relaxed', 'beginner', 'seated', 'chair']
   },
@@ -475,8 +464,7 @@ const POSES_LIBRARY = {
     difficulty: 'Beginner', angle: '3/4 View', intent: 'Photography', effort: 'Static',
     instructions: 'Sit fully back into the chair, letting the backrest support the spine, with both feet planted flat and ankles uncrossed. Rest both hands loosely on the armrests or thighs and relax the shoulders.',
     tip: 'Uncross the ankles and plant both feet flat — it grounds the pose and avoids a slouched read.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: spine 8→18. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    joints: {spine: 18, neck: -4.4, leftElbow: 95, rightElbow: 95, leftHip: 80, rightHip: 80, leftKnee: 90, rightKnee: 90, leftAnkle: -15, rightAnkle: -15, rightShoulder: -12, shoulderFwdL: 12, shoulderFwdR: -10},
+    joints: {spine: 8, neck: -4.4, leftElbow: 95, rightElbow: 95, leftHip: 80, rightHip: 80, leftKnee: 90, rightKnee: 90, leftAnkle: -15, rightAnkle: -15, rightShoulder: -12, shoulderFwdL: 12, shoulderFwdR: -10},
     color: 'var(--color-teal-200)', figure: 'seated-side',
     tags: ['relaxed', 'beginner', 'seated', 'chair']
   },
@@ -624,8 +612,7 @@ const POSES_LIBRARY = {
     difficulty: 'Intermediate', angle: 'Front', intent: 'Editorial', effort: 'Static',
     instructions: 'Reach both hands up to grip the doorframe above the head, arms holding real tension rather than fully hanging. Let the body curve gently through the ribs, weight settling into the hips.',
     tip: 'Keep tension in the arms instead of fully hanging — it keeps the shoulders open and lifted.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: spine 14→18. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    joints: {spine: 18, hips: 10, neck: -8.8, leftShoulder: -136, rightShoulder: -120, leftElbow: 70, rightElbow: 70, hipAbductL: 10, hipAbductR: 10, leftKnee: 10, rightKnee: 10, shoulderFwdL: -1, shoulderFwdR: -5},
+    joints: {spine: 14, hips: 10, neck: -8.8, leftShoulder: -136, rightShoulder: -120, leftElbow: 70, rightElbow: 70, hipAbductL: 10, hipAbductR: 10, leftKnee: 10, rightKnee: 10, shoulderFwdL: -1, shoulderFwdR: -5},
     color: 'var(--color-cobalt-200)', figure: 'arm-reach',
     tags: ['editorial', 'intermediate', 'leaning', 'front']
   },
@@ -709,8 +696,7 @@ const POSES_LIBRARY = {
     difficulty: 'Beginner', angle: '3/4 View', intent: 'Photography', effort: 'Static',
     instructions: 'Lean the upper back and one shoulder against the tree trunk, planting one foot flat while the other bends with the sole resting against the bark. Push the hips slightly forward of the shoulders for a flattering angle.',
     tip: 'Push the hips slightly ahead of the shoulders against the trunk for a more flattering lean line.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: hips 10→16. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    joints: {spine: 14, hips: 16, neck: -8.8, leftShoulder: -6, leftElbow: 40, rightElbow: 20, hipAbductL: 10, hipAbductR: 10, leftKnee: 65, rightKnee: 10, shoulderFwdL: -1, shoulderFwdR: -5},
+    joints: {spine: 14, hips: 10, neck: -8.8, leftShoulder: -6, leftElbow: 40, rightElbow: 20, hipAbductL: 10, hipAbductR: 10, leftKnee: 65, rightKnee: 10, shoulderFwdL: -1, shoulderFwdR: -5},
     color: 'var(--color-cobalt-200)', figure: 'wall-lean',
     tags: ['outdoor', 'beginner', 'leaning', 'natural']
   },
@@ -720,7 +706,7 @@ const POSES_LIBRARY = {
     instructions: 'Lean the lower back against the car door, hands resting lightly on the edge beside the hips with a soft bend at the elbows. Cross one ankle over the other and angle the torso toward camera.',
     tip: 'Keep a soft bend in the elbows on the hard surface — locked arms read as tense against metal.',
     // PR-v3 (v1.3) — auto-fix spine sign error: description says back arch but spine is positive (forward fold). Was spine:14, now spine:-14.
-    joints: {spine: -14, hips: 16, neck: -8.8, leftShoulder: -10, rightShoulder: 8, leftElbow: 70, rightElbow: 50, hipAbductL: 10, hipAbductR: 10, leftHip: 6, leftKnee: 10, rightKnee: 10, shoulderFwdL: -1, shoulderFwdR: -5},
+    joints: {spine: -14, hips: 10, neck: -8.8, leftShoulder: -10, rightShoulder: 8, leftElbow: 70, rightElbow: 50, hipAbductL: 10, hipAbductR: 10, leftHip: 6, leftKnee: 10, rightKnee: 10, shoulderFwdL: -1, shoulderFwdR: -5},
     color: 'var(--color-cobalt-200)', figure: 'wall-lean',
     tags: ['editorial', 'beginner', 'leaning', 'urban']
   },
@@ -757,8 +743,7 @@ const POSES_LIBRARY = {
     difficulty: 'Beginner', angle: '3/4 View', intent: 'Editorial', effort: 'Static',
     instructions: 'Plant one forearm flat against the wall at shoulder height, leaning body weight into it while crossing the feet at the ankle. Rest the head gently near the raised arm.',
     tip: 'Angle the feet away from the wall to create a clean diagonal line from foot to elbow.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder -70→-110, rightShoulder 20→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    joints: {spine: 14, hips: 10, neck: 6, leftShoulder: -110, rightShoulder: -110, leftElbow: 81, rightElbow: 20, hipAbductL: 10, hipAbductR: 10, leftKnee: 10, rightKnee: 10, shoulderFwdL: -1, shoulderFwdR: -5},
+    joints: {spine: 14, hips: 10, neck: 6, leftShoulder: -70, rightShoulder: 20, leftElbow: 81, rightElbow: 20, hipAbductL: 10, hipAbductR: 10, leftKnee: 10, rightKnee: 10, shoulderFwdL: -1, shoulderFwdR: -5},
     color: 'var(--color-cobalt-200)', figure: 'forearm-wall',
     tags: ['editorial', 'beginner', 'leaning']
   },
@@ -822,8 +807,7 @@ const POSES_LIBRARY = {
     difficulty: 'Intermediate', angle: '3/4 View', intent: 'Editorial', effort: 'Static',
     instructions: 'Stand beside a pillar and wrap one arm fully around it, leaning body weight into the wrap. Cross the opposite leg in front, creating a spiraled, editorial line through the torso.',
     tip: 'The wrapping arm should look like it\'s holding real weight, not just resting against the surface',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: spine 14→18. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    joints: {spine: 18, hips: 10, neck: -8.8, leftShoulder: -50, leftElbow: 100, rightElbow: 20, hipAbductL: 10, hipAbductR: 10, leftHip: 10, leftKnee: 10, rightKnee: 10, shoulderFwdL: -1, shoulderFwdR: -5},
+    joints: {spine: 14, hips: 10, neck: -8.8, leftShoulder: -50, leftElbow: 100, rightElbow: 20, hipAbductL: 10, hipAbductR: 10, leftHip: 10, leftKnee: 10, rightKnee: 10, shoulderFwdL: -1, shoulderFwdR: -5},
     color: 'var(--color-cobalt-200)', figure: 'wall-lean',
     tags: ['editorial', 'intermediate', 'leaning', 'architectural']
   },
@@ -832,8 +816,7 @@ const POSES_LIBRARY = {
     difficulty: 'Beginner', angle: '3/4 View', intent: 'Photography', effort: 'Static',
     instructions: 'Rest a single elbow on a high ledge, letting the body angle away from it with weight shifted onto the opposite hip. Prop the chin lightly on the raised hand, fingers soft along the jaw.',
     tip: 'A single-elbow lean feels more candid and asymmetrical than resting both elbows evenly.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder -10→-110, rightShoulder 8→-110, hips 10→16. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    joints: {spine: 14, hips: 16, neck: -2.4, leftShoulder: -110, rightShoulder: -110, leftElbow: 100, rightElbow: 20, hipAbductL: 10, hipAbductR: 10, leftHip: 12, leftKnee: 10, rightKnee: 10, shoulderFwdL: -1, shoulderFwdR: -5},
+    joints: {spine: 14, hips: 10, neck: -2.4, leftShoulder: -10, rightShoulder: 8, leftElbow: 100, rightElbow: 20, hipAbductL: 10, hipAbductR: 10, leftHip: 12, leftKnee: 10, rightKnee: 10, shoulderFwdL: -1, shoulderFwdR: -5},
     color: 'var(--color-cobalt-200)', figure: 'elbow-prop',
     tags: ['casual', 'beginner', 'leaning']
   },
@@ -851,8 +834,7 @@ const POSES_LIBRARY = {
     difficulty: 'Beginner', angle: '3/4 View', intent: 'Photography', effort: 'Static',
     instructions: 'Lean one shoulder against the wall and drive the opposite hip sharply outward, forming a strong S-curve through the spine. Rest the near hand on the popped hip for emphasis.',
     tip: 'The sharper the hip pop, the more graphic the silhouette — ideal under high-contrast lighting.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: spine 14→18. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    joints: {spine: 18, hips: 10, neck: -8.8, leftShoulder: -8, leftElbow: 40, rightElbow: 20, hipAbductL: 10, hipAbductR: 10, leftHip: 22, leftKnee: 10, rightKnee: 10, shoulderFwdL: -1, shoulderFwdR: -5},
+    joints: {spine: 14, hips: 10, neck: -8.8, leftShoulder: -8, leftElbow: 40, rightElbow: 20, hipAbductL: 10, hipAbductR: 10, leftHip: 22, leftKnee: 10, rightKnee: 10, shoulderFwdL: -1, shoulderFwdR: -5},
     color: 'var(--color-cobalt-200)', figure: 'wall-lean',
     tags: ['bold', 'beginner', 'leaning']
   },
@@ -870,8 +852,7 @@ const POSES_LIBRARY = {
     difficulty: 'Beginner', angle: '3/4 View', intent: 'Social', effort: 'Static',
     instructions: 'Stand on a raised step with one foot higher than the other, letting the torso lean slightly into the height difference. Rest a hand on the nearby rail or wall for support.',
     tip: 'Use real architecture like steps for height variation — it makes solo shots feel far more dynamic.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder -10→-110, rightShoulder 8→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    joints: {spine: 14, hips: 10, neck: -8.8, leftShoulder: -110, rightShoulder: -110, leftElbow: 40, rightElbow: 20, hipAbductL: 10, hipAbductR: 10, leftKnee: 10, rightKnee: 10, shoulderFwdL: -1, shoulderFwdR: -5},
+    joints: {spine: 14, hips: 10, neck: -8.8, leftShoulder: -10, rightShoulder: 8, leftElbow: 40, rightElbow: 20, hipAbductL: 10, hipAbductR: 10, leftKnee: 10, rightKnee: 10, shoulderFwdL: -1, shoulderFwdR: -5},
     color: 'var(--color-cobalt-200)', figure: 'wall-lean',
     tags: ['casual', 'beginner', 'leaning', 'urban']
   },
@@ -1064,8 +1045,7 @@ const POSES_LIBRARY = {
     difficulty: 'Beginner', angle: '3/4 View', intent: 'Social', effort: 'Static',
     instructions: 'Sit with one knee raised and drape the same-side arm loosely over it, wrist relaxed and fingers hanging past the knee. Lean back slightly on the other hand for support.',
     tip: 'Let the draped hand hang naturally past the knee — gripping it reads as tension immediately.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder 60→-110, rightShoulder 20→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    joints: {spine: 6, leftShoulder: -110, rightShoulder: -110, leftElbow: 100, rightElbow: 15, leftHip: 70, rightHip: 70, leftKnee: 85, rightKnee: 80, neck: -3.3, hips: 12, shoulderFwdL: 7, shoulderFwdR: -5},
+    joints: {spine: 6, leftShoulder: 60, rightShoulder: 20, leftElbow: 100, rightElbow: 15, leftHip: 70, rightHip: 70, leftKnee: 85, rightKnee: 80, neck: -3.3, hips: 12, shoulderFwdL: 7, shoulderFwdR: -5},
     color: 'var(--color-teal-100)', figure: 'elbow-prop',
     tags: ['casual', 'beginner', 'seated', 'leaning']
   },
@@ -1092,8 +1072,7 @@ const POSES_LIBRARY = {
     difficulty: 'Intermediate', angle: 'Front', intent: 'Editorial', effort: 'Static',
     instructions: 'Sit with legs crossed at the knee and both forearms crossed loosely atop the raised knee. Keep the spine tall and the gaze direct and composed into the lens.',
     tip: 'Cross arms and legs in the same direction — it creates one unified, harmonious line through the body.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder -20→-110, rightShoulder -32→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    joints: {spine: -14, leftShoulder: -110, rightShoulder: -110, leftElbow: 100, rightElbow: 100, leftHip: 70, rightHip: 70, leftKnee: 90, rightKnee: 80, neck: -6, hips: 9, shoulderFwdL: 12, shoulderFwdR: -10},
+    joints: {spine: -14, leftShoulder: -20, rightShoulder: -32, leftElbow: 100, rightElbow: 100, leftHip: 70, rightHip: 70, leftKnee: 90, rightKnee: 80, neck: -6, hips: 9, shoulderFwdL: 12, shoulderFwdR: -10},
     color: 'var(--color-teal-100)', figure: 'seated-side',
     tags: ['editorial', 'intermediate', 'seated', 'leaning']
   },
@@ -1174,8 +1153,7 @@ const POSES_LIBRARY = {
     difficulty: 'Beginner', angle: 'Side', intent: 'Photography', effort: 'Static',
     instructions: 'Sit sideways and rest the back of the neck against a raised forearm, elbow propped on a knee or armrest. Let the eyes close or gaze softly downward, forming a closed triangle with the arm.',
     tip: 'Check that the elbow doesn\'t collapse inward — it should hold a clean, open triangle shape',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder 60→-110, rightShoulder 20→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    joints: {spine: 14, neck: 12, leftShoulder: -110, rightShoulder: -110, leftElbow: 100, leftHip: 70, rightHip: 70, leftKnee: 85, rightKnee: 80, rightElbow: 18, hips: 12, shoulderFwdL: 7, shoulderFwdR: -5},
+    joints: {spine: 14, neck: 12, leftShoulder: 60, rightShoulder: 20, leftElbow: 100, leftHip: 70, rightHip: 70, leftKnee: 85, rightKnee: 80, rightElbow: 18, hips: 12, shoulderFwdL: 7, shoulderFwdR: -5},
     color: 'var(--color-teal-100)', figure: 'chin-on-hand',
     tags: ['graceful', 'beginner', 'seated', 'leaning']
   },
@@ -1231,8 +1209,7 @@ const POSES_LIBRARY = {
     difficulty: 'Beginner', angle: 'Front', intent: 'Artistic', effort: 'Static',
     instructions: 'From one knee down, extend the opposite arm dramatically forward, reaching from the shoulder blade rather than just the hand. Let the torso follow the reach into a dynamic diagonal line.',
     tip: 'Extend from the shoulder blade, not just the hand — it\'s what makes the reach look powerful.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: spine 5→18. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    joints: {spine: 18, neck: 14, leftElbow: 100, rightElbow: 100, leftHip: 80, rightHip: 80, leftKnee: 100, rightKnee: 100, rightShoulder: -12, hipAbductL: 8, hipAbductR: 8, shoulderFwdL: 12, shoulderFwdR: -10},
+    joints: {spine: 5, neck: 14, leftElbow: 100, rightElbow: 100, leftHip: 80, rightHip: 80, leftKnee: 100, rightKnee: 100, rightShoulder: -12, hipAbductL: 8, hipAbductR: 8, shoulderFwdL: 12, shoulderFwdR: -10},
     color: 'var(--color-gold-300)', figure: 'both-knees-prayer',
     tags: ['calm', 'beginner', 'kneeling', 'artistic']
   },
@@ -1250,8 +1227,7 @@ const POSES_LIBRARY = {
     difficulty: 'Beginner', angle: '3/4 View', intent: 'Photography', effort: 'Static',
     instructions: 'Kneel upright with both knees down, engage the core, then arch the spine backward while reaching both arms overhead and behind you. Let the head follow the arch naturally.',
     tip: 'Engage the core before arching to protect the lower back and keep the movement controlled.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder -10→-110, rightShoulder 8→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    joints: { spine: -4, neck: -18, leftShoulder: -110, leftElbow: 70, rightShoulder: -110, rightElbow: 50, leftHip: 80, leftKnee: 90, leftAnkle: -35, rightHip: 0, rightKnee: 10, hipAbductL: 8, hipAbductR: 8 },
+    joints: { spine: -4, neck: -18, leftShoulder: -10, leftElbow: 70, rightShoulder: 8, rightElbow: 50, leftHip: 80, leftKnee: 90, leftAnkle: -35, rightHip: 0, rightKnee: 10, hipAbductL: 8, hipAbductR: 8 },
     color: 'var(--color-gold-300)', figure: 'kneeling',
     tags: ['portrait', 'beginner', 'kneeling']
   },
@@ -1324,8 +1300,7 @@ const POSES_LIBRARY = {
     difficulty: 'Intermediate', angle: '3/4 View', intent: 'Artistic', effort: 'Static',
     instructions: 'Kneel with both knees down and raise both arms straight overhead in a wide V, chest lifted and open. Keep a soft bend in the elbows for a bold, symmetrical, celebratory shape.',
     tip: 'Keep a soft bend in the elbows overhead — fully locked arms photograph stiff even in a joyful pose.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder -10→-110, rightShoulder 8→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    joints: { spine: -8, neck: -8, leftShoulder: -110, leftElbow: 70, rightShoulder: -110, rightElbow: 50, leftKnee: 140, leftAnkle: -35, rightHip: 70, rightKnee: 140, rightAnkle: -35, hipAbductL: 8, hipAbductR: 8 },
+    joints: { spine: -8, neck: -8, leftShoulder: -10, leftElbow: 70, rightShoulder: 8, rightElbow: 50, leftKnee: 140, leftAnkle: -35, rightHip: 70, rightKnee: 140, rightAnkle: -35, hipAbductL: 8, hipAbductR: 8 },
     color: 'var(--color-gold-300)', figure: 'seiza',
     tags: ['artistic', 'intermediate', 'kneeling']
   },
@@ -1343,8 +1318,7 @@ const POSES_LIBRARY = {
     difficulty: 'Intermediate', angle: 'Back', intent: 'Editorial', effort: 'Static',
     instructions: 'Kneel upright and reach one arm overhead, bending the torso sideways over the opposite hip. Slide the other hand down toward the floor, keeping both hips grounded and level.',
     tip: 'Keep both hips grounded and level — the bend should come entirely from the waist and ribcage.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder -10→-110, rightShoulder 8→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    joints: { spine: 24, neck: 25, leftShoulder: -110, leftElbow: 70, rightShoulder: -110, rightElbow: 50, leftKnee: 5, rightHip: 70, rightKnee: 80, hipAbductL: 8, hipAbductR: 8 },
+    joints: { spine: 24, neck: 25, leftShoulder: -10, leftElbow: 70, rightShoulder: 8, rightElbow: 50, leftKnee: 5, rightHip: 70, rightKnee: 80, hipAbductL: 8, hipAbductR: 8 },
     color: 'var(--color-gold-300)', figure: 'kneeling',
     tags: ['editorial', 'intermediate', 'kneeling', 'back']
   },
@@ -1362,8 +1336,7 @@ const POSES_LIBRARY = {
     difficulty: 'Advanced', angle: 'Side', intent: 'Artistic', effort: 'Static',
     instructions: 'Kneel and press both palms together, then raise the joined hands high overhead rather than at the chest. Lengthen through the sides of the ribcage as the arms lift and the face tilts up.',
     tip: 'Lengthen through the ribcage as the arms lift — it keeps the pose graceful instead of strained.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder -70→-110, rightShoulder -30→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    joints: { spine: 15, neck: 5, leftShoulder: -110, leftElbow: 70, rightShoulder: -110, rightElbow: 50, leftHip: 80, leftKnee: 90, leftAnkle: -35, rightHip: -20, rightKnee: 30, hipAbductL: 8, hipAbductR: 8 },
+    joints: { spine: 15, neck: 5, leftShoulder: -70, leftElbow: 70, rightShoulder: -30, rightElbow: 50, leftHip: 80, leftKnee: 90, leftAnkle: -35, rightHip: -20, rightKnee: 30, hipAbductL: 8, hipAbductR: 8 },
     color: 'var(--color-gold-300)', figure: 'kneeling-forward',
     tags: ['advanced', 'artistic', 'kneeling', 'flexible']
   },
@@ -1435,8 +1408,7 @@ const POSES_LIBRARY = {
     difficulty: 'Intermediate', angle: '3/4 View', intent: 'Editorial', effort: 'Static',
     instructions: 'Kneel and fold the torso forward over the thighs, extending both arms fully along the floor rather than tucking them close. This restful, child\'s-pose shape reads soft and grounded.',
     tip: 'Extend the arms fully forward — tucking them close to the sides shortens the overall shape.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: spine -12→-18. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    joints: { spine: -18, neck: -6, leftShoulder: -10, leftElbow: 70, rightShoulder: 8, rightElbow: 50, leftKnee: 100, leftAnkle: -35, rightHip: 70, rightKnee: 100, rightAnkle: -35, hipAbductL: 8, hipAbductR: 8 },
+    joints: { spine: -12, neck: -6, leftShoulder: -10, leftElbow: 70, rightShoulder: 8, rightElbow: 50, leftKnee: 100, leftAnkle: -35, rightHip: 70, rightKnee: 100, rightAnkle: -35, hipAbductL: 8, hipAbductR: 8 },
     color: 'var(--color-gold-300)', figure: 'kneeling-forward',
     tags: ['editorial', 'intermediate', 'kneeling']
   },
@@ -1504,7 +1476,7 @@ const POSES_LIBRARY = {
     instructions: 'Sit and lean back onto both hands with legs extended forward. Let the chest open toward the sky and the head tilt back a few degrees for a relaxed, sun-soaked feel, feet pointed or flexed.',
     tip: 'Point or flex the feet intentionally — dangling feet weaken the long line of the legs.',
     // PR-v3 (v1.3) — auto-fix spine sign error: description says forward lean/fold but spine is negative (backward arch). Was spine:-5, now spine:5.
-    joints: {globalTilt: -80, spine: 5, neck: 5.4, leftShoulder: -110, rightShoulder: -110, leftElbow: 80, rightElbow: 80, leftHip: -10, rightHip: -5, leftAnkle: -20, rightAnkle: -20},
+    joints: {globalTilt: -80, spine: 5, neck: 5.4, leftShoulder: -10, rightShoulder: 8, leftElbow: 80, rightElbow: 80, leftHip: -10, rightHip: -5, leftAnkle: -20, rightAnkle: -20},
     color: 'var(--color-parchment-200)', figure: 'prone-flat',
     tags: ['playful', 'beginner', 'reclining', 'front']
   },
@@ -1636,8 +1608,7 @@ const POSES_LIBRARY = {
     difficulty: 'Beginner', angle: 'Side', intent: 'Photography', effort: 'Static',
     instructions: 'Lie flat on the back and stretch both arms straight overhead, resting them on the ground above the head. Point the toes as the whole body lengthens from fingertips to toes.',
     tip: 'Point the toes as the arms stretch overhead for one continuous, elegant line through the body.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder -10→-110, rightShoulder 8→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    joints: { globalTilt: 80, globalRoll: -38, neck: 10, leftShoulder: -110, leftElbow: 60, rightShoulder: -110, rightElbow: 18, leftHip: 18, leftKnee: 20, rightHip: 8, rightKnee: 8 },
+    joints: { globalTilt: 80, globalRoll: -38, neck: 10, leftShoulder: -10, leftElbow: 60, rightShoulder: 8, rightElbow: 18, leftHip: 18, leftKnee: 20, rightHip: 8, rightKnee: 8 },
     color: 'var(--color-parchment-200)', figure: 'side-recline',
     tags: ['dreamy', 'beginner', 'reclining']
   },
@@ -2039,8 +2010,7 @@ const POSES_LIBRARY = {
     difficulty: 'Intermediate', angle: '3/4 View', intent: 'Social', effort: 'Active',
     instructions: 'Jump and extend one arm fully upward as if shooting or blocking, the other arm bent for balance. Bend both knees slightly as if mid-jump.',
     tip: 'A real small jump, even a few inches, adds authentic lift over a flat-footed pose.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: spine 10→18. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    joints: {spine: 18, hips: 15, neck: -8.8, leftShoulder: -127, rightShoulder: 20, leftElbow: 45, rightElbow: 81, hipAbductL: 10, hipAbductR: 10, leftKnee: 40, rightKnee: 30, shoulderFwdL: 8, shoulderFwdR: -6, leftAnkle: -15},
+    joints: {spine: 10, hips: 15, neck: -8.8, leftShoulder: -127, rightShoulder: 20, leftElbow: 45, rightElbow: 81, hipAbductL: 10, hipAbductR: 10, leftKnee: 40, rightKnee: 30, shoulderFwdL: 8, shoulderFwdR: -6, leftAnkle: -15},
     color: 'rgba(109,74,114,0.2)', figure: 'dynamic-reach',
     tags: ['athletic', 'intermediate', 'dynamic', 'sport']
   },
@@ -2232,8 +2202,7 @@ const POSES_LIBRARY = {
     difficulty: 'Advanced', angle: '3/4 View', intent: 'Editorial', effort: 'Active',
     instructions: 'Exaggerate a runway stride to the extreme: cross one foot sharply in front of the other, thrust the hip dramatically to the side, lift the chin high and severe.',
     tip: 'Push every angle further than feels natural -- extremes read as subtle through a lens.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: spine -5→-18. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    joints: { spine: -18, neck: -18, leftElbow: 60, rightShoulder: -12, rightElbow: 30, hips: 15, leftHip: 28, leftKnee: 10, rightHip: -12, rightKnee: 10, shoulderFwdL: 8, shoulderFwdR: -6 },
+    joints: { spine: -5, neck: -18, leftElbow: 60, rightShoulder: -12, rightElbow: 30, hips: 15, leftHip: 28, leftKnee: 10, rightHip: -12, rightKnee: 10, shoulderFwdL: 8, shoulderFwdR: -6 },
     color: 'rgba(74,47,109,0.2)', figure: 'catwalk-stride',
     tags: ['fashion', 'advanced', 'eccentric', 'editorial']
   },
@@ -2443,8 +2412,7 @@ const POSES_LIBRARY = {
     difficulty: 'Beginner', angle: '3/4 View', intent: 'Photography', effort: 'Static',
     instructions: 'Stand facing each other, very close, and wrap arms fully around one another in a close embrace. Heads can touch or turn toward the camera.',
     tip: 'The person in front should angle their body slightly -- full front-facing couples look static.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: spine 5→18. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    joints: {spine: 18, hips: 10, neck: -8.8, leftShoulder: -10, rightShoulder: 8, leftElbow: 30, rightElbow: 30, hipAbductL: 10, hipAbductR: 10, leftKnee: 10, rightKnee: 10, globalRoll: -8, shoulderFwdL: 14},
+    joints: {spine: 5, hips: 10, neck: -8.8, leftShoulder: -10, rightShoulder: 8, leftElbow: 30, rightElbow: 30, hipAbductL: 10, hipAbductR: 10, leftKnee: 10, rightKnee: 10, globalRoll: -8, shoulderFwdL: 14},
     color: 'rgba(201,162,76,0.15)', figure: 'couple-embrace',
     tags: ['romantic', 'beginner', 'couple']
   },
@@ -2696,8 +2664,7 @@ const POSES_LIBRARY = {
     difficulty: 'Beginner', angle: 'Side', intent: 'Photography', effort: 'Static',
     instructions: 'One partner stands behind, wrapping both arms fully around the other in a cradling embrace. The front partner leans back into the hold',
     tip: 'Closing the eyes and relaxing fully into the hold sells the trust and comfort.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: spine 5→18. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    joints: {spine: 18, hips: 10, neck: -8.8, leftShoulder: -10, rightShoulder: 8, leftElbow: 30, rightElbow: 30, hipAbductL: 10, hipAbductR: 10, leftKnee: 10, rightKnee: 10, globalRoll: -8, shoulderFwdL: 14},
+    joints: {spine: 5, hips: 10, neck: -8.8, leftShoulder: -10, rightShoulder: 8, leftElbow: 30, rightElbow: 30, hipAbductL: 10, hipAbductR: 10, leftKnee: 10, rightKnee: 10, globalRoll: -8, shoulderFwdL: 14},
     color: 'rgba(201,162,76,0.15)', figure: 'couple-embrace',
     tags: ['tender', 'beginner', 'couple', 'intimate']
   },
@@ -3017,8 +2984,7 @@ const POSES_LIBRARY = {
     difficulty: 'Beginner', angle: '3/4 View', intent: 'Social', effort: 'Static',
     instructions: 'Lean back comfortably into the chair, letting the backrest fully support the spine. Rest both hands loosely on the armrests and relax the shoulders down.',
     tip: 'Uncross the arms and open the hands slightly so the relaxed lean does not read as closed-off.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: spine 14→18. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    joints: {spine: 18, neck: 4, leftShoulder: -10, rightShoulder: 8, leftElbow: 95, rightElbow: 95, leftHip: 40, rightHip: 40, leftKnee: 85, rightKnee: 85, leftAnkle: -15, rightAnkle: -15, shoulderFwdL: 12, shoulderFwdR: -10},
+    joints: {spine: 14, neck: 4, leftShoulder: -10, rightShoulder: 8, leftElbow: 95, rightElbow: 95, leftHip: 40, rightHip: 40, leftKnee: 85, rightKnee: 85, leftAnkle: -15, rightAnkle: -15, shoulderFwdL: 12, shoulderFwdR: -10},
     color: 'rgba(76,175,125,0.15)', figure: 'seated-side',
     tags: ['relaxed', 'beginner', 'accessible']
   },
@@ -3246,8 +3212,7 @@ const POSES_LIBRARY = {
       effort: 'Static',
       instructions: 'Stand with feet hip-width apart and reach one arm fully overhead while the other rests on the ribcage. Shift weight onto the hip opposite the raised arm.',
       tip: 'The overhead arm should graze past the ear, not press into it, to keep the neck line clean.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: spine 10→18. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-      joints: { globalTilt: 50, spine: 18, neck: 8, leftShoulder: -138, leftElbow: 70, rightShoulder: -132, rightElbow: 70, leftHip: 20, leftKnee: 30, leftAnkle: -18, rightHip: 20, rightKnee: 10, rightAnkle: -18 },
+      joints: { globalTilt: 50, spine: 10, neck: 8, leftShoulder: -138, leftElbow: 70, rightShoulder: -132, rightElbow: 70, leftHip: 20, leftKnee: 30, leftAnkle: -18, rightHip: 20, rightKnee: 10, rightAnkle: -18 },
       color: 'var(--color-teal-100)',
       figure: 'arm-reach',
       tags: ['stretch', 'standing', 'elongate', 'triangles'],
@@ -3326,8 +3291,7 @@ const POSES_LIBRARY = {
       effort: 'Static',
       instructions: 'Stand and place one foot up on a chair seat, weight shifting onto the standing leg. Let the raised knee soften and the torso lean gently over it.',
       tip: 'Keep the standing leg knee soft, not locked, for a relaxed, elegant line.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder -12→-110, rightShoulder 8→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-      joints: { globalTilt: 50, spine: 30, neck: 15, leftShoulder: -110, leftElbow: 55, rightShoulder: -110, rightElbow: 80, leftHip: 40, leftKnee: 30, leftAnkle: -15, rightHip: 20, rightKnee: 90, rightAnkle: -15 },
+      joints: { globalTilt: 50, spine: 30, neck: 15, leftShoulder: -12, leftElbow: 55, rightShoulder: 8, rightElbow: 80, leftHip: 40, leftKnee: 30, leftAnkle: -15, rightHip: 20, rightKnee: 90, rightAnkle: -15 },
       color: 'var(--color-teal-100)',
       figure: 'hip-shift',
       tags: ['standing', 'leg-line', 'triangles', 'curve'],
@@ -3353,8 +3317,7 @@ const POSES_LIBRARY = {
       effort: 'Static',
       instructions: 'Lie flat on the back, knees bent and feet flat, then let both arms fall loosely overhead onto the floor, elbows soft. Turn the face 20-30° to one side and let the ribcage rise and fall naturally so the pose reads relaxed, not held.',
       tip: 'Shoot from directly overhead to compress the body into an intimate, vulnerable frame.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder -12→-110, rightShoulder 8→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-      joints: {globalTilt: 80, globalRoll: -17.5, neck: -5.5, leftShoulder: -110, rightShoulder: -110, leftElbow: 65, rightElbow: 45, leftHip: 20, rightHip: 55, leftKnee: 15, rightKnee: 85, spine: 10, leftAnkle: -18, rightAnkle: -18},
+      joints: {globalTilt: 80, globalRoll: -17.5, neck: -5.5, leftShoulder: -12, rightShoulder: 8, leftElbow: 65, rightElbow: 45, leftHip: 20, rightHip: 55, leftKnee: 15, rightKnee: 85, spine: 10, leftAnkle: -18, rightAnkle: -18},
       color: 'var(--color-teal-100)',
       figure: 'boudoir-recline',
       tags: ['recline', 'waist', 'curve', 'classic'],
@@ -3380,8 +3343,7 @@ const POSES_LIBRARY = {
       effort: 'Static',
       instructions: 'Stand in a soft S-curve with weight on the back leg, and lift one hand to graze the hair near the temple, elbow raised to shoulder height. Keep the gaze soft and angled slightly down for an intimate mood.',
       tip: 'Let the wrist fall softly — a raised elbow near the face frames it without stiffness.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder 40→-110, rightShoulder -20→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-      joints: { globalTilt: 65, spine: 10, neck: 20, leftShoulder: -110, leftElbow: 60, rightShoulder: -110, rightElbow: 18, leftHip: 15, leftKnee: 30, leftAnkle: -18, rightHip: 10, rightKnee: 30, rightAnkle: -18 },
+      joints: { globalTilt: 65, spine: 10, neck: 20, leftShoulder: 40, leftElbow: 60, rightShoulder: -20, rightElbow: 18, leftHip: 15, leftKnee: 30, leftAnkle: -18, rightHip: 10, rightKnee: 30, rightAnkle: -18 },
       color: 'var(--color-teal-100)',
       figure: 'side-recline',
       tags: ['recline', 'open-chest', 'curve', 'support'],
@@ -3448,7 +3410,7 @@ const POSES_LIBRARY = {
       instructions: 'Kneel and sit back fully onto the heels, arch through the spine, and reach both arms behind to rest on the floor as the chin tilts up. Keep the knees together to preserve a slimming line through the hips.',
       tip: 'Warm up the spine first — never force a deep arch like this cold.',
     // PR-v3 (v1.3) — auto-fix spine sign error: description says back arch but spine is positive (forward fold). Was spine:15, now spine:-15.
-      joints: { globalTilt: 50, spine: -15, neck: 10, leftShoulder: -110, leftElbow: 55, rightShoulder: -110, rightElbow: 80, leftHip: 15, leftKnee: 30, leftAnkle: -18, rightHip: 20, rightKnee: 15, rightAnkle: -18 },
+      joints: { globalTilt: 50, spine: -15, neck: 10, leftShoulder: -12, leftElbow: 55, rightShoulder: 8, rightElbow: 80, leftHip: 15, leftKnee: 30, leftAnkle: -18, rightHip: 20, rightKnee: 15, rightAnkle: -18 },
       color: 'var(--color-teal-100)',
       figure: 'profile-stand',
       tags: ['profile', 'curve', 'standing', 'classic'],
@@ -3470,8 +3432,7 @@ const POSES_LIBRARY = {
       difficulty: 'Beginner', angle: '3/4 View', intent: 'Boudoir', effort: 'Static',
       instructions: 'Lie on your back and hold a sheet loosely against your chest. Let your spine, shoulders, or legs remain fully exposed. The sheet floats as a natural frame.',
       tip: 'Pull the sheet only barely to cover — the near-reveal creates far more tension than full coverage.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: spine 10→18. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-      joints: { globalTilt: 85, spine: 18, neck: 8, leftShoulder: -30, leftElbow: 45, rightShoulder: -20, rightElbow: 40, leftHip: 15, leftKnee: 10, leftAnkle: -18, rightHip: 10, rightAnkle: -18 },
+      joints: { globalTilt: 85, spine: 10, neck: 8, leftShoulder: -30, leftElbow: 45, rightShoulder: -20, rightElbow: 40, leftHip: 15, leftKnee: 10, leftAnkle: -18, rightHip: 10, rightAnkle: -18 },
       figure: 'supine',
       tags: ["implied", "recline", "bed", "soft"],
     },
@@ -3600,8 +3561,7 @@ const POSES_LIBRARY = {
       difficulty: 'Intermediate', angle: 'Front View', intent: 'Boudoir', effort: 'Static',
       instructions: 'Sit on a high stool leaning your weight onto one glute. Extend one leg completely straight with a pointed toe while keeping the other knee bent sharply upward.',
       tip: 'The diagonal created by one extended leg and one raised knee draws the eye from floor to face in one sweeping line.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: spine -8→-18, hips 8→16. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-      joints: { globalTilt: 50, spine: -18, neck: -15, leftElbow: 65, rightShoulder: 12, rightElbow: 45, hips: 16, leftHip: 80, leftKnee: 90, leftAnkle: -18, rightHip: 80, rightKnee: 100, rightAnkle: -25, hipAbductL: 12 },
+      joints: { globalTilt: 50, spine: -8, neck: -15, leftElbow: 65, rightShoulder: 12, rightElbow: 45, hips: 8, leftHip: 80, leftKnee: 90, leftAnkle: -18, rightHip: 80, rightKnee: 100, rightAnkle: -25, hipAbductL: 12 },
       figure: 'seated-side',
       tags: ["asymmetric", "stool", "diagonal", "line"],
     },
@@ -3619,8 +3579,7 @@ const POSES_LIBRARY = {
       difficulty: 'Beginner', angle: 'Front View', intent: 'Boudoir', effort: 'Static',
       instructions: 'Sit with your elbows pulled back sharply, almost touching behind the spine. Rest your hands gently on your lower back or hips to draw visual attention to your waist while instantly slimming the torso.',
       tip: 'The pulled-back elbows automatically open the chest and push the shoulders back — two benefits from one adjustment.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: spine -10→-18. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-      joints: { globalTilt: 50, spine: -18, neck: -15, leftShoulder: 35, leftElbow: 8, rightShoulder: -35, rightElbow: 8, leftHip: 80, leftKnee: 90, leftAnkle: -20, rightHip: 80, rightKnee: 90, rightAnkle: -20, hipAbductL: 12, hipAbductR: 12 },
+      joints: { globalTilt: 50, spine: -10, neck: -15, leftShoulder: 35, leftElbow: 8, rightShoulder: -35, rightElbow: 8, leftHip: 80, leftKnee: 90, leftAnkle: -20, rightHip: 80, rightKnee: 90, rightAnkle: -20, hipAbductL: 12, hipAbductR: 12 },
       figure: 'boudoir-seated-knee',
       tags: ["waist", "triangles", "slimming", "seated"],
     },
@@ -3638,8 +3597,7 @@ const POSES_LIBRARY = {
       difficulty: 'Intermediate', angle: '3/4 View', intent: 'Boudoir', effort: 'Static',
       instructions: 'Sit sideways on a bench or stool. Pull one knee up high toward your chest while keeping the other leg extended low, and rest your elbow on the raised knee while lowering your chin into your hand.',
       tip: 'The chin-on-hand resting position adds quiet introspection — the mood is midnight contemplation, not performance.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder -20→-110, rightShoulder 10→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-      joints: {spine: 10, neck: -10.1, leftShoulder: -110, rightShoulder: -110, shoulderFwdL: 30, leftElbow: 81, hipAbductL: 5, leftHip: 114, rightHip: 80, leftKnee: 130, rightKnee: 90, leftAnkle: -20, rightAnkle: -20, rightElbow: 18, globalTilt: 50},
+      joints: {spine: 10, neck: -10.1, leftShoulder: -20, rightShoulder: 10, shoulderFwdL: 30, leftElbow: 81, hipAbductL: 5, leftHip: 114, rightHip: 80, leftKnee: 130, rightKnee: 90, leftAnkle: -20, rightAnkle: -20, rightElbow: 18, globalTilt: 50},
       figure: 'chin-on-hand',
       tags: ["contemplative", "seated", "knee-up", "mood"],
     },
@@ -3695,8 +3653,7 @@ const POSES_LIBRARY = {
       difficulty: 'Beginner', angle: 'Front View', intent: 'Boudoir', effort: 'Static',
       instructions: 'Stand upright and cross one knee tightly over the other. Pull one arm fully across your waist to your opposite hip, crossing tightly at the elbows to push the bust together and maximize an hourglass outline.',
       tip: 'The crossed knees narrow the hips visually while the crossed arms frame and define the waist — two slimming techniques stacked.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: spine -11→-18. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-      joints: { globalTilt: 50, spine: -18, neck: -8, leftShoulder: 30, leftElbow: 81, rightShoulder: -25, rightElbow: 81, hips: 5, leftHip: 15, leftAnkle: -18, rightHip: -5, rightAnkle: -18 },
+      joints: { globalTilt: 50, spine: -11, neck: -8, leftShoulder: 30, leftElbow: 81, rightShoulder: -25, rightElbow: 81, hips: 5, leftHip: 15, leftAnkle: -18, rightHip: -5, rightAnkle: -18 },
       figure: 'hip-shift',
       tags: ["hourglass", "standing", "cross", "slim"],
     },
@@ -3714,8 +3671,7 @@ const POSES_LIBRARY = {
       difficulty: 'Intermediate', angle: 'Front View', intent: 'Boudoir', effort: 'Static',
       instructions: 'Stand upright, cross one leg directly over the other, and lift your body weight entirely onto the balls of your feet. This forces leg muscles to engage, elongating the calves and tightening posture.',
       tip: 'Rising onto the balls of your feet immediately tightens every muscle from ankle to hip — a one-move full-leg transformation.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: hips 5→16. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-      joints: {spine: -11, hips: 16, neck: -8, leftShoulder: -12, rightShoulder: 8, leftElbow: 55, rightElbow: 80, leftHip: 5, rightHip: -5, leftAnkle: -18, rightAnkle: -18, globalTilt: 50},
+      joints: {spine: -11, hips: 5, neck: -8, leftShoulder: -12, rightShoulder: 8, leftElbow: 55, rightElbow: 80, leftHip: 5, rightHip: -5, leftAnkle: -18, rightAnkle: -18, globalTilt: 50},
       figure: 'tiptoe-reach',
       tags: ["tiptoe", "cross", "standing", "elongate"],
     },
@@ -3888,8 +3844,7 @@ const POSES_LIBRARY = {
       difficulty: 'Intermediate', angle: '3/4 View', intent: 'Boudoir', effort: 'Static',
       instructions: 'Stand in a room corner, pressing your back flat into the angle where the walls meet. Raise both hands above your head against the walls, bend one knee, and slide your foot up the wall to pop your hip forward.',
       tip: 'The corner frames the body on two sides while the bent knee adds asymmetry and hip emphasis — the corner becomes architecture.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: hips 10→16. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-      joints: { globalTilt: 50, spine: -8, neck: -8, leftShoulder: -128, leftElbow: 70, rightShoulder: -122, rightElbow: 70, hips: 16, leftHip: 15, leftAnkle: -18, rightHip: 20, rightKnee: 40, rightAnkle: -18 },
+      joints: { globalTilt: 50, spine: -8, neck: -8, leftShoulder: -128, leftElbow: 70, rightShoulder: -122, rightElbow: 70, hips: 10, leftHip: 15, leftAnkle: -18, rightHip: 20, rightKnee: 40, rightAnkle: -18 },
       figure: 'two-hands-wall',
       tags: ["corner", "wall", "raised-arms", "knee-up"],
     },
@@ -4025,7 +3980,7 @@ const POSES_LIBRARY = {
       instructions: 'Stand fully in profile, push the hips back and drive the chest forward slightly to build one continuous curve, hands resting softly in front of the hips. Point the front foot forward with a soft knee bend for a clean leg line.',
       tip: 'Shoot against a clean, uncluttered background to let the profile curve read clearly.',
     // PR-v3 (v1.3) — auto-fix spine sign error: description says back arch but spine is positive (forward fold). Was spine:10, now spine:-10.
-      joints: { spine: -18, neck: 15, leftShoulder: 30, leftElbow: 81, rightShoulder: -10, rightElbow: 70, hips: 12, leftHip: 50, leftKnee: 10, rightKnee: 20, shoulderFwdL: 8, shoulderFwdR: -6 },
+      joints: { spine: -10, neck: 15, leftShoulder: 30, leftElbow: 81, rightShoulder: -10, rightElbow: 70, hips: 12, leftHip: 50, leftKnee: 10, rightKnee: 20, shoulderFwdL: 8, shoulderFwdR: -6 },
       color: 'var(--color-purple-100)',
       figure: 'editorial-angular',
       tags: ['angular', 'triangles', 'vogue', 'geometric'],
@@ -4129,8 +4084,7 @@ const POSES_LIBRARY = {
       effort: 'Static',
       instructions: 'Lie on the floor and press the upper body up onto one hand while the legs twist opposite, building a spiral line through the torso. Extend the free arm overhead to complete the elongated shape.',
       tip: 'Keep the contortion within a comfortable range — it should look effortless, not strained.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder 60→-110, rightShoulder 20→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-      joints: { spine: 15, neck: 10, leftShoulder: -110, leftElbow: 81, rightShoulder: -110, rightElbow: 70, hips: 15, leftHip: 10, leftKnee: 10, rightKnee: 10, shoulderFwdL: 8, shoulderFwdR: -6 },
+      joints: { spine: 15, neck: 10, leftShoulder: 60, leftElbow: 81, rightShoulder: 20, rightElbow: 70, hips: 15, leftHip: 10, leftKnee: 10, rightKnee: 10, shoulderFwdL: 8, shoulderFwdR: -6 },
       color: 'var(--color-purple-100)',
       figure: 'arm-reach',
       tags: ['negative-space', 'composition', 'minimal', 'story'],
@@ -4169,8 +4123,7 @@ const POSES_LIBRARY = {
       effort: 'Dynamic',
       instructions: 'Crouch low with one knee down and the other foot planted, forearms resting across the raised knee, eyes locked into the lens. Keep the spine straight rather than hunched to project power.',
       tip: 'Shoot from a low angle to amplify the dominance of the crouch.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder 30→-110, rightShoulder -10→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-      joints: { spine: 25, neck: 15, leftShoulder: -110, leftElbow: 81, rightShoulder: -110, rightElbow: 70, hips: 15, leftHip: 30, leftKnee: 10, rightKnee: 20, shoulderFwdL: 8, shoulderFwdR: -6 },
+      joints: { spine: 25, neck: 15, leftShoulder: 30, leftElbow: 81, rightShoulder: -10, rightElbow: 70, hips: 15, leftHip: 30, leftKnee: 10, rightKnee: 20, shoulderFwdL: 8, shoulderFwdR: -6 },
       color: 'var(--color-purple-100)',
       figure: 'editorial-twist',
       tags: ['dynamic', 'fabric', 'movement', 'story'],
@@ -4236,8 +4189,7 @@ const POSES_LIBRARY = {
       effort: 'Static',
       instructions: 'Reach one arm as far overhead and to the side as possible while the opposite hip drops low, stretching the whole side body into a dramatic diagonal. Point the same-side foot to complete the line from fingertip to toe.',
       tip: 'Coach for the longest possible line from hand to foot — that\'s the whole shape.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder 30→-110, rightShoulder -10→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-      joints: {spine: 15, hips: 15, neck: 10, leftShoulder: -110, rightShoulder: -110, leftElbow: 81, rightElbow: 70, leftHip: -7, rightKnee: 5, leftKnee: 10, rightHip: 12, shoulderFwdL: 8, shoulderFwdR: -6},
+      joints: {spine: 15, hips: 15, neck: 10, leftShoulder: 30, rightShoulder: -10, leftElbow: 81, rightElbow: 70, leftHip: -7, rightKnee: 5, leftKnee: 10, rightHip: 12, shoulderFwdL: 8, shoulderFwdR: -6},
       color: 'var(--color-purple-100)',
       figure: 'profile-stand',
       tags: ['profile', 'shadow', 'graphic', 'stark'],
@@ -4316,8 +4268,7 @@ const POSES_LIBRARY = {
       effort: 'Static',
       instructions: 'Place both hands on the hips with elbows sharply bent and pointed outward, feet planted in a wide symmetrical stance. Keep the face perfectly neutral so the geometric arm shapes carry the image.',
       tip: 'Symmetry can work here if the shapes are bold enough — judge case by case.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: spine 10→18. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-      joints: {globalTilt: 80, globalRoll: -20, leftShoulder: -70, rightShoulder: 20, leftElbow: 65, rightElbow: 45, leftHip: 20, rightHip: 45, rightKnee: 60, spine: 18, leftKnee: 10, neck: -3.3, hips: 12, shoulderFwdL: 8, shoulderFwdR: -6},
+      joints: {globalTilt: 80, globalRoll: -20, leftShoulder: -70, rightShoulder: 20, leftElbow: 65, rightElbow: 45, leftHip: 20, rightHip: 45, rightKnee: 60, spine: 10, leftKnee: 10, neck: -3.3, hips: 12, shoulderFwdL: 8, shoulderFwdR: -6},
       color: 'var(--color-purple-100)',
       figure: 'prone-flat',
       tags: ['floor', 'diagonal', 'composition', 'graphic'],
@@ -4413,8 +4364,7 @@ const POSES_LIBRARY = {
       effort: 'Dynamic',
       instructions: 'Raise both arms overhead and cross them at the wrists, tilting the head down so the face falls partly into shadow beneath the raised arms. Keep the torso long and feet together for a grounded base.',
       tip: 'Place a hard light source above and behind to cast mystery-adding shadow.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder 30→-110, rightShoulder -10→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-      joints: { spine: 25, neck: 15, leftShoulder: -110, leftElbow: 81, rightShoulder: -110, rightElbow: 70, hips: 12, leftHip: 70, leftKnee: 80, rightKnee: 100, shoulderFwdL: 8, shoulderFwdR: -6 },
+      joints: { spine: 25, neck: 15, leftShoulder: 30, leftElbow: 81, rightShoulder: -10, rightElbow: 70, hips: 12, leftHip: 70, leftKnee: 80, rightKnee: 100, shoulderFwdL: 8, shoulderFwdR: -6 },
       color: 'var(--color-purple-100)',
       figure: 'warrior-lunge',
       tags: ['lunge', 'dynamic', 'geometric', 'bold'],
@@ -4468,8 +4418,7 @@ const POSES_LIBRARY = {
       effort: 'Static',
       instructions: 'Stand on one straight supporting leg and extend the other fully behind and up, hips square to the front. Reach the opposite arm forward and the same-side arm back to form one unbroken line from fingertip to toe.',
       tip: 'Check the wrist and foot for sag — the hand-to-foot line must read unbroken',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: spine 10→18, leftShoulder 8→-110, rightShoulder 28→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-      joints: { spine: 18, neck: 15, leftShoulder: -110, leftElbow: 40, rightShoulder: -110, rightElbow: 18, leftHip: 20, leftAnkle: -18, rightHip: -15, rightKnee: 10, rightAnkle: -18, shoulderFwdL: 8, shoulderFwdR: -6 },
+      joints: { spine: 10, neck: 15, leftShoulder: 8, leftElbow: 40, rightShoulder: 28, rightElbow: 18, leftHip: 20, leftAnkle: -18, rightHip: -15, rightKnee: 10, rightAnkle: -18, shoulderFwdL: 8, shoulderFwdR: -6 },
       color: 'var(--color-gold-100)',
       figure: 'fine-art-contrapposto',
       tags: ['contrapposto', 'classical', 'sculpture', 'balance'],
@@ -4495,8 +4444,7 @@ const POSES_LIBRARY = {
       effort: 'Static',
       instructions: 'Recline on one side with the torso rotated toward camera while the hips stay turned away, head propped on a bent arm. Sweep the free arm gracefully overhead along the body\'s line to extend the silhouette.',
       tip: 'Exaggerate the torque between hips and shoulders for the strongest sculptural line.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder 8→-110, rightShoulder 28→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-      joints: { spine: 32, neck: 27, leftShoulder: -110, leftElbow: 40, rightShoulder: -110, rightElbow: 18, leftHip: 100, leftKnee: 100, leftAnkle: -30, rightKnee: 120, rightAnkle: -35, shoulderFwdL: 8, shoulderFwdR: -6 },
+      joints: { spine: 32, neck: 27, leftShoulder: 8, leftElbow: 40, rightShoulder: 28, rightElbow: 18, leftHip: 100, leftKnee: 100, leftAnkle: -30, rightKnee: 120, rightAnkle: -35, shoulderFwdL: 8, shoulderFwdR: -6 },
       color: 'var(--color-gold-100)',
       figure: 'fine-art-pietà',
       tags: ['pieta', 'emotional', 'kneeling', 'classical'],
@@ -4548,8 +4496,7 @@ const POSES_LIBRARY = {
       effort: 'Static',
       instructions: 'Rise onto the balls of both feet in relevé, lifting both arms into a rounded shape overhead as if holding an invisible sphere. Keep the spine vertical and the core engaged to hold the lifted balance.',
       tip: 'Check in a mirror that both arms form a symmetrical, rounded frame overhead.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder 8→-110, rightShoulder 28→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-      joints: { spine: 20, neck: 15, leftShoulder: -110, leftElbow: 40, rightShoulder: -110, rightElbow: 18, leftHip: 10, leftAnkle: -18, rightKnee: 100, rightAnkle: -35, shoulderFwdL: 8, shoulderFwdR: -6 },
+      joints: { spine: 20, neck: 15, leftShoulder: 8, leftElbow: 40, rightShoulder: 28, rightElbow: 18, leftHip: 10, leftAnkle: -18, rightKnee: 100, rightAnkle: -35, shoulderFwdL: 8, shoulderFwdR: -6 },
       color: 'var(--color-gold-100)',
       figure: 'kneeling',
       tags: ['kneeling', 'extension', 'elongate', 'classical'],
@@ -4562,8 +4509,7 @@ const POSES_LIBRARY = {
       effort: 'Static',
       instructions: 'Kneel upright on both knees and extend the torso upward and slightly back, reaching one arm high overhead while the other trails down the back leg. Stack the hips directly above the knees for a stable base.',
       tip: 'Coach for length, not depth — this is elongation, not a deep backbend.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder 60→-110, rightShoulder 20→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-      joints: { spine: 15, neck: 10, leftShoulder: -110, leftElbow: 40, rightShoulder: -110, rightElbow: 18, leftHip: 5, leftAnkle: -18, rightKnee: 5, rightAnkle: -18, shoulderFwdL: 8, shoulderFwdR: -6 },
+      joints: { spine: 15, neck: 10, leftShoulder: 60, leftElbow: 40, rightShoulder: 20, rightElbow: 18, leftHip: 5, leftAnkle: -18, rightKnee: 5, rightAnkle: -18, shoulderFwdL: 8, shoulderFwdR: -6 },
       color: 'var(--color-gold-100)',
       figure: 'standing-front',
       tags: ['ballet', 'arms', 'graceful', 'classical'],
@@ -4589,8 +4535,7 @@ const POSES_LIBRARY = {
       effort: 'Static',
       instructions: 'Lie on one side and press up onto the supporting forearm, lifting the ribcage while extending the top leg long and slightly raised. Reach the top arm overhead to draw one sculptural line from foot to fingertip.',
       tip: 'Check that the raised leg and reaching arm form one visual line past the torso.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder 8→-110, rightShoulder 28→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-      joints: { spine: 30, neck: 25, leftShoulder: -110, leftElbow: 40, rightShoulder: -110, rightElbow: 18, leftHip: 10, leftAnkle: -18, rightKnee: 10, rightAnkle: -18, shoulderFwdL: 8, shoulderFwdR: -6 },
+      joints: { spine: 30, neck: 25, leftShoulder: 8, leftElbow: 40, rightShoulder: 28, rightElbow: 18, leftHip: 10, leftAnkle: -18, rightKnee: 10, rightAnkle: -18, shoulderFwdL: 8, shoulderFwdR: -6 },
       color: 'var(--color-gold-100)',
       figure: 'back-arch-wall',
       tags: ['backbend', 'classical', 'elegant', 'line'],
@@ -4604,7 +4549,7 @@ const POSES_LIBRARY = {
       instructions: 'Stand grounded and bend the upper spine back gently, sweeping both arms overhead and slightly back to follow the curve. Keep the hips stacked over the ankles for safety and support.',
       tip: 'Lightly spot the lower back during rehearsal for a safe, controlled bend.',
     // PR-v3 (v1.3) — auto-fix spine sign error: description says back arch but spine is positive (forward fold). Was spine:15, now spine:-15.
-      joints: {spine: -15, neck: -9.8, leftShoulder: -110, rightShoulder: -110, leftElbow: 40, leftHip: 20, rightKnee: 60, leftAnkle: -15, rightAnkle: -15, rightElbow: 18, shoulderFwdL: 8, shoulderFwdR: -6},
+      joints: {spine: -15, neck: -9.8, leftShoulder: 8, rightShoulder: 28, leftElbow: 40, leftHip: 20, rightKnee: 60, leftAnkle: -15, rightAnkle: -15, rightElbow: 18, shoulderFwdL: 8, shoulderFwdR: -6},
       color: 'var(--color-gold-100)',
       figure: 'seated-side',
       tags: ['stillness', 'profile', 'classical', 'calm'],
@@ -4630,8 +4575,7 @@ const POSES_LIBRARY = {
       effort: 'Static',
       instructions: 'Balance on one leg and hold the opposite ankle with one hand, extending that leg forward and up while the free arm reaches out for counterbalance. Keep the standing leg straight and the torso lifted tall.',
       tip: 'Use a wall or barre nearby during practice — this balance is genuinely demanding.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder 8→-110, rightShoulder 28→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-      joints: { spine: 25, neck: 15, leftShoulder: -110, leftElbow: 40, rightShoulder: -110, rightElbow: 18, leftHip: 30, leftAnkle: -18, rightKnee: 70, rightAnkle: -18, shoulderFwdL: 8, shoulderFwdR: -6 },
+      joints: { spine: 25, neck: 15, leftShoulder: 8, leftElbow: 40, rightShoulder: 28, rightElbow: 18, leftHip: 30, leftAnkle: -18, rightKnee: 70, rightAnkle: -18, shoulderFwdL: 8, shoulderFwdR: -6 },
       color: 'var(--color-gold-100)',
       figure: 'boudoir-lying-arch',
       tags: ['curve', 'floor', 'sculptural', 'calm'],
@@ -4645,7 +4589,7 @@ const POSES_LIBRARY = {
       instructions: 'Lie on the back and curve the spine gently upward into a soft bridge shape, resting both arms overhead along the floor. Move slowly and with control, as if the body were being carved from marble.',
       tip: 'Shoot from above to reveal the full curved silhouette against the floor.',
     // PR-v3 (v1.3) — auto-fix spine sign error: description says back arch but spine is positive (forward fold). Was spine:15, now spine:-15.
-      joints: {spine: -15, neck: -9.8, leftShoulder: -110, rightShoulder: -110, leftElbow: 40, leftHip: 10, rightKnee: 5, rightElbow: 18, leftAnkle: -18, rightAnkle: -18, shoulderFwdL: 8, shoulderFwdR: -6},
+      joints: {spine: -15, neck: -9.8, leftShoulder: 8, rightShoulder: 28, leftElbow: 40, leftHip: 10, rightKnee: 5, rightElbow: 18, leftAnkle: -18, rightAnkle: -18, shoulderFwdL: 8, shoulderFwdR: -6},
       color: 'var(--color-gold-100)',
       figure: 'standing-front',
       tags: ['drape', 'fabric', 'timeless', 'classical'],
@@ -4684,8 +4628,7 @@ const POSES_LIBRARY = {
       effort: 'Static',
       instructions: 'Position one arm curved low in front of the body and the other curved high overhead, forming an interlocking figure-eight through the torso. Hold the legs in a soft turned-out stance for classical grounding.',
       tip: 'Position one arm at a time — this complex shape needs careful, slow adjustment.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder -12→-110, rightShoulder 8→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-      joints: {globalTilt: 85, leftShoulder: -110, rightShoulder: -110, leftElbow: 65, rightElbow: 45, leftHip: -65, rightHip: 15, leftKnee: 5, leftAnkle: -25, neck: -3.3, spine: 10, rightAnkle: -18, shoulderFwdL: 8, shoulderFwdR: -6},
+      joints: {globalTilt: 85, leftShoulder: -12, rightShoulder: 8, leftElbow: 65, rightElbow: 45, leftHip: -65, rightHip: 15, leftKnee: 5, leftAnkle: -25, neck: -3.3, spine: 10, rightAnkle: -18, shoulderFwdL: 8, shoulderFwdR: -6},
       color: 'var(--color-gold-100)',
       figure: 'supine',
       tags: ['line', 'floor', 'vertical', 'classical'],
@@ -4698,8 +4641,7 @@ const POSES_LIBRARY = {
       effort: 'Static',
       instructions: 'Lie on the back and raise one leg straight toward the ceiling while the other stays flat on the floor, arms resting softly at the sides. Point the raised foot to complete a clean vertical line against the horizontal body.',
       tip: 'Keep both the raised leg and the floor leg perfectly straight for maximum contrast.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder 8→-110, rightShoulder 28→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-      joints: { spine: 15, neck: 10, leftShoulder: -110, leftElbow: 40, rightShoulder: -110, rightElbow: 18, leftHip: 5, leftAnkle: -18, rightKnee: 5, rightAnkle: -18, shoulderFwdL: 8, shoulderFwdR: -6 },
+      joints: { spine: 15, neck: 10, leftShoulder: 8, leftElbow: 40, rightShoulder: 28, rightElbow: 18, leftHip: 5, leftAnkle: -18, rightKnee: 5, rightAnkle: -18, shoulderFwdL: 8, shoulderFwdR: -6 },
       color: 'var(--color-gold-100)',
       figure: 'standing-front',
       tags: ['introspective', 'stillness', 'minimal', 'classical'],
@@ -4738,8 +4680,7 @@ const POSES_LIBRARY = {
       effort: 'Static',
       instructions: 'Balance on one straight leg while drawing the opposite foot to rest against the inner knee, arms rounded softly overhead in a classical ballet frame. Engage the standing leg fully and fix the gaze on one still point.',
       tip: 'Use a fixed gaze point (spotting) to hold balance through the whole pose.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder -32→-110, rightShoulder -12→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-      joints: {globalTilt: -70, spine: -20, neck: 5.4, leftShoulder: -110, rightShoulder: -110, leftElbow: 65, rightElbow: 45, leftHip: -8, rightHip: -8, leftAnkle: -20, rightAnkle: -20, shoulderFwdL: 8, shoulderFwdR: -6},
+      joints: {globalTilt: -70, spine: -20, neck: 5.4, leftShoulder: -32, rightShoulder: -12, leftElbow: 65, rightElbow: 45, leftHip: -8, rightHip: -8, leftAnkle: -20, rightAnkle: -20, shoulderFwdL: 8, shoulderFwdR: -6},
       color: 'var(--color-gold-100)',
       figure: 'sphinx-pose',
       tags: ['backbend', 'strength', 'elegant', 'line'],
@@ -4778,8 +4719,7 @@ const POSES_LIBRARY = {
       effort: 'Static',
       instructions: 'Stand with feet together and bend the entire torso directly to one side, reaching the same-side arm overhead in a smooth curve while the opposite arm curves low. Keep both hips level and facing forward.',
       tip: 'Watch for forward or backward hip drift — this is a pure lateral bend.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder 60→-110, rightShoulder 20→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-      joints: {spine: 15, neck: -9.8, leftShoulder: -110, rightShoulder: -110, leftElbow: 40, leftHip: 10, rightKnee: 110, rightAnkle: -35, rightElbow: 18, leftAnkle: -18, shoulderFwdL: 8, shoulderFwdR: -6},
+      joints: {spine: 15, neck: -9.8, leftShoulder: 60, rightShoulder: 20, leftElbow: 40, leftHip: 10, rightKnee: 110, rightAnkle: -35, rightElbow: 18, leftAnkle: -18, shoulderFwdL: 8, shoulderFwdR: -6},
       color: 'var(--color-gold-100)',
       figure: 'kneeling',
       tags: ['beginner', 'symmetry', 'classical', 'calm'],
@@ -4818,8 +4758,7 @@ const POSES_LIBRARY = {
       effort: 'Static',
       instructions: 'Support the body on one straight arm and the outer edge of one foot, stacking the hips and lifting the free arm straight toward the ceiling. Hold the whole body in one unbroken plane from head to feet.',
       tip: 'Hold briefly and reset rather than shaking — this strength pose doubles as a sculptural line.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder 8→-110, rightShoulder 28→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-      joints: { spine: 10, neck: 10, leftShoulder: -110, leftElbow: 40, rightShoulder: -110, rightElbow: 18, leftHip: 100, leftKnee: 100, leftAnkle: -30, rightKnee: 5, rightAnkle: -18, shoulderFwdL: 8, shoulderFwdR: -6 },
+      joints: { spine: 10, neck: 10, leftShoulder: 8, leftElbow: 40, rightShoulder: 28, rightElbow: 18, leftHip: 100, leftKnee: 100, leftAnkle: -30, rightKnee: 5, rightAnkle: -18, shoulderFwdL: 8, shoulderFwdR: -6 },
       color: 'var(--color-gold-100)',
       figure: 'fine-art-arabesque',
       tags: ['attitude', 'ballet', 'balance', 'classical'],
@@ -4845,8 +4784,7 @@ const POSES_LIBRARY = {
       effort: 'Static',
       instructions: 'Curl onto the side with knees drawn gently toward the chest and arms folded softly in front, forming a rounded, self-contained shape. Relax the neck fully so the whole body reads soft, not tense.',
       tip: 'Shoot straight down with soft light to flatter this quiet, contained shape.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: spine 10→18. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-      joints: {spine: 18, neck: -9.8, leftShoulder: 8, rightShoulder: 28, leftElbow: 40, leftHip: 114, leftKnee: 100, rightKnee: 5, leftAnkle: -25, rightAnkle: -26, rightElbow: 18, shoulderFwdL: 8, shoulderFwdR: -6},
+      joints: {spine: 10, neck: -9.8, leftShoulder: 8, rightShoulder: 28, leftElbow: 40, leftHip: 114, leftKnee: 100, rightKnee: 5, leftAnkle: -25, rightAnkle: -26, rightElbow: 18, shoulderFwdL: 8, shoulderFwdR: -6},
       color: 'var(--color-gold-100)',
       figure: 'fine-art-arabesque',
       tags: ['ballet', 'extension', 'balance', 'classical'],
@@ -4861,8 +4799,7 @@ const POSES_LIBRARY = {
       effort: 'Static',
       instructions: 'Balance on one straight standing leg and extend the other forward and up as high as flexibility allows, torso upright, hips level. Round the arms into a soft ballet frame to complete the line.',
       tip: 'Engage the standing leg fully so the extended leg lifts clean without wobbling.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder -10→-110, rightShoulder 8→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-      joints: { spine: 15, neck: 5, leftShoulder: -110, leftElbow: 70, rightShoulder: -110, rightElbow: 50, hips: 13, leftHip: 5, leftKnee: 10, rightHip: -5, rightKnee: 5, shoulderFwdL: 8, shoulderFwdR: -6, hipAbductL: 10, hipAbductR: 10 },
+      joints: { spine: 15, neck: 5, leftShoulder: -10, leftElbow: 70, rightShoulder: 8, rightElbow: 50, hips: 13, leftHip: 5, leftKnee: 10, rightHip: -5, rightKnee: 5, shoulderFwdL: 8, shoulderFwdR: -6, hipAbductL: 10, hipAbductR: 10 },
       color: 'var(--color-rose-100)',
       figure: 'fashion-power',
       tags: ['power', 'commercial', 'strong', 'brand'],
@@ -5070,8 +5007,7 @@ const POSES_LIBRARY = {
       effort: 'Static',
       instructions: 'Jump straight up with both arms extended overhead and legs slightly tucked, capturing the peak of the jump. Keep the face relaxed and eyes open, avoiding strain at the apex.',
       tip: 'Shoot continuous burst frames to nail the true peak of the jump.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder -10→-110, rightShoulder 8→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-      joints: { spine: 15, neck: 5, leftShoulder: -110, leftElbow: 70, rightShoulder: -110, rightElbow: 50, hips: 13, leftHip: 15, leftKnee: 10, rightHip: -5, rightKnee: 10, shoulderFwdL: 8, shoulderFwdR: -6, hipAbductL: 10, hipAbductR: 10 },
+      joints: { spine: 15, neck: 5, leftShoulder: -10, leftElbow: 70, rightShoulder: 8, rightElbow: 50, hips: 13, leftHip: 15, leftKnee: 10, rightHip: -5, rightKnee: 10, shoulderFwdL: 8, shoulderFwdR: -6, hipAbductL: 10, hipAbductR: 10 },
       color: 'var(--color-rose-100)',
       figure: 'hip-shift',
       tags: ['product', 'waist', 'commercial', 'focus'],
@@ -5346,8 +5282,7 @@ const POSES_LIBRARY = {
       effort: 'Static',
       instructions: 'Straighten both legs almost fully while reaching both arms upward and overhead, chest lifted and gaze following the hands skyward. This near-final frame shows the body almost at full height with continued upward energy.',
       tip: 'Shoot low and looking up to emphasize the extended reach at this near-peak moment.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: spine 10→18, leftShoulder 60→-110, rightShoulder 20→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-      joints: {spine: 18, hips: 10, neck: 20, leftShoulder: -110, rightShoulder: -110, leftElbow: 70, rightElbow: 50, hipAbductL: 10, hipAbductR: 10, leftHip: 5, rightHip: 20, leftKnee: 90, rightKnee: 5, globalTilt: 25, leftAnkle: -15},
+      joints: {spine: 10, hips: 10, neck: 20, leftShoulder: 60, rightShoulder: 20, leftElbow: 70, rightElbow: 50, hipAbductL: 10, hipAbductR: 10, leftHip: 5, rightHip: 20, leftKnee: 90, rightKnee: 5, globalTilt: 25, leftAnkle: -15},
       color: 'var(--color-sky-100)',
       figure: 'tiptoe-reach',
       tags: ['standing', 'peak', 'sequence', 'tall'],
@@ -5360,8 +5295,7 @@ const POSES_LIBRARY = {
       effort: 'Transitional',
       instructions: 'Stand fully upright on the balls of both feet, arms extended completely overhead — the highest point of the sequence. Stretch the body long from fingertips to toes to maximize the sense of height.',
       tip: 'Shoot from a low angle for maximum height drama on this final frame.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder -10→-110, rightShoulder 8→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-      joints: { globalTilt: 25, spine: 20, neck: 25, leftShoulder: -110, leftElbow: 70, rightShoulder: -110, rightElbow: 50, leftHip: 60, leftKnee: 90, leftAnkle: -35, rightHip: 20, rightKnee: 110, rightAnkle: -35 },
+      joints: { globalTilt: 25, spine: 20, neck: 25, leftShoulder: -10, leftElbow: 70, rightShoulder: 8, rightElbow: 50, leftHip: 60, leftKnee: 90, leftAnkle: -35, rightHip: 20, rightKnee: 110, rightAnkle: -35 },
       color: 'var(--color-sky-100)',
       figure: 'low-high-floor',
       tags: ['transition', 'kneeling', 'floor', 'sequence'],
@@ -5543,8 +5477,7 @@ const POSES_LIBRARY = {
       effort: 'Static',
       instructions: 'Still seated on the floor, begin extending both legs forward and pressing the hands down to lift the hips slightly — an early preparatory movement before standing. Direct the gaze up toward camera throughout.',
       tip: 'Use this subtle preparatory frame as the opening image in a longer sequence.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder 60→-110, rightShoulder 20→-110, hips 10→16. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-      joints: {spine: 15, hips: 16, neck: 15, leftShoulder: -110, rightShoulder: -110, leftElbow: 70, rightElbow: 50, hipAbductL: 10, hipAbductR: 10, leftHip: 20, rightHip: 20, leftKnee: 90, rightKnee: 10, globalTilt: 25, leftAnkle: -15},
+      joints: {spine: 15, hips: 10, neck: 15, leftShoulder: 60, rightShoulder: 20, leftElbow: 70, rightElbow: 50, hipAbductL: 10, hipAbductR: 10, leftHip: 20, rightHip: 20, leftKnee: 90, rightKnee: 10, globalTilt: 25, leftAnkle: -15},
       color: 'var(--color-sky-100)',
       figure: 'arm-reach',
       tags: ['standing', 'peak', 'asymmetry', 'sequence'],
@@ -5583,8 +5516,7 @@ const POSES_LIBRARY = {
       effort: 'Dynamic',
       instructions: 'From kneeling, lean the torso forward over one planted foot as the body prepares to push into a stand, arms reaching forward for momentum. This forward-leaning shape captures the natural mechanics of standing up.',
       tip: 'Let this natural, unposed-looking transition suit candid-style sequences.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder 60→-110, rightShoulder 20→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-      joints: {spine: 10, neck: 10, leftShoulder: -110, rightShoulder: -110, leftElbow: 70, rightElbow: 50, leftHip: 50, rightHip: 20, leftKnee: 90, rightKnee: 60, globalTilt: 25, leftAnkle: -15},
+      joints: {spine: 10, neck: 10, leftShoulder: 60, rightShoulder: 20, leftElbow: 70, rightElbow: 50, leftHip: 50, rightHip: 20, leftKnee: 90, rightKnee: 60, globalTilt: 25, leftAnkle: -15},
       color: 'var(--color-sky-100)',
       figure: 'jump-tuck',
       tags: ['jump', 'peak', 'celebration', 'sequence'],
@@ -5597,8 +5529,7 @@ const POSES_LIBRARY = {
       effort: 'Static',
       instructions: 'Complete the rising sequence with a small jump at the very end, both feet briefly leaving the ground as the arms fully extend overhead in celebration. This adds a final burst of energy to cap the trajectory.',
       tip: 'Shoot at the peak of the jump for the most dramatic capstone to the sequence.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder -10→-110, rightShoulder 8→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-      joints: {spine: 32, neck: 25, leftShoulder: -110, rightShoulder: -110, leftElbow: 70, rightElbow: 50, leftHip: 110, rightHip: 20, leftKnee: 120, rightKnee: 130, globalTilt: 25, leftAnkle: -15},
+      joints: {spine: 32, neck: 25, leftShoulder: -10, rightShoulder: 8, leftElbow: 70, rightElbow: 50, leftHip: 110, rightHip: 20, leftKnee: 120, rightKnee: 130, globalTilt: 25, leftAnkle: -15},
       color: 'var(--color-sky-100)',
       figure: 'kneeling-forward',
       tags: ['floor', 'calm', 'starting-point', 'sequence'],
@@ -5652,8 +5583,7 @@ const POSES_LIBRARY = {
       effort: 'Static',
       instructions: 'From an upright kneeling position, press one foot flat on the floor while sweeping both arms overhead in a wide arc, signaling the final push toward standing. Keep the chest lifted and open as the arms rise.',
       tip: 'Let the wide overhead arm sweep add a graceful flourish to this final rise.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder -10→-110, rightShoulder 8→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-      joints: { globalTilt: -25, spine: 10, neck: 10, leftShoulder: -110, leftElbow: 70, rightShoulder: -110, rightElbow: 50, hips: 10, leftHip: 5, leftKnee: 45, rightHip: 10, rightKnee: 5, hipAbductL: 10, hipAbductR: 10 },
+      joints: { globalTilt: -25, spine: 10, neck: 10, leftShoulder: -10, leftElbow: 70, rightShoulder: 8, rightElbow: 50, hips: 10, leftHip: 5, leftKnee: 45, rightHip: 10, rightKnee: 5, hipAbductL: 10, hipAbductR: 10 },
       color: 'var(--color-amber-100)',
       figure: 'standing-front',
       tags: ['standing', 'starting-point', 'elevated', 'sequence'],
@@ -5666,8 +5596,7 @@ const POSES_LIBRARY = {
       effort: 'Transitional',
       instructions: 'Begin fully upright, both arms raised overhead, weight balanced evenly — the highest point of a descending sequence. Keep the body long and tall to maximize contrast with the later, lower frames.',
       tip: 'Shoot this opening frame from a high angle looking down to emphasize the elevated start.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder -10→-110, rightShoulder 8→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-      joints: { globalTilt: -25, spine: 32, neck: 25, leftShoulder: -110, leftElbow: 70, rightShoulder: -110, rightElbow: 50, leftHip: 60, leftKnee: 80, rightHip: 10, rightKnee: 15 },
+      joints: { globalTilt: -25, spine: 32, neck: 25, leftShoulder: -10, leftElbow: 70, rightShoulder: 8, rightElbow: 50, leftHip: 60, leftKnee: 80, rightHip: 10, rightKnee: 15 },
       color: 'var(--color-amber-100)',
       figure: 'high-low-over-shoulder',
       tags: ['descent', 'transition', 'forward-fall', 'sequence'],
@@ -5759,8 +5688,7 @@ const POSES_LIBRARY = {
       effort: 'Transitional',
       instructions: 'From standing, drop both arms in a cascading wave from overhead down past the shoulders as the knees begin to bend, letting the arms lead the downward sequence. Keep the motion fluid through the spine.',
       tip: 'Let the arms lead — this creates a more graceful, dance-like transition than a leg-led drop.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder -10→-110, rightShoulder 8→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-      joints: { globalTilt: -25, spine: 10, neck: 10, leftShoulder: -110, leftElbow: 70, rightShoulder: -110, rightElbow: 50, leftHip: 114, leftKnee: 100, rightHip: 10, rightKnee: 90 },
+      joints: { globalTilt: -25, spine: 10, neck: 10, leftShoulder: -10, leftElbow: 70, rightShoulder: 8, rightElbow: 50, leftHip: 114, leftKnee: 100, rightHip: 10, rightKnee: 90 },
       color: 'var(--color-amber-100)',
       figure: 'high-low-descent',
       tags: ['lunge', 'athletic', 'descent', 'sequence'],
@@ -5799,8 +5727,7 @@ const POSES_LIBRARY = {
       effort: 'Dynamic',
       instructions: 'Begin standing on a raised platform, box, or step, arms relaxed at the sides, using the literal elevation to set the highest point in the sequence. Keep the stance stable and centered before the descent begins.',
       tip: 'Shoot from below looking up to emphasize the literal height of the platform start.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder -10→-110, rightShoulder 8→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-      joints: { globalTilt: -25, spine: 10, neck: 10, leftShoulder: -110, leftElbow: 70, rightShoulder: -110, rightElbow: 50, leftHip: 70, leftKnee: 80, rightHip: 10, rightKnee: 30 },
+      joints: { globalTilt: -25, spine: 10, neck: 10, leftShoulder: -10, leftElbow: 70, rightShoulder: 8, rightElbow: 50, leftHip: 70, leftKnee: 80, rightHip: 10, rightKnee: 30 },
       color: 'var(--color-amber-100)',
       figure: 'dynamic-reach',
       tags: ['descent', 'mid-air', 'dynamic', 'sequence'],
@@ -5826,8 +5753,7 @@ const POSES_LIBRARY = {
       effort: 'Static',
       instructions: 'Land from the descent by bending both knees deeply to absorb impact, torso leaning slightly forward, arms extended for balance, reaching the low point of the sequence. Keep the landing soft and controlled.',
       tip: 'Cue \'soft knees\' on landing to avoid a jarring, stiff look.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: spine 10→18. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-      joints: { globalTilt: -25, spine: 18, neck: 15, leftShoulder: -10, leftElbow: 70, rightShoulder: 8, rightElbow: 50, hips: 10, leftHip: 5, leftKnee: 45, rightHip: 10, rightKnee: 5, hipAbductL: 10, hipAbductR: 10 },
+      joints: { globalTilt: -25, spine: 10, neck: 15, leftShoulder: -10, leftElbow: 70, rightShoulder: 8, rightElbow: 50, hips: 10, leftHip: 5, leftKnee: 45, rightHip: 10, rightKnee: 5, hipAbductL: 10, hipAbductR: 10 },
       color: 'var(--color-amber-100)',
       figure: 'tiptoe-reach',
       tags: ['standing', 'tall', 'starting-point', 'sequence'],
@@ -5840,8 +5766,7 @@ const POSES_LIBRARY = {
       effort: 'Transitional',
       instructions: 'Begin rising onto the balls of both feet, arms stretched fully overhead, establishing maximum height before the full descent. Engage the core for a stable, tall base.',
       tip: 'Use this tiptoe starting point to maximize the visual height difference across the sequence.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder -10→-110, rightShoulder 8→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-      joints: { globalTilt: -25, spine: 32, neck: 25, leftShoulder: -110, leftElbow: 70, rightShoulder: -110, rightElbow: 50, leftHip: 60, leftKnee: 80, rightHip: 10, rightKnee: 70 },
+      joints: { globalTilt: -25, spine: 32, neck: 25, leftShoulder: -10, leftElbow: 70, rightShoulder: 8, rightElbow: 50, leftHip: 60, leftKnee: 80, rightHip: 10, rightKnee: 70 },
       color: 'var(--color-amber-100)',
       figure: 'high-low-over-shoulder',
       tags: ['spiral', 'descent', 'dynamic', 'sequence'],
@@ -5920,8 +5845,7 @@ const POSES_LIBRARY = {
       effort: 'Static',
       instructions: 'Capture the peak dynamic moment of a diagonal fall through the frame, body angled sharply, one arm reaching up and the other trailing down, hair or fabric streaming with the motion. Reserve this frame for the most dramatic midpoint.',
       tip: 'Use a spotter or crash mat for safety when rehearsing dynamic falling sequences.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: spine 10→18, leftShoulder -10→-110, rightShoulder 8→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-      joints: { globalTilt: -25, spine: 18, neck: 10, leftShoulder: -110, leftElbow: 70, rightShoulder: -110, rightElbow: 50, hips: 10, leftHip: 10, leftKnee: 45, rightHip: 10, rightKnee: 110, rightAnkle: -35, hipAbductL: 10, hipAbductR: 10 },
+      joints: { globalTilt: -25, spine: 10, neck: 10, leftShoulder: -10, leftElbow: 70, rightShoulder: 8, rightElbow: 50, hips: 10, leftHip: 10, leftKnee: 45, rightHip: 10, rightKnee: 110, rightAnkle: -35, hipAbductL: 10, hipAbductR: 10 },
       color: 'var(--color-amber-100)',
       figure: 'kneeling',
       tags: ['kneeling', 'final', 'calm', 'sequence'],
@@ -6051,8 +5975,7 @@ const POSES_LIBRARY = {
       effort: 'Static',
       instructions: 'Begin seated on a raised chair or stool and start stepping one foot down toward the floor, torso leaning forward slightly to initiate the transition off the elevated surface. Keep the supporting hand light on the chair for balance.',
       tip: 'Use this furniture-based descent for a practical, everyday high-to-low variation.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder -10→-110, rightShoulder 8→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-      joints: {spine: 10, hips: 10, neck: 25, leftShoulder: -110, rightShoulder: -110, leftElbow: 70, rightElbow: 50, hipAbductL: 10, hipAbductR: 10, leftHip: 15, rightHip: 10, leftKnee: 45, rightKnee: 10, globalTilt: -25},
+      joints: {spine: 10, hips: 10, neck: 25, leftShoulder: -10, rightShoulder: 8, leftElbow: 70, rightElbow: 50, hipAbductL: 10, hipAbductR: 10, leftHip: 15, rightHip: 10, leftKnee: 45, rightKnee: 10, globalTilt: -25},
       color: 'var(--color-amber-100)',
       figure: 'supine',
       tags: ['floor', 'final', 'narrative', 'sequence'],
@@ -6065,8 +5988,7 @@ const POSES_LIBRARY = {
       effort: 'Transitional',
       instructions: 'End the sequence lying on the back on the floor, one arm reaching up toward where the camera began, gazing upward to visually connect back to the elevated start. Keep the body long and relaxed in final stillness.',
       tip: 'Shoot from a low angle near the floor to tie the sequence together narratively.',
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder -10→-110, rightShoulder 8→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-      joints: { globalTilt: -25, spine: 15, neck: 25, leftShoulder: -110, leftElbow: 70, rightShoulder: -110, rightElbow: 50, hips: 10, leftHip: 10, leftKnee: 45, rightHip: 10, rightKnee: 10, hipAbductL: 10, hipAbductR: 10 },
+      joints: { globalTilt: -25, spine: 15, neck: 25, leftShoulder: -10, leftElbow: 70, rightShoulder: 8, rightElbow: 50, hips: 10, leftHip: 10, leftKnee: 45, rightHip: 10, rightKnee: 10, hipAbductL: 10, hipAbductR: 10 },
       color: 'var(--color-amber-100)',
       figure: 'standing-front',
       tags: ['descent', 'subtle', 'starting-point', 'sequence'],
@@ -6079,8 +6001,7 @@ const POSES_LIBRARY = {
     tags: ["standing", "overhead arm", "contrapposto", "crossed legs", "lace bodysuit"],
     instructions: "Stand facing the camera in a white lace bodysuit against a paneled wall. Shift weight onto the right (straight) leg; cross the left leg in front, resting on ball of foot with knee softly bent, creating a crossed-ankle line. Raise both arms and bend elbows so both hands rest behind/above the head, fi",
     tip: "Press the hips slightly toward the camera while keeping the raised elbows soft (not rigid) to elongate the torso without straining the shoulders.",
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: hips 10→16. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    joints: { spine: 14, neck: 10, hips: 16, leftShoulder: -140, rightShoulder: -131, leftElbow: 100, rightElbow: 100, shoulderFwdL: 10, shoulderFwdR: 10, leftHip: -16, rightHip: 3, leftKnee: 25, rightKnee: 5, leftAnkle: -12, rightAnkle: 0, hipAbductL: -8, hipAbductR: 0, globalTwist: 8, globalRoll: 0, globalTilt: 0 }
+    joints: { spine: 14, neck: 10, hips: 10, leftShoulder: -140, rightShoulder: -131, leftElbow: 100, rightElbow: 100, shoulderFwdL: 10, shoulderFwdR: 10, leftHip: -16, rightHip: 3, leftKnee: 25, rightKnee: 5, leftAnkle: -12, rightAnkle: 0, hipAbductL: -8, hipAbductR: 0, globalTwist: 8, globalRoll: 0, globalTilt: 0 }
   },
   "p14-standing-s2-crossed-legs-lean": {
     id: "p14-standing-s2-crossed-legs-lean", name: "Standing Crossed-Leg Lean",
@@ -6114,7 +6035,7 @@ const POSES_LIBRARY = {
     instructions: "Face away from the camera with the back fully visible. Shift weight onto one leg to create a hip pop, letting the opposite knee bend softly. Twist the upper torso and turn the head to look back over the shoulder toward the camera. Let one or both hands rest lightly at the waist or in the hair, elbow",
     tip: "Drop the chin very slightly when looking back over the shoulder to elongate the neck line and avoid a double-chin angle.",
     // PR-v3 (v1.3) — auto-fix spine sign error: description says back arch but spine is positive (forward fold). Was spine:6, now spine:-6.
-    joints: { spine: -18, neck: 25, hips: 15, leftShoulder: -110, rightShoulder: -20, leftElbow: 100, rightElbow: 20, shoulderFwdL: 15, shoulderFwdR: -5, leftHip: -12, rightHip: 8, leftKnee: 8, rightKnee: 22, leftAnkle: 0, rightAnkle: -14, hipAbductL: 0, hipAbductR: 6, globalTwist: -55, globalRoll: 0, globalTilt: 0 }
+    joints: { spine: -6, neck: 25, hips: 15, leftShoulder: -110, rightShoulder: -20, leftElbow: 100, rightElbow: 20, shoulderFwdL: 15, shoulderFwdR: -5, leftHip: -12, rightHip: 8, leftKnee: 8, rightKnee: 22, leftAnkle: 0, rightAnkle: -14, hipAbductL: 0, hipAbductR: 6, globalTwist: -55, globalRoll: 0, globalTilt: 0 }
   },
   "p14-standing-s6-arms-crossed-chest": {
     id: "p14-standing-s6-arms-crossed-chest", name: "Arms Crossed Confident Stand",
@@ -6131,7 +6052,7 @@ const POSES_LIBRARY = {
     instructions: "Stand in a relaxed three-quarter stance with weight shifted onto the back leg. Raise one hand to run fingers through the hair, elbow lifted out to the side. Let the other arm hang relaxed or rest lightly at the waist. Tilt the head slightly toward the raised arm and soften the gaze downward or to th",
     tip: "Lift the elbow of the raised arm above shoulder height to open up the armpit line and keep the silhouette elegant rather than closed.",
     // PR-v3 (v1.3) — auto-fix spine sign error: description says back arch but spine is positive (forward fold). Was spine:6, now spine:-6.
-    joints: { spine: -6, neck: 12, hips: 16, leftShoulder: -95, rightShoulder: -15, leftElbow: 65, rightElbow: 30, shoulderFwdL: 10, shoulderFwdR: 0, leftHip: -12, rightHip: 1, leftKnee: 5, rightKnee: 12, leftAnkle: 0, rightAnkle: -5, hipAbductL: 0, hipAbductR: 5, globalTwist: 6, globalRoll: 0, globalTilt: 0 }
+    joints: { spine: -6, neck: 12, hips: 10, leftShoulder: -95, rightShoulder: -15, leftElbow: 65, rightElbow: 30, shoulderFwdL: 10, shoulderFwdR: 0, leftHip: -12, rightHip: 1, leftKnee: 5, rightKnee: 12, leftAnkle: 0, rightAnkle: -5, hipAbductL: 0, hipAbductR: 5, globalTwist: 6, globalRoll: 0, globalTilt: 0 }
   },
   "p14-standing-s8-side-profile-arch": {
     id: "p14-standing-s8-side-profile-arch", name: "Side Profile Back Arch",
@@ -6166,7 +6087,7 @@ const POSES_LIBRARY = {
     instructions: "Stand with the back and shoulders resting against the wall. Raise both arms overhead, elbows bent, hands framing the face or resting on the wall above the head. Bend one knee and place that foot flat against the wall behind you for support, letting the hips push slightly forward off the wall. Tilt t",
     tip: "Push the supporting foot firmly into the wall and let the hips float slightly forward off the wall surface, this creates a subtle S-curve instead of a flat silhouette.",
     // PR-v3 (v1.3) — auto-fix spine sign error: description says back arch but spine is positive (forward fold). Was spine:14, now spine:-14.
-    joints: { spine: -14, neck: -6.6, hips: 16, leftShoulder: -136, rightShoulder: -124, leftElbow: 100, rightElbow: 100, shoulderFwdL: -30, shoulderFwdR: -30, leftHip: 55, rightHip: -5, leftKnee: 95, rightKnee: 8, leftAnkle: 10, rightAnkle: 0, hipAbductL: 15, hipAbductR: 0, globalTwist: 0, globalRoll: 0, globalTilt: -10 }
+    joints: { spine: -14, neck: -6.6, hips: 8, leftShoulder: -136, rightShoulder: -124, leftElbow: 100, rightElbow: 100, shoulderFwdL: -30, shoulderFwdR: -30, leftHip: 55, rightHip: -5, leftKnee: 95, rightKnee: 8, leftAnkle: 10, rightAnkle: 0, hipAbductL: 15, hipAbductR: 0, globalTwist: 0, globalRoll: 0, globalTilt: -10 }
   },
   "p12-wall-s2-side-lean-hip-pop": {
     id: "p12-wall-s2-side-lean-hip-pop", name: "Wall Side-Lean Hip Pop",
@@ -6191,7 +6112,7 @@ const POSES_LIBRARY = {
     instructions: "Sit on the floor with your back resting against the base of the wall. Bend both knees up toward the chest or let one leg extend while the other stays bent. Rest one or both forearms on the raised knee. Tilt the head back gently against the wall and turn it toward the camera.",
     tip: "Keep the lower back in gentle contact with the wall for support, but lift the chest slightly away from the wall to avoid a slumped silhouette.",
     // PR-v3 (v1.3) — auto-fix spine sign error: description says back arch but spine is positive (forward fold). Was spine:14, now spine:-14.
-    joints: { spine: -14, neck: 8.2, hips: 0, leftShoulder: -110, rightShoulder: -110, leftElbow: 81, rightElbow: 60, shoulderFwdL: 2, shoulderFwdR: 5, leftHip: 100, rightHip: 70, leftKnee: 120, rightKnee: 80, leftAnkle: -5, rightAnkle: -8, hipAbductL: 10, hipAbductR: 5, globalTwist: 0, globalRoll: 0, globalTilt: -80 }
+    joints: { spine: -14, neck: 8.2, hips: 0, leftShoulder: -30, rightShoulder: -20, leftElbow: 81, rightElbow: 60, shoulderFwdL: 2, shoulderFwdR: 5, leftHip: 100, rightHip: 70, leftKnee: 120, rightKnee: 80, leftAnkle: -5, rightAnkle: -8, hipAbductL: 10, hipAbductR: 5, globalTwist: 0, globalRoll: 0, globalTilt: -80 }
   },
   "p12-wall-s5-profile-hand-wall": {
     id: "p12-wall-s5-profile-hand-wall", name: "Side Profile Hand on Wall",
@@ -6225,8 +6146,7 @@ const POSES_LIBRARY = {
     tags: ["wall", "raised leg", "side profile", "long lines"],
     instructions: "Stand in profile beside the wall. Raise one leg and place the foot flat against the wall at knee-to-hip height, creating a strong bent-leg silhouette. Rest weight fully on the standing leg. Let the arms hang naturally or one hand rest on the raised thigh, and keep the torso upright and elongated.",
     tip: "Rotate the raised knee slightly outward rather than straight forward, this keeps the hip open and avoids looking like a static stretch.",
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: spine 14→18, leftShoulder -55→-110, rightShoulder -15→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    joints: { spine: 18, neck: 6, hips: 0, leftShoulder: -110, rightShoulder: -110, leftElbow: 60, rightElbow: 15, shoulderFwdL: -3, shoulderFwdR: 0, leftHip: 75, rightHip: -3, leftKnee: 95, rightKnee: 5, leftAnkle: 14, rightAnkle: 0, hipAbductL: 22, hipAbductR: 0, globalTwist: 0, globalRoll: 0, globalTilt: 0 }
+    joints: { spine: 14, neck: 6, hips: 0, leftShoulder: -55, rightShoulder: -15, leftElbow: 60, rightElbow: 15, shoulderFwdL: -3, shoulderFwdR: 0, leftHip: 75, rightHip: -3, leftKnee: 95, rightKnee: 5, leftAnkle: 14, rightAnkle: 0, hipAbductL: 22, hipAbductR: 0, globalTwist: 0, globalRoll: 0, globalTilt: 0 }
   },
   "p12-wall-s9-side-stretch-wall": {
     id: "p12-wall-s9-side-stretch-wall", name: "Side Stretch with Wall Support",
@@ -6275,8 +6195,7 @@ const POSES_LIBRARY = {
     tags: ["floor", "reclining", "hair touch", "sensual", "supine"],
     instructions: "Lie on your back on the floor. Bend both knees and let them drape gently to one side. Reach one arm up and bend it so the hand rests near the head or hair, and let the other arm relax naturally along the floor. Fan the hair out and turn the face gently toward the camera.",
     tip: "Let the draped knees stack loosely rather than pressing them together tightly; a slight gap between them keeps the line soft instead of rigid.",
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder -70→-110, rightShoulder -20→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    joints: { spine: -5, neck: 6.6, hips: 0, leftShoulder: -110, rightShoulder: -110, leftElbow: 95, rightElbow: 20, shoulderFwdL: 10, shoulderFwdR: 5, leftHip: 15, rightHip: 18, leftKnee: 98, rightKnee: 95, leftAnkle: -5, rightAnkle: -5, hipAbductL: -20, hipAbductR: -18, globalTwist: 8, globalRoll: 5, globalTilt: -85 }
+    joints: { spine: -5, neck: 6.6, hips: 0, leftShoulder: -70, rightShoulder: -20, leftElbow: 95, rightElbow: 20, shoulderFwdL: 10, shoulderFwdR: 5, leftHip: 15, rightHip: 18, leftKnee: 98, rightKnee: 95, leftAnkle: -5, rightAnkle: -5, hipAbductL: -20, hipAbductR: -18, globalTwist: 8, globalRoll: 5, globalTilt: -85 }
   },
   "p13-floor-s5-blanket-recline-hand-face": {
     id: "p13-floor-s5-blanket-recline-hand-face", name: "Cozy Blanket Recline, Hand Near Face",
@@ -6284,8 +6203,7 @@ const POSES_LIBRARY = {
     tags: ["floor", "blanket", "reclining", "intimate", "soft"],
     instructions: "Lie back on a soft blanket or bedding on the floor. Bend one leg up while keeping the other extended, and bring one hand up near the face or jaw. Relax the other arm at your side and turn the head gently toward the camera with a soft, intimate expression.",
     tip: "Use a folded blanket or throw beneath you instead of the bare floor to soften the surface texture and support a cozier, more intimate mood.",
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder 40→-110, rightShoulder -15→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    joints: { spine: -8, neck: 6.6, hips: 0, leftShoulder: -110, rightShoulder: -110, leftElbow: 100, rightElbow: 15, shoulderFwdL: 15, shoulderFwdR: 5, leftHip: 8, rightHip: 90, leftKnee: 10, rightKnee: 88, leftAnkle: -5, rightAnkle: 0, hipAbductL: -5, hipAbductR: -12, globalTwist: 5, globalRoll: 4, globalTilt: -85 }
+    joints: { spine: -8, neck: 6.6, hips: 0, leftShoulder: 40, rightShoulder: -15, leftElbow: 100, rightElbow: 15, shoulderFwdL: 15, shoulderFwdR: 5, leftHip: 8, rightHip: 90, leftKnee: 10, rightKnee: 88, leftAnkle: -5, rightAnkle: 0, hipAbductL: -5, hipAbductR: -12, globalTwist: 5, globalRoll: 4, globalTilt: -85 }
   },
   "p13-floor-s6-knees-bent-arms-crossed": {
     id: "p13-floor-s6-knees-bent-arms-crossed", name: "Seated Knees-to-Side with Arms Crossed",
@@ -6326,7 +6244,7 @@ const POSES_LIBRARY = {
     instructions: "Sit on the floor and recline back against an ottoman or low chair placed behind you. Bend both knees and let them fall open or to one side. Raise both arms overhead with hands near the face or hair, and drop the head back for a dramatic, backlit silhouette.",
     tip: "Let the ottoman fully support the weight of the upper back so the arms and neck can stay relaxed and expressive rather than tense from balancing.",
     // PR-v3 (v1.3) — auto-fix spine sign error: description says back arch but spine is positive (forward fold). Was spine:28, now spine:-28.
-    joints: { spine: -28, neck: 27, hips: 0, leftShoulder: -110, rightShoulder: -110, leftElbow: 95, rightElbow: 100, shoulderFwdL: 20, shoulderFwdR: 20, leftHip: 22, rightHip: 25, leftKnee: 98, rightKnee: 102, leftAnkle: -5, rightAnkle: -5, hipAbductL: -20, hipAbductR: 18, globalTwist: 0, globalRoll: 0, globalTilt: -78 }
+    joints: { spine: -28, neck: 27, hips: 0, leftShoulder: 75, rightShoulder: 70, leftElbow: 95, rightElbow: 100, shoulderFwdL: 20, shoulderFwdR: 20, leftHip: 22, rightHip: 25, leftKnee: 98, rightKnee: 102, leftAnkle: -5, rightAnkle: -5, hipAbductL: -20, hipAbductR: 18, globalTwist: 0, globalRoll: 0, globalTilt: -78 }
   },
   "p10-bench-s1-kneeling-profile-hands-lap": {
     id: "p10-bench-s1-kneeling-profile-hands-lap", name: "Kneeling on Bench in Profile, Hands in Lap",
@@ -6343,7 +6261,7 @@ const POSES_LIBRARY = {
     instructions: "Position yourself on hands and knees on top of the bench. Arch the back deeply, dropping the belly down and lifting the chest and hips. Extend one leg straight back and slightly up off the bench, and look down or forward with a focused expression.",
     tip: "Drop the belly first to initiate the arch, then lift the chest — trying to arch from the shoulders alone looks stiff.",
     // PR-v3 (v1.3) — auto-fix spine sign error: description says "arch back" but spine is positive (forward fold). Was spine:30, now spine:-30.
-    joints: { spine: -30, neck: -6.6, hips: 16, leftShoulder: -80, rightShoulder: -92, leftElbow: 32, rightElbow: 15, shoulderFwdL: -20, shoulderFwdR: -20, leftHip: 118, rightHip: -12, leftKnee: 130, rightKnee: 10, leftAnkle: -20, rightAnkle: -8, hipAbductL: 5, hipAbductR: -5, globalTwist: 0, globalRoll: 0, globalTilt: -20 }
+    joints: { spine: -30, neck: -6.6, hips: 0, leftShoulder: -80, rightShoulder: -92, leftElbow: 32, rightElbow: 15, shoulderFwdL: -20, shoulderFwdR: -20, leftHip: 118, rightHip: -12, leftKnee: 130, rightKnee: 10, leftAnkle: -20, rightAnkle: -8, hipAbductL: 5, hipAbductR: -5, globalTwist: 0, globalRoll: 0, globalTilt: -20 }
   },
   "p10-bench-s3-recline-arm-overhead": {
     id: "p10-bench-s3-recline-arm-overhead", name: "Reclined on Bench, Arm Overhead",
@@ -6384,8 +6302,7 @@ const POSES_LIBRARY = {
     tags: ["bench", "standing", "fabric drape", "one leg up", "looking up"],
     instructions: "Stand beside the bench with one foot raised and placed on top of it. Drape a length of fabric or a blanket loosely around the body with both hands, and tilt the head back slightly to look upward off-camera.",
     tip: "Hold the fabric loosely rather than clutching it tightly so it drapes with natural folds and movement instead of looking stiff.",
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder -20→-110, rightShoulder -30→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    joints: { spine: 10, neck: 22, hips: -10, leftShoulder: -110, rightShoulder: -110, leftElbow: 70, rightElbow: 80, shoulderFwdL: 10, shoulderFwdR: 25, leftHip: 58, rightHip: -5, leftKnee: 75, rightKnee: 6, leftAnkle: 0, rightAnkle: -5, hipAbductL: 10, hipAbductR: 0, globalTwist: -60, globalRoll: 0, globalTilt: -8 }
+    joints: { spine: 10, neck: 22, hips: -10, leftShoulder: -20, rightShoulder: -30, leftElbow: 70, rightElbow: 80, shoulderFwdL: 10, shoulderFwdR: 25, leftHip: 58, rightHip: -5, leftKnee: 75, rightKnee: 6, leftAnkle: 0, rightAnkle: -5, hipAbductL: 10, hipAbductR: 0, globalTwist: -60, globalRoll: 0, globalTilt: -8 }
   },
   "p10-bench-s8-seated-profile-tiptoe": {
     id: "p10-bench-s8-seated-profile-tiptoe", name: "Perched on Bench, Leg Extended on Tiptoe",
@@ -6394,7 +6311,7 @@ const POSES_LIBRARY = {
     instructions: "Perch on the edge of the bench in profile. Extend one leg forward with the toes pointed and lightly touching the floor, keeping the supporting leg bent beneath you. Tilt the head back and look up and away from the camera.",
     tip: "Fully point the extended foot's toes all the way to the floor — a flexed foot breaks the elegant line of the extended leg.",
     // PR-v3 (v1.3) — auto-fix spine sign error: description says forward lean/fold but spine is negative (backward arch). Was spine:-8, now spine:8.
-    joints: { spine: 8, neck: 13.8, hips: 0, leftShoulder: -110, rightShoulder: -110, leftElbow: 30, rightElbow: 50, shoulderFwdL: 0, shoulderFwdR: 15, leftHip: 95, rightHip: 20, leftKnee: 100, rightKnee: 15, leftAnkle: -5, rightAnkle: -35, hipAbductL: 0, hipAbductR: 0, globalTwist: -60, globalRoll: 0, globalTilt: -15 }
+    joints: { spine: 8, neck: 13.8, hips: 0, leftShoulder: -15, rightShoulder: -40, leftElbow: 30, rightElbow: 50, shoulderFwdL: 0, shoulderFwdR: 15, leftHip: 95, rightHip: 20, leftKnee: 100, rightKnee: 15, leftAnkle: -5, rightAnkle: -35, hipAbductL: 0, hipAbductR: 0, globalTwist: -60, globalRoll: 0, globalTilt: -15 }
   },
   "p10-bench-s9-seated-head-tilt-back": {
     id: "p10-bench-s9-seated-head-tilt-back", name: "Seated One Leg Up, Head Tilted Back",
@@ -6402,8 +6319,7 @@ const POSES_LIBRARY = {
     tags: ["bench", "seated", "one leg up", "head tilt back", "hair touch"],
     instructions: "Sit on the bench with one leg bent and placed up on the bench surface and the other foot on the floor. Tilt the head back and raise one hand up into the hair. Let the other hand rest on the raised knee.",
     tip: "Drop the shoulders down away from the ears even as the head tilts back, to keep the neckline looking relaxed instead of strained.",
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder 65→-110, rightShoulder 10→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    joints: { spine: -12, neck: 15.4, hips: 0, leftShoulder: -110, rightShoulder: -110, leftElbow: 100, rightElbow: 81, shoulderFwdL: 20, shoulderFwdR: 20, leftHip: 92, rightHip: 15, leftKnee: 92, rightKnee: 15, leftAnkle: -5, rightAnkle: 0, hipAbductL: 15, hipAbductR: -5, globalTwist: -10, globalRoll: 0, globalTilt: -18 }
+    joints: { spine: -12, neck: 15.4, hips: 0, leftShoulder: 65, rightShoulder: 10, leftElbow: 100, rightElbow: 81, shoulderFwdL: 20, shoulderFwdR: 20, leftHip: 92, rightHip: 15, leftKnee: 92, rightKnee: 15, leftAnkle: -5, rightAnkle: 0, hipAbductL: 15, hipAbductR: -5, globalTwist: -10, globalRoll: 0, globalTilt: -18 }
   },
   "p10-bench-s10-recline-legs-up-vertical": {
     id: "p10-bench-s10-recline-legs-up-vertical", name: "Reclined on Bench, Legs Raised Vertical",
@@ -6419,8 +6335,7 @@ const POSES_LIBRARY = {
     tags: ["unconventional", "forward fold", "fishnet", "dynamic", "hair drop"],
     instructions: "Stand with feet in heels and hinge forward at the hips into a deep forward bend. Let both hands reach down toward the ankles, and allow the hair to fall forward toward the floor, creating a dynamic bent silhouette.",
     tip: "Bend from the hips, not the waist, keeping the legs as straight as possible to elongate the line from heel to hip.",
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: hips 0→16. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    joints: { spine: -37, neck: -20, hips: 16, leftShoulder: -60, rightShoulder: -65, leftElbow: 32, rightElbow: 17, shoulderFwdL: -30, shoulderFwdR: -30, leftHip: 118, rightHip: 118, leftKnee: 8, rightKnee: 8, leftAnkle: -10, rightAnkle: -10, hipAbductL: 0, hipAbductR: 0, globalTwist: 0, globalRoll: 0, globalTilt: 0 }
+    joints: { spine: -37, neck: -20, hips: 0, leftShoulder: -60, rightShoulder: -65, leftElbow: 32, rightElbow: 17, shoulderFwdL: -30, shoulderFwdR: -30, leftHip: 118, rightHip: 118, leftKnee: 8, rightKnee: 8, leftAnkle: -10, rightAnkle: -10, hipAbductL: 0, hipAbductR: 0, globalTwist: 0, globalRoll: 0, globalTilt: 0 }
   },
   "p09-unconv-s2-bridge-pose-floor": {
     id: "p09-unconv-s2-bridge-pose-floor", name: "Floor Bridge Pose",
@@ -6429,7 +6344,7 @@ const POSES_LIBRARY = {
     instructions: "Lie on your back on the floor, then lift the hips high into a bridge position with the shoulders and head remaining on the floor. Bend both knees, keep feet flat, and let one arm relax on the floor while looking toward the camera.",
     tip: "Push evenly through both feet to keep the hips level and avoid one side dropping lower than the other.",
     // PR-v3 (v1.3) — auto-fix spine sign error: description says back arch but spine is positive (forward fold). Was spine:31, now spine:-31.
-    joints: { spine: -31, neck: -18.6, hips: 16, leftShoulder: -110, rightShoulder: -110, leftElbow: 32, rightElbow: 17, shoulderFwdL: 8, shoulderFwdR: -6, leftHip: -20, rightHip: -22, leftKnee: 90, rightKnee: 92, leftAnkle: 5, rightAnkle: 5, hipAbductL: 8, hipAbductR: 8, globalTwist: 0, globalRoll: 0, globalTilt: -85 }
+    joints: { spine: -31, neck: -18.6, hips: 0, leftShoulder: -20, rightShoulder: -25, leftElbow: 32, rightElbow: 17, shoulderFwdL: 8, shoulderFwdR: -6, leftHip: -20, rightHip: -22, leftKnee: 90, rightKnee: 92, leftAnkle: 5, rightAnkle: 5, hipAbductL: 8, hipAbductR: 8, globalTwist: 0, globalRoll: 0, globalTilt: -85 }
   },
   "p09-unconv-s3-legs-up-wall-recline": {
     id: "p09-unconv-s3-legs-up-wall-recline", name: "Legs Raised Diagonal, Torso Flat",
@@ -6445,8 +6360,7 @@ const POSES_LIBRARY = {
     tags: ["unconventional", "prone", "book prop", "ottoman", "fishnet legs"],
     instructions: "Lie face-down on the floor propped up on both forearms, holding an open book to read. Extend the legs back with one knee bent and lifted, resting the raised leg against a tufted ottoman positioned behind you.",
     tip: "Angle the book slightly toward the camera so its shape and the model's engaged reading gaze both remain visible.",
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder 30→-110, rightShoulder 35→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    joints: { spine: 16, neck: -5.5, hips: 0, leftShoulder: -110, rightShoulder: -110, leftElbow: 100, rightElbow: 80, shoulderFwdL: 25, shoulderFwdR: 25, leftHip: -5, rightHip: 25, leftKnee: 18, rightKnee: 78, leftAnkle: -8, rightAnkle: -5, hipAbductL: 0, hipAbductR: -15, globalTwist: 0, globalRoll: 0, globalTilt: -78 }
+    joints: { spine: 16, neck: -5.5, hips: 0, leftShoulder: 30, rightShoulder: 35, leftElbow: 100, rightElbow: 80, shoulderFwdL: 25, shoulderFwdR: 25, leftHip: -5, rightHip: 25, leftKnee: 18, rightKnee: 78, leftAnkle: -8, rightAnkle: -5, hipAbductL: 0, hipAbductR: -15, globalTwist: 0, globalRoll: 0, globalTilt: -78 }
   },
   "p09-unconv-s5-prone-legs-up-chin-hands": {
     id: "p09-unconv-s5-prone-legs-up-chin-hands", name: "Prone with Legs on Sofa, Chin on Hand",
@@ -6462,8 +6376,7 @@ const POSES_LIBRARY = {
     tags: ["unconventional", "inverted", "extreme flexibility", "prayer hands", "floor"],
     instructions: "Lie on your back and roll the hips up and over so the legs extend up and over the head, supported by the shoulders on the floor. Bring both hands together in a prayer position beneath the extended legs.",
     tip: "This is an advanced flexibility pose — only attempt with a warmed-up body and never force the neck to bear weight; the shoulders should support the load.",
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder 40→-110, rightShoulder 28→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    joints: { spine: -38, neck: -25, hips: 0, leftShoulder: -110, rightShoulder: -110, leftElbow: 105, rightElbow: 78, shoulderFwdL: 35, shoulderFwdR: 35, leftHip: 114, rightHip: 114, leftKnee: 12, rightKnee: 12, leftAnkle: -5, rightAnkle: -5, hipAbductL: 0, hipAbductR: 0, globalTwist: 0, globalRoll: 0, globalTilt: -85 }
+    joints: { spine: -38, neck: -25, hips: 0, leftShoulder: 40, rightShoulder: 28, leftElbow: 105, rightElbow: 78, shoulderFwdL: 35, shoulderFwdR: 35, leftHip: 114, rightHip: 114, leftKnee: 12, rightKnee: 12, leftAnkle: -5, rightAnkle: -5, hipAbductL: 0, hipAbductR: 0, globalTwist: 0, globalRoll: 0, globalTilt: -85 }
   },
   "p09-unconv-s7-seated-box-arm-overhead": {
     id: "p09-unconv-s7-seated-box-arm-overhead", name: "Seated on Box, Legs Wide, Arm Overhead",
@@ -6471,8 +6384,7 @@ const POSES_LIBRARY = {
     tags: ["unconventional", "box prop", "seated", "wide legs", "arm overhead"],
     instructions: "Sit on a black box or cube with the legs spread wide apart in fishnet tights. Raise one arm overhead and run the hand through the hair, looking down or to the side dramatically.",
     tip: "Keep the spine tall even with the legs spread wide; a collapsed torso undercuts the dramatic, powerful line of the pose.",
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: spine 8→18, leftShoulder 70→-110, rightShoulder -10→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    joints: { spine: 18, neck: -12.1, hips: 0, leftShoulder: -110, rightShoulder: -110, leftElbow: 100, rightElbow: 50, shoulderFwdL: 20, shoulderFwdR: 10, leftHip: 95, rightHip: 98, leftKnee: 95, rightKnee: 98, leftAnkle: -5, rightAnkle: -5, hipAbductL: 25, hipAbductR: -25, globalTwist: 0, globalRoll: 0, globalTilt: -15 }
+    joints: { spine: 8, neck: -12.1, hips: 0, leftShoulder: 70, rightShoulder: -10, leftElbow: 100, rightElbow: 50, shoulderFwdL: 20, shoulderFwdR: 10, leftHip: 95, rightHip: 98, leftKnee: 95, rightKnee: 98, leftAnkle: -5, rightAnkle: -5, hipAbductL: 25, hipAbductR: -25, globalTwist: 0, globalRoll: 0, globalTilt: -15 }
   },
   "p09-unconv-s8-seated-box-knee-crossed": {
     id: "p09-unconv-s8-seated-box-knee-crossed", name: "Seated on Box, Legs Crossed",
@@ -6577,8 +6489,7 @@ const POSES_LIBRARY = {
     tags: ["seated", "chair", "foot-up", "knee-wrap"],
     instructions: "Sit on the chair, plant one foot flat on the seat with the knee bent up high, wrap both arms loosely around the raised shin, letting the other leg extend or rest on the floor. Lean torso slightly toward the raised knee, gaze to camera.",
     tip: "Keep the standing/extended leg engaged and pointed so the pose reads as intentional rather than collapsed.",
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder -65→-110, rightShoulder -77→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    joints: { spine: 15, neck: -5.5, hips: 12, globalTilt: 10, globalRoll: 12, globalTwist: 15, leftShoulder: -110, rightShoulder: -110, leftElbow: 100, rightElbow: 100, shoulderFwdL: 25, shoulderFwdR: 25, leftHip: 118, rightHip: 55, leftKnee: 135, rightKnee: 60, leftAnkle: -10, rightAnkle: 5, hipAbductL: 15, hipAbductR: 0 }
+    joints: { spine: 15, neck: -5.5, hips: 12, globalTilt: 10, globalRoll: 12, globalTwist: 15, leftShoulder: -65, rightShoulder: -77, leftElbow: 100, rightElbow: 100, shoulderFwdL: 25, shoulderFwdR: 25, leftHip: 118, rightHip: 55, leftKnee: 135, rightKnee: 60, leftAnkle: -10, rightAnkle: 5, hipAbductL: 15, hipAbductR: 0 }
   },
   "p15-chair-s7-recline-arms-overhead": {
     id: "p15-chair-s7-recline-arms-overhead", name: "Chair Recline Arms Overhead",
@@ -6610,8 +6521,7 @@ const POSES_LIBRARY = {
     tags: ["seated", "chair", "twist", "hands-on-rail"],
     instructions: "Sit sideways on the chair, twist the torso fully to grip the chair back rail with both hands, shoulders rotated toward the chair back, head turned to look at camera over the shoulder.",
     tip: "Push the twist as far as comfortably possible through the ribcage, not just the neck, to create the most dynamic line.",
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: spine 5→18. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    joints: { spine: 18, neck: -7.7, hips: 0, globalTilt: 0, globalRoll: 8, globalTwist: 60, leftShoulder: -95, rightShoulder: -75, leftElbow: 65, rightElbow: 70, shoulderFwdL: 40, shoulderFwdR: 35, leftHip: 92, rightHip: 92, leftKnee: 96, rightKnee: 95, leftAnkle: -5, rightAnkle: -5, hipAbductL: -8, hipAbductR: -5 }
+    joints: { spine: 5, neck: -7.7, hips: 0, globalTilt: 0, globalRoll: 8, globalTwist: 60, leftShoulder: -95, rightShoulder: -75, leftElbow: 65, rightElbow: 70, shoulderFwdL: 40, shoulderFwdR: 35, leftHip: 92, rightHip: 92, leftKnee: 96, rightKnee: 95, leftAnkle: -5, rightAnkle: -5, hipAbductL: -8, hipAbductR: -5 }
   },
   "p11-armchair-s1-legs-crossed-hands-armrests": {
     id: "p11-armchair-s1-legs-crossed-hands-armrests", name: "Armchair Crossed Legs Hands on Rests",
@@ -6659,8 +6569,7 @@ const POSES_LIBRARY = {
     tags: ["seated", "armchair", "kneeling", "back-view"],
     instructions: "Kneel on the chair seat facing the back of the chair, one hand gripping the top of the backrest, the other resting on the hip. Arch the back slightly, turn the head to look back over the shoulder toward camera.",
     tip: "Keep weight balanced through both knees on the cushion — this is an advanced pose requiring core engagement to hold the back arch safely.",
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: hips -10→-16. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    joints: { spine: -18, neck: -20, hips: -16, globalTilt: -15, globalRoll: 10, globalTwist: 50, leftShoulder: -140, rightShoulder: -20, leftElbow: 45, rightElbow: 75, shoulderFwdL: 15, shoulderFwdR: 10, leftHip: 118, rightHip: 118, leftKnee: 140, rightKnee: 138, leftAnkle: -30, rightAnkle: -28, hipAbductL: 10, hipAbductR: 10 }
+    joints: { spine: -18, neck: -20, hips: -10, globalTilt: -15, globalRoll: 10, globalTwist: 50, leftShoulder: -140, rightShoulder: -20, leftElbow: 45, rightElbow: 75, shoulderFwdL: 15, shoulderFwdR: 10, leftHip: 118, rightHip: 118, leftKnee: 140, rightKnee: 138, leftAnkle: -30, rightAnkle: -28, hipAbductL: 10, hipAbductR: 10 }
   },
   "p11-armchair-s7-lean-back-arm-behind-head": {
     id: "p11-armchair-s7-lean-back-arm-behind-head", name: "Armchair Lean Back Arm Behind Head",
@@ -6686,8 +6595,7 @@ const POSES_LIBRARY = {
     tags: ["standing-at-chair", "armchair", "front-view", "hands-on-armrests"],
     instructions: "Stand in front of the chair facing camera, lean forward slightly and place both hands on the armrests, weight shifted onto the balls of the feet, one knee softly bent, chest lifted, direct gaze.",
     tip: "Keep the weight forward through the balanced arms so the pose looks grounded and intentional, not off-balance.",
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: hips 5→16. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    joints: { spine: 10, neck: -9, hips: 16, globalTilt: 12, globalRoll: 0, globalTwist: 0, leftShoulder: -55, rightShoulder: -67, leftElbow: 95, rightElbow: 95, shoulderFwdL: 20, shoulderFwdR: 20, leftHip: 8, rightHip: 12, leftKnee: 10, rightKnee: 18, leftAnkle: 0, rightAnkle: -5, hipAbductL: 5, hipAbductR: 5 }
+    joints: { spine: 10, neck: -9, hips: 5, globalTilt: 12, globalRoll: 0, globalTwist: 0, leftShoulder: -55, rightShoulder: -67, leftElbow: 95, rightElbow: 95, shoulderFwdL: 20, shoulderFwdR: 20, leftHip: 8, rightHip: 12, leftKnee: 10, rightKnee: 18, leftAnkle: 0, rightAnkle: -5, hipAbductL: 5, hipAbductR: 5 }
   },
   "p11-armchair-s10-floor-recline-head-on-armrest": {
     id: "p11-armchair-s10-floor-recline-head-on-armrest", name: "Floor Recline Head Resting on Armrest",
@@ -6743,8 +6651,7 @@ const POSES_LIBRARY = {
     tags: ["boudoir", "bed", "legs-up-wall", "side-glance"],
     instructions: "Lie on your back near the headboard, extend both legs up the wall bending the knees slightly to one side, prop the head up with one hand, gaze softly toward the camera with a slight smile.",
     tip: "Let the knees drift gently to one side rather than staying perfectly vertical for a more relaxed, candid feel.",
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder -65→-110, rightShoulder -30→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    joints: { spine: 15, neck: -5.5, hips: 15, globalTilt: -50, globalRoll: 10, globalTwist: 18, leftShoulder: -110, rightShoulder: -110, leftElbow: 100, rightElbow: 70, shoulderFwdL: 25, shoulderFwdR: 10, leftHip: 95, rightHip: 98, leftKnee: 95, rightKnee: 90, leftAnkle: -23, rightAnkle: -23, hipAbductL: 15, hipAbductR: 12 }
+    joints: { spine: 15, neck: -5.5, hips: 15, globalTilt: -50, globalRoll: 10, globalTwist: 18, leftShoulder: -65, rightShoulder: -30, leftElbow: 100, rightElbow: 70, shoulderFwdL: 25, shoulderFwdR: 10, leftHip: 95, rightHip: 98, leftKnee: 95, rightKnee: 90, leftAnkle: -23, rightAnkle: -23, hipAbductL: 15, hipAbductR: 12 }
   },
   "p16-bed-b7-prone-legs-kicked-up-look-back": {
     id: "p16-bed-b7-prone-legs-kicked-up-look-back", name: "Bed Prone Legs Kicked Up Look Back",
@@ -6825,8 +6732,7 @@ const POSES_LIBRARY = {
     tags: ["kneeling", "sofa", "chaise", "armrest"],
     instructions: "Kneel on the chaise seat facing the raised armrest, then fold the torso down over it, resting the chest and forearms on top. Extend one leg back long behind you while the other stays bent beneath the hips. Turn the head to the side, resting cheek near a hand.",
     tip: "Keep the extended leg's foot pointed and slightly lifted for a longer line rather than letting it drop flat.",
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder -50→-110, rightShoulder -55→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    joints: { spine: -35, neck: 21, hips: 10, globalTilt: 65, globalRoll: 15, globalTwist: 20, leftShoulder: -110, rightShoulder: -110, leftElbow: 100, rightElbow: 95, shoulderFwdL: 45, shoulderFwdR: 35, leftHip: 100, rightHip: 15, leftKnee: 100, rightKnee: 10, leftAnkle: 0, rightAnkle: 15, hipAbductL: -10, hipAbductR: 5 }
+    joints: { spine: -35, neck: 21, hips: 10, globalTilt: 65, globalRoll: 15, globalTwist: 20, leftShoulder: -50, rightShoulder: -55, leftElbow: 100, rightElbow: 95, shoulderFwdL: 45, shoulderFwdR: 35, leftHip: 100, rightHip: 15, leftKnee: 100, rightKnee: 10, leftAnkle: 0, rightAnkle: 15, hipAbductL: -10, hipAbductR: 5 }
   },
   "p18-lounge-r7-seated-legs-crossed-hand-chin": {
     id: "p18-lounge-r7-seated-legs-crossed-hand-chin", name: "Seated with Legs Crossed and Hand at Chin",
@@ -6842,8 +6748,7 @@ const POSES_LIBRARY = {
     tags: ["reclining", "sofa", "chaise", "head-propped"],
     instructions: "Lie fully on your side along the chaise with the lower arm bent and propping up the head. Stack both knees and bend them softly forward. Let the top arm rest along the waist or trail down toward the knees. Gaze softly toward the lens.",
     tip: "Prop the head on the heel of the hand, not the fingertips, for a more natural, weight-bearing look.",
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: spine 8→18. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    joints: { spine: 18, neck: 15, hips: 10, globalTilt: 75, globalRoll: 15, globalTwist: 10, leftShoulder: -100, rightShoulder: -15, leftElbow: 100, rightElbow: 45, shoulderFwdL: 10, shoulderFwdR: 15, leftHip: 70, rightHip: 75, leftKnee: 70, rightKnee: 72, leftAnkle: -5, rightAnkle: -5, hipAbductL: -8, hipAbductR: -10 }
+    joints: { spine: 8, neck: 15, hips: 10, globalTilt: 75, globalRoll: 15, globalTwist: 10, leftShoulder: -100, rightShoulder: -15, leftElbow: 100, rightElbow: 45, shoulderFwdL: 10, shoulderFwdR: 15, leftHip: 70, rightHip: 75, leftKnee: 70, rightKnee: 72, leftAnkle: -5, rightAnkle: -5, hipAbductL: -8, hipAbductR: -10 }
   },
   "p18-lounge-r9-seated-back-arch-hands-behind": {
     id: "p18-lounge-r9-seated-back-arch-hands-behind", name: "Seated Back Arch with Hands Behind",
@@ -6892,8 +6797,7 @@ const POSES_LIBRARY = {
     tags: ["standing", "posing-tube", "leg-up"],
     instructions: "Stand beside a tall tube and place one foot up on top of it, bending that knee outward. Lean the torso slightly toward the raised leg, resting a forearm on the bent knee. Let the standing leg carry most of the weight, hips shifted to that side. Gaze toward camera over the shoulder.",
     tip: "Shift weight fully onto the standing leg so the raised foot rests lightly on the tube rather than bearing weight.",
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder -40→-110, rightShoulder -15→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    joints: { spine: 12, neck: -9.9, hips: 15, globalTilt: 5, globalRoll: 8, globalTwist: 35, leftShoulder: -110, rightShoulder: -110, leftElbow: 85, rightElbow: 15, shoulderFwdL: 15, shoulderFwdR: 5, leftHip: 95, rightHip: 5, leftKnee: 100, rightKnee: 10, leftAnkle: 0, rightAnkle: -5, hipAbductL: 25, hipAbductR: 0 }
+    joints: { spine: 12, neck: -9.9, hips: 15, globalTilt: 5, globalRoll: 8, globalTwist: 35, leftShoulder: -40, rightShoulder: -15, leftElbow: 85, rightElbow: 15, shoulderFwdL: 15, shoulderFwdR: 5, leftHip: 95, rightHip: 5, leftKnee: 100, rightKnee: 10, leftAnkle: 0, rightAnkle: -5, hipAbductL: 25, hipAbductR: 0 }
   },
   "p17-tubes-s5-seated-legs-open-hands-back": {
     id: "p17-tubes-s5-seated-legs-open-hands-back", name: "Seated with Legs Open and Hands Back",
@@ -6991,7 +6895,7 @@ const POSES_LIBRARY = {
     instructions: "Lie on your back on the bed, fully relaxed. Bend one arm behind the head with the fist resting near the face. Close the eyes and let the body sink into the bedding for a serene, sleepy expression.",
     tip: "Let the facial muscles fully relax with eyes gently closed rather than squeezed shut, for authentic serenity.",
     // PR-v3 (v1.3) — auto-fix spine sign error: description says back arch but spine is positive (forward fold). Was spine:13, now spine:-13.
-    joints: { spine: -18, neck: -5, hips: 0, globalTilt: 82, globalRoll: 5, globalTwist: 5, leftShoulder: -140, rightShoulder: -15, leftElbow: 100, rightElbow: 40, shoulderFwdL: 10, shoulderFwdR: 5, leftHip: 5, rightHip: 8, leftKnee: 10, rightKnee: 12, leftAnkle: -23, rightAnkle: -23, hipAbductL: 8, hipAbductR: 5 }
+    joints: { spine: -13, neck: -5, hips: 0, globalTilt: 82, globalRoll: 5, globalTwist: 5, leftShoulder: -140, rightShoulder: -15, leftElbow: 100, rightElbow: 40, shoulderFwdL: 10, shoulderFwdR: 5, leftHip: 5, rightHip: 8, leftKnee: 10, rightKnee: 12, leftAnkle: -23, rightAnkle: -23, hipAbductL: 8, hipAbductR: 5 }
   },
   "p08-male-r7-side-lying-knee-raised-forearm-bedding": {
     id: "p08-male-r7-side-lying-knee-raised-forearm-bedding", name: "Side-Lying with Raised Knee and Forearm on Bedding",
@@ -7108,7 +7012,7 @@ const POSES_LIBRARY = {
     instructions: "Sit on the armrest with one hand on the hip and the other on the leg. Bend the legs with feet barely touching the floor, positioned apart, knees together. Keep the posture straight with the back arched, turned toward camera.",
     tip: "Keep the knees pressed together while letting the feet splay slightly for a flattering leg line.",
     // PR-v3 (v1.3) — auto-fix spine sign error: description says "arch back" but spine is positive (forward fold). Was spine:18, now spine:-18.
-    joints: { spine: -18, neck: -6, hips: -16, globalTilt: 50, globalRoll: 5, globalTwist: 20, leftShoulder: -40, rightShoulder: -50, leftElbow: 80, rightElbow: 70, shoulderFwdL: 22, shoulderFwdR: 15, leftHip: 68, rightHip: 72, leftKnee: 85, rightKnee: 88, leftAnkle: -16, rightAnkle: -16, hipAbductL: -5, hipAbductR: -5 }
+    joints: { spine: -18, neck: -6, hips: -8, globalTilt: 50, globalRoll: 5, globalTwist: 20, leftShoulder: -40, rightShoulder: -50, leftElbow: 80, rightElbow: 70, shoulderFwdL: 22, shoulderFwdR: 15, leftHip: 68, rightHip: 72, leftKnee: 85, rightKnee: 88, leftAnkle: -16, rightAnkle: -16, hipAbductL: -5, hipAbductR: -5 }
   },
   "p06-chair-b11-armrest-hair-eyes-closed": {
     id: "p06-chair-b11-armrest-hair-eyes-closed", name: "Chair Armrest Seated Hair Touch Eyes Closed",
@@ -7117,7 +7021,7 @@ const POSES_LIBRARY = {
     instructions: "Sit on the armrest with one hand on the hip and the other touching the hair. Bend the legs with feet barely touching the floor, apart, knees together. Keep the back arched, face tilted toward the camera with eyes closed.",
     tip: "Tilt the head gently rather than dropping it back fully, so the closed eyes read soft instead of strained.",
     // PR-v3 (v1.3) — auto-fix spine sign error: description says "arch back" but spine is positive (forward fold). Was spine:20, now spine:-20.
-    joints: { spine: -20, neck: -6.4, hips: -16, globalTilt: 50, globalRoll: 5, globalTwist: 15, leftShoulder: -85, rightShoulder: -35, leftElbow: 95, rightElbow: 75, shoulderFwdL: 15, shoulderFwdR: 12, leftHip: 68, rightHip: 70, leftKnee: 85, rightKnee: 88, leftAnkle: -16, rightAnkle: -16, hipAbductL: -5, hipAbductR: -5 }
+    joints: { spine: -20, neck: -6.4, hips: -8, globalTilt: 50, globalRoll: 5, globalTwist: 15, leftShoulder: -85, rightShoulder: -35, leftElbow: 95, rightElbow: 75, shoulderFwdL: 15, shoulderFwdR: 12, leftHip: 68, rightHip: 70, leftKnee: 85, rightKnee: 88, leftAnkle: -16, rightAnkle: -16, hipAbductL: -5, hipAbductR: -5 }
   },
   "p06-chair-b12-leaning-bra-touch": {
     id: "p06-chair-b12-leaning-bra-touch", name: "Chair Leaning Forward Bra Touch",
@@ -7223,7 +7127,7 @@ const POSES_LIBRARY = {
     instructions: "Kneel on the bench with one arm bent, hand on the hip, and the other extended, touching the knee. Keep the posture straight with the back arched, face turned toward the camera.",
     tip: "Distribute weight evenly between both knees while keeping the torso lifted and open.",
     // PR-v3 (v1.3) — auto-fix spine sign error: description says "arch back" but spine is positive (forward fold). Was spine:15, now spine:-15.
-    joints: { spine: -15, neck: -6, hips: -16, globalTilt: 50, globalRoll: 0, globalTwist: 0, leftShoulder: -40, rightShoulder: -25, leftElbow: 80, rightElbow: 30, shoulderFwdL: 10, shoulderFwdR: 8, leftHip: 100, rightHip: 105, leftKnee: 130, rightKnee: 130, leftAnkle: -30, rightAnkle: -30, hipAbductL: 10, hipAbductR: 10 }
+    joints: { spine: -15, neck: -6, hips: -5, globalTilt: 50, globalRoll: 0, globalTwist: 0, leftShoulder: -40, rightShoulder: -25, leftElbow: 80, rightElbow: 30, shoulderFwdL: 10, shoulderFwdR: 8, leftHip: 100, rightHip: 105, leftKnee: 130, rightKnee: 130, leftAnkle: -30, rightAnkle: -30, hipAbductL: 10, hipAbductR: 10 }
   },
   "p05-bench-b8-kneeling-elevated-forward-lean": {
     id: "p05-bench-b8-kneeling-elevated-forward-lean", name: "Bench Kneeling Body Elevated Forward Lean",
@@ -7350,7 +7254,7 @@ const POSES_LIBRARY = {
     instructions: "Lie sideways on the couch with the upper body elevated and leaning against the armrest. Bend both arms, with one hand positioned on the armrest and the other on the hip. Bend both legs, toes pointed, back arched, facing away from the camera toward the wall.",
     tip: "Let the back arch develop naturally from the side-lying position rather than forcing it.",
     // PR-v3 (v1.3) — auto-fix spine sign error: description says "arch back" but spine is positive (forward fold). Was spine:22, now spine:-22.
-    joints: { spine: -22, neck: -5, hips: -16, globalTilt: -40, globalRoll: 15, globalTwist: -15, leftShoulder: -30, rightShoulder: -55, leftElbow: 40, rightElbow: 75, shoulderFwdL: 8, shoulderFwdR: 10, leftHip: 85, rightHip: 95, leftKnee: 115, rightKnee: 125, leftAnkle: -15, rightAnkle: -20, hipAbductL: 6, hipAbductR: 6 }
+    joints: { spine: -22, neck: -5, hips: -8, globalTilt: -40, globalRoll: 15, globalTwist: -15, leftShoulder: -30, rightShoulder: -55, leftElbow: 40, rightElbow: 75, shoulderFwdL: 8, shoulderFwdR: 10, leftHip: 85, rightHip: 95, leftKnee: 115, rightKnee: 125, leftAnkle: -15, rightAnkle: -20, hipAbductL: 6, hipAbductR: 6 }
   },
   "p02-couch-c6-lying-sideways-elevated-hip-chin-up": {
     id: "p02-couch-c6-lying-sideways-elevated-hip-chin-up", name: "Couch Lying Sideways Elevated Chin Up",
@@ -7359,7 +7263,7 @@ const POSES_LIBRARY = {
     instructions: "Lie sideways on the couch with the upper body elevated and leaning against the armrest. Bend both arms, with one hand on the armrest and the other on the hip. Slightly bend both knees with legs extended, toes pointed, back arched, face turned to the side with chin up.",
     tip: "Lift the chin gently rather than sharply to keep the elongated neck line graceful.",
     // PR-v3 (v1.3) — auto-fix spine sign error: description says "arch back" but spine is positive (forward fold). Was spine:20, now spine:-20.
-    joints: { spine: -20, neck: 15, hips: -6, globalTilt: -42, globalRoll: 10, globalTwist: -10, leftShoulder: -110, rightShoulder: -110, leftElbow: 35, rightElbow: 70, shoulderFwdL: 8, shoulderFwdR: 10, leftHip: 20, rightHip: 75, leftKnee: 15, rightKnee: 95, leftAnkle: -13, rightAnkle: -10, hipAbductL: 6, hipAbductR: 8 }
+    joints: { spine: -20, neck: 15, hips: -6, globalTilt: -42, globalRoll: 10, globalTwist: -10, leftShoulder: -25, rightShoulder: -50, leftElbow: 35, rightElbow: 70, shoulderFwdL: 8, shoulderFwdR: 10, leftHip: 20, rightHip: 75, leftKnee: 15, rightKnee: 95, leftAnkle: -13, rightAnkle: -10, hipAbductL: 6, hipAbductR: 8 }
   },
   "p02-couch-c7-lying-sideways-twisted-breast-touch": {
     id: "p02-couch-c7-lying-sideways-twisted-breast-touch", name: "Couch Lying Sideways Twisted Toward Camera",
@@ -7367,8 +7271,7 @@ const POSES_LIBRARY = {
     tags: ["reclining", "couch", "boudoir"],
     instructions: "Lie sideways on the couch with the upper body elevated and twisted toward the camera, leaning against the armrest. Bend both arms, with one hand on the hip and the other on the breast. Bend one leg while the other extends, toes pointed, face turned toward the camera with eyes looking down.",
     tip: "Rotate the upper torso gently toward the lens while keeping the hips settled for a soft spiral line.",
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: hips -5→-16. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    joints: { spine: 16, neck: -4.4, hips: -16, globalTilt: 50, globalRoll: 8, globalTwist: 22, leftShoulder: -55, rightShoulder: -70, leftElbow: 70, rightElbow: 81, shoulderFwdL: 20, shoulderFwdR: 12, leftHip: 20, rightHip: 80, leftKnee: 15, rightKnee: 100, leftAnkle: -13, rightAnkle: -26, hipAbductL: 5, hipAbductR: 10 }
+    joints: { spine: 16, neck: -4.4, hips: -5, globalTilt: 50, globalRoll: 8, globalTwist: 22, leftShoulder: -55, rightShoulder: -70, leftElbow: 70, rightElbow: 81, shoulderFwdL: 20, shoulderFwdR: 12, leftHip: 20, rightHip: 80, leftKnee: 15, rightKnee: 100, leftAnkle: -13, rightAnkle: -26, hipAbductL: 5, hipAbductR: 10 }
   },
   "p02-couch-c8-seated-lean-back-neck-elongated": {
     id: "p02-couch-c8-seated-lean-back-neck-elongated", name: "Couch Seated Lean Back Neck Elongated",
@@ -7385,7 +7288,7 @@ const POSES_LIBRARY = {
     instructions: "Sit on the armrest of the couch with one hand touching the hip and the other positioned on the couch. Bend both knees, positioned together, posture straight with back arched, face tilted toward the camera with eyes closed.",
     tip: "Balance weight evenly on the armrest while keeping the knees together for a graceful silhouette.",
     // PR-v3 (v1.3) — auto-fix spine sign error: description says "arch back" but spine is positive (forward fold). Was spine:20, now spine:-20.
-    joints: { spine: -20, neck: -4.3, hips: -16, globalTilt: 50, globalRoll: 10, globalTwist: 25, leftShoulder: -40, rightShoulder: -20, leftElbow: 75, rightElbow: 30, shoulderFwdL: 22, shoulderFwdR: 8, leftHip: 65, rightHip: 70, leftKnee: 85, rightKnee: 88, leftAnkle: -16, rightAnkle: -16, hipAbductL: -5, hipAbductR: -5 }
+    joints: { spine: -20, neck: -4.3, hips: -10, globalTilt: 50, globalRoll: 10, globalTwist: 25, leftShoulder: -40, rightShoulder: -20, leftElbow: 75, rightElbow: 30, shoulderFwdL: 22, shoulderFwdR: 8, leftHip: 65, rightHip: 70, leftKnee: 85, rightKnee: 88, leftAnkle: -16, rightAnkle: -16, hipAbductL: -5, hipAbductR: -5 }
   },
   "p03-bed-b1-prone-belly-legs-crossed-shin": {
     id: "p03-bed-b1-prone-belly-legs-crossed-shin", name: "Bed Prone Belly Legs Crossed at Shin",
@@ -7674,7 +7577,7 @@ const POSES_LIBRARY = {
     instructions: "Sit on the armrest with one hand on the hip and the other touching the leg. Bend the legs with feet barely touching the floor, positioned apart with knees together. Keep the posture straight with an arched back, turned toward the camera.",
     tip: "Keep the supporting hand on the leg light so the arm reads relaxed instead of braced.",
     // PR-v3 (v1.3) — auto-fix spine sign error: description says "arch back" but spine is positive (forward fold). Was spine:15, now spine:-15.
-    joints: { spine: -15, neck: -6, hips: 16, globalTilt: 6, globalRoll: 4, globalTwist: 20, leftShoulder: -95, rightShoulder: -40, leftElbow: 55, rightElbow: 85, shoulderFwdL: 25, shoulderFwdR: 10, leftHip: 50, rightHip: 55, leftKnee: 65, rightKnee: 60, leftAnkle: 8, rightAnkle: 8, hipAbductL: -10, hipAbductR: -12 }
+    joints: { spine: -15, neck: -6, hips: 5, globalTilt: 6, globalRoll: 4, globalTwist: 20, leftShoulder: -95, rightShoulder: -40, leftElbow: 55, rightElbow: 85, shoulderFwdL: 25, shoulderFwdR: 10, leftHip: 50, rightHip: 55, leftKnee: 65, rightKnee: 60, leftAnkle: 8, rightAnkle: 8, hipAbductL: -10, hipAbductR: -12 }
   },
   "p01-master-s11-chair-armrest-sit-hair": {
     id: "p01-master-s11-chair-armrest-sit-hair", name: "Sitting on Armrest Hand on Hip Hand in Hair Eyes Closed",
@@ -7683,7 +7586,7 @@ const POSES_LIBRARY = {
     instructions: "Sit on the armrest with one hand on the hip and the other touching the hair. Bend the legs with feet barely touching the floor, positioned apart with knees together. Keep the posture straight with an arched back, tilt the face toward the camera with eyes closed.",
     tip: "Tilt the head slightly into the raised arm to create a natural connection between the elbow and the face.",
     // PR-v3 (v1.3) — auto-fix spine sign error: description says back arch but spine is positive (forward fold). Was spine:15, now spine:-15.
-    joints: { spine: -15, neck: -8.8, hips: 16, globalTilt: 8, globalRoll: 5, globalTwist: 18, leftShoulder: -95, rightShoulder: -130, leftElbow: 55, rightElbow: 45, shoulderFwdL: 25, shoulderFwdR: 22, leftHip: 50, rightHip: 55, leftKnee: 65, rightKnee: 60, leftAnkle: 8, rightAnkle: 8, hipAbductL: -10, hipAbductR: -12 }
+    joints: { spine: -15, neck: -8.8, hips: 5, globalTilt: 8, globalRoll: 5, globalTwist: 18, leftShoulder: -95, rightShoulder: -130, leftElbow: 55, rightElbow: 45, shoulderFwdL: 25, shoulderFwdR: 22, leftHip: 50, rightHip: 55, leftKnee: 65, rightKnee: 60, leftAnkle: 8, rightAnkle: 8, hipAbductL: -10, hipAbductR: -12 }
   },
   "p01-master-s12-chair-lean-bra-touch": {
     id: "p01-master-s12-chair-lean-bra-touch", name: "Standing Lean Forward Hip Pushed Side Bra Touch",
@@ -7723,8 +7626,7 @@ const POSES_LIBRARY = {
     tags: ["floor", "reclining", "chair headrest", "eyes closed"],
     instructions: "Lie on the floor with the head resting on the chair seat. Bend both arms, one hand touching the hair and the other touching the hip. Bend the knees and extend the legs with pointed toes. Tilt the face toward the camera with eyes closed.",
     tip: "Let the head sink fully into the chair cushion for support so the neck stays soft and unstrained.",
-    // PR-v4 (v1.4) — auto-fix too-subtle joints: hips 0→16. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    joints: { spine: 8, neck: 28, hips: 16, globalTilt: -60, globalRoll: 10, globalTwist: 15, leftShoulder: -100, rightShoulder: -40, leftElbow: 50, rightElbow: 75, shoulderFwdL: 10, shoulderFwdR: 8, leftHip: 35, rightHip: 45, leftKnee: 55, rightKnee: 40, leftAnkle: 10, rightAnkle: 8, hipAbductL: 8, hipAbductR: 6 }
+    joints: { spine: 8, neck: 28, hips: 0, globalTilt: -60, globalRoll: 10, globalTwist: 15, leftShoulder: -100, rightShoulder: -40, leftElbow: 50, rightElbow: 75, shoulderFwdL: 10, shoulderFwdR: 8, leftHip: 35, rightHip: 45, leftKnee: 55, rightKnee: 40, leftAnkle: 10, rightAnkle: 8, hipAbductL: 8, hipAbductR: 6 }
   },
   "p01-master-s17-chair-back-seat-hair-touch": {
     id: "p01-master-s17-chair-back-seat-hair-touch", name: "Sitting on Chair Back Hand on Armrest Hand in Hair",
@@ -7791,7 +7693,7 @@ const POSES_LIBRARY = {
     instructions: "Kneel on the bench. Bend one arm, resting the hand on the hip, and extend the other arm to touch the knee. Keep the posture straight with an arched back, and turn the face toward the camera.",
     tip: "Sit back slightly onto the heels before straightening the spine so the arch reads naturally rather than forced.",
     // PR-v3 (v1.3) — auto-fix spine sign error: description says "arch back" but spine is positive (forward fold). Was spine:15, now spine:-15.
-    joints: { spine: -15, neck: -6, hips: 16, globalTilt: 0, globalRoll: 0, globalTwist: 5, leftShoulder: -90, rightShoulder: -15, leftElbow: 60, rightElbow: 10, shoulderFwdL: 12, shoulderFwdR: 15, leftHip: 115, rightHip: 115, leftKnee: 135, rightKnee: 135, leftAnkle: -20, rightAnkle: -20, hipAbductL: 4, hipAbductR: 4 }
+    joints: { spine: -15, neck: -6, hips: 0, globalTilt: 0, globalRoll: 0, globalTwist: 5, leftShoulder: -90, rightShoulder: -15, leftElbow: 60, rightElbow: 10, shoulderFwdL: 12, shoulderFwdR: 15, leftHip: 115, rightHip: 115, leftKnee: 135, rightKnee: 135, leftAnkle: -20, rightAnkle: -20, hipAbductL: 4, hipAbductR: 4 }
   },
   "p01-master-b8-bench-kneel-elevated-arch": {
     id: "p01-master-b8-bench-kneel-elevated-arch", name: "Bench Kneeling Elevated Body Arch Eyes Closed",

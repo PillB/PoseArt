@@ -1170,52 +1170,6 @@ function renderPoseFigureSVG(pose, large = false) {
   const color = '#0F3B3A';
   const gold = '#C9A24C';
 
-  // PR-v4 (v1.4) — PROCEDURAL AVATAR PATH (primary).
-  // Per directive Part A.10 rule #4, all three renderers must derive from the
-  // same procedural rig. The old path used 89 hand-crafted SVG glyphs keyed by
-  // pose.figure — which couldn't rotate, didn't match joint values, and fell
-  // back to a generic 'default' glyph for 205 poses with no figure key.
-  //
-  // The new path delegates to PoseSkeleton3D.renderAvatarFrame, which uses the
-  // same buildPose(joints) FK pipeline as the skeleton and ghost. The avatar
-  // is rendered to a <canvas> element, so we return an HTML string containing
-  // the canvas + an inline script that invokes renderAvatarFrame after the
-  // canvas is in the DOM (via setTimeout(0)).
-  //
-  // If PoseSkeleton3D.renderAvatarFrame is unavailable (script not loaded) or
-  // throws, we fall back to the legacy SVG glyph path (below) per directive
-  // Part C Phase 1 step 7 ("Keep the pre-refactor code as a safety fallback").
-  if (pose && pose.joints && window.PoseSkeleton3D && typeof window.PoseSkeleton3D.renderAvatarFrame === 'function') {
-    try {
-      // Unique canvas ID per call (avoids collisions when multiple figures render)
-      const canvasId = 'pose-avatar-' + (pose.id || 'unknown') + '-' + Math.random().toString(36).substring(2, 9);
-      const canvasW = large ? 200 : 140;
-      const canvasH = large ? 280 : 180;
-      const joints = JSON.stringify(pose.joints);
-      const category = (pose.category || '').replace(/'/g, "\\'");
-      const description = (pose.instructions || '').replace(/'/g, "\\'").replace(/"/g, '&quot;').substring(0, 200);
-      return `<canvas id="${canvasId}" width="${canvasW}" height="${canvasH}" style="max-width:100%;border-radius:8px;"></canvas>` +
-             `<script>(function(){var c=document.getElementById('${canvasId}');if(!c)return;` +
-             `try{window.PoseSkeleton3D.renderAvatarFrame(c,${canvasW},${canvasH},${joints},{category:'${category}',description:'${description}',scale:${large ? 1 : 0.75},yaw:0,pitch:0});}` +
-             `catch(e){console.warn('Avatar render failed, fallback to SVG:',e);var p=document.getElementById('${canvasId}');if(p)p.parentNode.innerHTML='${renderPoseFigureSVGLegacy(pose, large).replace(/'/g, "\\'").replace(/\n/g, '')}';}})();</script>`;
-    } catch (e) {
-      console.warn('[PoseArt] Procedural avatar setup failed, using legacy SVG:', e);
-    }
-  }
-
-  // Legacy SVG glyph path (fallback)
-  return renderPoseFigureSVGLegacy(pose, large);
-}
-
-// PR-v4 (v1.4): Legacy SVG glyph renderer (the old renderPoseFigureSVG body).
-// Kept as the fallback for when PoseSkeleton3D.renderAvatarFrame is unavailable
-// or throws. Per directive Part C Phase 1 step 7.
-function renderPoseFigureSVGLegacy(pose, large = false) {
-  const w = large ? 200 : 110;
-  const h = large ? 280 : 150;
-  const color = '#0F3B3A';
-  const gold = '#C9A24C';
-
   const S = (inner) => `<svg width="${w}" height="${h}" viewBox="0 0 200 280" fill="none" preserveAspectRatio="xMidYMid meet" style="filter:drop-shadow(0 4px 16px rgba(30,122,116,0.25))">${inner}</svg>`;
 
   // Shared decorative elements
