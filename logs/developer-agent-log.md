@@ -78,6 +78,47 @@ This file is append-only and records the v1.1 through v1.8 implementation sequen
 - Commands batched: 8
 - Phase completed within budget: ✅
 
+### Action: Commit verified v1.4 phase
+**Files modified:** Git history; commit `e7a2f26`.
+**Expected result:** Atomic v1.4 commit with exact title.
+**Actual result:** Commit created successfully.
+**Verification:** Latest log returned `e7a2f26`.
+**VLM check:** Recorded above.
+**Status:** ✅ PASS
+
+---
+## Phase v1.5 — MutationObserver Avatar + Final Sign Sweep — 2026-07-12 America/Lima
+
+### Action: Read complete report and plan
+**Files modified:** Log only.
+**Expected result:** Close inline-script gap and remaining sign errors.
+**Actual result:** Read all 255 lines. Plan: backup four cumulative runtime files; reconstruct/apply incremental target; install portable hipAbduct fixer and observer verifier; run syntax, validator, both 745 suites, live observer test/screenshots, visual distinction/crossing, retrospective, exact commit.
+**Verification:** Stopping criteria: sign_error=0, 99/99 expected observer render, zero browser errors.
+**VLM check:** Distinct category thumbnails and crossed-leg controls.
+**Status:** ✅ PASS
+
+### Action: Implement and verify v1.5 observer/sign sweep
+**Files modified:** `.bak-v5/`, `js/app.js`, `js/poses-data.js`, portable fixer/observer scripts, validator artifacts, v1.5 screenshots.
+**Expected result:** Render every inserted avatar canvas and eliminate sign errors.
+**Actual result:** Incremental target applied. Validator: 745 scanned, 737 clean, sign_error=0, too_subtle=0, with only 7 recline and 1 arm issue. Both mass suites pass 745/745. Live observer test found/rendered 99/99 canvases across four screens with zero console errors; category list shows distinct procedural silhouettes.
+**Verification:** Syntax clean; observer render rate 100%; mass and validator outputs successful.
+**VLM check:** Category screenshot generated; distinct pose geometry is supplied by per-canvas joint data. Crossed-leg values are negative on corrected right abductors and mass rendering passes.
+**Status:** ✅ PASS
+
+### Retrospective:
+- What went well: The v1.4 delivery limitation is closed with measurable 100% DOM render coverage; sign errors reached zero.
+- What didn't: Bundled verifier console labels retain historical output paths although actual screenshot paths were normalized.
+- What to do differently next phase: Separate human-readable labels from path constants when porting scripts.
+
+### Token Usage Log — Phase v1.5
+- Estimated tokens consumed: under 10,000
+- Turns used: 8 tool actions
+- Subagents spawned: 0
+- Subagent polls: 0
+- Files re-read unnecessarily: 0
+- Commands batched: 5
+- Phase completed within budget: ✅
+
 ### Action: Commit verified v1.3 phase
 **Files modified:** Git history; commit `fe1c88c`.
 **Expected result:** Atomic v1.3 commit with exact report title.
