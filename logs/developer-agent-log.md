@@ -607,3 +607,44 @@ This file is append-only and records the v1.1 through v1.8 implementation sequen
 - Files re-read unnecessarily: 0
 - Commands batched: 7
 - Phase completed within budget: ✅
+
+### Commit: v2.1 phase completion
+**Files modified:** `logs/developer-agent-log.md`
+**Expected result:** Record the verified tour-system commit.
+**Actual result:** Created `bde7ce2` with the exact v2.1 commit message.
+**Verification:** `git log --oneline -1` confirmed the hash and subject.
+**VLM check:** Refer to v2.1 creator/session evidence.
+**Status:** ✅ PASS
+
+---
+## Phase v2.2 — Camera Flow Perfection — 2026-07-12 America/Lima
+
+### Action: Write v2.2 implementation plan
+**Files modified:** Planned `.bak-v22/`, `js/camera.js`, `js/app.js`, `index.html`, browser verifier, screenshots, work log.
+**Expected result:** Fresh sessions default to Timer Off; camera displays the next pose and tour section context; Flow Mode auto-advances after capture; long-press produces a visible three-shot burst; pose changes animate smoothly.
+**Actual result:** Plan: inspect begin/capture/next-pose hooks; back up targets; add state and UI elements; centralize next-pose resolution; update previews on entry/advance; add flow and burst controllers with clear indicators; add ghost transition class; test defaults, next preview, flow advance, burst count/indicator, tour section label, visual evidence, mass renderers, and regressions.
+**Verification:** Stopping criteria: Timer Off on clean storage; next preview canvas/name visible; flow capture changes pose automatically; long press records three capture attempts and shows indicator; tour context label renders when applicable; zero browser errors.
+**VLM check:** Camera screenshot must clearly show next preview and Flow Mode toggle.
+**Status:** ✅ PASS
+
+### Action: Implement and verify camera flow controls
+**Files modified:** `.bak-v22/`, `js/camera.js`, `js/app.js`, `index.html`, `scripts/verify_camera_v22.js`, `audit/screenshots/v2.2-camera-flow.png`.
+**Expected result:** Timer Off by default, visible next pose, flow auto-advance, three-shot grouped burst, transition feedback, and optional tour section context.
+**Actual result:** Added fresh-session Timer Off default while preserving restored preferences; camera engine flow/tour flags; centralized next-pose resolver; procedural next preview; flow toggle and post-capture auto-advance; long-press shutter with one gallery capture carrying three burst frames; burst/section indicators; and ghost morph animation. Browser confirmed Off, next preview, one-call flow advance Power Stance→Hip Shift, burst delta 3, and zero errors.
+**Verification:** Syntax all modified scripts; skeleton 745/745; avatar 745/745; `verify_camera_v22.js` PASS; vibe 0 CRITICAL/0 HIGH/1 MEDIUM; edge 10/10; no horizontal scroll.
+**VLM check:** Environment vision confirms camera pose/score, NEXT POSE card with procedural thumbnail and name, FLOW OFF control, BURST 3 indicator, timer/shutter/next controls, and strong mobile contrast.
+**Status:** ✅ PASS
+
+### Retrospective:
+- What went well: The existing capture pipeline remained the sole image producer; burst metadata groups three frames under one entry and flow mode composes with normal next-pose logic.
+- What didn't: Headless visual evidence uses a stubbed camera and therefore has a black feed, though every required overlay/control is visible and interaction assertions are independent of pixels.
+- What to do differently next phase: Seed visual tests with explicit demo backdrops when camera pixels themselves are part of the acceptance criterion.
+
+### Token Usage Log — Phase v2.2
+- Estimated tokens consumed: under 9,000
+- Turns used: 9 tool actions
+- Subagents spawned: 0
+- Subagent polls: 0
+- Files re-read unnecessarily: 0
+- Commands batched: 5
+- Phase completed within budget: ✅

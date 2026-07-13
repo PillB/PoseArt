@@ -34,8 +34,6 @@ class CameraEngine {
     this._sensitivity = 1.0; // multiplier: Strict=0.7, Balanced=1.0, Relaxed=1.4
     this._lastAnnouncedScore = null;
     this._lastAnnouncedLabel = null;
-    this.tourMode = false;
-    this.flowMode = false;
   }
 
   get captureProgress() {

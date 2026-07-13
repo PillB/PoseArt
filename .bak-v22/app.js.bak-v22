@@ -46,7 +46,7 @@ const AppState = {
   sessionOptions: {
     // Simplified setup: Timer + Sensitivity only
     timer: ['Off', '3 sec', '5 sec', '10 sec'],
-    timerIndex: 0,
+    timerIndex: 2,
     sensitivity: ['Strict', 'Balanced', 'Relaxed'],
     sensitivityIndex: 1,
   },
@@ -62,8 +62,6 @@ const AppState = {
   isTourSession: false,
   currentTourId: null,
   currentTourSession: null,
-  flowMode: false,
-  burstActive: false,
 };
 window.AppState = AppState;
 
@@ -449,8 +447,6 @@ window.startCameraSession = async function() {
   AppState.sessionCount++;
 
   updateCameraGhostSVG(AppState.selectedPoseId);
-  updateNextPosePreview();
-  updateCameraTourIndicator();
 }
 
 function updateCameraGhostSVG(poseId) {
@@ -513,7 +509,16 @@ window.endSession = function() {
 
 window.goToNextPose = function() {
   // Find next pose in same category or just next alphabetically
-  const nextId = getNextPoseId();
+  const currentPose = POSES_LIBRARY[AppState.selectedPoseId];
+  const category = currentPose ? currentPose.category : null;
+
+  // Get all pose IDs in same category
+  const allInCat = Object.values(POSES_LIBRARY)
+    .filter(p => !category || p.category === category)
+    .map(p => p.id);
+
+  const idx = allInCat.indexOf(AppState.selectedPoseId);
+  const nextId = allInCat[(idx + 1) % allInCat.length];
 
   if (nextId && nextId !== AppState.selectedPoseId) {
     AppState.selectedPoseId = nextId;
@@ -524,9 +529,6 @@ window.goToNextPose = function() {
     updateCameraGhostSVG(nextId);
     // Update camera engine pose
     if (typeof cameraEngine !== 'undefined') cameraEngine.setPose(nextId);
-    document.getElementById('ghost-canvas')?.classList.add('pose-transitioning');
-    setTimeout(() => document.getElementById('ghost-canvas')?.classList.remove('pose-transitioning'), 420);
-    updateNextPosePreview();
     // Show brief notification
     const hint = document.getElementById('hint-text');
     if (hint) {
@@ -534,32 +536,6 @@ window.goToNextPose = function() {
       setTimeout(() => { if (hint) hint.textContent = 'Align with the ghost guide'; }, 2500);
     }
   }
-}
-
-function getNextPoseId() {
-  if (AppState.isTourSession && window.tourEngine?.getState()) {
-    const state = window.tourEngine.getState();
-    return state.section.poseIds[state.poseIndex + 1] || state.tour.sections.slice(state.sectionIndex + 1).find(section => section.poseIds.length)?.poseIds[0] || state.poseId;
-  }
-  const current = POSES_LIBRARY[AppState.selectedPoseId];
-  const ids = Object.values(POSES_LIBRARY).filter(pose => !current?.category || pose.category === current.category).map(pose => pose.id);
-  return ids[(ids.indexOf(AppState.selectedPoseId) + 1) % ids.length];
-}
-
-function updateNextPosePreview() {
-  const id = getNextPoseId(); const pose = POSES_LIBRARY[id];
-  const figure = document.getElementById('next-pose-figure'); const name = document.getElementById('next-pose-name');
-  if (!figure || !pose) return;
-  figure.innerHTML = renderPoseFigureSVG(pose, false); if (name) name.textContent = pose.name;
-  window.renderPendingAvatars?.(figure);
-}
-
-function updateCameraTourIndicator() {
-  const indicator = document.getElementById('camera-section-indicator');
-  if (!indicator) return;
-  const state = AppState.currentTourSession || window.tourEngine?.getState();
-  indicator.style.display = AppState.isTourSession && state ? 'block' : 'none';
-  if (state) indicator.textContent = `${state.section.name} · ${state.poseIndex + 1}/${state.section.poseIds.length}`;
 }
 
 // ── COUNTDOWN TIMER ────────────────────────────────────────────
@@ -596,50 +572,14 @@ window.capturePhoto = function() {
   if (timerVal === 'Off') {
     cameraEngine.captureImage(false);
     AppState.capturedCount++;
-    scheduleFlowAdvance();
   } else {
     const secs = parseInt(timerVal);
     startCountdown(secs, () => {
       cameraEngine.captureImage(false);
       AppState.capturedCount++;
-      scheduleFlowAdvance();
     });
   }
 }
-
-function scheduleFlowAdvance() {
-  if (!AppState.flowMode) return;
-  setTimeout(() => { goToNextPose(); showScreen('camera'); showToast('Flow Mode · next pose'); }, 700);
-}
-
-window.toggleFlowMode = function() {
-  AppState.flowMode = !AppState.flowMode; cameraEngine.flowMode = AppState.flowMode;
-  const button = document.getElementById('flow-mode-toggle');
-  button?.classList.toggle('active', AppState.flowMode); button?.setAttribute('aria-pressed', String(AppState.flowMode));
-  if (button) button.textContent = AppState.flowMode ? 'FLOW ON' : 'FLOW OFF';
-  showToast(`Flow Mode ${AppState.flowMode ? 'ON' : 'OFF'}`);
-};
-
-let _shutterHoldTimer = null;
-window.startShutterPress = function() {
-  AppState.burstActive = false; clearTimeout(_shutterHoldTimer);
-  _shutterHoldTimer = setTimeout(() => { AppState.burstActive = true; captureBurst(); }, 550);
-};
-window.endShutterPress = function() {
-  clearTimeout(_shutterHoldTimer); _shutterHoldTimer = null;
-  if (!AppState.burstActive) capturePhoto();
-  setTimeout(() => { AppState.burstActive = false; }, 50);
-};
-window.cancelShutterPress = function() { clearTimeout(_shutterHoldTimer); _shutterHoldTimer = null; };
-window.captureBurst = function() {
-  const indicator = document.getElementById('burst-indicator');
-  if (indicator) { indicator.style.display = 'block'; indicator.textContent = 'BURST 3'; }
-  cameraEngine.captureImage(false); AppState.capturedCount += 3;
-  setTimeout(() => {
-    if (window._lastCapture) { window._lastCapture.burstCount = 3; window._lastCapture.burstFrames = [window._lastCapture.dataUrl, window._lastCapture.dataUrl, window._lastCapture.dataUrl]; }
-    if (indicator) indicator.style.display = 'none';
-  }, 900);
-};
 
 window.flipCamera = function() {
   cameraEngine.flipCamera();
