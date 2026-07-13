@@ -1,0 +1,99 @@
+{
+  "baseUrl": "https://pillb.github.io/PoseArt/index.html",
+  "passed": true,
+  "scenarios": 7,
+  "screenshots": 14,
+  "browserErrors": [],
+  "results": [
+    {
+      "device": "mobile",
+      "viewport": {
+        "width": 430,
+        "height": 932
+      },
+      "steps": [
+        {
+          "id": "MOBILE-AUTH-001",
+          "label": "Login gate on first visit",
+          "file": "mobile-AUTH-001.png"
+        },
+        {
+          "id": "MOBILE-AUTH-002",
+          "label": "Direct navigation rejected",
+          "file": "mobile-AUTH-002.png"
+        },
+        {
+          "id": "MOBILE-AUTH-003",
+          "label": "Empty credentials rejected",
+          "file": "mobile-AUTH-003.png"
+        },
+        {
+          "id": "MOBILE-AUTH-004",
+          "label": "Incorrect password rejected",
+          "file": "mobile-AUTH-004.png"
+        },
+        {
+          "id": "MOBILE-AUTH-005",
+          "label": "Correct credentials accepted",
+          "file": "mobile-AUTH-005.png"
+        },
+        {
+          "id": "MOBILE-AUTH-006",
+          "label": "Session restored after refresh",
+          "file": "mobile-AUTH-006.png"
+        },
+        {
+          "id": "MOBILE-AUTH-007",
+          "label": "Logout cleared the session",
+          "file": "mobile-AUTH-007.png"
+        }
+      ],
+      "browserErrors": []
+    },
+    {
+      "device": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "steps": [
+        {
+          "id": "DESKTOP-AUTH-001",
+          "label": "Login gate on first visit",
+          "file": "desktop-AUTH-001.png"
+        },
+        {
+          "id": "DESKTOP-AUTH-002",
+          "label": "Direct navigation rejected",
+          "file": "desktop-AUTH-002.png"
+        },
+        {
+          "id": "DESKTOP-AUTH-003",
+          "label": "Empty credentials rejected",
+          "file": "desktop-AUTH-003.png"
+        },
+        {
+          "id": "DESKTOP-AUTH-004",
+          "label": "Incorrect password rejected",
+          "file": "desktop-AUTH-004.png"
+        },
+        {
+          "id": "DESKTOP-AUTH-005",
+          "label": "Correct credentials accepted",
+          "file": "desktop-AUTH-005.png"
+        },
+        {
+          "id": "DESKTOP-AUTH-006",
+          "label": "Session restored after refresh",
+          "file": "desktop-AUTH-006.png"
+        },
+        {
+          "id": "DESKTOP-AUTH-007",
+          "label": "Logout cleared the session",
+          "file": "desktop-AUTH-007.png"
+        }
+      ],
+      "browserErrors": []
+    }
+  ]
+}
