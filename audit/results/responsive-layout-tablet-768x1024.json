@@ -1,0 +1,485 @@
+{
+  "url": "http://127.0.0.1:8095/index.html",
+  "generatedAt": "2026-07-13T19:29:09.262Z",
+  "formats": [
+    {
+      "id": "tablet-768x1024",
+      "width": 768,
+      "height": 1024,
+      "screens": [
+        {
+          "id": "login",
+          "file": "tablet-768x1024-login.png",
+          "geometry": {
+            "viewport": {
+              "width": 768,
+              "height": 1024
+            },
+            "app": {
+              "x": 20.46875,
+              "y": 46,
+              "width": 727.0625,
+              "height": 932,
+              "right": 747.53125,
+              "bottom": 978
+            },
+            "activeId": "screen-login",
+            "active": {
+              "width": 727.0625,
+              "height": 932,
+              "scrollWidth": 727,
+              "clientWidth": 727
+            },
+            "document": {
+              "scrollWidth": 768,
+              "scrollHeight": 1024
+            },
+            "categoryColumns": 3,
+            "poseSheetVisible": false,
+            "tourButtons": []
+          },
+          "pass": true
+        },
+        {
+          "id": "home",
+          "file": "tablet-768x1024-home.png",
+          "geometry": {
+            "viewport": {
+              "width": 768,
+              "height": 1024
+            },
+            "app": {
+              "x": 20.46875,
+              "y": 46,
+              "width": 727.0625,
+              "height": 932,
+              "right": 747.53125,
+              "bottom": 978
+            },
+            "activeId": "screen-home",
+            "active": {
+              "width": 727.0625,
+              "height": 932,
+              "scrollWidth": 727,
+              "clientWidth": 727
+            },
+            "document": {
+              "scrollWidth": 768,
+              "scrollHeight": 1024
+            },
+            "categoryColumns": 4,
+            "poseSheetVisible": false,
+            "tourButtons": []
+          },
+          "pass": true
+        },
+        {
+          "id": "library",
+          "file": "tablet-768x1024-library.png",
+          "geometry": {
+            "viewport": {
+              "width": 768,
+              "height": 1024
+            },
+            "app": {
+              "x": 20.46875,
+              "y": 46,
+              "width": 727.0625,
+              "height": 932,
+              "right": 747.53125,
+              "bottom": 978
+            },
+            "activeId": "screen-library",
+            "active": {
+              "width": 727.0625,
+              "height": 932,
+              "scrollWidth": 727,
+              "clientWidth": 727
+            },
+            "document": {
+              "scrollWidth": 768,
+              "scrollHeight": 1024
+            },
+            "categoryColumns": 3,
+            "poseSheetVisible": false,
+            "tourButtons": []
+          },
+          "pass": true
+        },
+        {
+          "id": "category",
+          "file": "tablet-768x1024-category.png",
+          "geometry": {
+            "viewport": {
+              "width": 768,
+              "height": 1024
+            },
+            "app": {
+              "x": 20.46875,
+              "y": 46,
+              "width": 727.0625,
+              "height": 932,
+              "right": 747.53125,
+              "bottom": 978
+            },
+            "activeId": "screen-category-list",
+            "active": {
+              "width": 727.0625,
+              "height": 932,
+              "scrollWidth": 727,
+              "clientWidth": 727
+            },
+            "document": {
+              "scrollWidth": 768,
+              "scrollHeight": 1024
+            },
+            "categoryColumns": 3,
+            "poseSheetVisible": false,
+            "tourButtons": []
+          },
+          "pass": true
+        },
+        {
+          "id": "pose-detail",
+          "file": "tablet-768x1024-pose-detail.png",
+          "geometry": {
+            "viewport": {
+              "width": 768,
+              "height": 1024
+            },
+            "app": {
+              "x": 20.46875,
+              "y": 46,
+              "width": 727.0625,
+              "height": 932,
+              "right": 747.53125,
+              "bottom": 978
+            },
+            "activeId": "screen-category-list",
+            "active": {
+              "width": 727.0625,
+              "height": 932,
+              "scrollWidth": 727,
+              "clientWidth": 727
+            },
+            "document": {
+              "scrollWidth": 768,
+              "scrollHeight": 1024
+            },
+            "categoryColumns": 3,
+            "poseSheetVisible": true,
+            "tourButtons": []
+          },
+          "pass": true
+        },
+        {
+          "id": "gallery",
+          "file": "tablet-768x1024-gallery.png",
+          "geometry": {
+            "viewport": {
+              "width": 768,
+              "height": 1024
+            },
+            "app": {
+              "x": 20.46875,
+              "y": 46,
+              "width": 727.0625,
+              "height": 932,
+              "right": 747.53125,
+              "bottom": 978
+            },
+            "activeId": "screen-gallery",
+            "active": {
+              "width": 727.0625,
+              "height": 932,
+              "scrollWidth": 727,
+              "clientWidth": 727
+            },
+            "document": {
+              "scrollWidth": 768,
+              "scrollHeight": 1024
+            },
+            "categoryColumns": 3,
+            "poseSheetVisible": false,
+            "tourButtons": []
+          },
+          "pass": true
+        },
+        {
+          "id": "profile",
+          "file": "tablet-768x1024-profile.png",
+          "geometry": {
+            "viewport": {
+              "width": 768,
+              "height": 1024
+            },
+            "app": {
+              "x": 20.46875,
+              "y": 46,
+              "width": 727.0625,
+              "height": 932,
+              "right": 747.53125,
+              "bottom": 978
+            },
+            "activeId": "screen-profile",
+            "active": {
+              "width": 727.0625,
+              "height": 932,
+              "scrollWidth": 727,
+              "clientWidth": 727
+            },
+            "document": {
+              "scrollWidth": 768,
+              "scrollHeight": 1024
+            },
+            "categoryColumns": 3,
+            "poseSheetVisible": false,
+            "tourButtons": []
+          },
+          "pass": true
+        },
+        {
+          "id": "editor",
+          "file": "tablet-768x1024-editor.png",
+          "geometry": {
+            "viewport": {
+              "width": 768,
+              "height": 1024
+            },
+            "app": {
+              "x": 20.46875,
+              "y": 46,
+              "width": 727.0625,
+              "height": 932,
+              "right": 747.53125,
+              "bottom": 978
+            },
+            "activeId": "screen-custom-pose-editor",
+            "active": {
+              "width": 727.0625,
+              "height": 932,
+              "scrollWidth": 727,
+              "clientWidth": 727
+            },
+            "document": {
+              "scrollWidth": 768,
+              "scrollHeight": 1024
+            },
+            "categoryColumns": 3,
+            "poseSheetVisible": false,
+            "tourButtons": []
+          },
+          "pass": true
+        },
+        {
+          "id": "marketplace",
+          "file": "tablet-768x1024-marketplace.png",
+          "geometry": {
+            "viewport": {
+              "width": 768,
+              "height": 1024
+            },
+            "app": {
+              "x": 20.46875,
+              "y": 46,
+              "width": 727.0625,
+              "height": 932,
+              "right": 747.53125,
+              "bottom": 978
+            },
+            "activeId": "screen-marketplace",
+            "active": {
+              "width": 727.0625,
+              "height": 932,
+              "scrollWidth": 727,
+              "clientWidth": 727
+            },
+            "document": {
+              "scrollWidth": 768,
+              "scrollHeight": 1024
+            },
+            "categoryColumns": 3,
+            "poseSheetVisible": false,
+            "tourButtons": []
+          },
+          "pass": true
+        },
+        {
+          "id": "camera",
+          "file": "tablet-768x1024-camera.png",
+          "geometry": {
+            "viewport": {
+              "width": 768,
+              "height": 1024
+            },
+            "app": {
+              "x": 20.46875,
+              "y": 46,
+              "width": 727.0625,
+              "height": 932,
+              "right": 747.53125,
+              "bottom": 978
+            },
+            "activeId": "screen-camera",
+            "active": {
+              "width": 727.0625,
+              "height": 932,
+              "scrollWidth": 727,
+              "clientWidth": 727
+            },
+            "document": {
+              "scrollWidth": 768,
+              "scrollHeight": 1024
+            },
+            "categoryColumns": 3,
+            "poseSheetVisible": false,
+            "tourButtons": []
+          },
+          "pass": true
+        },
+        {
+          "id": "tour-creator",
+          "file": "tablet-768x1024-tour-creator.png",
+          "geometry": {
+            "viewport": {
+              "width": 768,
+              "height": 1024
+            },
+            "app": {
+              "x": 20.46875,
+              "y": 46,
+              "width": 727.0625,
+              "height": 932,
+              "right": 747.53125,
+              "bottom": 978
+            },
+            "activeId": "screen-tour-creator",
+            "active": {
+              "width": 727.0625,
+              "height": 932,
+              "scrollWidth": 727,
+              "clientWidth": 727
+            },
+            "document": {
+              "scrollWidth": 768,
+              "scrollHeight": 1024
+            },
+            "categoryColumns": 3,
+            "poseSheetVisible": false,
+            "tourButtons": []
+          },
+          "pass": true
+        },
+        {
+          "id": "tour-session",
+          "file": "tablet-768x1024-tour-session.png",
+          "geometry": {
+            "viewport": {
+              "width": 768,
+              "height": 1024
+            },
+            "app": {
+              "x": 20.46875,
+              "y": 46,
+              "width": 727.0625,
+              "height": 932,
+              "right": 747.53125,
+              "bottom": 978
+            },
+            "activeId": "screen-tour-session",
+            "active": {
+              "width": 727.0625,
+              "height": 932,
+              "scrollWidth": 727,
+              "clientWidth": 727
+            },
+            "document": {
+              "scrollWidth": 768,
+              "scrollHeight": 1024
+            },
+            "categoryColumns": 3,
+            "poseSheetVisible": false,
+            "tourButtons": [
+              {
+                "top": 66,
+                "bottom": 86,
+                "left": 38.46875,
+                "right": 82.25
+              },
+              {
+                "top": 65.5,
+                "bottom": 86.5,
+                "left": 713.796875,
+                "right": 729.53125
+              },
+              {
+                "top": 604,
+                "bottom": 652,
+                "left": 60.46875,
+                "right": 254.640625
+              },
+              {
+                "top": 604,
+                "bottom": 652,
+                "left": 262.640625,
+                "right": 505.34375
+              },
+              {
+                "top": 604,
+                "bottom": 652,
+                "left": 513.34375,
+                "right": 707.53125
+              },
+              {
+                "top": 660,
+                "bottom": 702,
+                "left": 60.46875,
+                "right": 380
+              },
+              {
+                "top": 660,
+                "bottom": 702,
+                "left": 388,
+                "right": 707.53125
+              },
+              {
+                "top": 708,
+                "bottom": 744,
+                "left": 60.46875,
+                "right": 216.234375
+              },
+              {
+                "top": 708,
+                "bottom": 744,
+                "left": 224.234375,
+                "right": 380
+              },
+              {
+                "top": 708,
+                "bottom": 744,
+                "left": 388,
+                "right": 543.765625
+              },
+              {
+                "top": 708,
+                "bottom": 744,
+                "left": 551.765625,
+                "right": 707.53125
+              }
+            ]
+          },
+          "pass": true
+        }
+      ],
+      "errors": []
+    }
+  ],
+  "failures": [],
+  "summary": {
+    "formats": 1,
+    "checks": 12,
+    "screenshots": 12,
+    "failures": 0,
+    "browserErrors": 0
+  }
+}

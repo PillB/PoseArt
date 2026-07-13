@@ -1,0 +1,485 @@
+{
+  "url": "http://127.0.0.1:8095/index.html",
+  "generatedAt": "2026-07-13T19:29:06.392Z",
+  "formats": [
+    {
+      "id": "macbook-1728x1117",
+      "width": 1728,
+      "height": 1117,
+      "screens": [
+        {
+          "id": "login",
+          "file": "macbook-1728x1117-login.png",
+          "geometry": {
+            "viewport": {
+              "width": 1728,
+              "height": 1117
+            },
+            "app": {
+              "x": 274,
+              "y": 92.5,
+              "width": 1180,
+              "height": 932,
+              "right": 1454,
+              "bottom": 1024.5
+            },
+            "activeId": "screen-login",
+            "active": {
+              "width": 1180,
+              "height": 932,
+              "scrollWidth": 1180,
+              "clientWidth": 1180
+            },
+            "document": {
+              "scrollWidth": 1728,
+              "scrollHeight": 1117
+            },
+            "categoryColumns": 3,
+            "poseSheetVisible": false,
+            "tourButtons": []
+          },
+          "pass": true
+        },
+        {
+          "id": "home",
+          "file": "macbook-1728x1117-home.png",
+          "geometry": {
+            "viewport": {
+              "width": 1728,
+              "height": 1117
+            },
+            "app": {
+              "x": 274,
+              "y": 92.5,
+              "width": 1180,
+              "height": 932,
+              "right": 1454,
+              "bottom": 1024.5
+            },
+            "activeId": "screen-home",
+            "active": {
+              "width": 1180,
+              "height": 932,
+              "scrollWidth": 1180,
+              "clientWidth": 1180
+            },
+            "document": {
+              "scrollWidth": 1728,
+              "scrollHeight": 1117
+            },
+            "categoryColumns": 4,
+            "poseSheetVisible": false,
+            "tourButtons": []
+          },
+          "pass": true
+        },
+        {
+          "id": "library",
+          "file": "macbook-1728x1117-library.png",
+          "geometry": {
+            "viewport": {
+              "width": 1728,
+              "height": 1117
+            },
+            "app": {
+              "x": 274,
+              "y": 92.5,
+              "width": 1180,
+              "height": 932,
+              "right": 1454,
+              "bottom": 1024.5
+            },
+            "activeId": "screen-library",
+            "active": {
+              "width": 1180,
+              "height": 932,
+              "scrollWidth": 1180,
+              "clientWidth": 1180
+            },
+            "document": {
+              "scrollWidth": 1728,
+              "scrollHeight": 1117
+            },
+            "categoryColumns": 3,
+            "poseSheetVisible": false,
+            "tourButtons": []
+          },
+          "pass": true
+        },
+        {
+          "id": "category",
+          "file": "macbook-1728x1117-category.png",
+          "geometry": {
+            "viewport": {
+              "width": 1728,
+              "height": 1117
+            },
+            "app": {
+              "x": 274,
+              "y": 92.5,
+              "width": 1180,
+              "height": 932,
+              "right": 1454,
+              "bottom": 1024.5
+            },
+            "activeId": "screen-category-list",
+            "active": {
+              "width": 1180,
+              "height": 932,
+              "scrollWidth": 1180,
+              "clientWidth": 1180
+            },
+            "document": {
+              "scrollWidth": 1728,
+              "scrollHeight": 1117
+            },
+            "categoryColumns": 3,
+            "poseSheetVisible": false,
+            "tourButtons": []
+          },
+          "pass": true
+        },
+        {
+          "id": "pose-detail",
+          "file": "macbook-1728x1117-pose-detail.png",
+          "geometry": {
+            "viewport": {
+              "width": 1728,
+              "height": 1117
+            },
+            "app": {
+              "x": 274,
+              "y": 92.5,
+              "width": 1180,
+              "height": 932,
+              "right": 1454,
+              "bottom": 1024.5
+            },
+            "activeId": "screen-category-list",
+            "active": {
+              "width": 1180,
+              "height": 932,
+              "scrollWidth": 1180,
+              "clientWidth": 1180
+            },
+            "document": {
+              "scrollWidth": 1728,
+              "scrollHeight": 1117
+            },
+            "categoryColumns": 3,
+            "poseSheetVisible": true,
+            "tourButtons": []
+          },
+          "pass": true
+        },
+        {
+          "id": "gallery",
+          "file": "macbook-1728x1117-gallery.png",
+          "geometry": {
+            "viewport": {
+              "width": 1728,
+              "height": 1117
+            },
+            "app": {
+              "x": 274,
+              "y": 92.5,
+              "width": 1180,
+              "height": 932,
+              "right": 1454,
+              "bottom": 1024.5
+            },
+            "activeId": "screen-gallery",
+            "active": {
+              "width": 1180,
+              "height": 932,
+              "scrollWidth": 1180,
+              "clientWidth": 1180
+            },
+            "document": {
+              "scrollWidth": 1728,
+              "scrollHeight": 1117
+            },
+            "categoryColumns": 3,
+            "poseSheetVisible": false,
+            "tourButtons": []
+          },
+          "pass": true
+        },
+        {
+          "id": "profile",
+          "file": "macbook-1728x1117-profile.png",
+          "geometry": {
+            "viewport": {
+              "width": 1728,
+              "height": 1117
+            },
+            "app": {
+              "x": 274,
+              "y": 92.5,
+              "width": 1180,
+              "height": 932,
+              "right": 1454,
+              "bottom": 1024.5
+            },
+            "activeId": "screen-profile",
+            "active": {
+              "width": 1180,
+              "height": 932,
+              "scrollWidth": 1180,
+              "clientWidth": 1180
+            },
+            "document": {
+              "scrollWidth": 1728,
+              "scrollHeight": 1117
+            },
+            "categoryColumns": 3,
+            "poseSheetVisible": false,
+            "tourButtons": []
+          },
+          "pass": true
+        },
+        {
+          "id": "editor",
+          "file": "macbook-1728x1117-editor.png",
+          "geometry": {
+            "viewport": {
+              "width": 1728,
+              "height": 1117
+            },
+            "app": {
+              "x": 274,
+              "y": 92.5,
+              "width": 1180,
+              "height": 932,
+              "right": 1454,
+              "bottom": 1024.5
+            },
+            "activeId": "screen-custom-pose-editor",
+            "active": {
+              "width": 1180,
+              "height": 932,
+              "scrollWidth": 1180,
+              "clientWidth": 1180
+            },
+            "document": {
+              "scrollWidth": 1728,
+              "scrollHeight": 1117
+            },
+            "categoryColumns": 3,
+            "poseSheetVisible": false,
+            "tourButtons": []
+          },
+          "pass": true
+        },
+        {
+          "id": "marketplace",
+          "file": "macbook-1728x1117-marketplace.png",
+          "geometry": {
+            "viewport": {
+              "width": 1728,
+              "height": 1117
+            },
+            "app": {
+              "x": 274,
+              "y": 92.5,
+              "width": 1180,
+              "height": 932,
+              "right": 1454,
+              "bottom": 1024.5
+            },
+            "activeId": "screen-marketplace",
+            "active": {
+              "width": 1180,
+              "height": 932,
+              "scrollWidth": 1180,
+              "clientWidth": 1180
+            },
+            "document": {
+              "scrollWidth": 1728,
+              "scrollHeight": 1117
+            },
+            "categoryColumns": 3,
+            "poseSheetVisible": false,
+            "tourButtons": []
+          },
+          "pass": true
+        },
+        {
+          "id": "camera",
+          "file": "macbook-1728x1117-camera.png",
+          "geometry": {
+            "viewport": {
+              "width": 1728,
+              "height": 1117
+            },
+            "app": {
+              "x": 274,
+              "y": 92.5,
+              "width": 1180,
+              "height": 932,
+              "right": 1454,
+              "bottom": 1024.5
+            },
+            "activeId": "screen-camera",
+            "active": {
+              "width": 1180,
+              "height": 932,
+              "scrollWidth": 1180,
+              "clientWidth": 1180
+            },
+            "document": {
+              "scrollWidth": 1728,
+              "scrollHeight": 1117
+            },
+            "categoryColumns": 3,
+            "poseSheetVisible": false,
+            "tourButtons": []
+          },
+          "pass": true
+        },
+        {
+          "id": "tour-creator",
+          "file": "macbook-1728x1117-tour-creator.png",
+          "geometry": {
+            "viewport": {
+              "width": 1728,
+              "height": 1117
+            },
+            "app": {
+              "x": 274,
+              "y": 92.5,
+              "width": 1180,
+              "height": 932,
+              "right": 1454,
+              "bottom": 1024.5
+            },
+            "activeId": "screen-tour-creator",
+            "active": {
+              "width": 1180,
+              "height": 932,
+              "scrollWidth": 1180,
+              "clientWidth": 1180
+            },
+            "document": {
+              "scrollWidth": 1728,
+              "scrollHeight": 1117
+            },
+            "categoryColumns": 3,
+            "poseSheetVisible": false,
+            "tourButtons": []
+          },
+          "pass": true
+        },
+        {
+          "id": "tour-session",
+          "file": "macbook-1728x1117-tour-session.png",
+          "geometry": {
+            "viewport": {
+              "width": 1728,
+              "height": 1117
+            },
+            "app": {
+              "x": 274,
+              "y": 92.5,
+              "width": 1180,
+              "height": 932,
+              "right": 1454,
+              "bottom": 1024.5
+            },
+            "activeId": "screen-tour-session",
+            "active": {
+              "width": 1180,
+              "height": 932,
+              "scrollWidth": 1180,
+              "clientWidth": 1180
+            },
+            "document": {
+              "scrollWidth": 1728,
+              "scrollHeight": 1117
+            },
+            "categoryColumns": 3,
+            "poseSheetVisible": false,
+            "tourButtons": [
+              {
+                "top": 112.5,
+                "bottom": 132.5,
+                "left": 292,
+                "right": 335.78125
+              },
+              {
+                "top": 112,
+                "bottom": 133,
+                "left": 1420.265625,
+                "right": 1436
+              },
+              {
+                "top": 650.5,
+                "bottom": 698.5,
+                "left": 500,
+                "right": 719.0625
+              },
+              {
+                "top": 650.5,
+                "bottom": 698.5,
+                "left": 727.0625,
+                "right": 1000.921875
+              },
+              {
+                "top": 650.5,
+                "bottom": 698.5,
+                "left": 1008.921875,
+                "right": 1228
+              },
+              {
+                "top": 706.5,
+                "bottom": 748.5,
+                "left": 500,
+                "right": 860
+              },
+              {
+                "top": 706.5,
+                "bottom": 748.5,
+                "left": 868,
+                "right": 1228
+              },
+              {
+                "top": 754.5,
+                "bottom": 790.5,
+                "left": 500,
+                "right": 676
+              },
+              {
+                "top": 754.5,
+                "bottom": 790.5,
+                "left": 684,
+                "right": 860
+              },
+              {
+                "top": 754.5,
+                "bottom": 790.5,
+                "left": 868,
+                "right": 1044
+              },
+              {
+                "top": 754.5,
+                "bottom": 790.5,
+                "left": 1052,
+                "right": 1228
+              }
+            ]
+          },
+          "pass": true
+        }
+      ],
+      "errors": []
+    }
+  ],
+  "failures": [],
+  "summary": {
+    "formats": 1,
+    "checks": 12,
+    "screenshots": 12,
+    "failures": 0,
+    "browserErrors": 0
+  }
+}

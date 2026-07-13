@@ -177,21 +177,9 @@ function initStatusBarTime() {
 window.showScreen = function(screenId, pushToStack) {
   // A caller cannot bypass the gate by invoking a navigation function directly.
   if (screenId !== 'login' && !window.PoseArtAuth?.isLoggedIn()) screenId = 'login';
-  const target = document.getElementById('screen-' + screenId);
-  // Responsive shell invariant: focus-driven browser scrolling must never move
-  // the absolute SPA screen stack outside the clipped app viewport.
-  const focused = document.activeElement;
-  if (focused && focused !== document.body && !target?.contains(focused)) focused.blur();
-  const appShell = document.getElementById('app');
-  if (appShell) {
-    appShell.scrollTop = 0;
-    appShell.scrollLeft = 0;
-  }
-  if (AppState.currentScreen && AppState.currentScreen !== screenId && document.getElementById('pose-detail-sheet')?.classList.contains('visible')) {
-    window.closePoseSheet?.();
-  }
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
 
+  const target = document.getElementById('screen-' + screenId);
   if (target) {
     // Push previous screen to stack (if explicitly navigating forward, not a tab switch)
     if (pushToStack && AppState.currentScreen && AppState.currentScreen !== screenId) {
@@ -2674,7 +2662,6 @@ window.moveTourPose = function(sectionId, from, to) {
 window.saveCurrentTour = function() { updateTourDraft(); showToast('Tour saved ✓'); renderTourCreator(); };
 
 window.openTourSession = function(tourId = _tourEditingId) {
-  if (typeof window.closePoseSheet === 'function') window.closePoseSheet();
   updateTourDraft();
   try { AppState.currentTourSession = tourEngine.startTour(tourId); }
   catch (error) { showToast(error.message); return; }

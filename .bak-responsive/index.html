@@ -23,9 +23,7 @@
 /* ── CORE LAYOUT ── */
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 html, body {
-  width: 100%;
   height: 100%;
-  height: 100dvh;
   overflow: hidden;
   background: #0F3B3A;
   font-family: var(--font-body);
@@ -41,18 +39,17 @@ body {
   width: 100%;
   max-width: 430px;
   height: 100%;
-  max-height: 100dvh;
+  max-height: 932px;
   margin: 0 auto;
   position: relative;
   overflow: hidden;
-  overflow: clip;
   background: var(--bg-canvas);
   box-shadow: 0 0 60px rgba(0,0,0,0.4);
 }
 
-@media (min-width: 431px) and (max-width: 767px) {
+@media (min-width: 431px) {
   html, body { background: #0A2827; }
-  #app { max-width: 560px; }
+  #app { border-radius: 32px; height: 932px; }
 }
 
 button { font-family: inherit; cursor: pointer; }
@@ -117,7 +114,6 @@ img { max-width: 100%; }
 .screen.active { display: flex; }
 .screen-scroll {
   flex: 1;
-  min-height: 0;
   overflow-y: auto;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
@@ -1415,57 +1411,7 @@ img { max-width: 100%; }
 #tour-search-results,#tour-overview-list { display:grid; gap:6px; margin-top:8px; max-height:240px; overflow:auto; }#tour-search-results button,#tour-overview-list button { padding:10px; border-radius:8px; background:var(--color-teal-100); text-align:left; display:flex; justify-content:space-between; }
 .tour-summary-section { margin:10px 16px; padding:14px; border:1px solid var(--rule); border-radius:12px; }.tour-summary-section h3{font:var(--type-h3);}.tour-summary-section span{display:inline-block;margin:6px 6px 0 0;padding:5px 8px;background:var(--color-teal-100);border-radius:12px;font:var(--type-caption);}.tour-saved-count{font:var(--type-caption);text-align:center;color:var(--text-secondary);margin-top:6px;}
 .tour-sources{margin:10px 16px;padding:12px;border:1px dashed var(--color-teal-300);border-radius:12px}.tour-sources>div{display:flex;gap:6px;overflow:auto;margin-top:7px}.tour-sources span{white-space:nowrap;padding:5px 8px;border-radius:999px;background:var(--color-teal-100);font:var(--type-caption)}
-.mp-tour-badge { position:absolute;z-index:3;top:6px;left:6px;padding:4px 7px;border-radius:999px;background:var(--brand-gold);color:var(--color-teal-900);font:800 9px/1 var(--font-body);letter-spacing:.8px;}.mp-tour-badge.inline{position:static;display:inline-block}.mp-creator-link,.mp-preview-btn{display:block;color:var(--color-teal-700);font:600 11px/1.2 var(--font-body);margin-bottom:6px;text-decoration:underline}.mp-preview-btn{width:100%;padding:6px;border:1px solid var(--rule);border-radius:7px;text-decoration:none}.mp-drawer{position:absolute;z-index:60;left:12px;right:12px;bottom:12px;max-height:70%;overflow:auto;padding:18px;border-radius:18px;background:#fff;box-shadow:var(--elevation-3);transform:translateY(120%);transition:transform .25s ease}.mp-drawer.open{transform:translateY(0)}.mp-drawer>button:first-child{float:right;font-size:24px}.mp-drawer h2{font:var(--type-h1);margin:8px 0}.mp-creator-avatar{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;background:var(--color-teal-800);color:var(--brand-gold);font:var(--type-h1)}#mp-creator-profile>button:not(:first-child){width:100%;display:flex;justify-content:space-between;padding:10px;margin-top:7px;border-radius:8px;background:var(--color-teal-100);text-align:left}
-
-/* Responsive desktop shell: use available viewport space without scaling the
-   mobile UI or allowing any screen to extend beyond a short laptop display. */
-@media (min-width: 768px) {
-  body { padding: clamp(12px, 2vh, 24px); }
-  #app {
-    width: min(1180px, calc(100vw - 32px));
-    max-width: 1180px;
-    height: min(932px, calc(100dvh - 32px));
-    max-height: calc(100dvh - 32px);
-    border-radius: clamp(18px, 2vw, 28px);
-  }
-  #screen-login { padding-inline: clamp(32px, 8vw, 96px); }
-  .login-panel { max-width: 520px; margin-inline: auto; }
-  .home-header, .gallery-header { padding-inline: clamp(28px, 4vw, 52px); }
-  .featured-card { margin-inline: clamp(28px, 4vw, 52px); padding: 24px 32px; }
-  .section-label { padding-inline: clamp(28px, 4vw, 52px); }
-  .category-grid { padding-inline: clamp(28px, 4vw, 52px); grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
-  .category-card { height: clamp(112px, 12vw, 154px); }
-  .recent-row { padding-inline: clamp(28px, 4vw, 52px); }
-  .pose-grid { padding-inline: clamp(28px, 4vw, 52px); grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
-  .gallery-grid { padding-inline: clamp(28px, 4vw, 52px); grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
-  .gallery-toolbar, .gallery-bulk-actions { margin-inline: clamp(12px, 2vw, 28px); }
-  #mp-pack-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
-  #mp-browse-view, #mp-mine-view, #mp-creator-view { padding-inline: clamp(28px, 4vw, 52px) !important; }
-  #screen-profile .screen-scroll, #screen-progress .screen-scroll,
-  #screen-custom-pose-editor .screen-scroll, #screen-tour-creator .screen-scroll,
-  #screen-tour-summary .screen-scroll { padding-inline: clamp(20px, 8vw, 120px); }
-  .bottom-sheet {
-    left: 50%; right: auto;
-    width: min(760px, calc(100% - 48px));
-    transform: translate(-50%, 100%);
-  }
-  .bottom-sheet.visible { transform: translate(-50%, 0); }
-  .mp-drawer { left: 50%; right: auto; width: min(720px, calc(100% - 48px)); transform: translate(-50%, 120%); }
-  .mp-drawer.open { transform: translate(-50%, 0); }
-  .tour-stage, .tour-session-controls, .tour-section-controls,
-  .tour-session-tools, .tour-photo-strip, .tour-photo-meta { width: min(760px, calc(100% - 48px)); margin-left: auto; margin-right: auto; }
-  #tab-bar { left: 50%; right: auto; width: min(760px, 72%); transform: translateX(-50%); border-radius: 22px 22px 0 0; }
-}
-
-@media (max-height: 820px) {
-  .tour-stage { height: clamp(220px, calc(100dvh - 390px), 360px); min-height: 220px; }
-  #tour-current-pose { height: 100%; min-height: 0; }
-  #tour-current-pose canvas { max-height: 100%; }
-  .tour-photo-strip { min-height: 54px; padding-top: 6px; }
-  .tour-photo-meta { padding-bottom: 8px; }
-}
-
-.flash-overlay { position: absolute; }
+.mp-tour-badge { position:absolute;z-index:3;top:6px;left:6px;padding:4px 7px;border-radius:999px;background:var(--brand-gold);color:var(--color-teal-900);font:800 9px/1 var(--font-body);letter-spacing:.8px;}.mp-tour-badge.inline{position:static;display:inline-block}.mp-creator-link,.mp-preview-btn{display:block;color:var(--color-teal-700);font:600 11px/1.2 var(--font-body);margin-bottom:6px;text-decoration:underline}.mp-preview-btn{width:100%;padding:6px;border:1px solid var(--rule);border-radius:7px;text-decoration:none}.mp-drawer{position:fixed;z-index:60;left:12px;right:12px;bottom:12px;max-height:70vh;overflow:auto;padding:18px;border-radius:18px;background:#fff;box-shadow:var(--elevation-3);transform:translateY(120%);transition:transform .25s ease}.mp-drawer.open{transform:translateY(0)}.mp-drawer>button:first-child{float:right;font-size:24px}.mp-drawer h2{font:var(--type-h1);margin:8px 0}.mp-creator-avatar{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;background:var(--color-teal-800);color:var(--brand-gold);font:var(--type-h1)}#mp-creator-profile>button:not(:first-child){width:100%;display:flex;justify-content:space-between;padding:10px;margin-top:7px;border-radius:8px;background:var(--color-teal-100);text-align:left}
 </style>
 </head>
 <body>

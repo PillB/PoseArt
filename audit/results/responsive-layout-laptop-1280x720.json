@@ -1,0 +1,485 @@
+{
+  "url": "http://127.0.0.1:8095/index.html",
+  "generatedAt": "2026-07-13T19:29:10.644Z",
+  "formats": [
+    {
+      "id": "laptop-1280x720",
+      "width": 1280,
+      "height": 720,
+      "screens": [
+        {
+          "id": "login",
+          "file": "laptop-1280x720-login.png",
+          "geometry": {
+            "viewport": {
+              "width": 1280,
+              "height": 720
+            },
+            "app": {
+              "x": 50,
+              "y": 16,
+              "width": 1180,
+              "height": 688,
+              "right": 1230,
+              "bottom": 704
+            },
+            "activeId": "screen-login",
+            "active": {
+              "width": 1180,
+              "height": 688,
+              "scrollWidth": 1180,
+              "clientWidth": 1180
+            },
+            "document": {
+              "scrollWidth": 1280,
+              "scrollHeight": 720
+            },
+            "categoryColumns": 3,
+            "poseSheetVisible": false,
+            "tourButtons": []
+          },
+          "pass": true
+        },
+        {
+          "id": "home",
+          "file": "laptop-1280x720-home.png",
+          "geometry": {
+            "viewport": {
+              "width": 1280,
+              "height": 720
+            },
+            "app": {
+              "x": 50,
+              "y": 16,
+              "width": 1180,
+              "height": 688,
+              "right": 1230,
+              "bottom": 704
+            },
+            "activeId": "screen-home",
+            "active": {
+              "width": 1180,
+              "height": 688,
+              "scrollWidth": 1180,
+              "clientWidth": 1180
+            },
+            "document": {
+              "scrollWidth": 1280,
+              "scrollHeight": 720
+            },
+            "categoryColumns": 4,
+            "poseSheetVisible": false,
+            "tourButtons": []
+          },
+          "pass": true
+        },
+        {
+          "id": "library",
+          "file": "laptop-1280x720-library.png",
+          "geometry": {
+            "viewport": {
+              "width": 1280,
+              "height": 720
+            },
+            "app": {
+              "x": 50,
+              "y": 16,
+              "width": 1180,
+              "height": 688,
+              "right": 1230,
+              "bottom": 704
+            },
+            "activeId": "screen-library",
+            "active": {
+              "width": 1180,
+              "height": 688,
+              "scrollWidth": 1180,
+              "clientWidth": 1180
+            },
+            "document": {
+              "scrollWidth": 1280,
+              "scrollHeight": 720
+            },
+            "categoryColumns": 3,
+            "poseSheetVisible": false,
+            "tourButtons": []
+          },
+          "pass": true
+        },
+        {
+          "id": "category",
+          "file": "laptop-1280x720-category.png",
+          "geometry": {
+            "viewport": {
+              "width": 1280,
+              "height": 720
+            },
+            "app": {
+              "x": 50,
+              "y": 16,
+              "width": 1180,
+              "height": 688,
+              "right": 1230,
+              "bottom": 704
+            },
+            "activeId": "screen-category-list",
+            "active": {
+              "width": 1180,
+              "height": 688,
+              "scrollWidth": 1180,
+              "clientWidth": 1180
+            },
+            "document": {
+              "scrollWidth": 1280,
+              "scrollHeight": 720
+            },
+            "categoryColumns": 3,
+            "poseSheetVisible": false,
+            "tourButtons": []
+          },
+          "pass": true
+        },
+        {
+          "id": "pose-detail",
+          "file": "laptop-1280x720-pose-detail.png",
+          "geometry": {
+            "viewport": {
+              "width": 1280,
+              "height": 720
+            },
+            "app": {
+              "x": 50,
+              "y": 16,
+              "width": 1180,
+              "height": 688,
+              "right": 1230,
+              "bottom": 704
+            },
+            "activeId": "screen-category-list",
+            "active": {
+              "width": 1180,
+              "height": 688,
+              "scrollWidth": 1180,
+              "clientWidth": 1180
+            },
+            "document": {
+              "scrollWidth": 1280,
+              "scrollHeight": 720
+            },
+            "categoryColumns": 3,
+            "poseSheetVisible": true,
+            "tourButtons": []
+          },
+          "pass": true
+        },
+        {
+          "id": "gallery",
+          "file": "laptop-1280x720-gallery.png",
+          "geometry": {
+            "viewport": {
+              "width": 1280,
+              "height": 720
+            },
+            "app": {
+              "x": 50,
+              "y": 16,
+              "width": 1180,
+              "height": 688,
+              "right": 1230,
+              "bottom": 704
+            },
+            "activeId": "screen-gallery",
+            "active": {
+              "width": 1180,
+              "height": 688,
+              "scrollWidth": 1180,
+              "clientWidth": 1180
+            },
+            "document": {
+              "scrollWidth": 1280,
+              "scrollHeight": 720
+            },
+            "categoryColumns": 3,
+            "poseSheetVisible": false,
+            "tourButtons": []
+          },
+          "pass": true
+        },
+        {
+          "id": "profile",
+          "file": "laptop-1280x720-profile.png",
+          "geometry": {
+            "viewport": {
+              "width": 1280,
+              "height": 720
+            },
+            "app": {
+              "x": 50,
+              "y": 16,
+              "width": 1180,
+              "height": 688,
+              "right": 1230,
+              "bottom": 704
+            },
+            "activeId": "screen-profile",
+            "active": {
+              "width": 1180,
+              "height": 688,
+              "scrollWidth": 1180,
+              "clientWidth": 1180
+            },
+            "document": {
+              "scrollWidth": 1280,
+              "scrollHeight": 720
+            },
+            "categoryColumns": 3,
+            "poseSheetVisible": false,
+            "tourButtons": []
+          },
+          "pass": true
+        },
+        {
+          "id": "editor",
+          "file": "laptop-1280x720-editor.png",
+          "geometry": {
+            "viewport": {
+              "width": 1280,
+              "height": 720
+            },
+            "app": {
+              "x": 50,
+              "y": 16,
+              "width": 1180,
+              "height": 688,
+              "right": 1230,
+              "bottom": 704
+            },
+            "activeId": "screen-custom-pose-editor",
+            "active": {
+              "width": 1180,
+              "height": 688,
+              "scrollWidth": 1180,
+              "clientWidth": 1180
+            },
+            "document": {
+              "scrollWidth": 1280,
+              "scrollHeight": 720
+            },
+            "categoryColumns": 3,
+            "poseSheetVisible": false,
+            "tourButtons": []
+          },
+          "pass": true
+        },
+        {
+          "id": "marketplace",
+          "file": "laptop-1280x720-marketplace.png",
+          "geometry": {
+            "viewport": {
+              "width": 1280,
+              "height": 720
+            },
+            "app": {
+              "x": 50,
+              "y": 16,
+              "width": 1180,
+              "height": 688,
+              "right": 1230,
+              "bottom": 704
+            },
+            "activeId": "screen-marketplace",
+            "active": {
+              "width": 1180,
+              "height": 688,
+              "scrollWidth": 1180,
+              "clientWidth": 1180
+            },
+            "document": {
+              "scrollWidth": 1280,
+              "scrollHeight": 720
+            },
+            "categoryColumns": 3,
+            "poseSheetVisible": false,
+            "tourButtons": []
+          },
+          "pass": true
+        },
+        {
+          "id": "camera",
+          "file": "laptop-1280x720-camera.png",
+          "geometry": {
+            "viewport": {
+              "width": 1280,
+              "height": 720
+            },
+            "app": {
+              "x": 50,
+              "y": 16,
+              "width": 1180,
+              "height": 688,
+              "right": 1230,
+              "bottom": 704
+            },
+            "activeId": "screen-camera",
+            "active": {
+              "width": 1180,
+              "height": 688,
+              "scrollWidth": 1180,
+              "clientWidth": 1180
+            },
+            "document": {
+              "scrollWidth": 1280,
+              "scrollHeight": 720
+            },
+            "categoryColumns": 3,
+            "poseSheetVisible": false,
+            "tourButtons": []
+          },
+          "pass": true
+        },
+        {
+          "id": "tour-creator",
+          "file": "laptop-1280x720-tour-creator.png",
+          "geometry": {
+            "viewport": {
+              "width": 1280,
+              "height": 720
+            },
+            "app": {
+              "x": 50,
+              "y": 16,
+              "width": 1180,
+              "height": 688,
+              "right": 1230,
+              "bottom": 704
+            },
+            "activeId": "screen-tour-creator",
+            "active": {
+              "width": 1180,
+              "height": 688,
+              "scrollWidth": 1180,
+              "clientWidth": 1180
+            },
+            "document": {
+              "scrollWidth": 1280,
+              "scrollHeight": 720
+            },
+            "categoryColumns": 3,
+            "poseSheetVisible": false,
+            "tourButtons": []
+          },
+          "pass": true
+        },
+        {
+          "id": "tour-session",
+          "file": "laptop-1280x720-tour-session.png",
+          "geometry": {
+            "viewport": {
+              "width": 1280,
+              "height": 720
+            },
+            "app": {
+              "x": 50,
+              "y": 16,
+              "width": 1180,
+              "height": 688,
+              "right": 1230,
+              "bottom": 704
+            },
+            "activeId": "screen-tour-session",
+            "active": {
+              "width": 1180,
+              "height": 688,
+              "scrollWidth": 1180,
+              "clientWidth": 1180
+            },
+            "document": {
+              "scrollWidth": 1280,
+              "scrollHeight": 720
+            },
+            "categoryColumns": 3,
+            "poseSheetVisible": false,
+            "tourButtons": [
+              {
+                "top": 36,
+                "bottom": 56,
+                "left": 68,
+                "right": 111.78125
+              },
+              {
+                "top": 35.5,
+                "bottom": 56.5,
+                "left": 1196.265625,
+                "right": 1212
+              },
+              {
+                "top": 480,
+                "bottom": 528,
+                "left": 276,
+                "right": 495.0625
+              },
+              {
+                "top": 480,
+                "bottom": 528,
+                "left": 503.0625,
+                "right": 776.921875
+              },
+              {
+                "top": 480,
+                "bottom": 528,
+                "left": 784.921875,
+                "right": 1004
+              },
+              {
+                "top": 536,
+                "bottom": 578,
+                "left": 276,
+                "right": 636
+              },
+              {
+                "top": 536,
+                "bottom": 578,
+                "left": 644,
+                "right": 1004
+              },
+              {
+                "top": 584,
+                "bottom": 620,
+                "left": 276,
+                "right": 452
+              },
+              {
+                "top": 584,
+                "bottom": 620,
+                "left": 460,
+                "right": 636
+              },
+              {
+                "top": 584,
+                "bottom": 620,
+                "left": 644,
+                "right": 820
+              },
+              {
+                "top": 584,
+                "bottom": 620,
+                "left": 828,
+                "right": 1004
+              }
+            ]
+          },
+          "pass": true
+        }
+      ],
+      "errors": []
+    }
+  ],
+  "failures": [],
+  "summary": {
+    "formats": 1,
+    "checks": 12,
+    "screenshots": 12,
+    "failures": 0,
+    "browserErrors": 0
+  }
+}
