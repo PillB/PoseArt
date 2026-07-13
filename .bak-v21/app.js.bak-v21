@@ -59,9 +59,6 @@ const AppState = {
   gallerySelectedId: null,
   screenStack: [],  // Navigation history for goBack()
   isDemoMode: false,  // True when user skipped camera permission
-  isTourSession: false,
-  currentTourId: null,
-  currentTourSession: null,
 };
 window.AppState = AppState;
 
@@ -137,13 +134,11 @@ window.showScreen = function(screenId, pushToStack) {
   const isOnboarding = ['ob1','ob2','ob3','ob4'].includes(screenId);
   const isCamera = screenId === 'camera';
   const isReview = screenId === 'review';
-  const isTourFlow = ['tour-session', 'tour-summary'].includes(screenId);
-  const hideTabs = isOnboarding || isCamera || isReview || isTourFlow;
+  const hideTabs = isOnboarding || isCamera || isReview;
 
   if (tabBar) {
     tabBar.style.opacity = hideTabs ? '0' : '1';
     tabBar.style.pointerEvents = hideTabs ? 'none' : 'all';
-    tabBar.style.visibility = hideTabs ? 'hidden' : 'visible';
   }
 }
 
@@ -2407,146 +2402,6 @@ window.addEventListener('DOMContentLoaded', function() {
       profileScreen.querySelector('.screen-scroll').appendChild(mpBtn);
     }
   }, 200);
-});
-
-// ── TOUR CREATOR + SESSION (v2.1) ────────────────────────────
-let _tourEditingId = null;
-function escapeHtml(value) {
-  const element = document.createElement('span');
-  element.textContent = String(value ?? '');
-  return element.innerHTML;
-}
-
-window.openTourCreator = function(tourId) {
-  let tour = tourId ? getTour(tourId) : null;
-  if (!tour) tour = tourEngine.createTour('New Tour', 'A guided PoseArt sequence');
-  _tourEditingId = tour.id;
-  renderTourCreator();
-  showScreen('tour-creator', true);
-};
-
-window.renderTourCreator = function() {
-  const tour = getTour(_tourEditingId);
-  if (!tour) return;
-  const name = document.getElementById('tour-name');
-  const desc = document.getElementById('tour-description');
-  if (name && document.activeElement !== name) name.value = tour.name;
-  if (desc && document.activeElement !== desc) desc.value = tour.description;
-  const sections = document.getElementById('tour-sections');
-  if (!sections) return;
-  sections.innerHTML = tour.sections.map((section, sectionIndex) => `
-    <article class="tour-section-card" data-section-id="${section.id}">
-      <div class="tour-section-heading"><span>SECTION ${sectionIndex + 1}: ${escapeHtml(section.name)}</span><span class="tour-type-badge">${escapeHtml(section.type)}</span></div>
-      <div class="tour-pose-row">
-        ${section.poseIds.map((poseId, poseIndex) => {
-          const pose = POSES_LIBRARY[poseId];
-          return `<div class="tour-pose-chip"><div class="tour-pose-figure">${renderPoseFigureSVG(pose, false)}</div><span>${escapeHtml(pose?.name || poseId)}</span><button onclick="removeTourPose('${section.id}','${poseId}')" aria-label="Remove ${escapeHtml(pose?.name || poseId)}">×</button>${poseIndex ? `<button onclick="moveTourPose('${section.id}',${poseIndex},${poseIndex - 1})" aria-label="Move pose left">←</button>` : ''}</div>`;
-        }).join('')}
-        <button class="tour-add-pose" onclick="addSuggestedTourPose('${section.id}')" aria-label="Add pose">＋<span>Add pose</span></button>
-      </div>
-    </article>`).join('') || '<div class="tour-empty">Add a section to begin building your sequence.</div>';
-  window.renderPendingAvatars?.(sections);
-  const start = document.getElementById('tour-start-btn');
-  if (start) start.disabled = !tour.sections.some(section => section.poseIds.length);
-};
-
-window.updateTourDraft = function() {
-  const tour = getTour(_tourEditingId); if (!tour) return;
-  tour.name = document.getElementById('tour-name')?.value.trim() || 'Untitled Tour';
-  tour.description = document.getElementById('tour-description')?.value.trim() || '';
-  tour.updatedAt = new Date().toISOString(); saveTour(tour);
-};
-
-window.addTourSection = function(name, type) {
-  const index = getTour(_tourEditingId)?.sections.length || 0;
-  tourEngine.addSection(_tourEditingId, name || `Section ${index + 1}`, type || ['glamour', 'dynamic', 'fine-art'][index % 3]);
-  renderTourCreator();
-};
-
-window.addSuggestedTourPose = function(sectionId, poseId) {
-  const section = getTour(_tourEditingId)?.sections.find(item => String(item.id) === String(sectionId));
-  const suggestions = Object.values(POSES_LIBRARY).filter(pose => !section?.poseIds.includes(pose.id));
-  tourEngine.addPoseToSection(_tourEditingId, sectionId, poseId || suggestions[0]?.id);
-  renderTourCreator();
-};
-
-window.removeTourPose = function(sectionId, poseId) { tourEngine.removePoseFromSection(_tourEditingId, sectionId, poseId); renderTourCreator(); };
-window.moveTourPose = function(sectionId, from, to) {
-  const section = getTour(_tourEditingId)?.sections.find(item => String(item.id) === String(sectionId));
-  if (!section) return;
-  const order = section.poseIds.slice(); order.splice(to, 0, order.splice(from, 1)[0]);
-  tourEngine.reorderSection(_tourEditingId, sectionId, order); renderTourCreator();
-};
-window.saveCurrentTour = function() { updateTourDraft(); showToast('Tour saved ✓'); renderTourCreator(); };
-
-window.openTourSession = function(tourId = _tourEditingId) {
-  updateTourDraft();
-  try { AppState.currentTourSession = tourEngine.startTour(tourId); }
-  catch (error) { showToast(error.message); return; }
-  AppState.isTourSession = true; AppState.currentTourId = tourId;
-  renderTourSession(); showScreen('tour-session', true);
-};
-
-window.renderTourSession = function() {
-  const state = tourEngine.getState(); if (!state) return;
-  AppState.currentTourSession = state; AppState.selectedPoseId = state.poseId;
-  const pose = POSES_LIBRARY[state.poseId];
-  document.getElementById('tour-session-title').textContent = state.tour.name;
-  document.getElementById('tour-section-progress').textContent = `Section ${state.sectionIndex + 1}/${state.tour.sections.length}: ${state.section.name}`;
-  document.getElementById('tour-pose-progress').textContent = `Pose ${state.poseIndex + 1}/${state.section.poseIds.length}`;
-  const preview = document.getElementById('tour-current-pose');
-  preview.innerHTML = renderPoseFigureSVG(pose, true);
-  window.renderPendingAvatars?.(preview);
-  document.getElementById('tour-current-name').textContent = pose?.name || state.poseId;
-  renderTourPhotos(); renderTourOverview();
-};
-
-window.nextTourPose = function() { tourEngine.nextPose(); renderTourSession(); };
-window.prevTourPose = function() { tourEngine.prevPose(); renderTourSession(); };
-window.nextTourSection = function() { tourEngine.nextSection(); renderTourSession(); };
-window.prevTourSection = function() { tourEngine.prevSection(); renderTourSession(); };
-window.captureTourPhoto = function() { const item = tourEngine.captureInTour(null, { score: 100 }); showToast(`Captured ${item.poseName}`); renderTourPhotos(); };
-
-function renderTourPhotos() {
-  const state = tourEngine.getState(); if (!state) return;
-  const photos = tourEngine.getTourPhotos(state.tour.id, state.section.id);
-  document.getElementById('tour-photo-strip').innerHTML = photos.map(item => `<button class="tour-photo-thumb" onclick="openGalleryItem('${item.id}')">${item.dataUrl ? `<img src="${item.dataUrl}" alt="${escapeHtml(item.poseName)}">` : renderPoseFigureSVG(POSES_LIBRARY[item.poseId], false)}</button>`).join('') || '<span class="tour-no-photos">No captures in this section yet</span>';
-  document.getElementById('tour-photo-count').textContent = `${photos.length} photo${photos.length === 1 ? '' : 's'}`;
-  window.renderPendingAvatars?.(document.getElementById('tour-photo-strip'));
-}
-
-window.searchTourPoses = function() {
-  const query = document.getElementById('tour-search-input')?.value || '';
-  const results = tourEngine.searchPosesInTour(query);
-  document.getElementById('tour-search-results').innerHTML = results.map(pose => `<button onclick="jumpToTourPose('${pose.id}')">${escapeHtml(pose.name)}</button>`).join('') || '<span>No matching pose</span>';
-};
-window.jumpToTourPose = function(poseId) { tourEngine.jumpToPose(poseId); document.getElementById('tour-search-panel').classList.remove('open'); renderTourSession(); };
-window.toggleTourSearch = function() { document.getElementById('tour-search-panel').classList.toggle('open'); };
-window.toggleTourOverview = function() { document.getElementById('tour-overview').classList.toggle('open'); };
-function renderTourOverview() {
-  const state = tourEngine.getState(); if (!state) return;
-  document.getElementById('tour-overview-list').innerHTML = state.tour.sections.map((section, index) => `<button onclick="jumpToTourPose('${section.poseIds[0] || ''}')"><strong>${index + 1}. ${escapeHtml(section.name)}</strong><span>${section.poseIds.length} poses</span></button>`).join('');
-}
-
-window.endTourSession = function() {
-  const state = tourEngine.getState(); if (!state) return;
-  const photos = tourEngine.getTourPhotos(state.tour.id);
-  document.getElementById('tour-summary-title').textContent = state.tour.name;
-  document.getElementById('tour-summary-total').textContent = `${photos.length} total capture${photos.length === 1 ? '' : 's'}`;
-  document.getElementById('tour-summary-sections').innerHTML = state.tour.sections.map(section => {
-    const sectionPhotos = photos.filter(item => String(item.sectionId) === String(section.id));
-    return `<article class="tour-summary-section"><h3>${escapeHtml(section.name)} · ${sectionPhotos.length}</h3><div>${sectionPhotos.map(item => `<span>${escapeHtml(item.poseName)}</span>`).join('') || '<span>No captures</span>'}</div></article>`;
-  }).join('');
-  AppState.isTourSession = false; showScreen('tour-summary', true);
-};
-
-window.addEventListener('DOMContentLoaded', () => {
-  const tools = document.querySelector('#screen-profile .screen-scroll');
-  if (tools && !document.getElementById('profile-tour-btn')) {
-    const section = document.createElement('div'); section.className = 'settings-section'; section.id = 'profile-tour-btn'; section.style.marginTop = '12px';
-    section.innerHTML = '<div class="settings-section-title">Tours</div><button class="btn btn-teal btn-block" onclick="openTourCreator()">＋ Create a Pose Tour</button><div class="tour-saved-count">Build guided multi-section sequences.</div>';
-    tools.appendChild(section);
-  }
 });
 
 console.log('%cPoseArt v1.7 — Marketplace loaded.', 'color:#C9A24C;font-family:serif;font-size:11px;');

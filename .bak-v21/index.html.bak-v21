@@ -1355,31 +1355,6 @@ img { max-width: 100%; }
 .flash-overlay.flashing {
   animation: camera-flash 0.4s ease-out forwards;
 }
-.tour-shell { background:var(--bg-canvas); color:var(--text-primary); }
-.tour-topbar { display:flex; align-items:center; justify-content:space-between; padding:16px 18px 10px; }
-.tour-topbar h1 { font:var(--type-h2); }
-.tour-form { padding:0 18px 12px; display:grid; gap:8px; }
-.tour-form input,.tour-form textarea,.tour-search-panel input { width:100%; border:1px solid var(--rule); border-radius:10px; padding:11px; background:#fff; font:var(--type-body); }
-.tour-section-card { margin:10px 16px; border:1px solid var(--rule); border-radius:14px; padding:12px; background:#fff; }
-.tour-section-heading { display:flex; justify-content:space-between; font:700 12px/16px var(--font-body); color:var(--color-teal-800); }
-.tour-type-badge { border-radius:20px; background:var(--color-teal-100); padding:2px 8px; }
-.tour-pose-row { display:flex; gap:8px; overflow-x:auto; padding-top:10px; }
-.tour-pose-chip,.tour-add-pose { width:92px; min-width:92px; min-height:116px; border:1px solid var(--rule); border-radius:10px; position:relative; background:var(--bg-canvas); font:600 10px/12px var(--font-body); }
-.tour-pose-figure { height:80px; overflow:hidden; }.tour-pose-figure canvas { width:100%!important; height:100%!important; }
-.tour-pose-chip>button { position:absolute; top:2px; right:2px; width:22px; height:22px; border-radius:50%; background:var(--color-teal-800); color:#fff; }
-.tour-pose-chip>button+button { right:26px; }.tour-add-pose { display:grid; place-content:center; font-size:24px; }.tour-add-pose span{font-size:10px;}
-.tour-creator-actions { display:grid; gap:8px; padding:10px 16px 100px; }
-#screen-tour-session { background:#082f2e; color:#fff; }
-.tour-session-progress { padding:0 18px; }.tour-session-progress strong { color:var(--brand-gold); }.tour-progress-rule { height:4px; border-radius:4px; background:linear-gradient(90deg,var(--brand-gold) 45%,rgba(255,255,255,.18) 45%); margin:8px 0; }
-.tour-stage { height:420px; margin:12px 16px; border-radius:18px; background:linear-gradient(160deg,#ddefed,#f6f0e1); display:flex; flex-direction:column; align-items:center; justify-content:center; color:var(--color-teal-900); overflow:hidden; }
-#tour-current-pose { width:100%; height:355px; display:grid; place-items:center; } #tour-current-pose canvas { max-height:350px; }
-.tour-session-controls { display:grid; grid-template-columns:1fr 1.25fr 1fr; gap:8px; padding:0 16px 8px; }.tour-session-controls button,.tour-section-controls button { padding:12px 6px; border:1px solid rgba(255,255,255,.25); border-radius:24px; color:#fff; background:rgba(255,255,255,.08); }
-.tour-session-controls .capture { background:var(--brand-gold); color:var(--color-teal-900); font-weight:700; }.tour-section-controls { display:grid; grid-template-columns:1fr 1fr; gap:8px; padding:0 16px; }
-.tour-photo-strip { display:flex; gap:6px; overflow-x:auto; padding:10px 16px 4px; min-height:66px; }.tour-photo-thumb { width:54px; min-width:54px; height:54px; border-radius:8px; background:#ddefed; overflow:hidden; }.tour-photo-thumb canvas,.tour-photo-thumb img { width:100%!important;height:100%!important;object-fit:cover; }
-.tour-photo-meta { padding:0 16px 20px; font:var(--type-caption); color:var(--color-gold-300); }.tour-session-tools { display:flex; gap:8px; padding:6px 16px; }.tour-session-tools button { flex:1; color:#fff; background:rgba(255,255,255,.08); border-radius:12px; padding:8px; font:var(--type-caption); }
-.tour-search-panel,.tour-overview { position:absolute; z-index:12; left:12px; right:12px; bottom:12px; border-radius:16px; padding:14px; background:#fff; color:var(--text-primary); transform:translateY(120%); transition:transform .25s ease; }.tour-search-panel.open,.tour-overview.open { transform:translateY(0); }
-#tour-search-results,#tour-overview-list { display:grid; gap:6px; margin-top:8px; max-height:240px; overflow:auto; }#tour-search-results button,#tour-overview-list button { padding:10px; border-radius:8px; background:var(--color-teal-100); text-align:left; display:flex; justify-content:space-between; }
-.tour-summary-section { margin:10px 16px; padding:14px; border:1px solid var(--rule); border-radius:12px; }.tour-summary-section h3{font:var(--type-h3);}.tour-summary-section span{display:inline-block;margin:6px 6px 0 0;padding:5px 8px;background:var(--color-teal-100);border-radius:12px;font:var(--type-caption);}.tour-saved-count{font:var(--type-caption);text-align:center;color:var(--text-secondary);margin-top:6px;}
 </style>
 </head>
 <body>
@@ -2247,32 +2222,6 @@ img { max-width: 100%; }
     </div>
   </section>
 
-  <section id="screen-tour-creator" class="screen tour-shell">
-    <div class="tour-topbar"><button onclick="goBack()" aria-label="Back">←</button><h1>Tour Creator</h1><button onclick="saveCurrentTour()" aria-label="Save tour">✓</button></div>
-    <div class="screen-scroll">
-      <div class="tour-form"><input id="tour-name" aria-label="Tour name" placeholder="Tour name" oninput="updateTourDraft()"><textarea id="tour-description" aria-label="Tour description" placeholder="Description" oninput="updateTourDraft()"></textarea></div>
-      <div id="tour-sections"></div>
-      <div class="tour-creator-actions"><button class="btn btn-outline" data-testid="tour-add-section" onclick="addTourSection()">＋ Add Section</button><button id="tour-start-btn" class="btn btn-gold" data-testid="tour-start" onclick="openTourSession()">Start Tour Session</button><button class="btn btn-teal" onclick="saveCurrentTour()">Save Tour</button><button class="btn btn-outline" disabled>Sell on Marketplace · v2.3</button></div>
-    </div>
-  </section>
-
-  <section id="screen-tour-session" class="screen">
-    <div class="tour-topbar"><button onclick="endTourSession()">← End</button><h1 id="tour-session-title">Tour</h1><button onclick="toggleTourOverview()">☰</button></div>
-    <div class="tour-session-progress"><strong id="tour-section-progress"></strong><div class="tour-progress-rule"></div><span id="tour-pose-progress"></span></div>
-    <div class="tour-stage"><div id="tour-current-pose"></div><strong id="tour-current-name"></strong></div>
-    <div class="tour-session-controls"><button onclick="prevTourPose()">◀ Prev</button><button class="capture" data-testid="tour-capture" onclick="captureTourPhoto()">📸 Capture</button><button onclick="nextTourPose()">Next ▶</button></div>
-    <div class="tour-section-controls"><button onclick="prevTourSection()">◀ Section</button><button onclick="nextTourSection()">Section ▶</button></div>
-    <div class="tour-session-tools"><button onclick="toggleTourSearch()">⌕ Search pose</button><button onclick="toggleTourOverview()">Section overview</button></div>
-    <div id="tour-photo-strip" class="tour-photo-strip"></div><div class="tour-photo-meta"><span id="tour-photo-count">0 photos</span></div>
-    <div id="tour-search-panel" class="tour-search-panel"><input id="tour-search-input" placeholder="Search this tour" oninput="searchTourPoses()"><div id="tour-search-results"></div></div>
-    <div id="tour-overview" class="tour-overview"><strong>Tour sections</strong><div id="tour-overview-list"></div></div>
-  </section>
-
-  <section id="screen-tour-summary" class="screen tour-shell">
-    <div class="tour-topbar"><button onclick="showTab('home')">×</button><h1>Tour Complete</h1><span></span></div>
-    <div class="screen-scroll"><div style="padding:18px;text-align:center"><h2 id="tour-summary-title" style="font:var(--type-h1)"></h2><p id="tour-summary-total"></p></div><div id="tour-summary-sections"></div><div style="padding:16px 16px 100px"><button class="btn btn-gold btn-block" onclick="showTab('gallery')">View Gallery</button></div></div>
-  </section>
-
   <!-- ══════════════════════ TOAST ══════════════════════ -->
   <div id="toast" role="status" aria-live="polite"><span id="toast-text"></span></div>
 
@@ -2282,7 +2231,6 @@ img { max-width: 100%; }
 <script src="js/poses-data.js"></script>
 <script src="js/pose-skeleton-3d.js"></script>
 <script src="js/camera.js"></script>
-<script src="js/tour-engine.js"></script>
 <script src="js/app.js"></script>
 <script src="js/pose-animations.js"></script>
 </body>

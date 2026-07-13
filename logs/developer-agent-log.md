@@ -566,3 +566,44 @@ This file is append-only and records the v1.1 through v1.8 implementation sequen
 - Files re-read unnecessarily: 0
 - Commands batched: 5
 - Phase completed within budget: ✅
+
+### Commit: v2.0 phase completion
+**Files modified:** `logs/developer-agent-log.md`
+**Expected result:** Record the verified atomic phase commit.
+**Actual result:** Created commit `36ad548` with the exact message `v2.0 PR-v20: gallery perfection — save to photos, copy, download, bulk select, filter/sort`.
+**Verification:** `git log --oneline -1` returned `36ad548`.
+**VLM check:** Refer to the completed v2.0 evidence entry.
+**Status:** ✅ PASS
+
+---
+## Phase v2.1 — Tour/Sequence System — 2026-07-12 America/Lima
+
+### Action: Plan, back up, and implement persistent tour architecture
+**Files modified:** `.bak-v21/`, `js/tour-engine.js`, `js/poses-data.js`, `js/app.js`, `index.html`.
+**Expected result:** Deliver a persistent sectioned tour builder and interactive session with pose/section navigation, tagged captures, search/jump, overview, and per-section photo summary.
+**Actual result:** Backed up all existing targets. Added tour CRUD persistence, standalone `TourEngine`, section/pose mutation and reorder APIs, session boundary navigation, search, tagged capture lookup, creator/session/summary controllers, three mobile screens, profile entry, safe text rendering, and tour-specific navigation handling.
+**Verification:** Syntax passed after each code change; skeleton and avatar suites remain 745/745. Stopping criteria require two persistent sections/six poses, deterministic boundary navigation, tour/section/pose capture tags, grouped summary, visible mobile controls, and zero browser errors.
+**VLM check:** Deferred until the browser generated creator/session evidence.
+**Status:** ✅ PASS
+
+### Action: Diagnose and complete tour browser verification
+**Files modified:** `scripts/verify_tour.js`, `js/app.js`, `index.html`, `audit/screenshots/v2.1-tour-*.png`.
+**Expected result:** Verify actual persistence, navigation, capture tags, summary grouping, and mobile visuals.
+**Actual result:** Attempt 1 exposed a missing `escapeHtml` helper and was fixed with DOM-based escaping. Attempt 2 revealed the verifier cleared storage on every reload; its init hook was corrected to clear once per context. The next run passed: Editorial Flow persisted with 2 sections/6 poses, crossing past pose 3 entered Dynamic pose 1, capture recorded tourId/sectionId/model-walk, summary rendered 2 sections, and browser errors were zero. Contrast and hidden-tab visual polish were followed by another passing evidence run.
+**Verification:** `verify_tour.js` PASS; final `node --check` on engine/data/app/verifier; skeleton 745/745; avatar 745/745; validator 0/745; vibe 0 CRITICAL/0 HIGH/1 MEDIUM; edge audit 10/10.
+**VLM check:** Environment vision confirms the creator shows named sections, six distinct pose previews, add/remove/reorder affordances, Add Section, Start and Save. Session shows current procedural pose, section 2/2 and pose 1/3 progress, previous/next pose and section controls, Capture, search, overview, and current-section photo strip with readable contrast.
+**Status:** ✅ PASS
+
+### Retrospective:
+- What went well: Engine state stayed independent from DOM state, reload persistence and section boundaries were directly asserted, and capture metadata integrates cleanly with the existing gallery schema.
+- What didn't: The first UI render referenced an assumed escaping helper; the first persistence test hook also reset the state it intended to validate. Both diagnoses were localized and fixed before the final pass.
+- What to do differently next phase: Inventory shared helpers explicitly and separate one-time test setup from per-navigation init scripts.
+
+### Token Usage Log — Phase v2.1
+- Estimated tokens consumed: under 18,000
+- Turns used: 17 tool actions
+- Subagents spawned: 0
+- Subagent polls: 0
+- Files re-read unnecessarily: 0
+- Commands batched: 7
+- Phase completed within budget: ✅

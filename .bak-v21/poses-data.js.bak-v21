@@ -7919,23 +7919,3 @@ function toggleFavorite(poseId) {
   return idx === -1; // true if now favorited
 }
 function isFavorite(poseId) { return _favorites.includes(poseId); }
-
-// ── TOURS — sectioned pose sequences (v2.1) ──
-const _tours = Array.isArray(restore('tours')) ? restore('tours') : [];
-function getTours() { return _tours.map(tour => JSON.parse(JSON.stringify(tour))); }
-function getTour(id) { return _tours.find(tour => String(tour.id) === String(id)) || null; }
-function saveTour(tour) {
-  if (!tour || tour.id == null) return null;
-  const copy = JSON.parse(JSON.stringify(tour));
-  const index = _tours.findIndex(item => String(item.id) === String(copy.id));
-  if (index > -1) _tours[index] = copy; else _tours.unshift(copy);
-  persist('tours', _tours);
-  return getTour(copy.id);
-}
-function deleteTour(id) {
-  const index = _tours.findIndex(tour => String(tour.id) === String(id));
-  if (index < 0) return false;
-  _tours.splice(index, 1);
-  persist('tours', _tours);
-  return true;
-}
