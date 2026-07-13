@@ -648,3 +648,44 @@ This file is append-only and records the v1.1 through v1.8 implementation sequen
 - Files re-read unnecessarily: 0
 - Commands batched: 5
 - Phase completed within budget: ✅
+
+### Commit: v2.2 phase completion
+**Files modified:** `logs/developer-agent-log.md`
+**Expected result:** Record the camera-flow phase commit.
+**Actual result:** Created `7c07eb4` with the exact v2.2 message.
+**Verification:** Latest Git log entry matches the required subject.
+**VLM check:** Refer to v2.2 camera evidence.
+**Status:** ✅ PASS
+
+---
+## Phase v2.3 — Marketplace Tour Selling & Purchase Perfection — 2026-07-12 America/Lima
+
+### Action: Write v2.3 implementation plan
+**Files modified:** Planned `.bak-v23/`, `js/app.js`, `index.html`, verifier, screenshots, work log.
+**Expected result:** Publish/browse/preview/purchase tours, open creator profiles, rate owned products, expose bundles, and search pose contents with price filters without regressing pose packs.
+**Actual result:** Plan: inspect marketplace storage and card/purchase paths; back up targets; generalize product cards with type/badge/tour linkage; add preview drawer, creator profile, purchased-only review API, bundle pricing and price filter; connect creator tour publish and owned-tour Start; verify create→publish→browse→purchase→start, creator catalog, review gating, visuals, old marketplace verifier, full regressions.
+**Verification:** Stopping criteria: published tour appears with TOUR badge; preview shows first two pose names; purchase adds owned product and exposes Start Tour; creator profile lists products; only owned products accept ratings; zero browser errors.
+**VLM check:** Marketplace screenshot must visibly show TOUR badge and ratings.
+**Status:** ✅ PASS
+
+### Action: Implement and verify tour marketplace expansion
+**Files modified:** `.bak-v23/`, `js/app.js`, `index.html`, `scripts/verify_marketplace_v23.js`, `audit/screenshots/v2.3-marketplace-tour.png`.
+**Expected result:** Tours become first-class previewable, purchasable, rateable marketplace products with creator discovery and existing pack compatibility.
+**Actual result:** Generalized cards with TOUR badge and Start Tour action; derived tour price at 1.5× paid-pack average; added two-pose preview drawer, creator profile, owned-only ratings/reviews, pose-name search, maximum-price filters, bundle messaging, creator Sell action, and owned tour launch. Browser published Golden Hour Story at $6.74, previewed S-Curve/Power Stance, verified creator catalog, purchased/rated it, rejected an unowned rating, and started its session with zero errors.
+**Verification:** Syntax and both 745/745 renderer suites; `verify_marketplace_v23.js` PASS; original `verify_marketplace.js` all checks pass; vibe 0 CRITICAL/0 HIGH/1 MEDIUM; edge 10/10; no horizontal scroll.
+**VLM check:** Environment vision confirms the marketplace grid clearly shows the TOUR badge, product name, creator link, description, ★5 rating, sales, preview and $6.74 purchase action; other pack cards and ratings remain intact. Creator profile visibly lists the tour.
+**Status:** ✅ PASS
+
+### Retrospective:
+- What went well: Extending the existing product schema preserved every original marketplace verifier assertion while adding tours as a type rather than a separate store.
+- What didn't: The visual screenshot caught the creator drawer mid-close transition, but this usefully exposes both the creator profile and underlying TOUR card; interaction verification confirms the close action.
+- What to do differently next phase: Add a post-transition wait before screenshots whose target is specifically the underlying screen.
+
+### Token Usage Log — Phase v2.3
+- Estimated tokens consumed: under 10,000
+- Turns used: 10 tool actions
+- Subagents spawned: 0
+- Subagent polls: 0
+- Files re-read unnecessarily: 0
+- Commands batched: 5
+- Phase completed within budget: ✅
