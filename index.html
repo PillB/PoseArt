@@ -58,6 +58,30 @@ a { color: inherit; text-decoration: none; }
 svg { display: block; }
 img { max-width: 100%; }
 
+/* PR-v9 (v1.9) — reusable screen-reader-only content. */
+.sr-only {
+  position: absolute !important;
+  width: 1px !important; height: 1px !important;
+  padding: 0 !important; margin: -1px !important;
+  overflow: hidden !important; clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important; border: 0 !important;
+}
+
+/* WCAG 2.2.2: honor the user's reduced-motion preference across injected
+   avatar breathing, entry animations, transitions, and smooth scrolling. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .pose-figure-large, .pose-skeleton-3d-canvas, .pose-ghost-canvas {
+    animation: none !important;
+    transform: none !important;
+  }
+}
+
 /* ── SCREENS ── */
 .screen {
   position: absolute;
@@ -776,6 +800,8 @@ img { max-width: 100%; }
   width: 100%; height: 100%;
 }
 #ghost-canvas { z-index: 2; }
+#ghost-canvas.pose-transitioning { animation:ghostPoseMorph 420ms ease; }
+@keyframes ghostPoseMorph { 0%{opacity:1;transform:scale(1)} 45%{opacity:.15;transform:scale(.96)} 100%{opacity:1;transform:scale(1)} }
 #skeleton-canvas { z-index: 3; }
 
 #pose-overlay-container {
@@ -818,6 +844,13 @@ img { max-width: 100%; }
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 .camera-topbar-actions { display: flex; gap: 8px; }
+#next-pose-preview { position:absolute; z-index:22; top:150px; left:14px; width:88px; padding:7px; border-radius:12px; background:rgba(15,59,58,.78); border:1px solid rgba(201,162,76,.55); color:#fff; text-align:center; backdrop-filter:blur(5px); }
+#next-pose-preview .label { font:700 8px/10px var(--font-body); color:var(--color-gold-300); letter-spacing:.8px; }
+#next-pose-figure { height:70px; display:grid; place-items:center; overflow:hidden; }#next-pose-figure canvas{width:70px!important;height:70px!important;}
+#next-pose-name { font:600 9px/11px var(--font-body); overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
+#flow-mode-toggle { position:absolute; z-index:23; left:14px; bottom:158px; padding:7px 10px; border-radius:999px; background:rgba(15,59,58,.75); border:1px solid rgba(255,255,255,.3); color:#fff; font:700 10px/1 var(--font-body); }#flow-mode-toggle.active{background:var(--brand-gold);color:var(--color-teal-900);}
+#burst-indicator,#camera-section-indicator { position:absolute; z-index:24; left:50%; transform:translateX(-50%); border-radius:999px; padding:6px 12px; background:rgba(201,162,76,.94); color:var(--color-teal-900); font:700 10px/1 var(--font-body); }
+#burst-indicator{bottom:170px;display:none}#camera-section-indicator{top:112px;display:none}
 
 /* Alignment HUD ring, top-right corner */
 #alignment-hud {
@@ -941,6 +974,12 @@ img { max-width: 100%; }
 .gallery-header { padding: 16px 24px 8px; display: flex; align-items: baseline; justify-content: space-between; }
 .gallery-header h1 { font: var(--type-h1); color: var(--text-primary); }
 #gallery-count { font: var(--type-caption); color: var(--text-secondary); }
+.gallery-toolbar { display:flex; gap:8px; padding:4px 16px 10px; overflow-x:auto; align-items:center; }
+.gallery-toolbar select, .gallery-toolbar button { min-height:36px; border:1px solid var(--color-teal-200); border-radius:var(--radius-pill); background:#fff; color:var(--text-primary); padding:0 12px; font:var(--type-caption); white-space:nowrap; }
+.gallery-toolbar button.active { background:var(--color-teal-800); color:#fff; border-color:var(--color-teal-800); }
+.gallery-bulk-actions { display:none; align-items:center; justify-content:space-between; gap:8px; margin:0 16px 8px; padding:8px 10px; border-radius:var(--radius-sm); background:var(--color-teal-800); color:#fff; }
+.gallery-bulk-actions.visible { display:flex; }
+.gallery-bulk-actions button { border:1px solid rgba(255,255,255,.35); border-radius:var(--radius-pill); color:#fff; padding:7px 10px; font:var(--type-caption); }
 
 .gallery-grid {
   padding: 8px 16px 24px;
@@ -956,6 +995,10 @@ img { max-width: 100%; }
   background: var(--color-teal-100);
   box-shadow: var(--elevation-1);
 }
+.gallery-item.selected { outline:3px solid var(--brand-gold); outline-offset:-3px; }
+.gallery-select-check { display:none; position:absolute; z-index:4; top:6px; left:6px; width:22px; height:22px; border-radius:50%; background:rgba(15,59,58,.85); color:#fff; text-align:center; font:700 14px/22px var(--font-body); border:1px solid #fff; }
+.gallery-item.selection-active .gallery-select-check { display:block; }
+.gallery-group-count { position:absolute; top:5px; right:5px; z-index:3; padding:3px 6px; border-radius:var(--radius-pill); background:rgba(15,59,58,.82); color:#fff; font:700 8px/10px var(--font-body); }
 .gallery-thumb { width: 100%; height: 100%; object-fit: cover; }
 .gallery-sim-thumb { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: linear-gradient(160deg,#DDEFED,#F6F0E1); }
 .gallery-fav-badge { position: absolute; top: 4px; right: 4px; font-size: 12px; color: #C96A4C; }
@@ -994,15 +1037,15 @@ img { max-width: 100%; }
   padding: env(safe-area-inset-top, 16px) 16px 0;
 }
 .gallery-detail-info {
-  position: absolute; bottom: 100px; left: 20px; right: 20px;
+  position: absolute; bottom: 170px; left: 20px; right: 20px;
   color: #fff; z-index: 5;
 }
 #gallery-detail-title { font: var(--type-h1); color: #fff; }
 #gallery-detail-meta { font: var(--type-caption); color: var(--color-gold-300); margin-top: 4px; }
 .gallery-detail-actions {
-  position: absolute; bottom: 0; left: 0; right: 0;
-  display: flex; justify-content: space-around;
-  padding: 18px 24px calc(18px + env(safe-area-inset-bottom, 0));
+  position: absolute; bottom: calc(64px + env(safe-area-inset-bottom, 0)); left: 0; right: 0;
+  display: flex; justify-content: space-around; gap:6px;
+  padding: 18px 12px;
   background: linear-gradient(0deg, rgba(10,40,39,0.9), transparent);
   z-index: 5;
 }
@@ -1011,6 +1054,7 @@ img { max-width: 100%; }
   background: none; border: none; color: #fff;
 }
 .gallery-action-btn .action-label { font: var(--type-caption); }
+.gallery-action-btn .action-icon { font-size:20px; line-height:22px; }
 .gallery-action-btn.active svg path { fill: #C96A4C; stroke: #C96A4C; }
 
 /* ── REVIEW SCREEN ── */
@@ -1320,6 +1364,34 @@ img { max-width: 100%; }
 .flash-overlay.flashing {
   animation: camera-flash 0.4s ease-out forwards;
 }
+.tour-shell { background:var(--bg-canvas); color:var(--text-primary); }
+.tour-topbar { display:flex; align-items:center; justify-content:space-between; padding:16px 18px 10px; }
+.tour-topbar h1 { font:var(--type-h2); }
+.tour-form { padding:0 18px 12px; display:grid; gap:8px; }
+.tour-form input,.tour-form textarea,.tour-search-panel input { width:100%; border:1px solid var(--rule); border-radius:10px; padding:11px; background:#fff; font:var(--type-body); }
+.tour-section-card { margin:10px 16px; border:1px solid var(--rule); border-radius:14px; padding:12px; background:#fff; }
+.tour-section-heading { display:flex; justify-content:space-between; font:700 12px/16px var(--font-body); color:var(--color-teal-800); }
+.tour-type-badge { border-radius:20px; background:var(--color-teal-100); padding:2px 8px; }
+.tour-pose-row { display:flex; gap:8px; overflow-x:auto; padding-top:10px; }
+.tour-pose-chip,.tour-add-pose { width:92px; min-width:92px; min-height:116px; border:1px solid var(--rule); border-radius:10px; position:relative; background:var(--bg-canvas); font:600 10px/12px var(--font-body); }
+.tour-pose-figure { height:80px; overflow:hidden; }.tour-pose-figure canvas { width:100%!important; height:100%!important; }
+.tour-pose-chip>button { position:absolute; top:2px; right:2px; width:22px; height:22px; border-radius:50%; background:var(--color-teal-800); color:#fff; }
+.tour-pose-chip>button+button { right:26px; }.tour-add-pose { display:grid; place-content:center; font-size:24px; }.tour-add-pose span{font-size:10px;}
+.tour-creator-actions { display:grid; gap:8px; padding:10px 16px 100px; }
+#screen-tour-session { background:#082f2e; color:#fff; }
+.tour-session-progress { padding:0 18px; }.tour-session-progress strong { color:var(--brand-gold); }.tour-progress-rule { height:4px; border-radius:4px; background:linear-gradient(90deg,var(--brand-gold) 45%,rgba(255,255,255,.18) 45%); margin:8px 0; }
+.tour-stage { height:420px; margin:12px 16px; border-radius:18px; background:linear-gradient(160deg,#ddefed,#f6f0e1); display:flex; flex-direction:column; align-items:center; justify-content:center; color:var(--color-teal-900); overflow:hidden; }
+.tour-stage.tour-pose-changing { animation:tourSectionTransition 350ms ease; }@keyframes tourSectionTransition{0%{opacity:.35;transform:translateX(10px)}100%{opacity:1;transform:translateX(0)}}
+#tour-current-pose { width:100%; height:355px; display:grid; place-items:center; } #tour-current-pose canvas { max-height:350px; }
+.tour-session-controls { display:grid; grid-template-columns:1fr 1.25fr 1fr; gap:8px; padding:0 16px 8px; }.tour-session-controls button,.tour-section-controls button { padding:12px 6px; border:1px solid rgba(255,255,255,.25); border-radius:24px; color:#fff; background:rgba(255,255,255,.08); }
+.tour-session-controls .capture { background:var(--brand-gold); color:var(--color-teal-900); font-weight:700; }.tour-section-controls { display:grid; grid-template-columns:1fr 1fr; gap:8px; padding:0 16px; }
+.tour-photo-strip { display:flex; gap:6px; overflow-x:auto; padding:10px 16px 4px; min-height:66px; }.tour-photo-thumb { width:54px; min-width:54px; height:54px; border-radius:8px; background:#ddefed; overflow:hidden; }.tour-photo-thumb canvas,.tour-photo-thumb img { width:100%!important;height:100%!important;object-fit:cover; }
+.tour-photo-meta { padding:0 16px 20px; font:var(--type-caption); color:var(--color-gold-300); }.tour-session-tools { display:flex; gap:8px; padding:6px 16px; }.tour-session-tools button { flex:1; color:#fff; background:rgba(255,255,255,.08); border-radius:12px; padding:8px; font:var(--type-caption); }
+.tour-search-panel,.tour-overview { position:absolute; z-index:12; left:12px; right:12px; bottom:12px; border-radius:16px; padding:14px; background:#fff; color:var(--text-primary); transform:translateY(120%); transition:transform .25s ease; }.tour-search-panel.open,.tour-overview.open { transform:translateY(0); }
+#tour-search-results,#tour-overview-list { display:grid; gap:6px; margin-top:8px; max-height:240px; overflow:auto; }#tour-search-results button,#tour-overview-list button { padding:10px; border-radius:8px; background:var(--color-teal-100); text-align:left; display:flex; justify-content:space-between; }
+.tour-summary-section { margin:10px 16px; padding:14px; border:1px solid var(--rule); border-radius:12px; }.tour-summary-section h3{font:var(--type-h3);}.tour-summary-section span{display:inline-block;margin:6px 6px 0 0;padding:5px 8px;background:var(--color-teal-100);border-radius:12px;font:var(--type-caption);}.tour-saved-count{font:var(--type-caption);text-align:center;color:var(--text-secondary);margin-top:6px;}
+.tour-sources{margin:10px 16px;padding:12px;border:1px dashed var(--color-teal-300);border-radius:12px}.tour-sources>div{display:flex;gap:6px;overflow:auto;margin-top:7px}.tour-sources span{white-space:nowrap;padding:5px 8px;border-radius:999px;background:var(--color-teal-100);font:var(--type-caption)}
+.mp-tour-badge { position:absolute;z-index:3;top:6px;left:6px;padding:4px 7px;border-radius:999px;background:var(--brand-gold);color:var(--color-teal-900);font:800 9px/1 var(--font-body);letter-spacing:.8px;}.mp-tour-badge.inline{position:static;display:inline-block}.mp-creator-link,.mp-preview-btn{display:block;color:var(--color-teal-700);font:600 11px/1.2 var(--font-body);margin-bottom:6px;text-decoration:underline}.mp-preview-btn{width:100%;padding:6px;border:1px solid var(--rule);border-radius:7px;text-decoration:none}.mp-drawer{position:fixed;z-index:60;left:12px;right:12px;bottom:12px;max-height:70vh;overflow:auto;padding:18px;border-radius:18px;background:#fff;box-shadow:var(--elevation-3);transform:translateY(120%);transition:transform .25s ease}.mp-drawer.open{transform:translateY(0)}.mp-drawer>button:first-child{float:right;font-size:24px}.mp-drawer h2{font:var(--type-h1);margin:8px 0}.mp-creator-avatar{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;background:var(--color-teal-800);color:var(--brand-gold);font:var(--type-h1)}#mp-creator-profile>button:not(:first-child){width:100%;display:flex;justify-content:space-between;padding:10px;margin-top:7px;border-radius:8px;background:var(--color-teal-100);text-align:left}
 </style>
 </head>
 <body>
@@ -1356,6 +1428,7 @@ img { max-width: 100%; }
     <p class="ob-sub">Learn 745 studio-quality poses with a live ghost overlay that guides your body into place.</p>
 
     <button class="btn btn-gold" data-testid="btn-begin" onclick="showScreen('ob2')">Begin</button>
+    <a class="btn-link" data-testid="link-skip-ob1" onclick="completeOnboardingSkip()" style="margin-top:12px;font:var(--type-caption);color:var(--text-secondary);">Skip intro</a>
   </section>
 
   <!-- ══════════════════════ OB-2: HOW IT WORKS ══════════════════════ -->
@@ -1664,6 +1737,18 @@ img { max-width: 100%; }
         </button>
         <div id="camera-pose-name">Pose Name</div>
         <div id="demo-mode-pill" data-testid="pill-demo-mode" style="display:none;position:absolute;left:50%;top:52px;transform:translateX(-50%);background:rgba(201,162,76,0.92);color:#0F3B3A;font:600 11px/1 var(--font-body);letter-spacing:0.5px;padding:5px 10px;border-radius:999px;z-index:30;">DEMO MODE</div>
+        <!-- PR-5 (v1.1) — directive Part H #18 / AGENT_STATE.md "Demo mode badge:
+             users who granted camera see same fake scoring as demo mode — no
+             indicator shown". The camera-engine scoring pipeline still uses
+             _simulateKPs (camera.js:123 TODO: replace with real pose detection)
+             even when the user has granted camera permission. Without this
+             badge, users believe their real posture is being scored when it's
+             actually a simulated breathing/swaying skeleton. The badge is
+             intentionally visually distinct from the gold DEMO MODE pill
+             (muted teal, smaller) so the user understands: camera is on, but
+             scoring is still simulated. Will be removed when MediaPipe /
+             Vision pose detection is integrated (Phase 6 of the directive). -->
+        <div id="simulated-scoring-pill" data-testid="pill-simulated-scoring" style="display:none;position:absolute;left:50%;top:78px;transform:translateX(-50%);background:rgba(15,59,58,0.85);color:#F6F0E1;font:600 10px/1 var(--font-body);letter-spacing:0.4px;padding:4px 9px;border-radius:999px;z-index:30;border:1px solid rgba(201,162,76,0.4);">SIMULATED SCORING</div>
         <div class="camera-topbar-actions">
           <button class="camera-icon-btn" id="flash-btn" data-testid="btn-flash" onclick="toggleFlash()" aria-label="Toggle flash">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>
@@ -1687,6 +1772,11 @@ img { max-width: 100%; }
           <div id="hud-label">ADJUST</div>
         </div>
       </div>
+      <div id="score-live-region" class="sr-only" aria-live="polite" aria-atomic="true">Alignment: 45%, adjust</div>
+      <div id="next-pose-preview" data-testid="next-pose-preview"><div class="label">NEXT POSE</div><div id="next-pose-figure"></div><div id="next-pose-name"></div></div>
+      <div id="camera-section-indicator"></div>
+      <button id="flow-mode-toggle" data-testid="flow-mode-toggle" onclick="toggleFlowMode()" aria-pressed="false">FLOW OFF</button>
+      <div id="burst-indicator" data-testid="burst-indicator">BURST 3</div>
 
 
       <div id="hint-banner"><div id="hint-text">Align with the ghost guide</div></div>
@@ -1699,7 +1789,7 @@ img { max-width: 100%; }
         <button class="camera-side-btn" data-testid="btn-timer" onclick="toggleTimer()" aria-label="Toggle timer">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2M9 2h6"/></svg>
         </button>
-        <button id="shutter-btn" data-testid="btn-shutter" onclick="capturePhoto()" aria-label="Capture photo"></button>
+        <button id="shutter-btn" data-testid="btn-shutter" onpointerdown="startShutterPress()" onpointerup="endShutterPress()" onpointerleave="cancelShutterPress()" aria-label="Capture photo; hold for three-shot burst"></button>
         <button class="camera-side-btn" data-testid="btn-next-pose" onclick="goToNextPose()" aria-label="Next pose">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </button>
@@ -1717,6 +1807,25 @@ img { max-width: 100%; }
     <div class="gallery-header">
       <h1>Your Gallery</h1>
       <span><span id="gallery-count">0</span> captures</span>
+    </div>
+    <div class="gallery-toolbar" aria-label="Gallery controls">
+      <select id="gallery-filter" onchange="setGalleryFilter(this.value)" aria-label="Filter captures">
+        <option value="all">All captures</option><option value="favorite">Favorites</option><option value="tour">Tour captures</option>
+        <option value="standing">Standing</option><option value="seated">Seated</option><option value="leaning">Leaning — Standing</option>
+        <option value="lean-seat">Leaning — Seated</option><option value="kneeling">Kneeling</option><option value="reclining">Reclining</option>
+        <option value="dynamic">Dynamic</option><option value="eccentric">Eccentric</option><option value="couple">Couple</option>
+        <option value="accessible">Accessible</option><option value="boudoir">Boudoir</option><option value="editorial">Editorial</option>
+        <option value="fine-art">Fine Art</option><option value="fashion">Fashion</option><option value="low-to-high">Low to High</option><option value="high-to-low">High to Low</option>
+      </select>
+      <select id="gallery-sort" onchange="setGallerySort(this.value)" aria-label="Sort captures">
+        <option value="date-desc">Newest</option><option value="date-asc">Oldest</option><option value="score-desc">Top score</option><option value="favorite">Favorites first</option>
+      </select>
+      <button id="gallery-group-toggle" onclick="toggleGalleryGrouping()" aria-pressed="false">Group by pose</button>
+      <button id="gallery-select-toggle" onclick="toggleGallerySelectionMode()" aria-pressed="false">Select</button>
+    </div>
+    <div id="gallery-bulk-actions" class="gallery-bulk-actions" aria-live="polite">
+      <span id="gallery-selection-count">0 selected</span>
+      <span><button onclick="bulkDownloadGallery()">Download</button> <button onclick="bulkDeleteGallery()">Delete</button></span>
     </div>
 
     <div class="screen-scroll">
@@ -1737,7 +1846,7 @@ img { max-width: 100%; }
       <div id="gallery-detail-sim"></div>
 
       <div class="gallery-detail-topbar">
-        <button class="camera-icon-btn" data-testid="btn-back-gallery-detail" onclick="showTab('gallery')" aria-label="Back to gallery">
+        <button class="camera-icon-btn" data-testid="btn-back-gallery-detail" onclick="returnFromGalleryDetail()" aria-label="Back to gallery">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F6F0E1" stroke-width="2" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
         </button>
         <span></span>
@@ -1749,6 +1858,15 @@ img { max-width: 100%; }
       </div>
 
       <div class="gallery-detail-actions">
+        <button class="gallery-action-btn" data-testid="btn-save-photos" onclick="saveToPhotos()">
+          <span class="action-icon" aria-hidden="true">⇩</span><span class="action-label">Save</span>
+        </button>
+        <button class="gallery-action-btn" data-testid="btn-copy-detail" onclick="duplicateGalleryItem()">
+          <span class="action-icon" aria-hidden="true">⧉</span><span class="action-label">Copy</span>
+        </button>
+        <button class="gallery-action-btn" data-testid="btn-download-detail" onclick="downloadGalleryItem()">
+          <span class="action-icon" aria-hidden="true">↓</span><span class="action-label">Download</span>
+        </button>
         <button class="gallery-action-btn" data-testid="btn-share-detail" onclick="sharePhoto()">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5 15.4 17.5M15.4 6.5 8.6 10.5"/></svg>
           <span class="action-label">Share</span>
@@ -1914,6 +2032,17 @@ img { max-width: 100%; }
       <div class="app-info-row">
         PoseArt — Move like art.<br>Art Nouveau pose coaching · In-memory only, no data leaves your device.
       </div>
+
+      <!-- PR-v6 (v1.6): Custom Pose Editor access button -->
+      <div class="settings-section" style="margin-top:16px;">
+        <div class="settings-section-title">Creative Tools</div>
+        <button class="btn btn-gold btn-block" onclick="openPoseEditor()" style="padding:14px;font:600 14px/1 var(--font-body);">
+          ✎ Open Custom Pose Editor
+        </button>
+        <div style="font:var(--type-caption);color:var(--text-secondary);margin-top:6px;text-align:center;">
+          Create custom poses with joint sliders. Save to library or use in session.
+        </div>
+      </div>
     </div>
   </section>
 
@@ -1943,6 +2072,227 @@ img { max-width: 100%; }
     </button>
   </nav>
 
+  <!-- ══════════════════════ CUSTOM POSE EDITOR (PR-v6 v1.6) ══════════════════════ -->
+  <section id="screen-custom-pose-editor" class="screen">
+    <div class="screen-scroll" style="padding-bottom:120px;">
+      <div class="status-bar">
+        <button class="icon-btn" onclick="goBack()" aria-label="Back">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <span style="font:var(--type-h3);color:var(--text-primary);">Custom Pose Editor</span>
+        <button class="icon-btn" id="pose-editor-help-btn" onclick="showToast('Drag sliders to pose the figure. Save to add to library.')" aria-label="Help">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </button>
+      </div>
+
+      <!-- Live procedural preview (avatar + skeleton side by side) -->
+      <div style="display:flex;gap:12px;padding:12px;justify-content:center;background:rgba(15,59,58,0.04);border-radius:12px;margin:8px 0;">
+        <div style="text-align:center;">
+          <div id="pose-editor-avatar-preview" style="width:140px;height:180px;"></div>
+          <div style="font:600 10px/1 var(--font-body);color:var(--text-secondary);margin-top:4px;">AVATAR</div>
+        </div>
+        <div style="text-align:center;">
+          <div id="pose-editor-skeleton-preview" style="width:140px;height:180px;"></div>
+          <div style="font:600 10px/1 var(--font-body);color:var(--text-secondary);margin-top:4px;">SKELETON</div>
+        </div>
+        <div style="text-align:center;">
+          <div id="pose-editor-ghost-preview" style="width:140px;height:180px;"></div>
+          <div style="font:600 10px/1 var(--font-body);color:var(--text-secondary);margin-top:4px;">GHOST</div>
+        </div>
+      </div>
+
+      <!-- Pose name input -->
+      <div style="padding:8px 16px;">
+        <label style="font:600 11px/1 var(--font-body);color:var(--text-secondary);display:block;margin-bottom:6px;">POSE NAME</label>
+        <input type="text" id="pose-editor-name" placeholder="My Custom Pose" style="width:100%;padding:10px 12px;border:1px solid var(--rule);border-radius:8px;font:var(--type-body);background:var(--bg-canvas);color:var(--text-primary);">
+      </div>
+
+      <!-- Joint sliders -->
+      <div id="pose-editor-sliders" style="padding:8px 16px;">
+        <!-- Sliders injected by JS -->
+      </div>
+
+      <!-- Category + overlay selectors -->
+      <div style="padding:8px 16px;display:flex;gap:8px;">
+        <div style="flex:1;">
+          <label style="font:600 11px/1 var(--font-body);color:var(--text-secondary);display:block;margin-bottom:6px;">CATEGORY</label>
+          <select id="pose-editor-category" style="width:100%;padding:10px;border:1px solid var(--rule);border-radius:8px;font:var(--type-body);background:var(--bg-canvas);">
+            <option value="standing">Standing</option>
+            <option value="seated">Seated</option>
+            <option value="leaning">Leaning</option>
+            <option value="kneeling">Kneeling</option>
+            <option value="reclining">Reclining</option>
+            <option value="dynamic">Dynamic</option>
+            <option value="boudoir">Boudoir</option>
+            <option value="editorial">Editorial</option>
+            <option value="fine-art">Fine Art</option>
+            <option value="fashion">Fashion</option>
+          </select>
+        </div>
+        <div style="flex:1;">
+          <label style="font:600 11px/1 var(--font-body);color:var(--text-secondary);display:block;margin-bottom:6px;">VIEW ANGLE</label>
+          <select id="pose-editor-view-angle" onchange="updatePoseEditorPreview()" style="width:100%;padding:10px;border:1px solid var(--rule);border-radius:8px;font:var(--type-body);background:var(--bg-canvas);">
+            <option value="0,0">Front</option>
+            <option value="22.5,0">1/8 Turn</option>
+            <option value="45,0">1/4 Turn</option>
+            <option value="67.5,0">3/8 Turn</option>
+            <option value="90,0">Side</option>
+            <option value="135,0">3/4 Turn</option>
+            <option value="180,0">Back</option>
+            <option value="0,60">Up View</option>
+            <option value="0,-45">Down View</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Description -->
+      <div style="padding:8px 16px;">
+        <label style="font:600 11px/1 var(--font-body);color:var(--text-secondary);display:block;margin-bottom:6px;">DESCRIPTION (drives prop rendering)</label>
+        <textarea id="pose-editor-description" placeholder="e.g. Lean against a wall with arms crossed" oninput="updatePoseEditorPreview()" style="width:100%;padding:10px 12px;border:1px solid var(--rule);border-radius:8px;font:var(--type-body);background:var(--bg-canvas);color:var(--text-primary);min-height:60px;resize:vertical;"></textarea>
+      </div>
+
+      <!-- Action buttons -->
+      <div style="padding:12px 16px;display:flex;gap:8px;flex-wrap:wrap;">
+        <button class="btn btn-outline" onclick="undoPoseEdit()" id="pose-editor-undo-btn" style="flex:1;min-width:80px;">↶ Undo</button>
+        <button class="btn btn-outline" onclick="redoPoseEdit()" id="pose-editor-redo-btn" style="flex:1;min-width:80px;">↷ Redo</button>
+        <button class="btn btn-outline" onclick="resetPoseEditor()" style="flex:1;min-width:80px;">Reset</button>
+        <button class="btn btn-gold" onclick="saveCustomPose()" style="flex:1;min-width:80px;">Save Pose</button>
+        <button class="btn btn-outline" onclick="loadCustomPoseList()" style="flex:1;min-width:80px;">Load</button>
+        <button class="btn btn-outline" onclick="useCustomPoseInSession()" style="flex:1;min-width:100px;">Use in Session</button>
+      </div>
+
+      <!-- Saved custom poses list -->
+      <div id="pose-editor-saved-list" style="padding:8px 16px;"></div>
+
+      <!-- Bug report integration (Iter D3) -->
+      <div style="padding:8px 16px;margin-top:12px;border-top:1px solid var(--rule);">
+        <div style="font:600 12px/1 var(--font-body);color:var(--text-secondary);margin-bottom:8px;">REPORT A BUG</div>
+        <textarea id="pose-editor-bug-comment" placeholder="Describe the issue with this pose..." style="width:100%;padding:10px 12px;border:1px solid var(--rule);border-radius:8px;font:var(--type-body);background:var(--bg-canvas);min-height:50px;resize:vertical;"></textarea>
+        <select id="pose-editor-bug-type" style="width:100%;padding:10px;margin-top:8px;border:1px solid var(--rule);border-radius:8px;font:var(--type-body);background:var(--bg-canvas);">
+          <option value="pose-layout">Pose layout issue</option>
+          <option value="animation">Animation issue</option>
+          <option value="prop">Prop/object issue</option>
+          <option value="other">Other</option>
+        </select>
+        <button class="btn btn-outline" onclick="submitBugReportFromEditor()" style="width:100%;margin-top:8px;">Submit Bug Report with Pose Data</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════ MARKETPLACE (PR-v7 v1.7) ══════════════════════ -->
+  <section id="screen-marketplace" class="screen">
+    <div class="screen-scroll" style="padding-bottom:120px;">
+      <div class="status-bar">
+        <button class="icon-btn" onclick="goBack()" aria-label="Back">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <span style="font:var(--type-h3);color:var(--text-primary);">Marketplace</span>
+        <button class="icon-btn" onclick="showToast('Browse and purchase pose packs from creators. Revenue share: 70% creator / 30% platform.')" aria-label="Help">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </button>
+      </div>
+
+      <!-- Marketplace tabs: Browse / My Packs / Creator Dashboard -->
+      <div style="display:flex;gap:4px;padding:8px 16px;border-bottom:1px solid var(--rule);">
+        <button class="btn btn-outline mp-tab active" id="mp-tab-browse" onclick="switchMarketplaceTab('browse')" style="flex:1;padding:8px;font-size:12px;">Browse</button>
+        <button class="btn btn-outline mp-tab" id="mp-tab-mine" onclick="switchMarketplaceTab('mine')" style="flex:1;padding:8px;font-size:12px;">My Packs</button>
+        <button class="btn btn-outline mp-tab" id="mp-tab-creator" onclick="switchMarketplaceTab('creator')" style="flex:1;padding:8px;font-size:12px;">Creator</button>
+      </div>
+
+      <!-- Browse view -->
+      <div id="mp-browse-view" style="padding:12px 16px;">
+        <!-- Search bar -->
+        <div style="display:flex;gap:8px;margin-bottom:12px"><input type="text" id="mp-search" placeholder="Search products or poses..." oninput="filterMarketplace()" style="flex:1;padding:10px 12px;border:1px solid var(--rule);border-radius:8px;font:var(--type-body);background:var(--bg-canvas);"><select id="mp-price-filter" onchange="filterMarketplace()" aria-label="Maximum price" style="border:1px solid var(--rule);border-radius:8px"><option value="all">Any price</option><option value="0">Free</option><option value="3">≤ $3</option><option value="5">≤ $5</option><option value="10">≤ $10</option></select></div>
+
+        <!-- Filter chips -->
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;">
+          <button class="chip mp-filter-chip active" onclick="setMpFilter('all')" data-filter="all">All</button>
+          <button class="chip mp-filter-chip" onclick="setMpFilter('standing')" data-filter="standing">Standing</button>
+          <button class="chip mp-filter-chip" onclick="setMpFilter('boudoir')" data-filter="boudoir">Boudoir</button>
+          <button class="chip mp-filter-chip" onclick="setMpFilter('editorial')" data-filter="editorial">Editorial</button>
+          <button class="chip mp-filter-chip" onclick="setMpFilter('fashion')" data-filter="fashion">Fashion</button>
+          <button class="chip mp-filter-chip" onclick="setMpFilter('free')" data-filter="free">Free</button>
+          <button class="chip mp-filter-chip" onclick="setMpFilter('paid')" data-filter="paid">Paid</button>
+        </div>
+
+        <!-- Pack grid -->
+        <div id="mp-pack-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <!-- Packs injected by JS -->
+        </div>
+        <div style="margin-top:14px;padding:12px;border-radius:12px;background:var(--color-teal-100);font:var(--type-caption)"><strong>Bundle deal:</strong> Buy any 2 paid products and get your next creator pack free.</div>
+      </div>
+
+      <!-- My Packs view -->
+      <div id="mp-mine-view" style="padding:12px 16px;display:none;">
+        <div style="font:600 14px/1 var(--font-body);color:var(--text-primary);margin-bottom:12px;">Your Purchased Packs</div>
+        <div id="mp-owned-list"><!-- Injected by JS --></div>
+      </div>
+
+      <!-- Creator Dashboard view -->
+      <div id="mp-creator-view" style="padding:12px 16px;display:none;">
+        <div style="font:600 14px/1 var(--font-body);color:var(--text-primary);margin-bottom:12px;">Creator Dashboard</div>
+
+        <!-- Revenue summary -->
+        <div style="background:rgba(15,59,58,0.06);border-radius:12px;padding:16px;margin-bottom:16px;">
+          <div style="font:600 11px/1 var(--font-body);color:var(--text-secondary);margin-bottom:4px;">TOTAL EARNINGS (70% SHARE)</div>
+          <div style="font:700 28px/1 var(--font-display);color:var(--brand-gold);" id="mp-creator-earnings">$0.00</div>
+          <div style="font:11px/1 var(--font-body);color:var(--text-secondary);margin-top:4px;" id="mp-creator-sales">0 sales across 0 packs</div>
+        </div>
+
+        <!-- Create new pack -->
+        <div style="border:1px solid var(--rule);border-radius:12px;padding:16px;margin-bottom:16px;">
+          <div style="font:600 13px/1 var(--font-body);color:var(--text-primary);margin-bottom:12px;">PUBLISH A NEW PACK</div>
+          <input type="text" id="mp-new-pack-name" placeholder="Pack name (e.g. 'Sunset Boudoir Collection')" style="width:100%;padding:10px;border:1px solid var(--rule);border-radius:8px;font:var(--type-body);background:var(--bg-canvas);margin-bottom:8px;">
+          <textarea id="mp-new-pack-desc" placeholder="Pack description..." style="width:100%;padding:10px;border:1px solid var(--rule);border-radius:8px;font:var(--type-body);background:var(--bg-canvas);min-height:50px;resize:vertical;margin-bottom:8px;"></textarea>
+          <div style="display:flex;gap:8px;margin-bottom:8px;">
+            <input type="number" id="mp-new-pack-price" placeholder="Price ($)" min="0" step="0.99" style="flex:1;padding:10px;border:1px solid var(--rule);border-radius:8px;font:var(--type-body);background:var(--bg-canvas);">
+            <select id="mp-new-pack-category" style="flex:1;padding:10px;border:1px solid var(--rule);border-radius:8px;font:var(--type-body);background:var(--bg-canvas);">
+              <option value="standing">Standing</option>
+              <option value="boudoir">Boudoir</option>
+              <option value="editorial">Editorial</option>
+              <option value="fashion">Fashion</option>
+              <option value="fine-art">Fine Art</option>
+            </select>
+          </div>
+          <button class="btn btn-gold" onclick="publishPack()" style="width:100%;padding:12px;">Publish Pack (uses your saved custom poses)</button>
+        </div>
+
+        <!-- Your published packs -->
+        <div style="font:600 13px/1 var(--font-body);color:var(--text-primary);margin-bottom:8px;">YOUR PUBLISHED PACKS</div>
+        <div id="mp-creator-packs"><!-- Injected by JS --></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="screen-tour-creator" class="screen tour-shell">
+    <div class="tour-topbar"><button onclick="goBack()" aria-label="Back">←</button><h1>Tour Creator</h1><button onclick="saveCurrentTour()" aria-label="Save tour">✓</button></div>
+    <div class="screen-scroll">
+      <div class="tour-form"><input id="tour-name" aria-label="Tour name" placeholder="Tour name" oninput="updateTourDraft()"><textarea id="tour-description" aria-label="Tour description" placeholder="Description" oninput="updateTourDraft()"></textarea></div>
+      <div id="tour-sections"></div><div id="tour-sources" class="tour-sources"></div>
+      <div class="tour-creator-actions"><button class="btn btn-outline" data-testid="tour-add-section" onclick="addTourSection()">＋ Add Section</button><button id="tour-start-btn" class="btn btn-gold" data-testid="tour-start" onclick="openTourSession()">Start Tour Session</button><button class="btn btn-teal" onclick="saveCurrentTour()">Save Tour</button><button class="btn btn-outline" data-testid="tour-sell" onclick="publishTourToMarketplace()">Sell on Marketplace</button></div>
+    </div>
+  </section>
+
+  <section id="screen-tour-session" class="screen">
+    <div class="tour-topbar"><button onclick="endTourSession()">← End</button><h1 id="tour-session-title">Tour</h1><button onclick="toggleTourOverview()">☰</button></div>
+    <div class="tour-session-progress"><strong id="tour-section-progress"></strong><div class="tour-progress-rule"></div><span id="tour-pose-progress"></span></div>
+    <div class="tour-stage"><div id="tour-current-pose"></div><strong id="tour-current-name"></strong></div>
+    <div class="tour-session-controls"><button onclick="prevTourPose()">◀ Prev</button><button class="capture" data-testid="tour-capture" onclick="captureTourPhoto()">📸 Capture</button><button onclick="nextTourPose()">Next ▶</button></div>
+    <div class="tour-section-controls"><button onclick="prevTourSection()">◀ Section</button><button onclick="nextTourSection()">Section ▶</button></div>
+    <div class="tour-session-tools"><button onclick="toggleTourSearch()">⌕ Search pose</button><button onclick="toggleTourOverview()">Section overview</button><button data-testid="tour-open-camera" onclick="startTourCamera()">Camera</button><button onclick="reportTourPoseIssue()">Report pose</button></div>
+    <div id="tour-photo-strip" class="tour-photo-strip"></div><div class="tour-photo-meta"><span id="tour-photo-count">0 photos</span></div>
+    <div id="tour-search-panel" class="tour-search-panel"><input id="tour-search-input" placeholder="Search this tour" oninput="searchTourPoses()"><div id="tour-search-results"></div></div>
+    <div id="tour-overview" class="tour-overview"><strong>Tour sections</strong><div id="tour-overview-list"></div></div>
+  </section>
+
+  <section id="screen-tour-summary" class="screen tour-shell">
+    <div class="tour-topbar"><button onclick="showTab('home')">×</button><h1>Tour Complete</h1><span></span></div>
+    <div class="screen-scroll"><div style="padding:18px;text-align:center"><h2 id="tour-summary-title" style="font:var(--type-h1)"></h2><p id="tour-summary-total"></p></div><div id="tour-summary-sections"></div><div style="padding:16px 16px 100px"><button class="btn btn-gold btn-block" onclick="showTab('gallery')">View Gallery</button></div></div>
+  </section>
+
+  <aside id="mp-preview-panel" class="mp-drawer" aria-label="Product preview"></aside>
+  <aside id="mp-creator-profile" class="mp-drawer" aria-label="Creator profile"></aside>
+
   <!-- ══════════════════════ TOAST ══════════════════════ -->
   <div id="toast" role="status" aria-live="polite"><span id="toast-text"></span></div>
 
@@ -1952,6 +2302,7 @@ img { max-width: 100%; }
 <script src="js/poses-data.js"></script>
 <script src="js/pose-skeleton-3d.js"></script>
 <script src="js/camera.js"></script>
+<script src="js/tour-engine.js"></script>
 <script src="js/app.js"></script>
 <script src="js/pose-animations.js"></script>
 </body>

@@ -1,0 +1,2100 @@
+{
+  "generatedAt": "2026-07-13T15:33:06.430Z",
+  "appUrl": "http://localhost:8095/index.html",
+  "devices": [
+    {
+      "key": "MOB",
+      "label": "Mobile 430×932",
+      "viewport": {
+        "width": 430,
+        "height": 932
+      },
+      "screenshots": [
+        {
+          "id": "MOB-F01-S001",
+          "flow": 1,
+          "microstep": "Welcome screen",
+          "action": "Open the application with clean storage.",
+          "expected": "OB1 presents Begin and Skip intro.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-ob1",
+            "activeScreens": 1,
+            "bodyWidth": 430,
+            "viewportWidth": 430,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "MOB-F01-S001-welcome-screen.png",
+          "relativePath": "audit/screenshots/userflows-live/mob/MOB-F01-S001-welcome-screen.png"
+        },
+        {
+          "id": "MOB-F01-S002",
+          "flow": 1,
+          "microstep": "How it works",
+          "action": "Select Begin.",
+          "expected": "OB2 explains ghost overlay, pose library, and auto-capture.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-ob2",
+            "activeScreens": 1,
+            "bodyWidth": 430,
+            "viewportWidth": 430,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "MOB-F01-S002-how-it-works.png",
+          "relativePath": "audit/screenshots/userflows-live/mob/MOB-F01-S002-how-it-works.png"
+        },
+        {
+          "id": "MOB-F01-S003",
+          "flow": 1,
+          "microstep": "Interactive onboarding demo",
+          "action": "Select Try it.",
+          "expected": "Demo stage animates and provides coaching feedback.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-ob2",
+            "activeScreens": 1,
+            "bodyWidth": 430,
+            "viewportWidth": 430,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "MOB-F01-S003-interactive-onboarding-demo.png",
+          "relativePath": "audit/screenshots/userflows-live/mob/MOB-F01-S003-interactive-onboarding-demo.png"
+        },
+        {
+          "id": "MOB-F01-S004",
+          "flow": 1,
+          "microstep": "Camera permission choice",
+          "action": "Wait for demo completion.",
+          "expected": "OB3 offers camera permission and Demo Mode.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-ob3",
+            "activeScreens": 1,
+            "bodyWidth": 430,
+            "viewportWidth": 430,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "MOB-F01-S004-camera-permission-choice.png",
+          "relativePath": "audit/screenshots/userflows-live/mob/MOB-F01-S004-camera-permission-choice.png"
+        },
+        {
+          "id": "MOB-F01-S005",
+          "flow": 1,
+          "microstep": "Goal selection",
+          "action": "Continue in Demo Mode.",
+          "expected": "OB4 presents four persona goals and disabled completion.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-ob4",
+            "activeScreens": 1,
+            "bodyWidth": 430,
+            "viewportWidth": 430,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "MOB-F01-S005-goal-selection.png",
+          "relativePath": "audit/screenshots/userflows-live/mob/MOB-F01-S005-goal-selection.png"
+        },
+        {
+          "id": "MOB-F01-S006",
+          "flow": 1,
+          "microstep": "Goal selected",
+          "action": "Choose Photographer.",
+          "expected": "Photographer is highlighted and Start Exploring becomes enabled.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-ob4",
+            "activeScreens": 1,
+            "bodyWidth": 430,
+            "viewportWidth": 430,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "MOB-F01-S006-goal-selected.png",
+          "relativePath": "audit/screenshots/userflows-live/mob/MOB-F01-S006-goal-selected.png"
+        },
+        {
+          "id": "MOB-F01-S007",
+          "flow": 1,
+          "microstep": "Onboarding completed",
+          "action": "Select Start Exploring.",
+          "expected": "Home appears with personalized greeting.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-home",
+            "activeScreens": 1,
+            "bodyWidth": 430,
+            "viewportWidth": 430,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "MOB-F01-S007-onboarding-completed.png",
+          "relativePath": "audit/screenshots/userflows-live/mob/MOB-F01-S007-onboarding-completed.png"
+        },
+        {
+          "id": "MOB-F02-S008",
+          "flow": 2,
+          "microstep": "Home discovery",
+          "action": "Review featured pose and category cards.",
+          "expected": "Home shows featured CTA, categories, and tab navigation.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-home",
+            "activeScreens": 1,
+            "bodyWidth": 430,
+            "viewportWidth": 430,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "MOB-F02-S008-home-discovery.png",
+          "relativePath": "audit/screenshots/userflows-live/mob/MOB-F02-S008-home-discovery.png"
+        },
+        {
+          "id": "MOB-F02-S009",
+          "flow": 2,
+          "microstep": "Library categories",
+          "action": "Open the Poses tab.",
+          "expected": "Search, filters, and 16 category cards are available.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-library",
+            "activeScreens": 1,
+            "bodyWidth": 430,
+            "viewportWidth": 430,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "MOB-F02-S009-library-categories.png",
+          "relativePath": "audit/screenshots/userflows-live/mob/MOB-F02-S009-library-categories.png"
+        },
+        {
+          "id": "MOB-F02-S010",
+          "flow": 2,
+          "microstep": "Boudoir search results",
+          "action": "Search for boudoir.",
+          "expected": "Matching pose cards replace category browsing.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-library",
+            "activeScreens": 1,
+            "bodyWidth": 430,
+            "viewportWidth": 430,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "MOB-F02-S010-boudoir-search-results.png",
+          "relativePath": "audit/screenshots/userflows-live/mob/MOB-F02-S010-boudoir-search-results.png"
+        },
+        {
+          "id": "MOB-F02-S011",
+          "flow": 2,
+          "microstep": "Safe empty search",
+          "action": "Search using script-like text.",
+          "expected": "The query is treated as text and an empty state is shown.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-library",
+            "activeScreens": 1,
+            "bodyWidth": 430,
+            "viewportWidth": 430,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "MOB-F02-S011-safe-empty-search.png",
+          "relativePath": "audit/screenshots/userflows-live/mob/MOB-F02-S011-safe-empty-search.png"
+        },
+        {
+          "id": "MOB-F02-S012",
+          "flow": 2,
+          "microstep": "Standing category list",
+          "action": "Open the Standing category.",
+          "expected": "Standing list shows pose thumbnails and count.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-category-list",
+            "activeScreens": 1,
+            "bodyWidth": 430,
+            "viewportWidth": 430,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "MOB-F02-S012-standing-category-list.png",
+          "relativePath": "audit/screenshots/userflows-live/mob/MOB-F02-S012-standing-category-list.png"
+        },
+        {
+          "id": "MOB-F02-S013",
+          "flow": 2,
+          "microstep": "Pose detail opened",
+          "action": "Open S-Curve Stand.",
+          "expected": "Detail sheet shows title, instructions, actions, avatar, and skeleton.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-category-list",
+            "activeScreens": 1,
+            "bodyWidth": 430,
+            "viewportWidth": 430,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "MOB-F02-S013-pose-detail-opened.png",
+          "relativePath": "audit/screenshots/userflows-live/mob/MOB-F02-S013-pose-detail-opened.png"
+        },
+        {
+          "id": "MOB-F02-S014",
+          "flow": 2,
+          "microstep": "Pose side view",
+          "action": "Switch the skeleton to Side.",
+          "expected": "The procedural skeleton changes viewpoint.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-category-list",
+            "activeScreens": 1,
+            "bodyWidth": 430,
+            "viewportWidth": 430,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "MOB-F02-S014-pose-side-view.png",
+          "relativePath": "audit/screenshots/userflows-live/mob/MOB-F02-S014-pose-side-view.png"
+        },
+        {
+          "id": "MOB-F02-S015",
+          "flow": 2,
+          "microstep": "Pose favorited",
+          "action": "Toggle Favorite.",
+          "expected": "Favorite control remains visibly selected.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-category-list",
+            "activeScreens": 1,
+            "bodyWidth": 430,
+            "viewportWidth": 430,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "MOB-F02-S015-pose-favorited.png",
+          "relativePath": "audit/screenshots/userflows-live/mob/MOB-F02-S015-pose-favorited.png"
+        },
+        {
+          "id": "MOB-F03-S016",
+          "flow": 3,
+          "microstep": "Session setup default",
+          "action": "Start a session from pose detail.",
+          "expected": "Timer defaults Off and four overlay choices are present.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-session-setup",
+            "activeScreens": 1,
+            "bodyWidth": 430,
+            "viewportWidth": 430,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "MOB-F03-S016-session-setup-default.png",
+          "relativePath": "audit/screenshots/userflows-live/mob/MOB-F03-S016-session-setup-default.png"
+        },
+        {
+          "id": "MOB-F03-S017",
+          "flow": 3,
+          "microstep": "Overlay preview skeleton",
+          "action": "Select skeleton overlay.",
+          "expected": "Setup preview accurately represents skeleton.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-session-setup",
+            "activeScreens": 1,
+            "bodyWidth": 430,
+            "viewportWidth": 430,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "MOB-F03-S017-overlay-preview-skeleton.png",
+          "relativePath": "audit/screenshots/userflows-live/mob/MOB-F03-S017-overlay-preview-skeleton.png"
+        },
+        {
+          "id": "MOB-F03-S018",
+          "flow": 3,
+          "microstep": "Overlay preview ghost",
+          "action": "Select ghost overlay.",
+          "expected": "Setup preview accurately represents ghost.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-session-setup",
+            "activeScreens": 1,
+            "bodyWidth": 430,
+            "viewportWidth": 430,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "MOB-F03-S018-overlay-preview-ghost.png",
+          "relativePath": "audit/screenshots/userflows-live/mob/MOB-F03-S018-overlay-preview-ghost.png"
+        },
+        {
+          "id": "MOB-F03-S019",
+          "flow": 3,
+          "microstep": "Overlay preview off",
+          "action": "Select off overlay.",
+          "expected": "Setup preview accurately represents off.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-session-setup",
+            "activeScreens": 1,
+            "bodyWidth": 430,
+            "viewportWidth": 430,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "MOB-F03-S019-overlay-preview-off.png",
+          "relativePath": "audit/screenshots/userflows-live/mob/MOB-F03-S019-overlay-preview-off.png"
+        },
+        {
+          "id": "MOB-F03-S020",
+          "flow": 3,
+          "microstep": "Overlay preview avatar",
+          "action": "Select avatar overlay.",
+          "expected": "Setup preview accurately represents avatar.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-session-setup",
+            "activeScreens": 1,
+            "bodyWidth": 430,
+            "viewportWidth": 430,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "MOB-F03-S020-overlay-preview-avatar.png",
+          "relativePath": "audit/screenshots/userflows-live/mob/MOB-F03-S020-overlay-preview-avatar.png"
+        },
+        {
+          "id": "MOB-F03-S021",
+          "flow": 3,
+          "microstep": "Camera initial state",
+          "action": "Begin Capture in demo camera mode.",
+          "expected": "Score, simulated-scoring disclosure, shutter, and next preview are visible.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-camera",
+            "activeScreens": 1,
+            "bodyWidth": 430,
+            "viewportWidth": 430,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "MOB-F03-S021-camera-initial-state.png",
+          "relativePath": "audit/screenshots/userflows-live/mob/MOB-F03-S021-camera-initial-state.png"
+        },
+        {
+          "id": "MOB-F03-S022",
+          "flow": 3,
+          "microstep": "Flow mode enabled",
+          "action": "Toggle Flow Mode.",
+          "expected": "Flow control visibly changes to ON.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-camera",
+            "activeScreens": 1,
+            "bodyWidth": 430,
+            "viewportWidth": 430,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "MOB-F03-S022-flow-mode-enabled.png",
+          "relativePath": "audit/screenshots/userflows-live/mob/MOB-F03-S022-flow-mode-enabled.png"
+        },
+        {
+          "id": "MOB-F03-S023",
+          "flow": 3,
+          "microstep": "Camera overlay cycled",
+          "action": "Cycle the live overlay.",
+          "expected": "Camera overlay state changes without leaving the session.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-camera",
+            "activeScreens": 1,
+            "bodyWidth": 430,
+            "viewportWidth": 430,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "MOB-F03-S023-camera-overlay-cycled.png",
+          "relativePath": "audit/screenshots/userflows-live/mob/MOB-F03-S023-camera-overlay-cycled.png"
+        },
+        {
+          "id": "MOB-F03-S024",
+          "flow": 3,
+          "microstep": "Capture review",
+          "action": "Press the shutter.",
+          "expected": "Review shows captured image, score, filters, retake/share/save actions.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-review",
+            "activeScreens": 1,
+            "bodyWidth": 430,
+            "viewportWidth": 430,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "MOB-F03-S024-capture-review.png",
+          "relativePath": "audit/screenshots/userflows-live/mob/MOB-F03-S024-capture-review.png"
+        },
+        {
+          "id": "MOB-F03-S025",
+          "flow": 3,
+          "microstep": "Warm review preset",
+          "action": "Select the Warm filter.",
+          "expected": "Captured review visibly applies the selected preset.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-review",
+            "activeScreens": 1,
+            "bodyWidth": 430,
+            "viewportWidth": 430,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "MOB-F03-S025-warm-review-preset.png",
+          "relativePath": "audit/screenshots/userflows-live/mob/MOB-F03-S025-warm-review-preset.png"
+        },
+        {
+          "id": "MOB-F03-S026",
+          "flow": 3,
+          "microstep": "Capture saved",
+          "action": "Save the review to Gallery.",
+          "expected": "Gallery opens with the newly captured item.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-gallery",
+            "activeScreens": 1,
+            "bodyWidth": 430,
+            "viewportWidth": 430,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "MOB-F03-S026-capture-saved.png",
+          "relativePath": "audit/screenshots/userflows-live/mob/MOB-F03-S026-capture-saved.png"
+        },
+        {
+          "id": "MOB-F04-S027",
+          "flow": 4,
+          "microstep": "Gallery populated",
+          "action": "Review captured gallery.",
+          "expected": "Capture count and card are visible with management controls.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-gallery",
+            "activeScreens": 1,
+            "bodyWidth": 430,
+            "viewportWidth": 430,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "MOB-F04-S027-gallery-populated.png",
+          "relativePath": "audit/screenshots/userflows-live/mob/MOB-F04-S027-gallery-populated.png"
+        },
+        {
+          "id": "MOB-F04-S028",
+          "flow": 4,
+          "microstep": "Gallery detail actions",
+          "action": "Open the first capture.",
+          "expected": "Save, Copy, Download, Share, Favorite, and Delete are visible.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-gallery-detail",
+            "activeScreens": 1,
+            "bodyWidth": 430,
+            "viewportWidth": 430,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "MOB-F04-S028-gallery-detail-actions.png",
+          "relativePath": "audit/screenshots/userflows-live/mob/MOB-F04-S028-gallery-detail-actions.png"
+        },
+        {
+          "id": "MOB-F04-S029",
+          "flow": 4,
+          "microstep": "Gallery item copied",
+          "action": "Select Copy.",
+          "expected": "A duplicated capture becomes the selected detail item.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-gallery-detail",
+            "activeScreens": 1,
+            "bodyWidth": 430,
+            "viewportWidth": 430,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "MOB-F04-S029-gallery-item-copied.png",
+          "relativePath": "audit/screenshots/userflows-live/mob/MOB-F04-S029-gallery-item-copied.png"
+        },
+        {
+          "id": "MOB-F04-S030",
+          "flow": 4,
+          "microstep": "Gallery sorted by score",
+          "action": "Sort by Top score.",
+          "expected": "Gallery ordering reflects score sort.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-gallery",
+            "activeScreens": 1,
+            "bodyWidth": 430,
+            "viewportWidth": 430,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "MOB-F04-S030-gallery-sorted-by-score.png",
+          "relativePath": "audit/screenshots/userflows-live/mob/MOB-F04-S030-gallery-sorted-by-score.png"
+        },
+        {
+          "id": "MOB-F04-S031",
+          "flow": 4,
+          "microstep": "Gallery grouped by pose",
+          "action": "Enable Group by pose.",
+          "expected": "Cards show per-pose group counts.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-gallery",
+            "activeScreens": 1,
+            "bodyWidth": 430,
+            "viewportWidth": 430,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "MOB-F04-S031-gallery-grouped-by-pose.png",
+          "relativePath": "audit/screenshots/userflows-live/mob/MOB-F04-S031-gallery-grouped-by-pose.png"
+        },
+        {
+          "id": "MOB-F04-S032",
+          "flow": 4,
+          "microstep": "Bulk selection mode",
+          "action": "Select the gallery Select control.",
+          "expected": "Checkboxes and bulk action bar appear.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-gallery",
+            "activeScreens": 1,
+            "bodyWidth": 430,
+            "viewportWidth": 430,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "MOB-F04-S032-bulk-selection-mode.png",
+          "relativePath": "audit/screenshots/userflows-live/mob/MOB-F04-S032-bulk-selection-mode.png"
+        },
+        {
+          "id": "MOB-F04-S033",
+          "flow": 4,
+          "microstep": "Gallery item selected",
+          "action": "Select one capture.",
+          "expected": "Selection count becomes one and selected card is outlined.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-gallery",
+            "activeScreens": 1,
+            "bodyWidth": 430,
+            "viewportWidth": 430,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "MOB-F04-S033-gallery-item-selected.png",
+          "relativePath": "audit/screenshots/userflows-live/mob/MOB-F04-S033-gallery-item-selected.png"
+        },
+        {
+          "id": "MOB-F05-S034",
+          "flow": 5,
+          "microstep": "Progress dashboard",
+          "action": "Open Progress.",
+          "expected": "Session, pose, score, and history areas are visible.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-progress",
+            "activeScreens": 1,
+            "bodyWidth": 430,
+            "viewportWidth": 430,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "MOB-F05-S034-progress-dashboard.png",
+          "relativePath": "audit/screenshots/userflows-live/mob/MOB-F05-S034-progress-dashboard.png"
+        },
+        {
+          "id": "MOB-F05-S035",
+          "flow": 5,
+          "microstep": "Profile and tools",
+          "action": "Open Profile.",
+          "expected": "Preferences, editor, marketplace, and tour entry points are visible.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-profile",
+            "activeScreens": 1,
+            "bodyWidth": 430,
+            "viewportWidth": 430,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "MOB-F05-S035-profile-and-tools.png",
+          "relativePath": "audit/screenshots/userflows-live/mob/MOB-F05-S035-profile-and-tools.png"
+        },
+        {
+          "id": "MOB-F05-S036",
+          "flow": 5,
+          "microstep": "Custom pose editor",
+          "action": "Open editor with S-Curve Stand.",
+          "expected": "Twenty sliders and avatar/skeleton/ghost previews render.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-custom-pose-editor",
+            "activeScreens": 1,
+            "bodyWidth": 430,
+            "viewportWidth": 430,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "MOB-F05-S036-custom-pose-editor.png",
+          "relativePath": "audit/screenshots/userflows-live/mob/MOB-F05-S036-custom-pose-editor.png"
+        },
+        {
+          "id": "MOB-F05-S037",
+          "flow": 5,
+          "microstep": "Editor joint changed",
+          "action": "Set Spine to 35 degrees.",
+          "expected": "Live previews and numeric value update.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-custom-pose-editor",
+            "activeScreens": 1,
+            "bodyWidth": 430,
+            "viewportWidth": 430,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "MOB-F05-S037-editor-joint-changed.png",
+          "relativePath": "audit/screenshots/userflows-live/mob/MOB-F05-S037-editor-joint-changed.png"
+        },
+        {
+          "id": "MOB-F05-S038",
+          "flow": 5,
+          "microstep": "Editor undo",
+          "action": "Undo the joint change.",
+          "expected": "Prior joint state is restored.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-custom-pose-editor",
+            "activeScreens": 1,
+            "bodyWidth": 430,
+            "viewportWidth": 430,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "MOB-F05-S038-editor-undo.png",
+          "relativePath": "audit/screenshots/userflows-live/mob/MOB-F05-S038-editor-undo.png"
+        },
+        {
+          "id": "MOB-F05-S039",
+          "flow": 5,
+          "microstep": "Custom pose saved",
+          "action": "Save the custom pose.",
+          "expected": "Saved pose appears in the editor list.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-custom-pose-editor",
+            "activeScreens": 1,
+            "bodyWidth": 430,
+            "viewportWidth": 430,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "MOB-F05-S039-custom-pose-saved.png",
+          "relativePath": "audit/screenshots/userflows-live/mob/MOB-F05-S039-custom-pose-saved.png"
+        },
+        {
+          "id": "MOB-F05-S040",
+          "flow": 5,
+          "microstep": "Editor bug report submitted",
+          "action": "Submit report with pose data.",
+          "expected": "Success feedback confirms report storage.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-custom-pose-editor",
+            "activeScreens": 1,
+            "bodyWidth": 430,
+            "viewportWidth": 430,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "MOB-F05-S040-editor-bug-report-submitted.png",
+          "relativePath": "audit/screenshots/userflows-live/mob/MOB-F05-S040-editor-bug-report-submitted.png"
+        },
+        {
+          "id": "MOB-F06-S041",
+          "flow": 6,
+          "microstep": "Marketplace browse",
+          "action": "Open Marketplace.",
+          "expected": "Product grid, search, prices, ratings, and filters appear.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-marketplace",
+            "activeScreens": 1,
+            "bodyWidth": 430,
+            "viewportWidth": 430,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "MOB-F06-S041-marketplace-browse.png",
+          "relativePath": "audit/screenshots/userflows-live/mob/MOB-F06-S041-marketplace-browse.png"
+        },
+        {
+          "id": "MOB-F06-S042",
+          "flow": 6,
+          "microstep": "Marketplace search",
+          "action": "Search standing.",
+          "expected": "Matching product cards remain visible.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-marketplace",
+            "activeScreens": 1,
+            "bodyWidth": 430,
+            "viewportWidth": 430,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "MOB-F06-S042-marketplace-search.png",
+          "relativePath": "audit/screenshots/userflows-live/mob/MOB-F06-S042-marketplace-search.png"
+        },
+        {
+          "id": "MOB-F06-S043",
+          "flow": 6,
+          "microstep": "Product preview drawer",
+          "action": "Preview the first product.",
+          "expected": "Preview drawer names the first two poses when available.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-marketplace",
+            "activeScreens": 1,
+            "bodyWidth": 430,
+            "viewportWidth": 430,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "MOB-F06-S043-product-preview-drawer.png",
+          "relativePath": "audit/screenshots/userflows-live/mob/MOB-F06-S043-product-preview-drawer.png"
+        },
+        {
+          "id": "MOB-F06-S044",
+          "flow": 6,
+          "microstep": "Creator profile drawer",
+          "action": "Open the product creator.",
+          "expected": "Creator identity and catalog are shown.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-marketplace",
+            "activeScreens": 1,
+            "bodyWidth": 430,
+            "viewportWidth": 430,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "MOB-F06-S044-creator-profile-drawer.png",
+          "relativePath": "audit/screenshots/userflows-live/mob/MOB-F06-S044-creator-profile-drawer.png"
+        },
+        {
+          "id": "MOB-F06-S045",
+          "flow": 6,
+          "microstep": "Free pack purchased",
+          "action": "Acquire Essential Standing Poses.",
+          "expected": "Product becomes owned and its action changes to Open.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-marketplace",
+            "activeScreens": 1,
+            "bodyWidth": 430,
+            "viewportWidth": 430,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "MOB-F06-S045-free-pack-purchased.png",
+          "relativePath": "audit/screenshots/userflows-live/mob/MOB-F06-S045-free-pack-purchased.png"
+        },
+        {
+          "id": "MOB-F06-S046",
+          "flow": 6,
+          "microstep": "Owned products",
+          "action": "Open My Packs.",
+          "expected": "Purchased pack appears with Open and Rate controls.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-marketplace",
+            "activeScreens": 1,
+            "bodyWidth": 430,
+            "viewportWidth": 430,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "MOB-F06-S046-owned-products.png",
+          "relativePath": "audit/screenshots/userflows-live/mob/MOB-F06-S046-owned-products.png"
+        },
+        {
+          "id": "MOB-F06-S047",
+          "flow": 6,
+          "microstep": "Creator dashboard",
+          "action": "Open Creator.",
+          "expected": "Earnings summary and publish form are visible.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-marketplace",
+            "activeScreens": 1,
+            "bodyWidth": 430,
+            "viewportWidth": 430,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "MOB-F06-S047-creator-dashboard.png",
+          "relativePath": "audit/screenshots/userflows-live/mob/MOB-F06-S047-creator-dashboard.png"
+        },
+        {
+          "id": "MOB-F07-S048",
+          "flow": 7,
+          "microstep": "Tour creator populated",
+          "action": "Create two sections with six poses.",
+          "expected": "Builder shows sections, pose cards, sources, and actions.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-tour-creator",
+            "activeScreens": 1,
+            "bodyWidth": 430,
+            "viewportWidth": 430,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "MOB-F07-S048-tour-creator-populated.png",
+          "relativePath": "audit/screenshots/userflows-live/mob/MOB-F07-S048-tour-creator-populated.png"
+        },
+        {
+          "id": "MOB-F07-S049",
+          "flow": 7,
+          "microstep": "Tour section added",
+          "action": "Select Add Section.",
+          "expected": "A third section appears.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-tour-creator",
+            "activeScreens": 1,
+            "bodyWidth": 430,
+            "viewportWidth": 430,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "MOB-F07-S049-tour-section-added.png",
+          "relativePath": "audit/screenshots/userflows-live/mob/MOB-F07-S049-tour-section-added.png"
+        },
+        {
+          "id": "MOB-F07-S050",
+          "flow": 7,
+          "microstep": "Tour session started",
+          "action": "Start Tour Session.",
+          "expected": "Current pose, section/pose progress, navigation, camera, and photo strip appear.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-tour-session",
+            "activeScreens": 1,
+            "bodyWidth": 430,
+            "viewportWidth": 430,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "MOB-F07-S050-tour-session-started.png",
+          "relativePath": "audit/screenshots/userflows-live/mob/MOB-F07-S050-tour-session-started.png"
+        },
+        {
+          "id": "MOB-F07-S051",
+          "flow": 7,
+          "microstep": "Tour next pose",
+          "action": "Select Next pose.",
+          "expected": "Pose progress and procedural preview advance.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-tour-session",
+            "activeScreens": 1,
+            "bodyWidth": 430,
+            "viewportWidth": 430,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "MOB-F07-S051-tour-next-pose.png",
+          "relativePath": "audit/screenshots/userflows-live/mob/MOB-F07-S051-tour-next-pose.png"
+        },
+        {
+          "id": "MOB-F07-S052",
+          "flow": 7,
+          "microstep": "Tour next section",
+          "action": "Select Next Section.",
+          "expected": "Section progress moves to Dynamic and pose resets.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-tour-session",
+            "activeScreens": 1,
+            "bodyWidth": 430,
+            "viewportWidth": 430,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "MOB-F07-S052-tour-next-section.png",
+          "relativePath": "audit/screenshots/userflows-live/mob/MOB-F07-S052-tour-next-section.png"
+        },
+        {
+          "id": "MOB-F07-S053",
+          "flow": 7,
+          "microstep": "Tour capture added",
+          "action": "Capture the current tour pose.",
+          "expected": "Current-section photo strip gains a tagged thumbnail.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-tour-session",
+            "activeScreens": 1,
+            "bodyWidth": 430,
+            "viewportWidth": 430,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "MOB-F07-S053-tour-capture-added.png",
+          "relativePath": "audit/screenshots/userflows-live/mob/MOB-F07-S053-tour-capture-added.png"
+        },
+        {
+          "id": "MOB-F07-S054",
+          "flow": 7,
+          "microstep": "Tour pose search",
+          "action": "Search for wind within the tour.",
+          "expected": "Matching tour pose is offered as a jump target.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-tour-session",
+            "activeScreens": 1,
+            "bodyWidth": 430,
+            "viewportWidth": 430,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "MOB-F07-S054-tour-pose-search.png",
+          "relativePath": "audit/screenshots/userflows-live/mob/MOB-F07-S054-tour-pose-search.png"
+        },
+        {
+          "id": "MOB-F07-S055",
+          "flow": 7,
+          "microstep": "Tour section overview",
+          "action": "Open Section overview.",
+          "expected": "Drawer lists every section and pose count.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-tour-session",
+            "activeScreens": 1,
+            "bodyWidth": 430,
+            "viewportWidth": 430,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "MOB-F07-S055-tour-section-overview.png",
+          "relativePath": "audit/screenshots/userflows-live/mob/MOB-F07-S055-tour-section-overview.png"
+        },
+        {
+          "id": "MOB-F07-S056",
+          "flow": 7,
+          "microstep": "Tour summary",
+          "action": "End the tour.",
+          "expected": "Summary groups captured photos by section and shows total.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-tour-summary",
+            "activeScreens": 1,
+            "bodyWidth": 430,
+            "viewportWidth": 430,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "MOB-F07-S056-tour-summary.png",
+          "relativePath": "audit/screenshots/userflows-live/mob/MOB-F07-S056-tour-summary.png"
+        }
+      ],
+      "errors": [],
+      "issues": [
+        {
+          "severity": "HIGH",
+          "id": "pose-detail-favorite-hit-target",
+          "microstep": "Pose favorited",
+          "description": "Favorite is visible but the Close button intercepts pointer events at this viewport.",
+          "diagnostic": "locator.click: Timeout 2500ms exceeded."
+        }
+      ],
+      "finalMetrics": {
+        "galleryItems": 3,
+        "tours": 1,
+        "customPoses": 0,
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "bodyHorizontalOverflow": false,
+        "appHorizontalOverflow": false
+      },
+      "assertions": {
+        "screenshotCount": 56,
+        "everyScreenSingleActive": true,
+        "browserErrors": 0
+      }
+    },
+    {
+      "key": "DESK",
+      "label": "Desktop 1440×1000",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "screenshots": [
+        {
+          "id": "DESK-F01-S001",
+          "flow": 1,
+          "microstep": "Welcome screen",
+          "action": "Open the application with clean storage.",
+          "expected": "OB1 presents Begin and Skip intro.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-ob1",
+            "activeScreens": 1,
+            "bodyWidth": 1440,
+            "viewportWidth": 1440,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "DESK-F01-S001-welcome-screen.png",
+          "relativePath": "audit/screenshots/userflows-live/desk/DESK-F01-S001-welcome-screen.png"
+        },
+        {
+          "id": "DESK-F01-S002",
+          "flow": 1,
+          "microstep": "How it works",
+          "action": "Select Begin.",
+          "expected": "OB2 explains ghost overlay, pose library, and auto-capture.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-ob2",
+            "activeScreens": 1,
+            "bodyWidth": 1440,
+            "viewportWidth": 1440,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "DESK-F01-S002-how-it-works.png",
+          "relativePath": "audit/screenshots/userflows-live/desk/DESK-F01-S002-how-it-works.png"
+        },
+        {
+          "id": "DESK-F01-S003",
+          "flow": 1,
+          "microstep": "Interactive onboarding demo",
+          "action": "Select Try it.",
+          "expected": "Demo stage animates and provides coaching feedback.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-ob2",
+            "activeScreens": 1,
+            "bodyWidth": 1440,
+            "viewportWidth": 1440,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "DESK-F01-S003-interactive-onboarding-demo.png",
+          "relativePath": "audit/screenshots/userflows-live/desk/DESK-F01-S003-interactive-onboarding-demo.png"
+        },
+        {
+          "id": "DESK-F01-S004",
+          "flow": 1,
+          "microstep": "Camera permission choice",
+          "action": "Wait for demo completion.",
+          "expected": "OB3 offers camera permission and Demo Mode.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-ob3",
+            "activeScreens": 1,
+            "bodyWidth": 1440,
+            "viewportWidth": 1440,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "DESK-F01-S004-camera-permission-choice.png",
+          "relativePath": "audit/screenshots/userflows-live/desk/DESK-F01-S004-camera-permission-choice.png"
+        },
+        {
+          "id": "DESK-F01-S005",
+          "flow": 1,
+          "microstep": "Goal selection",
+          "action": "Continue in Demo Mode.",
+          "expected": "OB4 presents four persona goals and disabled completion.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-ob4",
+            "activeScreens": 1,
+            "bodyWidth": 1440,
+            "viewportWidth": 1440,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "DESK-F01-S005-goal-selection.png",
+          "relativePath": "audit/screenshots/userflows-live/desk/DESK-F01-S005-goal-selection.png"
+        },
+        {
+          "id": "DESK-F01-S006",
+          "flow": 1,
+          "microstep": "Goal selected",
+          "action": "Choose Photographer.",
+          "expected": "Photographer is highlighted and Start Exploring becomes enabled.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-ob4",
+            "activeScreens": 1,
+            "bodyWidth": 1440,
+            "viewportWidth": 1440,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "DESK-F01-S006-goal-selected.png",
+          "relativePath": "audit/screenshots/userflows-live/desk/DESK-F01-S006-goal-selected.png"
+        },
+        {
+          "id": "DESK-F01-S007",
+          "flow": 1,
+          "microstep": "Onboarding completed",
+          "action": "Select Start Exploring.",
+          "expected": "Home appears with personalized greeting.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-home",
+            "activeScreens": 1,
+            "bodyWidth": 1440,
+            "viewportWidth": 1440,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "DESK-F01-S007-onboarding-completed.png",
+          "relativePath": "audit/screenshots/userflows-live/desk/DESK-F01-S007-onboarding-completed.png"
+        },
+        {
+          "id": "DESK-F02-S008",
+          "flow": 2,
+          "microstep": "Home discovery",
+          "action": "Review featured pose and category cards.",
+          "expected": "Home shows featured CTA, categories, and tab navigation.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-home",
+            "activeScreens": 1,
+            "bodyWidth": 1440,
+            "viewportWidth": 1440,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "DESK-F02-S008-home-discovery.png",
+          "relativePath": "audit/screenshots/userflows-live/desk/DESK-F02-S008-home-discovery.png"
+        },
+        {
+          "id": "DESK-F02-S009",
+          "flow": 2,
+          "microstep": "Library categories",
+          "action": "Open the Poses tab.",
+          "expected": "Search, filters, and 16 category cards are available.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-library",
+            "activeScreens": 1,
+            "bodyWidth": 1440,
+            "viewportWidth": 1440,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "DESK-F02-S009-library-categories.png",
+          "relativePath": "audit/screenshots/userflows-live/desk/DESK-F02-S009-library-categories.png"
+        },
+        {
+          "id": "DESK-F02-S010",
+          "flow": 2,
+          "microstep": "Boudoir search results",
+          "action": "Search for boudoir.",
+          "expected": "Matching pose cards replace category browsing.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-library",
+            "activeScreens": 1,
+            "bodyWidth": 1440,
+            "viewportWidth": 1440,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "DESK-F02-S010-boudoir-search-results.png",
+          "relativePath": "audit/screenshots/userflows-live/desk/DESK-F02-S010-boudoir-search-results.png"
+        },
+        {
+          "id": "DESK-F02-S011",
+          "flow": 2,
+          "microstep": "Safe empty search",
+          "action": "Search using script-like text.",
+          "expected": "The query is treated as text and an empty state is shown.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-library",
+            "activeScreens": 1,
+            "bodyWidth": 1440,
+            "viewportWidth": 1440,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "DESK-F02-S011-safe-empty-search.png",
+          "relativePath": "audit/screenshots/userflows-live/desk/DESK-F02-S011-safe-empty-search.png"
+        },
+        {
+          "id": "DESK-F02-S012",
+          "flow": 2,
+          "microstep": "Standing category list",
+          "action": "Open the Standing category.",
+          "expected": "Standing list shows pose thumbnails and count.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-category-list",
+            "activeScreens": 1,
+            "bodyWidth": 1440,
+            "viewportWidth": 1440,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "DESK-F02-S012-standing-category-list.png",
+          "relativePath": "audit/screenshots/userflows-live/desk/DESK-F02-S012-standing-category-list.png"
+        },
+        {
+          "id": "DESK-F02-S013",
+          "flow": 2,
+          "microstep": "Pose detail opened",
+          "action": "Open S-Curve Stand.",
+          "expected": "Detail sheet shows title, instructions, actions, avatar, and skeleton.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-category-list",
+            "activeScreens": 1,
+            "bodyWidth": 1440,
+            "viewportWidth": 1440,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "DESK-F02-S013-pose-detail-opened.png",
+          "relativePath": "audit/screenshots/userflows-live/desk/DESK-F02-S013-pose-detail-opened.png"
+        },
+        {
+          "id": "DESK-F02-S014",
+          "flow": 2,
+          "microstep": "Pose side view",
+          "action": "Switch the skeleton to Side.",
+          "expected": "The procedural skeleton changes viewpoint.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-category-list",
+            "activeScreens": 1,
+            "bodyWidth": 1440,
+            "viewportWidth": 1440,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "DESK-F02-S014-pose-side-view.png",
+          "relativePath": "audit/screenshots/userflows-live/desk/DESK-F02-S014-pose-side-view.png"
+        },
+        {
+          "id": "DESK-F02-S015",
+          "flow": 2,
+          "microstep": "Pose favorited",
+          "action": "Toggle Favorite.",
+          "expected": "Favorite control remains visibly selected.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-category-list",
+            "activeScreens": 1,
+            "bodyWidth": 1440,
+            "viewportWidth": 1440,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "DESK-F02-S015-pose-favorited.png",
+          "relativePath": "audit/screenshots/userflows-live/desk/DESK-F02-S015-pose-favorited.png"
+        },
+        {
+          "id": "DESK-F03-S016",
+          "flow": 3,
+          "microstep": "Session setup default",
+          "action": "Start a session from pose detail.",
+          "expected": "Timer defaults Off and four overlay choices are present.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-session-setup",
+            "activeScreens": 1,
+            "bodyWidth": 1440,
+            "viewportWidth": 1440,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "DESK-F03-S016-session-setup-default.png",
+          "relativePath": "audit/screenshots/userflows-live/desk/DESK-F03-S016-session-setup-default.png"
+        },
+        {
+          "id": "DESK-F03-S017",
+          "flow": 3,
+          "microstep": "Overlay preview skeleton",
+          "action": "Select skeleton overlay.",
+          "expected": "Setup preview accurately represents skeleton.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-session-setup",
+            "activeScreens": 1,
+            "bodyWidth": 1440,
+            "viewportWidth": 1440,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "DESK-F03-S017-overlay-preview-skeleton.png",
+          "relativePath": "audit/screenshots/userflows-live/desk/DESK-F03-S017-overlay-preview-skeleton.png"
+        },
+        {
+          "id": "DESK-F03-S018",
+          "flow": 3,
+          "microstep": "Overlay preview ghost",
+          "action": "Select ghost overlay.",
+          "expected": "Setup preview accurately represents ghost.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-session-setup",
+            "activeScreens": 1,
+            "bodyWidth": 1440,
+            "viewportWidth": 1440,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "DESK-F03-S018-overlay-preview-ghost.png",
+          "relativePath": "audit/screenshots/userflows-live/desk/DESK-F03-S018-overlay-preview-ghost.png"
+        },
+        {
+          "id": "DESK-F03-S019",
+          "flow": 3,
+          "microstep": "Overlay preview off",
+          "action": "Select off overlay.",
+          "expected": "Setup preview accurately represents off.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-session-setup",
+            "activeScreens": 1,
+            "bodyWidth": 1440,
+            "viewportWidth": 1440,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "DESK-F03-S019-overlay-preview-off.png",
+          "relativePath": "audit/screenshots/userflows-live/desk/DESK-F03-S019-overlay-preview-off.png"
+        },
+        {
+          "id": "DESK-F03-S020",
+          "flow": 3,
+          "microstep": "Overlay preview avatar",
+          "action": "Select avatar overlay.",
+          "expected": "Setup preview accurately represents avatar.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-session-setup",
+            "activeScreens": 1,
+            "bodyWidth": 1440,
+            "viewportWidth": 1440,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "DESK-F03-S020-overlay-preview-avatar.png",
+          "relativePath": "audit/screenshots/userflows-live/desk/DESK-F03-S020-overlay-preview-avatar.png"
+        },
+        {
+          "id": "DESK-F03-S021",
+          "flow": 3,
+          "microstep": "Camera initial state",
+          "action": "Begin Capture in demo camera mode.",
+          "expected": "Score, simulated-scoring disclosure, shutter, and next preview are visible.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-camera",
+            "activeScreens": 1,
+            "bodyWidth": 1440,
+            "viewportWidth": 1440,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "DESK-F03-S021-camera-initial-state.png",
+          "relativePath": "audit/screenshots/userflows-live/desk/DESK-F03-S021-camera-initial-state.png"
+        },
+        {
+          "id": "DESK-F03-S022",
+          "flow": 3,
+          "microstep": "Flow mode enabled",
+          "action": "Toggle Flow Mode.",
+          "expected": "Flow control visibly changes to ON.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-camera",
+            "activeScreens": 1,
+            "bodyWidth": 1440,
+            "viewportWidth": 1440,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "DESK-F03-S022-flow-mode-enabled.png",
+          "relativePath": "audit/screenshots/userflows-live/desk/DESK-F03-S022-flow-mode-enabled.png"
+        },
+        {
+          "id": "DESK-F03-S023",
+          "flow": 3,
+          "microstep": "Camera overlay cycled",
+          "action": "Cycle the live overlay.",
+          "expected": "Camera overlay state changes without leaving the session.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-camera",
+            "activeScreens": 1,
+            "bodyWidth": 1440,
+            "viewportWidth": 1440,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "DESK-F03-S023-camera-overlay-cycled.png",
+          "relativePath": "audit/screenshots/userflows-live/desk/DESK-F03-S023-camera-overlay-cycled.png"
+        },
+        {
+          "id": "DESK-F03-S024",
+          "flow": 3,
+          "microstep": "Capture review",
+          "action": "Press the shutter.",
+          "expected": "Review shows captured image, score, filters, retake/share/save actions.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-review",
+            "activeScreens": 1,
+            "bodyWidth": 1440,
+            "viewportWidth": 1440,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "DESK-F03-S024-capture-review.png",
+          "relativePath": "audit/screenshots/userflows-live/desk/DESK-F03-S024-capture-review.png"
+        },
+        {
+          "id": "DESK-F03-S025",
+          "flow": 3,
+          "microstep": "Warm review preset",
+          "action": "Select the Warm filter.",
+          "expected": "Captured review visibly applies the selected preset.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-review",
+            "activeScreens": 1,
+            "bodyWidth": 1440,
+            "viewportWidth": 1440,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "DESK-F03-S025-warm-review-preset.png",
+          "relativePath": "audit/screenshots/userflows-live/desk/DESK-F03-S025-warm-review-preset.png"
+        },
+        {
+          "id": "DESK-F03-S026",
+          "flow": 3,
+          "microstep": "Capture saved",
+          "action": "Save the review to Gallery.",
+          "expected": "Gallery opens with the newly captured item.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-gallery",
+            "activeScreens": 1,
+            "bodyWidth": 1440,
+            "viewportWidth": 1440,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "DESK-F03-S026-capture-saved.png",
+          "relativePath": "audit/screenshots/userflows-live/desk/DESK-F03-S026-capture-saved.png"
+        },
+        {
+          "id": "DESK-F04-S027",
+          "flow": 4,
+          "microstep": "Gallery populated",
+          "action": "Review captured gallery.",
+          "expected": "Capture count and card are visible with management controls.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-gallery",
+            "activeScreens": 1,
+            "bodyWidth": 1440,
+            "viewportWidth": 1440,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "DESK-F04-S027-gallery-populated.png",
+          "relativePath": "audit/screenshots/userflows-live/desk/DESK-F04-S027-gallery-populated.png"
+        },
+        {
+          "id": "DESK-F04-S028",
+          "flow": 4,
+          "microstep": "Gallery detail actions",
+          "action": "Open the first capture.",
+          "expected": "Save, Copy, Download, Share, Favorite, and Delete are visible.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-gallery-detail",
+            "activeScreens": 1,
+            "bodyWidth": 1440,
+            "viewportWidth": 1440,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "DESK-F04-S028-gallery-detail-actions.png",
+          "relativePath": "audit/screenshots/userflows-live/desk/DESK-F04-S028-gallery-detail-actions.png"
+        },
+        {
+          "id": "DESK-F04-S029",
+          "flow": 4,
+          "microstep": "Gallery item copied",
+          "action": "Select Copy.",
+          "expected": "A duplicated capture becomes the selected detail item.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-gallery-detail",
+            "activeScreens": 1,
+            "bodyWidth": 1440,
+            "viewportWidth": 1440,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "DESK-F04-S029-gallery-item-copied.png",
+          "relativePath": "audit/screenshots/userflows-live/desk/DESK-F04-S029-gallery-item-copied.png"
+        },
+        {
+          "id": "DESK-F04-S030",
+          "flow": 4,
+          "microstep": "Gallery sorted by score",
+          "action": "Sort by Top score.",
+          "expected": "Gallery ordering reflects score sort.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-gallery",
+            "activeScreens": 1,
+            "bodyWidth": 1440,
+            "viewportWidth": 1440,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "DESK-F04-S030-gallery-sorted-by-score.png",
+          "relativePath": "audit/screenshots/userflows-live/desk/DESK-F04-S030-gallery-sorted-by-score.png"
+        },
+        {
+          "id": "DESK-F04-S031",
+          "flow": 4,
+          "microstep": "Gallery grouped by pose",
+          "action": "Enable Group by pose.",
+          "expected": "Cards show per-pose group counts.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-gallery",
+            "activeScreens": 1,
+            "bodyWidth": 1440,
+            "viewportWidth": 1440,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "DESK-F04-S031-gallery-grouped-by-pose.png",
+          "relativePath": "audit/screenshots/userflows-live/desk/DESK-F04-S031-gallery-grouped-by-pose.png"
+        },
+        {
+          "id": "DESK-F04-S032",
+          "flow": 4,
+          "microstep": "Bulk selection mode",
+          "action": "Select the gallery Select control.",
+          "expected": "Checkboxes and bulk action bar appear.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-gallery",
+            "activeScreens": 1,
+            "bodyWidth": 1440,
+            "viewportWidth": 1440,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "DESK-F04-S032-bulk-selection-mode.png",
+          "relativePath": "audit/screenshots/userflows-live/desk/DESK-F04-S032-bulk-selection-mode.png"
+        },
+        {
+          "id": "DESK-F04-S033",
+          "flow": 4,
+          "microstep": "Gallery item selected",
+          "action": "Select one capture.",
+          "expected": "Selection count becomes one and selected card is outlined.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-gallery",
+            "activeScreens": 1,
+            "bodyWidth": 1440,
+            "viewportWidth": 1440,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "DESK-F04-S033-gallery-item-selected.png",
+          "relativePath": "audit/screenshots/userflows-live/desk/DESK-F04-S033-gallery-item-selected.png"
+        },
+        {
+          "id": "DESK-F05-S034",
+          "flow": 5,
+          "microstep": "Progress dashboard",
+          "action": "Open Progress.",
+          "expected": "Session, pose, score, and history areas are visible.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-progress",
+            "activeScreens": 1,
+            "bodyWidth": 1440,
+            "viewportWidth": 1440,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "DESK-F05-S034-progress-dashboard.png",
+          "relativePath": "audit/screenshots/userflows-live/desk/DESK-F05-S034-progress-dashboard.png"
+        },
+        {
+          "id": "DESK-F05-S035",
+          "flow": 5,
+          "microstep": "Profile and tools",
+          "action": "Open Profile.",
+          "expected": "Preferences, editor, marketplace, and tour entry points are visible.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-profile",
+            "activeScreens": 1,
+            "bodyWidth": 1440,
+            "viewportWidth": 1440,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "DESK-F05-S035-profile-and-tools.png",
+          "relativePath": "audit/screenshots/userflows-live/desk/DESK-F05-S035-profile-and-tools.png"
+        },
+        {
+          "id": "DESK-F05-S036",
+          "flow": 5,
+          "microstep": "Custom pose editor",
+          "action": "Open editor with S-Curve Stand.",
+          "expected": "Twenty sliders and avatar/skeleton/ghost previews render.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-custom-pose-editor",
+            "activeScreens": 1,
+            "bodyWidth": 1440,
+            "viewportWidth": 1440,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "DESK-F05-S036-custom-pose-editor.png",
+          "relativePath": "audit/screenshots/userflows-live/desk/DESK-F05-S036-custom-pose-editor.png"
+        },
+        {
+          "id": "DESK-F05-S037",
+          "flow": 5,
+          "microstep": "Editor joint changed",
+          "action": "Set Spine to 35 degrees.",
+          "expected": "Live previews and numeric value update.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-custom-pose-editor",
+            "activeScreens": 1,
+            "bodyWidth": 1440,
+            "viewportWidth": 1440,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "DESK-F05-S037-editor-joint-changed.png",
+          "relativePath": "audit/screenshots/userflows-live/desk/DESK-F05-S037-editor-joint-changed.png"
+        },
+        {
+          "id": "DESK-F05-S038",
+          "flow": 5,
+          "microstep": "Editor undo",
+          "action": "Undo the joint change.",
+          "expected": "Prior joint state is restored.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-custom-pose-editor",
+            "activeScreens": 1,
+            "bodyWidth": 1440,
+            "viewportWidth": 1440,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "DESK-F05-S038-editor-undo.png",
+          "relativePath": "audit/screenshots/userflows-live/desk/DESK-F05-S038-editor-undo.png"
+        },
+        {
+          "id": "DESK-F05-S039",
+          "flow": 5,
+          "microstep": "Custom pose saved",
+          "action": "Save the custom pose.",
+          "expected": "Saved pose appears in the editor list.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-custom-pose-editor",
+            "activeScreens": 1,
+            "bodyWidth": 1440,
+            "viewportWidth": 1440,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "DESK-F05-S039-custom-pose-saved.png",
+          "relativePath": "audit/screenshots/userflows-live/desk/DESK-F05-S039-custom-pose-saved.png"
+        },
+        {
+          "id": "DESK-F05-S040",
+          "flow": 5,
+          "microstep": "Editor bug report submitted",
+          "action": "Submit report with pose data.",
+          "expected": "Success feedback confirms report storage.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-custom-pose-editor",
+            "activeScreens": 1,
+            "bodyWidth": 1440,
+            "viewportWidth": 1440,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "DESK-F05-S040-editor-bug-report-submitted.png",
+          "relativePath": "audit/screenshots/userflows-live/desk/DESK-F05-S040-editor-bug-report-submitted.png"
+        },
+        {
+          "id": "DESK-F06-S041",
+          "flow": 6,
+          "microstep": "Marketplace browse",
+          "action": "Open Marketplace.",
+          "expected": "Product grid, search, prices, ratings, and filters appear.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-marketplace",
+            "activeScreens": 1,
+            "bodyWidth": 1440,
+            "viewportWidth": 1440,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "DESK-F06-S041-marketplace-browse.png",
+          "relativePath": "audit/screenshots/userflows-live/desk/DESK-F06-S041-marketplace-browse.png"
+        },
+        {
+          "id": "DESK-F06-S042",
+          "flow": 6,
+          "microstep": "Marketplace search",
+          "action": "Search standing.",
+          "expected": "Matching product cards remain visible.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-marketplace",
+            "activeScreens": 1,
+            "bodyWidth": 1440,
+            "viewportWidth": 1440,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "DESK-F06-S042-marketplace-search.png",
+          "relativePath": "audit/screenshots/userflows-live/desk/DESK-F06-S042-marketplace-search.png"
+        },
+        {
+          "id": "DESK-F06-S043",
+          "flow": 6,
+          "microstep": "Product preview drawer",
+          "action": "Preview the first product.",
+          "expected": "Preview drawer names the first two poses when available.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-marketplace",
+            "activeScreens": 1,
+            "bodyWidth": 1440,
+            "viewportWidth": 1440,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "DESK-F06-S043-product-preview-drawer.png",
+          "relativePath": "audit/screenshots/userflows-live/desk/DESK-F06-S043-product-preview-drawer.png"
+        },
+        {
+          "id": "DESK-F06-S044",
+          "flow": 6,
+          "microstep": "Creator profile drawer",
+          "action": "Open the product creator.",
+          "expected": "Creator identity and catalog are shown.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-marketplace",
+            "activeScreens": 1,
+            "bodyWidth": 1440,
+            "viewportWidth": 1440,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "DESK-F06-S044-creator-profile-drawer.png",
+          "relativePath": "audit/screenshots/userflows-live/desk/DESK-F06-S044-creator-profile-drawer.png"
+        },
+        {
+          "id": "DESK-F06-S045",
+          "flow": 6,
+          "microstep": "Free pack purchased",
+          "action": "Acquire Essential Standing Poses.",
+          "expected": "Product becomes owned and its action changes to Open.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-marketplace",
+            "activeScreens": 1,
+            "bodyWidth": 1440,
+            "viewportWidth": 1440,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "DESK-F06-S045-free-pack-purchased.png",
+          "relativePath": "audit/screenshots/userflows-live/desk/DESK-F06-S045-free-pack-purchased.png"
+        },
+        {
+          "id": "DESK-F06-S046",
+          "flow": 6,
+          "microstep": "Owned products",
+          "action": "Open My Packs.",
+          "expected": "Purchased pack appears with Open and Rate controls.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-marketplace",
+            "activeScreens": 1,
+            "bodyWidth": 1440,
+            "viewportWidth": 1440,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "DESK-F06-S046-owned-products.png",
+          "relativePath": "audit/screenshots/userflows-live/desk/DESK-F06-S046-owned-products.png"
+        },
+        {
+          "id": "DESK-F06-S047",
+          "flow": 6,
+          "microstep": "Creator dashboard",
+          "action": "Open Creator.",
+          "expected": "Earnings summary and publish form are visible.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-marketplace",
+            "activeScreens": 1,
+            "bodyWidth": 1440,
+            "viewportWidth": 1440,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "DESK-F06-S047-creator-dashboard.png",
+          "relativePath": "audit/screenshots/userflows-live/desk/DESK-F06-S047-creator-dashboard.png"
+        },
+        {
+          "id": "DESK-F07-S048",
+          "flow": 7,
+          "microstep": "Tour creator populated",
+          "action": "Create two sections with six poses.",
+          "expected": "Builder shows sections, pose cards, sources, and actions.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-tour-creator",
+            "activeScreens": 1,
+            "bodyWidth": 1440,
+            "viewportWidth": 1440,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "DESK-F07-S048-tour-creator-populated.png",
+          "relativePath": "audit/screenshots/userflows-live/desk/DESK-F07-S048-tour-creator-populated.png"
+        },
+        {
+          "id": "DESK-F07-S049",
+          "flow": 7,
+          "microstep": "Tour section added",
+          "action": "Select Add Section.",
+          "expected": "A third section appears.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-tour-creator",
+            "activeScreens": 1,
+            "bodyWidth": 1440,
+            "viewportWidth": 1440,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "DESK-F07-S049-tour-section-added.png",
+          "relativePath": "audit/screenshots/userflows-live/desk/DESK-F07-S049-tour-section-added.png"
+        },
+        {
+          "id": "DESK-F07-S050",
+          "flow": 7,
+          "microstep": "Tour session started",
+          "action": "Start Tour Session.",
+          "expected": "Current pose, section/pose progress, navigation, camera, and photo strip appear.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-tour-session",
+            "activeScreens": 1,
+            "bodyWidth": 1440,
+            "viewportWidth": 1440,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "DESK-F07-S050-tour-session-started.png",
+          "relativePath": "audit/screenshots/userflows-live/desk/DESK-F07-S050-tour-session-started.png"
+        },
+        {
+          "id": "DESK-F07-S051",
+          "flow": 7,
+          "microstep": "Tour next pose",
+          "action": "Select Next pose.",
+          "expected": "Pose progress and procedural preview advance.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-tour-session",
+            "activeScreens": 1,
+            "bodyWidth": 1440,
+            "viewportWidth": 1440,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "DESK-F07-S051-tour-next-pose.png",
+          "relativePath": "audit/screenshots/userflows-live/desk/DESK-F07-S051-tour-next-pose.png"
+        },
+        {
+          "id": "DESK-F07-S052",
+          "flow": 7,
+          "microstep": "Tour next section",
+          "action": "Select Next Section.",
+          "expected": "Section progress moves to Dynamic and pose resets.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-tour-session",
+            "activeScreens": 1,
+            "bodyWidth": 1440,
+            "viewportWidth": 1440,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "DESK-F07-S052-tour-next-section.png",
+          "relativePath": "audit/screenshots/userflows-live/desk/DESK-F07-S052-tour-next-section.png"
+        },
+        {
+          "id": "DESK-F07-S053",
+          "flow": 7,
+          "microstep": "Tour capture added",
+          "action": "Capture the current tour pose.",
+          "expected": "Current-section photo strip gains a tagged thumbnail.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-tour-session",
+            "activeScreens": 1,
+            "bodyWidth": 1440,
+            "viewportWidth": 1440,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "DESK-F07-S053-tour-capture-added.png",
+          "relativePath": "audit/screenshots/userflows-live/desk/DESK-F07-S053-tour-capture-added.png"
+        },
+        {
+          "id": "DESK-F07-S054",
+          "flow": 7,
+          "microstep": "Tour pose search",
+          "action": "Search for wind within the tour.",
+          "expected": "Matching tour pose is offered as a jump target.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-tour-session",
+            "activeScreens": 1,
+            "bodyWidth": 1440,
+            "viewportWidth": 1440,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "DESK-F07-S054-tour-pose-search.png",
+          "relativePath": "audit/screenshots/userflows-live/desk/DESK-F07-S054-tour-pose-search.png"
+        },
+        {
+          "id": "DESK-F07-S055",
+          "flow": 7,
+          "microstep": "Tour section overview",
+          "action": "Open Section overview.",
+          "expected": "Drawer lists every section and pose count.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-tour-session",
+            "activeScreens": 1,
+            "bodyWidth": 1440,
+            "viewportWidth": 1440,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "DESK-F07-S055-tour-section-overview.png",
+          "relativePath": "audit/screenshots/userflows-live/desk/DESK-F07-S055-tour-section-overview.png"
+        },
+        {
+          "id": "DESK-F07-S056",
+          "flow": 7,
+          "microstep": "Tour summary",
+          "action": "End the tour.",
+          "expected": "Summary groups captured photos by section and shows total.",
+          "assertion": null,
+          "actual": {
+            "activeScreen": "screen-tour-summary",
+            "activeScreens": 1,
+            "bodyWidth": 1440,
+            "viewportWidth": 1440,
+            "appWidth": 430,
+            "horizontalOverflow": false
+          },
+          "filename": "DESK-F07-S056-tour-summary.png",
+          "relativePath": "audit/screenshots/userflows-live/desk/DESK-F07-S056-tour-summary.png"
+        }
+      ],
+      "errors": [],
+      "issues": [
+        {
+          "severity": "HIGH",
+          "id": "pose-detail-favorite-hit-target",
+          "microstep": "Pose favorited",
+          "description": "Favorite is visible but the Close button intercepts pointer events at this viewport.",
+          "diagnostic": "locator.click: Timeout 2500ms exceeded."
+        }
+      ],
+      "finalMetrics": {
+        "galleryItems": 3,
+        "tours": 1,
+        "customPoses": 0,
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "bodyHorizontalOverflow": false,
+        "appHorizontalOverflow": false
+      },
+      "assertions": {
+        "screenshotCount": 56,
+        "everyScreenSingleActive": true,
+        "browserErrors": 0
+      }
+    }
+  ],
+  "totals": {
+    "devices": 2,
+    "screenshots": 112,
+    "errors": 0,
+    "flowsPerDevice": 7
+  }
+}

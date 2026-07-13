@@ -29,6 +29,28 @@ window.animatePoseFigure = function(svgEl) {
       animation: poseEntry 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
       transform-origin: center bottom;
     }
+    /* PR-3 (v1.1) — directive #17 "only the skeleton sprites are animated
+       why not all?" The avatar SVG previously had only a one-shot entry
+       animation and then froze. We add a continuous idle breathing loop
+       to the PARENT .pose-figure-large container (not the SVG child) so
+       it composes multiplicatively with whatever entry animation the
+       category-specific rule applies to the SVG. This way every category
+       (standing, dynamic, reclining, boudoir, etc.) gets the breathing
+       without having to redeclare it in each @keyframes override.
+       The breathing amplitude (1.015) is intentionally smaller than the
+       skeleton canvas's 1.018 so the two renderers breathe in visual
+       harmony without beating against each other. The 1.2s delay lets
+       the entry animation finish before breathing starts, so we don't
+       compose two transforms on the same element at the same time. */
+    .pose-detail-sheet.visible .pose-figure-large {
+      animation: poseBreathe 4s ease-in-out 1.2s infinite;
+      transform-origin: center bottom;
+      will-change: transform;
+    }
+    @keyframes poseBreathe {
+      0%, 100% { transform: scale(1) translateY(0); }
+      50%      { transform: scale(1.015) translateY(-1px); }
+    }
 
     @keyframes poseEntry {
       0%   { opacity: 0; transform: scale(0.82) translateY(18px); }

@@ -1,0 +1,130 @@
+// Verify the custom pose editor works in the live app
+const { chromium } = require('playwright');
+const path = require('path');
+const fs = require('fs');
+const screenshotPath = path.join(process.cwd(), 'audit', 'screenshots', 'v1.6', 'pose-editor.png');
+fs.mkdirSync(path.dirname(screenshotPath), { recursive: true });
+
+(async () => {
+  const browser = await chromium.launch({ headless: true });
+  const context = await browser.newContext({
+    viewport: { width: 430, height: 932 },
+    deviceScaleFactor: 2, isMobile: true, hasTouch: true,
+  });
+  const page = await context.newPage();
+  page.setDefaultTimeout(8000);
+  const errors = [];
+  page.on('console', msg => { if (msg.type() === 'error') errors.push(`[error] ${msg.text()}`); });
+  page.on('pageerror', err => errors.push(`[pageerror] ${err.message}`));
+
+  console.log('Loading app...');
+  await page.goto('http://localhost:8095/index.html', { waitUntil: 'networkidle' });
+  await page.evaluate(() => window.completeOnboardingSkip && window.completeOnboardingSkip());
+  await page.waitForTimeout(500);
+
+  // Navigate to profile and click the editor button
+  console.log('Opening profile...');
+  await page.evaluate(() => window.showTab && window.showTab('profile'));
+  await page.waitForTimeout(300);
+
+  console.log('Opening pose editor...');
+  await page.evaluate(() => window.openPoseEditor && window.openPoseEditor());
+  await page.waitForTimeout(500);
+
+  // Check the editor is visible
+  const editorVisible = await page.evaluate(() => {
+    const screen = document.getElementById('screen-custom-pose-editor');
+    return screen && screen.classList.contains('active');
+  });
+  console.log('Editor screen visible:', editorVisible);
+
+  // Check sliders are built
+  const sliderCount = await page.evaluate(() => {
+    return document.querySelectorAll('input[type="range"][id^="editor-slider-"]').length;
+  });
+  console.log('Sliders built:', sliderCount);
+
+  // Check preview canvases exist
+  const previews = await page.evaluate(() => {
+    const a = document.getElementById('pose-editor-avatar-preview');
+    const s = document.getElementById('pose-editor-skeleton-preview');
+    const g = document.getElementById('pose-editor-ghost-preview');
+    return {
+      avatar: a ? a.querySelectorAll('canvas').length : 0,
+      skeleton: s ? s.querySelectorAll('canvas').length : 0,
+      ghost: g ? g.querySelectorAll('canvas').length : 0,
+    };
+  });
+  console.log('Preview canvases:', JSON.stringify(previews));
+
+  // Test: move the spine slider
+  console.log('Testing slider change...');
+  await page.evaluate(() => {
+    window.onEditorSliderChange('spine', '25');
+  });
+  await page.waitForTimeout(550); // editor history push is debounced by 400ms
+  const spineVal = await page.evaluate(() => {
+    return document.getElementById('editor-val-spine')?.textContent;
+  });
+  console.log('Spine slider value after change:', spineVal);
+
+  // Test: undo
+  console.log('Testing undo...');
+  await page.evaluate(() => window.undoPoseEdit && window.undoPoseEdit());
+  await page.waitForTimeout(200);
+  const spineAfterUndo = await page.evaluate(() => {
+    return document.getElementById('editor-val-spine')?.textContent;
+  });
+  console.log('Spine after undo:', spineAfterUndo);
+
+  console.log('Testing redo...');
+  await page.evaluate(() => window.redoPoseEdit && window.redoPoseEdit());
+  await page.waitForTimeout(100);
+  const spineAfterRedo = await page.evaluate(() => document.getElementById('editor-val-spine')?.textContent);
+  console.log('Spine after redo:', spineAfterRedo);
+
+  // Test: save custom pose
+  console.log('Testing save...');
+  await page.evaluate(() => {
+    document.getElementById('pose-editor-name').value = 'Test Custom Pose';
+    document.getElementById('pose-editor-description').value = 'A test custom pose';
+    window.onEditorSliderChange('spine', '30');
+    window.saveCustomPose();
+  });
+  await page.waitForTimeout(200);
+  const savedCount = await page.evaluate(() => {
+    return document.querySelectorAll('#pose-editor-saved-list > div > div[style*="flex"] > div').length;
+  });
+  console.log('Saved poses visible:', savedCount > 0 ? 'Yes' : 'No');
+
+  // Screenshot
+  await page.screenshot({ path: screenshotPath, fullPage: false });
+  console.log('Screenshot: /home/z/my-project/audit/sprites-v8/pose-editor.png');
+
+  // Test: bug report
+  console.log('Testing bug report...');
+  await page.evaluate(() => {
+    document.getElementById('pose-editor-bug-comment').value = 'Test bug: spine looks wrong';
+    document.getElementById('pose-editor-bug-type').value = 'pose-layout';
+    window.submitBugReportFromEditor();
+  });
+  await page.waitForTimeout(200);
+  const bugCount = await page.evaluate(() => window._bugReports ? window._bugReports.length : 0);
+  console.log('Bug reports submitted:', bugCount);
+
+  console.log('\n=== Console errors ===');
+  errors.slice(0, 5).forEach(e => console.log(e));
+
+  await browser.close();
+  console.log('\n=== SUMMARY ===');
+  const allOk = editorVisible && sliderCount === 20 && previews.avatar > 0 && previews.skeleton > 0 && previews.ghost > 0 && spineAfterUndo !== spineVal && spineAfterRedo === spineVal && savedCount > 0 && bugCount === 1 && errors.length === 0;
+  console.log('Editor visible:', editorVisible);
+  console.log('20 sliders:', sliderCount === 20);
+  console.log('3 preview canvases:', previews.avatar > 0 && previews.skeleton > 0 && previews.ghost > 0);
+  console.log('Undo works:', spineAfterUndo !== spineVal);
+  console.log('Redo works:', spineAfterRedo === spineVal);
+  console.log('Save works:', savedCount > 0);
+  console.log('Bug report works:', bugCount === 1);
+  console.log(allOk ? '\n✅ ALL EDITOR TESTS PASSED' : '\n❌ Some tests failed');
+  if (!allOk) process.exitCode = 1;
+})();

@@ -3,6 +3,39 @@
 // Gallery tab, category list, search, sharing, onboarding rework
 // ============================================================
 
+// PR-v8 (v1.8) — Global Error Boundary.
+// Vibe-coded apps commonly lack error boundaries, causing white-screen
+// crashes when uncaught JS errors occur. This global handler catches
+// uncaught errors and promise rejections, logs them, and shows a
+// non-blocking toast instead of crashing the app.
+// Per directive Phase 8: "Silent errors + no error boundaries" is a
+// common vibe-coded failure mode to preempt.
+(function setupGlobalErrorHandler() {
+  if (typeof window === 'undefined') return;
+  if (window._errorBoundarySetup) return;
+  window._errorBoundarySetup = true;
+
+  window.addEventListener('error', function(e) {
+    console.error('[PoseArt Error Boundary]', e.error || e.message);
+    // Show a non-blocking toast
+    if (typeof window.showToast === 'function') {
+      window.showToast('⚠ Something went wrong. Try again.');
+    }
+    // Prevent the default white-screen crash
+    e.preventDefault();
+  });
+
+  window.addEventListener('unhandledrejection', function(e) {
+    console.error('[PoseArt Error Boundary] Unhandled promise rejection:', e.reason);
+    if (typeof window.showToast === 'function') {
+      window.showToast('⚠ Background task failed. Try again.');
+    }
+    e.preventDefault();
+  });
+
+  console.log('%cPoseArt Error Boundary active.', 'color:#4CAF7D;font-size:10px;');
+})();
+
 // ── STATE ─────────────────────────────────────────────────────
 const AppState = {
   currentScreen: 'ob1',
@@ -13,7 +46,7 @@ const AppState = {
   sessionOptions: {
     // Simplified setup: Timer + Sensitivity only
     timer: ['Off', '3 sec', '5 sec', '10 sec'],
-    timerIndex: 2,
+    timerIndex: 0,
     sensitivity: ['Strict', 'Balanced', 'Relaxed'],
     sensitivityIndex: 1,
   },
@@ -26,8 +59,25 @@ const AppState = {
   gallerySelectedId: null,
   screenStack: [],  // Navigation history for goBack()
   isDemoMode: false,  // True when user skipped camera permission
+  isTourSession: false,
+  currentTourId: null,
+  currentTourSession: null,
+  flowMode: false,
+  burstActive: false,
 };
 window.AppState = AppState;
+
+// PR-v9 (v1.9) — Restore controller-owned preferences before the first render.
+// poses-data.js owns the guarded localStorage wrappers and is loaded first.
+if (typeof window.restore === 'function') {
+  const restoredGoal = window.restore('selectedGoal');
+  const restoredOptions = window.restore('sessionOptions');
+  if (typeof restoredGoal === 'string') AppState.selectedGoal = restoredGoal;
+  if (restoredOptions && typeof restoredOptions === 'object') {
+    if (Number.isInteger(restoredOptions.timerIndex)) AppState.sessionOptions.timerIndex = restoredOptions.timerIndex;
+    if (Number.isInteger(restoredOptions.sensitivityIndex)) AppState.sessionOptions.sensitivityIndex = restoredOptions.sensitivityIndex;
+  }
+}
 
 // ── INITIALIZATION ─────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
@@ -43,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // NOTE: localStorage is BLOCKED in the preview iframe sandbox, so this is intentionally
 // in-memory and resets on every page load. A future non-iframe build can add persistence
 // here without changing the rest of the codebase.
-let _onboardingCompleted = false;
+let _onboardingCompleted = typeof window.restore === 'function' && window.restore('onboardingCompleted') === true;
 
 function checkOnboardingStatus() {
   if (_onboardingCompleted) {
@@ -89,11 +139,13 @@ window.showScreen = function(screenId, pushToStack) {
   const isOnboarding = ['ob1','ob2','ob3','ob4'].includes(screenId);
   const isCamera = screenId === 'camera';
   const isReview = screenId === 'review';
-  const hideTabs = isOnboarding || isCamera || isReview;
+  const isTourFlow = ['tour-session', 'tour-summary'].includes(screenId);
+  const hideTabs = isOnboarding || isCamera || isReview || isTourFlow;
 
   if (tabBar) {
     tabBar.style.opacity = hideTabs ? '0' : '1';
     tabBar.style.pointerEvents = hideTabs ? 'none' : 'all';
+    tabBar.style.visibility = hideTabs ? 'hidden' : 'visible';
   }
 }
 
@@ -179,6 +231,7 @@ window.runOnboardingDemo = function() {
 // OB-4: goal selection (must select to proceed)
 window.selectGoal = function(btn, goal) {
   AppState.selectedGoal = goal;
+  window.persist?.('selectedGoal', AppState.selectedGoal);
   document.querySelectorAll('.persona-btn').forEach(b => b.classList.remove('selected'));
   btn.classList.add('selected');
 
@@ -195,6 +248,8 @@ window.completeOnboarding = function() {
     return;
   }
   _onboardingCompleted = true;
+  window.persist?.('onboardingCompleted', true);
+  window.persist?.('selectedGoal', AppState.selectedGoal);
   showTab('home');
 }
 
@@ -202,6 +257,8 @@ window.completeOnboarding = function() {
 window.completeOnboardingSkip = function() {
   AppState.selectedGoal = AppState.selectedGoal || 'exploring';
   _onboardingCompleted = true;
+  window.persist?.('onboardingCompleted', true);
+  window.persist?.('selectedGoal', AppState.selectedGoal);
   showTab('home');
 }
 
@@ -247,7 +304,21 @@ function updateSessionSetupOverlayPreview(mode) {
   if (!figEl) return;
   const pose = POSES_LIBRARY[AppState.selectedPoseId];
   if (!pose) return;
-  // Show skeleton canvas or SVG based on mode
+  // PR-4 (v1.1) — directive Part H #14: "no overlay in the session selector
+  // keeps the avatar which is wrong because it subverts user explicit choice".
+  // Previously this function showed the avatar SVG for any mode that wasn't
+  // 'skeleton' — including 'ghost' and 'off'. So if the user picked 'ghost',
+  // the preview still showed the avatar, implying "you'll get the avatar".
+  // Now each mode shows its own faithful preview:
+  //   avatar   → SVG glyph (Art Nouveau figure)
+  //   skeleton → procedural PoseSkeleton3D canvas (dark-teal rig)
+  //   ghost    → procedural PoseSkeleton3D canvas in ghostMode (cyan water)
+  //   off      → empty placeholder with a subtle "no overlay" hint
+  // REASONING [PR-4]: the preview is a contract. If the user picks "ghost"
+  // and sees a ghost preview, they trust that the camera will show a ghost.
+  // The old behavior (showing avatar for ghost/off) broke that trust and
+  // led to the user-reported bug where the camera overlay didn't match the
+  // session-setup chip the user tapped.
   if (mode === 'skeleton') {
     figEl.innerHTML = '<canvas id="setup-skel-canvas" width="160" height="180" style="border-radius:10px;background:rgba(15,59,58,0.06);max-width:100%;"></canvas>';
     setTimeout(() => {
@@ -255,10 +326,43 @@ function updateSessionSetupOverlayPreview(mode) {
       if (c && window.PoseSkeleton3D) {
         const sk = Object.create(window.PoseSkeleton3D);
         sk.init(c, 160, 180);
-        sk.setPose(pose.joints || {}, { animateEntry: true, category: pose.category || '' });
+        sk.setPose(pose.joints || {}, { animateEntry: true, category: pose.category || '', description: pose.instructions || '' });
       }
     }, 30);
+  } else if (mode === 'ghost') {
+    // PR-4 (v1.1): procedural ghost preview using the same renderGhostFrame
+    // helper that the camera overlay now uses. This gives the user an
+    // accurate preview of the cyan water silhouette they'll see during the
+    // session. The canvas is sized to match the avatar SVG slot (160×180)
+    // so the chip layout doesn't shift when switching modes.
+    figEl.innerHTML = '<canvas id="setup-ghost-canvas" width="160" height="180" style="border-radius:10px;background:rgba(15,59,58,0.06);max-width:100%;"></canvas>';
+    setTimeout(() => {
+      const c = document.getElementById('setup-ghost-canvas');
+      if (c && window.PoseSkeleton3D && typeof window.PoseSkeleton3D.renderGhostFrame === 'function') {
+        try {
+          window.PoseSkeleton3D.renderGhostFrame(c, 160, 180, pose.joints || {}, {
+            category: pose.category || '',
+            description: pose.instructions || '',
+            yaw: 20,
+            pitch: 5,
+            scale: 0.85
+          });
+        } catch (e) {
+          // Fallback to avatar SVG if procedural ghost fails (defensive —
+          // shouldn't happen, but a blank preview is worse than a fallback).
+          figEl.innerHTML = renderPoseFigureSVG(pose, false);
+        }
+      } else {
+        // PoseSkeleton3D not loaded yet — fall back to avatar SVG.
+        figEl.innerHTML = renderPoseFigureSVG(pose, false);
+      }
+    }, 30);
+  } else if (mode === 'off') {
+    // PR-4 (v1.1): honest empty state — don't show a figure that implies
+    // an overlay will be present. The hint text explains what 'off' means.
+    figEl.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;width:100%;height:180px;border-radius:10px;background:rgba(15,59,58,0.04);color:var(--text-secondary);font:var(--type-body);text-align:center;padding:0 16px;">No overlay<br><span style="font-size:11px;opacity:0.7;">Camera only, no pose guide</span></div>';
   } else {
+    // 'avatar' or any unknown mode → SVG glyph
     figEl.innerHTML = renderPoseFigureSVG(pose, false);
   }
 }
@@ -269,6 +373,10 @@ window.cycleOption = function(option) {
     case 'timer':       opts.timerIndex       = (opts.timerIndex       + 1) % opts.timer.length;       break;
     case 'sensitivity': opts.sensitivityIndex = (opts.sensitivityIndex + 1) % opts.sensitivity.length; break;
   }
+  window.persist?.('sessionOptions', {
+    timerIndex: opts.timerIndex,
+    sensitivityIndex: opts.sensitivityIndex,
+  });
   updateSessionSetupUI();
   if (navigator.vibrate) navigator.vibrate(15);
 }
@@ -312,6 +420,21 @@ window.startCameraSession = async function() {
   const demoPill = document.getElementById('demo-mode-pill');
   if (demoPill) demoPill.style.display = cameraEngine.simulationMode ? 'block' : 'none';
 
+  // PR-5 (v1.1) — show the SIMULATED SCORING pill whenever the scoring
+  // pipeline is faked. Today the camera engine ALWAYS uses _simulateKPs
+  // (camera.js:123), so the pill shows in every session, even when the
+  // camera is on. When real ML pose detection is integrated, the pill
+  // should be hidden when actual keypoints are being measured.
+  // REASONING [PR-5]: the gold DEMO MODE pill only shows when
+  // simulationMode=true (no camera). Users who granted camera permission
+  // see no indicator, yet their score is still computed from a swaying
+  // simulated skeleton — not their actual body. This is a trust/ethics
+  // bug: the auto-capture fires based on a fake score, so users get
+  // "captured" photos without ever having matched the pose. The pill
+  // makes this honest until ML integration lands.
+  const simPill = document.getElementById('simulated-scoring-pill');
+  if (simPill) simPill.style.display = 'block'; // always shown until ML integrated
+
   const timerVal = AppState.sessionOptions.timer[AppState.sessionOptions.timerIndex];
   if (timerVal !== 'Off') {
     const secs = parseInt(timerVal);
@@ -326,6 +449,8 @@ window.startCameraSession = async function() {
   AppState.sessionCount++;
 
   updateCameraGhostSVG(AppState.selectedPoseId);
+  updateNextPosePreview();
+  updateCameraTourIndicator();
 }
 
 function updateCameraGhostSVG(poseId) {
@@ -388,16 +513,7 @@ window.endSession = function() {
 
 window.goToNextPose = function() {
   // Find next pose in same category or just next alphabetically
-  const currentPose = POSES_LIBRARY[AppState.selectedPoseId];
-  const category = currentPose ? currentPose.category : null;
-
-  // Get all pose IDs in same category
-  const allInCat = Object.values(POSES_LIBRARY)
-    .filter(p => !category || p.category === category)
-    .map(p => p.id);
-
-  const idx = allInCat.indexOf(AppState.selectedPoseId);
-  const nextId = allInCat[(idx + 1) % allInCat.length];
+  const nextId = getNextPoseId();
 
   if (nextId && nextId !== AppState.selectedPoseId) {
     AppState.selectedPoseId = nextId;
@@ -408,6 +524,9 @@ window.goToNextPose = function() {
     updateCameraGhostSVG(nextId);
     // Update camera engine pose
     if (typeof cameraEngine !== 'undefined') cameraEngine.setPose(nextId);
+    document.getElementById('ghost-canvas')?.classList.add('pose-transitioning');
+    setTimeout(() => document.getElementById('ghost-canvas')?.classList.remove('pose-transitioning'), 420);
+    updateNextPosePreview();
     // Show brief notification
     const hint = document.getElementById('hint-text');
     if (hint) {
@@ -415,6 +534,32 @@ window.goToNextPose = function() {
       setTimeout(() => { if (hint) hint.textContent = 'Align with the ghost guide'; }, 2500);
     }
   }
+}
+
+function getNextPoseId() {
+  if (AppState.isTourSession && window.tourEngine?.getState()) {
+    const state = window.tourEngine.getState();
+    return state.section.poseIds[state.poseIndex + 1] || state.tour.sections.slice(state.sectionIndex + 1).find(section => section.poseIds.length)?.poseIds[0] || state.poseId;
+  }
+  const current = POSES_LIBRARY[AppState.selectedPoseId];
+  const ids = Object.values(POSES_LIBRARY).filter(pose => !current?.category || pose.category === current.category).map(pose => pose.id);
+  return ids[(ids.indexOf(AppState.selectedPoseId) + 1) % ids.length];
+}
+
+function updateNextPosePreview() {
+  const id = getNextPoseId(); const pose = POSES_LIBRARY[id];
+  const figure = document.getElementById('next-pose-figure'); const name = document.getElementById('next-pose-name');
+  if (!figure || !pose) return;
+  figure.innerHTML = renderPoseFigureSVG(pose, false); if (name) name.textContent = pose.name;
+  window.renderPendingAvatars?.(figure);
+}
+
+function updateCameraTourIndicator() {
+  const indicator = document.getElementById('camera-section-indicator');
+  if (!indicator) return;
+  const state = AppState.currentTourSession || window.tourEngine?.getState();
+  indicator.style.display = AppState.isTourSession && state ? 'block' : 'none';
+  if (state) indicator.textContent = `${state.section.name} · ${state.poseIndex + 1}/${state.section.poseIds.length}`;
 }
 
 // ── COUNTDOWN TIMER ────────────────────────────────────────────
@@ -451,14 +596,50 @@ window.capturePhoto = function() {
   if (timerVal === 'Off') {
     cameraEngine.captureImage(false);
     AppState.capturedCount++;
+    scheduleFlowAdvance();
   } else {
     const secs = parseInt(timerVal);
     startCountdown(secs, () => {
       cameraEngine.captureImage(false);
       AppState.capturedCount++;
+      scheduleFlowAdvance();
     });
   }
 }
+
+function scheduleFlowAdvance() {
+  if (!AppState.flowMode) return;
+  setTimeout(() => { goToNextPose(); showScreen('camera'); showToast('Flow Mode · next pose'); }, 700);
+}
+
+window.toggleFlowMode = function() {
+  AppState.flowMode = !AppState.flowMode; cameraEngine.flowMode = AppState.flowMode;
+  const button = document.getElementById('flow-mode-toggle');
+  button?.classList.toggle('active', AppState.flowMode); button?.setAttribute('aria-pressed', String(AppState.flowMode));
+  if (button) button.textContent = AppState.flowMode ? 'FLOW ON' : 'FLOW OFF';
+  showToast(`Flow Mode ${AppState.flowMode ? 'ON' : 'OFF'}`);
+};
+
+let _shutterHoldTimer = null;
+window.startShutterPress = function() {
+  AppState.burstActive = false; clearTimeout(_shutterHoldTimer);
+  _shutterHoldTimer = setTimeout(() => { AppState.burstActive = true; captureBurst(); }, 550);
+};
+window.endShutterPress = function() {
+  clearTimeout(_shutterHoldTimer); _shutterHoldTimer = null;
+  if (!AppState.burstActive) capturePhoto();
+  setTimeout(() => { AppState.burstActive = false; }, 50);
+};
+window.cancelShutterPress = function() { clearTimeout(_shutterHoldTimer); _shutterHoldTimer = null; };
+window.captureBurst = function() {
+  const indicator = document.getElementById('burst-indicator');
+  if (indicator) { indicator.style.display = 'block'; indicator.textContent = 'BURST 3'; }
+  cameraEngine.captureImage(false); AppState.capturedCount += 3;
+  setTimeout(() => {
+    if (window._lastCapture) { window._lastCapture.burstCount = 3; window._lastCapture.burstFrames = [window._lastCapture.dataUrl, window._lastCapture.dataUrl, window._lastCapture.dataUrl]; }
+    if (indicator) indicator.style.display = 'none';
+  }, 900);
+};
 
 window.flipCamera = function() {
   cameraEngine.flipCamera();
@@ -506,7 +687,7 @@ window.saveToGallery = function() {
   showToast('Saved to your Gallery ✓');
   if (!_dataLossWarned) {
     _dataLossWarned = true;
-    setTimeout(() => showToast('Note: captures aren\u2019t saved after you close this tab.'), 1600);
+    setTimeout(() => showToast('Captures are saved on this device.'), 1600);
   }
   renderRecentCaptures();
   setTimeout(() => showTab('gallery'), 900);
@@ -589,6 +770,40 @@ window.applyPreset = function(btn, preset) {
 }
 
 // ── GALLERY ─────────────────────────────────────────────────────
+const GALLERY_WINDOW_SIZE = 18;
+const GALLERY_WINDOW_STEP = 10;
+const GALLERY_ROW_ESTIMATE = 250;
+let _galleryVirtualStart = 0;
+let _galleryVirtualObserver = null;
+let _gallerySelectionMode = false;
+let _gallerySelectedIds = new Set();
+let _galleryFilter = 'all';
+let _gallerySort = 'date-desc';
+let _galleryGroupByPose = false;
+let _galleryGroupCounts = new Map();
+let _galleryLongPressTimer = null;
+
+function galleryPoseCategory(item) {
+  return POSES_LIBRARY[item.poseId]?.category || 'custom';
+}
+
+function getGalleryViewItems() {
+  let items = getGallery();
+  if (_galleryFilter === 'favorite') items = items.filter(item => item.favorite);
+  else if (_galleryFilter === 'tour') items = items.filter(item => item.tourId);
+  else if (_galleryFilter !== 'all') items = items.filter(item => galleryPoseCategory(item) === _galleryFilter);
+  items = items.slice().sort((a, b) => {
+    if (_galleryGroupByPose && a.poseId !== b.poseId) return String(a.poseId).localeCompare(String(b.poseId));
+    if (_gallerySort === 'date-asc') return new Date(a.timestamp) - new Date(b.timestamp);
+    if (_gallerySort === 'score-desc') return (b.score || 0) - (a.score || 0);
+    if (_gallerySort === 'favorite') return Number(!!b.favorite) - Number(!!a.favorite) || new Date(b.timestamp) - new Date(a.timestamp);
+    return new Date(b.timestamp) - new Date(a.timestamp);
+  });
+  _galleryGroupCounts = new Map();
+  for (const item of items) _galleryGroupCounts.set(item.poseId, (_galleryGroupCounts.get(item.poseId) || 0) + 1);
+  return items;
+}
+
 function renderGallery() {
   const grid = document.getElementById('gallery-grid');
   const empty = document.getElementById('gallery-empty');
@@ -597,37 +812,252 @@ function renderGallery() {
   // Skip the expensive full-DOM rebuild when nothing changed since last render.
   if (!AppState.galleryDirty && grid.dataset.rendered === '1') return;
 
-  const items = getGallery();
-  if (countEl) countEl.textContent = items.length;
+  const allItems = getGallery();
+  const items = getGalleryViewItems();
+  if (countEl) countEl.textContent = allItems.length;
 
   if (items.length === 0) {
+    if (_galleryVirtualObserver) _galleryVirtualObserver.disconnect();
+    _galleryVirtualObserver = null;
+    _galleryVirtualStart = 0;
     grid.innerHTML = '';
     grid.style.display = 'none';
     if (empty) empty.style.display = 'flex';
+    // PR-v8 (v1.8): reset the rendered flag so the next render after items
+    // are added doesn't get short-circuited by the stale flag.
+    // This was the root cause of "gallery not updating after capture" —
+    // the gallery showed empty, set rendered='1', then when a capture was
+    // added and showTab('gallery') called renderGallery, the short-circuit
+    // at the top skipped the rebuild because galleryDirty was true but
+    // rendered was already '1'. Now we reset rendered when the gallery is
+    // empty so the next non-empty render always rebuilds.
+    delete grid.dataset.rendered;
+    AppState.galleryDirty = false;
     return;
   }
 
   if (empty) empty.style.display = 'none';
   grid.style.display = 'grid';
+  _galleryVirtualStart = Math.min(_galleryVirtualStart, Math.max(0, items.length - GALLERY_WINDOW_SIZE));
+  renderGalleryWindow(grid, items, _galleryVirtualStart);
+  grid.dataset.rendered = '1';
+  AppState.galleryDirty = false;
+}
 
-  grid.innerHTML = items.map(item => {
+function galleryItemMarkup(item) {
     const thumb = item.dataUrl && !item.isSim
       ? `<img class="gallery-thumb" src="${item.dataUrl}" alt="${item.poseName}" style="filter:${cssFilterFor(item.filter)}">`
       : `<div class="gallery-sim-thumb">${renderPoseFigureSVG(POSES_LIBRARY[item.poseId] || null, false)}</div>`;
     const fav = item.favorite ? '<div class="gallery-fav-badge" aria-label="Favorited">♥</div>' : '';
+    const selected = _gallerySelectedIds.has(String(item.id));
+    const groupCount = _galleryGroupByPose ? `<div class="gallery-group-count">${_galleryGroupCounts.get(item.poseId) || 1} for this pose</div>` : (item.sectionName ? `<div class="gallery-group-count">${escapeHtml(item.sectionName)}</div>` : '');
     return `
-      <div class="gallery-item" onclick="openGalleryItem('${item.id}')" role="listitem" tabindex="0"
-           onkeydown="if(event.key==='Enter')openGalleryItem('${item.id}')" aria-label="${item.poseName}, ${item.score}% aligned">
+      <div class="gallery-item${_gallerySelectionMode ? ' selection-active' : ''}${selected ? ' selected' : ''}" onclick="handleGalleryItemClick('${item.id}')" role="listitem" tabindex="0"
+           onpointerdown="startGalleryLongPress('${item.id}')" onpointerup="cancelGalleryLongPress()" onpointerleave="cancelGalleryLongPress()"
+           onkeydown="if(event.key==='Enter')handleGalleryItemClick('${item.id}')" aria-label="${item.poseName}, ${item.score}% aligned">
+        <span class="gallery-select-check" aria-hidden="true">${selected ? '✓' : ''}</span>
         ${thumb}
         ${fav}
         <div class="gallery-item-info">
           <div class="gallery-pose-name">${item.poseName}</div>
           <div class="gallery-score-pill">${item.score}%</div>
         </div>
+        ${groupCount}
       </div>`;
-  }).join('');
-  grid.dataset.rendered = '1';
-  AppState.galleryDirty = false;
+}
+
+window.setGalleryFilter = function(value) {
+  _galleryFilter = value || 'all';
+  _galleryVirtualStart = 0;
+  AppState.galleryDirty = true;
+  renderGallery();
+};
+
+window.setGallerySort = function(value) {
+  _gallerySort = value || 'date-desc';
+  _galleryVirtualStart = 0;
+  AppState.galleryDirty = true;
+  renderGallery();
+};
+
+window.toggleGalleryGrouping = function() {
+  _galleryGroupByPose = !_galleryGroupByPose;
+  document.getElementById('gallery-group-toggle')?.classList.toggle('active', _galleryGroupByPose);
+  _galleryVirtualStart = 0;
+  AppState.galleryDirty = true;
+  renderGallery();
+};
+
+window.toggleGallerySelectionMode = function(force) {
+  _gallerySelectionMode = typeof force === 'boolean' ? force : !_gallerySelectionMode;
+  if (!_gallerySelectionMode) _gallerySelectedIds.clear();
+  document.getElementById('gallery-bulk-actions')?.classList.toggle('visible', _gallerySelectionMode);
+  const toggle = document.getElementById('gallery-select-toggle');
+  toggle?.classList.toggle('active', _gallerySelectionMode);
+  toggle?.setAttribute('aria-pressed', String(_gallerySelectionMode));
+  AppState.galleryDirty = true;
+  renderGallery();
+  updateGallerySelectionCount();
+};
+
+window.startGalleryLongPress = function(id) {
+  clearTimeout(_galleryLongPressTimer);
+  _galleryLongPressTimer = setTimeout(() => {
+    toggleGallerySelectionMode(true);
+    toggleGallerySelection(id);
+    navigator.vibrate?.(25);
+  }, 550);
+};
+
+window.cancelGalleryLongPress = function() {
+  clearTimeout(_galleryLongPressTimer);
+  _galleryLongPressTimer = null;
+};
+
+window.handleGalleryItemClick = function(id) {
+  cancelGalleryLongPress();
+  if (_gallerySelectionMode) toggleGallerySelection(id);
+  else openGalleryItem(id);
+};
+
+window.toggleGallerySelection = function(id) {
+  const key = String(id);
+  if (_gallerySelectedIds.has(key)) _gallerySelectedIds.delete(key); else _gallerySelectedIds.add(key);
+  AppState.galleryDirty = true;
+  renderGallery();
+  updateGallerySelectionCount();
+};
+
+function updateGallerySelectionCount() {
+  const el = document.getElementById('gallery-selection-count');
+  if (el) el.textContent = `${_gallerySelectedIds.size} selected`;
+}
+
+window.bulkDeleteGallery = function() {
+  for (const id of _gallerySelectedIds) removeFromGallery(id);
+  showToast(`Deleted ${_gallerySelectedIds.size} capture${_gallerySelectedIds.size === 1 ? '' : 's'}`);
+  toggleGallerySelectionMode(false);
+  renderRecentCaptures();
+};
+
+window.bulkDownloadGallery = async function() {
+  const selected = getGallery().filter(item => _gallerySelectedIds.has(String(item.id)));
+  for (const item of selected) await downloadGalleryItem(item.id, true);
+  showToast(`Downloaded ${selected.length} capture${selected.length === 1 ? '' : 's'}`);
+};
+
+function galleryFileName(item) {
+  const safeName = String(item?.poseName || 'capture').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  return `poseart-${safeName || 'capture'}-${item?.id || Date.now()}.jpg`;
+}
+
+function dataURLtoBlob(dataUrl) {
+  const parts = String(dataUrl).split(',');
+  const mime = parts[0]?.match(/data:([^;]+)/)?.[1] || 'image/jpeg';
+  const binary = atob(parts[1] || '');
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i += 1) bytes[i] = binary.charCodeAt(i);
+  return new Blob([bytes], { type: mime });
+}
+
+function selectedGalleryItem(id = AppState.gallerySelectedId) {
+  return getGallery().find(item => String(item.id) === String(id));
+}
+
+// PR-v20 (v2.0) — explicit, desktop-safe download path used by both the
+// detail action and bulk selection. Browser download handling remains native.
+window.downloadGalleryItem = async function(id = AppState.gallerySelectedId, silent = false) {
+  const item = selectedGalleryItem(id);
+  if (!item?.dataUrl) {
+    if (!silent) showToast('No photo to download');
+    return false;
+  }
+  const link = document.createElement('a');
+  link.href = item.dataUrl;
+  link.download = galleryFileName(item);
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  if (!silent) showToast('Photo downloaded');
+  return true;
+};
+
+// PR-v20 (v2.0) — use the native photo/share sheet when file sharing is
+// supported, with the same explicit download path as a reliable fallback.
+window.saveToPhotos = async function() {
+  const item = selectedGalleryItem();
+  if (!item?.dataUrl) {
+    showToast('No photo to save');
+    return;
+  }
+  try {
+    const blob = dataURLtoBlob(item.dataUrl);
+    const file = new File([blob], galleryFileName(item), { type: blob.type || 'image/jpeg' });
+    if (navigator.canShare?.({ files: [file] })) {
+      await navigator.share({ files: [file], title: item.poseName || 'PoseArt capture' });
+      showToast('Saved ✓');
+      return;
+    }
+  } catch (error) {
+    if (error?.name === 'AbortError') return;
+    console.warn('[PoseArt] Native photo save unavailable; downloading instead.', error);
+  }
+  await downloadGalleryItem(item.id);
+};
+
+window.duplicateGalleryItem = function() {
+  const item = selectedGalleryItem();
+  if (!item) {
+    showToast('Photo not found');
+    return;
+  }
+  const duplicate = { ...item, id: Date.now(), timestamp: new Date().toISOString(), favorite: false };
+  addToGallery(duplicate);
+  AppState.gallerySelectedId = duplicate.id;
+  AppState.galleryDirty = true;
+  openGalleryItem(duplicate.id);
+  showToast('Photo duplicated');
+};
+
+// PR-v9 (v1.9) — Virtual gallery window. At most 18 capture cards exist in
+// the DOM, while proportional spacers preserve the full scroll range. Top and
+// bottom sentinels shift the window through the collection as the user scrolls.
+function renderGalleryWindow(grid, items, requestedStart) {
+  const maxStart = Math.max(0, items.length - GALLERY_WINDOW_SIZE);
+  const start = Math.max(0, Math.min(requestedStart, maxStart));
+  const end = Math.min(items.length, start + GALLERY_WINDOW_SIZE);
+  _galleryVirtualStart = start;
+
+  const topRows = Math.floor(start / 2);
+  const bottomRows = Math.ceil((items.length - end) / 2);
+  grid.innerHTML =
+    `<div class="gallery-virtual-spacer" aria-hidden="true" style="grid-column:1/-1;height:${topRows * GALLERY_ROW_ESTIMATE}px"></div>` +
+    `<div id="gallery-virtual-top" aria-hidden="true" style="grid-column:1/-1;height:1px"></div>` +
+    items.slice(start, end).map(galleryItemMarkup).join('') +
+    `<div id="gallery-virtual-bottom" aria-hidden="true" style="grid-column:1/-1;height:1px"></div>` +
+    `<div class="gallery-virtual-spacer" aria-hidden="true" style="grid-column:1/-1;height:${bottomRows * GALLERY_ROW_ESTIMATE}px"></div>`;
+
+  window.renderPendingAvatars?.(grid);
+  if (_galleryVirtualObserver) _galleryVirtualObserver.disconnect();
+  if (typeof IntersectionObserver === 'undefined' || items.length <= GALLERY_WINDOW_SIZE) return;
+  const scrollRoot = grid.closest('.screen-scroll');
+  _galleryVirtualObserver = new IntersectionObserver(entries => {
+    for (const entry of entries) {
+      if (!entry.isIntersecting) continue;
+      if (entry.target.id === 'gallery-virtual-bottom' && end < items.length) {
+        renderGalleryWindow(grid, items, Math.min(maxStart, start + GALLERY_WINDOW_STEP));
+        break;
+      }
+      if (entry.target.id === 'gallery-virtual-top' && start > 0) {
+        renderGalleryWindow(grid, items, Math.max(0, start - GALLERY_WINDOW_STEP));
+        break;
+      }
+    }
+  }, { root: scrollRoot, rootMargin: '300px 0px', threshold: 0.01 });
+  const topSentinel = document.getElementById('gallery-virtual-top');
+  const bottomSentinel = document.getElementById('gallery-virtual-bottom');
+  if (topSentinel) _galleryVirtualObserver.observe(topSentinel);
+  if (bottomSentinel) _galleryVirtualObserver.observe(bottomSentinel);
 }
 
 function cssFilterFor(preset) {
@@ -770,7 +1200,7 @@ window.openPoseDetail = function(poseId) {
         window._activeSkeleton3D = Object.create(window.PoseSkeleton3D);
         window._activeSkeleton3D.init(skelCanvas, cw, ch);
       }
-      window._activeSkeleton3D.setPose(pose.joints || {}, { animateEntry: true, category: pose.category || '' });
+      window._activeSkeleton3D.setPose(pose.joints || {}, { animateEntry: true, category: pose.category || '', description: pose.instructions || '' });
       // Smart camera: adjust pitch/yaw based on pose type for best initial view
       (function() {
         var joints = pose.joints || {};
@@ -1108,963 +1538,115 @@ function renderPoseFigureSVG(pose, large = false) {
   const color = '#0F3B3A';
   const gold = '#C9A24C';
 
-  const S = (inner) => `<svg width="${w}" height="${h}" viewBox="0 0 200 280" fill="none" preserveAspectRatio="xMidYMid meet" style="filter:drop-shadow(0 4px 16px rgba(30,122,116,0.25))">${inner}</svg>`;
-
-  // Shared decorative elements
-  const halo = `<circle cx="100" cy="38" r="24" stroke="${gold}" stroke-width="0.8" stroke-dasharray="4 6" opacity="0.35"/>`;
-  const head = `<circle cx="100" cy="38" r="16" fill="${color}" opacity="0.85"/><path d="M85 30 Q82 20 89 15 Q93 26 100 20 Q107 26 111 15 Q118 20 115 30" fill="${color}" opacity="0.6"/>`;
-  const neck = `<path d="M94 54 L94 68 L106 68 L106 54" fill="${color}" opacity="0.65"/>`;
-  const neckOrn = `<circle cx="100" cy="73" r="3.5" fill="${gold}" opacity="0.65"/>`;
-
-  const figures = {
-    'scurve': S(`${halo}${head}${neck}
-      <path d="M78 68 Q70 95 79 124 Q86 142 84 160 Q90 164 100 164 Q110 164 116 160 Q114 142 121 124 Q130 95 122 68 Z" fill="${color}" opacity="0.72"/>
-      <path d="M79 78 Q58 70 46 82 Q40 94 50 104" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.8"/>
-      <path d="M121 82 Q142 86 148 102 Q152 114 144 122" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.8"/>
-      <path d="M84 160 Q76 186 70 226 Q80 234 100 234 Q120 234 130 226 Q124 186 116 160 Z" fill="${color}" opacity="0.6"/>
-      <path d="M85 118 Q100 123 115 118" stroke="${gold}" stroke-width="1.5" fill="none" opacity="0.4"/>${neckOrn}
-      <ellipse cx="86" cy="236" rx="13" ry="5.5" fill="${color}" opacity="0.5"/><ellipse cx="114" cy="233" rx="11" ry="4.5" fill="${color}" opacity="0.4"/>`),
-
-    'standing-front': S(`${halo}${head}${neck}
-      <path d="M75 68 L80 160 L120 160 L125 68 Z" fill="${color}" opacity="0.72"/>
-      <path d="M75 80 Q55 85 48 100 Q45 112 52 118" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.8"/>
-      <path d="M125 80 Q145 85 152 100 Q155 112 148 118" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.8"/>
-      <path d="M80 160 Q76 196 74 232 Q84 238 100 238 Q116 238 126 232 Q124 196 120 160 Z" fill="${color}" opacity="0.6"/>${neckOrn}
-      <ellipse cx="87" cy="236" rx="13" ry="5" fill="${color}" opacity="0.5"/><ellipse cx="113" cy="235" rx="11" ry="4.5" fill="${color}" opacity="0.4"/>`),
-
-    'arm-reach': S(`${halo}${head}${neck}
-      <path d="M78 68 Q72 100 82 130 Q88 148 86 165 Q92 170 100 170 Q108 170 114 165 Q112 148 118 130 Q128 100 122 68 Z" fill="${color}" opacity="0.72"/>
-      <path d="M80 78 Q55 60 35 38 Q28 28 35 22" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.85"/>
-      <path d="M120 82 Q135 90 140 108" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.8"/>
-      <path d="M86 165 Q78 195 72 232 Q82 238 100 238 Q118 238 128 232 Q122 195 114 165 Z" fill="${color}" opacity="0.6"/>${neckOrn}
-      <circle cx="34" cy="20" r="4" fill="${gold}" opacity="0.5"/>
-      <ellipse cx="86" cy="236" rx="13" ry="5" fill="${color}" opacity="0.5"/><ellipse cx="114" cy="235" rx="11" ry="4.5" fill="${color}" opacity="0.4"/>`),
-
-    // Seated side profile — hips low, legs folded forward
-    'seated-side': S(`${halo}${head}${neck}
-      <path d="M80 68 Q74 96 84 128 Q90 146 88 162 Q96 166 106 164 Q104 148 110 130 Q120 100 116 68 Z" fill="${color}" opacity="0.72"/>
-      <path d="M84 82 Q66 92 58 110 Q54 122 62 128" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.8"/>
-      <path d="M116 84 Q132 96 132 116" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.8"/>
-      <path d="M90 160 Q118 168 150 158 Q152 176 130 182 Q100 186 88 178 Z" fill="${color}" opacity="0.62"/>
-      <path d="M148 160 Q160 176 150 200" stroke="${color}" stroke-width="12" stroke-linecap="round" fill="none" opacity="0.6"/>${neckOrn}
-      <ellipse cx="150" cy="204" rx="14" ry="5" fill="${color}" opacity="0.5"/>`),
-
-    // Seated on floor — symmetric, legs crossed
-    'seated-floor': S(`${halo}${head}${neck}
-      <path d="M80 68 Q74 100 82 128 Q88 144 86 158 Q100 162 114 158 Q112 144 118 128 Q126 100 120 68 Z" fill="${color}" opacity="0.72"/>
-      <path d="M82 84 Q64 96 60 118" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.8"/>
-      <path d="M118 84 Q136 96 140 118" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.8"/>
-      <path d="M70 158 Q60 176 78 186 Q100 192 122 186 Q140 176 130 158 Q100 168 70 158 Z" fill="${color}" opacity="0.6"/>${neckOrn}
-      <ellipse cx="100" cy="190" rx="42" ry="7" fill="${color}" opacity="0.4"/>`),
-
-    // Hip shift — weight to one side, contrapposto
-    'hip-shift': S(`${halo}${head}${neck}
-      <path d="M80 68 Q68 94 78 122 Q86 142 92 160 Q98 164 108 162 Q104 142 112 124 Q124 96 120 68 Z" fill="${color}" opacity="0.72"/>
-      <path d="M80 80 Q60 88 52 106 Q48 118 56 124" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.8"/>
-      <path d="M120 82 Q138 92 140 112 Q140 124 132 128" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.8"/>
-      <path d="M90 160 Q86 196 82 232 Q94 238 110 236 Q116 200 112 162 Z" fill="${color}" opacity="0.6"/>
-      <path d="M85 120 Q100 126 115 120" stroke="${gold}" stroke-width="1.5" fill="none" opacity="0.4"/>${neckOrn}
-      <ellipse cx="86" cy="234" rx="13" ry="5" fill="${color}" opacity="0.5"/><ellipse cx="112" cy="236" rx="11" ry="4.5" fill="${color}" opacity="0.4"/>`),
-
-    // Elbow prop — leaning on a surface, chin near hand
-    'elbow-prop': S(`${halo}${head}${neck}
-      <path d="M80 68 Q74 96 84 126 Q90 144 88 160 Q100 164 112 160 Q110 144 116 128 Q124 100 120 68 Z" fill="${color}" opacity="0.72"/>
-      <path d="M84 80 Q70 96 82 108 Q92 116 100 66" stroke="${color}" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.82"/>
-      <path d="M118 84 Q136 96 138 118" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.8"/>
-      <path d="M88 160 Q82 196 80 232 Q94 238 110 236 Q116 198 112 160 Z" fill="${color}" opacity="0.6"/>${neckOrn}
-      <rect x="60" y="108" width="24" height="6" rx="2" fill="${gold}" opacity="0.3"/>
-      <ellipse cx="88" cy="234" rx="13" ry="5" fill="${color}" opacity="0.5"/><ellipse cx="112" cy="236" rx="11" ry="4.5" fill="${color}" opacity="0.4"/>`),
-
-    // Kneeling — knees down, torso upright
-    'kneeling': S(`
-    ${halo}${head}${neck}
-<path d="M84 68 Q78 96 86 126 Q90 144 92 158 Q100 166 112 160 Q114 144 118 126 Q126 96 118 68 Z" fill="${color}" opacity="0.72"/>
-<path d="M114 82 Q128 92 130 108 Q132 130 128 152 Q124 176 128 202" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.8"/>
-<path d="M86 80 Q70 88 64 102 Q60 114 66 122" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.8"/>
-<path d="M92 158 Q80 176 72 200 Q68 212 62 214 Q54 224 48 236 Q46 242 52 244 L92 246 Q98 244 96 238 Q86 236 68 236 Q74 222 82 206 Q92 188 99 168 Z" fill="${color}" opacity="0.62"/>
-<path d="M112 160 Q120 176 124 196 Q128 216 128 238 Q130 250 128 258 Q126 264 116 264 Q107 264 107 257 L108 238 Q106 214 104 196 Q101 178 100 166 Z" fill="${color}" opacity="0.62"/>
-<path d="M106 258 Q104 264 108 267 L124 267 Q131 265 129 259 Q130 253 125 252 L110 251 Q106 253 106 258 Z" fill="${color}" opacity="0.62"/>${neckOrn}
-<ellipse cx="70" cy="245" rx="26" ry="5" fill="${color}" opacity="0.35"/>
-<ellipse cx="116" cy="264" rx="17" ry="5" fill="${color}" opacity="0.35"/>
-    `),
-
-    // Side recline — lying on side, propped head
-    'side-recline': S(`${halo}
-      <circle cx="46" cy="150" r="15" fill="${color}" opacity="0.85"/>
-      <path d="M34 144 Q30 134 38 130 Q42 140 46 134 Q50 140 54 130 Q62 134 58 144" fill="${color}" opacity="0.6"/>
-      <path d="M60 150 Q100 138 150 150 Q158 160 150 172 Q100 184 60 168 Z" fill="${color}" opacity="0.72"/>
-      <path d="M46 136 Q40 116 52 108" stroke="${color}" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.8"/>
-      <path d="M150 150 Q172 148 182 160 Q186 170 178 176" stroke="${color}" stroke-width="11" stroke-linecap="round" fill="none" opacity="0.7"/>
-      <path d="M148 168 Q170 172 176 190" stroke="${color}" stroke-width="11" stroke-linecap="round" fill="none" opacity="0.6"/>
-      <circle cx="60" cy="152" r="3.5" fill="${gold}" opacity="0.6"/>
-      <ellipse cx="100" cy="186" rx="60" ry="6" fill="${color}" opacity="0.3"/>`),
-
-    // Couple embrace — two overlapping figures
-    'couple-embrace': S(`${halo}
-      <circle cx="78" cy="46" r="15" fill="${color}" opacity="0.85"/>
-      <circle cx="124" cy="42" r="14" fill="${color}" opacity="0.7"/>
-      <path d="M70 60 L74 76 L86 76 L84 60" fill="${color}" opacity="0.6"/>
-      <path d="M118 56 L120 72 L130 72 L130 56" fill="${color}" opacity="0.55"/>
-      <path d="M60 76 Q52 108 62 140 Q68 160 66 178 Q78 182 90 178 Q88 158 92 138 Q98 104 90 76 Z" fill="${color}" opacity="0.72"/>
-      <path d="M110 72 Q104 104 112 136 Q118 156 116 176 Q128 180 140 176 Q138 156 144 136 Q152 104 144 72 Z" fill="${color}" opacity="0.62"/>
-      <path d="M90 88 Q108 82 120 92" stroke="${color}" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.78"/>
-      <path d="M110 90 Q92 84 82 94" stroke="${color}" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.7"/>
-      <path d="M66 178 Q60 210 66 240 Q78 246 90 244 Q94 212 90 178 Z" fill="${color}" opacity="0.55"/>
-      <path d="M116 176 Q112 208 118 240 Q130 246 142 242 Q146 210 144 176 Z" fill="${color}" opacity="0.5"/>
-      <circle cx="90" cy="86" r="3" fill="${gold}" opacity="0.55"/>
-      <ellipse cx="78" cy="244" rx="14" ry="5" fill="${color}" opacity="0.45"/><ellipse cx="130" cy="242" rx="13" ry="5" fill="${color}" opacity="0.4"/>`),
-
-    // Upper body — cropped portrait framing, shoulders + arms
-    'upper-body': S(`${halo}${head}${neck}
-      <path d="M70 68 Q60 100 66 150 Q90 160 100 160 Q110 160 134 150 Q140 100 130 68 Z" fill="${color}" opacity="0.72"/>
-      <path d="M72 80 Q52 88 44 108 Q40 122 50 130" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.8"/>
-      <path d="M128 80 Q148 88 156 108 Q160 122 150 130" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.8"/>
-      <path d="M80 118 Q100 124 120 118" stroke="${gold}" stroke-width="1.5" fill="none" opacity="0.4"/>${neckOrn}
-      <rect x="66" y="150" width="68" height="6" rx="3" fill="${color}" opacity="0.3"/>`),
-
-    // Dynamic reach — mid-motion, wide dynamic limbs
-    'dynamic-reach': S(`${halo}${head}
-      <path d="M96 54 L92 68 L104 66 L110 52" fill="${color}" opacity="0.6"/>
-      <path d="M74 66 Q70 98 84 128 Q92 146 88 164 Q98 170 110 166 Q108 146 116 126 Q130 96 122 62 Z" fill="${color}" opacity="0.72"/>
-      <path d="M78 74 Q52 56 34 30 Q28 20 36 14" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.85"/>
-      <path d="M120 70 Q148 78 164 100 Q170 112 162 120" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.82"/>
-      <path d="M86 164 Q64 190 44 214" stroke="${color}" stroke-width="13" stroke-linecap="round" fill="none" opacity="0.62"/>
-      <path d="M110 166 Q130 200 152 228" stroke="${color}" stroke-width="13" stroke-linecap="round" fill="none" opacity="0.6"/>
-      <circle cx="35" cy="13" r="4" fill="${gold}" opacity="0.5"/><circle cx="100" cy="80" r="3.5" fill="${gold}" opacity="0.6"/>
-      <ellipse cx="42" cy="216" rx="12" ry="4.5" fill="${color}" opacity="0.45"/><ellipse cx="154" cy="230" rx="12" ry="4.5" fill="${color}" opacity="0.4"/>`),
-
-    // Wall lean — angled body against a vertical edge
-    'wall-lean': S(`${halo}${head}${neck}
-      <line x1="150" y1="20" x2="150" y2="250" stroke="${gold}" stroke-width="2" opacity="0.25"/>
-      <path d="M82 68 Q80 98 92 128 Q100 148 100 166 Q108 170 118 166 Q116 148 122 128 Q132 100 126 68 Z" fill="${color}" opacity="0.72"/>
-      <path d="M84 80 Q66 90 60 110 Q56 122 64 128" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.8"/>
-      <path d="M124 80 Q142 88 146 104" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.8"/>
-      <path d="M100 166 Q102 200 118 224 Q140 232 148 226 Q140 200 122 166 Z" fill="${color}" opacity="0.6"/>${neckOrn}
-      <ellipse cx="146" cy="228" rx="13" ry="5" fill="${color}" opacity="0.5"/>`),
-
-    'supine': S(`${halo}
-      <circle cx="46" cy="150" r="15" fill="${color}" opacity="0.85"/>
-      <path d="M34 144 Q30 134 38 130 Q42 140 46 134 Q50 140 54 130 Q62 134 58 144" fill="${color}" opacity="0.6"/>
-      <path d="M60 138 Q100 130 160 140 Q166 150 160 160 Q100 170 60 162 Z" fill="${color}" opacity="0.72"/>
-      <path d="M54 142 Q38 126 26 106 Q20 94 24 84" stroke="${color}" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.75"/>
-      <path d="M64 148 Q60 160 62 174 Q64 184 74 188" stroke="${color}" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.65"/>
-      <path d="M158 144 Q172 148 180 154" stroke="${color}" stroke-width="12" stroke-linecap="round" fill="none" opacity="0.68"/>
-      <path d="M156 158 Q172 162 182 168" stroke="${color}" stroke-width="12" stroke-linecap="round" fill="none" opacity="0.6"/>
-      <circle cx="23" cy="83" r="3.5" fill="${gold}" opacity="0.5"/>
-      <circle cx="100" cy="148" r="3.5" fill="${gold}" opacity="0.6"/>
-      <ellipse cx="182" cy="156" rx="7" ry="4" fill="${color}" opacity="0.5"/><ellipse cx="184" cy="168" rx="7" ry="4" fill="${color}" opacity="0.45"/>
-      <ellipse cx="110" cy="184" rx="70" ry="6" fill="${color}" opacity="0.25"/>`),
-
-    // Prone flat — lying face down, both arms reaching forward, head down (no prop)
-    'prone-flat': S(`${halo}
-      <circle cx="46" cy="150" r="14" fill="${color}" opacity="0.85"/>
-      <path d="M35 146 Q32 136 40 132 Q43 142 46 136 Q49 142 52 132 Q60 136 57 146" fill="${color}" opacity="0.55"/>
-      <path d="M58 144 Q100 136 152 146 Q158 154 152 164 Q100 174 58 166 Z" fill="${color}" opacity="0.7"/>
-      <path d="M56 148 Q100 158 152 160" stroke="${gold}" stroke-width="1.2" fill="none" opacity="0.3"/>
-      <path d="M48 138 Q28 122 20 100 Q14 84 20 74" stroke="${color}" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.78"/>
-      <path d="M54 152 Q34 148 20 134 Q10 122 12 108" stroke="${color}" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.6"/>
-      <path d="M150 150 Q168 152 178 156 Q184 160 182 166" stroke="${color}" stroke-width="12" stroke-linecap="round" fill="none" opacity="0.68"/>
-      <path d="M148 162 Q166 168 178 176" stroke="${color}" stroke-width="12" stroke-linecap="round" fill="none" opacity="0.6"/>
-      <ellipse cx="178" cy="164" rx="7" ry="3.5" fill="${color}" opacity="0.5"/><ellipse cx="180" cy="178" rx="7" ry="3.5" fill="${color}" opacity="0.42"/>
-      <circle cx="19" cy="73" r="3.5" fill="${gold}" opacity="0.5"/><circle cx="11" cy="107" r="3.5" fill="${gold}" opacity="0.45"/>
-      <ellipse cx="100" cy="184" rx="66" ry="6" fill="${color}" opacity="0.25"/>`),
-
-    // Fetal — curled compact silhouette, knees tucked toward chin, arms wrapped
-    'fetal': S(`${halo}
-      <circle cx="50" cy="126" r="15" fill="${color}" opacity="0.85"/>
-      <path d="M38 120 Q34 110 42 106 Q46 116 50 110 Q54 116 58 106 Q66 110 62 120" fill="${color}" opacity="0.6"/>
-      <path d="M62 128 Q76 112 94 114 Q110 117 114 134 Q116 149 101 158 Q84 167 67 158 Q57 150 59 137 Z" fill="${color}" opacity="0.74"/>
-      <path d="M98 116 Q107 128 103 142 Q99 152 93 150" stroke="${color}" stroke-width="12" stroke-linecap="round" fill="none" opacity="0.72"/>
-      <path d="M93 150 Q84 154 76 148" stroke="${color}" stroke-width="12" stroke-linecap="round" fill="none" opacity="0.68"/>
-      <path d="M63 136 Q64 150 76 156 Q86 159 92 150" stroke="${color}" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.72"/>
-      <path d="M65 149 Q68 160 80 163" stroke="${color}" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.65"/>
-      <path d="M90 130 Q96 140 92 150" stroke="${gold}" stroke-width="1.3" fill="none" opacity="0.3"/>
-      <circle cx="88" cy="130" r="3" fill="${gold}" opacity="0.55"/>
-      <ellipse cx="70" cy="163" rx="10" ry="4.5" fill="${color}" opacity="0.45"/><ellipse cx="90" cy="153" rx="8" ry="4" fill="${color}" opacity="0.4"/>`),
-
-    // Back, arms up — supine base with both arms raised overhead, diverging
-    'back-arms-up': S(`${halo}
-      <circle cx="46" cy="150" r="15" fill="${color}" opacity="0.85"/>
-      <path d="M34 144 Q30 134 38 130 Q42 140 46 134 Q50 140 54 130 Q62 134 58 144" fill="${color}" opacity="0.6"/>
-      <path d="M60 138 Q100 130 160 140 Q166 150 160 160 Q100 170 60 162 Z" fill="${color}" opacity="0.72"/>
-      <path d="M56 142 Q44 116 34 94 Q28 80 34 72" stroke="${color}" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.78"/>
-      <path d="M64 140 Q60 110 66 84 Q70 70 80 66" stroke="${color}" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.68"/>
-      <path d="M158 144 Q174 148 182 156" stroke="${color}" stroke-width="12" stroke-linecap="round" fill="none" opacity="0.68"/>
-      <path d="M156 158 Q174 164 184 172" stroke="${color}" stroke-width="12" stroke-linecap="round" fill="none" opacity="0.6"/>
-      <circle cx="33" cy="71" r="3.5" fill="${gold}" opacity="0.55"/><circle cx="80" cy="65" r="3" fill="${gold}" opacity="0.5"/>
-      <ellipse cx="184" cy="158" rx="7" ry="4" fill="${color}" opacity="0.5"/><ellipse cx="186" cy="172" rx="7" ry="4" fill="${color}" opacity="0.45"/>
-      <ellipse cx="110" cy="184" rx="70" ry="6" fill="${color}" opacity="0.25"/>`),
-
-    // Sphinx pose — face down, chest raised on forearms, arched torso
-    'sphinx-pose': S(`${halo}
-      <circle cx="48" cy="112" r="14" fill="${color}" opacity="0.85"/>
-      <path d="M37 107 Q34 97 42 93 Q45 103 48 97 Q51 103 54 93 Q62 97 59 107" fill="${color}" opacity="0.55"/>
-      <path d="M60 114 Q96 104 134 138 Q144 148 132 156 Q100 168 72 158 Q56 150 58 128 Z" fill="${color}" opacity="0.74"/>
-      <path d="M66 122 Q62 146 58 172" stroke="${color}" stroke-width="11" stroke-linecap="round" fill="none" opacity="0.8"/>
-      <path d="M78 128 Q74 152 70 176" stroke="${color}" stroke-width="11" stroke-linecap="round" fill="none" opacity="0.72"/>
-      <path d="M132 144 Q154 152 176 156" stroke="${color}" stroke-width="12" stroke-linecap="round" fill="none" opacity="0.65"/>
-      <path d="M128 154 Q152 162 174 168" stroke="${color}" stroke-width="12" stroke-linecap="round" fill="none" opacity="0.58"/>
-      <path d="M60 118 Q52 108 48 96" stroke="${gold}" stroke-width="1.3" fill="none" opacity="0.3"/>
-      <circle cx="100" cy="126" r="3.5" fill="${gold}" opacity="0.55"/>
-      <ellipse cx="58" cy="176" rx="7" ry="3.5" fill="${color}" opacity="0.5"/><ellipse cx="70" cy="180" rx="7" ry="3.5" fill="${color}" opacity="0.42"/>
-      <ellipse cx="176" cy="160" rx="7" ry="3.5" fill="${color}" opacity="0.45"/><ellipse cx="174" cy="172" rx="7" ry="3.5" fill="${color}" opacity="0.4"/>`),
-
-    // Couple back-to-back — two upright figures, backs touching at center, facing away
-    'couple-back-to-back': S(`${halo}
-      <circle cx="72" cy="46" r="15" fill="${color}" opacity="0.85"/>
-      <circle cx="128" cy="44" r="14" fill="${color}" opacity="0.7"/>
-      <path d="M64 60 L68 76 L80 76 L78 60" fill="${color}" opacity="0.6"/>
-      <path d="M122 58 L124 74 L134 74 L134 58" fill="${color}" opacity="0.55"/>
-      <path d="M58 76 Q48 108 56 140 Q62 160 60 178 Q74 182 88 178 Q86 158 90 138 Q96 104 88 76 Z" fill="${color}" opacity="0.72"/>
-      <path d="M112 74 Q106 106 114 138 Q120 158 118 176 Q130 180 142 176 Q140 156 146 136 Q154 104 146 74 Z" fill="${color}" opacity="0.62"/>
-      <path d="M60 84 Q44 92 38 108 Q34 118 42 124" stroke="${color}" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.75"/>
-      <path d="M144 82 Q160 90 166 106 Q170 116 162 122" stroke="${color}" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.7"/>
-      <path d="M88 90 Q94 130 90 178" stroke="${gold}" stroke-width="1.5" fill="none" opacity="0.35"/>
-      <path d="M60 178 Q54 210 60 240 Q72 246 84 244 Q88 212 84 178 Z" fill="${color}" opacity="0.55"/>
-      <path d="M118 176 Q114 208 120 240 Q132 246 144 242 Q148 210 146 176 Z" fill="${color}" opacity="0.5"/>
-      <circle cx="84" cy="90" r="3" fill="${gold}" opacity="0.5"/><circle cx="118" cy="88" r="3" fill="${gold}" opacity="0.45"/>
-      <ellipse cx="72" cy="244" rx="14" ry="5" fill="${color}" opacity="0.45"/><ellipse cx="132" cy="242" rx="13" ry="5" fill="${color}" opacity="0.4"/>`),
-
-    // Couple slow dance — face to face, ballroom hold, arms extended
-    'couple-slow-dance': S(`${halo}
-      <circle cx="78" cy="46" r="15" fill="${color}" opacity="0.85"/>
-      <circle cx="122" cy="44" r="14" fill="${color}" opacity="0.7"/>
-      <path d="M70 60 L74 76 L86 76 L84 60" fill="${color}" opacity="0.6"/>
-      <path d="M116 58 L118 74 L128 74 L128 58" fill="${color}" opacity="0.55"/>
-      <path d="M64 76 Q56 106 64 136 Q70 156 68 176 Q80 180 92 176 Q90 156 94 136 Q100 104 92 76 Z" fill="${color}" opacity="0.72"/>
-      <path d="M110 74 Q104 104 112 134 Q118 154 116 174 Q128 178 140 174 Q138 154 144 134 Q152 104 144 74 Z" fill="${color}" opacity="0.62"/>
-      <path d="M90 88 Q102 80 112 80 Q118 80 120 88" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.78"/>
-      <path d="M112 84 Q92 90 84 102 Q80 110 86 116" stroke="${color}" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.72"/>
-      <path d="M64 88 Q42 84 26 76" stroke="${color}" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.72"/>
-      <path d="M144 82 Q164 88 176 100" stroke="${color}" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.65"/>
-      <path d="M68 176 Q62 208 68 238 Q80 244 92 242 Q96 210 92 176 Z" fill="${color}" opacity="0.55"/>
-      <path d="M116 174 Q112 206 118 238 Q130 244 142 240 Q146 208 144 174 Z" fill="${color}" opacity="0.5"/>
-      <circle cx="25" cy="75" r="3.5" fill="${gold}" opacity="0.5"/><circle cx="100" cy="82" r="3" fill="${gold}" opacity="0.55"/>
-      <ellipse cx="78" cy="242" rx="14" ry="5" fill="${color}" opacity="0.45"/><ellipse cx="130" cy="240" rx="13" ry="5" fill="${color}" opacity="0.4"/>`),
-
-    // Couple forehead touch — heads tilted together at center, intimate embrace below
-    'couple-forehead-touch': S(`${halo}
-      <circle cx="76" cy="44" r="15" fill="${color}" opacity="0.85"/>
-      <circle cx="124" cy="44" r="14" fill="${color}" opacity="0.7"/>
-      <path d="M88 40 Q100 44 112 40" stroke="${color}" stroke-width="4" stroke-linecap="round" fill="none" opacity="0.5"/>
-      <path d="M69 58 L73 74 L83 74 L81 58" fill="${color}" opacity="0.6"/>
-      <path d="M119 56 L121 72 L131 72 L131 56" fill="${color}" opacity="0.55"/>
-      <path d="M59 74 Q51 106 59 136 Q65 156 63 176 Q75 180 87 176 Q85 156 89 136 Q95 102 87 74 Z" fill="${color}" opacity="0.72"/>
-      <path d="M113 72 Q107 104 115 134 Q121 154 119 174 Q131 178 143 174 Q141 154 147 134 Q155 102 147 72 Z" fill="${color}" opacity="0.62"/>
-      <path d="M87 88 Q107 84 119 94" stroke="${color}" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.78"/>
-      <path d="M113 90 Q93 86 81 96" stroke="${color}" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.7"/>
-      <path d="M63 176 Q57 208 63 238 Q75 244 87 242 Q91 210 87 176 Z" fill="${color}" opacity="0.55"/>
-      <path d="M119 174 Q115 206 121 238 Q133 244 145 240 Q149 208 147 174 Z" fill="${color}" opacity="0.5"/>
-      <circle cx="100" cy="42" r="2.8" fill="${gold}" opacity="0.65"/><circle cx="87" cy="91" r="3" fill="${gold}" opacity="0.5"/>
-      <ellipse cx="73" cy="238" rx="14" ry="5" fill="${color}" opacity="0.45"/><ellipse cx="133" cy="236" rx="13" ry="5" fill="${color}" opacity="0.4"/>`),
-
-    // Couple piggyback — carrier upright, smaller rider perched on back with wrapped legs
-    'couple-piggyback': S(`${halo}
-      <circle cx="88" cy="48" r="16" fill="${color}" opacity="0.85"/>
-      <path d="M74 42 Q70 32 78 27 Q82 38 88 32 Q94 38 98 27 Q106 32 102 42" fill="${color}" opacity="0.6"/>
-      <path d="M80 64 L84 82 L94 82 L92 64" fill="${color}" opacity="0.6"/>
-      <path d="M68 82 Q58 118 68 154 Q74 176 72 198 Q86 202 100 198 Q98 176 104 154 Q112 118 102 82 Z" fill="${color}" opacity="0.72"/>
-      <path d="M70 94 Q50 102 42 120 Q38 132 46 140" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.78"/>
-      <path d="M102 94 Q122 102 130 120 Q134 132 126 140" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.72"/>
-      <path d="M72 198 Q66 228 60 256 Q74 262 88 260 Q92 230 98 198 Z" fill="${color}" opacity="0.6"/>
-      <circle cx="112" cy="16" r="11" fill="${color}" opacity="0.78"/>
-      <path d="M103 12 Q101 4 107 1 Q109 9 112 5 Q115 9 118 1 Q124 4 122 12" fill="${color}" opacity="0.58"/>
-      <path d="M106 26 Q100 40 96 56 Q94 66 100 72" stroke="${color}" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.68"/>
-      <path d="M118 30 Q124 46 122 62 Q120 72 128 78" stroke="${color}" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.62"/>
-      <path d="M96 68 Q84 78 72 92 Q64 100 66 110" stroke="${color}" stroke-width="8" stroke-linecap="round" fill="none" opacity="0.55"/>
-      <path d="M122 74 Q108 84 96 96 Q88 104 90 114" stroke="${color}" stroke-width="8" stroke-linecap="round" fill="none" opacity="0.5"/>
-      <path d="M44 138 Q55 146 66 140" stroke="${color}" stroke-width="8" stroke-linecap="round" fill="none" opacity="0.5"/>
-      <circle cx="94" cy="70" r="3" fill="${gold}" opacity="0.55"/>
-      <ellipse cx="64" cy="260" rx="14" ry="5" fill="${color}" opacity="0.5"/><ellipse cx="92" cy="258" rx="12" ry="4.5" fill="${color}" opacity="0.4"/>`),
-
-    // Couple side profile — standing side by side, inside arms draped, clear separation
-    'couple-side-profile': S(`${halo}
-      <circle cx="72" cy="46" r="15" fill="${color}" opacity="0.85"/>
-      <circle cx="128" cy="46" r="15" fill="${color}" opacity="0.75"/>
-      <path d="M64 60 L68 76 L80 76 L78 60" fill="${color}" opacity="0.6"/>
-      <path d="M122 60 L124 76 L136 76 L134 60" fill="${color}" opacity="0.55"/>
-      <path d="M58 76 Q50 106 58 136 Q64 156 62 176 Q74 180 86 176 Q84 156 88 136 Q94 104 86 76 Z" fill="${color}" opacity="0.72"/>
-      <path d="M114 76 Q108 106 116 136 Q122 156 120 176 Q132 180 144 176 Q142 156 148 136 Q154 104 146 76 Z" fill="${color}" opacity="0.68"/>
-      <path d="M84 92 Q98 100 100 116 Q100 128 92 132" stroke="${color}" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.76"/>
-      <path d="M116 92 Q102 100 100 116 Q100 128 108 132" stroke="${color}" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.7"/>
-      <path d="M58 88 Q40 96 32 112 Q28 122 36 128" stroke="${color}" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.65"/>
-      <path d="M146 88 Q166 96 174 112 Q178 122 170 128" stroke="${color}" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.6"/>
-      <path d="M62 176 Q56 208 62 238 Q74 244 86 242 Q90 210 86 176 Z" fill="${color}" opacity="0.55"/>
-      <path d="M120 176 Q116 208 122 238 Q134 244 146 242 Q150 210 146 176 Z" fill="${color}" opacity="0.5"/>
-      <circle cx="100" cy="122" r="3" fill="${gold}" opacity="0.55"/>
-      <ellipse cx="70" cy="242" rx="14" ry="5" fill="${color}" opacity="0.45"/><ellipse cx="134" cy="240" rx="13" ry="5" fill="${color}" opacity="0.4"/>`),
-
-    'warrior-lunge': S(`${halo}${head}${neck}
-      <path d="M84 68 Q78 90 88 110 Q94 122 92 136 Q100 140 108 138 Q106 122 112 110 Q120 90 116 68 Z" fill="${color}" opacity="0.72"/>
-      <path d="M86 78 Q60 74 40 82 Q28 88 26 98" stroke="${color}" stroke-width="11" stroke-linecap="round" fill="none" opacity="0.85"/>
-      <path d="M114 82 Q126 94 128 108 Q129 116 122 120" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.7"/>
-      <path d="M94 138 Q70 154 52 172" stroke="${color}" stroke-width="13" stroke-linecap="round" fill="none" opacity="0.68"/>
-      <path d="M52 172 Q40 184 34 200" stroke="${color}" stroke-width="13" stroke-linecap="round" fill="none" opacity="0.65"/>
-      <path d="M106 138 Q126 152 138 168" stroke="${color}" stroke-width="12" stroke-linecap="round" fill="none" opacity="0.62"/>
-      <path d="M138 168 Q148 182 150 202" stroke="${color}" stroke-width="12" stroke-linecap="round" fill="none" opacity="0.58"/>
-      <circle cx="26" cy="97" r="4" fill="${gold}" opacity="0.6"/>
-      <path d="M52 174 Q46 168 52 162" stroke="${gold}" stroke-width="1.5" fill="none" opacity="0.35"/>
-      <path d="M34 202 Q70 160 100 138" stroke="${gold}" stroke-width="1.2" fill="none" opacity="0.25"/>
-      <ellipse cx="32" cy="203" rx="14" ry="5.5" fill="${color}" opacity="0.5"/><ellipse cx="151" cy="205" rx="13" ry="5" fill="${color}" opacity="0.45"/>`),
-
-    // Run mid-stride — classic running silhouette, arms pumping opposite legs
-    'run-mid': S(`${halo}
-      <circle cx="104" cy="34" r="16" fill="${color}" opacity="0.85"/>
-      <path d="M89 26 Q86 16 93 11 Q97 22 104 16 Q111 22 115 11 Q122 16 119 26" fill="${color}" opacity="0.6"/>
-      <path d="M98 50 L94 64 L108 62 L112 48" fill="${color}" opacity="0.6"/>
-      <path d="M92 64 Q104 84 116 104 Q124 118 120 134 Q130 138 138 130 Q136 112 128 96 Q116 74 108 62 Z" fill="${color}" opacity="0.72"/>
-      <path d="M92 66 Q72 56 58 46 Q48 40 50 30" stroke="${color}" stroke-width="11" stroke-linecap="round" fill="none" opacity="0.85"/>
-      <path d="M116 72 Q136 88 146 104 Q150 110 150 106" stroke="${color}" stroke-width="11" stroke-linecap="round" fill="none" opacity="0.8"/>
-      <path d="M120 134 Q98 168 68 236 Q78 244 92 240 Q112 200 128 158 Q134 144 128 134 Z" fill="${color}" opacity="0.65"/>
-      <path d="M138 130 Q150 148 148 175 Q154 195 144 218 Q150 224 158 216 Q166 188 156 158 Q148 138 138 130 Z" fill="${color}" opacity="0.6"/>
-      <circle cx="50" cy="30" r="3.5" fill="${gold}" opacity="0.5"/>
-      <ellipse cx="66" cy="240" rx="14" ry="5" fill="${color}" opacity="0.5"/><ellipse cx="144" cy="220" rx="10" ry="4" fill="${color}" opacity="0.4"/>`),
-
-    // Jump tuck — airborne, knees tucked high, arms out for balance
-    'jump-tuck': S(`${halo}
-      <circle cx="100" cy="28" r="16" fill="${color}" opacity="0.85"/>
-      <path d="M85 20 Q82 10 89 5 Q93 16 100 10 Q107 16 111 5 Q118 10 115 20" fill="${color}" opacity="0.6"/>
-      <path d="M94 44 L91 56 L109 56 L106 44" fill="${color}" opacity="0.6"/>
-      <path d="M84 56 Q76 78 82 100 Q88 112 84 120 Q92 126 100 122 Q104 112 108 100 Q118 78 116 56 Z" fill="${color}" opacity="0.72"/>
-      <path d="M86 62 Q62 60 44 66 Q34 70 34 80" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.85"/>
-      <path d="M114 62 Q138 60 156 66 Q166 70 166 80" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.85"/>
-      <path d="M84 108 Q80 118 84 128 Q88 138 82 148" stroke="${color}" stroke-width="13" stroke-linecap="round" fill="none" opacity="0.68"/>
-      <path d="M108 108 Q114 118 110 128 Q106 138 114 148" stroke="${color}" stroke-width="13" stroke-linecap="round" fill="none" opacity="0.65"/>
-      <path d="M82 148 Q78 158 80 168" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.6"/>
-      <path d="M114 148 Q118 158 116 168" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.58"/>
-      <circle cx="34" cy="79" r="3.5" fill="${gold}" opacity="0.5"/><circle cx="166" cy="79" r="3.5" fill="${gold}" opacity="0.5"/>
-      <ellipse cx="80" cy="170" rx="7" ry="3.5" fill="${color}" opacity="0.5"/><ellipse cx="116" cy="170" rx="7" ry="3.5" fill="${color}" opacity="0.5"/>
-      <ellipse cx="100" cy="260" rx="30" ry="5" fill="${color}" opacity="0.2"/>`),
-
-    // Spin turn — mid-pirouette, torso twisted, one arm flung wide
-    'spin-turn': S(`${halo}${head}${neck}
-      <path d="M86 68 Q100 74 114 66 Q122 78 112 96 Q106 108 116 122 Q124 134 118 150 Q108 158 96 154 Q100 138 88 124 Q78 110 88 94 Q94 82 86 68 Z" fill="${color}" opacity="0.72"/>
-      <path d="M90 76 Q70 64 62 48 Q58 38 66 32" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.55"/>
-      <path d="M112 72 Q145 78 165 88 Q175 94 170 104" stroke="${color}" stroke-width="11" stroke-linecap="round" fill="none" opacity="0.85"/>
-      <path d="M96 154 Q90 186 96 224 Q102 232 106 228 Q108 194 104 156 Z" fill="${color}" opacity="0.65"/>
-      <path d="M118 150 Q134 172 128 196 Q136 214 146 206 Q150 180 126 154 Z" fill="${color}" opacity="0.6"/>
-      <path d="M84 118 Q100 122 116 116" stroke="${gold}" stroke-width="1.8" fill="none" opacity="0.5"/>
-      <circle cx="170" cy="103" r="4" fill="${gold}" opacity="0.55"/>
-      <ellipse cx="101" cy="226" rx="13" ry="5" fill="${color}" opacity="0.5"/><ellipse cx="142" cy="208" rx="10" ry="4" fill="${color}" opacity="0.4"/>`),
-
-    // Dance arms high — both arms raised overhead in celebration
-    'dance-arms-high': S(`${halo}${head}${neck}
-      <path d="M80 68 Q72 98 82 128 Q90 148 86 166 Q96 172 108 168 Q104 148 112 128 Q124 98 118 68 Z" fill="${color}" opacity="0.72"/>
-      <path d="M82 74 Q68 44 62 20 Q58 6 66 2" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.85"/>
-      <path d="M118 72 Q134 42 142 18 Q146 4 138 0" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.85"/>
-      <path d="M86 166 Q78 198 74 230 Q88 238 100 236 Q104 234 106 232 Q110 198 106 168 Z" fill="${color}" opacity="0.6"/>
-      <path d="M88 122 Q100 128 112 122" stroke="${gold}" stroke-width="1.5" fill="none" opacity="0.4"/>${neckOrn}
-      <path d="M84 160 Q92 166 104 162" stroke="${gold}" stroke-width="1.3" fill="none" opacity="0.3"/>
-      <circle cx="65" cy="2" r="4" fill="${gold}" opacity="0.55"/><circle cx="139" cy="0" r="4" fill="${gold}" opacity="0.55"/>
-      <ellipse cx="78" cy="232" rx="12" ry="4.5" fill="${color}" opacity="0.5"/><ellipse cx="106" cy="234" rx="12" ry="4.5" fill="${color}" opacity="0.45"/>`),
-
-    // Hip-hop lean — tilted body axis, casual weighted stance
-    'hip-hop-lean': S(`${halo}
-      <circle cx="107" cy="38" r="16" fill="${color}" opacity="0.85"/>
-      <path d="M92 30 Q89 20 96 15 Q100 26 107 20 Q114 26 118 15 Q125 20 122 30" fill="${color}" opacity="0.6"/>
-      <path d="M101 54 L97 68 L110 68 L113 54" fill="${color}" opacity="0.6"/>
-      <path d="M84 68 Q70 90 80 116 Q92 136 78 156 Q88 172 106 168 Q100 146 112 128 Q128 100 118 68 Z" fill="${color}" opacity="0.72"/>
-      <path d="M88 78 Q66 86 58 106 Q54 118 64 124" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.8"/>
-      <path d="M114 80 Q122 98 116 112 Q114 122 124 126" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.68"/>
-      <path d="M78 156 Q68 190 74 228 Q82 234 88 232 Q86 196 90 158 Z" fill="${color}" opacity="0.62"/>
-      <path d="M106 168 Q120 190 114 216 Q124 228 134 220 Q138 194 114 170 Z" fill="${color}" opacity="0.58"/>
-      <path d="M82 122 Q98 128 114 118" stroke="${gold}" stroke-width="1.8" fill="none" opacity="0.5"/>
-      <circle cx="124" cy="125" r="3.5" fill="${gold}" opacity="0.5"/>
-      <ellipse cx="81" cy="230" rx="12" ry="4.5" fill="${color}" opacity="0.5"/><ellipse cx="128" cy="222" rx="12" ry="4.5" fill="${color}" opacity="0.45"/>`),
-
-    // Both knees prayer — kneeling, hands pressed together at chest, head bowed
-    'both-knees-prayer': S(`${halo}
-      <circle cx="100" cy="41" r="16" fill="${color}" opacity="0.85"/>
-      <path d="M85 33 Q82 23 89 18 Q93 29 100 23 Q107 29 111 18 Q118 23 115 33" fill="${color}" opacity="0.6"/>
-      <path d="M95 57 L94 69 L106 69 L105 57" fill="${color}" opacity="0.65"/>
-      <path d="M78 69 Q72 97 82 127 Q88 145 86 161 Q100 165 114 161 Q112 145 118 127 Q128 97 122 69 Z" fill="${color}" opacity="0.72"/>
-      <path d="M80 82 Q70 98 82 112 Q88 118 96 116 L100 110 Z" fill="${color}" opacity="0.8"/>
-      <path d="M120 82 Q130 98 118 112 Q112 118 104 116 L100 110 Z" fill="${color}" opacity="0.75"/>
-      <path d="M96 116 L100 106 L104 116 L100 122 Z" fill="${gold}" opacity="0.55"/>
-      <path d="M86 161 Q78 184 80 204 Q68 214 76 222 L94 222 Q98 210 98 190 Z" fill="${color}" opacity="0.6"/>
-      <path d="M114 161 Q122 184 120 204 Q132 214 124 222 L106 222 Q102 210 102 190 Z" fill="${color}" opacity="0.58"/>
-      <ellipse cx="76" cy="224" rx="16" ry="6" fill="${color}" opacity="0.42"/><ellipse cx="124" cy="224" rx="16" ry="6" fill="${color}" opacity="0.4"/>`),
-
-    // Kneeling back arch — torso curved backward, chest high, neck extended
-    'kneeling-back-arch': S(`${halo}
-      <circle cx="100" cy="58" r="16" fill="${color}" opacity="0.85"/>
-      <path d="M85 50 Q82 40 89 35 Q93 46 100 40 Q107 46 111 35 Q118 40 115 50" fill="${color}" opacity="0.6"/>
-      <path d="M89 72 L98 84 L107 82 L103 70" fill="${color}" opacity="0.65"/>
-      <path d="M98 84 Q72 94 70 118 Q68 142 88 158 Q96 164 110 158 Q98 144 98 122 Q98 98 118 86 Z" fill="${color}" opacity="0.72"/>
-      <path d="M94 92 Q64 86 50 98 Q42 106 48 116" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.8"/>
-      <path d="M114 90 Q146 92 158 106 Q164 116 156 124" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.8"/>
-      <path d="M88 158 Q76 184 82 204 Q74 216 94 220 L108 220 Q126 216 116 202 Q124 182 110 158 Z" fill="${color}" opacity="0.6"/>
-      <circle cx="100" cy="78" r="3.5" fill="${gold}" opacity="0.6"/>
-      <ellipse cx="98" cy="222" rx="40" ry="6" fill="${color}" opacity="0.4"/>`),
-
-    // Seiza — seated on heels, very upright and formal, wide low silhouette
-    'seiza': S(`${halo}${head}${neck}
-      <path d="M88 68 Q83 92 88 116 Q91 128 89 138 Q100 141 111 138 Q109 128 112 116 Q117 92 112 68 Z" fill="${color}" opacity="0.72"/>
-      <path d="M89 92 Q80 108 83 126 Q85 136 90 138" stroke="${color}" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.75"/>
-      <path d="M111 92 Q120 108 117 126 Q115 136 110 138" stroke="${color}" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.75"/>
-      <ellipse cx="86" cy="139" rx="7" ry="5" fill="${color}" opacity="0.7"/><ellipse cx="114" cy="139" rx="7" ry="5" fill="${color}" opacity="0.7"/>
-      <path d="M89 138 Q58 148 54 170 Q52 190 70 198 L130 198 Q148 190 146 170 Q142 148 111 138 Z" fill="${color}" opacity="0.6"/>
-      <ellipse cx="78" cy="201" rx="13" ry="6.5" fill="${color}" opacity="0.55"/><ellipse cx="122" cy="201" rx="13" ry="6.5" fill="${color}" opacity="0.55"/>${neckOrn}
-      <path d="M85 122 Q100 127 115 122" stroke="${gold}" stroke-width="1.5" fill="none" opacity="0.4"/>
-      <ellipse cx="100" cy="203" rx="54" ry="7" fill="${color}" opacity="0.42"/>`),
-
-    // Kneeling forward — torso leaned forward, arms reaching down
-    'kneeling-forward': S(`${halo}
-      <circle cx="90" cy="55" r="16" fill="${color}" opacity="0.85"/>
-      <path d="M75 47 Q72 37 79 32 Q83 43 90 37 Q97 43 101 32 Q108 37 105 47" fill="${color}" opacity="0.6"/>
-      <path d="M82 70 L88 82 L100 80 L96 68" fill="${color}" opacity="0.65"/>
-      <path d="M88 82 Q96 100 104 118 Q110 132 108 146 Q116 152 124 146 Q120 130 114 116 Q106 96 100 84 Z" fill="${color}" opacity="0.72"/>
-      <path d="M90 92 Q68 106 58 132 Q52 152 60 170" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.82"/>
-      <path d="M102 88 Q118 102 120 130 Q122 150 118 168" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.8"/>
-      <path d="M108 146 Q106 176 112 200 Q104 214 120 218 L134 218 Q148 214 140 200 Q142 178 124 148 Z" fill="${color}" opacity="0.6"/>
-      <circle cx="60" cy="171" r="3.5" fill="${gold}" opacity="0.55"/><circle cx="118" cy="169" r="3.5" fill="${gold}" opacity="0.5"/>
-      <ellipse cx="114" cy="220" rx="38" ry="6" fill="${color}" opacity="0.4"/>`),
-
-    // Matrix lean — extreme diagonal backward lean, dramatic contrapposto
-    'matrix-lean': S(`${halo}
-      <circle cx="100" cy="80" r="16" fill="${color}" opacity="0.85"/>
-      <path d="M85 72 Q82 62 89 57 Q93 68 100 62 Q107 68 111 57 Q118 62 115 72" fill="${color}" opacity="0.6"/>
-      <path d="M90 96 L82 106 L98 112 L106 100" fill="${color}" opacity="0.6"/>
-      <path d="M82 106 Q72 130 88 156 Q98 172 112 186 Q120 192 126 184 Q114 168 106 154 Q96 130 106 112 Z" fill="${color}" opacity="0.72"/>
-      <path d="M86 114 Q52 104 34 114 Q22 120 26 132" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.85"/>
-      <path d="M104 112 Q142 100 166 108 Q180 112 178 126" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.85"/>
-      <path d="M112 186 Q126 208 122 230" stroke="${color}" stroke-width="13" stroke-linecap="round" fill="none" opacity="0.62"/>
-      <path d="M124 188 Q100 202 80 208 Q66 214 64 226" stroke="${color}" stroke-width="13" stroke-linecap="round" fill="none" opacity="0.6"/>
-      <circle cx="26" cy="131" r="4" fill="${gold}" opacity="0.5"/><circle cx="178" cy="125" r="4" fill="${gold}" opacity="0.5"/>
-      <ellipse cx="122" cy="232" rx="13" ry="5" fill="${color}" opacity="0.45"/><ellipse cx="63" cy="228" rx="13" ry="5" fill="${color}" opacity="0.42"/>`),
-
-    // Superhero land — crouched, one fist plunging to ground
-    'superhero-land': S(`${halo}
-      <circle cx="100" cy="55" r="16" fill="${color}" opacity="0.85"/>
-      <path d="M85 47 Q82 37 89 32 Q93 43 100 37 Q107 43 111 32 Q118 37 115 47" fill="${color}" opacity="0.6"/>
-      <path d="M90 70 L88 82 L112 82 L110 70" fill="${color}" opacity="0.65"/>
-      <path d="M86 82 Q78 100 88 118 Q94 130 90 142 Q100 148 112 142 Q108 130 114 118 Q124 100 114 82 Z" fill="${color}" opacity="0.72"/>
-      <path d="M108 84 Q116 100 114 118 Q112 140 108 162 Q116 176 126 168 Q132 148 126 122 Q120 98 106 86 Z" fill="${color}" opacity="0.7"/>
-      <path d="M112 84 Q142 84 154 98 Q160 106 152 114" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.8"/>
-      <path d="M90 142 Q64 158 56 184 Q62 202 76 198 Q82 176 98 156 Q106 148 106 144 Z" fill="${color}" opacity="0.6"/>
-      <circle cx="108" cy="164" r="7" fill="${color}" opacity="0.8"/>
-      <ellipse cx="112" cy="200" rx="26" ry="12" fill="${gold}" opacity="0.22"/>
-      <ellipse cx="112" cy="200" rx="14" ry="6" fill="${gold}" opacity="0.3"/>
-      <ellipse cx="58" cy="186" rx="13" ry="5" fill="${color}" opacity="0.5"/>`),
-
-    // Ragdoll hang — suspended, both arms up, head and legs hanging loose
-    'ragdoll-hang': S(`${halo}
-      <circle cx="100" cy="60" r="16" fill="${color}" opacity="0.85"/>
-      <path d="M85 52 Q82 42 89 37 Q93 48 100 42 Q107 48 111 37 Q118 42 115 52" fill="${color}" opacity="0.6"/>
-      <path d="M94 76 L92 90 L108 90 L106 76" fill="${color}" opacity="0.65"/>
-      <path d="M84 90 Q76 90 66 70 Q60 52 66 30 Q70 18 78 20" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.85"/>
-      <path d="M116 90 Q124 90 134 70 Q140 52 134 30 Q130 18 122 20" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.85"/>
-      <path d="M88 90 Q80 116 90 142 Q96 158 90 172 Q100 180 106 172 Q102 158 108 142 Q118 116 112 90 Z" fill="${color}" opacity="0.72"/>
-      <path d="M90 172 Q80 198 68 224 Q76 236 86 232 Q96 206 98 176 Z" fill="${color}" opacity="0.6"/>
-      <path d="M106 172 Q116 196 128 220 Q120 234 110 230 Q100 206 98 176 Z" fill="${color}" opacity="0.55"/>
-      <circle cx="67" cy="20" r="3.5" fill="${gold}" opacity="0.5"/><circle cx="121" cy="20" r="3.5" fill="${gold}" opacity="0.5"/>
-      <ellipse cx="66" cy="226" rx="9" ry="4" fill="${color}" opacity="0.4"/><ellipse cx="128" cy="222" rx="9" ry="4" fill="${color}" opacity="0.4"/>`),
-
-    // Catwalk stride — fashion runway walk, hip twist, one leg forward
-    'catwalk-stride': S(`${halo}${head}${neck}
-      <path d="M82 68 Q74 96 84 122 Q92 140 88 158 Q98 164 110 160 Q106 140 114 124 Q126 96 118 68 Z" fill="${color}" opacity="0.72"/>
-      <path d="M84 80 Q64 92 56 112 Q52 126 62 132" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.8"/>
-      <path d="M116 78 Q134 86 140 100" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.75"/>
-      <path d="M88 158 Q76 190 72 224 Q64 236 84 240 Q96 226 94 200 Q92 178 96 160 Z" fill="${color}" opacity="0.65"/>
-      <path d="M110 160 Q124 184 132 208 Q142 218 130 222 Q116 218 108 200 Q104 180 108 162 Z" fill="${color}" opacity="0.6"/>
-      <path d="M84 122 Q100 116 116 108" stroke="${gold}" stroke-width="1.8" fill="none" opacity="0.55"/>${neckOrn}
-      <ellipse cx="78" cy="242" rx="13" ry="5" fill="${color}" opacity="0.5"/><ellipse cx="127" cy="223" rx="12" ry="4.5" fill="${color}" opacity="0.42"/>`),
-
-    'crossed-arms-stand': S(`${halo}${head}${neck}
-      <path d="M74 68 L78 160 L122 160 L126 68 Z" fill="${color}" opacity="0.72"/>
-      <path d="M78 76 Q96 90 118 114 Q124 120 120 126 Q114 130 108 124 Q90 104 76 90 Z" fill="${color}" opacity="0.58"/>
-      <path d="M122 76 Q104 90 82 114 Q76 120 80 126 Q86 130 92 124 Q110 104 124 90 Z" fill="${color}" opacity="0.82"/>
-      <path d="M78 160 Q74 196 72 232 Q84 238 100 238 Q116 238 128 232 Q126 196 122 160 Z" fill="${color}" opacity="0.6"/>
-      <path d="M82 108 Q100 118 118 108" stroke="${gold}" stroke-width="1.8" fill="none" opacity="0.5"/>${neckOrn}
-      <ellipse cx="87" cy="236" rx="13" ry="5" fill="${color}" opacity="0.5"/><ellipse cx="113" cy="235" rx="11" ry="4.5" fill="${color}" opacity="0.4"/>`),
-
-    // Tiptoe reach — standing tall on tiptoes, one arm stretching high
-    'tiptoe-reach': S(`<circle cx="100" cy="26" r="24" stroke="${gold}" stroke-width="0.8" stroke-dasharray="4 6" opacity="0.35"/>
-      <circle cx="100" cy="26" r="14" fill="${color}" opacity="0.85"/>
-      <path d="M87 18 Q84 9 90 4 Q94 14 100 9 Q106 14 110 4 Q116 9 113 18" fill="${color}" opacity="0.6"/>
-      <path d="M95 40 L94 52 L106 52 L105 40" fill="${color}" opacity="0.65"/>
-      <path d="M85 52 Q79 90 88 128 Q94 154 90 180 Q96 184 100 184 Q104 184 110 180 Q106 154 112 128 Q121 90 115 52 Z" fill="${color}" opacity="0.72"/>
-      <path d="M111 58 Q129 36 147 18 Q155 9 161 6" stroke="${color}" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.85"/>
-      <path d="M89 62 Q75 74 69 92 Q66 102 73 109" stroke="${color}" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.75"/>
-      <path d="M91 180 Q87 212 89 238 Q93 246 97 244 Q99 214 99 182 Z" fill="${color}" opacity="0.6"/>
-      <path d="M109 180 Q111 212 109 238 Q105 246 101 244 Q99 214 101 182 Z" fill="${color}" opacity="0.55"/>
-      <circle cx="161" cy="6" r="4" fill="${gold}" opacity="0.55"/>
-      <ellipse cx="94" cy="242" rx="5" ry="2.5" fill="${color}" opacity="0.5"/><ellipse cx="106" cy="242" rx="5" ry="2.5" fill="${color}" opacity="0.45"/>`),
-
-    // Profile stand — standing in side profile, facing right, offset body mass
-    'profile-stand': S(`<circle cx="111" cy="38" r="24" stroke="${gold}" stroke-width="0.8" stroke-dasharray="4 6" opacity="0.35"/>
-      <circle cx="111" cy="38" r="16" fill="${color}" opacity="0.85"/>
-      <path d="M97 30 Q95 20 102 15 Q105 26 111 20 Q117 26 121 16 Q128 20 125 30" fill="${color}" opacity="0.6"/>
-      <path d="M105 54 L105 68 L117 68 L117 54" fill="${color}" opacity="0.65"/>
-      <path d="M102 68 Q97 96 102 128 Q106 146 104 160 Q110 164 117 162 Q117 146 121 130 Q127 100 123 68 Z" fill="${color}" opacity="0.72"/>
-      <path d="M119 80 Q133 90 137 106 Q139 116 131 122" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.8"/>
-      <path d="M105 82 Q101 92 103 102" stroke="${color}" stroke-width="8" stroke-linecap="round" fill="none" opacity="0.4"/>
-      <path d="M104 160 Q100 196 108 230 Q116 238 123 232 Q119 198 119 162 Z" fill="${color}" opacity="0.6"/>
-      <path d="M109 160 Q113 194 100 226 Q94 236 87 230 Q94 198 101 162 Z" fill="${color}" opacity="0.5"/>${neckOrn}
-      <ellipse cx="119" cy="234" rx="12" ry="4.5" fill="${color}" opacity="0.5"/><ellipse cx="90" cy="232" rx="10" ry="4" fill="${color}" opacity="0.35"/>`),
-
-    // Throne sit — seated upright and regal, both arms on armrests, feet flat
-    'throne-sit': S(`${halo}${head}${neck}
-      <line x1="60" y1="66" x2="60" y2="204" stroke="${gold}" stroke-width="1.6" opacity="0.35"/>
-      <line x1="140" y1="66" x2="140" y2="204" stroke="${gold}" stroke-width="1.6" opacity="0.35"/>
-      <path d="M76 68 Q71 100 80 132 Q87 150 85 164 Q100 169 115 164 Q113 150 120 132 Q129 100 124 68 Z" fill="${color}" opacity="0.72"/>
-      <path d="M80 94 Q62 98 48 100 Q40 101 40 106" stroke="${color}" stroke-width="11" stroke-linecap="round" fill="none" opacity="0.85"/>
-      <path d="M120 94 Q138 98 152 100 Q160 101 160 106" stroke="${color}" stroke-width="11" stroke-linecap="round" fill="none" opacity="0.85"/>
-      <path d="M40 106 Q100 114 160 106" stroke="${gold}" stroke-width="1.6" fill="none" opacity="0.4"/>
-      <path d="M85 164 Q65 178 61 200 Q59 218 78 224 L82 240 Q90 244 96 240 L96 222" fill="${color}" opacity="0.6"/>
-      <path d="M115 164 Q135 178 139 200 Q141 218 122 224 L118 240 Q110 244 104 240 L104 222" fill="${color}" opacity="0.55"/>${neckOrn}
-      <ellipse cx="80" cy="242" rx="10" ry="4.5" fill="${color}" opacity="0.5"/><ellipse cx="120" cy="242" rx="10" ry="4.5" fill="${color}" opacity="0.45"/>`),
-
-    // Feet-up recline — seated reclined, both legs raised in a V
-    'feet-up-recline': S(`<circle cx="96" cy="34" r="24" stroke="${gold}" stroke-width="0.8" stroke-dasharray="4 6" opacity="0.35"/>
-      <circle cx="96" cy="34" r="16" fill="${color}" opacity="0.85"/>
-      <path d="M81 26 Q78 16 85 11 Q89 22 96 16 Q103 22 107 11 Q114 16 111 26" fill="${color}" opacity="0.6"/>
-      <path d="M90 50 L91 64 L103 64 L102 50" fill="${color}" opacity="0.65"/>
-      <path d="M82 68 Q74 96 84 122 Q92 138 98 152 Q102 156 106 152 Q110 138 116 120 Q124 96 116 68 Z" fill="${color}" opacity="0.72"/>
-      <path d="M86 80 Q66 88 58 104 Q54 114 62 122" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.8"/>
-      <path d="M114 82 Q130 86 136 96" stroke="${color}" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.6"/>
-      <path d="M98 150 Q78 152 64 148 Q54 144 50 158" stroke="${color}" stroke-width="11" stroke-linecap="round" fill="none" opacity="0.65"/>
-      <path d="M106 150 Q126 148 140 142 Q148 138 150 152" stroke="${color}" stroke-width="11" stroke-linecap="round" fill="none" opacity="0.6"/>
-      <ellipse cx="49" cy="159" rx="9" ry="4.5" fill="${color}" opacity="0.5"/><ellipse cx="151" cy="151" rx="9" ry="4.5" fill="${color}" opacity="0.45"/>${neckOrn}
-      <ellipse cx="98" cy="196" rx="34" ry="8" fill="${color}" opacity="0.3"/>`),
-
-    // Floor hug knees — seated compact, both knees hugged to chest, curled ball shape
-    'floor-hug-knees': S(`<circle cx="100" cy="50" r="24" stroke="${gold}" stroke-width="0.8" stroke-dasharray="4 6" opacity="0.35"/>
-      <circle cx="100" cy="50" r="15" fill="${color}" opacity="0.85"/>
-      <path d="M86 42 Q83 32 90 27 Q94 38 100 32 Q106 38 110 27 Q117 32 114 42" fill="${color}" opacity="0.6"/>
-      <path d="M92 64 L91 74 L109 74 L108 64" fill="${color}" opacity="0.65"/>
-      <path d="M82 74 Q72 96 80 118 Q86 134 100 138 Q114 134 120 118 Q128 96 118 74 Z" fill="${color}" opacity="0.74"/>
-      <path d="M80 116 Q78 130 84 142 Q92 150 100 146 Q108 150 116 142 Q122 130 120 116 Q116 128 100 132 Q84 128 80 116 Z" fill="${color}" opacity="0.7"/>
-      <path d="M78 92 Q62 104 64 124 Q66 138 80 146 Q92 152 100 144" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.78"/>
-      <path d="M122 92 Q138 104 136 124 Q134 138 120 146 Q108 152 100 144" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.72"/>
-      <path d="M84 140 Q82 158 86 172" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.5"/>
-      <path d="M116 140 Q118 158 114 172" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.45"/>
-      <circle cx="100" cy="118" r="3" fill="${gold}" opacity="0.55"/>
-      <ellipse cx="100" cy="182" rx="48" ry="9" fill="${color}" opacity="0.35"/>`),
-
-    // Forearm wall — forearm pressed to wall, body angled in toward it
-    'forearm-wall': S(`<circle cx="93" cy="38" r="24" stroke="${gold}" stroke-width="0.8" stroke-dasharray="4 6" opacity="0.35"/>
-      <line x1="155" y1="20" x2="155" y2="255" stroke="${gold}" stroke-width="2" opacity="0.3"/>
-      <circle cx="93" cy="38" r="16" fill="${color}" opacity="0.85"/>
-      <path d="M78 30 Q75 20 82 15 Q86 26 93 20 Q100 26 104 15 Q111 20 108 30" fill="${color}" opacity="0.6"/>
-      <path d="M87 54 L88 68 L100 68 L100 54" fill="${color}" opacity="0.65"/>
-      <path d="M74 68 Q68 98 79 128 Q87 148 91 166 Q97 170 105 166 Q103 148 109 128 Q119 98 113 68 Z" fill="${color}" opacity="0.72"/>
-      <path d="M109 80 Q126 82 138 86 Q150 90 155 87" stroke="${color}" stroke-width="11" stroke-linecap="round" fill="none" opacity="0.85"/>
-      <path d="M76 84 Q64 96 66 114 Q68 126 78 130" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.78"/>
-      <path d="M91 166 Q79 198 69 228 Q79 236 91 234 Q99 202 99 168 Z" fill="${color}" opacity="0.6"/>
-      <path d="M105 166 Q111 198 121 224 Q113 234 103 230 Q97 200 99 168 Z" fill="${color}" opacity="0.55"/>${neckOrn}
-      <ellipse cx="71" cy="230" rx="12" ry="4.5" fill="${color}" opacity="0.5"/><ellipse cx="121" cy="226" rx="11" ry="4.5" fill="${color}" opacity="0.42"/>`),
-
-    // Two hands wall — both hands flat against the wall, body pushed back
-    'two-hands-wall': S(`<circle cx="87" cy="38" r="24" stroke="${gold}" stroke-width="0.8" stroke-dasharray="4 6" opacity="0.35"/>
-      <line x1="158" y1="20" x2="158" y2="255" stroke="${gold}" stroke-width="2" opacity="0.3"/>
-      <circle cx="87" cy="38" r="16" fill="${color}" opacity="0.85"/>
-      <path d="M72 30 Q69 20 76 15 Q80 26 87 20 Q94 26 98 15 Q105 20 102 30" fill="${color}" opacity="0.6"/>
-      <path d="M81 54 L81 68 L93 68 L93 54" fill="${color}" opacity="0.65"/>
-      <path d="M66 68 Q58 98 71 130 Q81 150 85 168 Q91 172 99 168 Q97 150 103 130 Q113 98 105 68 Z" fill="${color}" opacity="0.72"/>
-      <path d="M100 76 Q124 77 142 78 Q152 79 156 76" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.85"/>
-      <path d="M97 92 Q122 91 141 90 Q151 89 156 87" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.82"/>
-      <path d="M85 168 Q74 200 66 230 Q76 238 88 236 Q96 202 96 170 Z" fill="${color}" opacity="0.6"/>
-      <path d="M99 168 Q105 200 115 228 Q107 238 97 234 Q91 202 93 170 Z" fill="${color}" opacity="0.55"/>${neckOrn}
-      <ellipse cx="68" cy="232" rx="12" ry="4.5" fill="${color}" opacity="0.5"/><ellipse cx="115" cy="230" rx="11" ry="4.5" fill="${color}" opacity="0.42"/>
-      <circle cx="157" cy="76" r="3.5" fill="${gold}" opacity="0.6"/><circle cx="157" cy="87" r="3.5" fill="${gold}" opacity="0.55"/>`),
-
-    // Back arch wall — back arched against the wall, chest opening forward
-    'back-arch-wall': S(`<circle cx="112" cy="38" r="24" stroke="${gold}" stroke-width="0.8" stroke-dasharray="4 6" opacity="0.35"/>
-      <line x1="158" y1="20" x2="158" y2="255" stroke="${gold}" stroke-width="2" opacity="0.3"/>
-      <circle cx="112" cy="34" r="16" fill="${color}" opacity="0.85"/>
-      <path d="M97 26 Q94 16 101 11 Q105 22 112 16 Q119 22 123 12 Q130 16 127 26" fill="${color}" opacity="0.6"/>
-      <path d="M108 50 L114 62 L126 58 L122 47" fill="${color}" opacity="0.65"/>
-      <path d="M116 62 Q138 66 144 84 Q150 100 140 114 Q130 126 110 123 Q86 119 80 98 Q76 82 88 70 Q98 61 116 62 Z" fill="${color}" opacity="0.74"/>
-      <path d="M112 72 Q90 68 74 76 Q64 82 64 92" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.82"/>
-      <path d="M136 78 Q152 72 160 60" stroke="${color}" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.75"/>
-      <path d="M108 124 Q112 148 126 158 Q136 174 134 190" stroke="${color}" stroke-width="13" stroke-linecap="round" fill="none" opacity="0.65"/>
-      <path d="M124 125 Q132 152 122 176 Q122 196 130 210" stroke="${color}" stroke-width="13" stroke-linecap="round" fill="none" opacity="0.6"/>
-      <circle cx="110" cy="96" r="3.5" fill="${gold}" opacity="0.55"/>
-      <ellipse cx="134" cy="192" rx="11" ry="4.5" fill="${color}" opacity="0.5"/><ellipse cx="130" cy="212" rx="11" ry="4.5" fill="${color}" opacity="0.42"/>`),
-
-    // Chin on hand — seated, one hand raised with chin resting on it, contemplative
-    'chin-on-hand': S(`<circle cx="102" cy="38" r="24" stroke="${gold}" stroke-width="0.8" stroke-dasharray="4 6" opacity="0.35"/>
-      <circle cx="102" cy="38" r="16" fill="${color}" opacity="0.85"/>
-      <path d="M87 30 Q84 20 91 15 Q95 26 102 20 Q108 26 112 15 Q119 20 116 30" fill="${color}" opacity="0.6"/>
-      <path d="M94 54 L93 68 L105 68 L106 54" fill="${color}" opacity="0.65"/>
-      <path d="M80 68 Q74 96 84 126 Q90 144 88 160 Q100 164 112 160 Q110 144 116 128 Q126 100 120 68 Z" fill="${color}" opacity="0.72"/>
-      <path d="M114 110 Q116 96 112 82 Q109 70 105 65" stroke="${color}" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.82"/>
-      <path d="M84 82 Q70 96 74 116 Q76 128 86 132" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.78"/>
-      <path d="M88 160 Q82 196 80 232 Q94 238 110 236 Q116 198 112 160 Z" fill="${color}" opacity="0.6"/>${neckOrn}
-      <circle cx="105" cy="65" r="3.5" fill="${gold}" opacity="0.6"/>
-      <ellipse cx="88" cy="234" rx="13" ry="5" fill="${color}" opacity="0.5"/><ellipse cx="112" cy="236" rx="11" ry="4.5" fill="${color}" opacity="0.4"/>`),
-
-    // Face frame hands — both hands cupping/framing the face symmetrically
-    'face-frame-hands': S(`${halo}${head}${neck}
-      <path d="M80 68 Q74 96 84 126 Q90 144 88 160 Q100 164 112 160 Q110 144 116 126 Q126 96 120 68 Z" fill="${color}" opacity="0.72"/>
-      <path d="M83 98 Q72 92 68 78 Q65 64 74 56" stroke="${color}" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.82"/>
-      <path d="M117 98 Q128 92 132 78 Q135 64 126 56" stroke="${color}" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.8"/>
-      <path d="M88 160 Q82 196 80 232 Q94 238 110 236 Q116 198 112 160 Z" fill="${color}" opacity="0.6"/>${neckOrn}
-      <circle cx="74" cy="55" r="4" fill="${gold}" opacity="0.55"/><circle cx="126" cy="55" r="4" fill="${gold}" opacity="0.55"/>
-      <ellipse cx="88" cy="234" rx="13" ry="5" fill="${color}" opacity="0.5"/><ellipse cx="112" cy="236" rx="11" ry="4.5" fill="${color}" opacity="0.4"/>`),
-
-    // Chair arms wide — seated, both arms spread wide in a triumphant wingspan
-    'chair-arms-wide': S(`${halo}${head}${neck}
-      <path d="M60 183 Q100 193 140 183" stroke="${color}" stroke-width="2" fill="none" opacity="0.3"/>
-      <line x1="66" y1="183" x2="66" y2="211" stroke="${color}" stroke-width="2" opacity="0.25"/>
-      <line x1="134" y1="183" x2="134" y2="211" stroke="${color}" stroke-width="2" opacity="0.25"/>
-      <path d="M78 68 Q72 100 82 130 Q88 148 86 165 Q92 170 100 170 Q108 170 114 165 Q112 148 118 130 Q128 100 122 68 Z" fill="${color}" opacity="0.72"/>
-      <path d="M80 76 Q52 82 32 90 Q22 94 27 100" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.85"/>
-      <path d="M120 76 Q148 82 168 90 Q178 94 173 100" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.85"/>
-      <path d="M86 165 Q80 178 82 192" stroke="${color}" stroke-width="12" stroke-linecap="round" fill="none" opacity="0.6"/>
-      <path d="M114 165 Q120 178 118 192" stroke="${color}" stroke-width="12" stroke-linecap="round" fill="none" opacity="0.55"/>${neckOrn}
-      <circle cx="27" cy="94" r="4.5" fill="${gold}" opacity="0.6"/><circle cx="173" cy="94" r="4.5" fill="${gold}" opacity="0.6"/>
-      <ellipse cx="82" cy="194" rx="10" ry="4" fill="${color}" opacity="0.4"/><ellipse cx="118" cy="194" rx="10" ry="4" fill="${color}" opacity="0.4"/>`),
-
-    // Chair reach diagonal — seated, one arm reaching diagonally upward
-    'chair-reach-diagonal': S(`${halo}${head}${neck}
-      <path d="M64 181 Q100 191 136 181" stroke="${color}" stroke-width="2" fill="none" opacity="0.3"/>
-      <path d="M80 68 Q74 100 84 130 Q90 148 88 165 Q94 170 102 170 Q110 170 116 165 Q114 148 120 130 Q130 100 124 68 Z" fill="${color}" opacity="0.72"/>
-      <path d="M119 78 Q140 62 155 46 Q162 38 161 29" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.85"/>
-      <path d="M83 80 Q76 98 82 114 Q87 124 97 127" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.78"/>
-      <path d="M88 165 Q82 178 84 192" stroke="${color}" stroke-width="12" stroke-linecap="round" fill="none" opacity="0.6"/>
-      <path d="M116 165 Q122 178 120 192" stroke="${color}" stroke-width="12" stroke-linecap="round" fill="none" opacity="0.55"/>${neckOrn}
-      <circle cx="161" cy="28" r="4.5" fill="${gold}" opacity="0.6"/>
-      <ellipse cx="84" cy="194" rx="10" ry="4" fill="${color}" opacity="0.4"/><ellipse cx="120" cy="194" rx="10" ry="4" fill="${color}" opacity="0.4"/>`),
-
-
-'boudoir-recline': S(`
-    ${halo}
-      <circle cx="44" cy="148" r="16" fill="${color}" opacity="0.85"/>
-      <path d="M36 138 Q32 132 36 128 Q40 132 40 138" fill="${color}" opacity="0.4"/>
-      <path d="M48 138 Q54 122 64 120 Q66 128 58 134" stroke="${color}" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.78"/>
-      <path d="M58 146 Q95 132 150 142 Q160 150 154 162 Q100 176 60 164 Z" fill="${color}" opacity="0.72"/>
-      <path d="M96 138 Q100 150 96 160" stroke="${gold}" stroke-width="1.5" fill="none" opacity="0.4"/>
-      <path d="M108 148 Q126 128 122 108 Q118 96 106 94" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.7"/>
-      <path d="M106 94 Q98 90 92 96" stroke="${color}" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.65"/>
-      <path d="M150 156 Q176 162 192 156" stroke="${color}" stroke-width="11" stroke-linecap="round" fill="none" opacity="0.62"/>
-      <ellipse cx="196" cy="156" rx="8" ry="4" fill="${color}" opacity="0.5"/>
-      <circle cx="70" cy="150" r="3.5" fill="${gold}" opacity="0.6"/>
-      <ellipse cx="112" cy="182" rx="70" ry="6" fill="${color}" opacity="0.25"/>
-    `),
-
-    'boudoir-drape': S(`
-    ${halo}${head}
-      <path d="M96 54 L91 68 L109 66 L114 52" fill="${color}" opacity="0.6"/>
-      <path d="M90 68 Q76 84 82 106 Q90 128 100 152 Q94 160 100 166 Q112 168 118 158 Q112 132 116 108 Q120 84 110 68 Z" fill="${color}" opacity="0.72"/>
-      <path d="M92 76 Q72 58 62 34 Q58 24 66 18 Q72 22 70 30" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.82"/>
-      <path d="M108 76 Q128 58 138 34 Q142 24 134 18 Q128 22 130 30" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.8"/>
-      <path d="M100 160 Q92 200 96 232 Q106 238 116 236" stroke="${color}" stroke-width="14" stroke-linecap="round" fill="none" opacity="0.62"/>
-      <path d="M108 162 Q112 200 110 232 Q116 238 124 234" stroke="${color}" stroke-width="13" stroke-linecap="round" fill="none" opacity="0.55"/>
-      <path d="M92 130 Q108 138 118 128" stroke="${gold}" stroke-width="1.5" fill="none" opacity="0.4"/>
-      <circle cx="68" cy="20" r="3.5" fill="${gold}" opacity="0.5"/><circle cx="132" cy="20" r="3.5" fill="${gold}" opacity="0.5"/>
-      <ellipse cx="100" cy="236" rx="12" ry="5" fill="${color}" opacity="0.5"/><ellipse cx="118" cy="234" rx="9" ry="4" fill="${color}" opacity="0.42"/>
-    `),
-
-    'boudoir-seated-knee': S(`
-    ${halo}${head}${neck}
-      <path d="M82 76 Q74 96 82 116 Q90 130 88 144 Q98 150 110 146 Q106 130 112 118 Q120 96 116 74 Z" fill="${color}" opacity="0.72"/>
-      <path d="M84 86 Q66 100 68 122 Q78 134 92 132" stroke="${color}" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.8"/>
-      <path d="M112 86 Q130 100 126 122 Q116 134 100 130" stroke="${color}" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.78"/>
-      <path d="M88 144 Q68 138 60 156 Q54 172 62 186 Q70 196 84 194 Q78 178 82 162 Q86 150 96 148 Z" fill="${color}" opacity="0.65"/>
-      <path d="M108 146 Q132 154 148 172 Q158 186 150 198" stroke="${color}" stroke-width="12" stroke-linecap="round" fill="none" opacity="0.58"/>
-      <circle cx="92" cy="112" r="3" fill="${gold}" opacity="0.55"/>${neckOrn}
-      <ellipse cx="66" cy="190" rx="10" ry="4.5" fill="${color}" opacity="0.5"/><ellipse cx="152" cy="200" rx="10" ry="4.5" fill="${color}" opacity="0.45"/>
-    `),
-
-    'boudoir-prone-elbow': S(`
-    ${halo}
-      <circle cx="60" cy="108" r="15" fill="${color}" opacity="0.85"/>
-      <path d="M52 96 Q56 90 60 94 Q64 90 68 96" fill="${color}" opacity="0.4"/>
-      <path d="M72 114 Q114 112 158 122 Q166 130 160 140 Q116 132 72 134 Z" fill="${color}" opacity="0.72"/>
-      <path d="M66 118 Q52 116 48 130 Q46 138 52 142" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.82"/>
-      <path d="M76 128 Q62 126 58 138 Q56 146 62 150" stroke="${color}" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.68"/>
-      <path d="M150 134 Q160 164 152 196 Q156 210 168 210" stroke="${color}" stroke-width="12" stroke-linecap="round" fill="none" opacity="0.6"/>
-      <path d="M138 132 Q140 166 146 198 Q144 212 132 216" stroke="${color}" stroke-width="12" stroke-linecap="round" fill="none" opacity="0.55"/>
-      <circle cx="80" cy="122" r="3" fill="${gold}" opacity="0.55"/>
-      <ellipse cx="170" cy="212" rx="9" ry="4" fill="${color}" opacity="0.5"/><ellipse cx="128" cy="218" rx="9" ry="4" fill="${color}" opacity="0.45"/>
-      <ellipse cx="150" cy="150" rx="56" ry="6" fill="${color}" opacity="0.2"/>
-    `),
-
-    'boudoir-lying-arch': S(`
-    ${halo}
-      <circle cx="154" cy="140" r="15" fill="${color}" opacity="0.85"/>
-      <path d="M146 130 Q150 124 154 128 Q158 124 162 130" fill="${color}" opacity="0.4"/>
-      <path d="M140 138 Q118 116 96 114 Q74 114 58 128 Q52 140 60 150 Q80 142 98 138 Q120 134 138 152 Z" fill="${color}" opacity="0.72"/>
-      <path d="M144 130 Q120 122 96 128" stroke="${color}" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.72"/>
-      <path d="M136 126 Q108 116 82 122" stroke="${color}" stroke-width="8" stroke-linecap="round" fill="none" opacity="0.6"/>
-      <path d="M64 138 Q56 154 62 170 Q66 180 78 182" stroke="${color}" stroke-width="11" stroke-linecap="round" fill="none" opacity="0.7"/>
-      <path d="M60 148 Q50 164 56 180 Q60 190 72 192" stroke="${color}" stroke-width="11" stroke-linecap="round" fill="none" opacity="0.62"/>
-      <circle cx="98" cy="122" r="3.5" fill="${gold}" opacity="0.55"/>
-      <ellipse cx="80" cy="184" rx="9" ry="4" fill="${color}" opacity="0.5"/><ellipse cx="76" cy="194" rx="9" ry="4" fill="${color}" opacity="0.45"/>
-      <ellipse cx="100" cy="150" rx="60" ry="6" fill="${color}" opacity="0.2"/>
-    `),
-
-
-    'editorial-angular': S(`
-    ${halo}${head}${neck}
-      <path d="M76 68 L68 116 L70 118 L86 160 L100 164 L114 158 L130 118 L132 116 L124 68 Z" fill="${color}" opacity="0.72"/>
-      <path d="M78 78 L46 78 L46 110" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.85"/>
-      <path d="M122 78 L154 78 L154 106" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.8"/>
-      <path d="M86 160 L58 202 L66 234 L92 236 L98 200 L100 164 Z" fill="${color}" opacity="0.6"/>
-      <path d="M114 158 L132 198 L128 232 L104 236 L102 200 L100 164 Z" fill="${color}" opacity="0.55"/>
-      <path d="M84 122 L116 116" stroke="${gold}" stroke-width="1.5" fill="none" opacity="0.4"/>${neckOrn}
-      <ellipse cx="72" cy="236" rx="12" ry="5" fill="${color}" opacity="0.5"/><ellipse cx="122" cy="234" rx="12" ry="5" fill="${color}" opacity="0.45"/>
-    `),
-
-    'editorial-lean-far': S(`
-    ${halo}
-      <circle cx="100" cy="60" r="16" fill="${color}" opacity="0.85"/>
-      <path d="M85 52 Q82 42 89 37 Q93 48 100 42 Q107 48 111 37 Q118 42 115 52" fill="${color}" opacity="0.6"/>
-      <path d="M88 74 L84 78 L100 96 L116 78 L112 74 Z" fill="${color}" opacity="0.6"/>
-      <path d="M84 92 Q108 118 128 142 Q136 152 130 160 Q118 160 110 150 Q92 130 78 108 Q72 96 84 92 Z" fill="${color}" opacity="0.72"/>
-      <path d="M92 100 Q66 112 52 132 Q46 142 54 150" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.82"/>
-      <path d="M104 98 Q78 110 62 128 Q54 138 62 146" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.78"/>
-      <path d="M118 152 Q112 190 108 228 Q118 236 130 234 Q130 194 126 156 Z" fill="${color}" opacity="0.6"/>
-      <path d="M128 156 Q136 192 140 228 Q150 234 160 230 Q154 192 134 154 Z" fill="${color}" opacity="0.55"/>
-      <circle cx="98" cy="120" r="3" fill="${gold}" opacity="0.5"/>
-      <ellipse cx="114" cy="230" rx="11" ry="5" fill="${color}" opacity="0.5"/><ellipse cx="158" cy="232" rx="11" ry="5" fill="${color}" opacity="0.45"/>
-    `),
-
-    'editorial-floor-reach': S(`
-    ${halo}${head}${neck}
-      <path d="M80 68 Q74 92 84 116 Q90 130 88 144 Q100 150 112 144 Q110 130 116 118 Q124 92 120 68 Z" fill="${color}" opacity="0.72"/>
-      <path d="M84 78 Q108 58 132 34 Q142 24 155 20" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.85"/>
-      <path d="M116 82 Q100 96 92 112 Q88 122 96 128" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.78"/>
-      <path d="M84 78 Q64 88 56 108 Q52 122 62 130" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.6"/>
-      <path d="M86 144 Q66 154 60 172 Q66 182 84 184 Q80 168 88 156 Z" fill="${color}" opacity="0.62"/>
-      <path d="M112 144 Q140 152 148 168 Q140 178 118 178 Q116 162 116 148 Z" fill="${color}" opacity="0.58"/>
-      <circle cx="156" cy="18" r="4" fill="${gold}" opacity="0.5"/>
-      <circle cx="60" cy="128" r="3" fill="${gold}" opacity="0.45"/>${neckOrn}
-      <ellipse cx="100" cy="186" rx="46" ry="7" fill="${color}" opacity="0.4"/>
-    `),
-
-    'editorial-twist': S(`
-    ${halo}${head}${neck}
-      <path d="M88 68 Q66 76 70 96 Q80 112 76 130 Q88 150 98 160 Q108 162 116 154 Q106 138 116 122 Q126 104 118 86 Q120 70 104 68 Z" fill="${color}" opacity="0.72"/>
-      <path d="M74 76 Q46 84 34 106 Q28 120 40 128" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.85"/>
-      <path d="M112 74 Q140 68 156 78 Q166 84 162 94" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.55"/>
-      <path d="M98 160 Q86 194 92 230 Q102 238 116 234 Q112 198 112 160 Z" fill="${color}" opacity="0.6"/>
-      <path d="M116 156 Q126 192 138 226 Q130 236 116 234 Q112 198 108 160 Z" fill="${color}" opacity="0.5"/>
-      <path d="M78 100 Q98 110 114 96" stroke="${gold}" stroke-width="1.5" fill="none" opacity="0.42"/>${neckOrn}
-      <ellipse cx="98" cy="232" rx="11" ry="5" fill="${color}" opacity="0.5"/><ellipse cx="132" cy="228" rx="11" ry="5" fill="${color}" opacity="0.42"/>
-    `),
-
-    'editorial-contort': S(`
-    ${halo}${head}${neck}
-      <path d="M84 68 Q62 84 66 104 Q76 120 70 138 Q78 152 94 150 Q92 132 100 118 Q112 100 108 78 Q110 70 96 68 Z" fill="${color}" opacity="0.72"/>
-      <path d="M78 78 Q52 82 44 98 Q40 108 50 114" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.7"/>
-      <path d="M104 74 Q128 60 150 62" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.82"/>
-      <path d="M72 138 Q58 164 56 196 Q66 206 80 202 Q80 172 86 142 Z" fill="${color}" opacity="0.6"/>
-      <path d="M92 150 Q120 132 140 100 Q150 82 146 66" stroke="${color}" stroke-width="14" stroke-linecap="round" fill="none" opacity="0.65"/>
-      <path d="M146 66 Q150 60 148 54" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.6"/>
-      <circle cx="78" cy="108" r="3" fill="${gold}" opacity="0.55"/>${neckOrn}
-      <ellipse cx="74" cy="204" rx="12" ry="5" fill="${color}" opacity="0.5"/><ellipse cx="148" cy="50" rx="9" ry="4" fill="${color}" opacity="0.4"/>
-    `),
-
-
-    'fine-art-arabesque': S(`
-    ${halo}${head}${neck}
-      <path d="M86 70 Q80 96 88 124 Q94 140 96 158 Q104 162 112 160 Q110 142 116 126 Q124 98 118 68 Z" fill="${color}" opacity="0.72"/>
-      <path d="M86 76 Q58 88 40 98 Q28 104 30 100" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.85"/>
-      <path d="M114 74 Q134 68 150 60" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.65"/>
-      <path d="M96 158 Q92 198 88 232 Q90 238 85 238" stroke="${color}" stroke-width="13" stroke-linecap="round" fill="none" opacity="0.72"/>
-      <path d="M108 160 Q130 140 145 125 Q160 108 175 80" stroke="${color}" stroke-width="12" stroke-linecap="round" fill="none" opacity="0.75"/>
-      <path d="M90 118 Q100 124 110 118" stroke="${gold}" stroke-width="1.5" fill="none" opacity="0.4"/>${neckOrn}
-      <ellipse cx="85" cy="238" rx="11" ry="5" fill="${color}" opacity="0.5"/><ellipse cx="176" cy="80" rx="9" ry="4.5" fill="${color}" opacity="0.55" transform="rotate(-30 176 80)"/>
-      <ellipse cx="30" cy="100" rx="4.5" ry="4.5" fill="${gold}" opacity="0.4"/>
-    `),
-
-    'fine-art-contrapposto': S(`
-    ${halo}${head}${neck}
-      <path d="M84 68 Q78 96 86 122 Q90 140 84 158 Q90 168 104 166 Q110 148 112 128 Q120 100 116 68 Z" fill="${color}" opacity="0.72"/>
-      <path d="M84 78 Q62 92 58 112 Q56 128 66 140" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.8"/>
-      <path d="M114 76 Q132 88 130 108 Q128 122 128 130" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.72"/>
-      <path d="M84 158 Q74 176 82 196 Q88 214 82 228" stroke="${color}" stroke-width="13" stroke-linecap="round" fill="none" opacity="0.6"/>
-      <path d="M108 162 Q110 196 112 234" stroke="${color}" stroke-width="13" stroke-linecap="round" fill="none" opacity="0.65"/>
-      <path d="M86 120 Q100 126 114 120" stroke="${gold}" stroke-width="1.5" fill="none" opacity="0.42"/>${neckOrn}
-      <ellipse cx="86" cy="230" rx="11" ry="5" fill="${color}" opacity="0.5" transform="rotate(15 86 230)"/><ellipse cx="112" cy="234" rx="10" ry="4.5" fill="${color}" opacity="0.45"/>
-    `),
-
-    'fine-art-odalisque': S(`
-    ${halo}
-      <circle cx="46" cy="100" r="15" fill="${color}" opacity="0.85"/>
-      <path d="M34 94 Q30 84 38 80 Q42 90 46 84 Q50 90 54 80 Q62 84 58 94" fill="${color}" opacity="0.6"/>
-      <path d="M58 92 Q72 78 100 78 Q136 78 160 96 Q170 110 160 126 Q136 106 100 108 Q72 110 56 112 Z" fill="${color}" opacity="0.72"/>
-      <path d="M48 88 Q40 68 38 50 Q38 40 46 48" stroke="${color}" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.82"/>
-      <path d="M60 108 Q54 122 62 136 Q68 146 82 148" stroke="${color}" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.55"/>
-      <path d="M158 110 Q180 120 192 140 Q196 152 188 160" stroke="${color}" stroke-width="12" stroke-linecap="round" fill="none" opacity="0.62"/>
-      <path d="M150 124 Q168 142 168 166 Q172 180 186 182" stroke="${color}" stroke-width="12" stroke-linecap="round" fill="none" opacity="0.55"/>
-      <path d="M70 96 Q100 90 130 100" stroke="${gold}" stroke-width="1.5" fill="none" opacity="0.4"/>
-      <circle cx="67" cy="36" r="3.5" fill="${gold}" opacity="0.5"/>
-      <ellipse cx="189" cy="162" rx="9" ry="4" fill="${color}" opacity="0.55"/><ellipse cx="188" cy="184" rx="9" ry="4" fill="${color}" opacity="0.45"/>
-    `),
-
-    'fine-art-pietà': S(`
-    ${halo}
-      <circle cx="114" cy="96" r="15" fill="${color}" opacity="0.85"/>
-      <path d="M101 90 Q99 79 106 76 Q108 87 114 82 Q120 87 123 76 Q130 79 128 90" fill="${color}" opacity="0.6"/>
-      <path d="M102 108 Q96 116 100 124 L112 130 L122 112 L114 104 Z" fill="${color}" opacity="0.6"/>
-      <path d="M96 122 Q78 136 86 154 Q92 166 108 170 Q124 166 122 150 Q116 134 108 122 Q102 112 96 122 Z" fill="${color}" opacity="0.72"/>
-      <path d="M92 128 Q62 122 40 130 Q28 136 28 148" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.8"/>
-      <path d="M112 124 Q142 116 166 122 Q178 126 180 140" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.78"/>
-      <path d="M92 166 Q80 182 84 200 Q72 210 84 220 L98 220 Q108 212 100 202 Q104 184 100 168 Z" fill="${color}" opacity="0.6"/>
-      <path d="M114 168 Q122 184 118 202 Q128 212 118 222 L104 222 Q96 212 104 204 Q102 186 108 170 Z" fill="${color}" opacity="0.55"/>
-      <circle cx="102" cy="144" r="3.5" fill="${gold}" opacity="0.5"/>
-      <ellipse cx="91" cy="222" rx="36" ry="6" fill="${color}" opacity="0.4"/><ellipse cx="111" cy="224" rx="6" ry="3" fill="${color}" opacity="0.3"/>
-    `),
-
-    'fine-art-balance': S(`
-    ${halo}${head}${neck}
-      <path d="M86 68 Q80 96 88 122 Q94 140 92 158 Q100 162 108 160 Q106 142 112 126 Q120 98 116 68 Z" fill="${color}" opacity="0.72"/>
-      <path d="M88 80 Q72 92 70 108 Q70 120 84 122 Q94 116 100 108" stroke="${color}" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.8"/>
-      <path d="M112 80 Q128 92 130 108 Q130 120 116 122 Q106 116 100 108" stroke="${color}" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.78"/>
-      <path d="M92 158 Q94 200 96 236 Q98 240 100 240" stroke="${color}" stroke-width="13" stroke-linecap="round" fill="none" opacity="0.68"/>
-      <path d="M106 162 Q124 172 138 188 Q148 200 146 210" stroke="${color}" stroke-width="12" stroke-linecap="round" fill="none" opacity="0.62"/>
-      <path d="M88 118 Q100 124 112 118" stroke="${gold}" stroke-width="1.5" fill="none" opacity="0.4"/>${neckOrn}
-      <ellipse cx="100" cy="241" rx="8" ry="4" fill="${color}" opacity="0.55" transform="rotate(10 100 241)"/><ellipse cx="147" cy="211" rx="9" ry="4.5" fill="${color}" opacity="0.45"/>
-    `),
-
-
-    'fashion-power': S(`
-    ${halo}${head}${neck}
-      <path d="M74 68 L70 120 L80 160 L120 160 L130 120 L126 68 Z" fill="${color}" opacity="0.72"/>
-      <path d="M76 80 Q58 96 58 112 Q58 122 78 128" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.82"/>
-      <path d="M124 80 Q142 96 142 112 Q142 122 122 128" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.8"/>
-      <path d="M80 160 Q70 198 65 236" stroke="${color}" stroke-width="14" stroke-linecap="round" fill="none" opacity="0.6"/>
-      <path d="M120 160 Q130 196 135 234" stroke="${color}" stroke-width="14" stroke-linecap="round" fill="none" opacity="0.55"/>
-      <path d="M82 108 Q100 114 118 108" stroke="${gold}" stroke-width="1.5" fill="none" opacity="0.42"/>${neckOrn}
-      <ellipse cx="65" cy="240" rx="12" ry="5" fill="${color}" opacity="0.5" transform="rotate(-10 65 240)"/><ellipse cx="135" cy="238" rx="12" ry="5" fill="${color}" opacity="0.45" transform="rotate(10 135 238)"/>
-    `),
-
-    'fashion-turn': S(`
-    ${halo}
-      <circle cx="104" cy="38" r="16" fill="${color}" opacity="0.85"/>
-      <path d="M90 30 Q86 20 93 15 Q97 26 104 20 Q111 26 115 15 Q122 20 118 30" fill="${color}" opacity="0.6"/>
-      <path d="M98 54 L96 68 L112 68 L110 54" fill="${color}" opacity="0.65"/>
-      <path d="M94 68 Q82 96 92 126 Q98 144 94 162 Q106 168 118 162 Q114 144 120 126 Q130 96 120 68 Z" fill="${color}" opacity="0.72"/>
-      <path d="M58 74 Q36 100 44 132 Q52 160 42 166 Q64 156 74 130 Q82 100 96 74" fill="${color}" opacity="0.35"/>
-      <path d="M98 80 Q84 96 72 108" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.8"/>
-      <path d="M120 78 Q148 68 168 50" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.6"/>
-      <path d="M94 162 Q90 198 94 232 Q104 238 114 234 Q114 198 110 164 Z" fill="${color}" opacity="0.6"/>
-      <circle cx="108" cy="73" r="3.5" fill="${gold}" opacity="0.6"/>
-      <ellipse cx="96" cy="234" rx="11" ry="5" fill="${color}" opacity="0.5"/>
-    `),
-
-    'fashion-stomp': S(`
-    ${halo}${head}${neck}
-      <path d="M84 68 Q78 94 86 118 Q92 134 88 154 Q98 160 110 156 Q106 138 114 122 Q124 96 116 68 Z" fill="${color}" opacity="0.72"/>
-      <path d="M86 80 Q66 92 62 108 Q58 118 58 120" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.58"/>
-      <path d="M114 78 Q132 64 148 48" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.82"/>
-      <path d="M88 154 Q90 190 92 224 Q90 232 92 235" stroke="${color}" stroke-width="14" stroke-linecap="round" fill="none" opacity="0.62"/>
-      <path d="M108 158 Q114 188 118 216 Q118 232 115 242" stroke="${color}" stroke-width="13" stroke-linecap="round" fill="none" opacity="0.55"/>
-      <path d="M88 116 Q100 122 112 116" stroke="${gold}" stroke-width="1.5" fill="none" opacity="0.42"/>${neckOrn}
-      <ellipse cx="92" cy="236" rx="11" ry="5" fill="${color}" opacity="0.55"/><ellipse cx="115" cy="243" rx="11" ry="5" fill="${color}" opacity="0.45"/>
-    `),
-
-    'fashion-overshoot': S(`
-    ${halo}
-      <circle cx="118" cy="34" r="15" fill="${color}" opacity="0.85"/>
-      <path d="M104 27 Q101 18 107 13 Q111 23 118 18 Q124 23 128 13 Q134 18 131 27" fill="${color}" opacity="0.6"/>
-      <path d="M110 48 L106 74 L124 72 L120 46" fill="${color}" opacity="0.65"/>
-      <path d="M106 74 Q94 100 100 128 Q106 146 100 162 Q110 168 122 162 Q118 146 124 128 Q136 100 124 72 Z" fill="${color}" opacity="0.72"/>
-      <path d="M104 88 Q84 96 68 108 Q58 116 60 124" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.6"/>
-      <path d="M122 86 Q144 92 158 106 Q168 116 164 126" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.65"/>
-      <path d="M100 162 Q92 198 88 232 Q98 238 108 236 Q112 200 112 164 Z" fill="${color}" opacity="0.6"/>
-      <path d="M118 162 Q120 198 126 232 Q136 238 146 234 Q140 198 128 164 Z" fill="${color}" opacity="0.55"/>
-      <circle cx="115" cy="79" r="3" fill="${gold}" opacity="0.55"/>
-      <ellipse cx="94" cy="234" rx="11" ry="5" fill="${color}" opacity="0.5"/><ellipse cx="142" cy="236" rx="11" ry="5" fill="${color}" opacity="0.45"/>
-    `),
-
-
-    'low-high-crouch': S(`
-    ${halo}${head}${neck}
-      <path d="M80 76 Q74 92 80 108 Q86 122 84 136 Q98 142 112 136 Q110 122 116 108 Q122 92 116 76 Z" fill="${color}" opacity="0.72"/>
-      <path d="M80 84 Q52 82 34 96 Q22 106 26 118" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.85"/>
-      <path d="M116 84 Q144 82 162 96 Q174 106 170 118" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.82"/>
-      <path d="M84 136 Q56 142 52 158 Q48 172 60 182 Q74 186 82 178 Q74 170 78 158 Q82 146 96 140 Z" fill="${color}" opacity="0.62"/>
-      <path d="M112 136 Q142 142 146 158 Q150 172 138 182 Q124 186 116 178 Q124 170 120 158 Q116 146 104 140 Z" fill="${color}" opacity="0.58"/>
-      <path d="M60 182 Q64 196 74 202 Q84 202 88 194 Q80 188 82 180 Z" fill="${color}" opacity="0.6"/>
-      <path d="M138 182 Q134 196 124 202 Q114 202 110 194 Q118 188 116 180 Z" fill="${color}" opacity="0.55"/>
-      <circle cx="100" cy="126" r="3" fill="${gold}" opacity="0.5"/>${neckOrn}
-      <ellipse cx="78" cy="204" rx="12" ry="5" fill="${color}" opacity="0.5"/><ellipse cx="124" cy="204" rx="12" ry="5" fill="${color}" opacity="0.45"/>
-    `),
-
-    'low-high-kneel-rise': S(`
-    ${halo}${head}${neck}
-      <path d="M84 70 Q78 96 86 118 Q92 134 90 150 Q100 154 110 150 Q108 134 114 120 Q122 96 116 70 Z" fill="${color}" opacity="0.72"/>
-      <path d="M86 80 Q68 60 58 40 Q52 28 58 18" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.85"/>
-      <path d="M114 80 Q130 62 138 44 Q142 34 138 24" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.82"/>
-      <path d="M90 150 Q78 168 80 188 Q66 198 62 212 Q76 220 88 214 Q84 198 92 186 Q96 170 100 152 Z" fill="${color}" opacity="0.6"/>
-      <path d="M106 152 Q118 168 116 190 Q124 208 120 232 Q108 238 98 232 Q104 210 102 192 Q100 172 108 154 Z" fill="${color}" opacity="0.55"/>
-      <circle cx="58" cy="16" r="4" fill="${gold}" opacity="0.5"/><circle cx="138" cy="22" r="4" fill="${gold}" opacity="0.5"/>${neckOrn}
-      <ellipse cx="66" cy="214" rx="13" ry="5" fill="${color}" opacity="0.45"/>
-      <ellipse cx="100" cy="236" rx="12" ry="5" fill="${color}" opacity="0.45"/>
-    `),
-
-    'high-low-descent': S(`
-    ${halo}${head}${neck}
-      <path d="M80 74 Q72 96 80 118 Q88 132 84 146 Q98 152 112 146 Q108 132 116 120 Q126 96 116 74 Z" fill="${color}" opacity="0.72"/>
-      <path d="M82 84 Q60 96 48 114 Q40 128 50 140" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.8"/>
-      <path d="M114 84 Q136 98 146 118 Q152 132 142 142" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.78"/>
-      <path d="M84 146 Q68 166 74 182 Q56 194 66 206 Q86 214 98 202 Q86 188 92 174 Q96 158 96 148 Z" fill="${color}" opacity="0.6"/>
-      <path d="M112 146 Q126 166 118 182 Q134 194 122 206 Q102 214 92 204 Q100 188 96 174 Q98 158 100 148 Z" fill="${color}" opacity="0.55"/>
-      <path d="M88 116 Q100 122 112 116" stroke="${gold}" stroke-width="1.5" fill="none" opacity="0.4"/>${neckOrn}
-      <ellipse cx="64" cy="208" rx="12" ry="5" fill="${color}" opacity="0.5"/><ellipse cx="124" cy="208" rx="12" ry="5" fill="${color}" opacity="0.45"/>
-    `),
-
-
-
-    'low-high-floor': S(`
-    ${halo}${head}${neck}
-      <path d="M84 70 Q76 92 84 112 Q90 126 92 140 Q100 146 108 140 Q110 126 116 112 Q124 92 116 70 Z" fill="${color}" opacity="0.72"/>
-      <path d="M86 80 Q64 66 46 42 Q36 28 40 16" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.85"/>
-      <path d="M112 90 Q128 108 130 128" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.8"/>
-      <path d="M94 142 Q108 152 128 156 Q152 160 172 156" stroke="${color}" stroke-width="13" stroke-linecap="round" fill="none" opacity="0.6"/>
-      <path d="M90 146 Q98 162 112 172 Q130 184 148 182" stroke="${color}" stroke-width="12" stroke-linecap="round" fill="none" opacity="0.55"/>
-      <path d="M92 140 Q70 148 54 156 Q34 164 20 176" stroke="${color}" stroke-width="12" stroke-linecap="round" fill="none" opacity="0.5"/>
-      <path d="M60 100 Q42 106 32 118 Q26 130 32 138" stroke="${gold}" stroke-width="1.5" fill="none" opacity="0.35"/>
-      ${neckOrn}
-      <ellipse cx="18" cy="180" rx="10" ry="4.5" fill="${color}" opacity="0.45" transform="rotate(-20 18 180)"/>
-      <ellipse cx="174" cy="156" rx="11" ry="4.5" fill="${color}" opacity="0.4" transform="rotate(8 174 156)"/>
-      <ellipse cx="150" cy="184" rx="10" ry="4.5" fill="${color}" opacity="0.42" transform="rotate(20 150 184)"/>
-    `),
-
-    'high-low-over-shoulder': S(`
-    ${halo}${head}${neck}
-      <path d="M74 76 Q60 96 66 120 Q72 138 82 154 Q94 160 106 154 Q116 136 126 116 Q136 92 122 74 Z" fill="${color}" opacity="0.72"/>
-      <path d="M76 86 Q52 82 34 96 Q22 106 26 118" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.8"/>
-      <path d="M120 82 Q146 66 160 46 Q168 34 160 24" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.65"/>
-      <path d="M82 154 Q74 184 68 214 Q80 224 96 222 Q104 190 102 154 Z" fill="${color}" opacity="0.6"/>
-      <path d="M77 110 Q94 118 111 110" stroke="${gold}" stroke-width="1.5" fill="none" opacity="0.4"/>
-      ${neckOrn}
-      <circle cx="90" cy="24" r="3.5" fill="${gold}" opacity="0.55"/>
-      <ellipse cx="72" cy="218" rx="13" ry="5" fill="${color}" opacity="0.5"/>
-      <ellipse cx="96" cy="224" rx="11" ry="4.5" fill="${color}" opacity="0.4"/>
-    `),
-
-    'high-low-floor-reach': S(`
-    ${halo}${head}${neck}
-      <path d="M76 70 Q58 80 56 96 Q56 110 68 120 Q84 128 100 124 Q112 116 114 100 Q116 82 104 68 Z" fill="${color}" opacity="0.72"/>
-      <path d="M78 82 Q62 106 48 132 Q36 156 24 180" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.88"/>
-      <path d="M106 78 Q116 102 120 128 Q124 154 132 178" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.8"/>
-      <path d="M68 118 Q84 130 100 124 Q106 140 100 154 Q88 160 78 152 Q70 136 68 118 Z" fill="${color}" opacity="0.6"/>
-      <path d="M84 152 Q84 186 82 220 Q80 232 76 240" stroke="${color}" stroke-width="12" stroke-linecap="round" fill="none" opacity="0.6"/>
-      <path d="M96 152 Q98 186 102 220 Q104 232 110 240" stroke="${color}" stroke-width="11" stroke-linecap="round" fill="none" opacity="0.55"/>
-      <circle cx="22" cy="183" r="7" fill="${gold}" opacity="0.45"/>
-      <circle cx="134" cy="180" r="6" fill="${gold}" opacity="0.4"/>
-      ${neckOrn}
-      <ellipse cx="74" cy="242" rx="12" ry="4.5" fill="${color}" opacity="0.5"/>
-      <ellipse cx="112" cy="242" rx="11" ry="4" fill="${color}" opacity="0.45"/>
-    `),
-
-    'default': S(`${head}${neck}
-      <path d="M78 68 Q70 100 82 130 Q88 150 84 168 Q90 172 100 172 Q110 172 116 168 Q112 150 118 130 Q130 100 122 68 Z" fill="${color}" opacity="0.72"/>
-      <path d="M80 80 Q62 74 50 86 Q44 98 52 108" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.8"/>
-      <path d="M120 80 Q138 86 144 100 Q148 112 142 120" stroke="${color}" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.8"/>
-      <path d="M84 168 Q76 198 70 234 Q80 240 100 240 Q120 240 130 234 Q124 198 116 168 Z" fill="${color}" opacity="0.6"/>${neckOrn}
-      <ellipse cx="86" cy="238" rx="13" ry="5" fill="${color}" opacity="0.5"/><ellipse cx="114" cy="236" rx="11" ry="4.5" fill="${color}" opacity="0.4"/>`)
-  };
-
-  const figType = pose?.figure || 'default';
-  return figures[figType] || figures['default'];
+  // PR-v5 (v1.5) — PROCEDURAL AVATAR PATH (primary, data-attribute approach).
+  // Per directive Part A.10 rule #4, all three renderers must derive from the
+  // same procedural rig. The old path used 89 hand-crafted SVG glyphs keyed by
+  // pose.figure — which couldn't rotate, didn't match joint values, and fell
+  // back to a generic 'default' glyph for 205 poses with no figure key.
+  //
+  // The new path delegates to PoseSkeleton3D.renderAvatarFrame, which uses the
+  // same buildPose(joints) FK pipeline as the skeleton and ghost.
+  //
+  // PR-v5 FIX: The v1.4 approach used an inline <script> tag, but browsers do
+  // NOT execute <script> tags inserted via innerHTML. This meant gallery/list
+  // thumbnails still showed the legacy SVG glyph. The fix: store the pose data
+  // in data-* attributes on the canvas, and use a MutationObserver + explicit
+  // renderPendingAvatars() function to find and render all pending avatar
+  // canvases after they're inserted into the DOM.
+  //
+  // v1.9 removes the legacy glyph fallback after 99/99 live canvas coverage.
+  if (pose && pose.joints) {
+    try {
+      const canvasW = large ? 200 : 140;
+      const canvasH = large ? 280 : 180;
+      // Store pose data in data-* attributes (escaped for HTML safety)
+      const jointsJson = JSON.stringify(pose.joints).replace(/"/g, '&quot;');
+      const category = (pose.category || '').replace(/"/g, '&quot;');
+      const description = (pose.instructions || '').substring(0, 300).replace(/"/g, '&quot;');
+      const scale = large ? 1 : 0.75;
+      // data-pose-avatar marks this canvas for the MutationObserver
+      // data-pose-joints contains the JSON-encoded joints
+      // data-pose-category + data-pose-description for prop detection
+      // data-pose-scale controls the render scale
+      return `<canvas data-pose-avatar="1" width="${canvasW}" height="${canvasH}" ` +
+             `data-pose-joints="${jointsJson}" data-pose-category="${category}" ` +
+             `data-pose-description="${description}" data-pose-scale="${scale}" ` +
+             `style="max-width:100%;border-radius:8px;"></canvas>`;
+    } catch (e) {
+      console.warn('[PoseArt] Procedural avatar setup failed:', e);
+    }
+  }
+
+  return `<div class="pose-avatar-placeholder" role="img" aria-label="Pose preview unavailable" ` +
+         `style="width:${w}px;height:${h}px;border-radius:8px;background:rgba(15,59,58,0.08);"></div>`;
 }
+
+// PR-v5 (v1.5) — Render all pending avatar canvases found in the DOM.
+// Called after any innerHTML assignment that includes a procedural avatar
+// canvas. Finds all <canvas[data-pose-avatar="1"]:not([data-pose-rendered])>
+// elements and invokes PoseSkeleton3D.renderAvatarFrame on each.
+// If renderAvatarFrame is unavailable or throws, falls back to legacy SVG.
+window.renderPendingAvatars = function(container) {
+  const root = container || document;
+  const canvases = root.querySelectorAll('canvas[data-pose-avatar="1"]:not([data-pose-rendered="1"])');
+  canvases.forEach(function(c) {
+    try {
+      if (!window.PoseSkeleton3D || typeof window.PoseSkeleton3D.renderAvatarFrame !== 'function') {
+        c.removeAttribute('data-pose-avatar');
+        c.outerHTML = '<div class="pose-avatar-placeholder" role="img" aria-label="Pose preview unavailable"></div>';
+        return;
+      }
+      const joints = JSON.parse(c.getAttribute('data-pose-joints') || '{}');
+      const category = c.getAttribute('data-pose-category') || '';
+      const description = c.getAttribute('data-pose-description') || '';
+      const scale = parseFloat(c.getAttribute('data-pose-scale') || '0.75');
+      window.PoseSkeleton3D.renderAvatarFrame(c, c.width, c.height, joints, {
+        category: category, description: description, scale: scale, yaw: 0, pitch: 0
+      });
+      c.setAttribute('data-pose-rendered', '1');
+    } catch (e) {
+      console.warn('[PoseArt] Avatar render failed for canvas:', e);
+      c.removeAttribute('data-pose-avatar');
+      c.outerHTML = '<div class="pose-avatar-placeholder" role="img" aria-label="Pose preview unavailable"></div>';
+    }
+  });
+};
+
+// PR-v5 (v1.5) — MutationObserver that auto-renders avatar canvases whenever
+// they're inserted into the DOM (via innerHTML or any other method). This
+// catches gallery/list thumbnail insertions without requiring callers to
+// explicitly call renderPendingAvatars().
+(function setupAvatarMutationObserver() {
+  if (typeof MutationObserver === 'undefined') return; // Node test env
+  if (window._avatarObserverSetup) return;
+  window._avatarObserverSetup = true;
+  const observer = new MutationObserver(function(mutations) {
+    for (const mutation of mutations) {
+      for (const node of mutation.addedNodes) {
+        if (node.nodeType !== 1) continue; // elements only
+        // Check if the added node is itself an avatar canvas
+        if (node.tagName === 'CANVAS' && node.getAttribute('data-pose-avatar') === '1' && node.getAttribute('data-pose-rendered') !== '1') {
+          window.renderPendingAvatars(node.parentElement);
+        }
+        // Check if the added node contains avatar canvases
+        if (node.querySelectorAll) {
+          const canvases = node.querySelectorAll('canvas[data-pose-avatar="1"]:not([data-pose-rendered="1"])');
+          if (canvases.length > 0) {
+            window.renderPendingAvatars(node);
+          }
+        }
+      }
+    }
+  });
+  // Observe the entire document body for subtree changes
+  if (document.body) {
+    observer.observe(document.body, { childList: true, subtree: true });
+  } else {
+    document.addEventListener('DOMContentLoaded', function() {
+      observer.observe(document.body, { childList: true, subtree: true });
+    });
+  }
+})();
 
 // Personalize the Home screen from the onboarding goal (Z6).
 function personalizeHome() {
@@ -2109,6 +1691,23 @@ function renderCategoryThumbs() {
 
 // ── KEYBOARD ACCESSIBILITY ─────────────────────────────────────
 document.addEventListener('keydown', (e) => {
+  // PR-v9 (v1.9) — Keep keyboard focus inside the visible pose-detail modal.
+  // Shift+Tab wraps to the last control and Tab wraps to the first.
+  const poseSheet = document.getElementById('pose-detail-sheet');
+  if (e.key === 'Tab' && poseSheet?.classList.contains('visible')) {
+    const focusable = Array.from(poseSheet.querySelectorAll(
+      'button:not([disabled]), a[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+    )).filter(el => el.offsetParent !== null);
+    if (focusable.length) {
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey && (document.activeElement === first || !poseSheet.contains(document.activeElement))) {
+        e.preventDefault(); last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault(); first.focus();
+      }
+    }
+  }
   if (e.key === 'Escape') {
     if (document.getElementById('pose-detail-sheet')?.classList.contains('visible')) {
       closePoseSheet();
@@ -2215,3 +1814,886 @@ console.log('%cArt Nouveau Pose Coaching · Gallery + Ghost Overlay', 'color:#1E
     gifEl.src = gifPath;
   };
 })();
+
+// ============================================================
+// PR-v6 (v1.6) — CUSTOM POSE EDITOR (Phase 7 of directive)
+// ============================================================
+// Full custom pose editor with:
+//   - Joint sliders (spine, shoulders, elbows, hips, knees, ankles, globalTilt, etc.)
+//   - Live procedural preview (avatar + skeleton + ghost side by side)
+//   - Save/load custom poses (in-memory, localStorage-blocked by iframe)
+//   - Undo/redo with history stack
+//   - View angle selector (front, 1/8, 1/4, side, back, up, down)
+//   - Description input (drives description-based prop rendering)
+//   - Bug report integration (submit pose data with bug report)
+//   - "Use in Session" — start a camera session with the custom pose
+
+// Joint definitions for the editor sliders
+const EDITOR_JOINTS = [
+  { key: 'spine',        label: 'Spine (forward+ / back-)',  min: -60, max: 60,  step: 1, default: 0 },
+  { key: 'hips',         label: 'Hips (lateral tilt)',        min: -30, max: 30,  step: 1, default: 0 },
+  { key: 'neck',         label: 'Neck (side tilt)',            min: -45, max: 45,  step: 1, default: 0 },
+  { key: 'leftShoulder', label: 'L Shoulder (raise- / back+)',min: -180,max: 90,  step: 1, default: 0 },
+  { key: 'rightShoulder',label: 'R Shoulder (raise- / back+)',min: -180,max: 90,  step: 1, default: 0 },
+  { key: 'leftElbow',    label: 'L Elbow (bend)',              min: 0,   max: 160, step: 1, default: 0 },
+  { key: 'rightElbow',   label: 'R Elbow (bend)',              min: 0,   max: 160, step: 1, default: 0 },
+  { key: 'shoulderFwdL', label: 'L Shoulder Fwd (Y-axis)',     min: -90, max: 90,  step: 1, default: 0 },
+  { key: 'shoulderFwdR', label: 'R Shoulder Fwd (Y-axis)',     min: -90, max: 90,  step: 1, default: 0 },
+  { key: 'leftHip',      label: 'L Hip (flexion+)',             min: -60, max: 130, step: 1, default: 0 },
+  { key: 'rightHip',     label: 'R Hip (flexion+)',             min: -60, max: 130, step: 1, default: 0 },
+  { key: 'leftKnee',     label: 'L Knee (bend)',                min: 0,   max: 160, step: 1, default: 0 },
+  { key: 'rightKnee',    label: 'R Knee (bend)',                min: 0,   max: 160, step: 1, default: 0 },
+  { key: 'hipAbductL',   label: 'L Hip Abduct (spread+/cross-)',min: -45, max: 60, step: 1, default: 0 },
+  { key: 'hipAbductR',   label: 'R Hip Abduct (spread+/cross-)',min: -45, max: 60, step: 1, default: 0 },
+  { key: 'leftAnkle',    label: 'L Ankle (flex/extend)',        min: -50, max: 50, step: 1, default: 0 },
+  { key: 'rightAnkle',   label: 'R Ankle (flex/extend)',        min: -50, max: 50, step: 1, default: 0 },
+  { key: 'globalTilt',   label: 'Global Tilt (supine+/prone-)', min: -90, max: 90, step: 1, default: 0 },
+  { key: 'globalTwist',  label: 'Global Twist (Y-axis)',         min: -180,max: 180,step: 1, default: 0 },
+  { key: 'globalRoll',   label: 'Global Roll (Z-axis)',          min: -90, max: 90, step: 1, default: 0 },
+];
+
+// Editor state
+let _editorJoints = {};
+let _editorHistory = [];
+let _editorHistoryIndex = -1;
+let _editorCustomPoses = typeof window.restore === 'function' && Array.isArray(window.restore('editorCustomPoses'))
+  ? window.restore('editorCustomPoses') : [];
+// Re-register restored custom poses so session, search, and marketplace links
+// resolve exactly as they did before refresh.
+for (const customPose of _editorCustomPoses) {
+  if (customPose?.id) POSES_LIBRARY[customPose.id] = customPose;
+}
+let _editorSkelInstance = null;
+
+// Initialize the editor
+window.initPoseEditor = function(poseId) {
+  // Load starting pose if specified
+  let startJoints = {};
+  if (poseId && POSES_LIBRARY[poseId]) {
+    startJoints = { ...(POSES_LIBRARY[poseId].joints || {}) };
+    const nameEl = document.getElementById('pose-editor-name');
+    if (nameEl) nameEl.value = (POSES_LIBRARY[poseId].name || '') + ' (copy)';
+    const catEl = document.getElementById('pose-editor-category');
+    if (catEl) catEl.value = POSES_LIBRARY[poseId].category || 'standing';
+    const descEl = document.getElementById('pose-editor-description');
+    if (descEl) descEl.value = POSES_LIBRARY[poseId].instructions || '';
+  } else {
+    // Default to T-pose
+    for (const j of EDITOR_JOINTS) startJoints[j.key] = j.default;
+  }
+  _editorJoints = startJoints;
+  _editorHistory = [JSON.parse(JSON.stringify(startJoints))];
+  _editorHistoryIndex = 0;
+
+  // Build sliders
+  const slidersEl = document.getElementById('pose-editor-sliders');
+  if (slidersEl) {
+    slidersEl.innerHTML = EDITOR_JOINTS.map(j => `
+      <div style="margin-bottom:10px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+          <label style="font:500 11px/1 var(--font-body);color:var(--text-primary);">${j.label}</label>
+          <span id="editor-val-${j.key}" style="font:600 11px/1 var(--font-body);color:var(--brand-gold);min-width:35px;text-align:right;">${(_editorJoints[j.key] || 0).toFixed(0)}°</span>
+        </div>
+        <input type="range" id="editor-slider-${j.key}" min="${j.min}" max="${j.max}" step="${j.step}" value="${_editorJoints[j.key] || 0}" oninput="onEditorSliderChange('${j.key}', this.value)" style="width:100%;accent-color:var(--brand-gold);">
+      </div>
+    `).join('');
+  }
+
+  updatePoseEditorPreview();
+  updateUndoRedoButtons();
+  loadCustomPoseList();
+};
+
+window.onEditorSliderChange = function(jointKey, value) {
+  _editorJoints[jointKey] = parseFloat(value);
+  const valEl = document.getElementById('editor-val-' + jointKey);
+  if (valEl) valEl.textContent = parseFloat(value).toFixed(0) + '°';
+  updatePoseEditorPreview();
+  // Debounce history push
+  clearTimeout(window._editorHistoryTimer);
+  window._editorHistoryTimer = setTimeout(() => {
+    pushEditorHistory();
+  }, 400);
+};
+
+window.updatePoseEditorPreview = function() {
+  const viewAngle = document.getElementById('pose-editor-view-angle')?.value || '0,0';
+  const [yaw, pitch] = viewAngle.split(',').map(parseFloat);
+  const category = document.getElementById('pose-editor-category')?.value || 'standing';
+  const description = document.getElementById('pose-editor-description')?.value || '';
+
+  // Avatar preview (procedural)
+  const avatarEl = document.getElementById('pose-editor-avatar-preview');
+  if (avatarEl) {
+    avatarEl.innerHTML = '';
+    const canvas = document.createElement('canvas');
+    canvas.width = 140; canvas.height = 180;
+    canvas.style.maxWidth = '100%'; canvas.style.borderRadius = '8px';
+    avatarEl.appendChild(canvas);
+    if (window.PoseSkeleton3D && window.PoseSkeleton3D.renderAvatarFrame) {
+      try {
+        window.PoseSkeleton3D.renderAvatarFrame(canvas, 140, 180, _editorJoints, {
+          category, description, scale: 0.75, yaw, pitch
+        });
+      } catch (e) { console.warn('Avatar preview failed:', e); }
+    }
+  }
+
+  // Skeleton preview (procedural)
+  const skelEl = document.getElementById('pose-editor-skeleton-preview');
+  if (skelEl) {
+    skelEl.innerHTML = '';
+    const canvas = document.createElement('canvas');
+    canvas.width = 140; canvas.height = 180;
+    canvas.style.maxWidth = '100%'; canvas.style.borderRadius = '8px';
+    skelEl.appendChild(canvas);
+    if (window.PoseSkeleton3D) {
+      try {
+        _editorSkelInstance = Object.create(window.PoseSkeleton3D);
+        _editorSkelInstance.init(canvas, 140, 180);
+        _editorSkelInstance.setPose(_editorJoints, { animateEntry: false, category, description });
+        _editorSkelInstance.stopAutoRotate();
+        _editorSkelInstance.setViewAngle(yaw, pitch);
+        _editorSkelInstance.render();
+      } catch (e) { console.warn('Skeleton preview failed:', e); }
+    }
+  }
+
+  // Ghost preview (procedural)
+  const ghostEl = document.getElementById('pose-editor-ghost-preview');
+  if (ghostEl) {
+    ghostEl.innerHTML = '';
+    const canvas = document.createElement('canvas');
+    canvas.width = 140; canvas.height = 180;
+    canvas.style.maxWidth = '100%'; canvas.style.borderRadius = '8px';
+    ghostEl.appendChild(canvas);
+    if (window.PoseSkeleton3D && window.PoseSkeleton3D.renderGhostFrame) {
+      try {
+        window.PoseSkeleton3D.renderGhostFrame(canvas, 140, 180, _editorJoints, {
+          category, description, scale: 0.75, yaw, pitch
+        });
+      } catch (e) { console.warn('Ghost preview failed:', e); }
+    }
+  }
+};
+
+function pushEditorHistory() {
+  // Truncate any redo history
+  _editorHistory = _editorHistory.slice(0, _editorHistoryIndex + 1);
+  _editorHistory.push(JSON.parse(JSON.stringify(_editorJoints)));
+  _editorHistoryIndex++;
+  // Cap history at 50 entries
+  if (_editorHistory.length > 50) {
+    _editorHistory.shift();
+    _editorHistoryIndex--;
+  }
+  updateUndoRedoButtons();
+}
+
+window.undoPoseEdit = function() {
+  if (_editorHistoryIndex > 0) {
+    _editorHistoryIndex--;
+    _editorJoints = JSON.parse(JSON.stringify(_editorHistory[_editorHistoryIndex]));
+    syncSlidersToJoints();
+    updatePoseEditorPreview();
+    updateUndoRedoButtons();
+    showToast('Undone');
+  } else {
+    showToast('Nothing to undo');
+  }
+};
+
+window.redoPoseEdit = function() {
+  if (_editorHistoryIndex < _editorHistory.length - 1) {
+    _editorHistoryIndex++;
+    _editorJoints = JSON.parse(JSON.stringify(_editorHistory[_editorHistoryIndex]));
+    syncSlidersToJoints();
+    updatePoseEditorPreview();
+    updateUndoRedoButtons();
+    showToast('Redone');
+  } else {
+    showToast('Nothing to redo');
+  }
+};
+
+function syncSlidersToJoints() {
+  for (const j of EDITOR_JOINTS) {
+    const slider = document.getElementById('editor-slider-' + j.key);
+    const valEl = document.getElementById('editor-val-' + j.key);
+    if (slider) slider.value = _editorJoints[j.key] || 0;
+    if (valEl) valEl.textContent = (_editorJoints[j.key] || 0).toFixed(0) + '°';
+  }
+}
+
+function updateUndoRedoButtons() {
+  const undoBtn = document.getElementById('pose-editor-undo-btn');
+  const redoBtn = document.getElementById('pose-editor-redo-btn');
+  if (undoBtn) undoBtn.style.opacity = _editorHistoryIndex > 0 ? '1' : '0.4';
+  if (redoBtn) redoBtn.style.opacity = _editorHistoryIndex < _editorHistory.length - 1 ? '1' : '0.4';
+}
+
+window.resetPoseEditor = function() {
+  _editorJoints = {};
+  for (const j of EDITOR_JOINTS) _editorJoints[j.key] = j.default;
+  pushEditorHistory();
+  syncSlidersToJoints();
+  updatePoseEditorPreview();
+  showToast('Reset to T-pose');
+};
+
+window.saveCustomPose = function() {
+  const name = document.getElementById('pose-editor-name')?.value || 'Untitled Custom Pose';
+  const category = document.getElementById('pose-editor-category')?.value || 'standing';
+  const description = document.getElementById('pose-editor-description')?.value || '';
+  const poseId = 'custom-' + Date.now();
+  const customPose = {
+    id: poseId,
+    name: name,
+    category: category,
+    difficulty: 'Custom',
+    angle: 'Custom',
+    intent: 'Custom',
+    effort: 'Static',
+    instructions: description,
+    tip: 'Custom pose created in the pose editor.',
+    joints: JSON.parse(JSON.stringify(_editorJoints)),
+    color: 'var(--color-teal-100)',
+    figure: 'default',
+    tags: ['custom', 'user-created'],
+    isCustom: true,
+    created: new Date().toISOString(),
+  };
+  _editorCustomPoses.unshift(customPose);
+  window.persist?.('editorCustomPoses', _editorCustomPoses);
+  // Also add to POSES_LIBRARY so it appears in browse/search
+  if (typeof POSES_LIBRARY !== 'undefined') {
+    POSES_LIBRARY[poseId] = customPose;
+  }
+  showToast('Custom pose saved: ' + name);
+  loadCustomPoseList();
+};
+
+window.loadCustomPoseList = function() {
+  const listEl = document.getElementById('pose-editor-saved-list');
+  if (!listEl) return;
+  if (_editorCustomPoses.length === 0) {
+    listEl.innerHTML = '<div style="font:var(--type-body);color:var(--text-secondary);text-align:center;padding:12px;">No saved custom poses yet.</div>';
+    return;
+  }
+  listEl.innerHTML = '<div style="font:600 12px/1 var(--font-body);color:var(--text-secondary);margin-bottom:8px;">SAVED CUSTOM POSES</div>' +
+    _editorCustomPoses.map(p => `
+      <div style="display:flex;align-items:center;gap:8px;padding:8px;border:1px solid var(--rule);border-radius:8px;margin-bottom:6px;">
+        <div style="flex:1;">
+          <div style="font:600 13px/1.3 var(--font-body);color:var(--text-primary);">${p.name}</div>
+          <div style="font:11px/1 var(--font-body);color:var(--text-secondary);">${p.category} · ${new Date(p.created).toLocaleTimeString()}</div>
+        </div>
+        <button class="btn btn-outline" onclick="loadCustomPose('${p.id}')" style="padding:6px 12px;font-size:12px;">Load</button>
+        <button class="btn btn-outline" onclick="deleteCustomPose('${p.id}')" style="padding:6px 12px;font-size:12px;">Delete</button>
+      </div>
+    `).join('');
+};
+
+window.loadCustomPose = function(poseId) {
+  const pose = _editorCustomPoses.find(p => p.id === poseId);
+  if (!pose) return;
+  _editorJoints = JSON.parse(JSON.stringify(pose.joints));
+  document.getElementById('pose-editor-name').value = pose.name;
+  document.getElementById('pose-editor-category').value = pose.category;
+  document.getElementById('pose-editor-description').value = pose.instructions || '';
+  pushEditorHistory();
+  syncSlidersToJoints();
+  updatePoseEditorPreview();
+  showToast('Loaded: ' + pose.name);
+};
+
+window.deleteCustomPose = function(poseId) {
+  _editorCustomPoses = _editorCustomPoses.filter(p => p.id !== poseId);
+  window.persist?.('editorCustomPoses', _editorCustomPoses);
+  if (typeof POSES_LIBRARY !== 'undefined' && POSES_LIBRARY[poseId]) {
+    delete POSES_LIBRARY[poseId];
+  }
+  loadCustomPoseList();
+  showToast('Deleted');
+};
+
+window.useCustomPoseInSession = function() {
+  // Save current editor state as a temp custom pose and start a session
+  const name = document.getElementById('pose-editor-name')?.value || 'Untitled Custom Pose';
+  const category = document.getElementById('pose-editor-category')?.value || 'standing';
+  const description = document.getElementById('pose-editor-description')?.value || '';
+  const poseId = 'custom-session-' + Date.now();
+  const customPose = {
+    id: poseId,
+    name: name,
+    category: category,
+    difficulty: 'Custom',
+    angle: 'Custom',
+    intent: 'Custom',
+    effort: 'Static',
+    instructions: description,
+    tip: 'Custom pose from editor.',
+    joints: JSON.parse(JSON.stringify(_editorJoints)),
+    color: 'var(--color-teal-100)',
+    figure: 'default',
+    tags: ['custom'],
+    isCustom: true,
+  };
+  if (typeof POSES_LIBRARY !== 'undefined') {
+    POSES_LIBRARY[poseId] = customPose;
+  }
+  AppState.selectedPoseId = poseId;
+  showToast('Starting session with custom pose...');
+  goToSession(poseId);
+};
+
+// Bug report integration (Iter D3)
+window.submitBugReportFromEditor = function() {
+  const comment = document.getElementById('pose-editor-bug-comment')?.value || '';
+  const bugType = document.getElementById('pose-editor-bug-type')?.value || 'other';
+  const name = document.getElementById('pose-editor-name')?.value || 'Untitled';
+  if (!comment) { showToast('Please describe the issue'); return; }
+  const report = {
+    id: 'bug-' + Date.now(),
+    timestamp: new Date().toISOString(),
+    type: bugType,
+    comment: comment,
+    poseName: name,
+    poseData: {
+      joints: JSON.parse(JSON.stringify(_editorJoints)),
+      category: document.getElementById('pose-editor-category')?.value || '',
+      description: document.getElementById('pose-editor-description')?.value || '',
+    },
+    ...(AppState.currentTourSession ? { tourId: AppState.currentTourSession.tour?.id, sectionId: AppState.currentTourSession.section?.id } : {}),
+    // In a real app this would POST to a server. For now, store in-memory.
+  };
+  // Store bug reports in a global array (would be sent to server in production)
+  if (!window._bugReports) window._bugReports = [];
+  window._bugReports.push(report);
+  console.log('[PoseArt] Bug report submitted:', report);
+  showToast('Bug report submitted with pose data ✓');
+  // Clear form
+  document.getElementById('pose-editor-bug-comment').value = '';
+};
+
+// Navigate to the editor
+window.openPoseEditor = function(startPoseId) {
+  showScreen('custom-pose-editor', true);
+  setTimeout(() => initPoseEditor(startPoseId), 50);
+};
+
+console.log('%cPoseArt v1.6 — Custom Pose Editor loaded.', 'color:#C9A24C;font-family:serif;font-size:11px;');
+
+// ============================================================
+// PR-v7 (v1.7) — MARKETPLACE (Phase 7 of directive)
+// ============================================================
+// Full marketplace with:
+//   - Browse: search + filter pose packs by category/price
+//   - Purchase flow: free packs instant, paid packs mock checkout
+//   - My Packs: view purchased packs + use poses
+//   - Creator Dashboard: publish packs from saved custom poses, track earnings
+//   - Revenue share: 70% creator / 30% platform (per directive Part C Phase 7)
+//
+// Storage: in-memory (localStorage blocked by iframe sandbox). In production
+// this would use a server backend with Stripe/payment integration.
+
+// Seed marketplace data — curated starter packs
+const _marketplaceSeedPacks = [
+  { id: 'mp-free-essentials', name: 'Essential Standing Poses', creator: 'PoseArt Team', category: 'standing', price: 0, description: '12 essential standing poses for portraits and editorial work. Free starter pack.', poseIds: ['scurve-stand','power-stance','contrapposto','model-walk','crossed-arms-stand','hand-in-pocket','shoulder-drop','arms-overhead','prayer-hands','tiptoe-reach','one-leg-balance','side-stretch'], rating: 4.8, sales: 1247 },
+  { id: 'mp-boudoir-classic', name: 'Classic Boudoir Collection', creator: 'Marie Dubois', category: 'boudoir', price: 4.99, description: '30 sensual boudoir poses inspired by classical painting. Elegant curves and triangles.', poseIds: [], rating: 4.9, sales: 892 },
+  { id: 'mp-editorial-edge', name: 'Editorial Edge Pack', creator: 'Zhang Wei', category: 'editorial', price: 3.99, description: '20 high-fashion editorial poses with sharp angles and dramatic lines.', poseIds: [], rating: 4.7, sales: 534 },
+  { id: 'mp-fashion-runway', name: 'Runway Fashion Set', creator: 'Ana Costa', category: 'fashion', price: 2.99, description: '15 runway-ready fashion poses. Walk, stop, and turn sequences.', poseIds: [], rating: 4.6, sales: 421 },
+  { id: 'mp-fineart-classical', name: 'Classical Fine Art Poses', creator: 'PoseArt Team', category: 'fine-art', price: 0, description: '10 poses inspired by Renaissance and Baroque sculpture. Free cultural pack.', poseIds: [], rating: 4.9, sales: 2103 },
+  { id: 'mp-couple-intimate', name: 'Intimate Couple Poses', creator: 'James & Lily', category: 'couple', price: 5.99, description: '20 couple poses for engagement and boudoir photography.', poseIds: [], rating: 4.8, sales: 678 },
+];
+
+// Marketplace state
+let _marketplacePacks = typeof window.restore === 'function' && Array.isArray(window.restore('marketplacePacks'))
+  ? window.restore('marketplacePacks') : [];
+let _ownedPacks = typeof window.restore === 'function' && Array.isArray(window.restore('ownedPacks'))
+  ? window.restore('ownedPacks') : [];
+let _publishedPacks = typeof window.restore === 'function' && Array.isArray(window.restore('publishedPacks'))
+  ? window.restore('publishedPacks') : [];
+let _marketplaceReviews = typeof window.restore === 'function' && window.restore('marketplaceReviews') || {};
+let _marketplaceFilter = 'all';
+let _marketplaceSearch = '';
+let _marketplaceMaxPrice = Infinity;
+
+// Initialize marketplace (called on first open)
+window.initMarketplace = function() {
+  // Load seed packs if not already loaded
+  if (_marketplacePacks.length === 0) {
+    _marketplacePacks = JSON.parse(JSON.stringify(_marketplaceSeedPacks));
+    window.persist?.('marketplacePacks', _marketplacePacks);
+  }
+  renderMarketplace();
+  renderOwnedPacks();
+  renderCreatorDashboard();
+};
+
+window.openMarketplace = function() {
+  showScreen('marketplace', true);
+  setTimeout(() => initMarketplace(), 50);
+};
+
+window.switchMarketplaceTab = function(tab) {
+  document.querySelectorAll('.mp-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('mp-tab-' + tab)?.classList.add('active');
+  document.getElementById('mp-browse-view').style.display = tab === 'browse' ? 'block' : 'none';
+  document.getElementById('mp-mine-view').style.display = tab === 'mine' ? 'block' : 'none';
+  document.getElementById('mp-creator-view').style.display = tab === 'creator' ? 'block' : 'none';
+};
+
+window.setMpFilter = function(filter) {
+  _marketplaceFilter = filter;
+  document.querySelectorAll('.mp-filter-chip').forEach(c => c.classList.remove('active'));
+  document.querySelector(`.mp-filter-chip[data-filter="${filter}"]`)?.classList.add('active');
+  renderMarketplace();
+};
+
+window.filterMarketplace = function() {
+  _marketplaceSearch = (document.getElementById('mp-search')?.value || '').toLowerCase();
+  const price = document.getElementById('mp-price-filter')?.value || 'all';
+  _marketplaceMaxPrice = price === 'all' ? Infinity : Number(price);
+  renderMarketplace();
+};
+
+window.renderMarketplace = function() {
+  const grid = document.getElementById('mp-pack-grid');
+  if (!grid) return;
+
+  let packs = _marketplacePacks;
+  packs = packs.filter(p => p.price <= _marketplaceMaxPrice);
+  // Filter
+  if (_marketplaceFilter !== 'all') {
+    if (_marketplaceFilter === 'free') packs = packs.filter(p => p.price === 0);
+    else if (_marketplaceFilter === 'paid') packs = packs.filter(p => p.price > 0);
+    else packs = packs.filter(p => p.category === _marketplaceFilter);
+  }
+  // Search
+  if (_marketplaceSearch) {
+    packs = packs.filter(p => {
+      const poseText = (p.poseIds || []).map(id => POSES_LIBRARY[id]?.name || '').join(' ');
+      return (
+      p.name.toLowerCase().includes(_marketplaceSearch) ||
+      p.creator.toLowerCase().includes(_marketplaceSearch) ||
+      p.description.toLowerCase().includes(_marketplaceSearch) || poseText.toLowerCase().includes(_marketplaceSearch)
+      );
+    });
+  }
+
+  if (packs.length === 0) {
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:24px;color:var(--text-secondary);">No packs found. Try a different search or filter.</div>';
+    return;
+  }
+
+  grid.innerHTML = packs.map(p => {
+    const isOwned = _ownedPacks.includes(p.id);
+    const priceDisplay = p.price === 0 ? 'FREE' : '$' + p.price.toFixed(2);
+    const isTour = p.type === 'tour';
+    const actionBtn = isOwned
+      ? `<button class="btn btn-outline" onclick="openPack('${p.id}')" style="width:100%;padding:8px;font-size:12px;">${isTour ? 'Start Tour' : 'Open Pack'}</button>`
+      : `<button class="btn btn-gold" onclick="purchasePack('${p.id}')" style="width:100%;padding:8px;font-size:12px;">${priceDisplay}</button>`;
+    return `
+      <div class="mp-product-card" data-product-id="${p.id}" style="border:1px solid var(--rule);border-radius:12px;overflow:hidden;background:var(--bg-canvas);position:relative;">
+        ${isTour ? '<span class="mp-tour-badge">TOUR</span>' : ''}
+        <div style="background:linear-gradient(135deg,rgba(15,59,58,0.1),rgba(30,122,116,0.15));height:80px;display:flex;align-items:center;justify-content:center;">
+          <span style="font:700 24px/1 var(--font-display);color:var(--brand-gold);">${p.name.charAt(0)}</span>
+        </div>
+        <div style="padding:10px;">
+          <div style="font:600 13px/1.3 var(--font-body);color:var(--text-primary);margin-bottom:2px;">${p.name}</div>
+          <button class="mp-creator-link" onclick="openCreatorProfile('${escapeHtml(p.creator)}')">by ${escapeHtml(p.creator)}</button>
+          <div style="font:11px/1.3 var(--font-body);color:var(--text-secondary);margin-bottom:8px;">${p.description.substring(0, 60)}...</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+            <span style="font:600 11px/1 var(--font-body);color:var(--brand-gold);">★ ${p.rating}</span>
+            <span style="font:11px/1 var(--font-body);color:var(--text-secondary);">${p.sales} sales</span>
+          </div>
+          <button class="mp-preview-btn" onclick="previewMarketplaceProduct('${p.id}')">Preview first 2</button>
+          ${actionBtn}
+        </div>
+      </div>
+    `;
+  }).join('');
+};
+
+window.purchasePack = function(packId) {
+  const pack = _marketplacePacks.find(p => p.id === packId);
+  if (!pack) return;
+  if (_ownedPacks.includes(packId)) { showToast('Already owned — open it from My Packs'); return; }
+  if (pack.price === 0) {
+    // Free pack — instant "purchase"
+    _ownedPacks.push(packId);
+    window.persist?.('ownedPacks', _ownedPacks);
+    showToast('Added to your library: ' + pack.name);
+    renderMarketplace();
+    renderOwnedPacks();
+  } else {
+    // Paid pack — mock checkout
+    showToast('Processing payment of $' + pack.price.toFixed(2) + '...');
+    setTimeout(() => {
+      _ownedPacks.push(packId);
+      // Increment sales count
+      pack.sales++;
+      window.persist?.('ownedPacks', _ownedPacks);
+      window.persist?.('marketplacePacks', _marketplacePacks);
+      showToast('Purchase complete! ' + pack.name + ' added to your library ✓');
+      renderMarketplace();
+      renderOwnedPacks();
+    }, 1200);
+  }
+};
+
+window.openPack = function(packId) {
+  const pack = _marketplacePacks.find(p => p.id === packId);
+  if (!pack) return;
+  if (pack.type === 'tour' && pack.tourId) { openTourSession(pack.tourId); return; }
+  showToast('Opening ' + pack.name + '...');
+  // For seed packs with poseIds, navigate to the first pose
+  if (pack.poseIds && pack.poseIds.length > 0) {
+    const firstPose = pack.poseIds[0];
+    if (POSES_LIBRARY[firstPose]) {
+      openPoseDetail(firstPose);
+      return;
+    }
+  }
+  // Otherwise show a toast (would show a pack detail screen in production)
+  showToast(pack.name + ' — ' + (pack.poseIds?.length || 0) + ' poses');
+};
+
+window.renderOwnedPacks = function() {
+  const list = document.getElementById('mp-owned-list');
+  if (!list) return;
+  const owned = _marketplacePacks.filter(p => _ownedPacks.includes(p.id));
+  if (owned.length === 0) {
+    list.innerHTML = '<div style="text-align:center;padding:24px;color:var(--text-secondary);">No purchased packs yet. Browse the marketplace to find pose packs!</div>';
+    return;
+  }
+  list.innerHTML = owned.map(p => `
+    <div style="display:flex;align-items:center;gap:12px;padding:12px;border:1px solid var(--rule);border-radius:12px;margin-bottom:8px;">
+      <div style="width:48px;height:48px;border-radius:8px;background:linear-gradient(135deg,rgba(15,59,58,0.1),rgba(30,122,116,0.15));display:flex;align-items:center;justify-content:center;font:700 20px/1 var(--font-display);color:var(--brand-gold);">${p.name.charAt(0)}</div>
+      <div style="flex:1;">
+        <div style="font:600 14px/1.3 var(--font-body);color:var(--text-primary);">${p.name}</div>
+        <div style="font:11px/1 var(--font-body);color:var(--text-secondary);">by ${p.creator} · ${p.poseIds?.length || 0} poses</div>
+      </div>
+      <button class="btn btn-outline" onclick="openPack('${p.id}')" style="padding:8px 16px;">${p.type === 'tour' ? 'Start Tour' : 'Open'}</button>
+      <button class="btn btn-outline" onclick="openReviewForm('${p.id}')" style="padding:8px;">Rate</button>
+    </div>
+  `).join('');
+};
+
+window.previewMarketplaceProduct = function(packId) {
+  const pack = _marketplacePacks.find(item => item.id === packId); if (!pack) return;
+  const panel = document.getElementById('mp-preview-panel');
+  const names = (pack.poseIds || []).slice(0, 2).map(id => POSES_LIBRARY[id]?.name || id);
+  panel.innerHTML = `<button onclick="this.parentElement.classList.remove('open')" aria-label="Close preview">×</button><span class="mp-tour-badge inline">${pack.type === 'tour' ? 'TOUR' : 'PACK'}</span><h2>${escapeHtml(pack.name)}</h2><p>${escapeHtml(pack.description)}</p><h3>Preview</h3><ol>${names.map(name => `<li>${escapeHtml(name)}</li>`).join('') || '<li>Creator preview coming soon</li>'}</ol>`;
+  panel.classList.add('open');
+};
+
+window.openCreatorProfile = function(creator) {
+  const products = _marketplacePacks.filter(item => item.creator === creator);
+  const panel = document.getElementById('mp-creator-profile');
+  panel.innerHTML = `<button onclick="this.parentElement.classList.remove('open')" aria-label="Close creator profile">×</button><div class="mp-creator-avatar">${escapeHtml(creator.charAt(0))}</div><h2>${escapeHtml(creator)}</h2><p>Pose creator · ${products.length} products</p>${products.map(item => `<button onclick="previewMarketplaceProduct('${item.id}')"><strong>${escapeHtml(item.name)}</strong><span>${item.type === 'tour' ? 'TOUR' : 'PACK'} · ★ ${item.rating}</span></button>`).join('')}`;
+  panel.classList.add('open');
+};
+
+window.openReviewForm = function(packId) {
+  if (!_ownedPacks.includes(packId)) { showToast('Purchase required before rating'); return; }
+  const score = Number(prompt('Rate this product from 1 to 5', '5'));
+  if (!Number.isFinite(score) || score < 1 || score > 5) return;
+  const text = prompt('Share a short review', '') || '';
+  rateMarketplaceProduct(packId, score, text);
+};
+
+window.rateMarketplaceProduct = function(packId, stars, text = '') {
+  if (!_ownedPacks.includes(packId)) return false;
+  const pack = _marketplacePacks.find(item => item.id === packId); if (!pack) return false;
+  const review = { stars: Math.max(1, Math.min(5, Number(stars))), text: String(text), timestamp: new Date().toISOString() };
+  _marketplaceReviews[packId] = review; pack.rating = Math.round(((pack.rating || 0) + review.stars) / 2 * 10) / 10;
+  window.persist?.('marketplaceReviews', _marketplaceReviews); window.persist?.('marketplacePacks', _marketplacePacks); renderMarketplace(); showToast('Review published ✓'); return true;
+};
+
+window.publishTourToMarketplace = function(tourId = _tourEditingId) {
+  const tour = getTour(tourId); if (!tour) { showToast('Save a tour first'); return null; }
+  const poseIds = tour.sections.flatMap(section => section.poseIds);
+  if (!poseIds.length) { showToast('Add poses before publishing'); return null; }
+  const comparable = _marketplacePacks.filter(item => item.type !== 'tour' && item.price > 0);
+  const averagePackPrice = comparable.reduce((sum, item) => sum + item.price, 0) / (comparable.length || 1);
+  const pack = { id: `mp-tour-${Date.now()}`, type: 'tour', tourId: tour.id, name: tour.name, creator: 'You', category: tour.sections[0]?.type || 'custom', price: Math.round(averagePackPrice * 1.5 * 100) / 100, description: tour.description || `${tour.sections.length}-section guided pose tour`, poseIds, rating: 5, reviews: [], sales: 0, isUserCreated: true };
+  _marketplacePacks.unshift(pack); _publishedPacks.unshift(pack); window.persist?.('marketplacePacks', _marketplacePacks); window.persist?.('publishedPacks', _publishedPacks); renderMarketplace(); renderCreatorDashboard(); showToast(`Published tour: ${tour.name}`); return pack;
+};
+
+window.renderCreatorDashboard = function() {
+  // Calculate earnings
+  let totalEarnings = 0;
+  let totalSales = 0;
+  for (const pack of _publishedPacks) {
+    totalEarnings += pack.sales * pack.price * 0.70; // 70% creator share
+    totalSales += pack.sales;
+  }
+  const earningsEl = document.getElementById('mp-creator-earnings');
+  if (earningsEl) earningsEl.textContent = '$' + totalEarnings.toFixed(2);
+  const salesEl = document.getElementById('mp-creator-sales');
+  if (salesEl) salesEl.textContent = totalSales + ' sales across ' + _publishedPacks.length + ' pack' + (totalSales !== 1 ? 's' : '');
+
+  // Render published packs
+  const list = document.getElementById('mp-creator-packs');
+  if (!list) return;
+  if (_publishedPacks.length === 0) {
+    list.innerHTML = '<div style="text-align:center;padding:16px;color:var(--text-secondary);">No published packs yet. Create custom poses in the editor, then publish them here!</div>';
+    return;
+  }
+  list.innerHTML = _publishedPacks.map(p => {
+    const earnings = p.sales * p.price * 0.70;
+    return `
+      <div style="border:1px solid var(--rule);border-radius:12px;padding:12px;margin-bottom:8px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div>
+            <div style="font:600 14px/1.3 var(--font-body);color:var(--text-primary);">${p.name}</div>
+            <div style="font:11px/1 var(--font-body);color:var(--text-secondary);">${p.category} · $${p.price.toFixed(2)} · ${p.poseIds.length} poses</div>
+          </div>
+          <div style="text-align:right;">
+            <div style="font:700 16px/1 var(--font-display);color:var(--brand-gold);">$${earnings.toFixed(2)}</div>
+            <div style="font:10px/1 var(--font-body);color:var(--text-secondary);">${p.sales} sales</div>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+};
+
+window.publishPack = function() {
+  const name = document.getElementById('mp-new-pack-name')?.value || '';
+  const desc = document.getElementById('mp-new-pack-desc')?.value || '';
+  const price = parseFloat(document.getElementById('mp-new-pack-price')?.value || '0');
+  const category = document.getElementById('mp-new-pack-category')?.value || 'standing';
+
+  if (!name) { showToast('Please enter a pack name'); return; }
+  if (_editorCustomPoses.length === 0) {
+    showToast('No saved custom poses to publish. Create some in the editor first!');
+    return;
+  }
+
+  const pack = {
+    id: 'mp-user-' + Date.now(),
+    name: name,
+    creator: 'You',
+    category: category,
+    price: price,
+    description: desc || 'User-created pose pack.',
+    poseIds: _editorCustomPoses.map(p => p.id),
+    rating: 0,
+    sales: 0,
+    isUserCreated: true,
+    created: new Date().toISOString(),
+  };
+
+  _publishedPacks.unshift(pack);
+  _marketplacePacks.unshift(pack);
+  window.persist?.('publishedPacks', _publishedPacks);
+  window.persist?.('marketplacePacks', _marketplacePacks);
+
+  // Clear form
+  document.getElementById('mp-new-pack-name').value = '';
+  document.getElementById('mp-new-pack-desc').value = '';
+  document.getElementById('mp-new-pack-price').value = '';
+
+  showToast('Published: ' + name + ' (' + pack.poseIds.length + ' poses)');
+  renderMarketplace();
+  renderCreatorDashboard();
+};
+
+// Add marketplace access from profile screen
+// (called after profile screen renders)
+window.addEventListener('DOMContentLoaded', function() {
+  // Add a marketplace button to the profile screen if not already there
+  setTimeout(function() {
+    const profileScreen = document.getElementById('screen-profile');
+    if (profileScreen && !document.getElementById('profile-mp-btn')) {
+      const mpBtn = document.createElement('div');
+      mpBtn.id = 'profile-mp-btn';
+      mpBtn.className = 'settings-section';
+      mpBtn.style.marginTop = '12px';
+      mpBtn.innerHTML = `
+        <div class="settings-section-title">Marketplace</div>
+        <button class="btn btn-gold btn-block" onclick="openMarketplace()" style="padding:14px;font:600 14px/1 var(--font-body);">
+          🛍 Open Marketplace
+        </button>
+        <div style="font:var(--type-caption);color:var(--text-secondary);margin-top:6px;text-align:center;">
+          Browse, buy, and sell pose packs. 70% creator revenue share.
+        </div>
+      `;
+      profileScreen.querySelector('.screen-scroll').appendChild(mpBtn);
+    }
+  }, 200);
+});
+
+// ── TOUR CREATOR + SESSION (v2.1) ────────────────────────────
+let _tourEditingId = null;
+function escapeHtml(value) {
+  const element = document.createElement('span');
+  element.textContent = String(value ?? '');
+  return element.innerHTML;
+}
+
+window.openTourCreator = function(tourId) {
+  let tour = tourId ? getTour(tourId) : null;
+  if (!tour) tour = tourEngine.createTour('New Tour', 'A guided PoseArt sequence');
+  _tourEditingId = tour.id;
+  renderTourCreator();
+  showScreen('tour-creator', true);
+};
+
+window.renderTourCreator = function() {
+  const tour = getTour(_tourEditingId);
+  if (!tour) return;
+  const name = document.getElementById('tour-name');
+  const desc = document.getElementById('tour-description');
+  if (name && document.activeElement !== name) name.value = tour.name;
+  if (desc && document.activeElement !== desc) desc.value = tour.description;
+  const sections = document.getElementById('tour-sections');
+  if (!sections) return;
+  sections.innerHTML = tour.sections.map((section, sectionIndex) => `
+    <article class="tour-section-card" data-section-id="${section.id}">
+      <div class="tour-section-heading"><span>SECTION ${sectionIndex + 1}: ${escapeHtml(section.name)}</span><span class="tour-type-badge">${escapeHtml(section.type)}</span></div>
+      <div class="tour-pose-row">
+        ${section.poseIds.map((poseId, poseIndex) => {
+          const pose = POSES_LIBRARY[poseId];
+          return `<div class="tour-pose-chip"><div class="tour-pose-figure">${renderPoseFigureSVG(pose, false)}</div><span>${escapeHtml(pose?.name || poseId)}</span><button onclick="removeTourPose('${section.id}','${poseId}')" aria-label="Remove ${escapeHtml(pose?.name || poseId)}">×</button>${poseIndex ? `<button onclick="moveTourPose('${section.id}',${poseIndex},${poseIndex - 1})" aria-label="Move pose left">←</button>` : ''}</div>`;
+        }).join('')}
+        <button class="tour-add-pose" onclick="addSuggestedTourPose('${section.id}')" aria-label="Add pose">＋<span>Add pose</span></button>
+      </div>
+    </article>`).join('') || '<div class="tour-empty">Add a section to begin building your sequence.</div>';
+  window.renderPendingAvatars?.(sections);
+  const sources = document.getElementById('tour-sources');
+  if (sources) {
+    const custom = _editorCustomPoses.slice(0, 4);
+    const purchased = _marketplacePacks?.filter(pack => _ownedPacks?.includes(pack.id)).slice(0, 4) || [];
+    sources.innerHTML = `<strong>Sources</strong><div><span>Library: 745 poses</span>${custom.map(pose => `<span>Custom: ${escapeHtml(pose.name)}</span>`).join('')}${purchased.map(pack => `<span>Purchased: ${escapeHtml(pack.name)}</span>`).join('')}</div>`;
+  }
+  const start = document.getElementById('tour-start-btn');
+  if (start) start.disabled = !tour.sections.some(section => section.poseIds.length);
+};
+
+window.updateTourDraft = function() {
+  const tour = getTour(_tourEditingId); if (!tour) return;
+  tour.name = document.getElementById('tour-name')?.value.trim() || 'Untitled Tour';
+  tour.description = document.getElementById('tour-description')?.value.trim() || '';
+  tour.updatedAt = new Date().toISOString(); saveTour(tour);
+};
+
+window.addTourSection = function(name, type) {
+  const index = getTour(_tourEditingId)?.sections.length || 0;
+  tourEngine.addSection(_tourEditingId, name || `Section ${index + 1}`, type || ['glamour', 'dynamic', 'fine-art'][index % 3]);
+  renderTourCreator();
+};
+
+window.addSuggestedTourPose = function(sectionId, poseId) {
+  const section = getTour(_tourEditingId)?.sections.find(item => String(item.id) === String(sectionId));
+  const suggestions = Object.values(POSES_LIBRARY).filter(pose => !section?.poseIds.includes(pose.id));
+  tourEngine.addPoseToSection(_tourEditingId, sectionId, poseId || suggestions[0]?.id);
+  renderTourCreator();
+};
+
+window.removeTourPose = function(sectionId, poseId) { tourEngine.removePoseFromSection(_tourEditingId, sectionId, poseId); renderTourCreator(); };
+window.moveTourPose = function(sectionId, from, to) {
+  const section = getTour(_tourEditingId)?.sections.find(item => String(item.id) === String(sectionId));
+  if (!section) return;
+  const order = section.poseIds.slice(); order.splice(to, 0, order.splice(from, 1)[0]);
+  tourEngine.reorderSection(_tourEditingId, sectionId, order); renderTourCreator();
+};
+window.saveCurrentTour = function() { updateTourDraft(); showToast('Tour saved ✓'); renderTourCreator(); };
+
+window.openTourSession = function(tourId = _tourEditingId) {
+  updateTourDraft();
+  try { AppState.currentTourSession = tourEngine.startTour(tourId); }
+  catch (error) { showToast(error.message); return; }
+  AppState.isTourSession = true; AppState.currentTourId = tourId;
+  renderTourSession(); showScreen('tour-session', true);
+};
+
+window.startTourCamera = async function() {
+  const state = tourEngine.getState(); if (!state) return;
+  AppState.isTourSession = true; AppState.currentTourSession = state; AppState.selectedPoseId = state.poseId;
+  await startCameraSession();
+};
+
+window.reportTourPoseIssue = function() {
+  const state = tourEngine.getState(); if (!state) return;
+  AppState.currentTourSession = state; openPoseEditor(state.poseId);
+  setTimeout(() => {
+    const field = document.getElementById('pose-editor-bug-comment');
+    if (field) field.value = `Tour ${state.tour.name} / ${state.section.name}: `;
+  }, 80);
+};
+
+window.renderTourSession = function() {
+  const state = tourEngine.getState(); if (!state) return;
+  AppState.currentTourSession = state; AppState.selectedPoseId = state.poseId;
+  const pose = POSES_LIBRARY[state.poseId];
+  document.getElementById('tour-session-title').textContent = state.tour.name;
+  document.getElementById('tour-section-progress').textContent = `Section ${state.sectionIndex + 1}/${state.tour.sections.length}: ${state.section.name}`;
+  document.getElementById('tour-pose-progress').textContent = `Pose ${state.poseIndex + 1}/${state.section.poseIds.length}`;
+  const preview = document.getElementById('tour-current-pose');
+  preview.innerHTML = renderPoseFigureSVG(pose, true);
+  const stage = preview.closest('.tour-stage');
+  stage?.classList.remove('tour-pose-changing');
+  requestAnimationFrame(() => stage?.classList.add('tour-pose-changing'));
+  setTimeout(() => stage?.classList.remove('tour-pose-changing'), 360);
+  window.renderPendingAvatars?.(preview);
+  document.getElementById('tour-current-name').textContent = pose?.name || state.poseId;
+  renderTourPhotos(); renderTourOverview();
+};
+
+window.nextTourPose = function() { tourEngine.nextPose(); renderTourSession(); };
+window.prevTourPose = function() { tourEngine.prevPose(); renderTourSession(); };
+window.nextTourSection = function() { tourEngine.nextSection(); renderTourSession(); };
+window.prevTourSection = function() { tourEngine.prevSection(); renderTourSession(); };
+window.captureTourPhoto = function() { const item = tourEngine.captureInTour(null, { score: 100 }); showToast(`Captured ${item.poseName}`); renderTourPhotos(); };
+
+function renderTourPhotos() {
+  const state = tourEngine.getState(); if (!state) return;
+  const photos = tourEngine.getTourPhotos(state.tour.id, state.section.id);
+  document.getElementById('tour-photo-strip').innerHTML = photos.map(item => `<button class="tour-photo-thumb" onclick="openTourPhoto('${item.id}')">${item.dataUrl ? `<img src="${item.dataUrl}" alt="${escapeHtml(item.poseName)}">` : renderPoseFigureSVG(POSES_LIBRARY[item.poseId], false)}</button>`).join('') || '<span class="tour-no-photos">No captures in this section yet</span>';
+  document.getElementById('tour-photo-count').textContent = `${photos.length} photo${photos.length === 1 ? '' : 's'}`;
+  window.renderPendingAvatars?.(document.getElementById('tour-photo-strip'));
+}
+window.openTourPhoto = function(id) { AppState.galleryReturnScreen = 'tour-session'; openGalleryItem(id); };
+window.returnFromGalleryDetail = function() {
+  if (AppState.galleryReturnScreen === 'tour-session' && tourEngine.getState()) { AppState.galleryReturnScreen = null; renderTourSession(); showScreen('tour-session'); }
+  else showTab('gallery');
+};
+
+window.searchTourPoses = function() {
+  const query = document.getElementById('tour-search-input')?.value || '';
+  const results = tourEngine.searchPosesInTour(query);
+  document.getElementById('tour-search-results').innerHTML = results.map(pose => `<button onclick="jumpToTourPose('${pose.id}')">${escapeHtml(pose.name)}</button>`).join('') || '<span>No matching pose</span>';
+};
+window.jumpToTourPose = function(poseId) { tourEngine.jumpToPose(poseId); document.getElementById('tour-search-panel').classList.remove('open'); renderTourSession(); };
+window.toggleTourSearch = function() { document.getElementById('tour-search-panel').classList.toggle('open'); };
+window.toggleTourOverview = function() { document.getElementById('tour-overview').classList.toggle('open'); };
+function renderTourOverview() {
+  const state = tourEngine.getState(); if (!state) return;
+  document.getElementById('tour-overview-list').innerHTML = state.tour.sections.map((section, index) => `<button onclick="jumpToTourPose('${section.poseIds[0] || ''}')"><strong>${index + 1}. ${escapeHtml(section.name)}</strong><span>${section.poseIds.length} poses</span></button>`).join('');
+}
+
+window.endTourSession = function() {
+  const state = tourEngine.getState(); if (!state) return;
+  const photos = tourEngine.getTourPhotos(state.tour.id);
+  document.getElementById('tour-summary-title').textContent = state.tour.name;
+  document.getElementById('tour-summary-total').textContent = `${photos.length} total capture${photos.length === 1 ? '' : 's'}`;
+  document.getElementById('tour-summary-sections').innerHTML = state.tour.sections.map(section => {
+    const sectionPhotos = photos.filter(item => String(item.sectionId) === String(section.id));
+    return `<article class="tour-summary-section"><h3>${escapeHtml(section.name)} · ${sectionPhotos.length}</h3><div>${sectionPhotos.map(item => `<span>${escapeHtml(item.poseName)}</span>`).join('') || '<span>No captures</span>'}</div></article>`;
+  }).join('');
+  AppState.isTourSession = false; showScreen('tour-summary', true);
+};
+
+window.addEventListener('DOMContentLoaded', () => {
+  const tools = document.querySelector('#screen-profile .screen-scroll');
+  if (tools && !document.getElementById('profile-tour-btn')) {
+    const section = document.createElement('div'); section.className = 'settings-section'; section.id = 'profile-tour-btn'; section.style.marginTop = '12px';
+    section.innerHTML = '<div class="settings-section-title">Tours</div><button class="btn btn-teal btn-block" onclick="openTourCreator()">＋ Create a Pose Tour</button><div class="tour-saved-count">Build guided multi-section sequences.</div>';
+    tools.appendChild(section);
+  }
+});
+
+console.log('%cPoseArt v1.7 — Marketplace loaded.', 'color:#C9A24C;font-family:serif;font-size:11px;');

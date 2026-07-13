@@ -1,0 +1,44 @@
+const { chromium } = require('playwright');
+const path = require('path');
+
+(async () => {
+  const browser = await chromium.launch({ headless: true });
+  const context = await browser.newContext({ viewport: { width: 430, height: 932 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true });
+  await context.addInitScript(() => { localStorage.clear(); localStorage.setItem('poseart_onboardingCompleted', 'true'); });
+  const page = await context.newPage(); page.setDefaultTimeout(10000);
+  const errors = []; page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); }); page.on('pageerror', e => errors.push(e.message));
+  await page.goto('http://localhost:8095/index.html', { waitUntil: 'networkidle' });
+  const product = await page.evaluate(() => {
+    initMarketplace();
+    const tour = tourEngine.createTour('Golden Hour Story', 'A glamour-to-dynamic guided tour');
+    const section = tourEngine.addSection(tour.id, 'Glamour', 'glamour');
+    tourEngine.addPoseToSection(tour.id, section.id, 'scurve-stand');
+    tourEngine.addPoseToSection(tour.id, section.id, 'power-stance');
+    window._tourEditingId = tour.id;
+    const pack = publishTourToMarketplace(tour.id);
+    showScreen('marketplace'); renderMarketplace();
+    return { id: pack.id, tourId: tour.id, price: pack.price };
+  });
+  const card = page.locator(`.mp-product-card[data-product-id="${product.id}"]`);
+  if (!await card.isVisible() || !await card.locator('.mp-tour-badge').isVisible()) throw new Error('Published TOUR card/badge missing');
+  if (!await card.textContent().then(text => text.includes('★'))) throw new Error('Rating is missing');
+  await card.locator('.mp-preview-btn').click();
+  const previewText = await page.locator('#mp-preview-panel.open').textContent();
+  if (!previewText.includes('S-Curve Stand') || !previewText.includes('Power Stance')) throw new Error(`Preview missing first poses: ${previewText}`);
+  await page.locator('#mp-preview-panel > button').click();
+  await card.locator('.mp-creator-link').click();
+  if (!await page.locator('#mp-creator-profile.open').textContent().then(text => text.includes('Golden Hour Story'))) throw new Error('Creator profile missing published tour');
+  await page.locator('#mp-creator-profile > button').first().click();
+  await page.screenshot({ path: path.join(process.cwd(), 'audit/screenshots/v2.3-marketplace-tour.png'), fullPage: true });
+  await page.evaluate(id => purchasePack(id), product.id);
+  await page.waitForTimeout(1400);
+  const ownedAndRated = await page.evaluate(id => ({ owned: _ownedPacks.includes(id), rated: rateMarketplaceProduct(id, 5, 'Excellent flow') }), product.id);
+  if (!ownedAndRated.owned || !ownedAndRated.rated) throw new Error(`Purchase/rating failed: ${JSON.stringify(ownedAndRated)}`);
+  const blockedRating = await page.evaluate(() => rateMarketplaceProduct('mp-editorial-edge', 5, 'Not owned'));
+  if (blockedRating !== false) throw new Error('Unowned rating was accepted');
+  await page.evaluate(id => openPack(id), product.id);
+  if (await page.evaluate(() => AppState.currentScreen) !== 'tour-session') throw new Error('Owned tour did not start a tour session');
+  if (errors.length) throw new Error(`Browser errors: ${errors.join(' | ')}`);
+  console.log(JSON.stringify({ product, badge: true, preview: ['S-Curve Stand', 'Power Stance'], creatorProfile: true, ownedAndRated, unownedRatingBlocked: true, startsTour: true, errors: 0, result: 'PASS' }));
+  await browser.close();
+})().catch(error => { console.error(error.stack || error); process.exit(1); });

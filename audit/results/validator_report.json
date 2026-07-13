@@ -1,0 +1,15 @@
+{
+  "totalPoses": 745,
+  "posesWithIssues": 0,
+  "posesClean": 745,
+  "tally": {
+    "sign_error": 0,
+    "too_subtle": 0,
+    "object_mismatch": 0,
+    "object_missing": 0,
+    "recline_missing": 0,
+    "arm_direction": 0
+  },
+  "byCategory": {},
+  "results": []
+}

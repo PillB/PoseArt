@@ -1,0 +1,2088 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>PoseArt — Move like art.</title>
+<meta name="description" content="PoseArt — an Art Nouveau pose-coaching camera companion. Move like art.">
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@400;500&family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
+
+<!-- Design tokens -->
+<link rel="stylesheet" href="css/tokens.css">
+
+<style>
+/* ============================================================
+   PoseArt v2 — App Stylesheet
+   Art Nouveau · Peacock Fresco palette
+   ============================================================ */
+
+/* ── CORE LAYOUT ── */
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html, body {
+  height: 100%;
+  overflow: hidden;
+  background: #0F3B3A;
+  font-family: var(--font-body);
+  color: var(--text-primary);
+}
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#app {
+  width: 100%;
+  max-width: 430px;
+  height: 100%;
+  max-height: 932px;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-canvas);
+  box-shadow: 0 0 60px rgba(0,0,0,0.4);
+}
+
+@media (min-width: 431px) {
+  html, body { background: #0A2827; }
+  #app { border-radius: 32px; height: 932px; }
+}
+
+button { font-family: inherit; cursor: pointer; }
+input { font-family: inherit; }
+a { color: inherit; text-decoration: none; }
+svg { display: block; }
+img { max-width: 100%; }
+
+/* ── SCREENS ── */
+.screen {
+  position: absolute;
+  inset: 0;
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--bg-canvas);
+}
+.screen.active { display: flex; }
+.screen-scroll {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 100px;
+}
+.screen-scroll::-webkit-scrollbar { width: 0; }
+
+/* ── STATUS BAR ── */
+.status-bar {
+  height: 44px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  font: var(--type-label);
+  font-weight: 600;
+  color: var(--text-primary);
+  z-index: 10;
+}
+.status-bar.on-dark { color: var(--color-parchment-100); }
+
+/* ── ART NOUVEAU DECORATIVE ELEMENTS ── */
+.botanical-frame {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+.botanical-corner {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  opacity: 0.55;
+}
+.botanical-corner.tl { top: 12px; left: 12px; }
+.botanical-corner.tr { top: 12px; right: 12px; transform: scaleX(-1); }
+.botanical-corner.bl { bottom: 12px; left: 12px; transform: scaleY(-1); }
+.botanical-corner.br { bottom: 12px; right: 12px; transform: scale(-1,-1); }
+
+.floating-bloom {
+  position: absolute;
+  opacity: 0.5;
+  animation: floatBloom 7s ease-in-out infinite;
+}
+@keyframes floatBloom {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-14px) rotate(4deg); }
+}
+
+.divider-vine {
+  width: 100%;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.5;
+  margin: 8px 0;
+}
+
+/* ── ONBOARDING SHARED ── */
+.ob-screen {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 32px;
+  position: relative;
+  background: radial-gradient(ellipse at 50% 20%, #FBF8F0 0%, var(--color-parchment-100) 55%, #EFE6D0 100%);
+}
+.ob-wordmark {
+  font: 400 34px/1.1 var(--font-accent);
+  color: var(--color-teal-800);
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+.ob-wordmark .accent { color: var(--brand-gold); }
+.ob-tagline {
+  font: 600 30px/1.2 var(--font-display);
+  color: var(--color-teal-700);
+  margin: 18px 0 8px;
+  font-style: italic;
+}
+.ob-sub {
+  font: var(--type-body);
+  color: var(--text-secondary);
+  max-width: 300px;
+  margin: 0 auto 28px;
+}
+.ob-gold-rule {
+  width: 64px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--brand-gold), transparent);
+  margin: 20px auto;
+}
+
+/* ── BUTTONS ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font: var(--type-label);
+  font-weight: 600;
+  padding: 16px 32px;
+  border-radius: var(--radius-pill);
+  border: none;
+  transition: transform var(--duration-micro) var(--ease-enter), box-shadow var(--duration-micro);
+  min-height: 52px;
+}
+.btn:active { transform: scale(0.97); }
+.btn-gold {
+  background: linear-gradient(135deg, var(--color-gold-500), var(--brand-gold));
+  color: var(--text-on-gold);
+  box-shadow: var(--elevation-gold-glow), var(--elevation-2);
+}
+.btn-teal {
+  background: var(--brand-primary);
+  color: var(--text-on-brand);
+  box-shadow: var(--elevation-2);
+}
+.btn-outline {
+  background: transparent;
+  border: 1.5px solid var(--border-default);
+  color: var(--text-primary);
+}
+.btn-block { width: 100%; }
+.btn:disabled { opacity: 0.45; pointer-events: none; }
+.btn-link {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font: var(--type-label);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  padding: 10px;
+}
+
+/* ── OB1: WELCOME ── */
+#screen-ob1 .ob-illustration { width: 180px; height: 180px; margin: 0 auto 12px; }
+
+/* ── OB2: HOW IT WORKS ── */
+#screen-ob2 { padding: 0; background: var(--bg-canvas); }
+.ob2-header { padding: 32px 28px 8px; text-align: center; }
+.ob2-header h1 { font: var(--type-h1); color: var(--text-primary); }
+.ob2-header p { font: var(--type-body); color: var(--text-secondary); margin-top: 6px; }
+
+#ob2-demo-stage {
+  margin: 12px 28px;
+  height: 200px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(160deg, var(--color-teal-800), var(--color-teal-600));
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--elevation-3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: box-shadow var(--duration-standard);
+}
+#ob2-demo-stage.demo-active {
+  box-shadow: var(--elevation-gold-glow), var(--elevation-3);
+}
+#ob2-demo-stage .ghost-figure { opacity: 0.5; transition: opacity var(--duration-standard); }
+#ob2-demo-stage.demo-active .ghost-figure { opacity: 0.95; filter: drop-shadow(0 0 12px rgba(201,162,76,0.7)); }
+#ob2-demo-stage .demo-hint {
+  position: absolute;
+  bottom: 10px;
+  left: 0; right: 0;
+  text-align: center;
+  font: var(--type-caption);
+  color: var(--color-parchment-100);
+  opacity: 0.85;
+}
+
+.ob2-cards { padding: 4px 20px; display: flex; flex-direction: column; gap: 12px; }
+.ob2-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--bg-surface);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  box-shadow: var(--elevation-1);
+  border: 1px solid var(--border-default);
+}
+.ob2-card-icon {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: var(--color-teal-100);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.ob2-card-title { font: var(--type-h3); color: var(--text-primary); }
+.ob2-card-desc { font: var(--type-caption); color: var(--text-secondary); margin-top: 2px; }
+
+.ob2-footer {
+  padding: 16px 28px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+/* ── OB3: CAMERA PERMISSION ── */
+#screen-ob3 .ob-camera-icon {
+  width: 108px; height: 108px;
+  border-radius: 50%;
+  background: linear-gradient(160deg, var(--color-teal-100), var(--color-parchment-100));
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 24px;
+  box-shadow: var(--elevation-2);
+  border: 2px solid var(--color-gold-300);
+}
+
+/* ── OB4: GOAL SELECTION ── */
+#screen-ob4 { padding: 0; background: var(--bg-canvas); }
+.ob4-header { padding: 44px 28px 12px; text-align: center; }
+.ob4-header h1 { font: var(--type-h1); color: var(--text-primary); }
+.ob4-header p { font: var(--type-body); color: var(--text-secondary); margin-top: 6px; }
+.persona-grid {
+  padding: 12px 24px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  flex: 1;
+}
+.persona-btn {
+  background: var(--bg-surface);
+  border: 1.5px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: 20px 14px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  transition: all var(--duration-micro) var(--ease-enter);
+}
+.persona-btn .persona-icon { font-size: 32px; }
+.persona-btn .persona-name { font: var(--type-h3); color: var(--text-primary); }
+.persona-btn .persona-desc { font: var(--type-caption); color: var(--text-secondary); }
+.persona-btn.selected {
+  border-color: var(--brand-gold);
+  background: var(--color-gold-300);
+  box-shadow: var(--elevation-gold-glow);
+  transform: translateY(-2px);
+}
+.ob4-footer { padding: 12px 28px 28px; }
+
+/* ── TAB BAR ── */
+#tab-bar {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 80px;
+  background: var(--color-teal-800);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  border-top: 1px solid rgba(201,162,76,0.2);
+  transition: opacity 0.3s, transform 0.3s;
+  z-index: 50;
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+.tab-item {
+  background: none;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  color: rgba(246,240,225,0.55);
+  padding: 8px 10px;
+  min-width: 56px;
+}
+.tab-item .tab-label { font: var(--type-tab-label); }
+.tab-item.active { color: var(--color-parchment-100); }
+.tab-item.active svg { stroke: var(--brand-gold); }
+.tab-item svg { width: 22px; height: 22px; }
+
+.tab-item-gallery {
+  width: 58px; height: 58px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-gold-500), var(--brand-gold));
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 16px rgba(201,162,76,0.5);
+  margin-top: -28px;
+  border: 4px solid var(--color-teal-800);
+}
+.tab-item-gallery svg { width: 24px; height: 24px; stroke: var(--color-teal-900); }
+.tab-item-gallery .tab-label { display: none; }
+
+/* ── HOME SCREEN ── */
+#screen-home { background: var(--bg-canvas); }
+.home-header {
+  padding: 8px 24px 4px;
+}
+.home-greeting {
+  font: var(--type-h1);
+  color: var(--text-primary);
+  font-style: italic;
+}
+.home-greeting .accent-dot { color: var(--brand-gold); }
+.home-sub { font: var(--type-caption); color: var(--text-secondary); margin-top: 2px; }
+
+.featured-card {
+  margin: 16px 24px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(150deg, var(--color-teal-800), var(--color-teal-600) 65%, var(--color-cobalt-600));
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: var(--elevation-3);
+  position: relative;
+  overflow: hidden;
+}
+.featured-card::after {
+  content: '';
+  position: absolute;
+  top: -30px; right: -30px;
+  width: 120px; height: 120px;
+  border: 1px solid rgba(201,162,76,0.3);
+  border-radius: 50%;
+}
+.featured-card-figure { width: 74px; height: 100px; flex-shrink: 0; z-index: 1; }
+.featured-card-body { flex: 1; z-index: 1; }
+.featured-overline { font: var(--type-overline); color: var(--color-gold-300); letter-spacing: 1.5px; }
+.featured-name { font: var(--type-h1); color: #fff; margin: 4px 0 10px; }
+.featured-card .btn { padding: 10px 22px; min-height: 40px; font-size: 13px; }
+
+.section-label {
+  padding: 0 24px;
+  font: var(--type-h3);
+  color: var(--text-primary);
+  margin: 20px 0 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.category-grid {
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+.category-card {
+  position: relative;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  height: 108px;
+  box-shadow: var(--elevation-1);
+}
+.category-card-bg { position: absolute; inset: 0; }
+.category-card-scrim { position: absolute; inset: 0; background: var(--overlay-scrim-bottom); }
+.category-card-content { position: absolute; bottom: 10px; left: 12px; right: 12px; }
+.category-card-name { font: 600 15px/20px var(--font-display); color: #fff; }
+.category-card-count { font: var(--type-caption); color: rgba(255,255,255,0.85); }
+
+.recent-row {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding: 0 24px 4px;
+  -webkit-overflow-scrolling: touch;
+}
+.recent-row::-webkit-scrollbar { display: none; }
+.recent-capture-thumb {
+  width: 84px; height: 84px;
+  border-radius: var(--radius-sm);
+  background: var(--color-teal-100);
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: var(--elevation-1);
+}
+.recent-capture-score {
+  position: absolute; bottom: 4px; right: 4px;
+  background: var(--overlay-text-pill);
+  color: var(--brand-gold);
+  font: 600 10px/14px var(--font-mono);
+  padding: 2px 6px;
+  border-radius: var(--radius-pill);
+}
+.captures-empty-hint { padding: 0 24px; font: var(--type-caption); color: var(--text-disabled); }
+
+.quick-stats {
+  display: flex;
+  justify-content: space-around;
+  margin: 20px 24px 8px;
+  background: var(--bg-surface);
+  border-radius: var(--radius-md);
+  padding: 16px 8px;
+  box-shadow: var(--elevation-1);
+}
+.quick-stat { text-align: center; }
+.quick-stat-value { font: var(--type-h1); color: var(--brand-primary); }
+.quick-stat-label { font: var(--type-caption); color: var(--text-secondary); margin-top: 2px; }
+
+.fab {
+  position: absolute;
+  right: 20px;
+  bottom: 96px;
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-gold-500), var(--brand-gold));
+  border: none;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 6px 18px rgba(201,162,76,0.55);
+  z-index: 40;
+}
+.fab svg { width: 26px; height: 26px; stroke: var(--color-teal-900); }
+
+/* ── LIBRARY SCREEN ── */
+#screen-library { background: var(--bg-canvas); }
+.library-header { padding: 16px 24px 8px; }
+.library-title { font: var(--type-h1); color: var(--text-primary); margin-bottom: 12px; }
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-surface);
+  border: 1.5px solid var(--border-default);
+  border-radius: var(--radius-pill);
+  padding: 10px 16px;
+}
+.search-bar svg { flex-shrink: 0; stroke: var(--text-secondary); }
+.search-bar input {
+  border: none; outline: none; background: transparent;
+  flex: 1; font: var(--type-body); color: var(--text-primary);
+}
+
+.filter-pills {
+  display: flex;
+  gap: 8px;
+  padding: 12px 24px 4px;
+  overflow-x: auto;
+}
+.filter-pills::-webkit-scrollbar { display: none; }
+.filter-pill {
+  flex-shrink: 0;
+  padding: 8px 16px;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid var(--border-default);
+  background: var(--bg-surface);
+  font: var(--type-chip);
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+.filter-pill.active {
+  background: var(--brand-primary);
+  border-color: var(--brand-primary);
+  color: #fff;
+}
+
+.category-tabs {
+  display: flex;
+  gap: 10px;
+  padding: 10px 24px;
+  overflow-x: auto;
+}
+.category-tabs::-webkit-scrollbar { display: none; }
+.category-tab {
+  flex-shrink: 0;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  background: var(--color-gold-300);
+  color: var(--color-teal-800);
+  font: var(--type-chip);
+  white-space: nowrap;
+  border: none;
+}
+.category-tab.active { background: var(--brand-gold); color: var(--text-on-gold); font-weight: 700; }
+
+.pose-grid {
+  padding: 8px 24px 24px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.pose-card {
+  background: var(--bg-surface);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--elevation-1);
+  position: relative;
+  border: 1px solid var(--border-default);
+}
+.pose-card-figure {
+  height: 140px;
+  display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(160deg, var(--color-teal-100), var(--color-parchment-100));
+}
+.pose-card-info { padding: 10px 12px 12px; }
+.pose-card-name { font: 600 15px/20px var(--font-display); color: var(--text-primary); }
+.pose-card-meta { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; }
+.pose-fav-btn {
+  position: absolute; top: 8px; right: 8px;
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.85);
+  border: none;
+  display: flex; align-items: center; justify-content: center;
+  transition: transform var(--duration-micro);
+}
+.pose-fav-btn.active svg path { fill: #C96A4C; stroke: #C96A4C; }
+
+.chip {
+  display: inline-block;
+  font: var(--type-chip);
+  font-size: 11px;
+  padding: 3px 9px;
+  border-radius: var(--radius-pill);
+  background: var(--color-teal-100);
+  color: var(--color-teal-800);
+}
+.chip.small { font-size: 10px; padding: 2px 7px; }
+.chip.gold { background: var(--color-gold-300); color: var(--color-teal-900); }
+
+.search-results { padding: 4px 24px 24px; }
+.pose-list { display: flex; flex-direction: column; gap: 10px; }
+.search-empty { text-align: center; padding: 60px 20px; }
+
+/* ── POSE DETAIL BOTTOM SHEET ── */
+#pose-sheet-overlay {
+  position: absolute; inset: 0;
+  background: rgba(15,59,58,0.55);
+  z-index: 90;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--duration-standard);
+}
+#pose-sheet-overlay.visible { opacity: 1; pointer-events: all; }
+
+.bottom-sheet {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  max-height: 82%;
+  background: var(--bg-surface);
+  border-radius: 28px 28px 0 0;
+  z-index: 91;
+  transform: translateY(100%);
+  transition: transform var(--duration-standard) var(--ease-enter);
+  box-shadow: 0 -12px 40px rgba(15,59,58,0.3);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.bottom-sheet.visible { transform: translateY(0); }
+.sheet-handle {
+  width: 40px; height: 4px;
+  background: var(--border-default);
+  border-radius: var(--radius-pill);
+  margin: 12px auto 4px;
+  flex-shrink: 0;
+}
+.sheet-close {
+  position: absolute; top: 14px; right: 16px;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: var(--color-parchment-200);
+  border: none;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 2;
+}
+.sheet-body { overflow-y: auto; padding: 8px 24px 28px; }
+.sheet-figure { display: flex; justify-content: center; margin: 4px 0 8px; }
+#detail-title { font: var(--type-display); color: var(--text-primary); text-align: center; margin-bottom: 10px; }
+#detail-tags { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 16px; }
+.sheet-section-title { font: var(--type-overline); color: var(--text-secondary); letter-spacing: 1px; margin: 14px 0 6px; text-transform: uppercase; }
+#detail-instructions { font: var(--type-body); color: var(--text-primary); line-height: 1.6; }
+.tip-callout {
+  margin-top: 14px;
+  background: var(--color-gold-300);
+  border-left: 3px solid var(--brand-gold);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  font: var(--type-body);
+  color: var(--color-ink-800);
+  display: flex; gap: 10px; align-items: flex-start;
+}
+.sheet-cta { margin-top: 20px; }
+
+/* ── SESSION SETUP SCREEN ── */
+#screen-session-setup { background: var(--bg-canvas); }
+.setup-topbar {
+  display: flex; align-items: center; gap: 12px;
+  padding: 16px 20px 8px;
+}
+.icon-btn {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.setup-topbar-title { font: var(--type-h3); color: var(--text-primary); }
+
+.setup-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 24px 16px;
+}
+.setup-preview-figure { width: 140px; height: 190px; }
+#setup-pose-name { font: var(--type-h1); color: var(--text-primary); margin-top: 8px; text-align: center; }
+
+.setup-options { padding: 8px 24px; display: flex; flex-direction: column; gap: 14px; }
+.option-row {
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--bg-surface);
+  border-radius: var(--radius-md);
+  padding: 16px 18px;
+  border: 1px solid var(--border-default);
+}
+.option-label { font: var(--type-label); color: var(--text-primary); }
+.option-sub { font: var(--type-caption); color: var(--text-secondary); margin-top: 2px; }
+.option-toggle-btn {
+  background: var(--color-teal-100);
+  border: none;
+  border-radius: var(--radius-pill);
+  padding: 8px 18px;
+  font: var(--type-chip);
+  font-weight: 600;
+  color: var(--color-teal-800);
+  min-width: 80px;
+  text-align: center;
+}
+
+.overlay-mode-row { display: flex; gap: 8px; }
+.overlay-mode-chip {
+  flex: 1;
+  text-align: center;
+  padding: 10px 6px;
+  border-radius: var(--radius-sm);
+  background: var(--color-teal-100);
+  font: var(--type-caption);
+  font-weight: 600;
+  color: var(--color-teal-800);
+  border: 1.5px solid transparent;
+}
+.overlay-mode-chip.active { border-color: var(--brand-gold); background: var(--color-gold-300); }
+
+.setup-footer { margin-top: auto; padding: 16px 24px 28px; }
+
+/* ── COUNTDOWN OVERLAY ── */
+#countdown-display {
+  position: absolute; inset: 0;
+  background: rgba(10,40,39,0.75);
+  z-index: 80;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 200ms;
+}
+#countdown-number {
+  font: 700 120px/1 var(--font-mono);
+  color: var(--brand-gold);
+  text-shadow: 0 0 40px rgba(201,162,76,0.6);
+}
+
+/* ── Ported from removed app.css (only live, non-duplicated rules) ── */
+#halo-rays { position: absolute; inset: -20px; transition: opacity 0.3s; }
+#gallery-detail-fav { color: rgba(246,240,225,0.8); }
+#gallery-detail-fav.active { color: var(--color-terracotta-600); }
+#cat-pose-list { flex: 1; overflow-y: auto; }
+.tab-item:active { transform: scale(0.92); }
+#shutter-btn:active { transform: scale(0.92); background: rgba(246,240,225,0.3); }
+
+/* ── CAMERA SCREEN ── */
+#screen-camera { background: #000; }
+.camera-stage { position: relative; flex: 1; overflow: hidden; background: #000; }
+
+#sim-backdrop {
+  position: absolute; inset: 0;
+  background: linear-gradient(160deg, #0A2827 0%, #0F3B3A 40%, #155450 75%, #1E7A74 100%);
+  display: none;
+  z-index: 0;
+}
+#sim-backdrop::after {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: radial-gradient(rgba(201,162,76,0.08) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+#camera-video {
+  position: absolute; top: 0; left: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 300ms;
+  transform: scaleX(-1);
+  background: #000;
+}
+
+#ghost-canvas, #skeleton-canvas {
+  position: absolute; top: 0; left: 0;
+  width: 100%; height: 100%;
+}
+#ghost-canvas { z-index: 2; }
+#skeleton-canvas { z-index: 3; }
+
+#pose-overlay-container {
+  position: absolute; inset: 0;
+  z-index: 2;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0;
+  transition: opacity 300ms;
+  pointer-events: none;
+}
+#pose-overlay-container svg { width: 60%; max-width: 220px; filter: drop-shadow(0 0 20px rgba(201,162,76,0.3)); }
+
+.camera-topbar {
+  position: absolute; top: 0; left: 0; right: 0;
+  z-index: 20;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: env(safe-area-inset-top, 16px) 16px 0;
+  background: var(--overlay-scrim-top);
+  padding-bottom: 40px;
+}
+.camera-icon-btn {
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  background: rgba(15,59,58,0.55);
+  border: 1px solid rgba(201,162,76,0.3);
+  backdrop-filter: blur(6px);
+  display: flex; align-items: center; justify-content: center;
+}
+.camera-icon-btn svg { stroke: #F6F0E1; }
+#camera-pose-name {
+  font: var(--type-h3);
+  color: #fff;
+  background: rgba(15,59,58,0.55);
+  padding: 8px 18px;
+  border-radius: var(--radius-pill);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(201,162,76,0.3);
+  max-width: 60%;
+  text-align: center;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.camera-topbar-actions { display: flex; gap: 8px; }
+
+/* Alignment HUD ring, top-right corner */
+#alignment-hud {
+  position: absolute;
+  top: 78px; right: 16px;
+  z-index: 21;
+  width: 92px; height: 92px;
+  display: flex; align-items: center; justify-content: center;
+}
+#alignment-hud svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+#hud-ring-bg { fill: none; stroke: rgba(255,255,255,0.18); stroke-width: 6; }
+#hud-ring-fill {
+  fill: none; stroke: var(--state-warning); stroke-width: 6; stroke-linecap: round;
+  stroke-dasharray: 251.2;
+  stroke-dashoffset: 251.2;
+  transition: stroke-dashoffset 200ms linear, stroke 300ms;
+}
+.hud-center-text {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+#hud-score { font: 700 20px/22px var(--font-mono); color: #fff; }
+#hud-label { font: 600 9px/12px var(--font-body); color: var(--color-gold-300); letter-spacing: 1px; margin-top: 2px; }
+#alignment-hud.aligned #hud-score { color: var(--state-success); }
+
+/* Hint banner */
+#hint-banner {
+  position: absolute;
+  bottom: 210px; left: 16px; right: 16px;
+  z-index: 22;
+  background: rgba(15,59,58,0.82);
+  border: 1px solid rgba(201,162,76,0.4);
+  border-radius: var(--radius-md);
+  padding: 12px 18px;
+  text-align: center;
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 250ms, transform 250ms;
+  pointer-events: none;
+}
+#hint-banner.visible { opacity: 1; transform: translateY(0); }
+#hint-text { font: var(--type-label); color: #fff; }
+
+/* Autocapture progress */
+#autocapture-progress-wrap {
+  position: absolute;
+  bottom: 190px; left: 16px; right: 16px;
+  height: 4px;
+  background: rgba(255,255,255,0.2);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  z-index: 21;
+}
+#autocapture-progress {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--color-gold-500), var(--brand-gold));
+  opacity: 0;
+  transition: width 60ms linear, opacity 200ms;
+  border-radius: var(--radius-pill);
+}
+
+/* Particle bloom */
+#particle-bloom {
+  position: absolute;
+  bottom: 130px; left: 50%;
+  width: 0; height: 0;
+  z-index: 25;
+  pointer-events: none;
+}
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  animation: particleFly ease-out forwards;
+}
+@keyframes particleFly {
+  0% { transform: translate(0,0) scale(1); opacity: 1; }
+  100% { transform: translate(var(--dx), var(--dy)) scale(0.2); opacity: 0; }
+}
+
+/* Camera bottom bar */
+.camera-bottombar {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  z-index: 20;
+  padding: 30px 24px calc(30px + env(safe-area-inset-bottom, 0));
+  background: var(--overlay-scrim-bottom);
+  display: flex; align-items: center; justify-content: center;
+  gap: 40px;
+}
+#shutter-btn {
+  width: 76px; height: 76px;
+  border-radius: 50%;
+  background: #fff;
+  border: 4px solid rgba(201,162,76,0.7);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  position: relative;
+  flex-shrink: 0;
+}
+#shutter-btn::after {
+  content: '';
+  position: absolute; inset: 6px;
+  border-radius: 50%;
+  border: 2px solid var(--color-teal-800);
+}
+#shutter-btn.capturing { animation: shutterPulse 300ms ease; }
+@keyframes shutterPulse { 0% { transform: scale(1);} 50% { transform: scale(0.85); background:#C9A24C;} 100% { transform: scale(1);} }
+
+.camera-side-btn {
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  background: rgba(15,59,58,0.55);
+  border: 1px solid rgba(201,162,76,0.3);
+  display: flex; align-items: center; justify-content: center;
+  backdrop-filter: blur(6px);
+}
+.camera-side-btn svg { stroke: #F6F0E1; }
+
+/* ── GALLERY SCREEN ── */
+#screen-gallery { background: var(--bg-canvas); }
+.gallery-header { padding: 16px 24px 8px; display: flex; align-items: baseline; justify-content: space-between; }
+.gallery-header h1 { font: var(--type-h1); color: var(--text-primary); }
+#gallery-count { font: var(--type-caption); color: var(--text-secondary); }
+
+.gallery-grid {
+  padding: 8px 16px 24px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.gallery-item {
+  position: relative;
+  aspect-ratio: 3/4;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--color-teal-100);
+  box-shadow: var(--elevation-1);
+}
+.gallery-thumb { width: 100%; height: 100%; object-fit: cover; }
+.gallery-sim-thumb { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: linear-gradient(160deg,#DDEFED,#F6F0E1); }
+.gallery-fav-badge { position: absolute; top: 4px; right: 4px; font-size: 12px; color: #C96A4C; }
+.gallery-item-info {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: var(--overlay-scrim-bottom);
+  padding: 6px 8px 4px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.gallery-pose-name { font: 600 10px/13px var(--font-body); color: #fff; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 68%; }
+.gallery-score-pill { font: 700 9px/12px var(--font-mono); color: var(--color-gold-300); }
+
+#gallery-empty {
+  flex: 1;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px;
+  gap: 10px;
+}
+#gallery-empty .empty-icon { font-size: 48px; opacity: 0.5; }
+#gallery-empty h3 { font: var(--type-h2); color: var(--text-primary); }
+#gallery-empty p { font: var(--type-body); color: var(--text-secondary); max-width: 240px; }
+
+/* ── GALLERY DETAIL SCREEN ── */
+#screen-gallery-detail { background: #0A2827; }
+.gallery-detail-stage { position: relative; flex: 1; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #0A2827; }
+#gallery-detail-img { width: 100%; height: 100%; object-fit: contain; display: none; }
+#gallery-detail-sim { width: 100%; height: 100%; display: none; align-items: center; justify-content: center; }
+.gallery-detail-topbar {
+  position: absolute; top: 0; left: 0; right: 0;
+  z-index: 5;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: env(safe-area-inset-top, 16px) 16px 0;
+}
+.gallery-detail-info {
+  position: absolute; bottom: 100px; left: 20px; right: 20px;
+  color: #fff; z-index: 5;
+}
+#gallery-detail-title { font: var(--type-h1); color: #fff; }
+#gallery-detail-meta { font: var(--type-caption); color: var(--color-gold-300); margin-top: 4px; }
+.gallery-detail-actions {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  display: flex; justify-content: space-around;
+  padding: 18px 24px calc(18px + env(safe-area-inset-bottom, 0));
+  background: linear-gradient(0deg, rgba(10,40,39,0.9), transparent);
+  z-index: 5;
+}
+.gallery-action-btn {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  background: none; border: none; color: #fff;
+}
+.gallery-action-btn .action-label { font: var(--type-caption); }
+.gallery-action-btn.active svg path { fill: #C96A4C; stroke: #C96A4C; }
+
+/* ── REVIEW SCREEN ── */
+#screen-review { background: #0A2827; }
+.review-stage { flex: 1; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; background: #0A2827; }
+#review-img { max-width: 100%; max-height: 100%; border-radius: 4px; }
+.review-topbar { position: absolute; top: 0; left: 0; right: 0; padding: env(safe-area-inset-top, 16px) 16px 0; z-index: 5; }
+.review-score-badge {
+  position: absolute; top: 60px; left: 50%; transform: translateX(-50%);
+  background: rgba(15,59,58,0.75);
+  border: 1px solid var(--brand-gold);
+  border-radius: var(--radius-pill);
+  padding: 8px 20px;
+  z-index: 5;
+}
+#review-score, #review-score-text { font: 700 16px/20px var(--font-mono); color: var(--brand-gold); }
+
+.preset-row {
+  display: flex; gap: 10px;
+  padding: 14px 20px;
+  overflow-x: auto;
+  background: #0A2827;
+}
+.preset-row::-webkit-scrollbar { display: none; }
+.preset-chip {
+  flex-shrink: 0;
+  padding: 8px 16px;
+  border-radius: var(--radius-pill);
+  background: rgba(255,255,255,0.1);
+  color: #F6F0E1;
+  font: var(--type-chip);
+  border: 1.5px solid transparent;
+}
+.preset-chip.active { border-color: var(--brand-gold); background: rgba(201,162,76,0.2); color: var(--brand-gold); }
+
+.review-actions {
+  display: flex; gap: 12px;
+  padding: 8px 20px calc(24px + env(safe-area-inset-bottom, 0));
+  background: #0A2827;
+}
+.review-actions .btn { flex: 1; padding: 14px; min-height: 48px; }
+
+/* ── CATEGORY LIST SCREEN ── */
+#screen-category-list { background: var(--bg-canvas); }
+.cat-list-header {
+  display: flex; align-items: center; gap: 12px;
+  padding: 16px 20px 12px;
+}
+.cat-list-header-text { flex: 1; }
+#cat-list-title { font: var(--type-h1); color: var(--text-primary); }
+#cat-list-count { font: var(--type-caption); color: var(--text-secondary); }
+
+.pose-list-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 20px;
+  border-bottom: 1px solid var(--border-default);
+}
+.pose-list-thumb {
+  width: 56px; height: 72px;
+  background: var(--color-teal-100);
+  border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+.pose-list-info { flex: 1; min-width: 0; }
+.pose-list-name { font: 600 15px/20px var(--font-display); color: var(--text-primary); }
+.pose-list-sub { font: var(--type-caption); color: var(--text-secondary); margin: 2px 0 4px; }
+.pose-list-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.pose-list-arrow { width: 16px; height: 16px; stroke: var(--text-disabled); flex-shrink: 0; }
+
+/* ── PROGRESS SCREEN ── */
+#screen-progress { background: var(--bg-canvas); }
+.progress-header { padding: 20px 24px 8px; }
+.progress-header h1 { font: var(--type-h1); color: var(--text-primary); }
+
+.progress-stats-row {
+  display: flex; gap: 10px;
+  padding: 12px 24px;
+}
+.progress-stat-card {
+  flex: 1;
+  background: var(--bg-surface);
+  border-radius: var(--radius-md);
+  padding: 16px 10px;
+  text-align: center;
+  box-shadow: var(--elevation-1);
+}
+.progress-stat-card .stat-value { font: var(--type-display); font-size: 26px; color: var(--brand-primary); }
+.progress-stat-card .stat-label { font: var(--type-caption); color: var(--text-secondary); margin-top: 4px; }
+
+.progress-ring-row { display: flex; justify-content: center; padding: 12px 24px; gap: 24px; }
+.progress-ring { position: relative; width: 84px; height: 84px; }
+.progress-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.progress-ring-bg { fill: none; stroke: var(--color-teal-100); stroke-width: 8; }
+.progress-ring-fill { fill: none; stroke: var(--brand-gold); stroke-width: 8; stroke-linecap: round; }
+.progress-ring-label {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  font: 700 15px var(--font-mono); color: var(--text-primary);
+}
+
+.achievement-row {
+  display: flex; gap: 12px;
+  padding: 12px 24px;
+  overflow-x: auto;
+}
+.achievement-row::-webkit-scrollbar { display: none; }
+.achievement-badge {
+  flex-shrink: 0;
+  width: 72px;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+}
+.achievement-icon {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: var(--color-gold-300);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px;
+  border: 2px solid var(--brand-gold);
+}
+.achievement-icon.locked { background: var(--color-parchment-200); border-color: var(--border-default); opacity: 0.5; }
+.achievement-label { font: var(--type-caption); font-size: 10px; text-align: center; color: var(--text-secondary); }
+
+#session-history-list { padding: 4px 24px 24px; display: flex; flex-direction: column; gap: 10px; }
+.session-history-item {
+  display: flex; align-items: center; gap: 12px;
+  background: var(--bg-surface);
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  box-shadow: var(--elevation-1);
+}
+.session-thumb {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: var(--color-teal-100);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.session-info { flex: 1; min-width: 0; }
+.session-info h3 { font: var(--type-h3); font-size: 15px; color: var(--text-primary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.session-info p { font: var(--type-caption); color: var(--text-secondary); }
+.session-score-pill {
+  background: var(--color-teal-100);
+  color: var(--color-teal-800);
+  font: 700 12px var(--font-mono);
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+}
+.progress-empty { text-align: center; padding: 40px 20px; color: var(--text-secondary); font: var(--type-body); }
+
+/* ── PROFILE SCREEN ── */
+#screen-profile { background: var(--bg-canvas); }
+.profile-header {
+  padding: 32px 24px 20px;
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center;
+  background: linear-gradient(180deg, var(--color-teal-100), transparent);
+}
+.profile-avatar {
+  width: 84px; height: 84px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-teal-600), var(--color-cobalt-600));
+  display: flex; align-items: center; justify-content: center;
+  font: 700 28px var(--font-display);
+  color: #fff;
+  box-shadow: var(--elevation-2);
+  border: 3px solid var(--brand-gold);
+}
+.profile-name { font: var(--type-h1); color: var(--text-primary); margin-top: 12px; }
+.profile-goal { font: var(--type-caption); color: var(--text-secondary); margin-top: 2px; text-transform: capitalize; }
+
+.settings-section { padding: 8px 24px; }
+.settings-section-title { font: var(--type-overline); color: var(--text-secondary); letter-spacing: 1px; text-transform: uppercase; margin: 16px 0 8px; }
+.setting-row {
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--bg-surface);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  margin-bottom: 8px;
+  box-shadow: var(--elevation-1);
+}
+.setting-label { font: var(--type-label); color: var(--text-primary); }
+
+.switch { position: relative; width: 46px; height: 26px; flex-shrink: 0; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.switch-track {
+  position: absolute; inset: 0;
+  background: var(--border-default);
+  border-radius: var(--radius-pill);
+  transition: background 200ms;
+  cursor: pointer;
+}
+.switch-track::before {
+  content: '';
+  position: absolute; left: 3px; top: 3px;
+  width: 20px; height: 20px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform 200ms;
+  box-shadow: var(--elevation-1);
+}
+.switch input:checked + .switch-track { background: var(--brand-primary); }
+.switch input:checked + .switch-track::before { transform: translateX(20px); }
+
+.app-info-row {
+  text-align: center;
+  padding: 24px 24px 32px;
+  color: var(--text-disabled);
+  font: var(--type-caption);
+}
+
+/* ── TOAST ── */
+#toast {
+  position: absolute;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: rgba(15,59,58,0.92);
+  color: #F6F0E1;
+  padding: 12px 24px;
+  border-radius: var(--radius-pill);
+  font: var(--type-label);
+  z-index: 200;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 250ms, transform 250ms;
+  box-shadow: var(--elevation-3);
+  border: 1px solid rgba(201,162,76,0.3);
+  max-width: 85%;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#toast.visible { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ── SCROLLBAR HIDING (mobile look) ── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-thumb { background: rgba(201,162,76,0.3); border-radius: 4px; }
+
+/* ── SHEET HEADER BAR (fav + share) ── */
+.sheet-header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 4px 0;
+  position: relative;
+}
+.sheet-header-actions {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.sheet-action-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(15,59,58,0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.sheet-action-btn:active { transform: scale(0.9); background: rgba(15,59,58,0.12); }
+.pose-fav-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(201,162,76,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.2s var(--ease-overshoot);
+  -webkit-tap-highlight-color: transparent;
+}
+.pose-fav-btn.active { background: rgba(201,76,76,0.15); }
+.pose-fav-btn.active svg path { fill: #C96A4C; stroke: #C96A4C; }
+.pose-fav-btn:active { transform: scale(1.3); }
+
+/* ── SEARCH RESULTS HEADER ── */
+.search-results-header {
+  font: var(--type-label);
+  color: var(--text-secondary);
+  padding: 4px 0 12px;
+  text-align: center;
+}
+
+/* ── FLASH ANIMATION (reusable) ── */
+@keyframes camera-flash {
+  0% { opacity: 0; }
+  20% { opacity: 0.9; }
+  100% { opacity: 0; }
+}
+.flash-overlay {
+  position: fixed;
+  inset: 0;
+  background: #fff;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0;
+}
+.flash-overlay.flashing {
+  animation: camera-flash 0.4s ease-out forwards;
+}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- ══════════════════════ OB-1: WELCOME ══════════════════════ -->
+  <section id="screen-ob1" class="screen active ob-screen">
+    <div class="botanical-frame" aria-hidden="true">
+      <svg class="botanical-corner tl" viewBox="0 0 120 120" fill="none"><path d="M6 6 C 30 6, 40 20, 40 40 C 40 60, 26 66, 14 60" stroke="#C9A24C" stroke-width="1.4" fill="none"/><path d="M6 6 C 6 30, 20 40, 40 40" stroke="#C9A24C" stroke-width="1.4" fill="none"/><circle cx="40" cy="40" r="5" stroke="#1E7A74" stroke-width="1.2" fill="none"/><path d="M6 6 L 26 6 M6 6 L 6 26" stroke="#C9A24C" stroke-width="1.4"/></svg>
+      <svg class="botanical-corner tr" viewBox="0 0 120 120" fill="none"><path d="M6 6 C 30 6, 40 20, 40 40 C 40 60, 26 66, 14 60" stroke="#C9A24C" stroke-width="1.4" fill="none"/><path d="M6 6 C 6 30, 20 40, 40 40" stroke="#C9A24C" stroke-width="1.4" fill="none"/><circle cx="40" cy="40" r="5" stroke="#1E7A74" stroke-width="1.2" fill="none"/><path d="M6 6 L 26 6 M6 6 L 6 26" stroke="#C9A24C" stroke-width="1.4"/></svg>
+      <svg class="botanical-corner bl" viewBox="0 0 120 120" fill="none"><path d="M6 6 C 30 6, 40 20, 40 40 C 40 60, 26 66, 14 60" stroke="#C9A24C" stroke-width="1.4" fill="none"/><path d="M6 6 C 6 30, 20 40, 40 40" stroke="#C9A24C" stroke-width="1.4" fill="none"/><circle cx="40" cy="40" r="5" stroke="#1E7A74" stroke-width="1.2" fill="none"/><path d="M6 6 L 26 6 M6 6 L 6 26" stroke="#C9A24C" stroke-width="1.4"/></svg>
+      <svg class="botanical-corner br" viewBox="0 0 120 120" fill="none"><path d="M6 6 C 30 6, 40 20, 40 40 C 40 60, 26 66, 14 60" stroke="#C9A24C" stroke-width="1.4" fill="none"/><path d="M6 6 C 6 30, 20 40, 40 40" stroke="#C9A24C" stroke-width="1.4" fill="none"/><circle cx="40" cy="40" r="5" stroke="#1E7A74" stroke-width="1.2" fill="none"/><path d="M6 6 L 26 6 M6 6 L 6 26" stroke="#C9A24C" stroke-width="1.4"/></svg>
+
+      <svg class="floating-bloom" style="top:14%; left:8%; width:38px; height:38px;" viewBox="0 0 40 40" fill="none"><path d="M20 6 C 26 12, 26 22, 20 28 C 14 22, 14 12, 20 6 Z" fill="#1E7A74" opacity="0.5"/><circle cx="20" cy="17" r="3.5" fill="#C9A24C" opacity="0.7"/></svg>
+      <svg class="floating-bloom" style="top:22%; right:10%; width:30px; height:30px; animation-delay:1.4s;" viewBox="0 0 40 40" fill="none"><path d="M20 6 C 26 12, 26 22, 20 28 C 14 22, 14 12, 20 6 Z" fill="#2B5FAD" opacity="0.45"/><circle cx="20" cy="17" r="3" fill="#C9A24C" opacity="0.6"/></svg>
+      <svg class="floating-bloom" style="bottom:22%; left:12%; width:34px; height:34px; animation-delay:2.6s;" viewBox="0 0 40 40" fill="none"><path d="M20 6 C 26 12, 26 22, 20 28 C 14 22, 14 12, 20 6 Z" fill="#C9A24C" opacity="0.4"/><circle cx="20" cy="17" r="3" fill="#0F3B3A" opacity="0.5"/></svg>
+    </div>
+
+    <div class="ob-illustration" aria-hidden="true">
+      <svg viewBox="0 0 180 180" fill="none" width="100%" height="100%">
+        <circle cx="90" cy="90" r="72" stroke="#C9A24C" stroke-width="1" stroke-dasharray="2 6" opacity="0.4"/>
+        <circle cx="90" cy="90" r="58" stroke="#1E7A74" stroke-width="1" opacity="0.3"/>
+        <circle cx="90" cy="44" r="17" fill="#0F3B3A" opacity="0.8"/>
+        <path d="M70 76 C64 104 68 132 76 158 C82 172 98 172 104 158 C112 132 116 104 110 76 C100 66 80 66 70 76 Z" fill="#0F3B3A" opacity="0.75"/>
+        <path d="M72 84 C54 92 44 108 46 124" stroke="#0F3B3A" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.7"/>
+        <path d="M108 84 C126 92 136 108 134 124" stroke="#0F3B3A" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.7"/>
+        <path d="M90 76 C86 104 94 128 90 156" stroke="#C9A24C" stroke-width="1.2" fill="none" opacity="0.5"/>
+      </svg>
+    </div>
+
+    <div class="ob-wordmark">Pose<span class="accent">Art</span></div>
+    <div class="ob-gold-rule"></div>
+    <div class="ob-tagline">Move like art.</div>
+    <p class="ob-sub">Learn 745 studio-quality poses with a live ghost overlay that guides your body into place.</p>
+
+    <button class="btn btn-gold" data-testid="btn-begin" onclick="showScreen('ob2')">Begin</button>
+  </section>
+
+  <!-- ══════════════════════ OB-2: HOW IT WORKS ══════════════════════ -->
+  <section id="screen-ob2" class="screen">
+    <div class="ob2-header">
+      <h1>How It Works</h1>
+      <p>Three simple ideas power every session.</p>
+    </div>
+
+    <div id="ob2-demo-stage" data-testid="ob2-demo-stage">
+      <svg class="ghost-figure" width="90" height="130" viewBox="0 0 200 280" fill="none">
+        <circle cx="100" cy="38" r="24" stroke="#C9A24C" stroke-width="1" stroke-dasharray="4 6" opacity="0.5"/>
+        <circle cx="100" cy="38" r="16" fill="#F6F0E1" opacity="0.85"/>
+        <path d="M78 68 Q70 95 79 124 Q86 142 84 160 Q90 164 100 164 Q110 164 116 160 Q114 142 121 124 Q130 95 122 68 Z" fill="#F6F0E1" opacity="0.75"/>
+        <path d="M79 78 Q58 70 46 82 Q40 94 50 104" stroke="#F6F0E1" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.75"/>
+        <path d="M121 82 Q142 86 148 102 Q152 114 144 122" stroke="#F6F0E1" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.75"/>
+        <path d="M84 160 Q76 186 70 226 Q80 234 100 234 Q120 234 130 226 Q124 186 116 160 Z" fill="#F6F0E1" opacity="0.6"/>
+      </svg>
+      <div class="demo-hint">Ghost overlay guides your pose in real time</div>
+    </div>
+
+    <div class="ob2-cards">
+      <div class="ob2-card">
+        <div class="ob2-card-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1E7A74" stroke-width="1.8"><circle cx="12" cy="8" r="3"/><path d="M6 21c0-4 3-6 6-6s6 2 6 6"/></svg></div>
+        <div>
+          <div class="ob2-card-title">Ghost Overlay</div>
+          <div class="ob2-card-desc">A translucent target figure shows exactly where to place your body.</div>
+        </div>
+      </div>
+      <div class="ob2-card">
+        <div class="ob2-card-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1E7A74" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></div>
+        <div>
+          <div class="ob2-card-title">745 Poses</div>
+          <div class="ob2-card-desc">Standing, seated, kneeling, reclining, couple, and accessible categories.</div>
+        </div>
+      </div>
+      <div class="ob2-card">
+        <div class="ob2-card-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1E7A74" stroke-width="1.8"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
+        <div>
+          <div class="ob2-card-title">Auto-Capture</div>
+          <div class="ob2-card-desc">Hold alignment for a beat and PoseArt captures the shot for you.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ob2-footer">
+      <button class="btn btn-gold btn-block" data-testid="btn-try-it" onclick="runOnboardingDemo()">Try it</button>
+      <a class="btn-link" data-testid="link-skip-ob2" onclick="showScreen('ob3')">Skip</a>
+    </div>
+  </section>
+
+  <!-- ══════════════════════ OB-3: CAMERA PERMISSION ══════════════════════ -->
+  <section id="screen-ob3" class="screen ob-screen">
+    <div class="ob-camera-icon" aria-hidden="true">
+      <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#0F3B3A" stroke-width="1.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+    </div>
+    <h1 style="font:var(--type-h1); color:var(--text-primary); margin-bottom:10px;">Grant Camera Access</h1>
+    <p class="ob-sub">PoseArt uses your camera to overlay a ghost guide and score your alignment live. Nothing is ever uploaded — everything happens on your device.</p>
+
+    <button class="btn btn-gold btn-block" id="camera-perm-btn" data-testid="btn-allow-camera" onclick="requestCameraPermission()" style="max-width:280px;">Allow Camera</button>
+    <a class="btn-link" data-testid="link-demo-mode" onclick="continueInDemoMode()">Continue in Demo Mode</a>
+  </section>
+
+  <!-- ══════════════════════ OB-4: GOAL SELECTION ══════════════════════ -->
+  <section id="screen-ob4" class="screen">
+    <div class="ob4-header">
+      <h1>What's your goal?</h1>
+      <p>We'll tailor pose suggestions to fit you.</p>
+    </div>
+
+    <div class="persona-grid">
+      <button class="persona-btn" data-testid="persona-photographer" onclick="selectGoal(this, 'photographer')">
+        <span class="persona-icon" aria-hidden="true">📷</span>
+        <span class="persona-name">Photographer</span>
+        <span class="persona-desc">Directing subjects on set</span>
+      </button>
+      <button class="persona-btn" data-testid="persona-model" onclick="selectGoal(this, 'model')">
+        <span class="persona-icon" aria-hidden="true">🧍</span>
+        <span class="persona-name">Model / Subject</span>
+        <span class="persona-desc">Posing in front of the lens</span>
+      </button>
+      <button class="persona-btn" data-testid="persona-selfportrait" onclick="selectGoal(this, 'self-portrait')">
+        <span class="persona-icon" aria-hidden="true">🤳</span>
+        <span class="persona-name">Self-Portrait</span>
+        <span class="persona-desc">Solo shoots, timer &amp; tripod</span>
+      </button>
+      <button class="persona-btn" data-testid="persona-exploring" onclick="selectGoal(this, 'exploring')">
+        <span class="persona-icon" aria-hidden="true">✨</span>
+        <span class="persona-name">Just Exploring</span>
+        <span class="persona-desc">Curious to see what's here</span>
+      </button>
+    </div>
+
+    <div class="ob4-footer">
+      <button class="btn btn-gold btn-block" id="start-exploring-btn" data-testid="btn-start-exploring" disabled style="opacity:0.45;" onclick="completeOnboarding()">Start Exploring</button>
+    </div>
+  </section>
+
+  <!-- ══════════════════════ HOME SCREEN ══════════════════════ -->
+  <section id="screen-home" class="screen">
+    <div class="status-bar">
+      <span id="status-time">9:41</span>
+      <span class="ob-wordmark" style="font-size:15px; letter-spacing:1px;">PoseArt</span>
+      <span style="width:34px;"></span>
+    </div>
+
+    <div class="screen-scroll">
+      <div class="home-header">
+        <div class="home-greeting" id="home-greeting">Good day, Artist<span class="accent-dot">.</span></div>
+        <div class="home-sub">Ready to strike a new pose?</div>
+      </div>
+
+      <div class="featured-card">
+        <div class="featured-card-figure" id="thumb-scurve"></div>
+        <div class="featured-card-body">
+          <div class="featured-overline">FEATURED POSE</div>
+          <div class="featured-name" id="featured-name">S-Curve Stand</div>
+          <button class="btn btn-gold" id="featured-start-btn" data-testid="btn-start-session-home" onclick="goToSession('scurve-stand')">Start Session</button>
+        </div>
+      </div>
+
+      <div class="section-label">Browse Categories</div>
+      <div class="category-grid" id="category-grid" role="list"></div>
+
+      <div class="section-label">Recent Captures</div>
+      <div class="recent-row" id="recent-captures-row" role="list"></div>
+      <div class="captures-empty-hint" id="captures-empty-hint">Your captured poses will appear here.</div>
+
+      <div class="quick-stats">
+        <div class="quick-stat">
+          <div class="quick-stat-value" id="stat-sessions">0</div>
+          <div class="quick-stat-label">Sessions</div>
+        </div>
+        <div class="quick-stat">
+          <div class="quick-stat-value" id="stat-poses">0</div>
+          <div class="quick-stat-label">Poses Tried</div>
+        </div>
+        <div class="quick-stat">
+          <div class="quick-stat-value" id="stat-score">--</div>
+          <div class="quick-stat-label">Best Score</div>
+        </div>
+      </div>
+    </div>
+
+    <button class="fab" data-testid="fab-library" onclick="showTab('library')" aria-label="Open pose library">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+    </button>
+  </section>
+
+  <!-- ══════════════════════ LIBRARY SCREEN ══════════════════════ -->
+  <section id="screen-library" class="screen">
+    <div class="status-bar">
+      <span id="status-time-lib" class="time">9:41</span>
+      <span style="font:var(--type-caption); color:var(--text-secondary);">Library</span>
+      <span style="width:34px;"></span>
+    </div>
+
+    <div class="library-header">
+      <div class="library-title">Pose Library</div>
+      <div class="search-bar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="text" id="pose-search-input" data-testid="input-pose-search" placeholder="Search poses, moods, categories…" aria-label="Search poses by name, mood, or category" oninput="searchPoses(this.value)">
+      </div>
+    </div>
+
+    <div class="filter-pills" role="list">
+      <button class="filter-pill active" data-testid="filter-all" aria-pressed="true" onclick="document.querySelectorAll('.filter-pill').forEach(p=>{p.classList.remove('active');p.setAttribute('aria-pressed','false')});this.classList.add('active');this.setAttribute('aria-pressed','true')">All</button>
+      <button class="filter-pill" data-testid="filter-beginner" aria-pressed="false" onclick="document.querySelectorAll('.filter-pill').forEach(p=>{p.classList.remove('active');p.setAttribute('aria-pressed','false')});this.classList.add('active');this.setAttribute('aria-pressed','true');searchPoses('beginner')">Beginner</button>
+      <button class="filter-pill" data-testid="filter-intermediate" aria-pressed="false" onclick="document.querySelectorAll('.filter-pill').forEach(p=>{p.classList.remove('active');p.setAttribute('aria-pressed','false')});this.classList.add('active');this.setAttribute('aria-pressed','true');searchPoses('intermediate')">Intermediate</button>
+      <button class="filter-pill" data-testid="filter-advanced" aria-pressed="false" onclick="document.querySelectorAll('.filter-pill').forEach(p=>{p.classList.remove('active');p.setAttribute('aria-pressed','false')});this.classList.add('active');this.setAttribute('aria-pressed','true');searchPoses('advanced')">Advanced</button>
+      <button class="filter-pill" data-testid="filter-favorites" aria-pressed="false" onclick="document.querySelectorAll('.filter-pill').forEach(p=>{p.classList.remove('active');p.setAttribute('aria-pressed','false')});this.classList.add('active');this.setAttribute('aria-pressed','true');showFavorites()">Favorites ♥</button>
+    </div>
+
+    <div class="screen-scroll">
+      <div id="library-browse-label">
+        <div class="section-label">Browse Categories</div>
+        <div class="category-grid" id="library-category-grid" role="list"></div>
+      </div>
+      <div class="search-results" id="search-results" style="display:none;"></div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════ POSE DETAIL BOTTOM SHEET ══════════════════════ -->
+  <div id="pose-sheet-overlay" onclick="closePoseSheet()"></div>
+  <div class="bottom-sheet" id="pose-detail-sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-header-bar">
+      <button class="sheet-close" data-testid="btn-close-pose-sheet" onclick="closePoseSheet()" aria-label="Close">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0F3B3A" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+      <div class="sheet-header-actions">
+        <button class="pose-fav-btn" id="sheet-fav-btn" data-testid="btn-sheet-fav" onclick="toggleFavFromSheet(event)" aria-label="Add to favorites" aria-pressed="false">
+          <svg width="20" height="20" viewBox="0 0 16 16" fill="none"><path d="M8 14S1 9.5 1 5.5C1 3.5 2.5 2 4.5 2c1 0 2 .5 3.5 2C9.5 2.5 10.5 2 12.5 2 14.5 2 15 3.5 15 5.5 15 9.5 8 14 8 14Z" stroke="#C96A4C" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="sheet-action-btn" id="sheet-share-btn" data-testid="btn-sheet-share" onclick="sharePoseFromSheet()" aria-label="Share pose">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0F3B3A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="sheet-body">
+      <!-- Row: figure SVG + 3D skeleton side by side -->
+      <div style="display:flex; gap:10px; align-items:flex-start; padding: 0 4px;">
+        <div style="flex:0 0 auto;">
+          <div class="sheet-figure" id="pose-detail-animation" style="margin:0;"></div>
+        </div>
+        <div class="skeleton-3d-wrap" style="flex:1; text-align:center; padding:0;">
+          <canvas id="pose-skeleton-3d-canvas" width="180" height="190" 
+            style="border-radius:12px; background:rgba(15,59,58,0.06); touch-action:none; cursor:grab; max-width:100%;"
+            data-testid="canvas-skeleton-3d">
+          </canvas>
+          <div class="skeleton-view-btns" style="display:flex; gap:4px; justify-content:center; margin-top:4px; flex-wrap:wrap;">
+            <button class="skel-view-btn" data-testid="btn-skel-front" onclick="setSkelView('front')" style="font-size:10px; padding:3px 7px; border-radius:6px; border:1px solid #0F3B3A; background:transparent; color:#0F3B3A; cursor:pointer;">Front</button>
+            <button class="skel-view-btn" data-testid="btn-skel-side" onclick="setSkelView('side-left')" style="font-size:10px; padding:3px 7px; border-radius:6px; border:1px solid #0F3B3A; background:transparent; color:#0F3B3A; cursor:pointer;">Side</button>
+            <button class="skel-view-btn" data-testid="btn-skel-quarter" onclick="setSkelView('quarter-front-left')" style="font-size:10px; padding:3px 7px; border-radius:6px; border:1px solid #0F3B3A; background:transparent; color:#0F3B3A; cursor:pointer;">¾</button>
+            <button class="skel-view-btn active" data-testid="btn-skel-auto" onclick="setSkelView('auto')" style="font-size:10px; padding:3px 7px; border-radius:6px; border:1px solid #C9A24C; background:rgba(201,162,76,0.15); color:#0F3B3A; cursor:pointer;">Auto ↺</button>
+          </div>
+        </div>
+      </div>
+
+      <h2 id="detail-title" style="margin-top:10px;">Pose Name</h2>
+      <div id="detail-tags"></div>
+
+      <div class="sheet-section-title">Instructions</div>
+      <p id="detail-instructions">Instructions will appear here.</p>
+
+      <div class="tip-callout" id="detail-tip-wrap">
+        <span aria-hidden="true">💡</span>
+        <span id="detail-tip">Tip text appears here.</span>
+      </div>
+
+      <div class="sheet-cta">
+        <button class="btn btn-gold btn-block" data-testid="btn-start-session-detail" onclick="goToSession()">Start Session</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════ SESSION SETUP SCREEN ══════════════════════ -->
+  <section id="screen-session-setup" class="screen">
+    <div class="setup-topbar">
+      <button class="icon-btn" data-testid="btn-back-setup" onclick="goBack()" aria-label="Back">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0F3B3A" stroke-width="2" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <div class="setup-topbar-title">Session Setup</div>
+    </div>
+
+    <div class="screen-scroll">
+      <div class="setup-preview">
+        <div class="setup-preview-figure" id="setup-pose-figure"></div>
+        <div id="setup-pose-name">Pose Name</div>
+      </div>
+
+      <div class="setup-options">
+        <div class="option-row">
+          <div>
+            <div class="option-label">Timer</div>
+            <div class="option-sub">Delay before capture fires</div>
+          </div>
+          <button class="option-toggle-btn" id="opt-timer" data-testid="opt-timer" onclick="cycleOption('timer')">5 sec</button>
+        </div>
+
+        <div class="option-row">
+          <div>
+            <div class="option-label">Sensitivity</div>
+            <div class="option-sub">How strict alignment scoring is</div>
+          </div>
+          <button class="option-toggle-btn" id="opt-sensitivity" data-testid="opt-sensitivity" onclick="cycleOption('sensitivity')">Balanced</button>
+        </div>
+
+        <div class="option-row" style="flex-direction:column; align-items:stretch; gap:10px;">
+          <div class="option-label">Overlay Mode</div>
+          <div class="overlay-mode-row" id="overlay-mode-selector">
+            <button class="overlay-mode-chip active" data-testid="overlay-avatar" onclick="selectOverlayMode(this,'avatar')" aria-pressed="true">Avatar</button>
+            <button class="overlay-mode-chip" data-testid="overlay-skeleton" onclick="selectOverlayMode(this,'skeleton')" aria-pressed="false">Skeleton</button>
+            <button class="overlay-mode-chip" data-testid="overlay-ghost" onclick="selectOverlayMode(this,'ghost')" aria-pressed="false">Ghost</button>
+            <button class="overlay-mode-chip" data-testid="overlay-off" onclick="selectOverlayMode(this,'off')" aria-pressed="false">Off</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="setup-footer">
+      <button class="btn btn-gold btn-block" id="begin-session-btn" data-testid="btn-begin-capture" onclick="startCameraSession()">Begin Capture →</button>
+      <p style="text-align:center;font-size:11px;color:var(--text-muted);margin:8px 0 0;line-height:1.4;">Opens your camera with the ghost overlay — align your body, hit the shutter.</p>
+      <button class="btn btn-outline btn-block" style="margin-top:8px;font-size:13px;" data-testid="btn-browse-only" onclick="goBack()">← Back to Pose</button>
+    </div>
+  </section>
+
+  <!-- ══════════════════════ CAMERA SCREEN ══════════════════════ -->
+  <section id="screen-camera" class="screen">
+    <div class="camera-stage">
+      <div id="sim-backdrop"></div>
+      <video id="camera-video" autoplay playsinline muted></video>
+      <canvas id="ghost-canvas"></canvas>
+      <canvas id="skeleton-canvas"></canvas>
+      <div id="pose-overlay-container" aria-hidden="true">
+        <svg id="pose-figure-svg" viewBox="0 0 200 280" fill="none">
+          <circle id="halo-rays" cx="100" cy="38" r="24" stroke="#C9A24C" stroke-width="1" stroke-dasharray="4 6" opacity="0.35"/>
+          <circle cx="100" cy="38" r="16" fill="#F6F0E1" opacity="0.7"/>
+          <path d="M78 68 Q70 95 79 124 Q86 142 84 160 Q90 164 100 164 Q110 164 116 160 Q114 142 121 124 Q130 95 122 68 Z" fill="#F6F0E1" opacity="0.65"/>
+        </svg>
+      </div>
+
+      <div class="camera-topbar">
+        <button class="camera-icon-btn" data-testid="btn-end-session" onclick="endSession()" aria-label="End session">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+        <div id="camera-pose-name">Pose Name</div>
+        <div id="demo-mode-pill" data-testid="pill-demo-mode" style="display:none;position:absolute;left:50%;top:52px;transform:translateX(-50%);background:rgba(201,162,76,0.92);color:#0F3B3A;font:600 11px/1 var(--font-body);letter-spacing:0.5px;padding:5px 10px;border-radius:999px;z-index:30;">DEMO MODE</div>
+        <!-- PR-5 (v1.1) — directive Part H #18 / AGENT_STATE.md "Demo mode badge:
+             users who granted camera see same fake scoring as demo mode — no
+             indicator shown". The camera-engine scoring pipeline still uses
+             _simulateKPs (camera.js:123 TODO: replace with real pose detection)
+             even when the user has granted camera permission. Without this
+             badge, users believe their real posture is being scored when it's
+             actually a simulated breathing/swaying skeleton. The badge is
+             intentionally visually distinct from the gold DEMO MODE pill
+             (muted teal, smaller) so the user understands: camera is on, but
+             scoring is still simulated. Will be removed when MediaPipe /
+             Vision pose detection is integrated (Phase 6 of the directive). -->
+        <div id="simulated-scoring-pill" data-testid="pill-simulated-scoring" style="display:none;position:absolute;left:50%;top:78px;transform:translateX(-50%);background:rgba(15,59,58,0.85);color:#F6F0E1;font:600 10px/1 var(--font-body);letter-spacing:0.4px;padding:4px 9px;border-radius:999px;z-index:30;border:1px solid rgba(201,162,76,0.4);">SIMULATED SCORING</div>
+        <div class="camera-topbar-actions">
+          <button class="camera-icon-btn" id="flash-btn" data-testid="btn-flash" onclick="toggleFlash()" aria-label="Toggle flash">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>
+          </button>
+          <button class="camera-icon-btn" data-testid="btn-flip-camera" onclick="flipCamera()" aria-label="Flip camera">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+          </button>
+          <button class="camera-icon-btn" data-testid="btn-cycle-overlay" onclick="cycleOverlay()" aria-label="Cycle overlay mode">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div id="alignment-hud">
+        <svg viewBox="0 0 90 90">
+          <circle id="hud-ring-bg" cx="45" cy="45" r="40"></circle>
+          <circle id="hud-ring-fill" cx="45" cy="45" r="40"></circle>
+        </svg>
+        <div class="hud-center-text">
+          <div id="hud-score">45%</div>
+          <div id="hud-label">ADJUST</div>
+        </div>
+      </div>
+
+
+      <div id="hint-banner"><div id="hint-text">Align with the ghost guide</div></div>
+      <div id="autocapture-progress-wrap"><div id="autocapture-progress"></div></div>
+      <div id="particle-bloom" aria-hidden="true"></div>
+
+      <div id="countdown-display"><div id="countdown-number">3</div></div>
+
+      <div class="camera-bottombar">
+        <button class="camera-side-btn" data-testid="btn-timer" onclick="toggleTimer()" aria-label="Toggle timer">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2M9 2h6"/></svg>
+        </button>
+        <button id="shutter-btn" data-testid="btn-shutter" onclick="capturePhoto()" aria-label="Capture photo"></button>
+        <button class="camera-side-btn" data-testid="btn-next-pose" onclick="goToNextPose()" aria-label="Next pose">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════ GALLERY SCREEN ══════════════════════ -->
+  <section id="screen-gallery" class="screen">
+    <div class="status-bar">
+      <span class="time">9:41</span>
+      <span style="font:var(--type-caption); color:var(--text-secondary);">Gallery</span>
+      <span style="width:34px;"></span>
+    </div>
+    <div class="gallery-header">
+      <h1>Your Gallery</h1>
+      <span><span id="gallery-count">0</span> captures</span>
+    </div>
+
+    <div class="screen-scroll">
+      <div class="gallery-grid" id="gallery-grid" role="list"></div>
+      <div id="gallery-empty">
+        <div class="empty-icon" aria-hidden="true">🖼️</div>
+        <h3>No captures yet</h3>
+        <p>Start a session and hold your pose — captures will land here automatically.</p>
+        <button class="btn btn-teal" style="margin-top:10px;" onclick="showTab('home')">Find a Pose</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════ GALLERY DETAIL SCREEN ══════════════════════ -->
+  <section id="screen-gallery-detail" class="screen">
+    <div class="gallery-detail-stage">
+      <img id="gallery-detail-img" alt="Captured pose">
+      <div id="gallery-detail-sim"></div>
+
+      <div class="gallery-detail-topbar">
+        <button class="camera-icon-btn" data-testid="btn-back-gallery-detail" onclick="showTab('gallery')" aria-label="Back to gallery">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F6F0E1" stroke-width="2" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <span></span>
+      </div>
+
+      <div class="gallery-detail-info">
+        <div id="gallery-detail-title">Pose Name</div>
+        <div id="gallery-detail-meta">92% aligned · Jul 5</div>
+      </div>
+
+      <div class="gallery-detail-actions">
+        <button class="gallery-action-btn" data-testid="btn-share-detail" onclick="sharePhoto()">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5 15.4 17.5M15.4 6.5 8.6 10.5"/></svg>
+          <span class="action-label">Share</span>
+        </button>
+        <button class="gallery-action-btn" id="gallery-detail-fav" data-testid="btn-fav-detail" onclick="toggleGalleryItemFav()">
+          <svg width="22" height="22" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 14S1 9.5 1 5.5C1 3.5 2.5 2 4.5 2c1 0 2 .5 3.5 2C9.5 2.5 10.5 2 12.5 2 14.5 2 15 3.5 15 5.5 15 9.5 8 14 8 14Z"/></svg>
+          <span class="action-label">Favorite</span>
+        </button>
+        <button class="gallery-action-btn" data-testid="btn-delete-detail" onclick="deleteGalleryItem()">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+          <span class="action-label">Delete</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════ REVIEW SCREEN ══════════════════════ -->
+  <section id="screen-review" class="screen">
+    <div class="review-stage">
+      <div class="review-topbar">
+        <button class="camera-icon-btn" data-testid="btn-close-review" onclick="retakePhoto()" aria-label="Close review">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F6F0E1" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="review-score-badge"><span id="review-score">92% aligned</span><span id="review-score-text" style="display:none;"></span></div>
+      <canvas id="review-img" width="430" height="760"></canvas>
+    </div>
+
+    <div class="preset-row" id="preset-row">
+      <button class="preset-chip active" data-preset="none" onclick="applyPreset(this,'none')">Original</button>
+      <button class="preset-chip" data-preset="warm" onclick="applyPreset(this,'warm')">Warm</button>
+      <button class="preset-chip" data-preset="film" onclick="applyPreset(this,'film')">Film</button>
+      <button class="preset-chip" data-preset="bw" onclick="applyPreset(this,'bw')">B&amp;W</button>
+      <button class="preset-chip" data-preset="faded" onclick="applyPreset(this,'faded')">Faded</button>
+      <button class="preset-chip" data-preset="moody" onclick="applyPreset(this,'moody')">Moody</button>
+    </div>
+
+    <div class="review-actions">
+      <button class="btn btn-outline" style="color:#F6F0E1; border-color:rgba(246,240,225,0.4);" data-testid="btn-retake" onclick="retakePhoto()">Retake</button>
+      <button class="btn btn-teal" data-testid="btn-share-review" onclick="sharePhoto()">Share</button>
+      <button class="btn btn-gold" data-testid="btn-save-gallery" onclick="saveToGallery()">Save</button>
+    </div>
+  </section>
+
+  <!-- ══════════════════════ CATEGORY LIST SCREEN ══════════════════════ -->
+  <section id="screen-category-list" class="screen">
+    <div class="cat-list-header" id="category-list-header">
+      <button class="icon-btn" data-testid="btn-back-category-list" onclick="goBack()" aria-label="Back">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0F3B3A" stroke-width="2" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <div class="cat-list-header-text">
+        <div id="cat-list-title">Category</div>
+        <div id="cat-list-count">0 poses</div>
+      </div>
+    </div>
+    <div class="screen-scroll" id="category-list-body">
+      <div id="cat-pose-list"></div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════ PROGRESS SCREEN ══════════════════════ -->
+  <section id="screen-progress" class="screen">
+    <div class="status-bar">
+      <span class="time">9:41</span>
+      <span style="font:var(--type-caption); color:var(--text-secondary);">Progress</span>
+      <span style="width:34px;"></span>
+    </div>
+    <div class="progress-header"><h1>Your Progress</h1></div>
+
+    <div class="screen-scroll">
+      <div class="progress-stats-row">
+        <div class="progress-stat-card">
+          <div class="stat-value" id="prog-stat-sessions">0</div>
+          <div class="stat-label">Sessions</div>
+        </div>
+        <div class="progress-stat-card">
+          <div class="stat-value" id="prog-stat-poses">0</div>
+          <div class="stat-label">Poses Tried</div>
+        </div>
+        <div class="progress-stat-card">
+          <div class="stat-value" id="prog-stat-score">--</div>
+          <div class="stat-label">Best Score</div>
+        </div>
+      </div>
+
+      <div class="section-label">Alignment Rings</div>
+      <div class="progress-ring-row">
+        <div class="progress-ring">
+          <svg viewBox="0 0 84 84">
+            <circle class="progress-ring-bg" cx="42" cy="42" r="36"></circle>
+            <circle class="progress-ring-fill" cx="42" cy="42" r="36" stroke-dasharray="226" stroke-dashoffset="60"></circle>
+          </svg>
+          <div class="progress-ring-label">73%</div>
+        </div>
+        <div class="progress-ring">
+          <svg viewBox="0 0 84 84">
+            <circle class="progress-ring-bg" cx="42" cy="42" r="36"></circle>
+            <circle class="progress-ring-fill" cx="42" cy="42" r="36" stroke-dasharray="226" stroke-dashoffset="20"></circle>
+          </svg>
+          <div class="progress-ring-label">91%</div>
+        </div>
+      </div>
+
+      <div class="section-label">Achievements</div>
+      <div class="achievement-row">
+        <div class="achievement-badge"><div class="achievement-icon" aria-hidden="true">🌱</div><div class="achievement-label">First Pose</div></div>
+        <div class="achievement-badge"><div class="achievement-icon" aria-hidden="true">🎯</div><div class="achievement-label">Aligned 90%+</div></div>
+        <div class="achievement-badge"><div class="achievement-icon locked" aria-hidden="true">🔥</div><div class="achievement-label">7-Day Streak</div></div>
+        <div class="achievement-badge"><div class="achievement-icon locked" aria-hidden="true">🏆</div><div class="achievement-label">50 Sessions</div></div>
+      </div>
+
+      <div class="section-label">Recent Sessions</div>
+      <div id="session-history-list"></div>
+      <div id="session-history-empty" style="display:none; text-align:center; padding:32px 24px;">
+        <div style="font-size:48px; margin-bottom:12px;" aria-hidden="true">🌱</div>
+        <div style="font:var(--type-h3); color:var(--text-primary); margin-bottom:8px;">Your journey starts here</div>
+        <div style="font:var(--type-body); color:var(--text-secondary); margin-bottom:24px;">Complete your first session to see your progress and session history.</div>
+        <button class="btn btn-gold" onclick="showTab('library')" style="padding:12px 28px;">Browse Poses</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════ PROFILE SCREEN ══════════════════════ -->
+  <section id="screen-profile" class="screen">
+    <div class="screen-scroll">
+      <div class="profile-header">
+        <div class="profile-avatar" aria-hidden="true">A</div>
+        <div class="profile-name">Artist</div>
+        <div class="profile-goal" id="profile-goal-label">Just Exploring</div>
+      </div>
+
+      <div class="settings-section">
+        <div class="settings-section-title">Preferences</div>
+        <div class="setting-row">
+          <span class="setting-label">Haptics</span>
+          <label class="switch">
+            <input type="checkbox" id="setting-haptics" data-testid="toggle-haptics" checked>
+            <span class="switch-track"></span>
+          </label>
+        </div>
+        <div class="setting-row">
+          <span class="setting-label">Sound</span>
+          <label class="switch">
+            <input type="checkbox" id="setting-sound" data-testid="toggle-sound" checked>
+            <span class="switch-track"></span>
+          </label>
+        </div>
+        <div class="setting-row">
+          <span class="setting-label">Auto-Capture</span>
+          <label class="switch">
+            <input type="checkbox" id="setting-autocapture" data-testid="toggle-autocapture" checked>
+            <span class="switch-track"></span>
+          </label>
+        </div>
+
+        <div class="settings-section-title">About</div>
+        <div class="setting-row">
+          <span class="setting-label">Version</span>
+          <span style="color:var(--text-secondary); font:var(--type-caption);">2.0.0</span>
+        </div>
+      </div>
+
+      <div class="app-info-row">
+        PoseArt — Move like art.<br>Art Nouveau pose coaching · In-memory only, no data leaves your device.
+      </div>
+
+      <!-- PR-v6 (v1.6): Custom Pose Editor access button -->
+      <div class="settings-section" style="margin-top:16px;">
+        <div class="settings-section-title">Creative Tools</div>
+        <button class="btn btn-gold btn-block" onclick="openPoseEditor()" style="padding:14px;font:600 14px/1 var(--font-body);">
+          ✎ Open Custom Pose Editor
+        </button>
+        <div style="font:var(--type-caption);color:var(--text-secondary);margin-top:6px;text-align:center;">
+          Create custom poses with joint sliders. Save to library or use in session.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════ TAB BAR ══════════════════════ -->
+  <nav id="tab-bar" role="tablist" aria-label="Main navigation">
+    <button class="tab-item active" id="tab-home" data-testid="tab-home" role="tab" aria-selected="true" onclick="showTab('home')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>
+      <span class="tab-label">Home</span>
+    </button>
+    <button class="tab-item" id="tab-library" data-testid="tab-library" role="tab" aria-selected="false" onclick="showTab('library')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      <span class="tab-label">Poses</span>
+    </button>
+    <button class="tab-item tab-item-gallery-wrap" id="tab-gallery" data-testid="tab-gallery" role="tab" aria-selected="false" onclick="showTab('gallery')" style="padding:0;">
+      <span class="tab-item-gallery">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg>
+      </span>
+      <span class="tab-label">Gallery</span>
+    </button>
+    <button class="tab-item" id="tab-progress" data-testid="tab-progress" role="tab" aria-selected="false" onclick="showTab('progress')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+      <span class="tab-label">Progress</span>
+    </button>
+    <button class="tab-item" id="tab-profile" data-testid="tab-profile" role="tab" aria-selected="false" onclick="showTab('profile')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span class="tab-label">Profile</span>
+    </button>
+  </nav>
+
+  <!-- ══════════════════════ CUSTOM POSE EDITOR (PR-v6 v1.6) ══════════════════════ -->
+  <section id="screen-custom-pose-editor" class="screen">
+    <div class="screen-scroll" style="padding-bottom:120px;">
+      <div class="status-bar">
+        <button class="icon-btn" onclick="goBack()" aria-label="Back">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <span style="font:var(--type-h3);color:var(--text-primary);">Custom Pose Editor</span>
+        <button class="icon-btn" id="pose-editor-help-btn" onclick="showToast('Drag sliders to pose the figure. Save to add to library.')" aria-label="Help">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </button>
+      </div>
+
+      <!-- Live procedural preview (avatar + skeleton side by side) -->
+      <div style="display:flex;gap:12px;padding:12px;justify-content:center;background:rgba(15,59,58,0.04);border-radius:12px;margin:8px 0;">
+        <div style="text-align:center;">
+          <div id="pose-editor-avatar-preview" style="width:140px;height:180px;"></div>
+          <div style="font:600 10px/1 var(--font-body);color:var(--text-secondary);margin-top:4px;">AVATAR</div>
+        </div>
+        <div style="text-align:center;">
+          <div id="pose-editor-skeleton-preview" style="width:140px;height:180px;"></div>
+          <div style="font:600 10px/1 var(--font-body);color:var(--text-secondary);margin-top:4px;">SKELETON</div>
+        </div>
+        <div style="text-align:center;">
+          <div id="pose-editor-ghost-preview" style="width:140px;height:180px;"></div>
+          <div style="font:600 10px/1 var(--font-body);color:var(--text-secondary);margin-top:4px;">GHOST</div>
+        </div>
+      </div>
+
+      <!-- Pose name input -->
+      <div style="padding:8px 16px;">
+        <label style="font:600 11px/1 var(--font-body);color:var(--text-secondary);display:block;margin-bottom:6px;">POSE NAME</label>
+        <input type="text" id="pose-editor-name" placeholder="My Custom Pose" style="width:100%;padding:10px 12px;border:1px solid var(--rule);border-radius:8px;font:var(--type-body);background:var(--bg-canvas);color:var(--text-primary);">
+      </div>
+
+      <!-- Joint sliders -->
+      <div id="pose-editor-sliders" style="padding:8px 16px;">
+        <!-- Sliders injected by JS -->
+      </div>
+
+      <!-- Category + overlay selectors -->
+      <div style="padding:8px 16px;display:flex;gap:8px;">
+        <div style="flex:1;">
+          <label style="font:600 11px/1 var(--font-body);color:var(--text-secondary);display:block;margin-bottom:6px;">CATEGORY</label>
+          <select id="pose-editor-category" style="width:100%;padding:10px;border:1px solid var(--rule);border-radius:8px;font:var(--type-body);background:var(--bg-canvas);">
+            <option value="standing">Standing</option>
+            <option value="seated">Seated</option>
+            <option value="leaning">Leaning</option>
+            <option value="kneeling">Kneeling</option>
+            <option value="reclining">Reclining</option>
+            <option value="dynamic">Dynamic</option>
+            <option value="boudoir">Boudoir</option>
+            <option value="editorial">Editorial</option>
+            <option value="fine-art">Fine Art</option>
+            <option value="fashion">Fashion</option>
+          </select>
+        </div>
+        <div style="flex:1;">
+          <label style="font:600 11px/1 var(--font-body);color:var(--text-secondary);display:block;margin-bottom:6px;">VIEW ANGLE</label>
+          <select id="pose-editor-view-angle" onchange="updatePoseEditorPreview()" style="width:100%;padding:10px;border:1px solid var(--rule);border-radius:8px;font:var(--type-body);background:var(--bg-canvas);">
+            <option value="0,0">Front</option>
+            <option value="22.5,0">1/8 Turn</option>
+            <option value="45,0">1/4 Turn</option>
+            <option value="67.5,0">3/8 Turn</option>
+            <option value="90,0">Side</option>
+            <option value="135,0">3/4 Turn</option>
+            <option value="180,0">Back</option>
+            <option value="0,60">Up View</option>
+            <option value="0,-45">Down View</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Description -->
+      <div style="padding:8px 16px;">
+        <label style="font:600 11px/1 var(--font-body);color:var(--text-secondary);display:block;margin-bottom:6px;">DESCRIPTION (drives prop rendering)</label>
+        <textarea id="pose-editor-description" placeholder="e.g. Lean against a wall with arms crossed" oninput="updatePoseEditorPreview()" style="width:100%;padding:10px 12px;border:1px solid var(--rule);border-radius:8px;font:var(--type-body);background:var(--bg-canvas);color:var(--text-primary);min-height:60px;resize:vertical;"></textarea>
+      </div>
+
+      <!-- Action buttons -->
+      <div style="padding:12px 16px;display:flex;gap:8px;flex-wrap:wrap;">
+        <button class="btn btn-outline" onclick="undoPoseEdit()" id="pose-editor-undo-btn" style="flex:1;min-width:80px;">↶ Undo</button>
+        <button class="btn btn-outline" onclick="redoPoseEdit()" id="pose-editor-redo-btn" style="flex:1;min-width:80px;">↷ Redo</button>
+        <button class="btn btn-outline" onclick="resetPoseEditor()" style="flex:1;min-width:80px;">Reset</button>
+        <button class="btn btn-gold" onclick="saveCustomPose()" style="flex:1;min-width:80px;">Save Pose</button>
+        <button class="btn btn-outline" onclick="loadCustomPoseList()" style="flex:1;min-width:80px;">Load</button>
+        <button class="btn btn-outline" onclick="useCustomPoseInSession()" style="flex:1;min-width:100px;">Use in Session</button>
+      </div>
+
+      <!-- Saved custom poses list -->
+      <div id="pose-editor-saved-list" style="padding:8px 16px;"></div>
+
+      <!-- Bug report integration (Iter D3) -->
+      <div style="padding:8px 16px;margin-top:12px;border-top:1px solid var(--rule);">
+        <div style="font:600 12px/1 var(--font-body);color:var(--text-secondary);margin-bottom:8px;">REPORT A BUG</div>
+        <textarea id="pose-editor-bug-comment" placeholder="Describe the issue with this pose..." style="width:100%;padding:10px 12px;border:1px solid var(--rule);border-radius:8px;font:var(--type-body);background:var(--bg-canvas);min-height:50px;resize:vertical;"></textarea>
+        <select id="pose-editor-bug-type" style="width:100%;padding:10px;margin-top:8px;border:1px solid var(--rule);border-radius:8px;font:var(--type-body);background:var(--bg-canvas);">
+          <option value="pose-layout">Pose layout issue</option>
+          <option value="animation">Animation issue</option>
+          <option value="prop">Prop/object issue</option>
+          <option value="other">Other</option>
+        </select>
+        <button class="btn btn-outline" onclick="submitBugReportFromEditor()" style="width:100%;margin-top:8px;">Submit Bug Report with Pose Data</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════ TOAST ══════════════════════ -->
+  <div id="toast" role="status" aria-live="polite"><span id="toast-text"></span></div>
+
+</div>
+
+<!-- ══════════════════════ SCRIPTS ══════════════════════ -->
+<script src="js/poses-data.js"></script>
+<script src="js/pose-skeleton-3d.js"></script>
+<script src="js/camera.js"></script>
+<script src="js/app.js"></script>
+<script src="js/pose-animations.js"></script>
+</body>
+</html>
