@@ -14,6 +14,17 @@ This file is append-only and records the v1.1 through v1.8 implementation sequen
 **Status:** ✅ PASS
 
 ---
+## Live Desktop + Mobile User-Flow Audit — 2026-07-13 America/Lima
+
+### Action: Plan dual-viewport Playwright audit
+**Files modified:** Planned new Playwright audit script, mobile/desktop screenshot evidence, JSON result, user-flow report, and append-only work log.
+**Expected result:** Exercise every primary screen and meaningful microstep live at 430×932 and 1440×1000, capture stable screenshot IDs, detect browser/layout failures, and document each transition.
+**Actual result:** Plan: create a deterministic seeded Playwright runner; execute onboarding, discovery, session/camera/review, gallery, progress/profile, editor, marketplace, and tour flows independently at both viewports; capture before/after states for interactive controls; record assertions, console errors, horizontal overflow, and screenshot metadata; inspect representative evidence; generate a Markdown report linking every screenshot ID.
+**Verification:** Stopping criteria: both viewport runs complete; all expected screenshots exist; every required screen is represented; no uncaught browser errors; report contains viewport, flow, microstep, action, expected/actual result, and screenshot ID/path.
+**VLM check:** Representative mobile and desktop evidence will be visually inspected after capture.
+**Status:** ✅ PASS
+
+---
 ## Phase v1.1 — Skeleton Visual Refinements + Ghost Procedural Rig — 2026-07-12 America/Lima
 
 ### Action: Read complete v1.1 forensic report and validate patch applicability
@@ -738,3 +749,19 @@ This file is append-only and records the v1.1 through v1.8 implementation sequen
 **Verification:** Report exists at the required path; v2.4 commit will contain the report and therefore identifies its own hash symbolically as `HEAD`.
 **VLM check:** All visual conclusions reference stored screenshot evidence.
 **Status:** ✅ PASS
+
+---
+## Live Desktop + Mobile User-Flow Audit — Completion — 2026-07-13 America/Lima
+
+### Action: Execute live Playwright flows and generate screenshot-indexed report
+**Files modified:** `scripts/audit_userflows_desktop_mobile.js`, `scripts/generate_userflows_report.js`, `audit/screenshots/userflows-live/{mob,desk}/*.png`, `audit/results/userflows-live-desktop-mobile.json`, `logs/report/userflows-live-desktop-mobile.md`, append-only work log.
+**Expected result:** Capture every primary screen and microstep at mobile and desktop viewports and produce a report that identifies every screenshot.
+**Actual result:** Completed 56 microsteps at 430×932 and the same 56 at 1440×1000 (112 screenshots). Both runs produced zero console/page errors, exactly one active SPA screen per capture, and no body/app horizontal overflow. The report indexes all 112 IDs with action, expectation, runtime state, and clickable evidence. Visual inspection confirmed a fixed 430px desktop shell and identified two actionable state/hit-target defects.
+**Verification:** Audit JSON totals: 2 devices, 112 screenshots, 0 browser errors, 7 flows per device. Report contains 112 `Open MOB-/DESK-` evidence links. Screenshot directories contain 56 PNGs each. All captured runtime states report one active screen.
+**VLM check:** Inspected mobile/desktop pose detail, grouped gallery, desktop editor, mobile marketplace, and desktop tour session. Findings: Favorite hit target is overlapped by Close at both viewports (`UF-001`); desktop tour session visually leaks a stale pose-detail sheet (`UF-002`); desktop remains a centered 430px shell (`UF-003`).
+**Status:** ✅ PASS WITH FINDINGS
+
+### Retrospective:
+- What went well: Stable IDs make every narrative microstep traceable to evidence; independent viewport contexts kept state deterministic; the audit found defects that DOM-presence checks missed.
+- What didn't: Early harness attempts called a preset handler with the wrong signature and left Flow Mode enabled while trying to inspect review. These were test-sequencing problems, corrected before the successful run; neither was reported as a product failure.
+- What to do differently next audit: Model Flow Mode and Review as separate branches from the outset, and add an automatic overlay-leak assertion after every navigation transition.
