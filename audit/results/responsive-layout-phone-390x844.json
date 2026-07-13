@@ -1,0 +1,486 @@
+{
+  "url": "http://127.0.0.1:8095/index.html",
+  "generatedAt": "2026-07-13T19:29:10.545Z",
+  "formats": [
+    {
+      "id": "phone-390x844",
+      "width": 390,
+      "height": 844,
+      "mobile": true,
+      "screens": [
+        {
+          "id": "login",
+          "file": "phone-390x844-login.png",
+          "geometry": {
+            "viewport": {
+              "width": 390,
+              "height": 844
+            },
+            "app": {
+              "x": 0,
+              "y": 0,
+              "width": 390,
+              "height": 844,
+              "right": 390,
+              "bottom": 844
+            },
+            "activeId": "screen-login",
+            "active": {
+              "width": 390,
+              "height": 844,
+              "scrollWidth": 390,
+              "clientWidth": 390
+            },
+            "document": {
+              "scrollWidth": 390,
+              "scrollHeight": 844
+            },
+            "categoryColumns": 2,
+            "poseSheetVisible": false,
+            "tourButtons": []
+          },
+          "pass": true
+        },
+        {
+          "id": "home",
+          "file": "phone-390x844-home.png",
+          "geometry": {
+            "viewport": {
+              "width": 390,
+              "height": 844
+            },
+            "app": {
+              "x": 0,
+              "y": 0,
+              "width": 390,
+              "height": 844,
+              "right": 390,
+              "bottom": 844
+            },
+            "activeId": "screen-home",
+            "active": {
+              "width": 390,
+              "height": 844,
+              "scrollWidth": 390,
+              "clientWidth": 390
+            },
+            "document": {
+              "scrollWidth": 390,
+              "scrollHeight": 844
+            },
+            "categoryColumns": 2,
+            "poseSheetVisible": false,
+            "tourButtons": []
+          },
+          "pass": true
+        },
+        {
+          "id": "library",
+          "file": "phone-390x844-library.png",
+          "geometry": {
+            "viewport": {
+              "width": 390,
+              "height": 844
+            },
+            "app": {
+              "x": 0,
+              "y": 0,
+              "width": 390,
+              "height": 844,
+              "right": 390,
+              "bottom": 844
+            },
+            "activeId": "screen-library",
+            "active": {
+              "width": 390,
+              "height": 844,
+              "scrollWidth": 390,
+              "clientWidth": 390
+            },
+            "document": {
+              "scrollWidth": 390,
+              "scrollHeight": 844
+            },
+            "categoryColumns": 2,
+            "poseSheetVisible": false,
+            "tourButtons": []
+          },
+          "pass": true
+        },
+        {
+          "id": "category",
+          "file": "phone-390x844-category.png",
+          "geometry": {
+            "viewport": {
+              "width": 390,
+              "height": 844
+            },
+            "app": {
+              "x": 0,
+              "y": 0,
+              "width": 390,
+              "height": 844,
+              "right": 390,
+              "bottom": 844
+            },
+            "activeId": "screen-category-list",
+            "active": {
+              "width": 390,
+              "height": 844,
+              "scrollWidth": 390,
+              "clientWidth": 390
+            },
+            "document": {
+              "scrollWidth": 390,
+              "scrollHeight": 844
+            },
+            "categoryColumns": 2,
+            "poseSheetVisible": false,
+            "tourButtons": []
+          },
+          "pass": true
+        },
+        {
+          "id": "pose-detail",
+          "file": "phone-390x844-pose-detail.png",
+          "geometry": {
+            "viewport": {
+              "width": 390,
+              "height": 844
+            },
+            "app": {
+              "x": 0,
+              "y": 0,
+              "width": 390,
+              "height": 844,
+              "right": 390,
+              "bottom": 844
+            },
+            "activeId": "screen-category-list",
+            "active": {
+              "width": 390,
+              "height": 844,
+              "scrollWidth": 390,
+              "clientWidth": 390
+            },
+            "document": {
+              "scrollWidth": 390,
+              "scrollHeight": 844
+            },
+            "categoryColumns": 2,
+            "poseSheetVisible": true,
+            "tourButtons": []
+          },
+          "pass": true
+        },
+        {
+          "id": "gallery",
+          "file": "phone-390x844-gallery.png",
+          "geometry": {
+            "viewport": {
+              "width": 390,
+              "height": 844
+            },
+            "app": {
+              "x": 0,
+              "y": 0,
+              "width": 390,
+              "height": 844,
+              "right": 390,
+              "bottom": 844
+            },
+            "activeId": "screen-gallery",
+            "active": {
+              "width": 390,
+              "height": 844,
+              "scrollWidth": 390,
+              "clientWidth": 390
+            },
+            "document": {
+              "scrollWidth": 390,
+              "scrollHeight": 844
+            },
+            "categoryColumns": 2,
+            "poseSheetVisible": false,
+            "tourButtons": []
+          },
+          "pass": true
+        },
+        {
+          "id": "profile",
+          "file": "phone-390x844-profile.png",
+          "geometry": {
+            "viewport": {
+              "width": 390,
+              "height": 844
+            },
+            "app": {
+              "x": 0,
+              "y": 0,
+              "width": 390,
+              "height": 844,
+              "right": 390,
+              "bottom": 844
+            },
+            "activeId": "screen-profile",
+            "active": {
+              "width": 390,
+              "height": 844,
+              "scrollWidth": 390,
+              "clientWidth": 390
+            },
+            "document": {
+              "scrollWidth": 390,
+              "scrollHeight": 844
+            },
+            "categoryColumns": 2,
+            "poseSheetVisible": false,
+            "tourButtons": []
+          },
+          "pass": true
+        },
+        {
+          "id": "editor",
+          "file": "phone-390x844-editor.png",
+          "geometry": {
+            "viewport": {
+              "width": 390,
+              "height": 844
+            },
+            "app": {
+              "x": 0,
+              "y": 0,
+              "width": 390,
+              "height": 844,
+              "right": 390,
+              "bottom": 844
+            },
+            "activeId": "screen-custom-pose-editor",
+            "active": {
+              "width": 390,
+              "height": 844,
+              "scrollWidth": 390,
+              "clientWidth": 390
+            },
+            "document": {
+              "scrollWidth": 390,
+              "scrollHeight": 844
+            },
+            "categoryColumns": 2,
+            "poseSheetVisible": false,
+            "tourButtons": []
+          },
+          "pass": true
+        },
+        {
+          "id": "marketplace",
+          "file": "phone-390x844-marketplace.png",
+          "geometry": {
+            "viewport": {
+              "width": 390,
+              "height": 844
+            },
+            "app": {
+              "x": 0,
+              "y": 0,
+              "width": 390,
+              "height": 844,
+              "right": 390,
+              "bottom": 844
+            },
+            "activeId": "screen-marketplace",
+            "active": {
+              "width": 390,
+              "height": 844,
+              "scrollWidth": 390,
+              "clientWidth": 390
+            },
+            "document": {
+              "scrollWidth": 390,
+              "scrollHeight": 844
+            },
+            "categoryColumns": 2,
+            "poseSheetVisible": false,
+            "tourButtons": []
+          },
+          "pass": true
+        },
+        {
+          "id": "camera",
+          "file": "phone-390x844-camera.png",
+          "geometry": {
+            "viewport": {
+              "width": 390,
+              "height": 844
+            },
+            "app": {
+              "x": 0,
+              "y": 0,
+              "width": 390,
+              "height": 844,
+              "right": 390,
+              "bottom": 844
+            },
+            "activeId": "screen-camera",
+            "active": {
+              "width": 390,
+              "height": 844,
+              "scrollWidth": 390,
+              "clientWidth": 390
+            },
+            "document": {
+              "scrollWidth": 390,
+              "scrollHeight": 844
+            },
+            "categoryColumns": 2,
+            "poseSheetVisible": false,
+            "tourButtons": []
+          },
+          "pass": true
+        },
+        {
+          "id": "tour-creator",
+          "file": "phone-390x844-tour-creator.png",
+          "geometry": {
+            "viewport": {
+              "width": 390,
+              "height": 844
+            },
+            "app": {
+              "x": 0,
+              "y": 0,
+              "width": 390,
+              "height": 844,
+              "right": 390,
+              "bottom": 844
+            },
+            "activeId": "screen-tour-creator",
+            "active": {
+              "width": 390,
+              "height": 844,
+              "scrollWidth": 390,
+              "clientWidth": 390
+            },
+            "document": {
+              "scrollWidth": 390,
+              "scrollHeight": 844
+            },
+            "categoryColumns": 2,
+            "poseSheetVisible": false,
+            "tourButtons": []
+          },
+          "pass": true
+        },
+        {
+          "id": "tour-session",
+          "file": "phone-390x844-tour-session.png",
+          "geometry": {
+            "viewport": {
+              "width": 390,
+              "height": 844
+            },
+            "app": {
+              "x": 0,
+              "y": 0,
+              "width": 390,
+              "height": 844,
+              "right": 390,
+              "bottom": 844
+            },
+            "activeId": "screen-tour-session",
+            "active": {
+              "width": 390,
+              "height": 844,
+              "scrollWidth": 390,
+              "clientWidth": 390
+            },
+            "document": {
+              "scrollWidth": 390,
+              "scrollHeight": 844
+            },
+            "categoryColumns": 2,
+            "poseSheetVisible": false,
+            "tourButtons": [
+              {
+                "top": 20,
+                "bottom": 40,
+                "left": 18,
+                "right": 61.78125
+              },
+              {
+                "top": 19.5,
+                "bottom": 40.5,
+                "left": 356.265625,
+                "right": 372
+              },
+              {
+                "top": 558,
+                "bottom": 606,
+                "left": 16,
+                "right": 121.21875
+              },
+              {
+                "top": 558,
+                "bottom": 606,
+                "left": 129.21875,
+                "right": 260.765625
+              },
+              {
+                "top": 558,
+                "bottom": 606,
+                "left": 268.765625,
+                "right": 373.984375
+              },
+              {
+                "top": 614,
+                "bottom": 656,
+                "left": 16,
+                "right": 191
+              },
+              {
+                "top": 614,
+                "bottom": 656,
+                "left": 199,
+                "right": 374
+              },
+              {
+                "top": 662,
+                "bottom": 714,
+                "left": 16,
+                "right": 99.5
+              },
+              {
+                "top": 662,
+                "bottom": 714,
+                "left": 107.5,
+                "right": 191
+              },
+              {
+                "top": 662,
+                "bottom": 714,
+                "left": 199,
+                "right": 282.5
+              },
+              {
+                "top": 662,
+                "bottom": 714,
+                "left": 290.5,
+                "right": 374
+              }
+            ]
+          },
+          "pass": true
+        }
+      ],
+      "errors": []
+    }
+  ],
+  "failures": [],
+  "summary": {
+    "formats": 1,
+    "checks": 12,
+    "screenshots": 12,
+    "failures": 0,
+    "browserErrors": 0
+  }
+}
