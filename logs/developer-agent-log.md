@@ -79,6 +79,28 @@ This file is append-only and records the v1.1 through v1.8 implementation sequen
 - Phase completed within budget: ✅
 
 ---
+## Pre-Phase v2.x Research — 2026-07-12 America/Lima
+
+### Action: Audit v2.x bundle, baseline, and complete feature-perfection specification
+**Files modified:** `logs/developer-agent-log.md` only.
+**Expected result:** Preserve v1.1–v1.9, identify all v2.0–v2.4 requirements, and confirm whether implementation artifacts already exist.
+**Actual result:** Nine verified commits remain intact through `d67bd9f`; worktree contains only supplied bundles/ZIPs and `.DS_Store` files. Read all 342 lines of `PoseArt_v2.0_Feature_Perfection_Spec.md`. No `tour-engine.js` or tour verifier exists, so v2.1 is greenfield. The five phases are sequential: gallery management → tour engine/UI → camera flow → marketplace tours → integration/visual validation.
+**Verification:** File inventory, commit history, report length, and tour artifact absence confirmed.
+**VLM check:** Planned per visual phase; environment image inspection remains the fallback because `z-ai` was unavailable previously.
+**Status:** ✅ PASS
+
+---
+## Phase v2.0 — Gallery & Photo Management Perfection — 2026-07-12 America/Lima
+
+### Action: Read current gallery source and write v2.0 plan
+**Files modified:** Planned `.bak-v20/`, `js/app.js`, `index.html`, v2.0 Playwright verifier, screenshots, log.
+**Expected result:** Add photo export, duplication, bulk actions, filter/sort/group controls while retaining the v1.9 18-card virtual window.
+**Actual result:** Root cause inventory complete: gallery detail exposes only share/favorite/delete; gallery screen has no management toolbar; item markup has no selection affordance; the virtual window can accept a filtered/sorted item list without architectural replacement. Plan: back up targets; add export helpers and detail actions; add selection state/long-press/check boxes/bulk delete-download; derive filtered/sorted/grouped items before virtualization; add controls; run syntax/smoke/validator; Playwright capture/detail/copy/download/bulk/filter; visual inspection; full regression; retrospective; exact v2.0 commit.
+**Verification:** Stopping criteria: Save/Copy/Download visible, duplicate increments count, download event fires, bulk actions work, filtering/sorting/grouping render, ≤20 DOM items, no console errors.
+**VLM check:** Gallery detail controls and gallery management toolbar must be visibly clear on 430×932.
+**Status:** ✅ PASS
+
+---
 ## Pre-Phase v1.9 Research — 2026-07-12 America/Lima
 
 ### Action: Audit updated bundle, repository state, and restore accountability log
@@ -503,4 +525,44 @@ This file is append-only and records the v1.1 through v1.8 implementation sequen
 - Subagent polls: 0
 - Files re-read unnecessarily: 0
 - Commands batched: 6
+- Phase completed within budget: ✅
+---
+## Phase v2.0 — Gallery & Photo Management Perfection — 2026-07-12
+
+### Action: Implement gallery management and export foundation
+**Files modified:** `js/app.js`, `index.html`
+**Expected result:** Gallery supports filters, sorting, pose grouping, long-press/bulk selection, Save to Photos, explicit download, and duplication without regressing the procedural renderers.
+**Actual result:** Added the gallery state/controllers, virtual-window-compatible selection UI, all 16 category filters, four sort modes, pose counts, bulk delete/download, native file sharing with download fallback, explicit download, and duplicate capture actions. Added mobile toolbar, bulk bar, selection affordances, and Save/Copy/Download detail controls.
+**Verification:** `node --check js/app.js` and `node --check js/poses-data.js` passed; `smoke_test_skeleton.js` 745/745; `smoke_test_avatar.js` 745/745; `joint_validator.js` remains 0/745 issues.
+**VLM check:** Pending browser screenshot after interactive verification.
+**Status:** ✅ PASS
+
+### Action: Complete v2.0 browser, visual, and regression verification
+**Files modified:** `scripts/verify_gallery_v20.js`, `audit/screenshots/v2.0-gallery.png`, `audit/screenshots/v2.0-gallery-detail.png`, `audit/vibe-audit/*`, `logs/developer-agent-log.md`
+**Expected result:** All gallery actions work at 430×932, remain virtualized, and introduce no critical/high flow regressions.
+**Actual result:** Attempt 2 and the final evidence rerun passed. The virtual gallery renders 18 cards for 24+ items; Copy changes 24→25; Download emits `poseart-*.jpg`; selection count, grouping, sorting, and bulk bar update; browser errors remain zero. Full vibe audit reports 0 CRITICAL, 0 HIGH, 1 MEDIUM (existing onboarding replay design); edge audit passes all 10 cases with no horizontal app scroll.
+**Verification:** `verify_gallery_v20.js` PASS; `vibe_audit.js` 0 critical/0 high/1 medium; `vibe_edge_audit.js` 10/10; final syntax clean; earlier phase gate retained skeleton 745/745, avatar 745/745, validator 0/745.
+**VLM check:** Environment vision confirms the gallery detail visibly presents Save, Copy, Download, Share, Favorite, and Delete above the bottom navigation. Gallery overview visibly presents filters, top-score sorting, grouping counts, selection state, and bulk actions. Test images are intentionally minimal fixtures, so black thumbnail content is expected and the UI chrome is the verification target.
+**Status:** ✅ PASS
+
+### Action: Record interactive attempt 1 diagnosis
+**Files modified:** `index.html`, `scripts/verify_gallery_v20.js`
+**Expected result:** Detail actions remain clickable above the persistent mobile tab bar.
+**Actual result:** Playwright initially found Copy visible but intercepted by the tab bar. Raising the detail action bar above the 64px navigation region and moving metadata upward resolved the layout collision on attempt 2.
+**Verification:** Attempt 1 produced an exact pointer-interception timeout; attempt 2 and final evidence rerun passed.
+**VLM check:** Final screenshot confirms the corrected action-bar position.
+**Status:** ✅ PASS
+
+### Retrospective:
+- What went well: The existing 18-card virtual window accepted filter, sort, grouping, and selection state without increasing DOM size; native sharing has a deterministic desktop fallback.
+- What didn't: The persistent tab bar initially intercepted the expanded six-action detail bar. Playwright caught the collision on attempt 1; lifting the action bar above navigation resolved it on attempt 2.
+- What to do differently next phase: Account for the persistent 64px tab navigation in new full-screen controls before the first interaction run.
+
+### Token Usage Log — Phase v2.0
+- Estimated tokens consumed: under 12,000
+- Turns used: 14 tool actions
+- Subagents spawned: 0
+- Subagent polls: 0
+- Files re-read unnecessarily: 0
+- Commands batched: 5
 - Phase completed within budget: ✅

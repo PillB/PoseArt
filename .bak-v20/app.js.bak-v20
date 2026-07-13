@@ -710,33 +710,6 @@ const GALLERY_WINDOW_STEP = 10;
 const GALLERY_ROW_ESTIMATE = 250;
 let _galleryVirtualStart = 0;
 let _galleryVirtualObserver = null;
-let _gallerySelectionMode = false;
-let _gallerySelectedIds = new Set();
-let _galleryFilter = 'all';
-let _gallerySort = 'date-desc';
-let _galleryGroupByPose = false;
-let _galleryGroupCounts = new Map();
-let _galleryLongPressTimer = null;
-
-function galleryPoseCategory(item) {
-  return POSES_LIBRARY[item.poseId]?.category || 'custom';
-}
-
-function getGalleryViewItems() {
-  let items = getGallery();
-  if (_galleryFilter === 'favorite') items = items.filter(item => item.favorite);
-  else if (_galleryFilter !== 'all') items = items.filter(item => galleryPoseCategory(item) === _galleryFilter);
-  items = items.slice().sort((a, b) => {
-    if (_galleryGroupByPose && a.poseId !== b.poseId) return String(a.poseId).localeCompare(String(b.poseId));
-    if (_gallerySort === 'date-asc') return new Date(a.timestamp) - new Date(b.timestamp);
-    if (_gallerySort === 'score-desc') return (b.score || 0) - (a.score || 0);
-    if (_gallerySort === 'favorite') return Number(!!b.favorite) - Number(!!a.favorite) || new Date(b.timestamp) - new Date(a.timestamp);
-    return new Date(b.timestamp) - new Date(a.timestamp);
-  });
-  _galleryGroupCounts = new Map();
-  for (const item of items) _galleryGroupCounts.set(item.poseId, (_galleryGroupCounts.get(item.poseId) || 0) + 1);
-  return items;
-}
 
 function renderGallery() {
   const grid = document.getElementById('gallery-grid');
@@ -746,9 +719,8 @@ function renderGallery() {
   // Skip the expensive full-DOM rebuild when nothing changed since last render.
   if (!AppState.galleryDirty && grid.dataset.rendered === '1') return;
 
-  const allItems = getGallery();
-  const items = getGalleryViewItems();
-  if (countEl) countEl.textContent = allItems.length;
+  const items = getGallery();
+  if (countEl) countEl.textContent = items.length;
 
   if (items.length === 0) {
     if (_galleryVirtualObserver) _galleryVirtualObserver.disconnect();
@@ -783,175 +755,17 @@ function galleryItemMarkup(item) {
       ? `<img class="gallery-thumb" src="${item.dataUrl}" alt="${item.poseName}" style="filter:${cssFilterFor(item.filter)}">`
       : `<div class="gallery-sim-thumb">${renderPoseFigureSVG(POSES_LIBRARY[item.poseId] || null, false)}</div>`;
     const fav = item.favorite ? '<div class="gallery-fav-badge" aria-label="Favorited">♥</div>' : '';
-    const selected = _gallerySelectedIds.has(String(item.id));
-    const groupCount = _galleryGroupByPose ? `<div class="gallery-group-count">${_galleryGroupCounts.get(item.poseId) || 1} for this pose</div>` : '';
     return `
-      <div class="gallery-item${_gallerySelectionMode ? ' selection-active' : ''}${selected ? ' selected' : ''}" onclick="handleGalleryItemClick('${item.id}')" role="listitem" tabindex="0"
-           onpointerdown="startGalleryLongPress('${item.id}')" onpointerup="cancelGalleryLongPress()" onpointerleave="cancelGalleryLongPress()"
-           onkeydown="if(event.key==='Enter')handleGalleryItemClick('${item.id}')" aria-label="${item.poseName}, ${item.score}% aligned">
-        <span class="gallery-select-check" aria-hidden="true">${selected ? '✓' : ''}</span>
+      <div class="gallery-item" onclick="openGalleryItem('${item.id}')" role="listitem" tabindex="0"
+           onkeydown="if(event.key==='Enter')openGalleryItem('${item.id}')" aria-label="${item.poseName}, ${item.score}% aligned">
         ${thumb}
         ${fav}
         <div class="gallery-item-info">
           <div class="gallery-pose-name">${item.poseName}</div>
           <div class="gallery-score-pill">${item.score}%</div>
         </div>
-        ${groupCount}
       </div>`;
 }
-
-window.setGalleryFilter = function(value) {
-  _galleryFilter = value || 'all';
-  _galleryVirtualStart = 0;
-  AppState.galleryDirty = true;
-  renderGallery();
-};
-
-window.setGallerySort = function(value) {
-  _gallerySort = value || 'date-desc';
-  _galleryVirtualStart = 0;
-  AppState.galleryDirty = true;
-  renderGallery();
-};
-
-window.toggleGalleryGrouping = function() {
-  _galleryGroupByPose = !_galleryGroupByPose;
-  document.getElementById('gallery-group-toggle')?.classList.toggle('active', _galleryGroupByPose);
-  _galleryVirtualStart = 0;
-  AppState.galleryDirty = true;
-  renderGallery();
-};
-
-window.toggleGallerySelectionMode = function(force) {
-  _gallerySelectionMode = typeof force === 'boolean' ? force : !_gallerySelectionMode;
-  if (!_gallerySelectionMode) _gallerySelectedIds.clear();
-  document.getElementById('gallery-bulk-actions')?.classList.toggle('visible', _gallerySelectionMode);
-  const toggle = document.getElementById('gallery-select-toggle');
-  toggle?.classList.toggle('active', _gallerySelectionMode);
-  toggle?.setAttribute('aria-pressed', String(_gallerySelectionMode));
-  AppState.galleryDirty = true;
-  renderGallery();
-  updateGallerySelectionCount();
-};
-
-window.startGalleryLongPress = function(id) {
-  clearTimeout(_galleryLongPressTimer);
-  _galleryLongPressTimer = setTimeout(() => {
-    toggleGallerySelectionMode(true);
-    toggleGallerySelection(id);
-    navigator.vibrate?.(25);
-  }, 550);
-};
-
-window.cancelGalleryLongPress = function() {
-  clearTimeout(_galleryLongPressTimer);
-  _galleryLongPressTimer = null;
-};
-
-window.handleGalleryItemClick = function(id) {
-  cancelGalleryLongPress();
-  if (_gallerySelectionMode) toggleGallerySelection(id);
-  else openGalleryItem(id);
-};
-
-window.toggleGallerySelection = function(id) {
-  const key = String(id);
-  if (_gallerySelectedIds.has(key)) _gallerySelectedIds.delete(key); else _gallerySelectedIds.add(key);
-  AppState.galleryDirty = true;
-  renderGallery();
-  updateGallerySelectionCount();
-};
-
-function updateGallerySelectionCount() {
-  const el = document.getElementById('gallery-selection-count');
-  if (el) el.textContent = `${_gallerySelectedIds.size} selected`;
-}
-
-window.bulkDeleteGallery = function() {
-  for (const id of _gallerySelectedIds) removeFromGallery(id);
-  showToast(`Deleted ${_gallerySelectedIds.size} capture${_gallerySelectedIds.size === 1 ? '' : 's'}`);
-  toggleGallerySelectionMode(false);
-  renderRecentCaptures();
-};
-
-window.bulkDownloadGallery = async function() {
-  const selected = getGallery().filter(item => _gallerySelectedIds.has(String(item.id)));
-  for (const item of selected) await downloadGalleryItem(item.id, true);
-  showToast(`Downloaded ${selected.length} capture${selected.length === 1 ? '' : 's'}`);
-};
-
-function galleryFileName(item) {
-  const safeName = String(item?.poseName || 'capture').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-  return `poseart-${safeName || 'capture'}-${item?.id || Date.now()}.jpg`;
-}
-
-function dataURLtoBlob(dataUrl) {
-  const parts = String(dataUrl).split(',');
-  const mime = parts[0]?.match(/data:([^;]+)/)?.[1] || 'image/jpeg';
-  const binary = atob(parts[1] || '');
-  const bytes = new Uint8Array(binary.length);
-  for (let i = 0; i < binary.length; i += 1) bytes[i] = binary.charCodeAt(i);
-  return new Blob([bytes], { type: mime });
-}
-
-function selectedGalleryItem(id = AppState.gallerySelectedId) {
-  return getGallery().find(item => String(item.id) === String(id));
-}
-
-// PR-v20 (v2.0) — explicit, desktop-safe download path used by both the
-// detail action and bulk selection. Browser download handling remains native.
-window.downloadGalleryItem = async function(id = AppState.gallerySelectedId, silent = false) {
-  const item = selectedGalleryItem(id);
-  if (!item?.dataUrl) {
-    if (!silent) showToast('No photo to download');
-    return false;
-  }
-  const link = document.createElement('a');
-  link.href = item.dataUrl;
-  link.download = galleryFileName(item);
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
-  if (!silent) showToast('Photo downloaded');
-  return true;
-};
-
-// PR-v20 (v2.0) — use the native photo/share sheet when file sharing is
-// supported, with the same explicit download path as a reliable fallback.
-window.saveToPhotos = async function() {
-  const item = selectedGalleryItem();
-  if (!item?.dataUrl) {
-    showToast('No photo to save');
-    return;
-  }
-  try {
-    const blob = dataURLtoBlob(item.dataUrl);
-    const file = new File([blob], galleryFileName(item), { type: blob.type || 'image/jpeg' });
-    if (navigator.canShare?.({ files: [file] })) {
-      await navigator.share({ files: [file], title: item.poseName || 'PoseArt capture' });
-      showToast('Saved ✓');
-      return;
-    }
-  } catch (error) {
-    if (error?.name === 'AbortError') return;
-    console.warn('[PoseArt] Native photo save unavailable; downloading instead.', error);
-  }
-  await downloadGalleryItem(item.id);
-};
-
-window.duplicateGalleryItem = function() {
-  const item = selectedGalleryItem();
-  if (!item) {
-    showToast('Photo not found');
-    return;
-  }
-  const duplicate = { ...item, id: Date.now(), timestamp: new Date().toISOString(), favorite: false };
-  addToGallery(duplicate);
-  AppState.gallerySelectedId = duplicate.id;
-  AppState.galleryDirty = true;
-  openGalleryItem(duplicate.id);
-  showToast('Photo duplicated');
-};
 
 // PR-v9 (v1.9) — Virtual gallery window. At most 18 capture cards exist in
 // the DOM, while proportional spacers preserve the full scroll range. Top and
