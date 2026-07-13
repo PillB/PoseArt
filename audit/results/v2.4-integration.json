@@ -1,0 +1,28 @@
+{
+  "screenshots": 21,
+  "seamResults": {
+    "tourToCamera": true,
+    "cameraToGallery": true,
+    "galleryTourFilter": true,
+    "editorToTour": true,
+    "marketplaceToTour": true,
+    "tourToMarketplace": true,
+    "bugToEditor": true,
+    "sourceCustom": true,
+    "sourcePurchased": true
+  },
+  "animations": {
+    "onboardingTransition": true,
+    "poseDetailEntry": true,
+    "avatarBreathing": true,
+    "ghostOverlayBreathing": true,
+    "skeletonAutoRotate": true,
+    "tabSwitch": true,
+    "galleryDetailTransition": true,
+    "tourSectionTransition": true,
+    "captureFlash": true,
+    "particleBloom": true
+  },
+  "errors": 0,
+  "result": "PASS"
+}

@@ -631,19 +631,15 @@ class CameraEngine {
     // Add to gallery (in-memory)
     if (typeof addToGallery === 'function') {
       const pose = POSES_LIBRARY[this.currentPose];
-      const tourState = window.AppState?.isTourSession ? (window.tourEngine?.getState() || window.AppState.currentTourSession) : null;
-      const capture = {
+      addToGallery({
         id: Date.now(),
         dataUrl,
         poseId: this.currentPose,
         poseName: pose?.name || 'Capture',
         score: Math.round(this.currentScore),
         timestamp: new Date().toISOString(),
-        favorite: false,
-        ...(tourState ? { tourId: tourState.tour.id, sectionId: tourState.section.id, sectionName: tourState.section.name } : {})
-      };
-      addToGallery(capture);
-      window._lastCapture = capture;
+        favorite: false
+      });
     }
 
     setTimeout(() => { window.showScreen && window.showScreen('review'); }, 400);

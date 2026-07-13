@@ -790,7 +790,6 @@ function galleryPoseCategory(item) {
 function getGalleryViewItems() {
   let items = getGallery();
   if (_galleryFilter === 'favorite') items = items.filter(item => item.favorite);
-  else if (_galleryFilter === 'tour') items = items.filter(item => item.tourId);
   else if (_galleryFilter !== 'all') items = items.filter(item => galleryPoseCategory(item) === _galleryFilter);
   items = items.slice().sort((a, b) => {
     if (_galleryGroupByPose && a.poseId !== b.poseId) return String(a.poseId).localeCompare(String(b.poseId));
@@ -850,7 +849,7 @@ function galleryItemMarkup(item) {
       : `<div class="gallery-sim-thumb">${renderPoseFigureSVG(POSES_LIBRARY[item.poseId] || null, false)}</div>`;
     const fav = item.favorite ? '<div class="gallery-fav-badge" aria-label="Favorited">♥</div>' : '';
     const selected = _gallerySelectedIds.has(String(item.id));
-    const groupCount = _galleryGroupByPose ? `<div class="gallery-group-count">${_galleryGroupCounts.get(item.poseId) || 1} for this pose</div>` : (item.sectionName ? `<div class="gallery-group-count">${escapeHtml(item.sectionName)}</div>` : '');
+    const groupCount = _galleryGroupByPose ? `<div class="gallery-group-count">${_galleryGroupCounts.get(item.poseId) || 1} for this pose</div>` : '';
     return `
       <div class="gallery-item${_gallerySelectionMode ? ' selection-active' : ''}${selected ? ' selected' : ''}" onclick="handleGalleryItemClick('${item.id}')" role="listitem" tabindex="0"
            onpointerdown="startGalleryLongPress('${item.id}')" onpointerup="cancelGalleryLongPress()" onpointerleave="cancelGalleryLongPress()"
@@ -2163,7 +2162,6 @@ window.submitBugReportFromEditor = function() {
       category: document.getElementById('pose-editor-category')?.value || '',
       description: document.getElementById('pose-editor-description')?.value || '',
     },
-    ...(AppState.currentTourSession ? { tourId: AppState.currentTourSession.tour?.id, sectionId: AppState.currentTourSession.section?.id } : {}),
     // In a real app this would POST to a server. For now, store in-memory.
   };
   // Store bug reports in a global array (would be sent to server in production)
@@ -2563,12 +2561,6 @@ window.renderTourCreator = function() {
       </div>
     </article>`).join('') || '<div class="tour-empty">Add a section to begin building your sequence.</div>';
   window.renderPendingAvatars?.(sections);
-  const sources = document.getElementById('tour-sources');
-  if (sources) {
-    const custom = _editorCustomPoses.slice(0, 4);
-    const purchased = _marketplacePacks?.filter(pack => _ownedPacks?.includes(pack.id)).slice(0, 4) || [];
-    sources.innerHTML = `<strong>Sources</strong><div><span>Library: 745 poses</span>${custom.map(pose => `<span>Custom: ${escapeHtml(pose.name)}</span>`).join('')}${purchased.map(pack => `<span>Purchased: ${escapeHtml(pack.name)}</span>`).join('')}</div>`;
-  }
   const start = document.getElementById('tour-start-btn');
   if (start) start.disabled = !tour.sections.some(section => section.poseIds.length);
 };
@@ -2610,21 +2602,6 @@ window.openTourSession = function(tourId = _tourEditingId) {
   renderTourSession(); showScreen('tour-session', true);
 };
 
-window.startTourCamera = async function() {
-  const state = tourEngine.getState(); if (!state) return;
-  AppState.isTourSession = true; AppState.currentTourSession = state; AppState.selectedPoseId = state.poseId;
-  await startCameraSession();
-};
-
-window.reportTourPoseIssue = function() {
-  const state = tourEngine.getState(); if (!state) return;
-  AppState.currentTourSession = state; openPoseEditor(state.poseId);
-  setTimeout(() => {
-    const field = document.getElementById('pose-editor-bug-comment');
-    if (field) field.value = `Tour ${state.tour.name} / ${state.section.name}: `;
-  }, 80);
-};
-
 window.renderTourSession = function() {
   const state = tourEngine.getState(); if (!state) return;
   AppState.currentTourSession = state; AppState.selectedPoseId = state.poseId;
@@ -2634,10 +2611,6 @@ window.renderTourSession = function() {
   document.getElementById('tour-pose-progress').textContent = `Pose ${state.poseIndex + 1}/${state.section.poseIds.length}`;
   const preview = document.getElementById('tour-current-pose');
   preview.innerHTML = renderPoseFigureSVG(pose, true);
-  const stage = preview.closest('.tour-stage');
-  stage?.classList.remove('tour-pose-changing');
-  requestAnimationFrame(() => stage?.classList.add('tour-pose-changing'));
-  setTimeout(() => stage?.classList.remove('tour-pose-changing'), 360);
   window.renderPendingAvatars?.(preview);
   document.getElementById('tour-current-name').textContent = pose?.name || state.poseId;
   renderTourPhotos(); renderTourOverview();
@@ -2652,15 +2625,10 @@ window.captureTourPhoto = function() { const item = tourEngine.captureInTour(nul
 function renderTourPhotos() {
   const state = tourEngine.getState(); if (!state) return;
   const photos = tourEngine.getTourPhotos(state.tour.id, state.section.id);
-  document.getElementById('tour-photo-strip').innerHTML = photos.map(item => `<button class="tour-photo-thumb" onclick="openTourPhoto('${item.id}')">${item.dataUrl ? `<img src="${item.dataUrl}" alt="${escapeHtml(item.poseName)}">` : renderPoseFigureSVG(POSES_LIBRARY[item.poseId], false)}</button>`).join('') || '<span class="tour-no-photos">No captures in this section yet</span>';
+  document.getElementById('tour-photo-strip').innerHTML = photos.map(item => `<button class="tour-photo-thumb" onclick="openGalleryItem('${item.id}')">${item.dataUrl ? `<img src="${item.dataUrl}" alt="${escapeHtml(item.poseName)}">` : renderPoseFigureSVG(POSES_LIBRARY[item.poseId], false)}</button>`).join('') || '<span class="tour-no-photos">No captures in this section yet</span>';
   document.getElementById('tour-photo-count').textContent = `${photos.length} photo${photos.length === 1 ? '' : 's'}`;
   window.renderPendingAvatars?.(document.getElementById('tour-photo-strip'));
 }
-window.openTourPhoto = function(id) { AppState.galleryReturnScreen = 'tour-session'; openGalleryItem(id); };
-window.returnFromGalleryDetail = function() {
-  if (AppState.galleryReturnScreen === 'tour-session' && tourEngine.getState()) { AppState.galleryReturnScreen = null; renderTourSession(); showScreen('tour-session'); }
-  else showTab('gallery');
-};
 
 window.searchTourPoses = function() {
   const query = document.getElementById('tour-search-input')?.value || '';
