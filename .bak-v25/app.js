@@ -87,7 +87,6 @@ document.addEventListener('DOMContentLoaded', () => {
   renderRecentCaptures();
   loadSessionStats();
   checkOnboardingStatus();
-  updateAuthenticatedProfile();
 });
 
 // Onboarding completion flag.
@@ -97,62 +96,10 @@ document.addEventListener('DOMContentLoaded', () => {
 let _onboardingCompleted = typeof window.restore === 'function' && window.restore('onboardingCompleted') === true;
 
 function checkOnboardingStatus() {
-  if (!window.PoseArtAuth?.isLoggedIn()) {
-    showScreen('login');
-    return;
-  }
   if (_onboardingCompleted) {
     showTab('home');
-  } else {
-    showScreen('ob1');
   }
-}
-
-// PR-v25 (v2.5) — Friends & Family login gate.
-window.handleLoginSubmit = function(event) {
-  event?.preventDefault();
-  const username = document.getElementById('login-username');
-  const password = document.getElementById('login-password');
-  const error = document.getElementById('login-error');
-  const result = window.PoseArtAuth?.login(username?.value, password?.value) || {
-    ok: false,
-    error: 'Authentication is unavailable. Refresh and try again.',
-  };
-
-  if (!result.ok) {
-    if (error) {
-      error.textContent = result.error;
-      error.hidden = false;
-    }
-    password?.setAttribute('aria-invalid', 'true');
-    password?.focus();
-    return false;
-  }
-
-  if (error) {
-    error.textContent = '';
-    error.hidden = true;
-  }
-  if (password) {
-    password.value = '';
-    password.removeAttribute('aria-invalid');
-  }
-  updateAuthenticatedProfile();
-  checkOnboardingStatus();
-  return false;
-};
-
-window.logoutPoseArt = function() {
-  window.PoseArtAuth?.logout();
-  AppState.screenStack = [];
-  showScreen('login');
-  document.getElementById('login-username')?.focus();
-};
-
-function updateAuthenticatedProfile() {
-  const user = window.PoseArtAuth?.getCurrentUser();
-  const label = document.getElementById('profile-user-label');
-  if (label) label.textContent = user || 'Test account';
+  // else: stays on OB-1 (default)
 }
 
 // ── TIME ───────────────────────────────────────────────────────
@@ -175,8 +122,6 @@ function initStatusBarTime() {
 
 // ── SCREEN & TAB NAVIGATION ────────────────────────────────────
 window.showScreen = function(screenId, pushToStack) {
-  // A caller cannot bypass the gate by invoking a navigation function directly.
-  if (screenId !== 'login' && !window.PoseArtAuth?.isLoggedIn()) screenId = 'login';
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
 
   const target = document.getElementById('screen-' + screenId);
@@ -191,7 +136,7 @@ window.showScreen = function(screenId, pushToStack) {
   }
 
   const tabBar = document.getElementById('tab-bar');
-  const isOnboarding = ['login','ob1','ob2','ob3','ob4'].includes(screenId);
+  const isOnboarding = ['ob1','ob2','ob3','ob4'].includes(screenId);
   const isCamera = screenId === 'camera';
   const isReview = screenId === 'review';
   const isTourFlow = ['tour-session', 'tour-summary'].includes(screenId);
@@ -205,10 +150,6 @@ window.showScreen = function(screenId, pushToStack) {
 }
 
 window.showTab = function(tabId) {
-  if (!window.PoseArtAuth?.isLoggedIn()) {
-    showScreen('login');
-    return;
-  }
   AppState.currentTab = tabId;
   // Switching to a tab root is a fresh navigation context — clear history.
   AppState.screenStack = [];
