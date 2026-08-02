@@ -445,8 +445,30 @@ function updateSessionSetupOverlayPreview(mode) {
     // an overlay will be present. The hint text explains what 'off' means.
     figEl.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;width:100%;height:180px;border-radius:10px;background:rgba(15,59,58,0.04);color:var(--text-secondary);font:var(--type-body);text-align:center;padding:0 16px;">No overlay<br><span style="font-size:11px;opacity:0.7;">Camera only, no pose guide</span></div>';
   } else {
-    // 'avatar' or any unknown mode → SVG glyph
-    figEl.innerHTML = renderPoseFigureSVG(pose, false);
+    // 'avatar' → procedural PoseSkeleton3D canvas (the same renderAvatarFrame
+    // used by thumbnails/editor/camera-avatar). avatar-ghost extension (H9 fix):
+    // previously this showed the legacy SVG glyph, so the session-setup "avatar"
+    // chip looked different from the camera's avatar overlay. Now all avatar
+    // surfaces use the same procedural renderer.
+    figEl.innerHTML = '<canvas id="setup-avatar-canvas" width="160" height="180" style="border-radius:10px;background:rgba(15,59,58,0.06);max-width:100%;"></canvas>';
+    setTimeout(() => {
+      const c = document.getElementById('setup-avatar-canvas');
+      if (c && window.PoseSkeleton3D && typeof window.PoseSkeleton3D.renderAvatarFrame === 'function') {
+        try {
+          window.PoseSkeleton3D.renderAvatarFrame(c, 160, 180, pose.joints || {}, {
+            category: pose.category || '',
+            description: pose.instructions || '',
+            yaw: 0,
+            pitch: 0,
+            scale: 1
+          });
+        } catch (e) {
+          figEl.innerHTML = renderPoseFigureSVG(pose, false);
+        }
+      } else {
+        figEl.innerHTML = renderPoseFigureSVG(pose, false);
+      }
+    }, 30);
   }
 }
 
@@ -1300,7 +1322,12 @@ window.openPoseDetail = function(poseId) {
           window._activeSkeleton3D.setViewAngle(0, 0);
         }
       })();
-      window._activeSkeleton3D.startAutoRotate();
+      // WCAG 2.3.3: do not auto-start the continuous rotation RAF when the user
+      // has expressed a reduced-motion preference. The "Auto ↺" button remains
+      // available for explicit user-initiated rotation.
+      if (!window.matchMedia || !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        window._activeSkeleton3D.startAutoRotate();
+      }
     }
   }, 50);
 
@@ -2417,11 +2444,13 @@ window.renderMarketplace = function() {
   }).join('');
 };
 
-  PoseArtAnalytics?.track("checkout_started", { pack_id: packId });
 window.purchasePack = function(packId) {
   const pack = _marketplacePacks.find(p => p.id === packId);
   if (!pack) return;
   if (_ownedPacks.includes(packId)) { showToast('Already owned — open it from My Packs'); return; }
+  // Analytics: track checkout intent (packId is in scope here — fixes the
+  // orphaned call at module top-level that threw ReferenceError: packId is not defined).
+  PoseArtAnalytics?.track("checkout_started", { pack_id: packId });
   if (pack.price === 0) {
     // Free pack — instant "purchase"
     _ownedPacks.push(packId);

@@ -1,0 +1,7 @@
+{
+  "console": [
+    "[PoseArt Error Boundary] ReferenceError: packId is not defined\n    at http://127.0.0.1:8095/js/app.js:2420:58"
+  ],
+  "pageerrors": [],
+  "failed": []
+}

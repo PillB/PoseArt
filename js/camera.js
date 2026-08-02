@@ -185,35 +185,35 @@ class CameraEngine {
 
     if (this.overlayMode !== 'ghost' && this.overlayMode !== 'avatar') return;
 
-    // PR-2 (v1.1): procedural path — try first, fall back to legacy on failure.
-    if (window.PoseSkeleton3D && typeof window.PoseSkeleton3D.renderGhostFrame === 'function') {
+    // avatar-ghost extension (R2): 'avatar' = translucent FILLED silhouette
+    // (the shape to aim for), 'ghost' = luminous OUTLINE (the alignment target).
+    // Previously both modes called renderGhostFrame — now they are distinct.
+    const isAvatar = this.overlayMode === 'avatar';
+    const renderFn = isAvatar
+      ? (window.PoseSkeleton3D && window.PoseSkeleton3D.renderAvatarFrame)
+      : (window.PoseSkeleton3D && window.PoseSkeleton3D.renderGhostFrame);
+    if (window.PoseSkeleton3D && typeof renderFn === 'function') {
       try {
         const pose = this.currentPose && POSES_LIBRARY[this.currentPose];
         const joints = pose ? (pose.joints || {}) : {};
         const rect = canvas.getBoundingClientRect();
         const w = rect.width || 430;
         const h = rect.height || 932;
-        // Render the procedural ghost. Yaw is mirrored for front camera so
-        // the ghost visually matches the user's mirror image (the user's
-        // skeleton is also drawn mirrored via the canvas transform in
-        // captureImage). Pitch is set to 5° so the user sees a slight
-        // 3/4 view of the ghost — more elegant than a flat front view.
         const yaw = this.facingMode === 'user' ? -20 : 20;
-        // Scale the ghost to fill ~70% of the camera viewport height — large
-        // enough to be a useful alignment reference, small enough that the
-        // user can see their own video around it.
-        const scale = Math.min(w, h) / 320; // base 320 → scale up for larger viewports
-        window.PoseSkeleton3D.renderGhostFrame(canvas, w, h, joints, {
+        const scale = Math.min(w, h) / 320;
+        const opts = {
           category: pose ? (pose.category || '') : '',
           description: pose ? (pose.instructions || '') : '',
           yaw: yaw,
           pitch: 5,
           scale: scale
-        });
-        // If aligned (score >= 85), overlay a subtle gold tint on top of the
-        // cyan ghost to signal success. This preserves the original
-        // "isAligned ? gold : white" UX cue without re-architecting the
-        // procedural rig's color system.
+        };
+        if (isAvatar) {
+          // camera-avatar: low-alpha fill so the user's video shows through.
+          // Dark teal at 0.42 reads as a "ghost figure" without occluding.
+          opts.alpha = 0.42;
+        }
+        renderFn(canvas, w, h, joints, opts);
         if (this.currentScore >= 85) {
           const ctx2 = canvas.getContext('2d');
           ctx2.save();
@@ -222,11 +222,9 @@ class CameraEngine {
           ctx2.fillRect(0, 0, canvas.width / (window.devicePixelRatio || 1), canvas.height / (window.devicePixelRatio || 1));
           ctx2.restore();
         }
-        return; // procedural path succeeded — skip legacy
+        return;
       } catch (err) {
-        // Log and fall through to legacy path. Never throw out of the
-        // render loop — that would freeze the camera.
-        console.warn('[PoseArt] Procedural ghost render failed, falling back to legacy:', err && err.message);
+        console.warn('[PoseArt] Procedural overlay render failed, falling back to legacy:', err && err.message);
       }
     }
 
