@@ -522,7 +522,7 @@ const POSES_LIBRARY = {
     difficulty: 'Beginner', angle: '3/4 View', intent: 'Social', effort: 'Static',
     instructions: 'Sit and hug a pillow or cushion loosely against the chest, resting the chin on top of it. Let the knees draw up slightly and shoulders soften for a cozy, unguarded mood.',
     tip: 'A real prop like a pillow gives the hands purpose and removes any awkward, empty-handed stiffness — it solves the what-do-I-do-with-my-hands problem.',
-    joints: {spine: -10, neck: -10, leftShoulder: -60, rightShoulder: -60, leftElbow: 120, rightElbow: 120, leftHip: 95, rightHip: 95, leftKnee: 90, rightKnee: 90, leftAnkle: -15, rightAnkle: -15, shoulderFwdL: -40, shoulderFwdR: -40},
+    joints: {spine: -10, neck: -10, leftShoulder: -80, rightShoulder: -80, leftElbow: 140, rightElbow: 140, leftHip: 95, rightHip: 95, leftKnee: 90, rightKnee: 90, leftAnkle: -15, rightAnkle: -15, shoulderFwdL: -50, shoulderFwdR: -50},
     color: 'var(--color-teal-100)', figure: 'seated-side',
     tags: ['cozy', 'beginner', 'seated', 'social']
   },
@@ -617,7 +617,7 @@ const POSES_LIBRARY = {
     instructions: 'Stand with one shoulder pressed against the wall, torso angled 20-30° off the surface. Cross the far ankle over the near one and let both arms relax, one hand sliding into a pocket.',
     tip: 'Play with weight distribution — the diagonal from feet to shoulder is what creates the visual interest.',
     // PR-v5 (v1.5) — auto-fix hipAbduct sign: description says "cross legs" but hipAbductR was positive (spread). Flipped to -10 (right leg crosses behind left).
-    joints: {spine: 14, hips: 10, neck: -8.8, leftShoulder: -10, leftElbow: 40, rightElbow: 20, hipAbductL: 10, hipAbductR: 20, leftKnee: 10, rightKnee: 10, rightAnkle: 15, shoulderFwdL: -1, shoulderFwdR: -5},
+    joints: {spine: 14, hips: 10, neck: -8.8, leftShoulder: -10, leftElbow: 40, rightElbow: 20, hipAbductL: -10, hipAbductR: -20, leftKnee: 10, rightKnee: 10, rightAnkle: 15, shoulderFwdL: -1, shoulderFwdR: -5},
     color: 'var(--color-cobalt-200)', figure: 'wall-lean',
     tags: ['casual', 'beginner', 'leaning']
   },
@@ -3774,7 +3774,7 @@ const POSES_LIBRARY = {
       difficulty: 'Intermediate', angle: 'Front View', intent: 'Boudoir', effort: 'Static',
       instructions: 'Stand tall with your feet placed wide in a classic ballet stance. Interlock your fingers behind your lower back, push your shoulders back, and tilt your chin high up toward the ceiling.',
       tip: 'Interlocked hands behind the back automatically opens the chest and pulls the shoulders into perfect posture.',
-      joints: { globalTilt: 50, spine: -15, neck: -18, leftShoulder: 30, leftElbow: 8, rightShoulder: -28, rightElbow: 8, leftHip: 15, leftAnkle: -18, rightHip: 15, rightAnkle: -18, hipAbductL: 15, hipAbductR: 15 },
+      joints: { globalTilt: 50, spine: -15, neck: -18, leftShoulder: 30, leftElbow: 8, rightShoulder: -28, rightElbow: 8, leftHip: 15, leftAnkle: -18, rightHip: 15, rightAnkle: -18, hipAbductL: -15, hipAbductR: -15 },
       figure: 'standing-front',
       tags: ["ballet", "chin-up", "open-chest", "elegant"],
     },
@@ -6639,7 +6639,7 @@ const POSES_LIBRARY = {
     tags: ["boudoir", "bed", "prone", "crossed-ankles"],
     instructions: "Lie on the stomach across the bed, prop up on both forearms, cross the ankles behind you with knees bent, tilt the head down and to the side with a soft smile looking away from the lens.",
     tip: "Arch the lower back gently to lift the chest off the mattress and keep the pose from looking flat.",
-    joints: { spine: -14, neck: -12, hips: 0, globalTilt: 50, globalRoll: 5, globalTwist: 10, leftShoulder: -60, rightShoulder: -55, leftElbow: 100, rightElbow: 95, shoulderFwdL: 20, shoulderFwdR: 20, leftHip: 15, rightHip: 18, leftKnee: 105, rightKnee: 100, leftAnkle: -10, rightAnkle: -10, hipAbductL: 15, hipAbductR: 15 }
+    joints: { spine: -14, neck: -12, hips: 0, globalTilt: 50, globalRoll: 5, globalTwist: 10, leftShoulder: -60, rightShoulder: -55, leftElbow: 100, rightElbow: 95, shoulderFwdL: 20, shoulderFwdR: 20, leftHip: 15, rightHip: 18, leftKnee: 105, rightKnee: 100, leftAnkle: -10, rightAnkle: -10, hipAbductL: -15, hipAbductR: -15 }
   },
   "p16-bed-b2-recline-headboard-arm-up": {
     id: "p16-bed-b2-recline-headboard-arm-up", name: "Bed Recline Against Headboard Arm Up",
@@ -6663,7 +6663,7 @@ const POSES_LIBRARY = {
     tags: ["boudoir", "bed", "supine", "overhead-view"],
     instructions: "Lie flat on your back centered on the bed, shot from directly overhead. Extend one arm up above the head, the other resting bent near the face, legs relaxed with knees slightly bent apart, eyes closed.",
     tip: "Fan the hair out on the sheets and relax the entire body — the overhead angle reads best when everything looks weightless.",
-    joints: { spine: 10, neck: -5.2, hips: 0, globalTilt: 50, globalRoll: 0, globalTwist: 12, leftShoulder: -141, rightShoulder: -40, leftElbow: 10, rightElbow: 95, shoulderFwdL: 0, shoulderFwdR: 5, leftHip: 20, rightHip: 55, leftKnee: 15, rightKnee: 90, leftAnkle: -13, rightAnkle: -23, hipAbductL: 10, hipAbductR: 20 }
+    joints: { spine: 10, neck: -5.2, hips: 0, globalTilt: 50, globalRoll: 0, globalTwist: 12, leftShoulder: -141, rightShoulder: -40, leftElbow: 10, rightElbow: 95, shoulderFwdL: 0, shoulderFwdR: 5, leftHip: 20, rightHip: 55, leftKnee: 15, rightKnee: 90, leftAnkle: -13, rightAnkle: -23, hipAbductL: -10, hipAbductR: -20 }
   },
   "p16-bed-b5-arch-legs-up-headboard": {
     id: "p16-bed-b5-arch-legs-up-headboard", name: "Bed Back Arch Legs Up Against Headboard",
@@ -6696,7 +6696,7 @@ const POSES_LIBRARY = {
     tags: ["boudoir", "bed", "prone", "forearms"],
     instructions: "Lie on your stomach propped up on both forearms, cross the legs and bend the knees behind you, lift the chest and turn the head to look directly at the camera with a steady, confident gaze.",
     tip: "Keep both elbows firmly planted under the shoulders for stable support and a lifted chest line.",
-    joints: {spine: -12, hips: 0, neck: -8, leftShoulder: -55, rightShoulder: -50, leftElbow: 95, rightElbow: 81, hipAbductL: 20, hipAbductR: 20, leftHip: 12, rightHip: 15, leftKnee: 100, rightKnee: 85, leftAnkle: -10, rightAnkle: -23, shoulderFwdL: 20, shoulderFwdR: 20, globalTilt: 50, globalTwist: 15, globalRoll: 8}
+    joints: {spine: -12, hips: 0, neck: -8, leftShoulder: -55, rightShoulder: -50, leftElbow: 95, rightElbow: 81, hipAbductL: -20, hipAbductR: -20, leftHip: 12, rightHip: 15, leftKnee: 100, rightKnee: 85, leftAnkle: -10, rightAnkle: -23, shoulderFwdL: 20, shoulderFwdR: 20, globalTilt: 50, globalTwist: 15, globalRoll: 8}
   },
   "p16-bed-b9-kneeling-arch-hand-in-hair": {
     id: "p16-bed-b9-kneeling-arch-hand-in-hair", name: "Bed Kneeling Arch Hand in Hair",
@@ -7200,7 +7200,7 @@ const POSES_LIBRARY = {
     instructions: "Plank on the floor with the knees bent and positioned on the bench, toes pointed, arms bent supporting the pose with hands crossed at the wrist. Arch the back and look down.",
     tip: "Keep the arms firm and shoulder-width for stable support during the plank.",
     // PR-v3 (v1.3) — auto-fix spine sign error: description says "arch back" but spine is positive (forward fold). Was spine:26, now spine:-26.
-    joints: { spine: -26, neck: 20, hips: -20, globalTilt: 40, globalRoll: 0, globalTwist: 0, leftShoulder: -30, rightShoulder: -18, leftElbow: 20, rightElbow: 20, shoulderFwdL: 30, shoulderFwdR: 30, leftHip: 100, rightHip: 100, leftKnee: 130, rightKnee: 130, leftAnkle: -30, rightAnkle: -30, hipAbductL: 15, hipAbductR: 15 }
+    joints: { spine: -26, neck: 20, hips: -20, globalTilt: 40, globalRoll: 0, globalTwist: 0, leftShoulder: -30, rightShoulder: -18, leftElbow: 20, rightElbow: 20, shoulderFwdL: 30, shoulderFwdR: 30, leftHip: 100, rightHip: 100, leftKnee: 130, rightKnee: 130, leftAnkle: -30, rightAnkle: -30, hipAbductL: -15, hipAbductR: -15 }
   },
   "p05-bench-b12-armrest-seated-turned-camera": {
     id: "p05-bench-b12-armrest-seated-turned-camera", name: "Bench Armrest Seated Turned Toward Camera",
@@ -7661,7 +7661,7 @@ const POSES_LIBRARY = {
     tags: ["floor", "chair back rest", "hand on floor", "facing camera"],
     instructions: "Sit on the floor with the back against the chair. Keep one arm bent and the other straight; place one hand on the floor and the other on the hip. Bend, extend, and cross the legs at the shin with knees together, toes pointed, and look at the camera.",
     tip: "Press the straight arm's hand firmly into the floor to create a stable tripod base for the leaning torso.",
-    joints: {spine: -15, hips: 0, neck: -6, leftShoulder: 0, rightShoulder: 0, leftElbow: 0, rightElbow: 120, hipAbductL: 8, hipAbductR: 8, leftHip: 95, rightHip: 95, leftKnee: 115, rightKnee: 110, leftAnkle: 8, rightAnkle: 8, shoulderFwdL: 0, shoulderFwdR: -40, globalTilt: -10, globalTwist: 8, globalRoll: 15}
+    joints: {spine: -15, hips: 0, neck: -6, leftShoulder: 0, rightShoulder: 0, leftElbow: 0, rightElbow: 120, hipAbductL: -8, hipAbductR: -8, leftHip: 95, rightHip: 95, leftKnee: 115, rightKnee: 110, leftAnkle: 8, rightAnkle: 8, shoulderFwdL: 0, shoulderFwdR: -40, globalTilt: -10, globalTwist: 8, globalRoll: 15}
   },
   "p01-master-s16-chair-floor-lying-head-on-chair": {
     id: "p01-master-s16-chair-floor-lying-head-on-chair", name: "Floor Lying Head Resting on Chair Eyes Closed",
