@@ -522,7 +522,7 @@ const POSES_LIBRARY = {
     difficulty: 'Beginner', angle: '3/4 View', intent: 'Social', effort: 'Static',
     instructions: 'Sit and hug a pillow or cushion loosely against the chest, resting the chin on top of it. Let the knees draw up slightly and shoulders soften for a cozy, unguarded mood.',
     tip: 'A real prop like a pillow gives the hands purpose and removes any awkward, empty-handed stiffness — it solves the what-do-I-do-with-my-hands problem.',
-    joints: {spine: -10, neck: -10, leftShoulder: -30, rightShoulder: -30, leftElbow: 80, rightElbow: 80, leftHip: 95, rightHip: 95, leftKnee: 90, rightKnee: 90, leftAnkle: -15, rightAnkle: -15, shoulderFwdL: -20, shoulderFwdR: -20},
+    joints: {spine: -10, neck: -10, leftShoulder: -60, rightShoulder: -60, leftElbow: 120, rightElbow: 120, leftHip: 95, rightHip: 95, leftKnee: 90, rightKnee: 90, leftAnkle: -15, rightAnkle: -15, shoulderFwdL: -40, shoulderFwdR: -40},
     color: 'var(--color-teal-100)', figure: 'seated-side',
     tags: ['cozy', 'beginner', 'seated', 'social']
   },
@@ -987,7 +987,7 @@ const POSES_LIBRARY = {
     difficulty: 'Beginner', angle: 'Front', intent: 'Editorial', effort: 'Static',
     instructions: 'Sit at a table and cross both forearms flat on its surface, letting the chest rest gently against them. Keep shoulders down and wide, then rest the chin on the top forearm looking into the lens.',
     tip: 'Keep shoulders down and wide even while leaning forward — hunching narrows the whole frame.',
-    joints: {spine: 16, neck: -8, leftShoulder: -20, rightShoulder: -32, leftElbow: 100, rightElbow: 100, leftHip: 70, rightHip: 70, leftKnee: 80, rightKnee: 80, hips: 9, shoulderFwdL: 12, shoulderFwdR: -10},
+    joints: {spine: 16, neck: -8, leftShoulder: -20, rightShoulder: -32, leftElbow: 100, rightElbow: 100, leftHip: 70, rightHip: 70, leftKnee: 80, rightKnee: 80, hips: 9, shoulderFwdL: -12, shoulderFwdR: -10},
     color: 'var(--color-teal-100)', figure: 'elbow-prop',
     tags: ['editorial', 'beginner', 'seated', 'leaning']
   },
