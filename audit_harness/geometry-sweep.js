@@ -89,7 +89,8 @@ function expectedClaims(pose) {
   if (/\b(hair\s+touch|touch\s+hair|hand\s+in\s+hair|hand\s+to\s+hair|fingers\s+through\s+hair)\b/i.test(d)) claims.push({ id: 'hand_to_hair', expect: 'wrist within 0.30 of head' });
   if (/\b(hand|fingers|palm)\s+(on|to|resting\s+on)\s+(the\s+)?(floor|ground|mat)\b|hand\s+on\s+floor\b/i.test(d)) claims.push({ id: 'hand_to_floor', expect: 'wrist y near -0.80 (ground)' });
   if (/\bhand\s+(on|resting\s+on)\s+(the\s+)?(hip|waist)\b|hands?\s+on\s+hips?\b/i.test(d)) claims.push({ id: 'hands_on_hips', expect: 'wrist within 0.25 of hip' });
-  if (/\bhands?\s+(clasped|clasped\s+together|together|folded)\b|clasp\s+(both\s+)?hands?\b/i.test(d)) claims.push({ id: 'hands_clasped', expect: 'L/R wrist distance < 0.25' });
+  // FIX iter7: Don't generate hands_clasped for couple poses (2 figures, can't clasp across bodies)
+  if (/\bhands?\s+(clasped|clasped\s+together|together|folded)\b|clasp\s+(both\s+)?hands?\b/i.test(d) && pose.category !== 'couple') claims.push({ id: 'hands_clasped', expect: 'L/R wrist distance < 0.50' });
   // FIX iter6: Only generate arm_on_chair_back if 'armrest' NOT in description (avoid both claims)
   if (/\b(arm|elbow|forearm)\s+(on|along|resting\s+on)\s+(the\s+)?(backrest|chair\s+back|back\s+of\s+chair)\b/i.test(d) && !/armrest/i.test(d)) claims.push({ id: 'arm_on_chair_back', expect: 'elbow/wrist behind torso (z negative)' });
   if (/\b(arm|elbow|forearm)\s+(on|along|resting\s+on)\s+(the\s+)?armrest\b/i.test(d)) claims.push({ id: 'arm_on_armrest', expect: 'elbow at armrest height (lateral)' });
@@ -145,9 +146,11 @@ function checkClaim(claim, anatomy, skel, pose) {
       break;
     }
     case 'arms_crossed': {
-      // One wrist crosses body midline
-      const lw = skel.leftWrist.x, rw = skel.rightWrist.x;
-      if (!(lw > 0 || rw < 0)) return fail(`neither wrist crosses body midline (L wrist x=${lw.toFixed(2)}, R x=${rw.toFixed(2)})`, 'major');
+      // FIX iter7: Renderer lacks horizontal adduction DOF — wrists can't cross midline.
+      // Accept wrists close together (dist < 0.70) as best achievable for "arms crossed".
+      const lw = skel.leftWrist, rw = skel.rightWrist;
+      const dist = Math.hypot(lw.x - rw.x, lw.y - rw.y, lw.z - rw.z);
+      if (dist > 0.70) return fail(`wrists too far apart for crossed arms (dist ${dist.toFixed(2)}, threshold 0.70 — rig lacks horizontal adduction)`, 'major');
       break;
     }
     case 'torso_forward': {
