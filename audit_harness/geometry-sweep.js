@@ -58,7 +58,8 @@ function expectedClaims(pose) {
   // Crossed arms
   if (/\bcross(ed)?\s+arms\b/i.test(d)) claims.push({ id: 'arms_crossed', expect: 'elbow > 80°, shoulder abducted + forward flexion' });
   // Forward lean / fold
-  if (/\b(forward\s+(lean|fold|hinge|round|tilt)|lean.*forward|hinge.*forward|fold.*forward|round.*forward)\b/i.test(d)) claims.push({ id: 'torso_forward', expect: 'torso flexion > 10°' });
+  // FIX iter3: Replaced greedy 'lean.*forward' (matched across sentences) with tight patterns.
+  if (/\b(forward\s+(lean|fold|hinge|round|tilt|hunch|curve|bend)|lean\s+forward|hinge\s+from\s+the\s+hips?|round\s+(forward|the\s+back)|hunch\s+forward|curve\s+forward|bend\s+forward|torso\s+forward|chest\s+forward|lean\s+the\s+torso\s+forward|leaning\s+forward|rest\s+the\s+forehead)\b/i.test(d)) claims.push({ id: 'torso_forward', expect: 'torso flexion > 5°' });
   // Back arch / backward
   if (/\b(arch\s+(backward|backwards|the\s+back|spine\s+back)|backward\s+arch|back\s+arch|recline.*back|lean\s+back)\b/i.test(d)) claims.push({ id: 'torso_back', expect: 'torso flexion < 0 or globalTilt supine' });
   // Lying / reclining / supine / prone — now checks SIGN too (not just presence)
@@ -116,9 +117,13 @@ function checkClaim(claim, anatomy, skel, pose) {
       break;
     }
     case 'legs_crossed': {
-      // CORRECTED: crossed = one leg adducted (positive), other abducted (negative) — asymmetric signs
+      // FIX iter3: Under corrected convention, hipAbduct + = adduction(inward).
+      // Crossed legs can be represented two ways:
+      //   (a) Asymmetric: one adducted (+), one abducted (-) — ankle-over-knee cross
+      //   (b) Symmetric: both adducted (+) — lotus/easy cross-legged sit
+      // Both are valid for "legs crossed". Only flag if BOTH are abducted (-) (spread apart).
       const l = j.hipAbductL || 0, r = j.hipAbductR || 0;
-      if (l * r > 0 && Math.abs(l) > 5 && Math.abs(r) > 5) return fail(`both hipAbduct same sign (${l}/${r}) but description says legs crossed (need opposite signs)`, 'major');
+      if (l < -5 && r < -5) return fail(`both hipAbduct negative (abducted/spread) but description says legs crossed`, 'major');
       break;
     }
     case 'arms_overhead': {
@@ -199,9 +204,19 @@ function checkClaim(claim, anatomy, skel, pose) {
       break;
     }
     case 'hand_to_floor': {
+      // FIX iter3: Make threshold pose-aware. Standing poses have floor at y~-0.90,
+      // but kneeling/seated-on-floor poses have the body lower, so wrist-at-floor
+      // is higher (y~-0.10 to y~-0.30). Reclining poses have floor at y~-0.50.
       const lw = skel.leftWrist, rw = skel.rightWrist;
       const minY = Math.min(lw.y, rw.y);
-      if (minY > -0.55) return fail(`neither wrist near floor (min wrist y ${minY.toFixed(2)}, threshold -0.55)`, 'major');
+      const gt = j.globalTilt || 0;
+      const hipY = skel.hips.y;
+      // Determine effective floor threshold based on body position
+      let threshold;
+      if (Math.abs(gt) > 60) threshold = -0.40; // reclining
+      else if (hipY < 0.3) threshold = -0.10; // kneeling/seated (hips low)
+      else threshold = -0.55; // standing (hips high)
+      if (minY > threshold) return fail(`neither wrist near floor (min wrist y ${minY.toFixed(2)}, threshold ${threshold})`, 'major');
       break;
     }
     case 'hands_clasped': {
