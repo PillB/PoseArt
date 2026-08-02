@@ -1,0 +1,36 @@
+{
+  "proposal_id": "patch-p01-master-b5-bench-lying-back-arch-1785634440888",
+  "pose_id": "p01-master-b5-bench-lying-back-arch",
+  "category": "reclining",
+  "worker": "worker-C-batch5",
+  "existing_config_hash": "97af247864af",
+  "defects": [
+    {
+      "id": "TOES_NOT_POINTED",
+      "severity": "MAJOR",
+      "description": "Description: pointed toes. leftAnkle=6, rightAnkle=6 (dorsiflexion, toes UP). Should be negative (plantarflexion).",
+      "evidence": "baseline: leftAnkle=6, rightAnkle=6"
+    }
+  ],
+  "failing_tests": [
+    {
+      "name": "toes_pointed",
+      "expected": "ankles negative (plantarflexion)",
+      "actual": "both = +6 (dorsiflexion)"
+    }
+  ],
+  "field_changes": {
+    "leftAnkle": -20,
+    "rightAnkle": -20
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/reclining/p01-master-b5-bench-lying-back-arch/baseline/",
+  "after_evidence": "",
+  "regression_risk": "",
+  "confidence": 0.85,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Description: Lie on bench (globalTilt=-65 SUPINE ✓). Bending both arms (leftShoulder=-85, rightShoulder=-80 — both arms raised overhead, symmetric ✓; leftElbow=60, rightElbow=65 — both bent ✓). ARCHING THE BACK (spine=-30 BACKWARD ARCH per corrected convention - = backward arch ✓ per task instruction verify spine negative). Bend both knees (leftKnee=120, rightKnee=115 ✓). Pointed toes (DEFECT — fix below). Tilt face toward camera (neck=25 RIGHT tilt, PRESERVED). Tip: push chest up, head drop back (rig-limited — no head pitch joint, head position determined by spine rotation; chest position determined by spine+globalTilt — chest at hip level since spine negative in supine projects chest DOWN, but task instruction confirms spine negative is correct for back arch per convention). Only defect: toes. Fix: leftAnkle/rightAnkle 6→-20 (plantarflexion, toes pointed). spine=-30 PRESERVED (back arch per convention, per task instruction). globalTilt=-65 PRESERVED (supine). Confidence high — minimal 2-field fix, all other elements verified correct.",
+  "created_at": "2026-08-02T01:34:00.888Z"
+}

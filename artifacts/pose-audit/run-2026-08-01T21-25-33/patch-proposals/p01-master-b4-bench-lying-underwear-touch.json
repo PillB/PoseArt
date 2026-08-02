@@ -1,0 +1,64 @@
+{
+  "proposal_id": "patch-p01-master-b4-bench-lying-underwear-touch-1785634433354",
+  "pose_id": "p01-master-b4-bench-lying-underwear-touch",
+  "category": "reclining",
+  "worker": "worker-C-batch5",
+  "existing_config_hash": "9b52431db4d5",
+  "defects": [
+    {
+      "id": "NEITHER_HAND_ON_WAISTBAND",
+      "severity": "CRITICAL",
+      "description": "Description: ONE hand touching underwear waistband (at hip). LEFT wrist at (-1.060,0.283,-0.713) — 1.19m from left hip. RIGHT wrist at (0.587,0.448,-0.287) — 0.66m from right hip. Neither close to either hip.",
+      "evidence": "baseline: lWr(-1.060,0.283,-0.713) rWr(0.587,0.448,-0.287); |lWr-lHip|=1.191 |rWr-rHip|=0.657"
+    },
+    {
+      "id": "NEITHER_HAND_ON_HAIR",
+      "severity": "CRITICAL",
+      "description": "Description: OTHER hand touching the hair (at head). LEFT wrist 0.87m from head, RIGHT wrist 0.93m from head. Neither close to head (-0.199,0.409,-0.789).",
+      "evidence": "baseline: |lWr-head|=0.873 |rWr-head|=0.933"
+    },
+    {
+      "id": "TOES_NOT_POINTED",
+      "severity": "MAJOR",
+      "description": "Description: toes pointed. leftAnkle=6, rightAnkle=6 (dorsiflexion).",
+      "evidence": "baseline: leftAnkle=6, rightAnkle=6"
+    }
+  ],
+  "failing_tests": [
+    {
+      "name": "one_hand_on_waistband",
+      "expected": "one wrist near a hip (distance < 0.25m)",
+      "actual": "both wrists > 0.65m from both hips"
+    },
+    {
+      "name": "one_hand_on_hair",
+      "expected": "one wrist near head (distance < 0.20m)",
+      "actual": "both wrists > 0.87m from head"
+    },
+    {
+      "name": "toes_pointed",
+      "expected": "ankles negative",
+      "actual": "both = +6"
+    }
+  ],
+  "field_changes": {
+    "leftShoulder": 120,
+    "leftElbow": 130,
+    "shoulderFwdL": 50,
+    "rightShoulder": 10,
+    "rightElbow": 120,
+    "shoulderFwdR": -80,
+    "leftAnkle": -20,
+    "rightAnkle": -20
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/reclining/p01-master-b4-bench-lying-underwear-touch/baseline/",
+  "after_evidence": "",
+  "regression_risk": "",
+  "confidence": 0.65,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Description: Lie on bench (globalTilt=-65 SUPINE ✓). Bend both arms, ONE hand touching underwear waistband (hip), OTHER touching hair (head). Bend both knees (leftKnee=120, rightKnee=105 ✓ PRESERVED), one foot on armrest, other on bench, toes pointed. Tilt face toward camera (neck=22 RIGHT tilt, PRESERVED). Tip: knees stacked (hipAbductL=12, hipAbductR=10 — already adducted, PRESERVED). Fixes: (1) LEFT arm — leftShoulder -95→+120 (INWARD across body to reach head), leftElbow 55→130 (deep bend), shoulderFwdL 12→+50 (BEHIND per corrected convention + = behind, projects UP in world for supine globalTilt=-65 — brings wrist up to head level); (2) RIGHT arm — rightShoulder -35→+10 (INWARD across body to reach hip), rightElbow 70→120 (deep bend), shoulderFwdR 10→-80 (FORWARD per corrected convention - = forward, projects DOWN in world for supine — brings wrist down to hip level); (3) leftAnkle/rightAnkle 6→-20 (toes pointed). Result: lWr(-0.11,0.32,-0.72), |lWr-head|=0.147 (15cm from head — touching hair ✓); rWr(0.18,0.15,0.07), |rWr-rHip|=0.189 (19cm from right hip — touching waistband ✓). Rig-limited: hands approximately at target positions, cannot place flat-on-surface.",
+  "created_at": "2026-08-02T01:33:53.354Z"
+}

@@ -1,0 +1,65 @@
+{
+  "proposal_id": "patch-p01-master-b7-bench-kneel-hip-knee-touch-1785633893675",
+  "pose_id": "p01-master-b7-bench-kneel-hip-knee-touch",
+  "category": "kneeling",
+  "worker": "worker-A-batch5",
+  "existing_config_hash": "23de09a85272",
+  "defects": [
+    {
+      "id": "right_arm_not_touching_knee",
+      "severity": "MAJOR",
+      "claim": "Description: 'extend the other arm to touch the knee'. Currently rightShoulder=-15 (slight up abduction), rightElbow=10 (nearly straight), shoulderFwdR=15 (slightly behind). Right arm is nearly straight, hanging at side, NOT touching knee. Need forward reach + slight elbow flexion to land on knee.",
+      "evidence": "geometry.json: right_arm shoulder_abduction_deg=40.6 (slight out), elbow_flexion_deg=7.5 (straight); arm at side, not extended forward to knee."
+    },
+    {
+      "id": "left_arm_not_properly_on_hip",
+      "severity": "MAJOR",
+      "claim": "Description: 'Bend one arm, resting the hand on the hip'. Currently leftShoulder=-90 (overhead per convention - = raise up), shoulderFwdL=12 (slightly behind). Left arm is raised overhead with elbow flexion, not in classic hand-on-hip position (upper arm horizontal out, elbow bent 90°).",
+      "evidence": "geometry.json: left_arm shoulder_abduction_deg=113 (lateral up), shoulder_sagittal_flexion_deg=161.7 (forward, almost horizontal); arm forward-up not hand-on-hip."
+    },
+    {
+      "id": "unnecessary_global_twist",
+      "severity": "MINOR",
+      "claim": "Description doesn't mention torso twist. globalTwist=5 may produce unwanted rotation. Set to 0 for cleaner pose.",
+      "evidence": "raw joints: globalTwist=5."
+    },
+    {
+      "id": "hands_on_hips_false_positive",
+      "severity": "INFO",
+      "claim": "Sweep flag 'hands_on_hips' (plural) is FALSE POSITIVE for this pose. Description requires ONE hand on hip + OTHER hand on knee (singular each). After fix, only left arm is in hand-on-hip position; right arm extended forward to knee. Sweep should re-evaluate.",
+      "evidence": "description: 'Bend one arm, resting the hand on the hip, and extend the other arm to touch the knee'."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "one hand on hip (one arm bent, elbow out, hand at hip)",
+      "expected": "one arm: shoulder abducted ~90°, elbow bent ~90°",
+      "actual": "leftShoulder=-90 (overhead), shoulderFwdL=12 (behind) — not classic hand-on-hip"
+    },
+    {
+      "assertion": "other hand on knee (arm extended forward to knee)",
+      "expected": "other arm: shoulder forward, wrist near knee (<0.30 distance)",
+      "actual": "right arm straight at side, not touching knee"
+    }
+  ],
+  "field_changes": {
+    "neck": 0,
+    "globalTwist": 0,
+    "leftShoulder": 75,
+    "shoulderFwdL": 0,
+    "leftElbow": 90,
+    "rightShoulder": 0,
+    "shoulderFwdR": -70,
+    "rightElbow": 40
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/kneeling/p01-master-b7-bench-kneel-hip-knee-touch/baseline/",
+  "after_evidence": "",
+  "regression_risk": "",
+  "confidence": 0.7,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Description: 'Bend one arm, resting the hand on the hip, and extend the other arm to touch the knee. Posture straight with arched back.' Per protocol §4 INSTRUCTIONS are ground truth. (1) LEFT hand on hip: leftShoulder -90→75 (coronal abduction out to side ~horizontal, not overhead; per convention - = raise up, + = abduction out), shoulderFwdL 12→0 (no fwd/back, pure coronal abduction), leftElbow 60→90 (right-angle bend, hand to hip). (2) RIGHT hand on knee: rightShoulder -15→0 (no abduction, arm in sagittal plane), shoulderFwdR 15→-70 (forward reach per corrected - = forward), rightElbow 10→40 (slight flex, forearm down to knee). (3) globalTwist 5→0 (no twist mentioned). (4) neck -6→0 (no side tilt; 'face toward camera' = yaw not modeled). Sweep flag 'hands_on_hips' (plural) is false positive — only one hand on hip per description. Rig limitation: hand-to-knee contact partial (arm length vs shoulder-to-knee distance).",
+  "created_at": "2026-08-02T01:24:53.675Z"
+}

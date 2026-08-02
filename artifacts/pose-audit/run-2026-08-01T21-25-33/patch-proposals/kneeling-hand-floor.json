@@ -1,0 +1,79 @@
+{
+  "proposal_id": "patch-kneeling-hand-floor-1785631981701",
+  "pose_id": "kneeling-hand-floor",
+  "category": "kneeling",
+  "worker": "worker-C-batch4",
+  "existing_config_hash": "a6f87dc8761e",
+  "defects": [
+    {
+      "id": "LEFT_LEG_STANDING_LEGS_CROSSED_FLAG",
+      "severity": "CRITICAL",
+      "description": "leftKnee=5 (LEFT knee straight) and leftHip=0 (default, LEFT hip neutral). LEFT leg is STANDING, not kneeling. Flagged by sweep as legs_crossed due to asymmetric base. Description: Kneel with BOTH knees down.",
+      "evidence": "baseline: kneeL y=-0.376, ankleL y=-0.787, footL y=-0.856 (standing); kneeR y=-0.096 (kneeling)"
+    },
+    {
+      "id": "ARMS_NOT_CROSSED_OVER_CHEST",
+      "severity": "MAJOR",
+      "description": "No shoulderFwd set for either arm — arms not brought forward to cross over chest. Description: cross both arms loosely over the chest.",
+      "evidence": "baseline: shoulderFwdL=0, shoulderFwdR=0; wristL z=+0.184, wristR z=+0.050 (not crossed)"
+    },
+    {
+      "id": "ASYMMETRIC_ARMS",
+      "severity": "MAJOR",
+      "description": "leftShoulder=-10 vs rightShoulder=8 (asymmetric). leftElbow=70 vs rightElbow=50 (asymmetric). Description implies symmetric crossed arms.",
+      "evidence": "baseline: leftShoulder=-10, rightShoulder=8, leftElbow=70, rightElbow=50"
+    },
+    {
+      "id": "NECK_TILT_UNMOTIVATED",
+      "severity": "MINOR",
+      "description": "neck=-6 (head tilt left). Description: chin level.",
+      "evidence": "baseline: head roll -6deg"
+    },
+    {
+      "id": "SPINE_TOO_FORWARD",
+      "severity": "MINOR",
+      "description": "spine=20. Description: slight forward lean from the hips. 20 is moderate, slight would be ~10-15.",
+      "evidence": "baseline: spine=20"
+    }
+  ],
+  "failing_tests": [
+    {
+      "name": "both_knees_down",
+      "expected": "both knees y near -0.024 (kneeling)",
+      "actual": "kneeL y=-0.376 (standing) — flagged as legs_crossed by sweep"
+    },
+    {
+      "name": "arms_crossed_over_chest",
+      "expected": "shoulderFwdL and shoulderFwdR negative (forward per convention), wrists close together at chest level",
+      "actual": "no shoulderFwd set, wrists 1.075 apart at hip level"
+    },
+    {
+      "name": "chin_level",
+      "expected": "neck near 0",
+      "actual": "neck=-6"
+    }
+  ],
+  "field_changes": {
+    "leftHip": 80,
+    "leftKnee": 90,
+    "leftAnkle": -35,
+    "leftShoulder": 0,
+    "rightShoulder": 0,
+    "leftElbow": 100,
+    "rightElbow": 100,
+    "shoulderFwdL": -50,
+    "shoulderFwdR": -50,
+    "neck": 0,
+    "spine": 12
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/kneeling/kneeling-hand-floor/baseline/",
+  "after_evidence": "",
+  "regression_risk": "Medium — LEFT leg repositioned from standing to kneeling (clears legs_crossed flag). spine reduced 20→12. shoulderFwdL/R added (negative per corrected convention = forward).",
+  "confidence": 0.7,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Description: Kneel with both knees DOWN + sitting upright + cross both arms loosely over the chest + slight forward lean from the hips + shoulders relaxed + chin level. Pose NAME (hand-floor) does not match description (crossed-arms-over-chest) — per protocol §4, use INSTRUCTIONS/TIP as ground truth. Fixes: (1) LEFT kneeling added (leftHip=80, leftKnee=90, leftAnkle=-35) — clears legs_crossed flag; (2) shoulderFwdL/R=-50 (forward per corrected convention, arms forward to cross chest); (3) leftElbow/rightElbow=100 (deep bend, wrists close together at center); (4) leftShoulder/rightShoulder=0 (arms at side hanging down for cross); (5) neck -6→0 (chin level); (6) spine 20→12 (slight forward lean). Result: both wrists at (±0.313,-0.017,0.306) symmetric, 0.625 apart (close together), z=+0.306 forward of body. Rig-limited: wrists at hip level not chest level (renderer elbow rotY cannot bring forearms vertical to chest height).",
+  "created_at": "2026-08-02T00:53:01.701Z"
+}

@@ -1,0 +1,35 @@
+{
+  "proposal_id": "patch-p15-chair-s7-recline-arms-overhead-1785624744578",
+  "pose_id": "p15-chair-s7-recline-arms-overhead",
+  "category": "seated",
+  "worker": "worker-C-seated-batch2",
+  "existing_config_hash": "71d91ff890e2",
+  "defects": [
+    {
+      "id": "over-recline-pr-v6-overshoot",
+      "severity": "MAJOR",
+      "claim": "Slight recline against the chair back",
+      "evidence": "Torso flexion -67° from vertical (geometry): head z=-0.803 vs hips z=-0.084 = 0.72 units back-recline. globalTilt:-45 + spine:-22 combine to ~67° backward lean, far exceeding the description word SLIGHT. VLM side-view classified as moderately reclined (30-45°) which still exceeds slight. PR-v6 auto-fix increased globalTilt from -35 to -45 to fix recline_missing flag — over-applied magnitude. Arms overhead (L 148°, R 164° abduction) correctly match the arms-overhead claim."
+    }
+  ],
+  "failing_tests": [
+    {
+      "name": "torso_should_be_slight_recline",
+      "assert": "anatomy.torso.flexion_deg > -30 AND anatomy.torso.flexion_deg < -5 (slight back arch, not deep recline)"
+    }
+  ],
+  "field_changes": {
+    "spine": -12,
+    "globalTilt": -10
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/p15-chair-s7-recline-arms-overhead/baseline/",
+  "after_evidence": "",
+  "regression_risk": "Medium — changes 2 field magnitudes; leg effective world positions will shift (thighs become more horizontal-forward instead of down-forward). Sweep torso_back check still passes (torso flexion stays negative). Re-render verification recommended to confirm visual matches slight-recline intent.",
+  "confidence": 0.65,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Description says SLIGHT recline against chair back (i.e., spine relaxing against chair back while seated upright). PR-v6 over-applied globalTilt (-35→-45) producing 67° total recline (deep, not slight). Reduce globalTilt -45→-10 (slight overall lean back, preserves non-zero value to satisfy sweep reclining check) and spine -22→-12 (slight back arch against chair back). Total expected post-fix recline ~22° = slight. Arms overhead preserved (L 148°, R 164° abduction > 120° threshold). Legs preserved (hip flexion 60°, knee 25-30° — extended in front). Sign convention verified: spine - = backward arch; globalTilt - = supine/reclined back.",
+  "created_at": "2026-08-01T22:52:24.578Z"
+}

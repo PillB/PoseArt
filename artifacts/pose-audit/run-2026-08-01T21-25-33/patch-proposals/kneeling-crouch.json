@@ -1,0 +1,60 @@
+{
+  "proposal_id": "patch-kneeling-crouch-1785631938412",
+  "pose_id": "kneeling-crouch",
+  "category": "kneeling",
+  "worker": "worker-C-batch4",
+  "existing_config_hash": "8656150da505",
+  "defects": [
+    {
+      "id": "ASYMMETRIC_ARMS",
+      "severity": "MAJOR",
+      "description": "leftShoulder not set (default 0, T-pose outward) vs rightShoulder=-12 (slight raise). Description: open BOTH arms wide to sides at shoulder height — both should be T-pose horizontal outward (joint=0).",
+      "evidence": "baseline: wristL=(-0.366,-0.019,0.105) at side, wristR=(0.619,0.054,0.070) raised out — asymmetric"
+    },
+    {
+      "id": "ASYMMETRIC_ELBOWS",
+      "severity": "MAJOR",
+      "description": "leftElbow=81 vs rightElbow=18. Description: fingers relaxed, not stiffly extended — both elbows should have slight symmetric bend.",
+      "evidence": "baseline elbow flexion: left 81deg, right 18deg"
+    },
+    {
+      "id": "ASYMMETRIC_KNEES",
+      "severity": "MINOR",
+      "description": "leftKnee=120 vs rightKnee=90. Description: sit back on heels — both knees should be symmetric deep flexion.",
+      "evidence": "baseline: leftKnee=120, rightKnee=90"
+    }
+  ],
+  "failing_tests": [
+    {
+      "name": "both_arms_wide_to_sides",
+      "expected": "leftShoulder=rightShoulder=0 (T-pose outward), arms horizontal at shoulder height",
+      "actual": "rightShoulder=-12 (slight raise, asymmetric)"
+    },
+    {
+      "name": "symmetric_elbows",
+      "expected": "leftElbow=rightElbow within 5deg, slight bend 30-50deg",
+      "actual": "leftElbow=81, rightElbow=18"
+    },
+    {
+      "name": "symmetric_knees",
+      "expected": "leftKnee=rightKnee (deep flexion for sit-back-on-heels)",
+      "actual": "leftKnee=120, rightKnee=90"
+    }
+  ],
+  "field_changes": {
+    "rightShoulder": 0,
+    "leftElbow": 40,
+    "rightElbow": 40,
+    "rightKnee": 120
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/kneeling/kneeling-crouch/baseline/",
+  "after_evidence": "",
+  "regression_risk": "Low — symmetrizing RIGHT arm/elbow/knee to match LEFT. spine=-6 (chest lift) preserved.",
+  "confidence": 0.85,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Description: Sit back on heels + open BOTH arms wide to sides at shoulder height + palms up + fingers relaxed. Fixes: (1) rightShoulder=-12→0 match LEFT (T-pose horizontal outward = arms at shoulder height); (2) leftElbow/rightElbow normalized to 40 (slight bend, fingers relaxed not stiffly extended); (3) rightKnee=90→120 match LEFT (deeper flexion for sit-back-on-heels). Result: both wrists at (±0.450,-0.019,0.084) symmetric, horizontal outward, slight elbow bend.",
+  "created_at": "2026-08-02T00:52:18.412Z"
+}

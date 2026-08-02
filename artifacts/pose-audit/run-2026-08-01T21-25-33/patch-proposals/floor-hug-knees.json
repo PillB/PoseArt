@@ -1,0 +1,78 @@
+{
+  "proposal_id": "patch-floor-hug-knees-1785620895125",
+  "pose_id": "floor-hug-knees",
+  "category": "seated",
+  "worker": "worker-A",
+  "existing_config_hash": "e638bb702e79",
+  "defects": [
+    {
+      "type": "reclining_false_positive",
+      "severity": "minor",
+      "description": "FALSE POSITIVE. Geometry sweep flagged reclining (globalTilt missing) because description contains the word floor. Instructions clearly say SIT on the floor and draw both knees fully into the chest — this is a SEATED knees-to-chest hug pose, NOT a reclining/lying pose. No globalTilt needed."
+    },
+    {
+      "type": "torso_forward_sign_error",
+      "severity": "major",
+      "description": "Instructions say draw both knees fully into the chest, wrapping arms around shins, rest cheek against a knee (forward hunch over knees). spine: -22 (raw) gives derived torso flexion -22 deg (BACK ARCH) — opposite direction. Should be POSITIVE forward flexion to bring chest down to knees. Same pattern as feet-up PR-v3 spine sign fix; this pose was missed."
+    },
+    {
+      "type": "knees_not_into_chest",
+      "severity": "major",
+      "description": "Instructions say draw both knees FULLY INTO the chest (deep hip flexion ~110-130 deg, knees bent ~130-150 deg). Derived L/R hip flexion 80/80 (only forward sit, not knees-up), L/R knee 100/100 (right-angle, not deeply bent). Knees are not elevated to chest."
+    },
+    {
+      "type": "arms_not_wrapping_shins",
+      "severity": "major",
+      "description": "Instructions say wrapping both arms around the shins. Derived: L arm shoulder_abd 27, elbow 33; R arm shoulder_abd 35, elbow 30 — both arms at sides with slight bend, NOT reaching forward to wrap around shins. shoulderFwdL +7, shoulderFwdR -5 give derived sagittal flexion L +19, R +28 (slightly forward, insufficient wrap reach)."
+    },
+    {
+      "type": "head_not_to_knee",
+      "severity": "major",
+      "description": "Instructions say rest cheek against a knee. Derived head pitch -22.8 deg (slightly back from spine -22). For cheek against knee (with knees drawn to chest), head should tilt forward ~25-35 deg. neck -16 only affects roll, not pitch."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "torso_flexion_deg > 15 (forward hunch over knees)",
+      "expected": "> 15",
+      "actual": "-22 (back arch)"
+    },
+    {
+      "assertion": "hip_flexion_deg > 100 (knees up to chest)",
+      "expected": "> 100",
+      "actual": "80/80"
+    },
+    {
+      "assertion": "knee_flexion_deg > 130 (deep bend)",
+      "expected": "> 130",
+      "actual": "100/100"
+    },
+    {
+      "assertion": "shoulder_sagittal_flexion_deg > 40 (arms forward wrapping)",
+      "expected": "> 40",
+      "actual": "L 19.1, R 27.5"
+    }
+  ],
+  "field_changes": {
+    "spine": 25,
+    "leftHip": 115,
+    "rightHip": 115,
+    "leftKnee": 130,
+    "rightKnee": 140,
+    "shoulderFwdL": -45,
+    "shoulderFwdR": -45,
+    "leftElbow": 75,
+    "rightElbow": 75,
+    "neck": 10
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/floor-hug-knees/baseline/",
+  "after_evidence": "",
+  "regression_risk": "medium-high - 10-field change. spine sign flip is well-precedented (feet-up PR-v3). Hip flexion 80 to 115 is large but anatomically valid (knees-to-chest sit). Knee 100 to 130-140 is valid. shoulderFwdL/R sign flip well-precedented. elbow moderate increase. neck small lateral tilt. Balance: COM shifts forward with hip flexion; spine 25 forward hunch compensates by bringing torso forward over hips. Should remain balanced.",
+  "confidence": 0.5,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Reclining flag FALSE POSITIVE (no globalTilt). Real defects multi-joint: (1) spine: 25 (was -22) — sign flip; description requires forward hunch over knees (knees-to-chest ball), not back arch. Same class as feet-up PR-v3 spine sign fix. (2) leftHip/rightHip: 115 (was 80) — deep hip flexion to bring thighs up to chest. (3) leftKnee 130, rightKnee 140 (was 100/100) — deep knee bend; slight asymmetry (10 deg) per tip Untuck one foot so it peeks out (less-bent knee = foot extends slightly). (4) shoulderFwdL/R: -45 (was +7, -5) — sign flip per inverted renderer convention; arms forward to wrap around shins. (5) leftElbow/rightElbow: 75 (was 65/45) — bent so forearms wrap around shins. (6) neck: 10 (was -16) — per FK neck rotZ + = head tilts figure left; tilts head left so LEFT cheek rests against LEFT knee. Combined: forward-hunched ball pose with knees in chest, arms wrapping, cheek on knee. Confidence moderate; 10-field change is large but each addresses a distinct description claim. Re-render verification required.",
+  "created_at": "2026-08-01T21:48:15.125Z"
+}

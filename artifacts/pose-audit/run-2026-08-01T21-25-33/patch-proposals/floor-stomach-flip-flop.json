@@ -1,0 +1,50 @@
+{
+  "proposal_id": "patch-floor-stomach-flip-flop-1785634050201",
+  "pose_id": "floor-stomach-flip-flop",
+  "category": "reclining",
+  "worker": "worker-B-batch5",
+  "existing_config_hash": "e5ecbf5ce45b",
+  "defects": [
+    {
+      "type": "left_knee_not_bent_asymmetric",
+      "severity": "major",
+      "description": "Description: KNEES BENT (both knees flexed, feet crossed in air behind). Current leftKnee default 5° (nearly straight), rightKnee=40 (moderate bend). ASYMMETRIC — only RIGHT knee bent. Both knees should be bent ~40° to lift both feet behind body. cron-round-1 fixed globalTilt to +80 (PRONE) which is correct, but knee asymmetry was not addressed."
+    },
+    {
+      "type": "feet_not_crossed",
+      "severity": "major",
+      "description": "Description: FEET CROSSED loosely in air behind. Current no hipAbduct set — feet at x=±0.11 (symmetric, NOT crossed). Need hipAbductL/R POSITIVE (both legs ADDUCT/cross inward per corrected convention + = adduction) to bring feet across each other."
+    },
+    {
+      "type": "hands_not_stacked_under_chin",
+      "severity": "major",
+      "description": "Description: chin resting on STACKED HANDS (both hands together under chin). Current no shoulderFwd set — hands at sides, not stacked under chin. leftWrist at z=0.066, rightWrist at z=-0.042 (at body center, not under chin which would be forward of body). Need shoulderFwdL/R NEGATIVE (FORWARD in body frame per corrected convention) to swing both arms forward to under-chin position. In prone pose body-forward maps to DOWN-FORWARD in world, hands to floor under chin."
+    }
+  ],
+  "failing_tests": [
+    "description says knees bent but only RIGHT knee bent (leftKnee=5 default)",
+    "description says feet crossed but no hipAbduct set, feet symmetric",
+    "description says chin on stacked hands but no shoulderFwd set, hands at sides"
+  ],
+  "field_changes": {
+    "shoulderFwdL": -50,
+    "shoulderFwdR": -50,
+    "leftKnee": 40,
+    "leftElbow": 100,
+    "rightElbow": 100,
+    "leftShoulder": 0,
+    "rightShoulder": 0,
+    "hipAbductL": 20,
+    "hipAbductR": 20
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/reclining/floor-stomach-flip-flop/baseline/",
+  "after_evidence": "",
+  "regression_risk": "medium — 9-field change to add stacked-hands, crossed-feet, and bent-knees. globalTilt=+80 (PRONE) preserved (cron-round-1 fix correct). Re-render verify REQUIRED to confirm hands stack under chin and feet cross behind. Rig-limited: no horizontal adduction joint, hands cannot truly stack — approximation via both arms swung forward and elbows deeply bent.",
+  "confidence": 0.6,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Description: Lie face down with knees bent and feet crossed loosely in the air behind, chin resting on stacked hands. A youthful, playful, magazine-cover classic. Verification: (1) Lie face down PRONE — globalTilt=+80 ✓ (per corrected convention +90=PRONE; cron-round-1 fixed sign correctly). (2) Knees bent — DEFECT: leftKnee=5 (default, nearly straight), rightKnee=40. Asymmetric. Fix: leftKnee default→40 (match rightKnee, both knees bent). (3) Feet crossed — DEFECT: no hipAbduct set, feet at x=±0.11 symmetric. Fix: hipAbductL 0→+20 + hipAbductR 0→+20 (both legs ADDUCT/cross inward per corrected convention + = adduction; both feet cross body midline). (4) Chin on stacked hands — DEFECT: no shoulderFwd set, hands at sides (leftWrist z=0.066, rightWrist z=-0.042 at body center, not forward under chin). Fix: shoulderFwdL 0→-50 + shoulderFwdR 0→-50 (both arms swing FORWARD in body frame per corrected convention - = forward; in prone pose body-forward maps to DOWN-FORWARD in world, hands to floor in front of head/under chin ✓). leftElbow 65→100 + rightElbow 45→100 (deeper bend, forearms forward to chin). leftShoulder -10→0 + rightShoulder 8→0 (arms neutral, less abducted for forward fold to chin). globalRoll=-15 preserved (slight roll). neck=10 preserved. Re-render verify REQUIRED. Rig-limited: no horizontal adduction joint, hands cannot truly stack on top of each other — approximation via both arms forward + deep elbow bend bringing hands together at chin level.",
+  "created_at": "2026-08-02T01:27:30.201Z"
+}

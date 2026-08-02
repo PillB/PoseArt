@@ -1,0 +1,59 @@
+{
+  "proposal_id": "patch-p17-tubes-s3-kneeling-arch-over-tube-1785625436695",
+  "pose_id": "p17-tubes-s3-kneeling-arch-over-tube",
+  "category": "seated",
+  "worker": "worker-C-seated-batch2",
+  "existing_config_hash": "046992d908f0",
+  "defects": [
+    {
+      "id": "arms-not-hanging-down-to-floor",
+      "severity": "MAJOR",
+      "claim": "Let both arms hang down the far side, hands loosely touching the floor",
+      "evidence": "leftWrist y=0.340 (1.04 above floor at y≈-0.7); rightWrist y=0.745 (1.45 above floor, near head level). Arms going LATERAL (L wrist x=-0.893 far figure-left, R wrist x=0.864 far figure-right) — not hanging down. shoulderFwdL/R:+25 = positive = BEHIND per corrected convention. When globalTilt:+35 (face-down), body-behind maps to world UP-BACK (wrong direction for floor reach). Should be negative (forward) so arms go world DOWN-FORWARD to floor."
+    },
+    {
+      "id": "body-not-draped-forward",
+      "severity": "MAJOR",
+      "claim": "Drape the torso forward and down over the top of the tube",
+      "evidence": "spine:-30 + globalTilt:+35 = net +5° forward tilt only (torso almost upright, not draped forward over tube). Head at y=0.890 — high above hips y=0.100 (head not down-forward over tube). Need more forward tilt for draping."
+    },
+    {
+      "id": "right-shoulder-plausibility-flag",
+      "severity": "MINOR",
+      "claim": "Right shoulder sagittal flexion outside band",
+      "evidence": "R shoulder sagittal flexion -125.9° (outside band [-60,180]) due to shoulder abducted 99° (near-lateral) combined with shoulderFwd +25 (behind). Plausibility flag triggered."
+    }
+  ],
+  "failing_tests": [
+    {
+      "name": "arms_hang_to_floor",
+      "assert": "leftWrist.y < -0.30 AND rightWrist.y < -0.30 (near floor)"
+    },
+    {
+      "name": "body_drapped_forward",
+      "assert": "anatomy.torso.flexion_deg > 20 (forward drape over tube, not upright)"
+    },
+    {
+      "name": "no_plausibility_flag",
+      "assert": "NOT right_shoulder_flexion.outside_band_review"
+    }
+  ],
+  "field_changes": {
+    "globalTilt": 50,
+    "leftShoulder": -20,
+    "rightShoulder": -20,
+    "shoulderFwdL": -20,
+    "shoulderFwdR": -20,
+    "leftElbow": 15
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/p17-tubes-s3-kneeling-arch-over-tube/baseline/",
+  "after_evidence": "",
+  "regression_risk": "Medium — 6 field changes including globalTilt magnitude change (35→50). Body draping amount is a judgment call (description says forward and down, exact angle uncertain). Arm direction fix is sign-correct but final wrist-near-floor position needs re-render verification (target L/R wrist y < -0.30). Kneeling posture preserved.",
+  "confidence": 0.6,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Description: kneeling with torso draped FORWARD over tube, back arched, arms HANGING DOWN far side with hands touching floor. Currently arms go lateral+up-back (wrong direction), body almost upright (not draped). Fixes: (1) Increase globalTilt +35 → +50 (more face-down tilt for forward draping; combined with spine -30 = net +20° forward, better drape). (2) Reduce shoulder abduction -60/-65 → -20/-20 (arms at sides, not lateral). (3) Flip shoulderFwd +25 → -20 (negative=FORWARD per corrected convention; when globalTilt:+50 face-down, body-forward maps to world DOWN-FORWARD, arms hang down to floor). (4) Reduce L elbow 30→15 (mostly straight arm for floor reach). Kneeling legs preserved (hip flexion 110/108°, knee 130/128°, hipAbduct -10/-10). Spine -30 preserved (back arch per description). Sign conventions verified: shoulderFwd + = BEHIND, - = FORWARD; globalTilt + = PRONE/face-down.",
+  "created_at": "2026-08-01T23:03:56.695Z"
+}

@@ -1,0 +1,45 @@
+{
+  "proposal_id": "patch-pillar-wrap-1785630102029",
+  "pose_id": "pillar-wrap",
+  "category": "leaning",
+  "worker": "worker-A-batch4",
+  "existing_config_hash": "01a2d09fdcf8",
+  "defects": [
+    {
+      "type": "sign_error",
+      "severity": "major",
+      "description": "hipAbductR=-10 (abduction outward, right leg spreads) but description says \"Cross the opposite leg in front\". PR-v5 fix used OLD inverted-comment convention (+ = spread); under CORRECTED convention + = adduction (inward/cross). PR-v5 FALSE POSITIVE — flipped from +10 (correct adduction/cross) to -10 (wrong abduction/spread). Right leg now spreads outward (hip_abduction_deg=+20) instead of crossing inward."
+    },
+    {
+      "type": "missing_field",
+      "severity": "minor",
+      "description": "globalTwist field absent. Description says \"creating a spiraled, editorial line through the torso\" — implies torso twist. Without globalTwist, axial_rotation_deg=0 (no spiral)."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "right_leg.hip_abduction_deg < 0",
+      "expected": "<0 (right leg crosses inward, adduction per geometry sign)",
+      "actual": "+20° (right leg spreads outward, abduction)"
+    },
+    {
+      "assertion": "torso.axial_rotation_deg > 5",
+      "expected": ">5° (spiraled torso)",
+      "actual": "0° (no twist)"
+    }
+  ],
+  "field_changes": {
+    "hipAbductR": 12,
+    "globalTwist": 15
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/leaning/pillar-wrap/baseline/",
+  "after_evidence": "",
+  "regression_risk": "low — 2 fields, single-pose. hipAbductR sign flip reverts PR-v5 false positive (was correct as +10 originally). globalTwist adds spiral per description. leftShoulder:-50, leftElbow:100 preserved (left arm wraps around pillar). spine:18, hips:10 preserved (forward+side lean into wrap).",
+  "confidence": 0.76,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "CORRECTED CONVENTION: hipAbductL/R + = adduction (inward/cross), - = abduction (outward/spread). PR-v5 comment: \"description says cross legs but hipAbductR was positive (spread)\" — this used the OLD inverted-comment convention. Under CORRECTED convention, the ORIGINAL +10 was correct (adduction/cross), and PR-v5 wrongly flipped to -10 (abduction/spread). Reverting to +12 (slight adduction) restores the cross. Verified: hipAbductL:+10 → derived left hip_abduction_deg:-20 (inward per geometry sign, consistent with adduction). hipAbductR:-10 → derived right hip_abduction_deg:+20 (outward) — opposite. Adding globalTwist:15 for the spiraled editorial line per description (\"spiraled line through the torso\"). Left-arm wrap geometry (leftShoulder:-50, leftElbow:100) preserved — wrist at x=-0.640 reaches laterally toward pillar side.",
+  "created_at": "2026-08-02T00:21:42.029Z"
+}

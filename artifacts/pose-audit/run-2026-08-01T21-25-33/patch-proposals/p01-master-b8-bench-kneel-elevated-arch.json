@@ -1,0 +1,71 @@
+{
+  "proposal_id": "patch-p01-master-b8-bench-kneel-elevated-arch-1785633893730",
+  "pose_id": "p01-master-b8-bench-kneel-elevated-arch",
+  "category": "kneeling",
+  "worker": "worker-A-batch5",
+  "existing_config_hash": "d835c9947eb7",
+  "defects": [
+    {
+      "id": "torso_forward_global_tilt",
+      "severity": "MAJOR",
+      "claim": "Flag 'torso_forward'. globalTilt=25 leans whole body forward (toward prone per corrected convention + = toward prone). Description: 'arch the back' (back-arch, not forward tilt). The 'lean upper body slightly forward' should be via spine articulation, not whole-body globalTilt. Set globalTilt=0; use spine for arch.",
+      "evidence": "geometry.json: torso flexion_deg=-7 (slight back arch from spine=-32), but globalTilt=25 produces additional 25° forward body lean — overall body leaning forward triggering flag."
+    },
+    {
+      "id": "unnecessary_global_roll",
+      "severity": "MINOR",
+      "claim": "Description doesn't mention lateral tilt. globalRoll=15 tilts body sideways. Set to 0.",
+      "evidence": "raw joints: globalRoll=15."
+    },
+    {
+      "id": "unnecessary_global_twist",
+      "severity": "MINOR",
+      "claim": "Description doesn't mention axial twist. globalTwist=20 twists torso. Set to 0.",
+      "evidence": "raw joints: globalTwist=20."
+    },
+    {
+      "id": "neck_tilt_left_mismatch",
+      "severity": "MINOR",
+      "claim": "Description: 'tilt the face toward the camera' = yaw, not roll. neck=-11 tilts head LEFT per corrected convention. Should be 0 (no side tilt; yaw not modeled).",
+      "evidence": "geometry.json: head roll_deg=-26.3 (left tilt, exaggerated by globalRoll)."
+    },
+    {
+      "id": "asymmetric_arms",
+      "severity": "MINOR",
+      "claim": "Description: 'Bend both arms' (implies symmetric). leftShoulder=-70 vs rightShoulder=-65 (5° asymmetry); shoulderFwdL=-30 vs shoulderFwdR=-20 (10° asymmetry); leftElbow=55 vs rightElbow=58 (3° asymmetry). Make symmetric.",
+      "evidence": "raw joints: leftShoulder=-70, rightShoulder=-65, shoulderFwdL=-30, shoulderFwdR=-20."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "torso not flagged forward",
+      "expected": "globalTilt near 0",
+      "actual": "globalTilt=25 (forward lean, triggers flag)"
+    },
+    {
+      "assertion": "arms symmetric (both bent similarly)",
+      "expected": "leftShoulder≈rightShoulder AND shoulderFwdL≈shoulderFwdR AND leftElbow≈rightElbow",
+      "actual": "slight asymmetries: 70/65, -30/-20, 55/58"
+    }
+  ],
+  "field_changes": {
+    "spine": -20,
+    "neck": 0,
+    "globalTilt": 0,
+    "globalRoll": 0,
+    "globalTwist": 0,
+    "leftShoulder": -65,
+    "shoulderFwdL": -25,
+    "leftElbow": 56
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/kneeling/p01-master-b8-bench-kneel-elevated-arch/baseline/",
+  "after_evidence": "",
+  "regression_risk": "",
+  "confidence": 0.75,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Flag 'torso_forward' triggered by globalTilt=25 (whole-body forward lean). Description: 'arch the back, lean upper body slightly forward' — these are somewhat contradictory for single spine joint; prioritize 'arch the back' as primary feature (per tip 'Lift through the sternum'). (1) globalTilt 25→0 (clears torso_forward flag; arch expressed via spine only). (2) spine -32→-20 (less extreme, 'controlled and elegant' per tip). (3) globalRoll 15→0, globalTwist 20→0 (not mentioned in description). (4) neck -11→0 (no side tilt; 'face toward camera' = yaw not modeled). (5) Symmetric arms: leftShoulder -70→-65 (match right), shoulderFwdL -30→-25 (match right), leftElbow 55→56 (match right). Right arm joints unchanged. Rig limitation: 'lean forward' sacrificed (single spine joint can't do both arch + forward lean); prioritized 'arch the back' per description primary action.",
+  "created_at": "2026-08-02T01:24:53.730Z"
+}

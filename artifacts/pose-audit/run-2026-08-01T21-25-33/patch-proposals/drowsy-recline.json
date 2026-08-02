@@ -1,0 +1,56 @@
+{
+  "proposal_id": "patch-drowsy-recline-1785633990477",
+  "pose_id": "drowsy-recline",
+  "category": "reclining",
+  "worker": "worker-B-batch5",
+  "existing_config_hash": "0926ecea497e",
+  "defects": [
+    {
+      "type": "side_lying_missing_globalroll",
+      "severity": "major",
+      "description": "Description: Recline on one elbow with both knees tucked toward the SAME SIDE, creating a soft spiral. Current config has NO globalRoll set (defaults 0). Body is prone-leaning (globalTilt=60) with no side roll — NOT reclining on side with elbow prop. Need globalRoll ±45 for side-lying with elbow prop."
+    },
+    {
+      "type": "knees_symmetric_not_to_same_side",
+      "severity": "major",
+      "description": "Description: both knees tucked toward the SAME SIDE (asymmetric, spiral). Current leftHip=rightHip=60 (symmetric), leftKnee=rightKnee=50 (symmetric), no hipAbduct set. Knees at x=±0.13 (symmetric, NOT to same side). Need asymmetric hip flexion + hipAbduct to bring both knees to one side."
+    },
+    {
+      "type": "no_elbow_prop",
+      "severity": "major",
+      "description": "Description: recline on ONE ELBOW (one elbow propping torso). Current pose has no shoulderFwd set, both elbows at y=0.21/0.18 (above floor y=0.05 hips). Neither elbow is propping on floor. Need shoulderFwd to swing one arm down to floor for elbow prop."
+    },
+    {
+      "type": "free_arm_not_along_thigh",
+      "severity": "minor",
+      "description": "Description: rest the FREE ARM along the thigh. Current arms are symmetric (leftShoulder=-20, rightShoulder=-8, both elbows moderately bent). Neither arm distinctly rests along thigh. The non-prop arm should be straighter, draped along thigh."
+    }
+  ],
+  "failing_tests": [
+    "description says recline on one elbow but no globalRoll and no shoulderFwd for elbow prop",
+    "description says knees tucked toward same side but knees symmetric",
+    "description says free arm along thigh but arms symmetric"
+  ],
+  "field_changes": {
+    "globalRoll": -45,
+    "shoulderFwdL": 30,
+    "leftHip": 30,
+    "rightHip": 90,
+    "hipAbductL": -20,
+    "hipAbductR": 20,
+    "rightShoulder": 8,
+    "rightElbow": 18,
+    "spine": 5,
+    "neck": 0
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/reclining/drowsy-recline/baseline/",
+  "after_evidence": "",
+  "regression_risk": "high — 10-field rework to convert partial-prone symmetric pose to side-lying twist with elbow prop + asymmetric knees. Rig-limited: no isolated torso twist joint (globalTwist rotates entire body), no hip-origin-y control (elbow cannot truly prop on floor from elevated torso). Approximation only. Re-render verify REQUIRED.",
+  "confidence": 0.5,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Description: Recline on one elbow with both knees tucked toward the same side, creating a soft spiral through the lower body. Rest the free arm along the thigh, eyes heavy-lidded. Current pose is partial-prone (globalTilt=60) with symmetric legs/arms — does NOT match description. Per protocol §4 use description. Fix: (1) globalRoll 0→-45 (body rolls onto LEFT side for side-lying). (2) One elbow prop: shoulderFwdL 0→+30 (LEFT arm swings BEHIND body per corrected convention + = behind; in side-lying body-behind maps mostly DOWN, LEFT elbow becomes prop on floor). LEFT arm is bottom-side, becomes the prop. (3) Knees to same side (LEFT): hipAbductL 0→-20 (LEFT knee outward to LEFT = ABDUCTION per corrected convention - = outward), hipAbductR 0→+20 (RIGHT knee inward to LEFT = ADDUCTION per corrected convention + = inward). Both knees biased to LEFT side. (4) Asymmetric hip flexion: leftHip 60→30 (LEFT/bottom knee less flexed), rightHip 60→90 (RIGHT/top knee more flexed, tucked up). (5) Free arm along thigh: rightShoulder -8→+8 (RIGHT arm at side, less raised), rightElbow 45→18 (RIGHT arm extended along thigh, less bent). (6) spine -8→5 (slight forward lean onto elbow). (7) neck 3→0 (neutral, eyes heavy-lidded implies head level). LEFT elbow prop is rig-limited (elbow cannot truly reach floor from elevated torso). Knees-to-same-side is rig-limited (no isolated leg cross joint, approximation via hipAbduct).",
+  "created_at": "2026-08-02T01:26:30.477Z"
+}

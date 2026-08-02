@@ -1,0 +1,67 @@
+{
+  "proposal_id": "patch-p13-floor-s9-prone-chin-hand-1785634490542",
+  "pose_id": "p13-floor-s9-prone-chin-hand",
+  "category": "reclining",
+  "worker": "worker-D-batch5",
+  "existing_config_hash": "6af79ab21728",
+  "defects": [
+    {
+      "type": "spine_wrong_direction_for_prone_chest_lift",
+      "severity": "critical",
+      "description": "spine=+26 (FORWARD per corrected convention + = forward) but tip says Arch the upper back gently and lift through the chest so the pose does not collapse flat onto the forearms. For PRONE body (globalTilt=+80), forward in body = down in world (chest collapses). Should be spine NEGATIVE (backward arch in body = chest UP in world for prone). Currently head at y=-0.200 (below hip) — chest collapsed, not lifted."
+    },
+    {
+      "type": "shoulderFwd_wrong_direction_for_forearm_prop",
+      "severity": "critical",
+      "description": "shoulderFwdL/R=+30 (BEHIND per corrected convention + = behind) but description requires forearms FORWARD on floor in front for prop. Should be NEGATIVE (forward in body = down to floor in world for prone)."
+    },
+    {
+      "type": "ankles_not_crossed",
+      "severity": "major",
+      "description": "hipAbductL=-5 + hipAbductR=+5 (minimal asymmetry). ankleL_to_ankleR=0.221 — ankles not crossed. Description: Cross the legs at the ankles behind you."
+    },
+    {
+      "type": "right_arm_overhead_unmotivated",
+      "severity": "major",
+      "description": "rightShoulder=-30 (R arm partially overhead). Description says prop on BOTH forearms + Bring one finger up near the mouth. R arm should be at side for forearm prop, not raised."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "chest_lifted",
+      "expected": "head y > 0.3 (above floor)",
+      "actual": "head y = -0.200 (below hip, chest collapsed)"
+    },
+    {
+      "assertion": "ankles_crossed",
+      "expected": "ankleL_to_ankleR < 0.10",
+      "actual": "0.221"
+    },
+    {
+      "assertion": "both_forearms_prop",
+      "expected": "both shoulders abduction < 30 deg",
+      "actual": "leftShoulder=35, rightShoulder=-30 (R raised)"
+    }
+  ],
+  "field_changes": {
+    "spine": -30,
+    "leftShoulder": 0,
+    "shoulderFwdL": -50,
+    "leftElbow": 90,
+    "rightShoulder": 0,
+    "shoulderFwdR": -50,
+    "rightElbow": 110,
+    "hipAbductL": 0,
+    "hipAbductR": 15
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/reclining/p13-floor-s9-prone-chin-hand/baseline/",
+  "after_evidence": "",
+  "regression_risk": "high — spine sign flip (+26 to -30) dramatically reorients chest from collapsed to lifted. Re-render verify REQUIRED.",
+  "confidence": 0.6,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "PRONE pose (globalTilt=+80 verified per cron-round-1 fix; +90=PRONE). spine +26 to -30 (CRITICAL sign flip: arch backward in body = chest UP in world for prone; head lifts from y=-0.200 to y=0.535, matching lift through the chest). Both arms = forearm prop: leftShoulder 35 to 0 (arm at side, hangs down), rightShoulder -30 to 0 (arm at side, was raised). shoulderFwdL/R +30 to -50 (FORWARD swing per - = forward; with globalTilt=+80 forward body = down world, forearms reach floor in front for prop). leftElbow 79 to 90, rightElbow 85 to 110 (R forearm more bent for hand to come near mouth — best-effort finger near mouth; rig-limited, hand cannot reach mouth at z=0.730). hipAbductL -5 to 0 (L leg straight back), hipAbductR +5 to +15 (R leg crosses LEFT). ankleL_to_ankleR 0.221 to 0.038 (ankles crossed). globalTilt=+80 preserved (PRONE verified). NOTE: pose NAME says prone chin hand but INSTRUCTIONS say prop on both forearms + finger near mouth — used INSTRUCTIONS per protocol section 4 (description is king).",
+  "created_at": "2026-08-02T01:34:50.542Z"
+}

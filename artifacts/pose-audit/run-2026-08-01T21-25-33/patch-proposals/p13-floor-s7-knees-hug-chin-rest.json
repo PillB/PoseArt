@@ -1,0 +1,48 @@
+{
+  "proposal_id": "patch-p13-floor-s7-knees-hug-chin-rest-1785634337560",
+  "pose_id": "p13-floor-s7-knees-hug-chin-rest",
+  "category": "reclining",
+  "worker": "worker-D-batch5",
+  "existing_config_hash": "4f4fc331111a",
+  "defects": [
+    {
+      "type": "both_arms_at_hip_not_face_or_shin",
+      "severity": "critical",
+      "description": "Description: \"Rest one cheek gently against the back of the hand or fingertips\" (one hand at face) + \"Keep the OTHER arm wrapped loosely around the shins\" (other hand at shins). Currently both arms swing BEHIND (shoulderFwd=+30 per corrected convention + = behind). With body reclined (globalTilt=-58), \"behind body\" maps to UP in world, but wrists at y=-0.036/-0.080 (below hip) — neither at face level (y=0.186) nor shin level (y=0.32)."
+    },
+    {
+      "type": "shoulderFwd_magnitude_insufficient",
+      "severity": "major",
+      "description": "shoulderFwdL/R=+30 (small back swing). For reclined body, need much larger magnitude to bring hands UP to face/shin level."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "one_hand_at_cheek",
+      "expected": "wrist-to-head distance < 0.20",
+      "actual": "wristL-to-head = 0.780, wristR-to-head = 0.839"
+    },
+    {
+      "assertion": "other_hand_at_shin",
+      "expected": "wrist at shin level (y ≈ 0.32)",
+      "actual": "both wrists y < 0 (below hip)"
+    }
+  ],
+  "field_changes": {
+    "leftShoulder": -90,
+    "shoulderFwdL": -120,
+    "leftElbow": 140,
+    "rightShoulder": 90,
+    "shoulderFwdR": 90
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/reclining/p13-floor-s7-knees-hug-chin-rest/baseline/",
+  "after_evidence": "",
+  "regression_risk": "high — dramatic joint values (Lsh=-90, Lsf=-120, Lel=140, Rsh=90, Rsf=90) driven by rig limitations. Re-render verify REQUIRED.",
+  "confidence": 0.55,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "L arm = cheek rest: leftShoulder 65 → -90 (arm raised 90° up), shoulderFwdL 30 → -120 (strong FORWARD swing per - = forward; with globalTilt=-58 \"forward body\" maps to \"down-forward world\", bringing wrist UP toward face via deep elbow bend), leftElbow 100 → 140 (very deep bend, hand drops to face level). Result: wristL=(-0.093, 0.234, -0.930), wristL_to_head=0.084m (hand at cheek level). R arm = shin wrap: rightShoulder 55 → 90 (arm abducted 90° out), shoulderFwdR 30 → 90 (strong BEHIND swing per + = behind; with globalTilt=-58 \"behind body\" maps to \"up in world\", bringing wrist UP to shin level), rightElbow=100 preserved. Result: wristR=(-0.006, 0.369, -0.197), distance to mid-shin (0.077, 0.346, -0.160) = 0.094m (hand at shin level). Rig-limited: dramatic joint values needed because renderer elbow only rotY; forearm cannot bend horizontally to head/shin from reclined base.",
+  "created_at": "2026-08-02T01:32:17.560Z"
+}

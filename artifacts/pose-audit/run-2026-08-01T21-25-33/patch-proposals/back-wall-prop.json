@@ -1,0 +1,28 @@
+{
+  "proposal_id": "patch-back-wall-prop-1785628260948",
+  "pose_id": "back-wall-prop",
+  "category": "leaning",
+  "worker": "worker-A-batch3",
+  "existing_config_hash": "45735a0e0f5c",
+  "defects": [
+    "BENT_KNEE_FOOT_NOT_AGAINST_WALL: Description says bend one knee and plant that foot flat against the wall behind you. Currently leftKnee=+70 produces foot FORWARD (leftAnkle z=+0.364, leftFoot z=+0.476 — in air forward) instead of BEHIND (against wall behind). Renderer convention: + knee = shin backward (correct for SEATED context where thigh is forward) but for STANDING (hip=0), + knee produces foot FORWARD (opposite of convention intent). Need hip extension (leftHip negative, leg swings back) combined with knee flexion to bring foot behind body.",
+    "RIG_LIMITATION_KNEE_SIGN_STANDING: Renderer knee sign convention assumes hip-flexed (seated) context. For STANDING (hip=0), positive knee produces foot forward (opposite of anatomical knee flexion which should produce foot backward toward butt). Cannot achieve knee bent + foot behind body in standing pose via positive knee alone. Workaround: combine hip extension (negative hip) + knee flexion. RECOMMEND renderer tier fix: knee sign convention should be context-aware OR add separate hip-extension-aware foot positioning joint."
+  ],
+  "failing_tests": [
+    "expect(leftAnkle.z).toBeLessThan(-0.05) — left foot behind body (against wall behind) (currently +0.364)",
+    "expect(leftFoot.z).toBeLessThanOrEqual(0) — left foot at or behind body centerline (currently +0.476)"
+  ],
+  "field_changes": {
+    "leftHip": -50
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/leaning/back-wall-prop/baseline/",
+  "after_evidence": "",
+  "regression_risk": "Medium — leftHip sign inversion (0 -> -50) is a significant leg position change. Re-render REQUIRED to verify foot placement. May need round-2 for magnitude tuning.",
+  "confidence": 0.55,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Rig limitation: positive knee (renderer + = shin backward convention) produces foot FORWARD in standing context (hip=0). To get foot behind body in standing pose, must use hip extension (leftHip negative, swings leg back) combined with existing knee flexion. Verified by buildPose: with leftHip=-50 + leftKnee=70 (unchanged), leftAnkle at (0.194, -0.596, -0.177) — z=-0.177 (behind body ✓), leftFoot at (0.221, -0.625, -0.038) — z=-0.038 (just behind body centerline, near wall surface). PARTIAL achievement: foot is behind body but at low height (y=-0.596, near ground) — description implies foot raised to wall height (~0 to -0.3). Angled toward lens (foot orientation) not achievable — renderer has no foot-pitch joint. spine=-12 preserved (slight back arch for torso open). hipAbductL=10 preserved. Right leg straight, foot planted (y=-0.770). Trade-off: leg is in extended-back position rather than thigh-vertical + knee-bent + foot-on-wall (anatomically accurate form); renderer cannot achieve the latter for standing poses.",
+  "created_at": "2026-08-01T23:51:00.948Z"
+}

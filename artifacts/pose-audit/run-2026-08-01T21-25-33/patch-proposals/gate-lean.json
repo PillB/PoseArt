@@ -1,0 +1,58 @@
+{
+  "proposal_id": "patch-gate-lean-1785627764001",
+  "pose_id": "gate-lean",
+  "category": "leaning",
+  "worker": "worker-B-batch3",
+  "existing_config_hash": "492429d063e5",
+  "defects": [
+    {
+      "type": "shoulder_asymmetry",
+      "severity": "major",
+      "description": "Description says Spreading BOTH arms WIDE along the top edge on either side — implies symmetric arms. Currently leftShoulder=-40 vs rightShoulder=-22 (18° asymmetry). Geometry: leftWrist y=0.323 (chest level), rightWrist y=0.139 (hip level) — arms at very different heights. Right arm hangs at side instead of spread along gate top."
+    },
+    {
+      "type": "hipabduct_sign_error",
+      "severity": "major",
+      "description": "PR-v3 comment claims spine sign fix but did not touch hipAbductR. hipAbductR=-10 (negative). Per CORRECTED convention + = ADDUCTION (inward/cross), - = ABDUCTION (outward). Description says Cross ONE ankle OVER the other — crossing ankle moves INWARD (adduct, positive). PR-v3 era used inverted convention for hipAbduct; -10 makes right leg abduct outward (spread, not cross)."
+    },
+    {
+      "type": "elbow_too_bent",
+      "severity": "minor",
+      "description": "leftElbow=40 shortens the left arm visually. For spreading WIDE, arms should be near-extended (8-15°)."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "|leftShoulder - rightShoulder| < 8 for symmetric spread",
+      "expected": "<8",
+      "actual": "18"
+    },
+    {
+      "assertion": "hipAbductR > 0 for crossed-ankle description",
+      "expected": ">0",
+      "actual": "-10 (abducted outward)"
+    },
+    {
+      "assertion": "leftElbow < 15 for spread-wide extended arm",
+      "expected": "<15",
+      "actual": "40"
+    }
+  ],
+  "field_changes": {
+    "leftShoulder": -55,
+    "rightShoulder": -55,
+    "leftElbow": 15,
+    "rightElbow": 15,
+    "hipAbductR": 10
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/leaning/gate-lean/baseline/",
+  "after_evidence": "",
+  "regression_risk": "low — single-pose 5-field change; arms symmetrized + extended, right ankle crosses inward. Re-render verification recommended.",
+  "confidence": 0.82,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "CORRECTED CONVENTION: leftShoulder/rightShoulder rotZ (mirrored for right). - = raise arm up. hipAbduct + = adduction (inward/cross). Description: Spreading BOTH arms WIDE along top edge, cross ONE ankle OVER the other. (1) Symmetrize shoulders: -40/-22 → -55/-55 (both at ~75° abduction, arms near-horizontal along gate top). (2) Reduce elbow bend: 40/20 → 15/15 (near-straight for full spread). (3) hipAbductR -10 → +10 (adduct inward, crossing ankle over). PR-v3 spine fix (14 → -14) is CORRECT per corrected convention (lean BACK against gate = spine negative ✓) — keeping spine=-14. hipAbductL=+10 already correct (crossing ankle inward). neck=-8.8 provides slight head tilt for softness per tip.",
+  "created_at": "2026-08-01T23:42:44.001Z"
+}

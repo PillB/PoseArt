@@ -1,0 +1,60 @@
+{
+  "proposal_id": "patch-sitting-on-heels-1785633893830",
+  "pose_id": "sitting-on-heels",
+  "category": "kneeling",
+  "worker": "worker-A-batch5",
+  "existing_config_hash": "afa0d0da70a9",
+  "defects": [
+    {
+      "id": "asymmetric_arms",
+      "severity": "MAJOR",
+      "claim": "Description: 'Rest the arms naturally at the sides or on the thighs for a grounded, symmetrical base'. Currently leftShoulder missing (=0, arm at side) vs rightShoulder=-12 (slight up abduction). leftElbow=65 vs rightElbow=45 (20° asymmetry). Should be symmetric.",
+      "evidence": "geometry.json: left_arm shoulder_abduction_deg=22.9 vs right_arm 34.9 (12° asymmetry); left_arm elbow_flexion_deg=24 vs right_arm 25.2 (close, but raw values 65 vs 45 differ)."
+    },
+    {
+      "id": "neck_tilt_left_mismatch",
+      "severity": "MINOR",
+      "claim": "Description: 'Lengthen up through the crown' (neutral head). neck=-5 tilts head LEFT per corrected convention. Should be 0.",
+      "evidence": "geometry.json: head roll_deg=-5 (left tilt)."
+    },
+    {
+      "id": "spine_slight_arch_mismatch",
+      "severity": "MINOR",
+      "claim": "Description: 'torso upright'. spine=-5 is slight back arch. Set to 0 for strictly upright.",
+      "evidence": "geometry.json: torso flexion_deg=-5 (slight back arch)."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "arms symmetric (left matches right)",
+      "expected": "leftShoulder≈rightShoulder AND leftElbow≈rightElbow",
+      "actual": "leftShoulder=0 (default), rightShoulder=-12; leftElbow=65, rightElbow=45"
+    },
+    {
+      "assertion": "neck neutral (no side tilt)",
+      "expected": "0",
+      "actual": "-5 (left tilt)"
+    },
+    {
+      "assertion": "torso strictly upright",
+      "expected": "spine≈0",
+      "actual": "spine=-5 (slight back arch)"
+    }
+  ],
+  "field_changes": {
+    "spine": 0,
+    "neck": 0,
+    "leftShoulder": -12,
+    "leftElbow": 45
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/kneeling/sitting-on-heels/baseline/",
+  "after_evidence": "",
+  "regression_risk": "",
+  "confidence": 0.85,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Clean symmetric fix. Description: 'Kneel with both knees on ground, torso upright, arms at sides or on thighs for symmetrical base.' (1) Symmetric arms: leftShoulder 0→-12 (match right; slight up abduction symmetric), leftElbow 65→45 (match right). (2) neck -5→0 (no side tilt; 'lengthen up through crown' = neutral). (3) spine -5→0 (strictly upright per 'torso upright'). Legs already symmetric (leftHip=rightHip=85, leftKnee=rightKnee=100) ✓. Rig limitation: hip origin y=0.12 prevents true sitting-on-heels (knees can't reach ground); deep-knee-flexion is approximation.",
+  "created_at": "2026-08-02T01:24:53.830Z"
+}

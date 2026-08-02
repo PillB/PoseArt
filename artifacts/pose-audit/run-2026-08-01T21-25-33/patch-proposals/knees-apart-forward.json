@@ -1,0 +1,49 @@
+{
+  "proposal_id": "patch-knees-apart-forward-1785621354470",
+  "pose_id": "knees-apart-forward",
+  "category": "seated",
+  "worker": "worker-B",
+  "existing_config_hash": "264ea4262f6d",
+  "defects": [
+    {
+      "type": "knees_apart",
+      "severity": "minor",
+      "description": "Detector flagged knees_apart (hipAbduct near 0 but description says knees apart). Confirmed: baseline has hipAbductL/R not set (both 0°), legs in neutral position, NOT apart."
+    },
+    {
+      "type": "arms_not_on_thighs",
+      "severity": "major",
+      "description": "Description says forearms resting on the thighs. Baseline arms have shoulderFwdL:+7 (slight backward) and shoulderFwdR:-5 (slight forward) — neither clearly forward; elbows 81/81 (deep bend). Wrists at z=+0.078/+0.166, thighs at z=0 to 0.384 — wrists only at thigh-start, not resting on thighs."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "both legs should be abducted outward (hip abduction > 30°)",
+      "expected": "L_hip_abd > 30 and R_hip_abd > 30",
+      "actual": "L_hip_abd=0, R_hip_abd=0 (both neutral)"
+    },
+    {
+      "assertion": "both wrists should be on thigh area (z between 0.15 and 0.35)",
+      "expected": "L_wrist.z in [0.15, 0.35] and R_wrist.z in [0.15, 0.35]",
+      "actual": "L_wrist.z=+0.078, R_wrist.z=+0.166 (wrist at thigh-start, not on thigh)"
+    }
+  ],
+  "field_changes": {
+    "hipAbductL": -25,
+    "hipAbductR": -25,
+    "shoulderFwdL": -25,
+    "shoulderFwdR": -25,
+    "leftElbow": 90,
+    "rightElbow": 90
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/knees-apart-forward/baseline/",
+  "after_evidence": "",
+  "regression_risk": "low — symmetric multi-field change; verified geometry matches description; no flags",
+  "confidence": 0.8,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Real defect confirmed: hipAbduct not set, legs neutral instead of apart. Per actual renderer convention (empirically verified), NEGATIVE hipAbductL/R = leg spreads OUTWARD (renderer comment inverted: comment says + = outward but FK proves + = crosses inward). hipAbductL/R:-25 produces L_hip_abd=+69.6°, R_hip_abd=+69.6° (both legs abducted outward). Secondary defect: arms not resting on thighs. NEGATIVE shoulderFwdL/R moves wrists FORWARD when shoulder in default abduction (verified). shoulderFwdL/R:-25 produces sagittal flexion -0.6/+4.7 (near neutral, slightly forward); elbows deepened to 90° (right-angle, forearm horizontal). Wrists end at z=+0.249/+0.337 (mid-thigh area, between hip z=0 and knee z=0.384) — forearms resting on thighs. Verified no anomalies/plausibility flags.",
+  "created_at": "2026-08-01T21:55:54.470Z"
+}

@@ -1,0 +1,40 @@
+{
+  "proposal_id": "patch-p01-master-s4-chair-chin-touch-1785621634602",
+  "pose_id": "p01-master-s4-chair-chin-touch",
+  "category": "seated",
+  "worker": "worker-C",
+  "existing_config_hash": "b5dcd8428ab5",
+  "defects": [
+    {
+      "id": "chin_touch_right",
+      "severity": "major",
+      "evidence": "rightWrist at (0.492, 1.365, 0.040) — y=1.37 (above head y=0.91). rW-to-head distance 0.711, rW-to-neck distance 0.795, rW-to-chin 0.759 (chin-touch target near head/neck junction). Description says 'bring the other hand up to lightly touch the chin'. Original rightShoulder:-130 (fully overhead) + rightElbow:35 (near straight) extends arm straight up."
+    },
+    {
+      "id": "legs_not_crossed",
+      "severity": "minor",
+      "evidence": "hipAbductL:-6 hipAbductR:-6 (both slightly negative = both slightly abducted outward = knees slightly apart, NOT crossed). Description says 'both knees bent and crossed'."
+    }
+  ],
+  "failing_tests": [
+    "expect(rightWrist-to-chin distance).lessThan(0.20) — was 0.759",
+    "expect(Math.sign(hipAbductL) !== Math.sign(hipAbductR)).toBe(true) for crossed — was (-6, -6)"
+  ],
+  "field_changes": {
+    "rightShoulder": -80,
+    "rightElbow": 140,
+    "shoulderFwdR": -60,
+    "hipAbductL": 12,
+    "hipAbductR": -12
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/p01-master-s4-chair-chin-touch/baseline/",
+  "after_evidence": "",
+  "regression_risk": "low — right arm repositioned; legs slightly adjusted; spine/hips unchanged.",
+  "confidence": 0.78,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Chin-touch contact fixed. Reduce shoulder abduction from -130 (overhead) to -80 (arm out to side, slightly above shoulder). Deepen elbow from 35 to 140 (forearm folds back to head/chin). Set shoulderFwdR:-60 (arm strongly forward per inverted-sign convention). Result: rW at (0.120, 0.811, 0.347), rW-to-chin 0.201 (was 0.759) — 73% improvement; within practical chin-touch range (just over 0.20 threshold due to body twist globalTwist:6). LEFT arm UNCHANGED (lWrist at (-0.562, 0.164, 0.309) — y=0.16 near hip height, z=0.31 forward, plausible hand-on-armrest). LEGS — flip hipAbductR from -6 to -12 (keep hipAbductL at +12) for asymmetric cross pattern. Result: lKnee.x=0.003 (center), rKnee.x=0.260 (right) — cross at shin level.",
+  "created_at": "2026-08-01T22:00:34.602Z"
+}

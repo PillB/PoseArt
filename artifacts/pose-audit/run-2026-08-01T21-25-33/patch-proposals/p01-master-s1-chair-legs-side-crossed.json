@@ -1,0 +1,20 @@
+{
+  "proposal_id": "patch-p01-master-s1-chair-legs-side-crossed-1785621549588",
+  "pose_id": "p01-master-s1-chair-legs-side-crossed",
+  "category": "seated",
+  "worker": "worker-C",
+  "existing_config_hash": "483e8b93a0a0",
+  "defects": [],
+  "failing_tests": [],
+  "field_changes": {},
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/p01-master-s1-chair-legs-side-crossed/baseline/",
+  "after_evidence": "",
+  "regression_risk": "none — no changes",
+  "confidence": 0.85,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "CLEAN. Forensic baseline confirms geometry matches description: both legs shifted to figure's right (lKnee.x=-0.07, rKnee.x=0.24) consistent with 'legs extended to the side'; asymmetric knees (L flexion 55°, R flexion 70°) consistent with 'Bend one knee'; hipAbductL:+8 (L knee toward center) + hipAbductR:-15 (R knee outward) creates shin-cross pattern; arms abducted 47°/52° with elbows bent 59°/61°, wrists near hip height (y=0.16/0.21) consistent with 'arms asymmetrically on armrests'; spine:6 (slight forward), head roll -6° (slight tilt), no globalTilt (upright chair sit). VLM cross-check (no description leak) perceived feet as pointed-down, but foot-ankle vector analysis shows toes are slightly UP (vec.y=+0.144) — the description phrase 'pointing both feet' is ambiguous (could mean feet pointing in a direction OR toes plantarflexed); rig cannot fully achieve plantarflexion in world frame for chair-sit poses with hip flexion due to foot reference frame rotation. No field-level change proposed; document as low-confidence note.",
+  "created_at": "2026-08-01T21:59:09.588Z"
+}

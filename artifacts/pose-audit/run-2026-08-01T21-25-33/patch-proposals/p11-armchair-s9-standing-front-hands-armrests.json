@@ -1,0 +1,54 @@
+{
+  "proposal_id": "patch-p11-armchair-s9-standing-front-hands-armrests-1785625041345",
+  "pose_id": "p11-armchair-s9-standing-front-hands-armrests",
+  "category": "seated",
+  "worker": "worker-B-seated-batch2",
+  "existing_config_hash": "363c972a984d",
+  "defects": [
+    {
+      "type": "hands_on_armrests_missing",
+      "severity": "major",
+      "description": "Description: 'place both hands on the armrests'. Currently L wrist y=0.453 (chest level), R wrist y=0.602 (higher). Armrests are at hip level (~0.10). Wrists too high — arms abducted 83°/97° (lateral) with shoulderFwdL/R=+20 (behind per corrected convention), elbows at 95° right-angle."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "leftWrist.y < 0.30 (armrest level)",
+      "expected": "<0.30",
+      "actual": "0.453"
+    },
+    {
+      "assertion": "rightWrist.y < 0.30 (armrest level)",
+      "expected": "<0.30",
+      "actual": "0.602"
+    },
+    {
+      "assertion": "leftWrist to leftHip distance < 0.40",
+      "expected": "<0.40",
+      "actual": "0.803"
+    },
+    {
+      "assertion": "rightWrist to rightHip distance < 0.40",
+      "expected": "<0.40",
+      "actual": "0.838"
+    }
+  ],
+  "field_changes": {
+    "leftShoulder": -30,
+    "rightShoulder": -35,
+    "leftElbow": 100,
+    "rightElbow": 100,
+    "shoulderFwdL": -30,
+    "shoulderFwdR": -30
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/p11-armchair-s9-standing-front-hands-armrests/baseline/",
+  "after_evidence": "",
+  "regression_risk": "low — 6 fields across both arms; spine, hips, legs unchanged; both shoulders abd ~50-55° well within band; no new anomalies or plausibility flags introduced.",
+  "confidence": 0.8,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "p11-armchair-s9: spine=+10 (slight forward lean ✓ per corrected convention). Description requires 'both hands on the armrests' at hip level on figure's sides. PR-v4 auto-fix had set hips 5→16 (visible threshold) but left shoulders at -55/-67 (abd 83°/97° lateral) with shoulderFwdL/R=+20 (behind per corrected convention) — arms held out to sides at chest level, not on armrests. Reducing leftShoulder from -55 to -30 (abd 50°) and rightShoulder from -67 to -35 (abd 55°) lowers elbows to shoulder height; flipping shoulderFwdL/R from +20 to -30 (forward per corrected convention) brings forearms forward+down; keeping elbows at 100 (right-angle) keeps forearms horizontal. After patch: L wrist at (−0.410, 0.119, 0.474), R wrist at (+0.416, 0.165, 0.508). Both at hip level ✓ (0.119, 0.165), both on figure's sides ✓ (x = ±0.41), both slightly forward of torso ✓ (z=0.474, 0.508). L wrist → L hip distance 0.803→0.569; R wrist → R hip distance 0.838→0.565. Asymmetric knees preserved (L knee 10°, R knee 18° — 'one knee softly bent' ✓). Feet planted (feet_min_y=-0.829 ✓).",
+  "created_at": "2026-08-01T22:57:21.345Z"
+}

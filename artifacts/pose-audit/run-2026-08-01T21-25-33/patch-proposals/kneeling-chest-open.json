@@ -1,0 +1,36 @@
+{
+  "proposal_id": "patch-kneeling-chest-open-1785631916834",
+  "pose_id": "kneeling-chest-open",
+  "category": "kneeling",
+  "worker": "worker-C-batch4",
+  "existing_config_hash": "e5698253f368",
+  "defects": [
+    {
+      "id": "ASYMMETRIC_ARMS",
+      "severity": "MAJOR",
+      "description": "rightShoulder=-35 raises RIGHT arm abducted ~59deg out to side while LEFT arm (leftShoulder=35) hangs at side reaching down. Description requires BOTH hands flat on floor — symmetric forward-down reach.",
+      "evidence": "baseline geometry: wristR=(0.670,0.268,0.207) abducted out, wristL=(-0.016,-0.053,-0.083) at side"
+    }
+  ],
+  "failing_tests": [
+    {
+      "name": "both_hands_flat_on_floor",
+      "expected": "both wrists symmetric, y near hip level (~-0.05)",
+      "actual": "wristR y=0.268 (chest level) and x=0.670 (far right); wristL y=-0.053"
+    }
+  ],
+  "field_changes": {
+    "rightShoulder": 35,
+    "rightElbow": 65
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/kneeling/kneeling-chest-open/baseline/",
+  "after_evidence": "",
+  "regression_risk": "Low — only RIGHT arm normalized to match LEFT. Spine arch (spine=-20) preserved per cron-round-4 fix.",
+  "confidence": 0.85,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Description: Kneel and lean forward onto BOTH hands flat on the floor. Currently LEFT arm at side reaching down (correct), RIGHT arm raised out to side (wrong). Set rightShoulder=-35→35 (match LEFT, arm at side) and rightElbow=45→65 (match LEFT). Result: both wrists at (±0.016,-0.053,-0.083) symmetric, just below hip level (rig-limited floor reach). Spine=-20 backward arch preserved per cron-round-4 (Arch the back gently, not rounded). Hands-on-floor rig-limited from kneeling base.",
+  "created_at": "2026-08-02T00:51:56.835Z"
+}

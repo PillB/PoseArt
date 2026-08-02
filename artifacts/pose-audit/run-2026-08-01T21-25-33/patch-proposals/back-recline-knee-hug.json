@@ -1,0 +1,37 @@
+{
+  "proposal_id": "patch-back-recline-knee-hug-1785633939934",
+  "pose_id": "back-recline-knee-hug",
+  "category": "reclining",
+  "worker": "worker-B-batch5",
+  "existing_config_hash": "d942c8ccbe4c",
+  "defects": [
+    {
+      "type": "asymmetry_required_both_legs_hugged",
+      "severity": "major",
+      "description": "Description requires ONE knee hugged toward chest + OTHER leg EXTENDED FLAT (asymmetrical reclining shape). Current config has BOTH legs identically flexed (leftHip=100, rightHip=100, leftKnee=130, rightKnee=130) — both knees hugged to chest. Anomaly knee_above_hip on BOTH sides confirms both knees elevated above hip y=0.004 (knees at y=0.433). Description explicitly says asymmetrical."
+    },
+    {
+      "type": "knee_above_hip_anomaly",
+      "severity": "minor",
+      "description": "Both knees elevated above hip (anomaly knee_above_hip L+R). CLEARED once LEFT leg extended flat (leftHip=0, leftKnee=0)."
+    }
+  ],
+  "failing_tests": [
+    "asymmetry: description says one leg extended flat but both legs flexed identically",
+    "anomaly: knee_above_hip on both sides"
+  ],
+  "field_changes": {
+    "leftHip": 0,
+    "leftKnee": 0
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/reclining/back-recline-knee-hug/baseline/",
+  "after_evidence": "",
+  "regression_risk": "low — minimal 2-field change. RIGHT leg preserves hugged position (rightHip=100, rightKnee=130). Arms preserved (both already hug toward chest). LEFT leg extended flat along floor in supine pose (globalTilt=-85 maps body-down to +Z, leg extends forward at floor level y≈0.04).",
+  "confidence": 0.85,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Description: Lie on the back and hug ONE knee up toward the chest with both arms while the OTHER leg stays extended flat. Per protocol §4 use instructions as ground truth (not pose name). Current config hugs BOTH knees (both hip=100, both knee=130) — symmetric when description requires asymmetric. Fix: LEFT leg extended flat (leftHip 100→0, leftKnee 130→0). RIGHT knee preserved as the hugged knee (rightHip=100, rightKnee=130). FK trace: with globalTilt=-85 (supine), LEFT leg at leftHip=0/leftKnee=0 extends in body-down direction → world +Z forward and slightly -Y down, foot at y≈0.043 (floor level) ✓. Both arms preserved — leftShoulder=-30, rightShoulder=-18 (both arms raised toward chest), leftElbow=65, rightElbow=45 (moderate bend bringing hands to chest hug position). globalTilt=-85 already correctly SUPINE per corrected convention (cron-round-1 fix). Anomaly knee_above_hip L+R will clear once LEFT knee is flat. Rig-limited: renderer lacks hip-origin-y control so wrists cannot truly meet knee, but arm position approximates hug.",
+  "created_at": "2026-08-02T01:25:39.934Z"
+}

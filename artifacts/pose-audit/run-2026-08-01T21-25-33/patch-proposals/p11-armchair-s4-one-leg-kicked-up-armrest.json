@@ -1,0 +1,58 @@
+{
+  "proposal_id": "patch-p11-armchair-s4-one-leg-kicked-up-armrest-1785625372683",
+  "pose_id": "p11-armchair-s4-one-leg-kicked-up-armrest",
+  "category": "seated",
+  "worker": "worker-A-seated-batch2",
+  "existing_config_hash": "77ab3bb8c6b9",
+  "defects": [
+    {
+      "type": "kicked_up_leg_crosses_inward_not_out_to_side_sign_error",
+      "severity": "major",
+      "description": "Description: 'hook one leg up and over the armrest, extending it out to the side'. The LEFT leg is the kicked-up leg (leftHip:118 = thigh forward/up, leftKnee:20 = nearly straight). Per CORRECTED convention + = adduction (inward/cross), - = abduction (outward/spread). Config has hipAbductL:+25 (POSITIVE = INWARD/CROSS) — but description says 'extending it OUT TO THE SIDE' which requires NEGATIVE hipAbductL (abduction = outward). Currently Lfoot_x=0.311 (left foot is on RIGHT side of body — crossed INWARD, not out to side). SIGN ERROR."
+    },
+    {
+      "type": "same_side_hand_not_gripping_armrest",
+      "severity": "major",
+      "description": "Description: 'One hand grips the same-side armrest' — same-side as the kicked-up LEFT leg means LEFT hand grips LEFT armrest. LEFT wrist should be at side of body at armrest level (y at hip level). Currently Lw_y=0.412 (above hip y=0.104, between hip and shoulder) and Lw_Lhip=0.835 (far from hip). Left arm is raised up at chest level, not gripping armrest."
+    },
+    {
+      "type": "other_hand_not_near_hip",
+      "severity": "major",
+      "description": "Description: 'the other rests near the hip' — RIGHT hand should be near right hip (within 0.25). Currently Rw_Rhip=0.504 (far)."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "hipAbductL < 0 (left leg out to side = abduction)",
+      "expected": "hipAbductL < 0 (negative = outward per corrected convention)",
+      "actual": "hipAbductL=+25 (positive = inward/cross — WRONG direction)"
+    },
+    {
+      "assertion": "left_wrist_at_armrest (y at hip level, on left side)",
+      "expected": "Lw_y in [0.05, 0.20] AND Lw_x < -0.30",
+      "actual": "Lw_y=0.412 (chest level), Lw_Lhip=0.835 (far from hip)"
+    },
+    {
+      "assertion": "right_wrist_to_right_hip < 0.25",
+      "expected": "<0.25",
+      "actual": "Rw_Rhip=0.504 (far)"
+    }
+  ],
+  "field_changes": {
+    "hipAbductL": -25,
+    "leftShoulder": -20,
+    "rightShoulder": 10,
+    "rightElbow": 30,
+    "shoulderFwdR": -10
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/p11-armchair-s4-one-leg-kicked-up-armrest/baseline/",
+  "after_evidence": "",
+  "regression_risk": "medium — 5-field change addressing 3 distinct defects. Plausibility 1→1 (left_hip_flexion still out of band, was there before). Anomalies 2→2 (knee_above_hip for both — pre-existing, expected for chair-sit). over_support false→false (preserved). The right foot position (y=0.669, above seat) is a known rig limitation under body rotation — not addressed by this fix.",
+  "confidence": 0.7,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "LEFT leg sign fix: hipAbductL +25→-25 (sign flip — leg now abducts OUTWARD to the left side instead of crossing inward to the right). Verified: Lfoot_x 0.311→-0.430 (left foot now on LEFT side of body — 'out to the side' ✓), Lknee_x 0.111→-0.228 (left knee on left side ✓), Lankle_x 0.313→-0.364 (left ankle on left side ✓). LEFT hand grips armrest fix: leftShoulder -60→-20 (less abducted, arm comes down to side — per corrected convention - = UP, so reducing magnitude lowers arm), Lw_y 0.412→0.011 (now at hip level ✓ = armrest height), Lw_Lhip 0.835→0.460 (closer but laterally displaced — wrist is at LEFT side of body at hip y, which IS the armrest position; distance metric to hip is misleading here because armrest is LATERAL to hip not AT hip). RIGHT hand near hip fix: rightShoulder -25→10 (arm down/across — positive shoulder = arm comes DOWN/ACROSS per corrected convention), rightElbow 70→30 (less bent, arm extends down to hip), shoulderFwdR 10→-10 (slight forward, positions wrist at hip rather than behind). Verified: Rw_Rhip 0.504→0.232 (under 0.25 threshold ✓), Rw_y 0.347→0.045 (at hip level y=0.104, slightly below hip = 'resting near hip' ✓). LEGS base preserved (leftHip:118+leftKnee:20 = thigh up + straight — 'hooked up and over armrest' ✓; rightHip:92+rightKnee:98 = chair-sit, 'grounded bent on seat' — foot y=0.669 is high but this is the rig's behavior under globalRoll:15+globalTilt:-12, not a config error). HEAD turn (neck:-8 + globalTwist:12) — renderer-limited.",
+  "created_at": "2026-08-01T23:02:52.683Z"
+}

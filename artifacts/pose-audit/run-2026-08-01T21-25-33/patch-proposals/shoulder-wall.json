@@ -1,0 +1,45 @@
+{
+  "proposal_id": "patch-shoulder-wall-1785630140847",
+  "pose_id": "shoulder-wall",
+  "category": "leaning",
+  "worker": "worker-A-batch4",
+  "existing_config_hash": "bbaef36c5625",
+  "defects": [
+    {
+      "type": "sign_error",
+      "severity": "major",
+      "description": "spine=+12 (forward lean) but description says \"Turn the body sideways and press just one shoulder flat against the wall, feet staggered a full step away from the surface\". With spine=+12, shoulders at z=+0.116 (FORWARD of hips at z=0) — shoulders are away from a back-wall, not against it. For shoulder-against-wall-behind, spine should be NEGATIVE (backward arch) to bring shoulders back toward wall."
+    },
+    {
+      "type": "wrong_magnitude",
+      "severity": "major",
+      "description": "Feet not staggered a full step. Description: \"feet staggered a full step away from the surface\". Currently leftFoot z=+0.110, rightFoot z=+0.205 — only 0.095m stagger (≈10cm). A full step is ~30cm. leftHip=-6 produces minimal backward swing."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "torso.flexion_deg < 0",
+      "expected": "<0 (backward lean for shoulder-against-wall-behind)",
+      "actual": "+12° (forward lean, shoulders forward of hips)"
+    },
+    {
+      "assertion": "Math.abs(leftFoot.z - rightFoot.z) > 0.25",
+      "expected": ">0.25 (full step stagger)",
+      "actual": "0.095m (10cm, partial stagger)"
+    }
+  ],
+  "field_changes": {
+    "spine": -12,
+    "leftHip": -30
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/leaning/shoulder-wall/baseline/",
+  "after_evidence": "",
+  "regression_risk": "low — 2 fields, single-pose. Spine flip brings shoulders back toward wall. leftHip increase staggers feet more (left foot back, right foot forward). rightHip:0 preserved (standing leg). hipAbductL/R:+10 preserved (slight leg cross). No arm changes.",
+  "confidence": 0.7,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "CORRECTED CONVENTION: spine + = forward lean, - = backward arch. Description: \"Turn the body sideways and press just one shoulder flat against the wall\" — wall is behind (z negative direction), shoulder blades should lean back against it. Currently spine:+12 puts shoulders at z=+0.116 (forward of hips) — opposite of wall-press intent. Flipping to spine:-12 brings shoulders to z≈-0.12 (behind hips, against wall). Matches the related back-wall-prop pose pattern (spine:-12, shoulders at z=-0.135 behind hips). leftHip:-6→-30 increases backward swing of left leg, staggering feet by ~25-30cm (full step). rightHip:0 preserved (right foot forward, planted as stance leg). Note: description also says \"Turn the body sideways\" — would require globalTwist for true sideways turn, but adding globalTwist without rendering verification is risky. The spine+stagger fix addresses the more visible defects (shoulder contact + foot stagger). globalTwist left for follow-up if needed.",
+  "created_at": "2026-08-02T00:22:20.847Z"
+}

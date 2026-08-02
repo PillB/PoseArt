@@ -1,0 +1,39 @@
+{
+  "proposal_id": "patch-p12-wall-s9-side-stretch-wall-1785630091092",
+  "pose_id": "p12-wall-s9-side-stretch-wall",
+  "category": "leaning",
+  "worker": "worker-A-batch4",
+  "existing_config_hash": "8e410b5948a1",
+  "defects": [
+    {
+      "type": "sign_error",
+      "severity": "major",
+      "description": "Torso lateral_flexion_deg=-12.8° (lean to figure LEFT), but for side stretch with LEFT arm overhead, torso should lean to figure RIGHT (opposite the reaching arm) to LENGTHEN the left side. Currently torso leans LEFT (same side as reaching arm), COMPRESSING the left side — opposite of stretch intent. Root cause: hips=-12 (config) produces LEFT pelvic list (derived +1.9°), shifting torso leftward despite globalRoll:+14."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "torso.lateral_flexion_deg > 0",
+      "expected": ">0 (lean to figure right, stretch left side with left arm overhead)",
+      "actual": "-12.8° (lean left, compressing left side)"
+    },
+    {
+      "assertion": "neck.x — head shifted right of midline",
+      "expected": "head.x > 0",
+      "actual": "head.x=-0.213 (head shifted LEFT)"
+    }
+  ],
+  "field_changes": {
+    "hips": 12
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/leaning/p12-wall-s9-side-stretch-wall/baseline/",
+  "after_evidence": "",
+  "regression_risk": "low — 1 field, single-pose. Flipping hips sign flips pelvic tilt direction, which should flip torso lateral lean from left (-12.8°) to right (+~12°). spine:14, globalRoll:14, globalTwist:5 preserved. leftShoulder:-136 (left arm overhead) preserved. No arm/leg changes.",
+  "confidence": 0.68,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "CORRECTED CONVENTION (original, not in inverted-comment list): hips rotZ, + = pelvis tilts left (left hip drops). Currently hips:-12 → derived pelvis list_deg=+1.9 (left hip lower), torso leans LEFT (-12.8°). With LEFT arm overhead (leftShoulder:-136, 144° abduction) and description \"stretching the torso into a long lateral line\", torso should lean RIGHT (lengthen left side). Flipping hips:-12→+12 should produce right pelvic list, shifting torso lean to RIGHT (+~12°) — creating the stretch geometry. Verified empirically by shoulder-lean (hips:5 → list_deg:5, left hip lower) — convention holds. globalRoll:14 preserved (intended rightward roll); only the pelvic tilt was cancelling it out.",
+  "created_at": "2026-08-02T00:21:31.092Z"
+}

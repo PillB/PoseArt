@@ -1,0 +1,32 @@
+{
+  "proposal_id": "patch-p10-bench-s10-recline-legs-up-vertical-1785621610532",
+  "pose_id": "p10-bench-s10-recline-legs-up-vertical",
+  "category": "seated",
+  "worker": "worker-D",
+  "existing_config_hash": "b67a46d728bc",
+  "defects": [
+    {
+      "id": "hand_near_face",
+      "severity": "major",
+      "actual": "L wrist at (-0.25,0.00,0.06) — distance 1.00 from head at (0.06,0.32,-0.84). Instructions say bring one hand up near the face. L arm extends down from shoulder (in body frame, after globalTilt -85 supine, down becomes forward in world) — wrist ends up at hip level, far from face. R wrist also far (dist 1.03)."
+    }
+  ],
+  "failing_tests": [
+    "contact_hand_near_face(min wrist to head dist <= 0.25)"
+  ],
+  "field_changes": {
+    "leftShoulder": -70,
+    "leftElbow": 140,
+    "shoulderFwdL": -30
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/p10-bench-s10-recline-legs-up-vertical/baseline/",
+  "after_evidence": "",
+  "regression_risk": "LOW — only L arm joints changed. R arm and all legs/torso/global transforms unchanged. Pose still reads as supine with legs up vertical and head hanging back; L hand now raised toward head area (partial contact improvement).",
+  "confidence": 0.65,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Recline verification: globalTilt -85 = supine (on back) per actual code behavior (VERIFIED — task description and code comment are inverted; +90 = prone, -90 = supine). Legs verification: hip flexion -157/-160 deg (thighs essentially straight up in world after supine rotation), knee flexion 10/12 deg (knees straight) — legs raised vertical and fully extended ✓. Head verification: head at y=0.32, z=-0.84 (behind body, hanging off bench edge) ✓. Only defect: L wrist not near face. Original L arm: leftShoulder 30 (abduction -24 deg, arm at side) + leftElbow 95 + shoulderFwdL 10. Fix: raise arm (leftShoulder -70, abduction ~104 deg, upper arm up-and-out) + bend elbow strongly (leftElbow 140, forearm folds back) + shoulderFwdL -30 (arm forward) — derived L wrist at (-0.32,0.48,-0.65), distance 0.451 from head (materially improved from 1.00; still > 0.25 strict threshold due to FK rig constraint: elbow flexion is rotY around vertical axis, preserves wrist y. Wrist y is bound to elbow y which is bound to shoulder y (0.23) — cannot easily reach head y=0.32).",
+  "created_at": "2026-08-01T22:00:10.532Z"
+}

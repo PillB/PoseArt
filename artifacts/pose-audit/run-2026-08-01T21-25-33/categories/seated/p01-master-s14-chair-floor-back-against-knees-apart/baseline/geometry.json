@@ -1,0 +1,191 @@
+{
+  "pose_id": "p01-master-s14-chair-floor-back-against-knees-apart",
+  "geometry_hash": "5d98a48c",
+  "raw_skeleton": {
+    "head": {
+      "x": -0.01391774665806286,
+      "y": 0.8094845760212152,
+      "z": -0.4247977524861348
+    },
+    "neck": {
+      "x": 0,
+      "y": 0.6889544785857862,
+      "z": -0.35494940289813115
+    },
+    "leftShoulder": {
+      "x": -0.22,
+      "y": 0.6023519382073425,
+      "z": -0.3049494028981311
+    },
+    "rightShoulder": {
+      "x": 0.22,
+      "y": 0.6023519382073425,
+      "z": -0.3049494028981311
+    },
+    "leftElbow": {
+      "x": -0.6237546332930923,
+      "y": 0.5349072762742906,
+      "z": -0.25561975997324393
+    },
+    "rightElbow": {
+      "x": 0.630967303539237,
+      "y": 0.6150871532221133,
+      "z": -0.27422986969503405
+    },
+    "leftWrist": {
+      "x": -0.6512426241426394,
+      "y": 0.5293389472734972,
+      "z": 0.08498764463093415
+    },
+    "rightWrist": {
+      "x": 0.6617908225621212,
+      "y": 0.6775626211730185,
+      "z": 0.0603545390561232
+    },
+    "spine": {
+      "x": 0,
+      "y": 0.3425443170720108,
+      "z": -0.15494940289813108
+    },
+    "hips": {
+      "x": 0,
+      "y": 0.11737771208805668,
+      "z": -0.024949402898131117
+    },
+    "leftHip": {
+      "x": -0.13,
+      "y": 0.04890738003669029,
+      "z": -0.010395584540887966
+    },
+    "rightHip": {
+      "x": 0.13,
+      "y": 0.04890738003669029,
+      "z": -0.010395584540887966
+    },
+    "leftKnee": {
+      "x": 0.017068661630037535,
+      "y": 0.2002738521948825,
+      "z": 0.36424958074585745
+    },
+    "rightKnee": {
+      "x": 0.2770686616300375,
+      "y": 0.2002738521948825,
+      "z": 0.36424958074585745
+    },
+    "leftAnkle": {
+      "x": 0.1795109742425366,
+      "y": 0.4390461486858515,
+      "z": 0.058634977852716985
+    },
+    "rightAnkle": {
+      "x": 0.40192326941110024,
+      "y": 0.44746889372709053,
+      "z": 0.04785435581708733
+    },
+    "leftFoot": {
+      "x": 0.20687258570859007,
+      "y": 0.37271080506315535,
+      "z": -0.06646883665523297
+    },
+    "rightFoot": {
+      "x": 0.4292848808771537,
+      "y": 0.3811335501043942,
+      "z": -0.07724945869086247
+    }
+  },
+  "derived_anatomy": {
+    "head": {
+      "pitch_deg": -30.1,
+      "yaw_deg": 0,
+      "roll_deg": -6.6,
+      "description": "Head pitch -30° (+: forward/down), roll -7° (+: tilt to figure's right). Yaw not modeled by renderer (low confidence)."
+    },
+    "torso": {
+      "flexion_deg": -30,
+      "lateral_flexion_deg": 0,
+      "axial_rotation_deg": 0,
+      "description": "Torso flexion -30° (+: forward), lateral 0° (+: figure's right), axial rotation proxy 0°."
+    },
+    "pelvis": {
+      "tilt_deg": 11.7,
+      "list_deg": 0,
+      "yaw_deg": 0,
+      "description": "Pelvic list 0° (+: left hip lower), yaw 0°, anterior/posterior tilt proxy 12° (low confidence)."
+    },
+    "left_arm": {
+      "shoulder_abduction_deg": 80.5,
+      "shoulder_sagittal_flexion_deg": 36.2,
+      "elbow_flexion_deg": 78.4,
+      "forearm_forward_deg": 89.1,
+      "upper_arm_length": 0.412,
+      "forearm_length": 0.342,
+      "description": "Left arm: arm abducted ~81° (lateral); shoulder flexed ~36° forward; elbow ~right-angle (78°)."
+    },
+    "right_arm": {
+      "shoulder_abduction_deg": 91.8,
+      "shoulder_sagittal_flexion_deg": 112.5,
+      "elbow_flexion_deg": 80.3,
+      "forearm_forward_deg": 100.6,
+      "upper_arm_length": 0.412,
+      "forearm_length": 0.342,
+      "description": "Right arm: arm abducted ~92° (lateral); shoulder flexed ~113° forward; elbow ~right-angle (80°)."
+    },
+    "left_leg": {
+      "hip_flexion_deg": 112,
+      "hip_abduction_deg": -135.8,
+      "knee_flexion_deg": 107.5,
+      "foot_forward_deg": -62.1,
+      "thigh_length": 0.43,
+      "shank_length": 0.42,
+      "description": "Left leg: thigh forward ~112° (hip flexion); knee ~right-angle (108°)."
+    },
+    "right_leg": {
+      "hip_flexion_deg": 112,
+      "hip_abduction_deg": 135.8,
+      "knee_flexion_deg": 110.3,
+      "foot_forward_deg": -62.1,
+      "thigh_length": 0.43,
+      "shank_length": 0.42,
+      "description": "Right leg: thigh forward ~112° (hip flexion); abducted ~136° outward; knee ~right-angle (110°)."
+    },
+    "contacts": [
+      {
+        "body": "leftFoot",
+        "target": "ground",
+        "y": 0.373,
+        "relation": "elevated"
+      },
+      {
+        "body": "rightFoot",
+        "target": "ground",
+        "y": 0.381,
+        "relation": "elevated"
+      }
+    ],
+    "balance": {
+      "com_x": 0,
+      "com_z": -0.19,
+      "foot_x_range": [
+        0.147,
+        0.489
+      ],
+      "over_support": false,
+      "feet_min_y": 0.373,
+      "floating": false,
+      "ground_penetration": false,
+      "description": "COM outside foot support base (balance risk)."
+    },
+    "anomalies": [
+      {
+        "type": "knee_above_hip",
+        "side": "L"
+      },
+      {
+        "type": "knee_above_hip",
+        "side": "R"
+      }
+    ],
+    "plausibility_flags": [],
+    "overall_confidence": 0.75
+  }
+}

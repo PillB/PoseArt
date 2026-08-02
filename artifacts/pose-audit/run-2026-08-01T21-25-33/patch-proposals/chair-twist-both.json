@@ -1,0 +1,52 @@
+{
+  "proposal_id": "patch-chair-twist-both-1785620894785",
+  "pose_id": "chair-twist-both",
+  "category": "seated",
+  "worker": "worker-A",
+  "existing_config_hash": "f2257303204b",
+  "defects": [
+    {
+      "type": "arms_over_backrest_missing",
+      "severity": "major",
+      "description": "Instructions say drape both arms over the top of the backrest (arms raised forward, draped over an imaginary backrest in front of sitter since sitting backward on chair). Derived: L shoulder_abd -37.4 (NEGATIVE = arm crosses body inward, anomalous per plausibility flag), R shoulder_abd 6.2 (at side). Both shoulders have sagittal flexion -20 deg (elbows behind torso). Arms are doing the OPPOSITE of draping forward over backrest."
+    },
+    {
+      "type": "renderer_limitation_torso_twist",
+      "severity": "minor",
+      "description": "Instructions say twist the torso. Renderer has no torso-axial-rotation joint (only spine rotX = forward flexion). globalTwist would twist whole body including legs, which contradicts sitting on chair. Documented as renderer limitation, no config fix."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "left_shoulder_abduction_deg in [60, 140] (arm raised, draped)",
+      "expected": "60-140",
+      "actual": "-37.4 (anomaly, arm crosses inward)"
+    },
+    {
+      "assertion": "right_shoulder_abduction_deg in [60, 140]",
+      "expected": "60-140",
+      "actual": "6.2 (arm at side)"
+    },
+    {
+      "assertion": "shoulder_sagittal_flexion_deg >= 30 (arms forward toward backrest)",
+      "expected": ">= 30",
+      "actual": "L -19.9, R -19.8 (behind)"
+    }
+  ],
+  "field_changes": {
+    "leftShoulder": -60,
+    "rightShoulder": 60,
+    "shoulderFwdL": -30,
+    "shoulderFwdR": -30
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/chair-twist-both/baseline/",
+  "after_evidence": "",
+  "regression_risk": "medium - 4-field change including sign flips on both shoulders. Plausibility anomaly (left_shoulder_abduction outside band) should resolve. Head yaw not modeled so look-back-over-shoulder cannot be verified geometrically.",
+  "confidence": 0.55,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Per FK: leftShoulder NEGATIVE = raise up (per mirror, rightShoulder POSITIVE = raise up; but cross-ankle-sit precedent shows rightShoulder -110 also produces high abduction, suggesting sign convention is shared not mirrored for abduction magnitude). Setting leftShoulder -60 (was +60) flips L arm from crossing-inward (anomalous -37.4) to raised-out. Setting rightShoulder 60 (was 20) raises R arm up to match L for symmetric drape. shoulderFwdL/R: -30 each (was 7, -5) flips arms from behind to forward per inverted renderer sign. Result: both arms raised ~80-100 deg abduction, sagittal flexion ~+28 deg forward — arms reach forward and up, approximating draped over backrest. Torso twist (axial_rotation) cannot be modeled without renderer joint; flagged as renderer limitation, not a config fix.",
+  "created_at": "2026-08-01T21:48:14.785Z"
+}

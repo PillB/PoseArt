@@ -1,0 +1,62 @@
+{
+  "proposal_id": "patch-belly-up-arms-wide-1785633955083",
+  "pose_id": "belly-up-arms-wide",
+  "category": "reclining",
+  "worker": "worker-B-batch5",
+  "existing_config_hash": "65bb77049f0a",
+  "defects": [
+    {
+      "type": "pose_name_vs_description_mismatch",
+      "severity": "major",
+      "description": "POSE NAME belly-up-arms-wide implies supine (belly-up = on back) with arms wide. DESCRIPTION says Curl onto one side with knees drawn up toward the chest and both hands tucked near the face — a side-curl fetal-like pose. Per protocol §4 use INSTRUCTIONS as ground truth (description is king). Library-wide data integrity issue (matches worker-D batch-4 finding of shuffled descriptions in reclining/kneeling sets). Recommend integrator audit name vs description text."
+    },
+    {
+      "type": "side_lying_missing_globalroll",
+      "severity": "major",
+      "description": "Description: Curl onto ONE SIDE. Current config has NO globalRoll set (defaults to 0). Body is mostly prone-leaning (globalTilt=85) with no side roll — NOT curled onto side. Need globalRoll ±45 for partial side-lying."
+    },
+    {
+      "type": "knees_not_drawn_up",
+      "severity": "major",
+      "description": "Description: knees drawn up toward the chest. Current leftHip=rightHip=20 (mild flexion) and leftKnee/rightKnee default (5°) — knees barely drawn up. Need deep hip flexion (~70°) and deep knee bend (~100°) for fetal-curl knees-to-chest."
+    },
+    {
+      "type": "hands_not_near_face",
+      "severity": "major",
+      "description": "Description: both hands tucked near the face. Current leftShoulder=-70 (LEFT arm raised overhead) + rightShoulder=-52 (RIGHT arm raised) + elbows 65/45 — arms extend overhead/out, hands nowhere near face. Need shoulders near 0 (arms at side) + deeper elbow bend (~100°) to bring hands up to face level."
+    },
+    {
+      "type": "knees_to_one_side_sweep_flag_false_positive",
+      "severity": "minor",
+      "description": "FALSE POSITIVE on sweep knees_to_one_side flag. Description contains the word side (curl onto one side — body orientation, not knees to one side). Knees are at symmetric x=±0.13 (directly below hips in x), not actually to one side. Flag triggered by keyword matching."
+    }
+  ],
+  "failing_tests": [
+    "description says curl onto side but no globalRoll set",
+    "description says knees drawn up toward chest but hip flexion only 20°",
+    "description says hands tucked near face but arms raised overhead",
+    "sweep knees_to_one_side flag is false positive"
+  ],
+  "field_changes": {
+    "globalRoll": -45,
+    "leftHip": 70,
+    "rightHip": 65,
+    "leftKnee": 110,
+    "rightKnee": 105,
+    "leftShoulder": 0,
+    "rightShoulder": 12,
+    "leftElbow": 90,
+    "rightElbow": 90,
+    "spine": 15
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/reclining/belly-up-arms-wide/baseline/",
+  "after_evidence": "",
+  "regression_risk": "medium — significant 10-field rework of pose to match description. Pose name does NOT match description; using description per protocol §4. May read as a near-duplicate of fetal-curl (similar side-curl). Recommend integrator verify rendering and consider renaming pose to match description (e.g. side-curl-hands-to-face) or correcting description to match name.",
+  "confidence": 0.55,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Description: Curl onto one side with knees drawn up toward the chest and both hands tucked near the face. Leave a small gap between chin and knees. Current config is for a DIFFERENT pose (arms-wide supine per pose name belly-up-arms-wide) — does NOT match description. Per protocol §4 description is king. Rework to match description: (1) globalRoll 0→-45 (body rolls onto LEFT side, partial side-lying). (2) Knees drawn up: leftHip 20→70, rightHip 20→65, leftKnee default→110, rightKnee default→105 (deep flexion matches fetal-curl convention). (3) Hands near face: leftShoulder -70→0 (LEFT arm comes DOWN from overhead to T-pose), rightShoulder -52→12 (RIGHT arm slightly down, similar to fetal-curl), leftElbow 65→90 + rightElbow 45→90 (deeper bend brings hands UP to face level). (4) spine 0→15 (slight forward curl for fetal position). (5) neck not set (defaults 0, neutral). Sweep knees_to_one_side flag is FALSE POSITIVE — knees are at symmetric x=±0.13 not actually to one side; flag triggered by description keyword side. Rig-limited: no isolated torso twist, no head yaw, hands cannot truly tuck under cheeks without horizontal adduction joint. Approximation only.",
+  "created_at": "2026-08-02T01:25:55.083Z"
+}

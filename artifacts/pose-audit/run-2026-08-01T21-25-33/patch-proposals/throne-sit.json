@@ -1,0 +1,36 @@
+{
+  "proposal_id": "patch-throne-sit-1785628232845",
+  "pose_id": "throne-sit",
+  "category": "seated",
+  "worker": "worker-A-batch3",
+  "existing_config_hash": "edf4e4f42e14",
+  "defects": [
+    "SPINE_NOT_TALL: Description says spine tall. spine=-18 (backward arch) — should be 0 (upright) per corrected convention (spine + = forward, - = backward). Currently spine z=-0.080 (backward of hips), not tall/upright.",
+    "ASYMMETRIC_SHOULDERS: Description says square the shoulders to camera (symmetric). leftShoulder=+15, rightShoulder=-15 — OPPOSITE signs, asymmetric. leftElbow at x=-0.295, rightElbow at x=+0.457 (asymmetric distance from body center; gap 0.75 vs expected symmetric ~0.60).",
+    "KNEES_TOO_WIDE: Description says knees a hip-width apart. hipAbductL=-15, hipAbductR=-15 (abduction outward). Knees at world x=±0.241 (gap 0.48). Hip-width gap = 0.26 (leftHip.x to rightHip.x distance). Knees too wide — should be at hip-width gap ~0.26.",
+    "RIG_LIMITATION_FEET_FLOATING: Description says plant both feet flat. leftAnkle/rightAnkle at y=+0.382 (in air, not on ground). Renderer convention: positive knee bends shin up, elevating feet in seated position. Deferred to renderer tier."
+  ],
+  "failing_tests": [
+    "expect(Math.abs(spine)).toBeLessThanOrEqual(3) — spine tall (upright)",
+    "expect(leftShoulder).toBe(rightShoulder) — symmetric shoulders (square to camera)",
+    "expect(Math.abs(leftKnee.x - rightKnee.x)).toBeLessThanOrEqual(0.30) — knees hip-width apart (currently 0.48)",
+    "expect(leftElbow.x + rightElbow.x).toBeCloseTo(0, 1) — symmetric elbow positions (currently L+R=+0.162, asymmetric)"
+  ],
+  "field_changes": {
+    "spine": 0,
+    "leftShoulder": 0,
+    "rightShoulder": 0,
+    "hipAbductL": 0,
+    "hipAbductR": 0
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/throne-sit/baseline/",
+  "after_evidence": "",
+  "regression_risk": "Medium — 5 field changes (mostly reverting to T-pose defaults). Original asymmetries may have been intentional for visual interest; reverting to symmetric may look stiff. Re-render REQUIRED to verify commanding read preserved.",
+  "confidence": 0.8,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "CORRECTED conventions: spine + = forward, - = backward. spine=-18 was backward arch (PR-v3 misfire pattern, though PR-v3 comment for throne-sit was not in source — sign error of unknown origin); should be 0 for spine tall. leftShoulder=+15 and rightShoulder=-15 are asymmetric (opposite signs) — both should be 0 (T-pose, arms at sides) for symmetric square shoulders. Verified by buildPose: spine z=0.000, L elbow at x=-0.379, R elbow at x=+0.379 (symmetric ✓), L knee at x=-0.130, R knee at x=+0.130 (gap 0.26 = hip-width ✓). hipAbductL/R=-15 produced knees at gap 0.48 (wider than hip-width 0.26); hipAbduct=0 puts knees at hip-width gap exactly. shoulderFwdL=+7, shoulderFwdR=-5 preserved (minor asymmetry, not explicitly called out by description). Forearms flat along armrests CANNOT be perfectly achieved — rig limitation: elbow flexion is rotY (preserves y), wrist y is always 0.32 below elbow y; forearm will angle down. Acceptable approximation: arms hang at sides (elbow y=0.30, wrist y=-0.02) — typical throne pose with hands near lap.",
+  "created_at": "2026-08-01T23:50:32.845Z"
+}

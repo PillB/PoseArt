@@ -197,7 +197,8 @@
   // 3. Forward kinematics — buildPose()
   //    SIGN CONVENTIONS:
   //    spine:        + = forward lean (torso tilts toward camera)
-  //    neck:         + = head tilts to figure's left
+  //    neck:         EMPIRICALLY VERIFIED 2026-08-02: + = head tilts to figure's RIGHT (+x),
+  //                   - = head tilts to figure's LEFT (-x). Old comment was INVERTED.
   //    leftShoulder: - = raise arm up/overhead; + = arm swings back
   //    rightShoulder:- = raise arm up/overhead; + = arm swings back (mirrored)
   //    leftElbow:    + = forearm bends inward/forward
@@ -209,9 +210,16 @@
   //    rightKnee:    + = shin bends BACKWARD
   //    leftAnkle:    + = dorsiflexion (toe up); - = plantarflexion
   //    rightAnkle:   same
-  //    hipAbductL/R: + = leg spreads outward (Z-axis) for seated
-  //    shoulderFwdL/R: + = arm swings forward (Y-axis)
-  //    globalTilt:   + = whole body tilts FORWARD (toward camera) — use ~90 for recline
+  //    hipAbductL/R: EMPIRICALLY VERIFIED 2026-08-02: + = ADDUCTION (inward/cross),
+  //                   - = ABDUCTION (outward/spread). Old comment was INVERTED.
+  //    shoulderFwdL/R: EMPIRICALLY VERIFIED 2026-08-02: + = BEHIND (posterior),
+  //                   - = FORWARD (anterior). Old comment was INVERTED.
+  //    globalTilt:   whole-body rotX. EMPIRICALLY VERIFIED 2026-08-02:
+  //                   +90 = PRONE (face-down, anterior faces -y/down)
+  //                   -90 = SUPINE (on-back, anterior faces +y/up)
+  //                   (Prior comment claimed the opposite — it was INVERTED.
+  //                    46 poses had wrong-sign values relying on the old
+  //                    comment; they have been corrected in poses-data.js.)
   //    globalTwist:  + = whole body rotates left (for side-lying on left)
   //    globalRoll:   + = whole body rolls toward right side
   // ----------------------------------------------------------
@@ -343,8 +351,9 @@
     }
 
     // ---- GLOBAL TRANSFORMS (applied last, after all FK) ----
-    // globalTilt: tilt entire body forward (X-axis rotation around world origin)
-    // +90 = lying on back (supine), -90 = lying face-down (prone)
+    // globalTilt: whole-body rotX. VERIFIED: +90 = PRONE (face-down),
+    // -90 = SUPINE (on-back). The old comment here was INVERTED and caused
+    // 46 library-wide sign errors (corrected 2026-08-02).
     var gTilt = jointAngles.globalTilt || 0;
     if (gTilt) {
       s = globalRotX(s, gTilt);

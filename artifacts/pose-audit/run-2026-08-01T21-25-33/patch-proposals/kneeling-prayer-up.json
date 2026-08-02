@@ -1,0 +1,37 @@
+{
+  "proposal_id": "patch-kneeling-prayer-up-1785630376170",
+  "pose_id": "kneeling-prayer-up",
+  "category": "kneeling",
+  "worker": "worker-D-batch4",
+  "existing_config_hash": "c43b8b9df350",
+  "defects": [
+    "CRITICAL: globalTwist=25 insufficient for description kneel facing away from camera + twist ribcage back over shoulder toward lens — needs 180° for full back-to-camera. cron-round-7 added 25° (partial twist suggestion) but description requires full facing-away.",
+    "CRITICAL: spine=-12 is BACKWARD ARCH (per corrected convention - = backward). Description implies upright kneel (no arch specified).",
+    "MAJOR: No hand on floor behind body — LEFT wrist at body-frame z=+0.224 (in FRONT of body, anterior). Description says rest one hand on the floor behind you to support the twist. Need LEFT arm swung BEHIND body (posterior).",
+    "MINOR: neck=-8 (head tilt left) — description implies head turned back over shoulder (yaw not modeled, neck tilt is closest approximation)."
+  ],
+  "failing_tests": [
+    "forensic.geometry.wristL_z_body_frame < 0 (LEFT hand behind body — currently z=+0.224 in front)",
+    "forensic.geometry.spine_pos (upright or slight forward — currently -12 backward arch)",
+    "forensic.geometry.globalTwist == 180 (full back-to-camera — currently 25)"
+  ],
+  "field_changes": {
+    "spine": 10,
+    "neck": 15,
+    "leftElbow": 90,
+    "shoulderFwdL": 80,
+    "rightShoulder": -10,
+    "rightElbow": 70,
+    "globalTwist": 180
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/kneeling/kneeling-prayer-up/baseline/",
+  "after_evidence": "",
+  "regression_risk": "HIGH — globalTwist 25→180 is a dramatic 155° reorientation. May trigger sweep legs_crossed or balance flags (full 180° rotation mirrors body-frame leg geometry to world-frame). Re-render verify required. Cron-round-7 added globalTwist=25 specifically for this pose — overriding to 180 may conflict with integrator policy. Recommend integrator re-render verify before accepting.",
+  "confidence": 0.55,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "globalTwist 25→180 (full back-to-camera per description — was cron-round-7 partial twist). spine -12→10 (remove backward arch, slight forward lean to lower shoulder for hand-behind reach). shoulderFwdL 0→80 (LEFT arm swings BEHIND body — corrected sign + = behind). leftElbow 81→90 (slight more flexion for forearm fold). neck -8→15 (head tilt right suggesting over-shoulder look — corrected sign + = right). rightShoulder -12→-10 (slight adjust). rightElbow 81→70 (slight adjust, hand at chest). After fix: body fully back-to-camera (globalTwist=180), LEFT hand behind body at body-frame z=-0.106 (posterior ✓) at y=-0.018 (just below hip — closest to floor achievable from kneeling). RIGHT hand at chest. Rig limitations: (1) no head yaw joint, head turn over-shoulder approximated by neck side-tilt; (2) no isolated torso twist joint, globalTwist rotates entire body including legs; (3) hand cannot reach true floor (y<-0.5) from kneeling — LEFT hand at y=-0.018 is best achievable.",
+  "created_at": "2026-08-02T00:26:16.170Z"
+}

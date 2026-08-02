@@ -1,0 +1,46 @@
+{
+  "proposal_id": "patch-cross-ankle-sit-1785620894838",
+  "pose_id": "cross-ankle-sit",
+  "category": "seated",
+  "worker": "worker-A",
+  "existing_config_hash": "9c38d6ec033d",
+  "defects": [
+    {
+      "type": "arms_overhead_unintended",
+      "severity": "critical",
+      "description": "Instructions say rest a hand on the raised ankle (hand low, near ankle) and keep torso lifted. PR-v4 auto-fix raised BOTH shoulders to -110 (raw) producing derived shoulder_abduction 134/133 deg — BOTH arms fully overhead. This is the OPPOSITE of hand on ankle. Original pre-PR-v4 values were leftShoulder -20, rightShoulder -32 (per source comment) producing moderate ~40-54 deg abduction (arms at sides, hands near thighs/ankle). PR-v4 overshot the too-subtle fix by 5x."
+    },
+    {
+      "type": "figure_four_missing",
+      "severity": "major",
+      "description": "Instructions say cross one ankle over the opposite knee into a figure-four shape. Derived hip_abduction_deg = 0 for both legs (no spread), knees 95/60 (asymmetric bend but no crossing geometry). No figure-four approximation present. Renderer does not model hip external rotation, but hipAbductR positive can approximate the crossed-leg outward spread."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "shoulder_abduction_deg < 60 (arms at sides, not overhead)",
+      "expected": "< 60",
+      "actual": "L 134.1, R 132.9 (both fully overhead)"
+    },
+    {
+      "assertion": "hip_abduction_deg on one side > 20 (figure-four spread)",
+      "expected": "> 20 on crossed side",
+      "actual": "0 on both sides"
+    }
+  ],
+  "field_changes": {
+    "leftShoulder": -20,
+    "rightShoulder": -32,
+    "hipAbductR": 35
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/cross-ankle-sit/baseline/",
+  "after_evidence": "",
+  "regression_risk": "low-medium - 3-field change. Shoulder revert is well-precedented (returns to documented pre-PR-v4 values). hipAbductR addition is new but small magnitude. Forearm direction may shift slightly due to abduction change.",
+  "confidence": 0.65,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Revert shoulders to pre-PR-v4 values (-20, -32) which produced moderate ~40-54 deg abduction (arms at sides with hands near lap, compatible with hand-on-ankle). PR-v4 -110 overshot. Add hipAbductR: 35 (raw positive = leg spreads outward per FK) to approximate figure-four: right leg spreads out so right ankle can cross over left knee. Renderer lacks hip external rotation joint so true figure-four crossing cannot be modeled; abduction is the available approximation. leftKnee 95 stays (supporting foot flat, right angle), rightKnee 60 stays (crossed leg, slight bend). Confidence moderate because hand-on-ankle precise contact cannot be verified without hand position derivation.",
+  "created_at": "2026-08-01T21:48:14.838Z"
+}

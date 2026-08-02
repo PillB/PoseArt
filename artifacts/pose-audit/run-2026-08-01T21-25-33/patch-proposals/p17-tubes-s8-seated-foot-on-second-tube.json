@@ -1,0 +1,32 @@
+{
+  "proposal_id": "patch-p17-tubes-s8-seated-foot-on-second-tube-1785624918858",
+  "pose_id": "p17-tubes-s8-seated-foot-on-second-tube",
+  "category": "seated",
+  "worker": "worker-D-seated-batch2",
+  "existing_config_hash": "cf83e3e38fad",
+  "defects": [
+    "NO_HAND_ON_HIP: Description says \"Place a hand on your hip\". Measured wrist→hip distances: L→L 0.902, R→R 0.546 (both far above 0.25 threshold). NEITHER wrist on hip. Left arm abducted 79° (very lateral, wrist at x=-0.758 far out); right arm abducted 45° + shoulderFwdR=+10 (behind body).",
+    "BALANCE_OFF_SUPPORT: COM outside foot support base (COM.x=-0.042, foot_x_range=[0.251, 0.422]). Feet are clustered on right side of body; figure visually unstable."
+  ],
+  "failing_tests": [
+    "expect(Math.min(dist(leftWrist,leftHip), dist(rightWrist,rightHip))).toBeLessThan(0.25) — at least one hand on hip",
+    "expect(leftWrist.x).toBeGreaterThan(-0.4) — left wrist not far out to side (currently -0.758)"
+  ],
+  "field_changes": {
+    "leftShoulder": -10,
+    "leftElbow": 110,
+    "shoulderFwdL": -5,
+    "rightShoulder": -10,
+    "shoulderFwdR": 0
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/p17-tubes-s8-seated-foot-on-second-tube/baseline/",
+  "after_evidence": "",
+  "regression_risk": "Medium — renderer elbow flexion is rotY (XZ plane), which swings forearm forward/backward, not up/down. If elbow flexion does not bring wrist DOWN to hip level (y~0.07), the wrist may stay at chest level. May need round-2 with shoulder abduction tuning. Spine, neck, hips, legs preserved.",
+  "confidence": 0.6,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "CORRECTED sign conventions: shoulderFwd + = behind, - = forward; leftShoulder rotZ - = raise/abduct. Left arm currently over-abducted (79°) with wrist 0.90 from hip — bringing shoulder to ~20° abduction + elbow to ~100° flexion should fold forearm back toward hip. shoulderFwdL +20→-5 flips arm from behind-body to slightly forward (toward hip front). Right arm reduced from 45° to ~20° abduction and shoulderFwdR +10→0 (neutral, was behind) for relaxed gesture rather than extended-back. Right leg (hip=90, knee=88) is the renderer-correct \"seated\" position per renderer convention (positive knee bends shin up — ankle at y=0.475, foot elevated). Left leg (hip=20, knee=15, foot y=-0.722) is the extended leg with foot on shorter tube (or ground) in front — matches description. Balance defect addressed by reducing lateral arm extension (less torque on left side).",
+  "created_at": "2026-08-01T22:55:18.858Z"
+}

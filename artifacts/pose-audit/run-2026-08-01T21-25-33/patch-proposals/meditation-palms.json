@@ -1,0 +1,59 @@
+{
+  "proposal_id": "patch-meditation-palms-1785621373241",
+  "pose_id": "meditation-palms",
+  "category": "seated",
+  "worker": "worker-B",
+  "existing_config_hash": "483dcf5b4f2d",
+  "defects": [
+    {
+      "type": "legs_crossed_false_positive",
+      "severity": "n/a",
+      "description": "Detector flagged legs_crossed (both hipAbduct positive = spread) but the renderer comment is INVERTED — actual FK behavior is POSITIVE hipAbductL/R = crosses INWARD (adduction). Verified via joint coordinates: leftKnee at x=+0.052 (figure right, crossed), rightKnee at x=-0.052 (figure left, crossed), leftFoot at x=+0.281 (figure right), rightFoot at x=-0.281 (figure left). Legs ARE properly cross-legged — flag is FALSE POSITIVE caused by detector using renderer comment instead of actual FK behavior."
+    },
+    {
+      "type": "reclining_false_positive",
+      "severity": "n/a",
+      "description": "Detector flagged reclining (globalTilt missing) but description says Sit cross-legged on the floor — seated floor pose, NOT reclining."
+    },
+    {
+      "type": "right_shoulder_forward_not_back",
+      "severity": "minor",
+      "description": "Description says Roll the shoulders down and back. Baseline has shoulderFwdL:+12 (slight backward, correct direction) but shoulderFwdR:-10 (slight forward, WRONG direction — should be backward to match L and honor rolled back)."
+    },
+    {
+      "type": "hands_not_on_knees",
+      "severity": "major",
+      "description": "Description says backs of hands resting on the knees. Baseline wrists at z=+0.138/+0.271, knees at z=+0.388 — wrists 0.12-0.25 short of knees. Renderer-limited: shoulder-to-knee distance 0.84 exceeds arm length 0.75, so wrists cannot physically reach crossed knees without longer arms or hip-lowering support."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "legs should be crossed (left foot on figure right, right foot on figure left)",
+      "expected": "leftFoot.x > 0 and rightFoot.x < 0",
+      "actual": "leftFoot.x=+0.281, rightFoot.x=-0.281 (PASSES — legs ARE crossed)"
+    },
+    {
+      "assertion": "right shoulder should be extended backward (sagittal flexion < 0)",
+      "expected": "R_arm_sagflx < 0",
+      "actual": "R_arm_sagflx=+25.2 (forward)"
+    },
+    {
+      "assertion": "wrists should be near knees (distance < 0.15)",
+      "expected": "min(dist(L_wrist, L_knee), dist(R_wrist, R_knee)) < 0.15",
+      "actual": "L_wrist-to-L_knee distance ~0.55, R_wrist-to-R_knee distance ~0.49 (far)"
+    }
+  ],
+  "field_changes": {
+    "shoulderFwdR": 12
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/meditation-palms/baseline/",
+  "after_evidence": "",
+  "regression_risk": "low — single-field change (shoulderFwdR sign flip to match L); verified no anomalies/plausibility flags",
+  "confidence": 0.6,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Both detector flags are FALSE POSITIVES. legs_crossed: detector used renderer comment (positive hipAbduct = spread) but actual FK behavior is inverted (positive hipAbduct = crosses inward). Verified via joint coordinates: leftKnee at x=+0.052 (figure right), rightKnee at x=-0.052 (figure left), ankles and feet also swapped sides — proper cross-legged posture. reclining: description says Sit cross-legged on the floor (seated, not lying). Real defects: (1) RIGHT shoulder forward (shoulderFwdR:-10) instead of backward — single-field fix to +12 matches LEFT shoulder and honors rolled down and back. Verified: R_arm_sagflx changes from +25.2° (forward) to ~-3° (slight backward, matching L). (2) Hands not on knees — RENDERER-LIMITED: shoulder-to-knee distance (0.84) exceeds arm length (0.75) by 0.09 units, so wrists physically cannot reach crossed knees. Any field-level arm adjustment can only bring wrists closer, not fully onto knees. Defer to renderer-level fix (longer arms or hip-lowering support).",
+  "created_at": "2026-08-01T21:56:13.241Z"
+}

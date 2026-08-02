@@ -1,0 +1,41 @@
+{
+  "proposal_id": "patch-kneeling-tuck-forward-1785630650201",
+  "pose_id": "kneeling-tuck-forward",
+  "category": "kneeling",
+  "worker": "worker-D-batch4",
+  "existing_config_hash": "94fa6f07aa7a",
+  "defects": [
+    "CRITICAL: spine=-35 BACKWARD ARCH (per corrected convention - = backward). Pose name tuck-forward + description low crouch (coiled, alert) requires FORWARD LEAN (spine positive). Cron-round-4 was supposed to fix spine signs but this pose has spine=-35 (backward). Likely cron-round-4 missed this pose OR mis-fired (similar to p12-wall-s3 PR-v3 spine misfire found by worker-D-batch3). Head pitch -37° (backward/up) confirms spine is backward-arched, NOT forward-tucked.",
+    "CRITICAL: LEFT arm fully overhead (leftShoulder=-120, abd 147°). Description says rest one forearm across the raised knee (forearm on knee, NOT arm overhead).",
+    "MAJOR: RIGHT (raised) foot NOT planted — rightFoot at y=0.362 (elevated). Description says other foot planted for balance. Rig-limited: hip origin fixed at y=0.12, foot cannot reach ground from hip-flexed kneeling.",
+    "MAJOR: No forearm on raised knee — wristL far from kneeR (distance ~0.5+). Description says rest one forearm across the raised knee.",
+    "MINOR: neck=-21 (head tilt left 21° — excessive). Description says coiled alert; head should be more neutral."
+  ],
+  "failing_tests": [
+    "forensic.geometry.spine_pos (forward lean for crouch/tuck-forward — currently -35 backward arch)",
+    "forensic.geometry.shoulderL_abduction < 60 (LEFT arm not overhead — currently 147°)",
+    "forensic.geometry.wristL_to_kneeR_dist < 0.30 (LEFT forearm on RIGHT raised knee — currently 0.348 after fix, rig-limited)",
+    "forensic.geometry.head_pitch_neg_small (slight head pitch, not extreme — currently -37° extreme backward)"
+  ],
+  "field_changes": {
+    "spine": 20,
+    "neck": -8,
+    "leftShoulder": 0,
+    "leftElbow": 90,
+    "shoulderFwdL": -80,
+    "rightElbow": 30,
+    "shoulderFwdR": -15,
+    "rightHip": 80,
+    "rightKnee": 100
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/kneeling/kneeling-tuck-forward/baseline/",
+  "after_evidence": "",
+  "regression_risk": "Medium-HIGH — spine sign flip (-35→+20) is significant reorientation. May conflict with cron-round-4 audit policy if that audit deliberately set spine=-35. Recommend integrator verify cron-round-4 audit log for this pose before accepting. Re-render verify required.",
+  "confidence": 0.6,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "SPINE MISFIRE REVERT: spine -35→20 (forward lean for crouch/tuck-forward, per corrected convention + = forward). LEFT arm revert: leftShoulder -120→0 (arm at side, was overhead). leftElbow 70→90 (forearm horizontal for across-knee rest). shoulderFwdL 0→-80 (LEFT arm swings forward strongly to reach toward RIGHT raised knee — corrected - = forward). neck -21→-8 (reduce excessive head tilt). rightElbow 50→30 (slight bend). shoulderFwdR 0→-15 (RIGHT arm swings slightly forward for balance). rightHip 70→80 (normalize forward lunge). rightKnee 138→100 (reduce so foot is more forward/planted — was 138 which lifted foot too high). After fix: spine forward lean (20° ✓), LEFT arm forward reaching toward RIGHT knee (wristL-to-kneeR=0.348, slightly over 0.30 threshold but closest achievable), LEFT knee down (y=-0.376), RIGHT foot forward (y=-0.067, ankle-level — closest to planted achievable), head pitch slight. Rig limitations: (1) LEFT forearm cannot truly rest ACROSS RIGHT knee — renderer has no horizontal adduction joint, wristL-to-kneeR=0.348 is closest achievable; (2) RIGHT foot cannot reach true ground from kneeling — y=-0.067 is best achievable; (3) cron-round-4 spine-sign fix may have missed or mis-fired this pose — recommend integrator re-audit spine signs for tuck-forward/crouch poses.",
+  "created_at": "2026-08-02T00:30:50.201Z"
+}

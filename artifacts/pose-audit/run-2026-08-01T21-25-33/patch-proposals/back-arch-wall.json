@@ -1,0 +1,29 @@
+{
+  "proposal_id": "patch-back-arch-wall-1785628251609",
+  "pose_id": "back-arch-wall",
+  "category": "leaning",
+  "worker": "worker-A-batch3",
+  "existing_config_hash": "62f99baf5ab4",
+  "defects": [
+    "ASYMMETRIC_ARMS: Description says arms drift outward (plural, symmetric). leftShoulder=-20 (44deg abduction per anatomy), rightShoulder unset (default 0, 23deg abduction). Asymmetric — left elbow at x=-0.486 (far out), right elbow at x=+0.366 (closer to body). Should be mirrored for symmetric arms drift outward.",
+    "RIG_LIMITATION_HIPS_VS_SHOULDERS_WALL: Description says Rest the lower back and hips against the wall AND arch the upper spine away from it. With spine=-24 (strong backward arch), shoulders at z=-0.228 (BEHIND hips at z=0). If wall at z=0 (touching hips), shoulders would intersect wall. Renderer limitation: cannot simultaneously have lower back against wall AND upper spine arched away from wall (single spine joint). Current rendering prioritizes dramatic back arch (artistic intent). Deferred to renderer tier."
+  ],
+  "failing_tests": [
+    "expect(leftShoulder).toBe(rightShoulder) — symmetric shoulder abduction for arms drift outward",
+    "expect(Math.abs(leftElbow.x + rightElbow.x)).toBeLessThan(0.05) — symmetric elbow x positions (currently L+R=-0.120, asymmetric)",
+    "expect(Math.abs(leftElbow.x - rightElbow.x)).toBeGreaterThan(0.80) — arms drifted outward (both elbows far from body)"
+  ],
+  "field_changes": {
+    "rightShoulder": -20
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/leaning/back-arch-wall/baseline/",
+  "after_evidence": "",
+  "regression_risk": "Low — 1 field change. Only affects right arm position (mirrors left). spine=-24 preserved (dramatic back arch, head tilt back ✓ per anatomy: head pitch -24deg).",
+  "confidence": 0.75,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Set rightShoulder=-20 to mirror leftShoulder=-20. Per corrected convention: negative shoulder = abduction outward (arm raises/drifts out). Verified by buildPose: leftElbow at x=-0.486, rightElbow at x=+0.475 (asymmetric diff 0.011 — essentially symmetric ✓). spine=-24 preserved (dramatic back arch, head tilt back ✓ per anatomy: head pitch -24deg, head y=0.85 above shoulders). Hips at z=0 (against implied wall) ✓. Feet planted (y=-0.83) ✓ per anatomy contacts. RIG LIMITATION: shoulders at z=-0.228 (behind hips) — would intersect literal wall surface if wall at z=0. Reads as leaning back in side view (artistic intent preserved); the implied wall position is interpreted as z=-0.30 (behind shoulders). Description tension (lower back against wall + upper spine away from wall) cannot be fully resolved with single spine joint — current rendering prioritizes dramatic arch which is the artistic intent of this Advanced/Artistic pose.",
+  "created_at": "2026-08-01T23:50:51.609Z"
+}

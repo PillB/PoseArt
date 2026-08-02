@@ -1,0 +1,49 @@
+{
+  "proposal_id": "patch-p15-chair-s1-thinker-crossed-ankles-1785625041402",
+  "pose_id": "p15-chair-s1-thinker-crossed-ankles",
+  "category": "seated",
+  "worker": "worker-B-seated-batch2",
+  "existing_config_hash": "8404b5e9e7c5",
+  "defects": [
+    {
+      "type": "hand_to_chin_missing",
+      "severity": "major",
+      "description": "Description: 'bring the far hand up to rest under the chin'. Currently R wrist at (0.706, 0.295, −0.301), 0.954 from chin at ~(0.037, 0.801, 0.152). R hand is far below and to figure's right of chin — nowhere near chin. Flagged by geometry-sweep as hand_to_chin."
+    },
+    {
+      "type": "forearm_across_knee_missing",
+      "severity": "major",
+      "description": "Description: 'Rest the near forearm across the top knee'. Currently L wrist at (−0.561, 0.659, 0.537), 0.791 from L knee at (−0.093, 0.022, 0.508). L hand is at chest level, far above knee."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "rightWrist to chin distance < 0.30 (hand under chin)",
+      "expected": "<0.30",
+      "actual": "0.954"
+    },
+    {
+      "assertion": "leftWrist to leftKnee distance < 0.30 (forearm across top knee)",
+      "expected": "<0.30",
+      "actual": "0.791"
+    }
+  ],
+  "field_changes": {
+    "leftShoulder": -30,
+    "leftElbow": 120,
+    "shoulderFwdL": -30,
+    "rightShoulder": -90,
+    "rightElbow": 140,
+    "shoulderFwdR": -70
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/p15-chair-s1-thinker-crossed-ankles/baseline/",
+  "after_evidence": "",
+  "regression_risk": "low — 6 fields across both arms; spine, hips, legs, globalTwist unchanged; L arm abd 37° within band; R arm abd 114° within band; no new anomalies or plausibility flags introduced.",
+  "confidence": 0.8,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "p15-chair-s1: Thinker pose with hand-to-chin + forearm-on-knee. Original config: L shoulder -70 (abd 93° lateral), L elbow 95 (right-angle), shoulderFwdL +30 (behind) → L wrist at chest level (y=0.659), 0.791 from L knee. R shoulder -35 (abd 46°), R elbow 60, shoulderFwdR +15 (behind) → R wrist at (0.706, 0.295, -0.301), 0.954 from chin. FIXES: (a) For L forearm on knee: reduce leftShoulder from -70 to -30 (abd 37°, arm hangs down), increase leftElbow from 95 to 120 (deep bend, forearm horizontal), flip shoulderFwdL from +30 to -30 (forward per corrected convention) → L wrist at (−0.082, 0.178, 0.496), distance 0.156 from L knee (−0.093, 0.022, 0.508) ✓ within 0.20 threshold. L wrist y=0.178 ≈ L knee y=0.022 (on top of knee ✓). (b) For R hand under chin: raise R arm by increasing rightShoulder from -35 to -90 (abd 114°, upper arm horizontal at shoulder height), deepen rightElbow from 60 to 140 (forearm horizontal pointing across body), flip shoulderFwdR from +15 to -70 (strongly forward) → R wrist at (0.236, 0.939, 0.265), distance 0.268 from chin (0.037, 0.801, 0.152) ✓ within 0.30 threshold. R wrist y=0.939 ≈ chin y=0.801 (at chin height ✓). R arm posture matches classic Rodin Thinker: shoulder abducted, elbow wide, forearm across to chin.",
+  "created_at": "2026-08-01T22:57:21.402Z"
+}

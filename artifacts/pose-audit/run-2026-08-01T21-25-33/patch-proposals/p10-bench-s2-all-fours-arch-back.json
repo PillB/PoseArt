@@ -1,0 +1,32 @@
+{
+  "proposal_id": "patch-p10-bench-s2-all-fours-arch-back-1785621622189",
+  "pose_id": "p10-bench-s2-all-fours-arch-back",
+  "category": "seated",
+  "worker": "worker-D",
+  "existing_config_hash": "0dea94d6e497",
+  "defects": [
+    {
+      "id": "all_fours_posture",
+      "severity": "major",
+      "actual": "Body is NOT horizontal/prone. globalTilt -20 (slight supine tilt per actual code). Wrists at y=0.85, 0.95 (way above ground at y=-0.8). Hips at y=0.11, knees at y=0.30/0.31. Instructions: Position yourself on hands and knees on top of the bench — body should be horizontal face-down with wrists and knees on bench surface."
+    }
+  ],
+  "failing_tests": [
+    "posture_all_fours(globalTilt in prone range [+80..+90] OR wrists y near -0.8 AND knees y near -0.8)",
+    "contact_wrists_on_ground(wrists y <= -0.6)"
+  ],
+  "field_changes": {
+    "globalTilt": 85,
+    "rightHip": -40
+  },
+  "renderer_changes": "Flag (no change requested): pose-skeleton-3d.js line 214 comment claims +90 = supine, but actual rotX(+90) makes body face-down (prone). The worker-D task description repeats this incorrect convention. Correct convention: +90 = prone, -90 = supine.",
+  "before_evidence": "categories/seated/p10-bench-s2-all-fours-arch-back/baseline/",
+  "after_evidence": "",
+  "regression_risk": "HIGH — globalTilt sign flip (-20 to +85) is a dramatic change (body goes from mostly-upright to horizontal prone). Pose silhouette completely changes. However, this matches the description intent (hands-and-knees on bench). Wrists still not at y=-0.8 (rig constraint) but body is now correctly horizontal face-down.",
+  "confidence": 0.7,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Worker-D task description claims globalTilt ~-90 (prone) but VERIFIED via rotX math that actual code: +90 = prone (face-down), -90 = supine (on back). p10-bench-s10 (Lie on your back) uses globalTilt -85 (supine) confirming. So all-fours prone needs globalTilt +85..+90. Fix: globalTilt 85 (body horizontal face-down). With original R leg config (rightHip -12, rightKnee 10), the R foot ends up at y=0.04 (barely above hip level) — but instructions say Extend one leg straight back and slightly up off the bench. Fix: rightHip -40 (thigh more extended back in body frame → leg points more up in world after prone rotation) — derived R foot at (0.43, 0.41, -0.60), y=0.41 (up off bench ✓), z=-0.60 (behind body ✓). L leg unchanged (leftHip 118, leftKnee 130 — L thigh forward in body frame → down in world, knee below hips, foot below body). Spine -30 preserved (back arch in body frame). Wrists after prone rotation: y=-0.28, -0.22 (below hips, near bench surface — closer to ground but not at y=-0.8 due to rig constraint: hip origin fixed at y=0, arms can extend down ~0.7 max).",
+  "created_at": "2026-08-01T22:00:22.189Z"
+}

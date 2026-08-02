@@ -1,0 +1,36 @@
+{
+  "proposal_id": "patch-p15-chair-s5-side-saddle-look-back-1785624539612",
+  "pose_id": "p15-chair-s5-side-saddle-look-back",
+  "category": "seated",
+  "worker": "worker-C-seated-batch2",
+  "existing_config_hash": "9ecbb6f8a9c2",
+  "defects": [
+    {
+      "id": "left-arm-elevated-not-on-thigh",
+      "severity": "MAJOR",
+      "claim": "One hand on chair back or seat, the other on the thigh",
+      "evidence": "leftWrist y=0.818 above shoulder y=0.669; left arm abducted 115.7°, elbow_above_shoulder anomaly flagged; shoulderFwdL:-15 forward but shoulder abducted laterally instead of down at side"
+    }
+  ],
+  "failing_tests": [
+    {
+      "name": "left_arm_should_be_at_side_reaching_thigh",
+      "assert": "leftWrist.y < 0.30 AND left_arm.shoulder_abduction_deg < 40"
+    }
+  ],
+  "field_changes": {
+    "leftShoulder": -15,
+    "leftElbow": 90,
+    "shoulderFwdL": -5
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/p15-chair-s5-side-saddle-look-back/baseline/",
+  "after_evidence": "",
+  "regression_risk": "Low — changes only L arm fields. R arm, legs, torso twist preserved. Body-twisted posture (globalTwist:58) preserved so look-back gesture intact.",
+  "confidence": 0.7,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Description requires one hand on chair back/seat (R arm already does this: rightWrist at y=0.489, z=-0.542 behind body) and the OTHER hand on the thigh. L arm is currently abducted 116° (elbow above shoulder, wrist at y=0.818) which places the hand in the air rather than on the thigh. Drop L shoulder abduction from -80 to -15 (brings abduction ~25°, arm at side), increase L elbow flexion 40→90 (right-angle for hand to reach thigh), reduce forward reach -15→-5 (slight forward to meet thigh). Sign convention verified: leftShoulder rotZ coronal abduction, - = raise arm up; smaller magnitude = lower arm.",
+  "created_at": "2026-08-01T22:48:59.612Z"
+}

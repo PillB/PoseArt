@@ -1,0 +1,39 @@
+{
+  "proposal_id": "patch-kneeling-seated-arms-wide-1785630597991",
+  "pose_id": "kneeling-seated-arms-wide",
+  "category": "kneeling",
+  "worker": "worker-D-batch4",
+  "existing_config_hash": "3399dd8644e3",
+  "defects": [
+    "CRITICAL: LEFT arm partially overhead (leftShoulder=-90, abd 113°). Description says OPPOSITE arm to down knee should be overhead. LEFT knee is down (leftHip=0, leftKnee=85), so OPPOSITE arm = RIGHT. RIGHT arm should be overhead, LEFT arm should be at side.",
+    "MAJOR: RIGHT arm not fully overhead (rightShoulder=-72, abd 95° — lateral, not fully overhead). Description says extend arm straight overhead, fingers reaching toward ceiling. Need abduction > 120°.",
+    "MINOR: spine=5 slight forward lean. Description says lengthening side body (slight backward arch for chest-up would be better).",
+    "MINOR: neck=-3.3 slight head tilt left. Description says gaze follow hand upward (RIGHT hand). Should tilt head slightly right (toward raised RIGHT arm)."
+  ],
+  "failing_tests": [
+    "forensic.geometry.shoulderR_abduction > 120 (RIGHT arm fully overhead — currently 95°)",
+    "forensic.geometry.shoulderL_abduction < 60 (LEFT arm at side — currently 113° partial overhead)",
+    "forensic.geometry.spine_neg_or_zero (upright or slight backward — currently +5 forward lean)"
+  ],
+  "field_changes": {
+    "spine": -8,
+    "neck": 5,
+    "leftShoulder": 0,
+    "leftElbow": 30,
+    "rightShoulder": -130,
+    "rightElbow": 30,
+    "leftKnee": 90,
+    "rightHip": 80,
+    "rightKnee": 90
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/kneeling/kneeling-seated-arms-wide/baseline/",
+  "after_evidence": "",
+  "regression_risk": "Low — straightforward swap of which arm is overhead (LEFT→RIGHT) plus abduction increase. No dramatic reorientation. May clear elbow_above_shoulder anomaly for LEFT arm; may trigger it for RIGHT (intended, arm is overhead).",
+  "confidence": 0.75,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "LEFT arm revert: leftShoulder -90→0 (arm at side, was partial overhead — should NOT be overhead since RIGHT is the overhead arm). RIGHT arm full overhead: rightShoulder -72→-130 (abd ~155°, fully overhead per description). spine 5→-8 (slight backward arch for chest-up lengthening). neck -3.3→5 (head tilt right toward raised RIGHT arm — corrected sign + = right). leftElbow 70→30 (slight bend, relaxed). rightElbow 70→30 (slight bend, soft). leftKnee 85→90 (normalize). rightHip 70→80 (normalize forward lunge). rightKnee 85→90 (normalize). After fix: LEFT knee down (leftHip=0, leftKnee=90), RIGHT foot forward (rightHip=80, rightKnee=90), RIGHT arm fully overhead (wristR y=1.335 ✓ above head), LEFT arm at side (wristL y=-0.019 at hip level), head slightly back+right (looking up at RIGHT hand). Description match: kneel on one knee ✓, opposite arm (RIGHT) overhead ✓, gaze follows hand up ✓, side body lengthened ✓. Rig limitations: RIGHT foot still elevated (y=0.524, rig-limited kneeling).",
+  "created_at": "2026-08-02T00:29:57.991Z"
+}

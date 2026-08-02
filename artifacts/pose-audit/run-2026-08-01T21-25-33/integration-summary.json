@@ -1,0 +1,811 @@
+{
+  "run_id": "run-2026-08-01T21-25-33",
+  "total_proposals": 207,
+  "accepted_pending_redteam": 40,
+  "clean": 8,
+  "rejected": 159,
+  "sign_truth": {
+    "globalTilt": "+90=PRONE (face-down), -90=SUPINE (on-back). Comment WAS INVERTED — now corrected.",
+    "hipAbductL": "+ = adduction(inward/cross), - = abduction(outward). Comment INVERTED.",
+    "hipAbductR": "+ = adduction(inward/cross), - = abduction(outward). Comment INVERTED.",
+    "shoulderFwdL": "+ = behind, - = forward. Comment INVERTED.",
+    "shoulderFwdR": "+ = behind, - = forward. Comment INVERTED."
+  },
+  "rejected_details": [
+    {
+      "pose_id": "arm-drape-knee",
+      "worker": "pr-v4-audit",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "back-arch-wall",
+      "worker": "worker-A-batch3",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "back-wall-prop",
+      "worker": "worker-A-batch3",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "bench-lean-side",
+      "worker": "worker-A-batch3",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "both-knees-arms-up",
+      "worker": "worker-B-batch4",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "both-knees",
+      "worker": "worker-B-batch4",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "boudoir-dying-slave",
+      "worker": "pr-v4-audit",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "car-lean",
+      "worker": "worker-A-batch3",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "chair-back-lean",
+      "worker": "worker-A",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "chair-lean-forward",
+      "worker": "worker-A",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "chair-twist-both",
+      "worker": "worker-A",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "chin-on-wall",
+      "worker": "worker-B-batch3",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "column-lean",
+      "worker": "worker-B-batch3",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "cross-ankle-sit",
+      "worker": "worker-A",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "cross-legged-wall",
+      "worker": "worker-B-batch3",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "diagonal-lean",
+      "worker": "worker-B-batch3",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "door-side-lean",
+      "worker": "worker-B-batch3",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "doorframe-lean",
+      "worker": "worker-B-batch3",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "elbow-ledge",
+      "worker": "worker-B-batch3",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "feet-tucked-under",
+      "worker": "worker-A",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "feet-up",
+      "worker": "worker-A",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "fence-lean",
+      "worker": "worker-B-batch3",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "floor-asymmetric",
+      "worker": "worker-A",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "floor-hug-knees",
+      "worker": "worker-A",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "floor-prop-back",
+      "worker": "worker-B",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "floor-side-extend",
+      "worker": "worker-B",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "floor-stretch-legs",
+      "worker": "worker-B",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "forearm-wall",
+      "worker": "worker-B-batch3",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "gate-lean",
+      "worker": "worker-B-batch3",
+      "reason": "description says apart/wide but hipAbduct positive = adduction(inward) (sign INVERTED). REJECT or flip sign."
+    },
+    {
+      "pose_id": "glass-lean",
+      "worker": "worker-C-batch3",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "highlow-step-down-mid-air",
+      "worker": "pr-v4-audit",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "hip-lean",
+      "worker": "worker-C-batch3",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "hip-pop-wall",
+      "worker": "worker-C-batch3",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "kneeling-arms-crossed",
+      "worker": "worker-B-batch4",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "kneeling-back-arch",
+      "worker": "worker-B-batch4",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "kneeling-bow",
+      "worker": "worker-B-batch4",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "kneeling-chest-open",
+      "worker": "worker-C-batch4",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "kneeling-crossed-arms-look-side",
+      "worker": "worker-C-batch4",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "kneeling-crouch",
+      "worker": "worker-C-batch4",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "kneeling-dragon",
+      "worker": "worker-C-batch4",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "kneeling-forearm-floor",
+      "worker": "worker-C-batch4",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "kneeling-hand-floor",
+      "worker": "worker-C-batch4",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "kneeling-hip-sit",
+      "worker": "worker-C-batch4",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "kneeling-hug",
+      "worker": "worker-C-batch4",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "kneeling-lean-forward",
+      "worker": "worker-C-batch4",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "kneeling-lean-hands-floor",
+      "worker": "worker-C-batch4",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "kneeling-look-back",
+      "worker": "worker-D-batch4",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "kneeling-prayer-up",
+      "worker": "worker-D-batch4",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "kneeling-profile",
+      "worker": "worker-D-batch4",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "kneeling-reach-side",
+      "worker": "worker-D-batch4",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "kneeling-reach-up-one",
+      "worker": "worker-D-batch4",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "kneeling-reach",
+      "worker": "worker-D-batch4",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "kneeling-seated-arms-wide",
+      "worker": "worker-D-batch4",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "kneeling-side-stretch",
+      "worker": "worker-D-batch4",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "kneeling-sit-between-heels",
+      "worker": "worker-D-batch4",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "kneeling-tuck-forward",
+      "worker": "worker-D-batch4",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "kneeling-upright-twist",
+      "worker": "worker-B",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "knees-apart-forward",
+      "worker": "worker-B",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "ledge-lean-elbow",
+      "worker": "worker-C-batch3",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "lounger-recline",
+      "worker": "worker-B",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "low-wall-sit",
+      "worker": "worker-C-batch3",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "lowhigh-floor-kneel-hands-overhead-rise",
+      "worker": "pr-v4-audit",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "meditation-palms",
+      "worker": "worker-B",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "mirror-lean",
+      "worker": "worker-C-batch3",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "neck-rest-arm",
+      "worker": "pr-v4-audit",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "one-leg-extend-floor",
+      "worker": "worker-B",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "ottoman-recline",
+      "worker": "worker-B",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p01-master-s10-chair-armrest-sit-hip-leg",
+      "worker": "worker-C",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p01-master-s11-chair-armrest-sit-hair",
+      "worker": "pr-v4-audit",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p01-master-s13-chair-floor-back-against-leg-elevated",
+      "worker": "worker-C",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p01-master-s14-chair-floor-back-against-knees-apart",
+      "worker": "worker-C",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p01-master-s15-chair-floor-back-against-hand-floor",
+      "worker": "worker-C",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p01-master-s17-chair-back-seat-hair-touch",
+      "worker": "worker-C",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p01-master-s2-chair-hand-forehead",
+      "worker": "worker-C",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p01-master-s3-chair-both-knees-bent-hands-clasped",
+      "worker": "worker-C",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p01-master-s4-chair-chin-touch",
+      "worker": "worker-C",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p01-master-s5-chair-hair-touch-hip",
+      "worker": "worker-D",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p01-master-s9-chair-armrest-sit-straight",
+      "worker": "worker-D",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p04-wall-w1-leaning-arm-overhead-facing",
+      "worker": "worker-C-batch3",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p04-wall-w2-leaning-arms-crossed-turned-away",
+      "worker": "worker-C-batch3",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p04-wall-w3-leaning-hip-breast-touch-facing",
+      "worker": "worker-C-batch3",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p04-wall-w4-leaning-sideways-hip-wall-eyes-closed",
+      "worker": "worker-C-batch3",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p04-wall-w5-leaning-hourglass-hands-hips-eyes-closed",
+      "worker": "worker-D-batch3",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p04-wall-w6-back-against-wall-hip-away-eyes-closed",
+      "worker": "worker-D-batch3",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p04-wall-w7-back-against-wall-buttocks-touching-facing",
+      "worker": "worker-D-batch3",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p04-wall-w8-arms-chest-against-wall-back-camera",
+      "worker": "worker-D-batch3",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p04-wall-w9-standing-45-degree-crossed-facing",
+      "worker": "worker-D-batch3",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p08-male-se3-chair-diagonal-lean-leg-extended",
+      "worker": "worker-D",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p08-male-se4-chair-arm-along-back-belt-hand",
+      "worker": "worker-D",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p08-male-se8-floor-lean-bench-legs-extended",
+      "worker": "worker-D",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p10-bench-s1-kneeling-profile-hands-lap",
+      "worker": "worker-D",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p10-bench-s10-recline-legs-up-vertical",
+      "worker": "worker-D",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p10-bench-s2-all-fours-arch-back",
+      "worker": "worker-D",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p10-bench-s4-seated-cross-leg-lean-back",
+      "worker": "worker-D",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p10-bench-s5-side-recline-arm-up",
+      "worker": "worker-A-seated-batch2",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p10-bench-s6-back-view-kneel-lean",
+      "worker": "worker-A-seated-batch2",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p10-bench-s7-standing-drape-fabric",
+      "worker": "worker-A-seated-batch2",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p10-bench-s8-seated-profile-tiptoe",
+      "worker": "worker-A-seated-batch2",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p10-bench-s9-seated-head-tilt-back",
+      "worker": "worker-A-seated-batch2",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p11-armchair-s1-legs-crossed-hands-armrests",
+      "worker": "worker-A-seated-batch2",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p11-armchair-s10-floor-recline-head-on-armrest",
+      "worker": "worker-A-seated-batch2",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p11-armchair-s2-knees-together-lean-side",
+      "worker": "worker-A-seated-batch2",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p11-armchair-s3-recline-legs-extended-diagonal",
+      "worker": "worker-A-seated-batch2",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p11-armchair-s4-one-leg-kicked-up-armrest",
+      "worker": "worker-A-seated-batch2",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p11-armchair-s5-both-legs-over-armrest-smile",
+      "worker": "worker-B-seated-batch2",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p11-armchair-s6-kneeling-back-view-armrest-grip",
+      "worker": "worker-B-seated-batch2",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p11-armchair-s7-lean-back-arm-behind-head",
+      "worker": "worker-B-seated-batch2",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p11-armchair-s8-standing-lean-over-back-profile",
+      "worker": "worker-B-seated-batch2",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p11-armchair-s9-standing-front-hands-armrests",
+      "worker": "worker-B-seated-batch2",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p12-wall-s10-back-view-reach-up",
+      "worker": "worker-D-batch3",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p12-wall-s2-side-lean-hip-pop",
+      "worker": "worker-D-batch3",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p12-wall-s3-forehead-rest",
+      "worker": "worker-D-batch3",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p12-wall-s4-seated-wall-base",
+      "worker": "worker-D-batch3",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p12-wall-s5-profile-hand-wall",
+      "worker": "worker-A-batch4",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p12-wall-s6-back-arch-wall",
+      "worker": "worker-A-batch4",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p12-wall-s7-crouch-wall-base",
+      "worker": "worker-A-batch4",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p12-wall-s8-one-leg-up-wall",
+      "worker": "worker-A-batch4",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p12-wall-s9-side-stretch-wall",
+      "worker": "worker-A-batch4",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p15-chair-s1-thinker-crossed-ankles",
+      "worker": "worker-B-seated-batch2",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p15-chair-s10-twist-both-hands-rail",
+      "worker": "worker-B-seated-batch2",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p15-chair-s2-forward-elbows-knees",
+      "worker": "worker-B-seated-batch2",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p15-chair-s3-side-straddle-back",
+      "worker": "worker-B-seated-batch2",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p15-chair-s4-side-perch-legs-extended",
+      "worker": "worker-B-seated-batch2",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p15-chair-s5-side-saddle-look-back",
+      "worker": "worker-C-seated-batch2",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p15-chair-s6-one-leg-up-chair",
+      "worker": "worker-C-seated-batch2",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p15-chair-s7-recline-arms-overhead",
+      "worker": "worker-C-seated-batch2",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p15-chair-s8-profile-cross-legged",
+      "worker": "worker-C-seated-batch2",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p15-chair-s9-arch-back-hands-behind",
+      "worker": "worker-C-seated-batch2",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p17-tubes-s1-reclined-across-tubes",
+      "worker": "worker-C-seated-batch2",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p17-tubes-s10-seated-knees-hugged-chin-rest",
+      "worker": "worker-C-seated-batch2",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p17-tubes-s2-seated-lean-back-hands-support",
+      "worker": "worker-C-seated-batch2",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p17-tubes-s3-kneeling-arch-over-tube",
+      "worker": "worker-C-seated-batch2",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p17-tubes-s4-standing-lean-one-leg-on-tube",
+      "worker": "worker-C-seated-batch2",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p17-tubes-s5-seated-legs-open-hands-back",
+      "worker": "worker-D-seated-batch2",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p17-tubes-s6-side-sit-twist-look-back",
+      "worker": "worker-D-seated-batch2",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p17-tubes-s7-kneel-drape-tall-tube-leg-back",
+      "worker": "worker-D-seated-batch2",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p17-tubes-s8-seated-foot-on-second-tube",
+      "worker": "worker-D-seated-batch2",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p17-tubes-s9-seated-hand-hair-leg-back",
+      "worker": "worker-D-seated-batch2",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "p18-lounge-r5-back-lying-arms-overhead",
+      "worker": "pr-v4-audit",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "perch-edge",
+      "worker": "worker-D-seated-batch2",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "pillar-wrap",
+      "worker": "worker-A-batch4",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "railing-lean",
+      "worker": "worker-A-batch4",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "seated-hug-pillow",
+      "worker": "worker-D-seated-batch2",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "seated-v-stretch",
+      "worker": "worker-D-seated-batch2",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "shoulder-drop",
+      "worker": "pr-v4-audit",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "shoulder-wall",
+      "worker": "worker-A-batch4",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "side-saddle",
+      "worker": "worker-D-seated-batch2",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "side-straddle",
+      "worker": "worker-D-seated-batch2",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "soft-sit",
+      "worker": "worker-A-batch3",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "squat-lean",
+      "worker": "worker-A-batch4",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "step-lean",
+      "worker": "worker-B-batch4",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "stool-lean-back",
+      "worker": "worker-A-batch3",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "swivel-twist",
+      "worker": "worker-A-batch3",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "tabletop-sit",
+      "worker": "worker-A-batch3",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "throne-sit",
+      "worker": "worker-A-batch3",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "tree-lean",
+      "worker": "worker-B-batch4",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "two-hands-wall",
+      "worker": "worker-B-batch4",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "wall-lean",
+      "worker": "worker-B-batch4",
+      "reason": "source config changed since proposal"
+    },
+    {
+      "pose_id": "window-seat",
+      "worker": "worker-A-batch3",
+      "reason": "source config changed since proposal"
+    }
+  ]
+}

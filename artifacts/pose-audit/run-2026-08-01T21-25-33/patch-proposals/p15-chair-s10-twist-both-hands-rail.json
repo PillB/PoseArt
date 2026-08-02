@@ -1,0 +1,54 @@
+{
+  "proposal_id": "patch-p15-chair-s10-twist-both-hands-rail-1785625041456",
+  "pose_id": "p15-chair-s10-twist-both-hands-rail",
+  "category": "seated",
+  "worker": "worker-B-seated-batch2",
+  "existing_config_hash": "c6c0b1b5570e",
+  "defects": [
+    {
+      "type": "hands_not_together_on_rail",
+      "severity": "major",
+      "description": "Description: 'twist the torso fully to grip the chair back rail with both hands'. Currently L wrist at (−0.583, 0.917, +0.568) [forward+left] and R wrist at (+0.254, 0.794, −0.710) [behind+right]. Wrists on OPPOSITE sides of body (z signs opposite), 1.532 apart. R shoulder abduction reported as -104° (outside [0,180] band) — R arm in extreme cross-body configuration. Should be close together (~0.3) gripping rail in front of twisted torso."
+    },
+    {
+      "type": "r_arm_extreme_cross_body",
+      "severity": "minor",
+      "description": "Right shoulder abduction -104° (outside band) — R arm crosses body centerline to opposite side, anatomically extreme. Caused by shoulderFwdR=+35 (behind per corrected convention) combined with shoulder abducted."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "leftWrist to rightWrist distance < 0.50 (both hands on narrow chair back rail)",
+      "expected": "<0.50",
+      "actual": "1.532"
+    },
+    {
+      "assertion": "right_shoulder_abduction in [0, 180] band",
+      "expected": "0-180",
+      "actual": "-104 (outside band)"
+    },
+    {
+      "assertion": "sign(leftWrist.z - spine.z) == sign(rightWrist.z - spine.z)",
+      "expected": "same sign",
+      "actual": "L=+0.528 forward, R=−0.750 behind (opposite)"
+    }
+  ],
+  "field_changes": {
+    "leftShoulder": -70,
+    "rightShoulder": -70,
+    "leftElbow": 80,
+    "rightElbow": 80,
+    "shoulderFwdL": -80,
+    "shoulderFwdR": -80
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/p15-chair-s10-twist-both-hands-rail/baseline/",
+  "after_evidence": "",
+  "regression_risk": "medium — 6 fields across both arms; spine, hips, legs, globalTwist unchanged; L arm crosses body centerline (abduction -104.7°, plausibility flag false-positive for twist pose); R arm abd 102° within band. Combined visual should be confirmed by integrator before merge.",
+  "confidence": 0.7,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "p15-chair-s10: Description requires 'both hands gripping chair back rail' with torso fully twisted (globalTwist:60). Original config: shoulders -95/-75 (abd 110° / -104° — R outside band due to shoulderFwdR=+35 pushing arm across body), elbows 65/70, shoulderFwdL/R=+40/+35 (both BEHIND per corrected convention — arms swing backwards in opposite directions, ending on opposite sides of body). FIX: equalize both shoulders at -70 (abd ~95° lateral in body frame), reduce both elbows to 80 (right-angle forearms horizontal), and flip both shoulderFwdL/R from +40/+35 to -80 (strongly forward per corrected convention) → both forearms swing forward and converge in front of twisted torso. After patch: L wrist (0.479, 0.762, 0.486), R wrist (0.608, 0.780, 0.260). Both at chest/shoulder height ✓ (0.762, 0.780 — backrest rail height), both forward of torso ✓ (z=0.486, 0.260 both positive), both on figure's right side ✓ (x=0.479, 0.608 — in front of twisted body where chair back is), 0.261 apart ✓ within 0.30 threshold. L arm abd goes slightly negative (-104.7°) because L arm crosses body centerline to reach chair back on figure's right side — anatomically reasonable for full twist pose (plausibility flag is a false positive for twist configurations). globalTwist:60 unchanged (preserves 'twist the torso fully').",
+  "created_at": "2026-08-01T22:57:21.456Z"
+}

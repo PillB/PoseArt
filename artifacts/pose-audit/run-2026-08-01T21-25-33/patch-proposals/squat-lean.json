@@ -1,0 +1,57 @@
+{
+  "proposal_id": "patch-squat-lean-1785630156478",
+  "pose_id": "squat-lean",
+  "category": "leaning",
+  "worker": "worker-A-batch4",
+  "existing_config_hash": "e6a6a3f7eece",
+  "defects": [
+    {
+      "type": "balance_failure",
+      "severity": "major",
+      "description": "Figure FLOATING — feet at y=+0.328 (chest level), not on ground. Description: \"Lean the back against the wall and lower into a partial squat\". Without globalTilt, body remains upright at standing height with legs folded up (feet elevated). Balance section confirms floating=true. Need globalTilt to recline back against wall and lower body into squat."
+    },
+    {
+      "type": "asymmetric_arms",
+      "severity": "major",
+      "description": "Arms asymmetric: leftElbow=80°, rightElbow=20°. Description says \"Rest BOTH forearms loosely on the thighs\". Asymmetric elbow bends produce asymmetric forearm rest. Right arm too straight to rest forearm on thigh."
+    },
+    {
+      "type": "contact_failure",
+      "severity": "major",
+      "description": "Forearm-to-thigh contact not achieved. shoulderFwdL=-1, shoulderFwdR=-5 (near-zero forward) — arms hang at sides, not reaching forward to rest on thighs. Wrists at x=±0.5 (out to sides), thighs at x=±0.13 — wrists 0.4m lateral of thighs. For forearm-on-thigh, shoulders must flex forward (shoulderFwd negative) so elbows come forward over thighs."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "feet_min_y < -0.6",
+      "expected": "<-0.6 (feet near ground for squat)",
+      "actual": "+0.328 (feet elevated, floating)"
+    },
+    {
+      "assertion": "leftElbow === rightElbow",
+      "expected": "symmetric elbow bend for both forearms on thighs",
+      "actual": "leftElbow=80, rightElbow=20 (asymmetric)"
+    },
+    {
+      "assertion": "leftWrist.x > -0.20",
+      "expected": ">-0.20 (wrist on thigh, x near ±0.13)",
+      "actual": "-0.332 (wrist 20cm lateral of thigh)"
+    }
+  ],
+  "field_changes": {
+    "globalTilt": -25,
+    "rightElbow": 80,
+    "shoulderFwdL": -25,
+    "shoulderFwdR": -25
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/leaning/squat-lean/baseline/",
+  "after_evidence": "",
+  "regression_risk": "medium — 4 fields, single-pose. globalTilt:-25 reclines whole body back against wall (lowers hips toward squat). Without rendering verification, exact foot position after tilt is uncertain — may still be slightly elevated. rightElbow:20→80 matches left for symmetric forearm rest. shoulderFwdL/R:-25 swings arms forward over thighs. spine:-12 preserved (back arch against wall ✓). leftHip/rightHip:60 preserved (thigh forward for squat). leftKnee/rightKnee:90 preserved (right-angle bend ✓).",
+  "confidence": 0.65,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Description: \"Lean the back against the wall and lower into a partial squat, knees tracking directly over the toes. Rest both forearms loosely on the thighs\". Cron-round-9 correctly fixed spine 12→-12 (back arch), but the figure still floats because no globalTilt is set. globalTilt:0→-25 reclines body backward (CORRECTED CONVENTION: -90=supine, so -25 = partial recline back against wall), lowering hips into partial squat and bringing feet toward ground. rightElbow:20→80 matches leftElbow:80 for symmetric forearm rest on both thighs. shoulderFwdL/R:0/-5 → -25 swings upper arms forward so elbows come over thighs, allowing forearms to rest on thigh surface (CORRECTED CONVENTION: shoulderFwd - = FORWARD). Together these bring forearms from sides (x=±0.5) to over thighs (x=±0.13). Note: full ground-contact verification requires rendering; proposed values are best-estimate FK projections.",
+  "created_at": "2026-08-02T00:22:36.478Z"
+}

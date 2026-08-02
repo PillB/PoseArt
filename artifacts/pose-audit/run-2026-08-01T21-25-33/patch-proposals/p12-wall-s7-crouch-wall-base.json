@@ -1,0 +1,45 @@
+{
+  "proposal_id": "patch-p12-wall-s7-crouch-wall-base-1785630068321",
+  "pose_id": "p12-wall-s7-crouch-wall-base",
+  "category": "leaning",
+  "worker": "worker-A-batch4",
+  "existing_config_hash": "81bdbf3bd37e",
+  "defects": [
+    {
+      "type": "sign_error",
+      "severity": "major",
+      "description": "shoulderFwdL/R=+12/+20 (arms extended BEHIND body) but description says \"Wrap arms around the knees or hold a piece of fabric/wrap close to the body\". Arms should wrap FORWARD toward knees, not extend backward. CORRECTED CONVENTION: shoulderFwd + = BEHIND. Wrists currently at x=±0.55 (wide out to sides), y=0.32 — nowhere near knee position (knees at y=0.443, x=±0.04)."
+    },
+    {
+      "type": "contact_failure",
+      "severity": "major",
+      "description": "Arm-to-knee wrap contact not achieved. Knees at y=0.443 (close together at x=±0.04). Wrists at y=0.32 (below knees) and x=±0.55 (far out to sides). Wrists 0.5m laterally from knees — no wrap geometry."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "distance(leftWrist, leftKnee) < 0.20",
+      "expected": "<0.20 (hand wraps around knee)",
+      "actual": "~0.60 (wrist far out to side at x=-0.518, knee at x=-0.041)"
+    },
+    {
+      "assertion": "shoulderFwdL < 0",
+      "expected": "<0 (arms forward for wrap)",
+      "actual": "+12 (arms extended behind)"
+    }
+  ],
+  "field_changes": {
+    "shoulderFwdL": -50,
+    "shoulderFwdR": -50
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/leaning/p12-wall-s7-crouch-wall-base/baseline/",
+  "after_evidence": "",
+  "regression_risk": "low — 2 fields, single-pose. Both shoulders swing forward, allowing elbows to fold forearms toward knees for wrap. leftShoulder:-40, rightShoulder:-45 preserved (moderate abduction). leftElbow/rightElbow:100 preserved (deep bend for wrap fold). spine=-15 preserved (back arch against wall). globalTilt:-55 preserved (reclined crouch). No leg changes.",
+  "confidence": 0.78,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "CORRECTED CONVENTION: shoulderFwdL/R + = BEHIND, - = FORWARD. Description: \"Wrap arms around the knees OR hold a piece of fabric/wrap close to the body\" — either way, arms must come FORWARD toward knees (not extend backward). Current shoulderFwdL/R=+12/+20 (behind) puts wrists at z=-0.167/-0.236 (behind body) and x=±0.55 (wide out) — opposite of wrap intent. Setting shoulderFwdL/R=-50 swings upper arms forward; combined with abducted shoulders (-40/-45) and deeply bent elbows (100°), forearms fold forward-inward to wrap around knees (knees at y=0.443, x=±0.04). PR-v9 audit missed this — description does not use verbatim \"arms forward\" keyword.",
+  "created_at": "2026-08-02T00:21:08.321Z"
+}

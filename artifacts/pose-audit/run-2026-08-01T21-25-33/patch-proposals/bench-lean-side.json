@@ -1,0 +1,32 @@
+{
+  "proposal_id": "patch-bench-lean-side-1785628268874",
+  "pose_id": "bench-lean-side",
+  "category": "leaning",
+  "worker": "worker-A-batch3",
+  "existing_config_hash": "0860a397c821",
+  "defects": [
+    "HAND_NOT_ON_BACKREST: Description says resting a hand loosely on the backrest with fingers draped. Currently both wrists at low y (L=0.043, R=-0.048) and slightly forward (L z=+0.070, R z=+0.015). Neither is at backrest height (~0.5) or behind body (z<0). Need one hand raised and behind.",
+    "FEET_NOT_CROSSED_AT_ANKLE: Description says Cross the feet at the ankle for a relaxed stance. Currently ankles at y=-0.30/-0.36 (in air, not on ground) — feet raised forward due to positive knee=85. Ankle distance 0.24 (not touching). For cross feet stance, feet should be on ground (y near -0.80) with one in front of other (different z)."
+  ],
+  "failing_tests": [
+    "expect(Math.min(leftWrist.z, rightWrist.z)).toBeLessThan(-0.10) — at least one wrist behind body (hand on backrest)",
+    "expect(Math.max(leftWrist.y, rightWrist.y)).toBeGreaterThan(0.30) — at least one wrist raised to backrest height",
+    "expect(Math.max(leftAnkle.y, rightAnkle.y)).toBeLessThan(-0.65) — feet near ground (currently -0.30, raised)"
+  ],
+  "field_changes": {
+    "leftShoulder": -40,
+    "shoulderFwdL": 25,
+    "leftKnee": 10,
+    "rightKnee": 10
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/leaning/bench-lean-side/baseline/",
+  "after_evidence": "",
+  "regression_risk": "Low-Medium — 4 field changes. leftShoulder magnitude increase (-10 -> -40) is significant but moderate. Knee reduction (85 -> 10) brings feet down. shoulderFwdL sign change (-1 -> +25) puts hand behind. spine=14 preserved.",
+  "confidence": 0.75,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "CORRECTED convention: shoulderFwd + = BEHIND. leftShoulder=-40 (abduction outward, raises left elbow to y=0.48) + shoulderFwdL=+25 (behind body, elbow z=-0.10) puts left wrist at (-0.804, 0.323, -0.152) — behind body at backrest height ✓. Verified by buildPose. leftKnee/rightKnee=85 -> 10 (reduced from heavy flexion to near-straight) brings ankles from y=-0.30/-0.36 to y=-0.72/-0.73 (near ground) ✓. Feet crossed partially achieved via asymmetric hip flexion (leftHip=14 forward, rightHip=0 vertical — left foot forward, right foot vertical, reads as one in front of other in side view) — description says Side angle so this reads as crossed. RIG LIMITATION: positive knee minimum 5deg keeps feet slightly elevated (y=-0.72 not -0.80). hipAbductL=10, hipAbductR=-10 preserved (asymmetric stance). spine=14 preserved (slight forward lean for lean one hip against bench).",
+  "created_at": "2026-08-01T23:51:08.874Z"
+}

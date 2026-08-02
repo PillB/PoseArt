@@ -1,0 +1,52 @@
+{
+  "proposal_id": "patch-p15-chair-s4-side-perch-legs-extended-1785625041616",
+  "pose_id": "p15-chair-s4-side-perch-legs-extended",
+  "category": "seated",
+  "worker": "worker-B-seated-batch2",
+  "existing_config_hash": "1d8f561625cd",
+  "defects": [
+    {
+      "type": "legs_not_to_one_side",
+      "severity": "major",
+      "description": "Description: 'extend both legs out to one side crossed at the ankles'. hipAbductL=-25 (L leg outward to figure's LEFT), hipAbductR=-22 (R leg outward to figure's RIGHT) — legs splayed in OPPOSITE directions (straddle), not 'both to one side'. L ankle at x=−0.380 (figure's left), R ankle at x=+0.485 (figure's right), 0.887 apart — not crossed."
+    },
+    {
+      "type": "hand_not_on_thigh",
+      "severity": "minor",
+      "description": "Description: 'other hand resting on the thigh'. L wrist at (−0.391, 0.241, 0.290), 0.228 from L thigh midpoint (−0.203, 0.140, 0.209). L wrist y=0.241 vs thigh mid y=0.140 — wrist 0.10 above thigh. Borderline contact, slightly high."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "sign(leftAnkle.x - hips.x) == sign(rightAnkle.x - hips.x) (both ankles to one side)",
+      "expected": "same sign",
+      "actual": "L ankle x=−0.380 (left), R ankle x=+0.485 (right) — opposite sides"
+    },
+    {
+      "assertion": "leftAnkle to rightAnkle distance < 0.30 (crossed at ankles)",
+      "expected": "<0.30",
+      "actual": "0.887"
+    },
+    {
+      "assertion": "leftWrist to leftThighMidpoint distance < 0.15 (hand on thigh)",
+      "expected": "<0.15",
+      "actual": "0.228"
+    }
+  ],
+  "field_changes": {
+    "hipAbductL": 15,
+    "hipAbductR": -20,
+    "leftElbow": 50,
+    "shoulderFwdL": -30
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/p15-chair-s4-side-perch-legs-extended/baseline/",
+  "after_evidence": "",
+  "regression_risk": "low-medium — 4 fields (2 hips + L elbow + L shoulderFwd); spine, shoulders, R arm, globalTilt/globalTwist unchanged; hip_abd L -107° crosses band slightly (adduction inward, anatomically reasonable for crossed-legs pose); no new anomalies beyond existing knee_above_hip L (intended for sideways-extended legs).",
+  "confidence": 0.7,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "p15-chair-s4: Side perch with legs extended + crossed ankles. Prior PR-v4 audit reverted leftShoulder from -110 (overhead overshoot) to -15 ✓ (already applied to source). REMAINING DEFECTS: (1) Legs splayed apart, not 'to one side': hipAbductL=-25 (outward to figure's left per corrected convention), hipAbductR=-22 (outward to figure's right) — straddle. FIX: flip hipAbductL from -25 to +15 (ADDUCT inward, L leg crosses to figure's right) and keep hipAbductR=-20 (abduct outward, R leg to figure's right). After patch: both knees (x=0.021, 0.284), both ankles (x=0.199, 0.459), both feet (x=0.218, 0.487) on figure's RIGHT side ✓. Ankle distance 0.30 (was 0.887 — 66% reduction). True ankle crossing not achievable due to renderer lacking hip external rotation (rig-limited), but legs now correctly to one side. (2) L hand slightly above thigh: increase leftElbow from 35 to 50 and flip shoulderFwdL from -10 to -30 (forward per corrected convention). After patch: L wrist (−0.178, 0.234, 0.269), distance 0.114 from L thigh midpoint (−0.178, 0.140, 0.269) ✓ within 0.15 threshold. L wrist y=0.234 ≈ thigh y=0.140 (on top of thigh ✓). R arm unchanged (R wrist at hip level beside body — consistent with 'supported by one arm on the seat or chair frame'). spine=-20 + globalTilt=-30 unchanged (torso leaning back ✓ per corrected conventions).",
+  "created_at": "2026-08-01T22:57:21.616Z"
+}

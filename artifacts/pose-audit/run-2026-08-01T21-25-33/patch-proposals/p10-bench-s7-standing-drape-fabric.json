@@ -1,0 +1,48 @@
+{
+  "proposal_id": "patch-p10-bench-s7-standing-drape-fabric-1785625372282",
+  "pose_id": "p10-bench-s7-standing-drape-fabric",
+  "category": "seated",
+  "worker": "worker-A-seated-batch2",
+  "existing_config_hash": "262bd66f5e1e",
+  "defects": [
+    {
+      "type": "arms_overhead_unintended_pr_v4_overshoot",
+      "severity": "critical",
+      "description": "Description: 'Drape a length of fabric or a blanket loosely around the body with both hands' — arms should be at chest/shoulder level with hands together in front. But config has BOTH shoulders at -110 (PR-v4 'too-subtle → scale magnitudes' overshoot), producing full overhead abduction (L 178°, R 129°). Hands at y=1.18 — way above head. This is the cross-ankle-sit / shoulder-drop class PR-v4 overshoot defect, but the PR-v4 audit (round 3) MISSED this pose because it's classified 'seated' despite the 'standing' name. No 'raise arms overhead' / 'reach up' phrasing in description."
+    },
+    {
+      "type": "head_pitched_forward_not_back",
+      "severity": "major",
+      "description": "Description: 'tilt the head back slightly to look upward off-camera'. Derived head_pitch=+20° (forward). Renderer has no neck pitch joint, so head pitch comes from spine + globalTilt. spine:10 (forward) contradicts 'head back'."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "shoulder_abduction < 90 for draping_fabric",
+      "expected": "<90° (arms at chest/shoulder height)",
+      "actual": "L 178°, R 129° (both fully overhead)"
+    },
+    {
+      "assertion": "head_pitch <= 0 (slight backward tilt for 'look up')",
+      "expected": "<= 0°",
+      "actual": "+20.2° (forward)"
+    }
+  ],
+  "field_changes": {
+    "leftShoulder": -30,
+    "rightShoulder": -30,
+    "shoulderFwdL": -30,
+    "shoulderFwdR": -30,
+    "spine": -10
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/p10-bench-s7-standing-drape-fabric/baseline/",
+  "after_evidence": "",
+  "regression_risk": "medium — 5-field change. Anomalies 2→0 (cleared elbow_above_shoulder because arms no longer overhead). Plausibility 1→1 (right_shoulder_abduction measurement artifact — the convention-mismatch reads negative abduction as 'out of band'). Torso lateral lean increases -2°→+16° as a side effect of spine change under globalTwist — acceptable for a fashion draping pose.",
+  "confidence": 0.7,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "PR-v4 overshoot fix: shoulders -110→-30 (abduction 178/129→58/-24, arms out at shoulder height for draping). shoulderFwdL/R 10/25→-30/-30 (forward per corrected convention: + = BEHIND, - = FORWARD; brings hands together in front of body for 'draping fabric around body with both hands'). Wrists y: 1.18→0.26 (chest level, between hip 0.119 and shoulder 0.678). spine 10→-10 (sign flip — slight back arch to pitch head backward; head_pitch 20°→11°, reduced forward pitch; renderer has no neck pitch joint so spine is the only lever, and the globalTwist:-60 (profile) means spine rotation has a lateral component — head_roll also increases 9°→27° as side effect, but the primary head-back intent is partially achieved). Note: 'tilt head back SLIGHTLY' is a minor claim; primary defect is the arms overhead. Did NOT change globalTwist (preserves 'profile' intent of standing beside bench).",
+  "created_at": "2026-08-01T23:02:52.282Z"
+}

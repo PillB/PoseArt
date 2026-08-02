@@ -1,0 +1,4375 @@
+[
+  {
+    "id": "power-stance",
+    "cat": "standing",
+    "name": "Power Stance",
+    "kws": [
+      "power",
+      "stance"
+    ],
+    "found": [],
+    "missing": [
+      "power",
+      "stance"
+    ],
+    "ratio": 0,
+    "instr": "Plant feet shoulder-width apart with weight split evenly between both heels. Rol"
+  },
+  {
+    "id": "model-walk",
+    "cat": "standing",
+    "name": "Model Walk",
+    "kws": [
+      "model",
+      "walk"
+    ],
+    "found": [],
+    "missing": [
+      "model",
+      "walk"
+    ],
+    "ratio": 0,
+    "instr": "Catch yourself mid-stride with the front knee extended and heel just touching do"
+  },
+  {
+    "id": "prayer-hands",
+    "cat": "standing",
+    "name": "Prayer Hands",
+    "kws": [
+      "prayer",
+      "hands"
+    ],
+    "found": [],
+    "missing": [
+      "prayer",
+      "hands"
+    ],
+    "ratio": 0,
+    "instr": "Center the body and press both palms together at sternum height, elbows floating"
+  },
+  {
+    "id": "window-seat",
+    "cat": "seated",
+    "name": "Window Seat",
+    "kws": [
+      "window",
+      "seat"
+    ],
+    "found": [],
+    "missing": [
+      "window",
+      "seat"
+    ],
+    "ratio": 0,
+    "instr": "Draw both knees up toward the chest and wrap both arms around the shins, interla"
+  },
+  {
+    "id": "seated-v-stretch",
+    "cat": "seated",
+    "name": "Seated V Stretch",
+    "kws": [
+      "seated",
+      "stretch"
+    ],
+    "found": [],
+    "missing": [
+      "seated",
+      "stretch"
+    ],
+    "ratio": 0,
+    "instr": "Sit on the floor and open both legs into a wide V. Lead with the chest as you le"
+  },
+  {
+    "id": "two-hands-wall",
+    "cat": "leaning",
+    "name": "Two Hands Wall",
+    "kws": [
+      "two",
+      "hands",
+      "wall"
+    ],
+    "found": [
+      "wall"
+    ],
+    "missing": [
+      "two",
+      "hands"
+    ],
+    "ratio": 0.3333333333333333,
+    "instr": "Face the wall directly and press both palms flat against it at shoulder height, "
+  },
+  {
+    "id": "slump-back-chair",
+    "cat": "lean-seat",
+    "name": "Slump Back Chair",
+    "kws": [
+      "slump",
+      "back",
+      "chair"
+    ],
+    "found": [
+      "back"
+    ],
+    "missing": [
+      "slump",
+      "chair"
+    ],
+    "ratio": 0.3333333333333333,
+    "instr": "Sit and let the body sink into a controlled, intentional slouch, chest still sli"
+  },
+  {
+    "id": "reading-position",
+    "cat": "lean-seat",
+    "name": "Reading Position",
+    "kws": [
+      "reading",
+      "position"
+    ],
+    "found": [],
+    "missing": [
+      "reading",
+      "position"
+    ],
+    "ratio": 0,
+    "instr": "Sit comfortably holding a book or object in both hands, elbows resting on the kn"
+  },
+  {
+    "id": "kneeling-reach",
+    "cat": "kneeling",
+    "name": "Kneeling Reach",
+    "kws": [
+      "kneeling",
+      "reach"
+    ],
+    "found": [],
+    "missing": [
+      "kneeling",
+      "reach"
+    ],
+    "ratio": 0,
+    "instr": "Sit back gently onto the heels with knees together and both hands folded in the "
+  },
+  {
+    "id": "prayer-kneeling",
+    "cat": "kneeling",
+    "name": "Prayer Kneeling",
+    "kws": [
+      "prayer",
+      "kneeling"
+    ],
+    "found": [],
+    "missing": [
+      "prayer",
+      "kneeling"
+    ],
+    "ratio": 0,
+    "instr": "From one knee down, extend the opposite arm dramatically forward, reaching from "
+  },
+  {
+    "id": "kneeling-back-arch",
+    "cat": "kneeling",
+    "name": "Kneeling Back Arch",
+    "kws": [
+      "kneeling",
+      "back",
+      "arch"
+    ],
+    "found": [
+      "back"
+    ],
+    "missing": [
+      "kneeling",
+      "arch"
+    ],
+    "ratio": 0.3333333333333333,
+    "instr": "Kneel with both knees down and press both palms together at chest height. Sit sl"
+  },
+  {
+    "id": "one-knee-look-up",
+    "cat": "kneeling",
+    "name": "One Knee Look Up",
+    "kws": [
+      "one",
+      "knee",
+      "look"
+    ],
+    "found": [
+      "knee"
+    ],
+    "missing": [
+      "one",
+      "look"
+    ],
+    "ratio": 0.3333333333333333,
+    "instr": "Kneel upright with both knees down, engage the core, then arch the spine backwar"
+  },
+  {
+    "id": "kneeling-reach-side",
+    "cat": "kneeling",
+    "name": "Kneeling Reach Side",
+    "kws": [
+      "kneeling",
+      "reach",
+      "side"
+    ],
+    "found": [],
+    "missing": [
+      "kneeling",
+      "reach",
+      "side"
+    ],
+    "ratio": 0,
+    "instr": "Kneel on one knee with the other foot planted flat in front, then tilt the chin "
+  },
+  {
+    "id": "kneeling-arms-crossed",
+    "cat": "kneeling",
+    "name": "Kneeling Arms Crossed",
+    "kws": [
+      "kneeling",
+      "arms",
+      "crossed"
+    ],
+    "found": [
+      "kneeling"
+    ],
+    "missing": [
+      "arms",
+      "crossed"
+    ],
+    "ratio": 0.3333333333333333,
+    "instr": "From a one-knee kneeling base, extend one arm out to the side at shoulder height"
+  },
+  {
+    "id": "kneeling-hand-floor",
+    "cat": "kneeling",
+    "name": "Kneeling Hand Floor",
+    "kws": [
+      "kneeling",
+      "hand",
+      "floor"
+    ],
+    "found": [],
+    "missing": [
+      "kneeling",
+      "hand",
+      "floor"
+    ],
+    "ratio": 0,
+    "instr": "Kneel with both knees down, sitting upright, and cross both arms loosely over th"
+  },
+  {
+    "id": "both-knees-arms-up",
+    "cat": "kneeling",
+    "name": "Both Knees Arms Up",
+    "kws": [
+      "both",
+      "knees",
+      "arms"
+    ],
+    "found": [],
+    "missing": [
+      "both",
+      "knees",
+      "arms"
+    ],
+    "ratio": 0,
+    "instr": "Kneel upright in full profile to camera, hands resting on the thighs. Lift the c"
+  },
+  {
+    "id": "kneeling-sit-between-heels",
+    "cat": "kneeling",
+    "name": "Sit Between Heels",
+    "kws": [
+      "between",
+      "heels"
+    ],
+    "found": [],
+    "missing": [
+      "between",
+      "heels"
+    ],
+    "ratio": 0,
+    "instr": "Kneel with both knees down and raise both arms straight overhead in a wide V, ch"
+  },
+  {
+    "id": "kneeling-side-stretch",
+    "cat": "kneeling",
+    "name": "Kneeling Side Stretch",
+    "kws": [
+      "kneeling",
+      "side",
+      "stretch"
+    ],
+    "found": [],
+    "missing": [
+      "kneeling",
+      "side",
+      "stretch"
+    ],
+    "ratio": 0,
+    "instr": "Kneel and lower the seat down between the heels rather than onto them, knees spr"
+  },
+  {
+    "id": "kneeling-look-back",
+    "cat": "kneeling",
+    "name": "Kneeling Look Back",
+    "kws": [
+      "kneeling",
+      "look",
+      "back"
+    ],
+    "found": [],
+    "missing": [
+      "kneeling",
+      "look",
+      "back"
+    ],
+    "ratio": 0,
+    "instr": "Kneel upright and reach one arm overhead, bending the torso sideways over the op"
+  },
+  {
+    "id": "kneeling-prayer-up",
+    "cat": "kneeling",
+    "name": "Kneeling Prayer Up",
+    "kws": [
+      "kneeling",
+      "prayer"
+    ],
+    "found": [],
+    "missing": [
+      "kneeling",
+      "prayer"
+    ],
+    "ratio": 0,
+    "instr": "Kneel facing away from camera, then twist the ribcage and turn the head back ove"
+  },
+  {
+    "id": "kneeling-dragon",
+    "cat": "kneeling",
+    "name": "Kneeling Dragon",
+    "kws": [
+      "kneeling",
+      "dragon"
+    ],
+    "found": [],
+    "missing": [
+      "kneeling",
+      "dragon"
+    ],
+    "ratio": 0,
+    "instr": "Kneel and press both palms together, then raise the joined hands high overhead r"
+  },
+  {
+    "id": "kneeling-hug",
+    "cat": "kneeling",
+    "name": "Kneeling Hug",
+    "kws": [
+      "kneeling",
+      "hug"
+    ],
+    "found": [],
+    "missing": [
+      "kneeling",
+      "hug"
+    ],
+    "ratio": 0,
+    "instr": "From a low lunge with one knee down, sweep the back leg up and hold the ankle wi"
+  },
+  {
+    "id": "kneeling-twist-back",
+    "cat": "kneeling",
+    "name": "Kneeling Twist Back",
+    "kws": [
+      "kneeling",
+      "twist",
+      "back"
+    ],
+    "found": [
+      "back"
+    ],
+    "missing": [
+      "kneeling",
+      "twist"
+    ],
+    "ratio": 0.3333333333333333,
+    "instr": "Kneel back onto the heels and wrap both arms around the torso in a self-hug, sho"
+  },
+  {
+    "id": "kneeling-forearm-floor",
+    "cat": "kneeling",
+    "name": "Kneeling Forearm Floor",
+    "kws": [
+      "kneeling",
+      "forearm",
+      "floor"
+    ],
+    "found": [
+      "floor"
+    ],
+    "missing": [
+      "kneeling",
+      "forearm"
+    ],
+    "ratio": 0.3333333333333333,
+    "instr": "Kneel upright and rotate the torso fully to one side, reaching the trailing arm "
+  },
+  {
+    "id": "kneeling-reach-up-one",
+    "cat": "kneeling",
+    "name": "Kneeling Reach Up One",
+    "kws": [
+      "kneeling",
+      "reach",
+      "one"
+    ],
+    "found": [],
+    "missing": [
+      "kneeling",
+      "reach",
+      "one"
+    ],
+    "ratio": 0,
+    "instr": "Kneel and lower onto both forearms in front of you, hips still lifted off the he"
+  },
+  {
+    "id": "kneeling-seated-arms-wide",
+    "cat": "kneeling",
+    "name": "Kneeling Seated Arms Wide",
+    "kws": [
+      "kneeling",
+      "seated",
+      "arms",
+      "wide"
+    ],
+    "found": [
+      "kneeling"
+    ],
+    "missing": [
+      "seated",
+      "arms",
+      "wide"
+    ],
+    "ratio": 0.25,
+    "instr": "Kneel on one knee and extend the opposite arm straight overhead, fingers reachin"
+  },
+  {
+    "id": "kneeling-crouch",
+    "cat": "kneeling",
+    "name": "Kneeling Crouch",
+    "kws": [
+      "kneeling",
+      "crouch"
+    ],
+    "found": [],
+    "missing": [
+      "kneeling",
+      "crouch"
+    ],
+    "ratio": 0,
+    "instr": "Sit back on the heels and open both arms wide to the sides at shoulder height, p"
+  },
+  {
+    "id": "kneeling-tuck-forward",
+    "cat": "kneeling",
+    "name": "Kneeling Tuck Forward",
+    "kws": [
+      "kneeling",
+      "tuck",
+      "forward"
+    ],
+    "found": [],
+    "missing": [
+      "kneeling",
+      "tuck",
+      "forward"
+    ],
+    "ratio": 0,
+    "instr": "Drop into a low crouch with one knee nearly touching the ground and the other fo"
+  },
+  {
+    "id": "kneeling-lean-hands-floor",
+    "cat": "kneeling",
+    "name": "Kneeling Lean Hands Floor",
+    "kws": [
+      "kneeling",
+      "lean",
+      "hands",
+      "floor"
+    ],
+    "found": [
+      "floor"
+    ],
+    "missing": [
+      "kneeling",
+      "lean",
+      "hands"
+    ],
+    "ratio": 0.25,
+    "instr": "Kneel and fold the torso forward over the thighs, extending both arms fully alon"
+  },
+  {
+    "id": "kneeling-chest-open",
+    "cat": "kneeling",
+    "name": "Kneeling Chest Open",
+    "kws": [
+      "kneeling",
+      "chest",
+      "open"
+    ],
+    "found": [],
+    "missing": [
+      "kneeling",
+      "chest",
+      "open"
+    ],
+    "ratio": 0,
+    "instr": "Kneel and lean forward onto both hands flat on the floor, hips lifted slightly o"
+  },
+  {
+    "id": "kneeling-bow",
+    "cat": "kneeling",
+    "name": "Kneeling Bow",
+    "kws": [
+      "kneeling",
+      "bow"
+    ],
+    "found": [],
+    "missing": [
+      "kneeling",
+      "bow"
+    ],
+    "ratio": 0,
+    "instr": "Kneel upright and draw both shoulder blades together, opening the chest wide wit"
+  },
+  {
+    "id": "kneeling-crossed-arms-look-side",
+    "cat": "kneeling",
+    "name": "Kneeling Crossed Arms Look Side",
+    "kws": [
+      "kneeling",
+      "crossed",
+      "arms",
+      "look",
+      "side"
+    ],
+    "found": [
+      "arms"
+    ],
+    "missing": [
+      "kneeling",
+      "crossed",
+      "look",
+      "side"
+    ],
+    "ratio": 0.2,
+    "instr": "Kneel and bow the torso forward slowly and gracefully from the hips, arms restin"
+  },
+  {
+    "id": "back-prop",
+    "cat": "reclining",
+    "name": "Backyard Lean",
+    "kws": [
+      "backyard",
+      "lean"
+    ],
+    "found": [],
+    "missing": [
+      "backyard",
+      "lean"
+    ],
+    "ratio": 0,
+    "instr": "Lie on one side propped up on one elbow, top leg straight or bent slightly forwa"
+  },
+  {
+    "id": "prone-chin",
+    "cat": "reclining",
+    "name": "Prone Chin",
+    "kws": [
+      "prone",
+      "chin"
+    ],
+    "found": [],
+    "missing": [
+      "prone",
+      "chin"
+    ],
+    "ratio": 0,
+    "instr": "Sit and lean back onto both hands with legs extended forward. Let the chest open"
+  },
+  {
+    "id": "side-fetal",
+    "cat": "reclining",
+    "name": "Side Curl",
+    "kws": [
+      "side",
+      "curl"
+    ],
+    "found": [],
+    "missing": [
+      "side",
+      "curl"
+    ],
+    "ratio": 0,
+    "instr": "Lie on the back and spread both arms and legs wide into a relaxed star shape. Le"
+  },
+  {
+    "id": "belly-up-arms-wide",
+    "cat": "reclining",
+    "name": "Belly Up Arms Wide",
+    "kws": [
+      "belly",
+      "arms",
+      "wide"
+    ],
+    "found": [],
+    "missing": [
+      "belly",
+      "arms",
+      "wide"
+    ],
+    "ratio": 0,
+    "instr": "Curl onto one side with knees drawn up toward the chest and both hands tucked ne"
+  },
+  {
+    "id": "prone-tuck-arms",
+    "cat": "reclining",
+    "name": "Prone Tuck Arms",
+    "kws": [
+      "prone",
+      "tuck",
+      "arms"
+    ],
+    "found": [],
+    "missing": [
+      "prone",
+      "tuck",
+      "arms"
+    ],
+    "ratio": 0,
+    "instr": "Lie on one side propped on one elbow, then bend the top leg forward and rest the"
+  },
+  {
+    "id": "supine-one-knee-up",
+    "cat": "reclining",
+    "name": "Supine One Knee Up",
+    "kws": [
+      "supine",
+      "one",
+      "knee"
+    ],
+    "found": [
+      "one"
+    ],
+    "missing": [
+      "supine",
+      "knee"
+    ],
+    "ratio": 0.3333333333333333,
+    "instr": "Lie face down and tuck both forearms beneath the chin, resting the head sideways"
+  },
+  {
+    "id": "back-recline-arms-up",
+    "cat": "reclining",
+    "name": "Back Recline Arms Up",
+    "kws": [
+      "back",
+      "recline",
+      "arms"
+    ],
+    "found": [
+      "back"
+    ],
+    "missing": [
+      "recline",
+      "arms"
+    ],
+    "ratio": 0.3333333333333333,
+    "instr": "Lie on the back and bend one knee up with the foot flat on the ground, letting t"
+  },
+  {
+    "id": "side-recline-gaze-up",
+    "cat": "reclining",
+    "name": "Side Recline Gaze Up",
+    "kws": [
+      "side",
+      "recline",
+      "gaze"
+    ],
+    "found": [],
+    "missing": [
+      "side",
+      "recline",
+      "gaze"
+    ],
+    "ratio": 0,
+    "instr": "Lie flat on the back and stretch both arms straight overhead, resting them on th"
+  },
+  {
+    "id": "prone-push-up-position",
+    "cat": "reclining",
+    "name": "Prone Push-Up Position",
+    "kws": [
+      "prone",
+      "push",
+      "position"
+    ],
+    "found": [
+      "push"
+    ],
+    "missing": [
+      "prone",
+      "position"
+    ],
+    "ratio": 0.3333333333333333,
+    "instr": "Lie face down and press both palms flat beside the shoulders as if starting a pu"
+  },
+  {
+    "id": "spread-eagle",
+    "cat": "reclining",
+    "name": "Spread Eagle",
+    "kws": [
+      "spread",
+      "eagle"
+    ],
+    "found": [],
+    "missing": [
+      "spread",
+      "eagle"
+    ],
+    "ratio": 0,
+    "instr": "Lie flat on the back with arms and legs extended wide into a full X shape. Let t"
+  },
+  {
+    "id": "floor-seated-recline",
+    "cat": "reclining",
+    "name": "Floor Seated Recline",
+    "kws": [
+      "floor",
+      "seated",
+      "recline"
+    ],
+    "found": [
+      "floor"
+    ],
+    "missing": [
+      "seated",
+      "recline"
+    ],
+    "ratio": 0.3333333333333333,
+    "instr": "Sit on the floor and lower the torso back gradually onto both elbows, legs bent "
+  },
+  {
+    "id": "diagonal-prop",
+    "cat": "reclining",
+    "name": "Diagonal Prop",
+    "kws": [
+      "diagonal",
+      "prop"
+    ],
+    "found": [],
+    "missing": [
+      "diagonal",
+      "prop"
+    ],
+    "ratio": 0,
+    "instr": "Lie on the side with both hands tucked under the cheek as if sleeping, knees dra"
+  },
+  {
+    "id": "cobra-lite",
+    "cat": "reclining",
+    "name": "Cobra Lite",
+    "kws": [
+      "cobra",
+      "lite"
+    ],
+    "found": [],
+    "missing": [
+      "cobra",
+      "lite"
+    ],
+    "ratio": 0,
+    "instr": "Lie face down and press through both palms to lift the chest into a gentle backb"
+  },
+  {
+    "id": "floor-stomach-flip-flop",
+    "cat": "reclining",
+    "name": "Floor Stomach Flip Flop",
+    "kws": [
+      "floor",
+      "stomach",
+      "flip",
+      "flop"
+    ],
+    "found": [],
+    "missing": [
+      "floor",
+      "stomach",
+      "flip",
+      "flop"
+    ],
+    "ratio": 0,
+    "instr": "Lie face down with knees bent and feet crossed loosely in the air behind, chin r"
+  },
+  {
+    "id": "dance-step",
+    "cat": "dynamic",
+    "name": "Dance Step",
+    "kws": [
+      "dance",
+      "step"
+    ],
+    "found": [],
+    "missing": [
+      "dance",
+      "step"
+    ],
+    "ratio": 0,
+    "instr": "Throw both arms wide open and tilt the head back with abandon. An expansive, cel"
+  },
+  {
+    "id": "leap-freeze",
+    "cat": "dynamic",
+    "name": "Leap Freeze",
+    "kws": [
+      "leap",
+      "freeze"
+    ],
+    "found": [],
+    "missing": [
+      "leap",
+      "freeze"
+    ],
+    "ratio": 0,
+    "instr": "Capture the apex of a jump with both feet off the ground, legs tucked or extende"
+  },
+  {
+    "id": "martial-arts-guard",
+    "cat": "dynamic",
+    "name": "Martial Arts Guard",
+    "kws": [
+      "martial",
+      "arts",
+      "guard"
+    ],
+    "found": [
+      "guard"
+    ],
+    "missing": [
+      "martial",
+      "arts"
+    ],
+    "ratio": 0.3333333333333333,
+    "instr": "Take a wide, low fighting stance with both fists raised near the face in guard p"
+  },
+  {
+    "id": "hip-hop-lean",
+    "cat": "dynamic",
+    "name": "Hip Hop Lean",
+    "kws": [
+      "hip",
+      "hop",
+      "lean"
+    ],
+    "found": [
+      "lean"
+    ],
+    "missing": [
+      "hip",
+      "hop"
+    ],
+    "ratio": 0.3333333333333333,
+    "instr": "Lean the torso sharply to one side with a bent knee and one arm crossed low acro"
+  },
+  {
+    "id": "avant-garde-arms",
+    "cat": "eccentric",
+    "name": "Avant-Garde Arms",
+    "kws": [
+      "avant",
+      "garde",
+      "arms"
+    ],
+    "found": [
+      "arms"
+    ],
+    "missing": [
+      "avant",
+      "garde"
+    ],
+    "ratio": 0.3333333333333333,
+    "instr": "Bend both arms into sharp, asymmetrical geometric angles at different heights, a"
+  },
+  {
+    "id": "abstract-contortion",
+    "cat": "eccentric",
+    "name": "Abstract Contortion",
+    "kws": [
+      "abstract",
+      "contortion"
+    ],
+    "found": [],
+    "missing": [
+      "abstract",
+      "contortion"
+    ],
+    "ratio": 0,
+    "instr": "Twist the torso and limbs into an unconventional, sculptural shape that prioriti"
+  },
+  {
+    "id": "fashion-backward",
+    "cat": "eccentric",
+    "name": "Fashion Backward",
+    "kws": [
+      "fashion",
+      "backward"
+    ],
+    "found": [],
+    "missing": [
+      "fashion",
+      "backward"
+    ],
+    "ratio": 0,
+    "instr": "Face fully away from the camera and arch the upper back while turning the head s"
+  },
+  {
+    "id": "thinker-extreme",
+    "cat": "eccentric",
+    "name": "Thinker Extreme",
+    "kws": [
+      "thinker",
+      "extreme"
+    ],
+    "found": [],
+    "missing": [
+      "thinker",
+      "extreme"
+    ],
+    "ratio": 0,
+    "instr": "Sit or crouch and press a closed fist hard against the chin, elbow braced on the"
+  },
+  {
+    "id": "crouching-prowl",
+    "cat": "eccentric",
+    "name": "Crouching Prowl",
+    "kws": [
+      "crouching",
+      "prowl"
+    ],
+    "found": [],
+    "missing": [
+      "crouching",
+      "prowl"
+    ],
+    "ratio": 0,
+    "instr": "Crouch low on the balls of both feet, fingertips grazing the ground, spine curve"
+  },
+  {
+    "id": "cradled-from-behind",
+    "cat": "couple",
+    "name": "Cradled From Behind",
+    "kws": [
+      "cradled",
+      "from",
+      "behind"
+    ],
+    "found": [
+      "behind"
+    ],
+    "missing": [
+      "cradled",
+      "from"
+    ],
+    "ratio": 0.3333333333333333,
+    "instr": "One partner stands behind, wrapping both arms fully around the other in a cradli"
+  },
+  {
+    "id": "seated-power",
+    "cat": "accessible",
+    "name": "Seated Power",
+    "kws": [
+      "seated",
+      "power"
+    ],
+    "found": [],
+    "missing": [
+      "seated",
+      "power"
+    ],
+    "ratio": 0,
+    "instr": "Sit tall with hands resting on the wheels or armrests. Square the shoulders, lif"
+  },
+  {
+    "id": "chair-arms-crossed",
+    "cat": "accessible",
+    "name": "Chair Arms Crossed",
+    "kws": [
+      "chair",
+      "arms",
+      "crossed"
+    ],
+    "found": [
+      "arms"
+    ],
+    "missing": [
+      "chair",
+      "crossed"
+    ],
+    "ratio": 0.3333333333333333,
+    "instr": "Sit upright and cross both arms loosely at chest height, resting rather than gri"
+  },
+  {
+    "id": "chair-turn-twist",
+    "cat": "accessible",
+    "name": "Chair Turn Twist",
+    "kws": [
+      "chair",
+      "turn",
+      "twist"
+    ],
+    "found": [
+      "twist"
+    ],
+    "missing": [
+      "chair",
+      "turn"
+    ],
+    "ratio": 0.3333333333333333,
+    "instr": "Rotate the torso fully to one side while the lower body stays facing forward, on"
+  },
+  {
+    "id": "chair-triumphant-arms",
+    "cat": "accessible",
+    "name": "Chair Triumphant Arms",
+    "kws": [
+      "chair",
+      "triumphant",
+      "arms"
+    ],
+    "found": [
+      "arms"
+    ],
+    "missing": [
+      "chair",
+      "triumphant"
+    ],
+    "ratio": 0.3333333333333333,
+    "instr": "Throw both arms up into a wide V above the head in a moment of celebration, ches"
+  },
+  {
+    "id": "chair-chin-tilt",
+    "cat": "accessible",
+    "name": "Chair Chin Tilt",
+    "kws": [
+      "chair",
+      "chin",
+      "tilt"
+    ],
+    "found": [
+      "tilt"
+    ],
+    "missing": [
+      "chair",
+      "chin"
+    ],
+    "ratio": 0.3333333333333333,
+    "instr": "Sit centered and tilt the head gently toward one shoulder, keeping the body squa"
+  },
+  {
+    "id": "chair-laugh-gesture",
+    "cat": "accessible",
+    "name": "Chair Laugh Gesture",
+    "kws": [
+      "chair",
+      "laugh",
+      "gesture"
+    ],
+    "found": [
+      "laugh"
+    ],
+    "missing": [
+      "chair",
+      "gesture"
+    ],
+    "ratio": 0.3333333333333333,
+    "instr": "Throw the head back slightly in genuine laughter, one hand resting near the ches"
+  },
+  {
+    "id": "chair-meditation",
+    "cat": "accessible",
+    "name": "Chair Meditation",
+    "kws": [
+      "chair",
+      "meditation"
+    ],
+    "found": [],
+    "missing": [
+      "chair",
+      "meditation"
+    ],
+    "ratio": 0,
+    "instr": "Sit with hands resting palm-up on the knees or thighs, eyes closed softly, chin "
+  },
+  {
+    "id": "chair-dramatic-reach",
+    "cat": "accessible",
+    "name": "Chair Dramatic Reach",
+    "kws": [
+      "chair",
+      "dramatic",
+      "reach"
+    ],
+    "found": [
+      "reach"
+    ],
+    "missing": [
+      "chair",
+      "dramatic"
+    ],
+    "ratio": 0.3333333333333333,
+    "instr": "Reach one arm powerfully upward and outward while the torso leans into the gestu"
+  },
+  {
+    "id": "boudoir-elegant-recline",
+    "cat": "boudoir",
+    "name": "Elegant Side Recline",
+    "kws": [
+      "elegant",
+      "side",
+      "recline"
+    ],
+    "found": [
+      "side"
+    ],
+    "missing": [
+      "elegant",
+      "recline"
+    ],
+    "ratio": 0.3333333333333333,
+    "instr": "Lie on the side with hips stacked, head propped on a bent hand and elbow grounde"
+  },
+  {
+    "id": "boudoir-hip-raise-lying",
+    "cat": "boudoir",
+    "name": "Lying Hip Raise",
+    "kws": [
+      "lying",
+      "hip",
+      "raise"
+    ],
+    "found": [
+      "hip"
+    ],
+    "missing": [
+      "lying",
+      "raise"
+    ],
+    "ratio": 0.3333333333333333,
+    "instr": "Lie on the back, plant both feet, and press the hips upward into a soft bridge. "
+  },
+  {
+    "id": "boudoir-kneeling-forward-reach",
+    "cat": "boudoir",
+    "name": "Kneeling Forward Reach",
+    "kws": [
+      "kneeling",
+      "forward",
+      "reach"
+    ],
+    "found": [
+      "forward"
+    ],
+    "missing": [
+      "kneeling",
+      "reach"
+    ],
+    "ratio": 0.3333333333333333,
+    "instr": "Kneel on all fours, then walk the hands forward while dropping the chest toward "
+  },
+  {
+    "id": "boudoir-supine-arms-up-soft",
+    "cat": "boudoir",
+    "name": "Supine Soft Arms Up",
+    "kws": [
+      "supine",
+      "soft",
+      "arms"
+    ],
+    "found": [],
+    "missing": [
+      "supine",
+      "soft",
+      "arms"
+    ],
+    "ratio": 0,
+    "instr": "Stand beside a chair and plant one foot flat on the seat, knee turned 30° outwar"
+  },
+  {
+    "id": "boudoir-standing-hair-flip-still",
+    "cat": "boudoir",
+    "name": "Hair Touch Stillness",
+    "kws": [
+      "hair",
+      "touch",
+      "stillness"
+    ],
+    "found": [],
+    "missing": [
+      "hair",
+      "touch",
+      "stillness"
+    ],
+    "ratio": 0,
+    "instr": "Lie on one side, bottom leg extended long, top knee bent forward and resting on "
+  },
+  {
+    "id": "boudoir-reclined-back-support",
+    "cat": "boudoir",
+    "name": "Reclined Arm Support",
+    "kws": [
+      "reclined",
+      "arm",
+      "support"
+    ],
+    "found": [
+      "arm"
+    ],
+    "missing": [
+      "reclined",
+      "support"
+    ],
+    "ratio": 0.3333333333333333,
+    "instr": "Stand in a soft S-curve with weight on the back leg, and lift one hand to graze "
+  },
+  {
+    "id": "boudoir-standing-corset-hands",
+    "cat": "boudoir",
+    "name": "Hands at Waist Frame",
+    "kws": [
+      "hands",
+      "waist",
+      "frame"
+    ],
+    "found": [],
+    "missing": [
+      "hands",
+      "waist",
+      "frame"
+    ],
+    "ratio": 0,
+    "instr": "Recline onto both forearms, legs extended and softly bent at the knee, chest lif"
+  },
+  {
+    "id": "boudoir-floor-hug-knees-soft",
+    "cat": "boudoir",
+    "name": "Soft Floor Knee Hug",
+    "kws": [
+      "soft",
+      "floor",
+      "knee",
+      "hug"
+    ],
+    "found": [
+      "soft"
+    ],
+    "missing": [
+      "floor",
+      "knee",
+      "hug"
+    ],
+    "ratio": 0.25,
+    "instr": "Stand with 70% of weight on the back leg and rest both hands lightly at the natu"
+  },
+  {
+    "id": "boudoir-standing-look-back-drape",
+    "cat": "boudoir",
+    "name": "Look Back Drape",
+    "kws": [
+      "look",
+      "back",
+      "drape"
+    ],
+    "found": [
+      "back"
+    ],
+    "missing": [
+      "look",
+      "drape"
+    ],
+    "ratio": 0.3333333333333333,
+    "instr": "Sit on the floor and draw both knees to the chest, wrapping the arms loosely aro"
+  },
+  {
+    "id": "boudoir-standing-profile-curve",
+    "cat": "boudoir",
+    "name": "Standing Profile Curve",
+    "kws": [
+      "standing",
+      "profile",
+      "curve"
+    ],
+    "found": [],
+    "missing": [
+      "standing",
+      "profile",
+      "curve"
+    ],
+    "ratio": 0,
+    "instr": "Kneel and sit back fully onto the heels, arch through the spine, and reach both "
+  },
+  {
+    "id": "boudoir-sleeping-ariadne",
+    "cat": "boudoir",
+    "name": "The Sleeping Ariadne",
+    "kws": [
+      "sleeping",
+      "ariadne"
+    ],
+    "found": [],
+    "missing": [
+      "sleeping",
+      "ariadne"
+    ],
+    "ratio": 0,
+    "instr": "Lie on your back diagonally across the bed. Lift one arm and rest the back of yo"
+  },
+  {
+    "id": "boudoir-three-goddesses",
+    "cat": "boudoir",
+    "name": "The Three Goddesses",
+    "kws": [
+      "three",
+      "goddesses"
+    ],
+    "found": [],
+    "missing": [
+      "three",
+      "goddesses"
+    ],
+    "ratio": 0,
+    "instr": "Recline on your side, propping your upper body low on one forearm. Let your top "
+  },
+  {
+    "id": "boudoir-barberini-faun",
+    "cat": "boudoir",
+    "name": "The Barberini Faun",
+    "kws": [
+      "barberini",
+      "faun"
+    ],
+    "found": [],
+    "missing": [
+      "barberini",
+      "faun"
+    ],
+    "ratio": 0,
+    "instr": "Recline backward into a pile of pillows with legs spread wide and knees softly b"
+  },
+  {
+    "id": "boudoir-nymph-fontainebleau",
+    "cat": "boudoir",
+    "name": "Nymph of Fontainebleau",
+    "kws": [
+      "nymph",
+      "fontainebleau"
+    ],
+    "found": [],
+    "missing": [
+      "nymph",
+      "fontainebleau"
+    ],
+    "ratio": 0,
+    "instr": "Lie entirely on your side facing away from the camera. Arch your back to tighten"
+  },
+  {
+    "id": "boudoir-psyche-revived",
+    "cat": "boudoir",
+    "name": "Psyche Revived",
+    "kws": [
+      "psyche",
+      "revived"
+    ],
+    "found": [],
+    "missing": [
+      "psyche",
+      "revived"
+    ],
+    "ratio": 0,
+    "instr": "Lie on your back, bend your knees, and lift your midsection slightly. Reach both"
+  },
+  {
+    "id": "boudoir-torso-marie-therese",
+    "cat": "boudoir",
+    "name": "Torso of Marie-Thérèse",
+    "kws": [
+      "torso",
+      "marie",
+      "thérèse"
+    ],
+    "found": [],
+    "missing": [
+      "torso",
+      "marie",
+      "thérèse"
+    ],
+    "ratio": 0,
+    "instr": "Lie on your back and turn your hips completely to the side while keeping both sh"
+  },
+  {
+    "id": "boudoir-clios-dream",
+    "cat": "boudoir",
+    "name": "Clio's Dream",
+    "kws": [
+      "clio's",
+      "dream"
+    ],
+    "found": [],
+    "missing": [
+      "clio's",
+      "dream"
+    ],
+    "ratio": 0,
+    "instr": "Lie flat on your stomach with legs stretched long. Prop your chin up gently on s"
+  },
+  {
+    "id": "boudoir-mattress-edge-melt",
+    "cat": "boudoir",
+    "name": "Mattress Edge Melt",
+    "kws": [
+      "mattress",
+      "edge",
+      "melt"
+    ],
+    "found": [
+      "edge"
+    ],
+    "missing": [
+      "mattress",
+      "melt"
+    ],
+    "ratio": 0.3333333333333333,
+    "instr": "Lie on your back horizontally across the bed, allowing your head, neck, and one "
+  },
+  {
+    "id": "boudoir-triangle-pocket",
+    "cat": "boudoir",
+    "name": "The Triangle Pocket",
+    "kws": [
+      "triangle",
+      "pocket"
+    ],
+    "found": [],
+    "missing": [
+      "triangle",
+      "pocket"
+    ],
+    "ratio": 0,
+    "instr": "Sit with your elbows pulled back sharply, almost touching behind the spine. Rest"
+  },
+  {
+    "id": "boudoir-truth-unveiled",
+    "cat": "boudoir",
+    "name": "The Truth Unveiled",
+    "kws": [
+      "truth",
+      "unveiled"
+    ],
+    "found": [],
+    "missing": [
+      "truth",
+      "unveiled"
+    ],
+    "ratio": 0,
+    "instr": "Sit on the edge of a chair, leaning your torso backward onto one extended arm wh"
+  },
+  {
+    "id": "boudoir-forward-chair-straddle",
+    "cat": "boudoir",
+    "name": "Forward Chair Straddle",
+    "kws": [
+      "forward",
+      "chair",
+      "straddle"
+    ],
+    "found": [
+      "chair"
+    ],
+    "missing": [
+      "forward",
+      "straddle"
+    ],
+    "ratio": 0.3333333333333333,
+    "instr": "Sit facing the backrest of a chair. Rest your forearms along the top of the back"
+  },
+  {
+    "id": "boudoir-lazy-lounge",
+    "cat": "boudoir",
+    "name": "Lazy Lounge Recline",
+    "kws": [
+      "lazy",
+      "lounge",
+      "recline"
+    ],
+    "found": [
+      "recline"
+    ],
+    "missing": [
+      "lazy",
+      "lounge"
+    ],
+    "ratio": 0.3333333333333333,
+    "instr": "Sit at the very edge of a deep chair, sliding your hips forward into a low recli"
+  },
+  {
+    "id": "boudoir-fireplace-lean",
+    "cat": "boudoir",
+    "name": "The Fireplace Lean",
+    "kws": [
+      "fireplace",
+      "lean"
+    ],
+    "found": [],
+    "missing": [
+      "fireplace",
+      "lean"
+    ],
+    "ratio": 0,
+    "instr": "Stand at a 45-degree angle to a mantle or wall. Push your hips back and away fro"
+  },
+  {
+    "id": "boudoir-tippy-toe-cross",
+    "cat": "boudoir",
+    "name": "The Tippy-Toe Cross",
+    "kws": [
+      "tippy",
+      "toe",
+      "cross"
+    ],
+    "found": [
+      "cross"
+    ],
+    "missing": [
+      "tippy",
+      "toe"
+    ],
+    "ratio": 0.3333333333333333,
+    "instr": "Stand upright, cross one leg directly over the other, and lift your body weight "
+  },
+  {
+    "id": "boudoir-peek-a-boo",
+    "cat": "boudoir",
+    "name": "The Peek-a-Boo",
+    "kws": [
+      "peek",
+      "boo"
+    ],
+    "found": [],
+    "missing": [
+      "peek",
+      "boo"
+    ],
+    "ratio": 0,
+    "instr": "Hide your midsection behind a structural wall corner or heavy curtain. Show only"
+  },
+  {
+    "id": "boudoir-aphrodite-knidos",
+    "cat": "boudoir",
+    "name": "Aphrodite of Knidos",
+    "kws": [
+      "aphrodite",
+      "knidos"
+    ],
+    "found": [],
+    "missing": [
+      "aphrodite",
+      "knidos"
+    ],
+    "ratio": 0,
+    "instr": "Stand facing the camera with your weight shifted to one hip. Bring one hand down"
+  },
+  {
+    "id": "boudoir-venus-de-milo",
+    "cat": "boudoir",
+    "name": "Venus de Milo",
+    "kws": [
+      "venus",
+      "milo"
+    ],
+    "found": [],
+    "missing": [
+      "venus",
+      "milo"
+    ],
+    "ratio": 0,
+    "instr": "Stand with 100% of your weight on one leg, causing that hip to push out dynamica"
+  },
+  {
+    "id": "boudoir-capitoline-venus",
+    "cat": "boudoir",
+    "name": "Capitoline Venus",
+    "kws": [
+      "capitoline",
+      "venus"
+    ],
+    "found": [],
+    "missing": [
+      "capitoline",
+      "venus"
+    ],
+    "ratio": 0,
+    "instr": "Stand with your hips turned 45 degrees away from the camera. Cross both arms ove"
+  },
+  {
+    "id": "boudoir-venus-kallipygos",
+    "cat": "boudoir",
+    "name": "Venus Kallipygos",
+    "kws": [
+      "venus",
+      "kallipygos"
+    ],
+    "found": [],
+    "missing": [
+      "venus",
+      "kallipygos"
+    ],
+    "ratio": 0,
+    "instr": "Turn your back completely to the lens and arch your spine. Lift one hand to ligh"
+  },
+  {
+    "id": "boudoir-winged-victory",
+    "cat": "boudoir",
+    "name": "Winged Victory",
+    "kws": [
+      "winged",
+      "victory"
+    ],
+    "found": [],
+    "missing": [
+      "winged",
+      "victory"
+    ],
+    "ratio": 0,
+    "instr": "Stand tall, step one foot firmly forward, and lean your chest slightly into the "
+  },
+  {
+    "id": "boudoir-esquiline-venus",
+    "cat": "boudoir",
+    "name": "The Esquiline Venus",
+    "kws": [
+      "esquiline",
+      "venus"
+    ],
+    "found": [],
+    "missing": [
+      "esquiline",
+      "venus"
+    ],
+    "ratio": 0,
+    "instr": "Stand with feet close together and weight balanced. Lift both hands up to your h"
+  },
+  {
+    "id": "boudoir-venus-de-medici",
+    "cat": "boudoir",
+    "name": "Venus de' Medici",
+    "kws": [
+      "venus",
+      "de'",
+      "medici"
+    ],
+    "found": [],
+    "missing": [
+      "venus",
+      "de'",
+      "medici"
+    ],
+    "ratio": 0,
+    "instr": "Stand and twist your upper body slightly to the left while pushing your hips gen"
+  },
+  {
+    "id": "boudoir-dying-slave",
+    "cat": "boudoir",
+    "name": "The Dying Slave",
+    "kws": [
+      "dying",
+      "slave"
+    ],
+    "found": [],
+    "missing": [
+      "dying",
+      "slave"
+    ],
+    "ratio": 0,
+    "instr": "Stand or lean back against a solid wall. Raise one elbow completely straight up,"
+  },
+  {
+    "id": "boudoir-primary-instincts",
+    "cat": "boudoir",
+    "name": "Primary Instincts",
+    "kws": [
+      "primary",
+      "instincts"
+    ],
+    "found": [],
+    "missing": [
+      "primary",
+      "instincts"
+    ],
+    "ratio": 0,
+    "instr": "Stand and turn your chest tightly away from the camera. Wrap both arms firmly ac"
+  },
+  {
+    "id": "boudoir-little-dancer",
+    "cat": "boudoir",
+    "name": "The Little Dancer",
+    "kws": [
+      "little",
+      "dancer"
+    ],
+    "found": [],
+    "missing": [
+      "little",
+      "dancer"
+    ],
+    "ratio": 0,
+    "instr": "Stand tall with your feet placed wide in a classic ballet stance. Interlock your"
+  },
+  {
+    "id": "boudoir-walking-woman",
+    "cat": "boudoir",
+    "name": "The Walking Woman",
+    "kws": [
+      "walking",
+      "woman"
+    ],
+    "found": [],
+    "missing": [
+      "walking",
+      "woman"
+    ],
+    "ratio": 0,
+    "instr": "Stand completely in profile to the camera. Take a long stylized step forward wit"
+  },
+  {
+    "id": "boudoir-crouching-venus",
+    "cat": "boudoir",
+    "name": "Crouching Venus",
+    "kws": [
+      "crouching",
+      "venus"
+    ],
+    "found": [],
+    "missing": [
+      "crouching",
+      "venus"
+    ],
+    "ratio": 0,
+    "instr": "Drop down into a deep crouch or sit low on your heels. Turn your knees to the si"
+  },
+  {
+    "id": "boudoir-nymph-scorpion",
+    "cat": "boudoir",
+    "name": "Nymph with a Scorpion",
+    "kws": [
+      "nymph",
+      "scorpion"
+    ],
+    "found": [],
+    "missing": [
+      "nymph",
+      "scorpion"
+    ],
+    "ratio": 0,
+    "instr": "Sit flat on the floor with both legs swept to one side. Bend forward slightly ov"
+  },
+  {
+    "id": "boudoir-seated-spine-stretch",
+    "cat": "boudoir",
+    "name": "Seated Spine Stretch",
+    "kws": [
+      "seated",
+      "spine",
+      "stretch"
+    ],
+    "found": [
+      "stretch"
+    ],
+    "missing": [
+      "seated",
+      "spine"
+    ],
+    "ratio": 0.3333333333333333,
+    "instr": "Sit with both legs extended straight out in a wide \"V\" shape on the floor. Lean "
+  },
+  {
+    "id": "editorial-sharp-angles-stand",
+    "cat": "editorial",
+    "name": "Sharp Angles Stand",
+    "kws": [
+      "sharp",
+      "angles"
+    ],
+    "found": [],
+    "missing": [
+      "sharp",
+      "angles"
+    ],
+    "ratio": 0,
+    "instr": "Stand fully in profile, push the hips back and drive the chest forward slightly "
+  },
+  {
+    "id": "editorial-extreme-forward-lean",
+    "cat": "editorial",
+    "name": "Extreme Forward Lean",
+    "kws": [
+      "extreme",
+      "forward",
+      "lean"
+    ],
+    "found": [],
+    "missing": [
+      "extreme",
+      "forward",
+      "lean"
+    ],
+    "ratio": 0,
+    "instr": "Bend both elbows to hard 90° angles at shoulder height and drive one hip sharply"
+  },
+  {
+    "id": "editorial-floor-diagonal-reach",
+    "cat": "editorial",
+    "name": "Floor Diagonal Reach",
+    "kws": [
+      "floor",
+      "diagonal",
+      "reach"
+    ],
+    "found": [
+      "reach"
+    ],
+    "missing": [
+      "floor",
+      "diagonal"
+    ],
+    "ratio": 0.3333333333333333,
+    "instr": "Hinge forward from the hips at a steep angle, spine flat and long, and drive bot"
+  },
+  {
+    "id": "editorial-off-camera-stare",
+    "cat": "editorial",
+    "name": "Off-Camera Dead Stare",
+    "kws": [
+      "off",
+      "camera",
+      "dead",
+      "stare"
+    ],
+    "found": [],
+    "missing": [
+      "off",
+      "camera",
+      "dead",
+      "stare"
+    ],
+    "ratio": 0,
+    "instr": "Plant the feet facing one direction while rotating the shoulders and chest fully"
+  },
+  {
+    "id": "editorial-hip-thrust-dramatic",
+    "cat": "editorial",
+    "name": "Dramatic Hip Thrust",
+    "kws": [
+      "dramatic",
+      "hip",
+      "thrust"
+    ],
+    "found": [],
+    "missing": [
+      "dramatic",
+      "hip",
+      "thrust"
+    ],
+    "ratio": 0,
+    "instr": "Plant feet wide and cross both arms loosely low in front of the body, then fix a"
+  },
+  {
+    "id": "editorial-vogue-arm-frame",
+    "cat": "editorial",
+    "name": "Vogue Arm Frame",
+    "kws": [
+      "vogue",
+      "arm",
+      "frame"
+    ],
+    "found": [
+      "arm"
+    ],
+    "missing": [
+      "vogue",
+      "frame"
+    ],
+    "ratio": 0.3333333333333333,
+    "instr": "Stand in profile and drive one hip sharply out past a natural stance, countering"
+  },
+  {
+    "id": "editorial-contorted-reach-floor",
+    "cat": "editorial",
+    "name": "Contorted Floor Reach",
+    "kws": [
+      "contorted",
+      "floor",
+      "reach"
+    ],
+    "found": [],
+    "missing": [
+      "contorted",
+      "floor",
+      "reach"
+    ],
+    "ratio": 0,
+    "instr": "Bring both forearms up to frame the face at sharp, angular positions, wrists bro"
+  },
+  {
+    "id": "editorial-shoulder-drop-asymmetry",
+    "cat": "editorial",
+    "name": "Asymmetric Shoulder Drop",
+    "kws": [
+      "asymmetric",
+      "shoulder",
+      "drop"
+    ],
+    "found": [
+      "shoulder"
+    ],
+    "missing": [
+      "asymmetric",
+      "drop"
+    ],
+    "ratio": 0.3333333333333333,
+    "instr": "Stand at the edge of the frame and extend one arm straight out to the side at sh"
+  },
+  {
+    "id": "editorial-power-crouch",
+    "cat": "editorial",
+    "name": "Power Crouch Stare",
+    "kws": [
+      "power",
+      "crouch",
+      "stare"
+    ],
+    "found": [
+      "crouch"
+    ],
+    "missing": [
+      "power",
+      "stare"
+    ],
+    "ratio": 0.3333333333333333,
+    "instr": "Drop one shoulder low while lifting the opposite hip, building an off-balance di"
+  },
+  {
+    "id": "editorial-fabric-toss-freeze",
+    "cat": "editorial",
+    "name": "Fabric Toss Freeze Frame",
+    "kws": [
+      "fabric",
+      "toss",
+      "freeze",
+      "frame"
+    ],
+    "found": [],
+    "missing": [
+      "fabric",
+      "toss",
+      "freeze",
+      "frame"
+    ],
+    "ratio": 0,
+    "instr": "Crouch low with one knee down and the other foot planted, forearms resting acros"
+  },
+  {
+    "id": "editorial-geometric-seated",
+    "cat": "editorial",
+    "name": "Geometric Seated Shape",
+    "kws": [
+      "geometric",
+      "seated",
+      "shape"
+    ],
+    "found": [
+      "shape"
+    ],
+    "missing": [
+      "geometric",
+      "seated"
+    ],
+    "ratio": 0.3333333333333333,
+    "instr": "Toss a scarf or fabric piece into the air and capture the peak moment it billows"
+  },
+  {
+    "id": "editorial-back-arch-tension",
+    "cat": "editorial",
+    "name": "Tension Back Arch",
+    "kws": [
+      "tension",
+      "back",
+      "arch"
+    ],
+    "found": [],
+    "missing": [
+      "tension",
+      "back",
+      "arch"
+    ],
+    "ratio": 0,
+    "instr": "Sit with knees bent sharply, feet flat, angling both knees to one side while the"
+  },
+  {
+    "id": "editorial-wide-stance-power",
+    "cat": "editorial",
+    "name": "Wide Power Stance",
+    "kws": [
+      "wide",
+      "power",
+      "stance"
+    ],
+    "found": [],
+    "missing": [
+      "wide",
+      "power",
+      "stance"
+    ],
+    "ratio": 0,
+    "instr": "Stand and arch the upper back sharply while clenching both fists at the sides, b"
+  },
+  {
+    "id": "editorial-one-arm-extreme-reach",
+    "cat": "editorial",
+    "name": "One-Arm Extreme Reach",
+    "kws": [
+      "one",
+      "arm",
+      "extreme",
+      "reach"
+    ],
+    "found": [
+      "arm"
+    ],
+    "missing": [
+      "one",
+      "extreme",
+      "reach"
+    ],
+    "ratio": 0.25,
+    "instr": "Plant the feet wider than shoulder width, lock both hands behind the back, and s"
+  },
+  {
+    "id": "editorial-shadow-profile-stark",
+    "cat": "editorial",
+    "name": "Stark Shadow Profile",
+    "kws": [
+      "stark",
+      "shadow",
+      "profile"
+    ],
+    "found": [
+      "profile"
+    ],
+    "missing": [
+      "stark",
+      "shadow"
+    ],
+    "ratio": 0.3333333333333333,
+    "instr": "Reach one arm as far overhead and to the side as possible while the opposite hip"
+  },
+  {
+    "id": "editorial-kneel-collapse",
+    "cat": "editorial",
+    "name": "Kneel Collapse Story",
+    "kws": [
+      "kneel",
+      "collapse",
+      "story"
+    ],
+    "found": [],
+    "missing": [
+      "kneel",
+      "collapse",
+      "story"
+    ],
+    "ratio": 0,
+    "instr": "Stand in strict profile, chin lifted, one hand flat against the collarbone, and "
+  },
+  {
+    "id": "editorial-hand-face-cover-partial",
+    "cat": "editorial",
+    "name": "Partial Face Cover",
+    "kws": [
+      "partial",
+      "face",
+      "cover"
+    ],
+    "found": [],
+    "missing": [
+      "partial",
+      "face",
+      "cover"
+    ],
+    "ratio": 0,
+    "instr": "Drop onto both knees and let the upper body collapse forward and to one side, on"
+  },
+  {
+    "id": "editorial-leg-kick-freeze",
+    "cat": "editorial",
+    "name": "Leg Kick Freeze",
+    "kws": [
+      "leg",
+      "kick",
+      "freeze"
+    ],
+    "found": [],
+    "missing": [
+      "leg",
+      "kick",
+      "freeze"
+    ],
+    "ratio": 0,
+    "instr": "Bring one hand up to partially cover the lower face, fingers spread with sharp, "
+  },
+  {
+    "id": "editorial-chair-sprawl",
+    "cat": "editorial",
+    "name": "Chair Sprawl Story",
+    "kws": [
+      "chair",
+      "sprawl",
+      "story"
+    ],
+    "found": [],
+    "missing": [
+      "chair",
+      "sprawl",
+      "story"
+    ],
+    "ratio": 0,
+    "instr": "Kick one leg out sharply to the side mid-stride while the arms counterbalance in"
+  },
+  {
+    "id": "editorial-mirrored-hands-hip",
+    "cat": "editorial",
+    "name": "Mirrored Hands on Hips",
+    "kws": [
+      "mirrored",
+      "hands",
+      "hips"
+    ],
+    "found": [],
+    "missing": [
+      "mirrored",
+      "hands",
+      "hips"
+    ],
+    "ratio": 0,
+    "instr": "Sprawl across a chair with one leg draped over the armrest and the torso leaning"
+  },
+  {
+    "id": "editorial-floor-lie-diagonal",
+    "cat": "editorial",
+    "name": "Floor Diagonal Lie",
+    "kws": [
+      "floor",
+      "diagonal",
+      "lie"
+    ],
+    "found": [],
+    "missing": [
+      "floor",
+      "diagonal",
+      "lie"
+    ],
+    "ratio": 0,
+    "instr": "Place both hands on the hips with elbows sharply bent and pointed outward, feet "
+  },
+  {
+    "id": "editorial-wind-machine-lean",
+    "cat": "editorial",
+    "name": "Wind Machine Lean",
+    "kws": [
+      "wind",
+      "machine",
+      "lean"
+    ],
+    "found": [],
+    "missing": [
+      "wind",
+      "machine",
+      "lean"
+    ],
+    "ratio": 0,
+    "instr": "Lie diagonally across the frame, one leg bent sharply and the other extended str"
+  },
+  {
+    "id": "editorial-hunched-power-lean",
+    "cat": "editorial",
+    "name": "Hunched Power Lean",
+    "kws": [
+      "hunched",
+      "power",
+      "lean"
+    ],
+    "found": [],
+    "missing": [
+      "hunched",
+      "power",
+      "lean"
+    ],
+    "ratio": 0,
+    "instr": "Balance on one leg while the other bends sharply behind at a right angle, arms e"
+  },
+  {
+    "id": "editorial-arms-crossed-overhead",
+    "cat": "editorial",
+    "name": "Arms Crossed Overhead",
+    "kws": [
+      "arms",
+      "crossed",
+      "overhead"
+    ],
+    "found": [],
+    "missing": [
+      "arms",
+      "crossed",
+      "overhead"
+    ],
+    "ratio": 0,
+    "instr": "Round the upper spine deliberately forward while the lower body stays powerful a"
+  },
+  {
+    "id": "editorial-side-lunge-sharp",
+    "cat": "editorial",
+    "name": "Sharp Side Lunge",
+    "kws": [
+      "sharp",
+      "side",
+      "lunge"
+    ],
+    "found": [],
+    "missing": [
+      "sharp",
+      "side",
+      "lunge"
+    ],
+    "ratio": 0,
+    "instr": "Raise both arms overhead and cross them at the wrists, tilting the head down so "
+  },
+  {
+    "id": "editorial-face-tilt-extreme",
+    "cat": "editorial",
+    "name": "Extreme Face Tilt",
+    "kws": [
+      "extreme",
+      "face",
+      "tilt"
+    ],
+    "found": [],
+    "missing": [
+      "extreme",
+      "face",
+      "tilt"
+    ],
+    "ratio": 0,
+    "instr": "Lunge sharply to one side, bent knee tracking over the foot, opposite leg extend"
+  },
+  {
+    "id": "editorial-runway-freeze-turn",
+    "cat": "editorial",
+    "name": "Runway Freeze Turn",
+    "kws": [
+      "runway",
+      "freeze",
+      "turn"
+    ],
+    "found": [],
+    "missing": [
+      "runway",
+      "freeze",
+      "turn"
+    ],
+    "ratio": 0,
+    "instr": "Tilt the head to an extreme angle toward one shoulder while the torso stays upri"
+  },
+  {
+    "id": "fineart-classic-arabesque",
+    "cat": "fine-art",
+    "name": "Classic Arabesque Line",
+    "kws": [
+      "classic",
+      "arabesque",
+      "line"
+    ],
+    "found": [],
+    "missing": [
+      "classic",
+      "arabesque",
+      "line"
+    ],
+    "ratio": 0,
+    "instr": "Capture the exact midpoint of a sharp turn, torso rotating opposite the hips, on"
+  },
+  {
+    "id": "fineart-contrapposto-classic",
+    "cat": "fine-art",
+    "name": "Classical Contrapposto",
+    "kws": [
+      "classical",
+      "contrapposto"
+    ],
+    "found": [],
+    "missing": [
+      "classical",
+      "contrapposto"
+    ],
+    "ratio": 0,
+    "instr": "Stand on one straight supporting leg and extend the other fully behind and up, h"
+  },
+  {
+    "id": "fineart-odalisque-recline",
+    "cat": "fine-art",
+    "name": "Odalisque Recline",
+    "kws": [
+      "odalisque",
+      "recline"
+    ],
+    "found": [],
+    "missing": [
+      "odalisque",
+      "recline"
+    ],
+    "ratio": 0,
+    "instr": "Shift weight entirely onto one leg so that hip rises while the opposite shoulder"
+  },
+  {
+    "id": "fineart-pieta-kneel",
+    "cat": "fine-art",
+    "name": "Pietà-Inspired Kneel",
+    "kws": [
+      "pietà",
+      "inspired",
+      "kneel"
+    ],
+    "found": [],
+    "missing": [
+      "pietà",
+      "inspired",
+      "kneel"
+    ],
+    "ratio": 0,
+    "instr": "Recline on one side with the torso rotated toward camera while the hips stay tur"
+  },
+  {
+    "id": "fineart-seated-forward-fold",
+    "cat": "fine-art",
+    "name": "Seated Forward Fold",
+    "kws": [
+      "seated",
+      "forward",
+      "fold"
+    ],
+    "found": [
+      "forward"
+    ],
+    "missing": [
+      "seated",
+      "fold"
+    ],
+    "ratio": 0.3333333333333333,
+    "instr": "Stand with hips facing forward while the ribcage and shoulders rotate gently to "
+  },
+  {
+    "id": "fineart-kneeling-torso-extend",
+    "cat": "fine-art",
+    "name": "Kneeling Torso Extension",
+    "kws": [
+      "kneeling",
+      "torso",
+      "extension"
+    ],
+    "found": [],
+    "missing": [
+      "kneeling",
+      "torso",
+      "extension"
+    ],
+    "ratio": 0,
+    "instr": "Rise onto the balls of both feet in relevé, lifting both arms into a rounded sha"
+  },
+  {
+    "id": "fineart-standing-arm-sweep",
+    "cat": "fine-art",
+    "name": "Graceful Arm Sweep",
+    "kws": [
+      "graceful",
+      "arm",
+      "sweep"
+    ],
+    "found": [
+      "arm"
+    ],
+    "missing": [
+      "graceful",
+      "sweep"
+    ],
+    "ratio": 0.3333333333333333,
+    "instr": "Kneel upright on both knees and extend the torso upward and slightly back, reach"
+  },
+  {
+    "id": "fineart-side-lying-torso-lift",
+    "cat": "fine-art",
+    "name": "Side Lying Torso Lift",
+    "kws": [
+      "side",
+      "lying",
+      "torso",
+      "lift"
+    ],
+    "found": [
+      "lift"
+    ],
+    "missing": [
+      "side",
+      "lying",
+      "torso"
+    ],
+    "ratio": 0.25,
+    "instr": "Stand with feet in a soft turned-out first position and sweep both arms into a l"
+  },
+  {
+    "id": "fineart-standing-back-bend-soft",
+    "cat": "fine-art",
+    "name": "Soft Standing Back Bend",
+    "kws": [
+      "soft",
+      "standing",
+      "back",
+      "bend"
+    ],
+    "found": [],
+    "missing": [
+      "soft",
+      "standing",
+      "back",
+      "bend"
+    ],
+    "ratio": 0,
+    "instr": "Lie on one side and press up onto the supporting forearm, lifting the ribcage wh"
+  },
+  {
+    "id": "fineart-seated-profile-still",
+    "cat": "fine-art",
+    "name": "Seated Profile Stillness",
+    "kws": [
+      "seated",
+      "profile",
+      "stillness"
+    ],
+    "found": [],
+    "missing": [
+      "seated",
+      "profile",
+      "stillness"
+    ],
+    "ratio": 0,
+    "instr": "Stand grounded and bend the upper spine back gently, sweeping both arms overhead"
+  },
+  {
+    "id": "fineart-torso-curve-floor",
+    "cat": "fine-art",
+    "name": "Floor Torso Curve",
+    "kws": [
+      "floor",
+      "torso",
+      "curve"
+    ],
+    "found": [
+      "torso"
+    ],
+    "missing": [
+      "floor",
+      "curve"
+    ],
+    "ratio": 0.3333333333333333,
+    "instr": "Balance on one leg and hold the opposite ankle with one hand, extending that leg"
+  },
+  {
+    "id": "fineart-standing-still-life-drape",
+    "cat": "fine-art",
+    "name": "Still Life Drape Stand",
+    "kws": [
+      "still",
+      "life",
+      "drape"
+    ],
+    "found": [],
+    "missing": [
+      "still",
+      "life",
+      "drape"
+    ],
+    "ratio": 0,
+    "instr": "Lie on the back and curve the spine gently upward into a soft bridge shape, rest"
+  },
+  {
+    "id": "fineart-kneeling-arms-crossed-chest",
+    "cat": "fine-art",
+    "name": "Kneeling Crossed Arms",
+    "kws": [
+      "kneeling",
+      "crossed",
+      "arms"
+    ],
+    "found": [],
+    "missing": [
+      "kneeling",
+      "crossed",
+      "arms"
+    ],
+    "ratio": 0,
+    "instr": "Stand with a long piece of fabric draped over one shoulder, gathered at the wais"
+  },
+  {
+    "id": "fineart-lying-leg-raised-line",
+    "cat": "fine-art",
+    "name": "Lying Raised Leg Line",
+    "kws": [
+      "lying",
+      "raised",
+      "leg",
+      "line"
+    ],
+    "found": [
+      "leg"
+    ],
+    "missing": [
+      "lying",
+      "raised",
+      "line"
+    ],
+    "ratio": 0.25,
+    "instr": "Position one arm curved low in front of the body and the other curved high overh"
+  },
+  {
+    "id": "fineart-standing-hand-to-heart",
+    "cat": "fine-art",
+    "name": "Hand to Heart Stillness",
+    "kws": [
+      "hand",
+      "heart",
+      "stillness"
+    ],
+    "found": [],
+    "missing": [
+      "hand",
+      "heart",
+      "stillness"
+    ],
+    "ratio": 0,
+    "instr": "Lie on the back and raise one leg straight toward the ceiling while the other st"
+  },
+  {
+    "id": "fineart-kneeling-side-stretch",
+    "cat": "fine-art",
+    "name": "Kneeling Side Stretch",
+    "kws": [
+      "kneeling",
+      "side",
+      "stretch"
+    ],
+    "found": [
+      "side"
+    ],
+    "missing": [
+      "kneeling",
+      "stretch"
+    ],
+    "ratio": 0.3333333333333333,
+    "instr": "Stand tall with feet together, rest one hand gently over the heart, and let the "
+  },
+  {
+    "id": "fineart-standing-passe-balance",
+    "cat": "fine-art",
+    "name": "Passé Balance",
+    "kws": [
+      "passé",
+      "balance"
+    ],
+    "found": [],
+    "missing": [
+      "passé",
+      "balance"
+    ],
+    "ratio": 0,
+    "instr": "Kneel with one leg extended straight out to the side and the other bent beneath,"
+  },
+  {
+    "id": "fineart-prone-back-lift-elegant",
+    "cat": "fine-art",
+    "name": "Elegant Prone Back Lift",
+    "kws": [
+      "elegant",
+      "prone",
+      "back",
+      "lift"
+    ],
+    "found": [],
+    "missing": [
+      "elegant",
+      "prone",
+      "back",
+      "lift"
+    ],
+    "ratio": 0,
+    "instr": "Balance on one straight leg while drawing the opposite foot to rest against the "
+  },
+  {
+    "id": "fineart-seated-spinal-twist-classic",
+    "cat": "fine-art",
+    "name": "Classic Seated Spinal Twist",
+    "kws": [
+      "classic",
+      "seated",
+      "spinal",
+      "twist"
+    ],
+    "found": [],
+    "missing": [
+      "classic",
+      "seated",
+      "spinal",
+      "twist"
+    ],
+    "ratio": 0,
+    "instr": "Lie face down and lift the chest and both arms simultaneously off the floor into"
+  },
+  {
+    "id": "fineart-standing-cambre-side",
+    "cat": "fine-art",
+    "name": "Standing Cambré Side",
+    "kws": [
+      "standing",
+      "cambré",
+      "side"
+    ],
+    "found": [
+      "side"
+    ],
+    "missing": [
+      "standing",
+      "cambré"
+    ],
+    "ratio": 0.3333333333333333,
+    "instr": "Sit with legs extended and twist the torso to one side, one hand behind for supp"
+  },
+  {
+    "id": "fineart-kneeling-both-arms-extend-fwd",
+    "cat": "fine-art",
+    "name": "Kneeling Arms Extend Forward",
+    "kws": [
+      "kneeling",
+      "arms",
+      "extend",
+      "forward"
+    ],
+    "found": [
+      "forward"
+    ],
+    "missing": [
+      "kneeling",
+      "arms",
+      "extend"
+    ],
+    "ratio": 0.25,
+    "instr": "Stand with feet together and bend the entire torso directly to one side, reachin"
+  },
+  {
+    "id": "fineart-standing-toe-touch-reach",
+    "cat": "fine-art",
+    "name": "Standing Toe Touch Reach",
+    "kws": [
+      "standing",
+      "toe",
+      "touch",
+      "reach"
+    ],
+    "found": [
+      "reach"
+    ],
+    "missing": [
+      "standing",
+      "toe",
+      "touch"
+    ],
+    "ratio": 0.25,
+    "instr": "Kneel upright and extend both arms forward at shoulder height, palms facing each"
+  },
+  {
+    "id": "fineart-side-plank-elegant",
+    "cat": "fine-art",
+    "name": "Elegant Side Plank Line",
+    "kws": [
+      "elegant",
+      "side",
+      "plank",
+      "line"
+    ],
+    "found": [],
+    "missing": [
+      "elegant",
+      "side",
+      "plank",
+      "line"
+    ],
+    "ratio": 0,
+    "instr": "Stand with feet hip-width apart and fold forward from the hips, reaching both ha"
+  },
+  {
+    "id": "fineart-standing-releve-attitude",
+    "cat": "fine-art",
+    "name": "Relevé Attitude Line",
+    "kws": [
+      "relevé",
+      "attitude",
+      "line"
+    ],
+    "found": [
+      "line"
+    ],
+    "missing": [
+      "relevé",
+      "attitude"
+    ],
+    "ratio": 0.3333333333333333,
+    "instr": "Support the body on one straight arm and the outer edge of one foot, stacking th"
+  },
+  {
+    "id": "fineart-lying-fetal-soft-classical",
+    "cat": "fine-art",
+    "name": "Soft Classical Fetal Curl",
+    "kws": [
+      "soft",
+      "classical",
+      "fetal",
+      "curl"
+    ],
+    "found": [
+      "classical"
+    ],
+    "missing": [
+      "soft",
+      "fetal",
+      "curl"
+    ],
+    "ratio": 0.25,
+    "instr": "Rise onto the ball of the standing foot while bending the other leg behind at a "
+  },
+  {
+    "id": "fineart-standing-devant-extension",
+    "cat": "fine-art",
+    "name": "Standing Devant Extension",
+    "kws": [
+      "standing",
+      "devant",
+      "extension"
+    ],
+    "found": [],
+    "missing": [
+      "standing",
+      "devant",
+      "extension"
+    ],
+    "ratio": 0,
+    "instr": "Curl onto the side with knees drawn gently toward the chest and arms folded soft"
+  },
+  {
+    "id": "fashion-power-stance-classic",
+    "cat": "fashion",
+    "name": "Classic Power Stance",
+    "kws": [
+      "classic",
+      "power",
+      "stance"
+    ],
+    "found": [],
+    "missing": [
+      "classic",
+      "power",
+      "stance"
+    ],
+    "ratio": 0,
+    "instr": "Balance on one straight standing leg and extend the other forward and up as high"
+  },
+  {
+    "id": "fashion-mid-turn-sweep",
+    "cat": "fashion",
+    "name": "Mid-Turn Sweep",
+    "kws": [
+      "mid",
+      "turn",
+      "sweep"
+    ],
+    "found": [],
+    "missing": [
+      "mid",
+      "turn",
+      "sweep"
+    ],
+    "ratio": 0,
+    "instr": "Plant both feet shoulder-width apart, place both hands firmly on the hips, and s"
+  },
+  {
+    "id": "fashion-runway-stomp-stride",
+    "cat": "fashion",
+    "name": "Runway Stomp Stride",
+    "kws": [
+      "runway",
+      "stomp",
+      "stride"
+    ],
+    "found": [],
+    "missing": [
+      "runway",
+      "stomp",
+      "stride"
+    ],
+    "ratio": 0,
+    "instr": "Capture the midpoint of a full-body turn, one arm sweeping outward as if catchin"
+  },
+  {
+    "id": "fashion-catalog-three-quarter",
+    "cat": "fashion",
+    "name": "Catalog Three-Quarter Stand",
+    "kws": [
+      "catalog",
+      "three",
+      "quarter"
+    ],
+    "found": [],
+    "missing": [
+      "catalog",
+      "three",
+      "quarter"
+    ],
+    "ratio": 0,
+    "instr": "Take a strong, deliberate forward step, front knee slightly bent, back leg drivi"
+  },
+  {
+    "id": "fashion-strong-silhouette-cape",
+    "cat": "fashion",
+    "name": "Strong Silhouette Cape Hold",
+    "kws": [
+      "strong",
+      "silhouette",
+      "cape",
+      "hold"
+    ],
+    "found": [],
+    "missing": [
+      "strong",
+      "silhouette",
+      "cape",
+      "hold"
+    ],
+    "ratio": 0,
+    "instr": "Angle the body 30-45° away from camera in a three-quarter stance, weight on the "
+  },
+  {
+    "id": "fashion-hand-in-pocket-cool",
+    "cat": "fashion",
+    "name": "Hand in Pocket Cool",
+    "kws": [
+      "hand",
+      "pocket",
+      "cool"
+    ],
+    "found": [
+      "hand"
+    ],
+    "missing": [
+      "pocket",
+      "cool"
+    ],
+    "ratio": 0.3333333333333333,
+    "instr": "Stand in profile and hold a coat or cape open with both hands extended slightly "
+  },
+  {
+    "id": "fashion-jacket-shoulder-pop",
+    "cat": "fashion",
+    "name": "Jacket Over Shoulder Pop",
+    "kws": [
+      "jacket",
+      "over",
+      "shoulder",
+      "pop"
+    ],
+    "found": [
+      "shoulder"
+    ],
+    "missing": [
+      "jacket",
+      "over",
+      "pop"
+    ],
+    "ratio": 0.25,
+    "instr": "Slip one hand casually into a pocket while the other arm hangs relaxed, weight s"
+  },
+  {
+    "id": "fashion-wide-leg-stance-bold",
+    "cat": "fashion",
+    "name": "Wide Leg Bold Stance",
+    "kws": [
+      "wide",
+      "leg",
+      "bold",
+      "stance"
+    ],
+    "found": [],
+    "missing": [
+      "wide",
+      "leg",
+      "bold",
+      "stance"
+    ],
+    "ratio": 0,
+    "instr": "Hook one finger casually through a jacket draped over the shoulder while the oth"
+  },
+  {
+    "id": "fashion-walking-motion-blur",
+    "cat": "fashion",
+    "name": "Walking Motion Capture",
+    "kws": [
+      "walking",
+      "motion",
+      "capture"
+    ],
+    "found": [],
+    "missing": [
+      "walking",
+      "motion",
+      "capture"
+    ],
+    "ratio": 0,
+    "instr": "Plant the feet wider than hip-width, cross both arms loosely in front of the bod"
+  },
+  {
+    "id": "fashion-seated-editorial-commercial",
+    "cat": "fashion",
+    "name": "Seated Commercial Lean",
+    "kws": [
+      "seated",
+      "commercial",
+      "lean"
+    ],
+    "found": [],
+    "missing": [
+      "seated",
+      "commercial",
+      "lean"
+    ],
+    "ratio": 0,
+    "instr": "Walk naturally toward camera at a brisk pace, capturing the moment one foot exte"
+  },
+  {
+    "id": "fashion-accessory-focus-hand",
+    "cat": "fashion",
+    "name": "Accessory Focus Hand",
+    "kws": [
+      "accessory",
+      "focus",
+      "hand"
+    ],
+    "found": [
+      "hand"
+    ],
+    "missing": [
+      "accessory",
+      "focus"
+    ],
+    "ratio": 0.3333333333333333,
+    "instr": "Sit on a stool or block with legs crossed at the knee, lean the torso slightly f"
+  },
+  {
+    "id": "fashion-shoulder-back-confident",
+    "cat": "fashion",
+    "name": "Confident Shoulder Set",
+    "kws": [
+      "confident",
+      "shoulder",
+      "set"
+    ],
+    "found": [],
+    "missing": [
+      "confident",
+      "shoulder",
+      "set"
+    ],
+    "ratio": 0,
+    "instr": "Raise one hand to chest height to display a bag, jewelry, or accessory clearly t"
+  },
+  {
+    "id": "fashion-leg-forward-point",
+    "cat": "fashion",
+    "name": "Leg Forward Point",
+    "kws": [
+      "leg",
+      "forward",
+      "point"
+    ],
+    "found": [],
+    "missing": [
+      "leg",
+      "forward",
+      "point"
+    ],
+    "ratio": 0,
+    "instr": "Stand tall with feet together, roll both shoulders back and down, and let the ar"
+  },
+  {
+    "id": "fashion-oversized-coat-swirl",
+    "cat": "fashion",
+    "name": "Oversized Coat Swirl",
+    "kws": [
+      "oversized",
+      "coat",
+      "swirl"
+    ],
+    "found": [],
+    "missing": [
+      "oversized",
+      "coat",
+      "swirl"
+    ],
+    "ratio": 0,
+    "instr": "Stand with weight on the back leg and extend the front leg forward, pointed toe "
+  },
+  {
+    "id": "fashion-crossed-ankle-lean-wall",
+    "cat": "fashion",
+    "name": "Crossed Ankle Wall Lean",
+    "kws": [
+      "crossed",
+      "ankle",
+      "wall",
+      "lean"
+    ],
+    "found": [],
+    "missing": [
+      "crossed",
+      "ankle",
+      "wall",
+      "lean"
+    ],
+    "ratio": 0,
+    "instr": "Spin quickly while wearing an oversized coat, capturing the instant the fabric f"
+  },
+  {
+    "id": "fashion-power-jump-freeze",
+    "cat": "fashion",
+    "name": "Power Jump Freeze",
+    "kws": [
+      "power",
+      "jump",
+      "freeze"
+    ],
+    "found": [],
+    "missing": [
+      "power",
+      "jump",
+      "freeze"
+    ],
+    "ratio": 0,
+    "instr": "Lean one shoulder casually against a wall, cross the ankles, and rest one hand i"
+  },
+  {
+    "id": "fashion-belt-cinch-waist",
+    "cat": "fashion",
+    "name": "Belt Cinch Waist Focus",
+    "kws": [
+      "belt",
+      "cinch",
+      "waist",
+      "focus"
+    ],
+    "found": [],
+    "missing": [
+      "belt",
+      "cinch",
+      "waist",
+      "focus"
+    ],
+    "ratio": 0,
+    "instr": "Jump straight up with both arms extended overhead and legs slightly tucked, capt"
+  },
+  {
+    "id": "fashion-sunglasses-tilt-down",
+    "cat": "fashion",
+    "name": "Sunglasses Tilt Down",
+    "kws": [
+      "sunglasses",
+      "tilt",
+      "down"
+    ],
+    "found": [],
+    "missing": [
+      "sunglasses",
+      "tilt",
+      "down"
+    ],
+    "ratio": 0,
+    "instr": "Place both hands lightly at the waistband or belt to draw attention to the cinch"
+  },
+  {
+    "id": "fashion-back-view-glance",
+    "cat": "fashion",
+    "name": "Back View Product Glance",
+    "kws": [
+      "back",
+      "view",
+      "product",
+      "glance"
+    ],
+    "found": [],
+    "missing": [
+      "back",
+      "view",
+      "product",
+      "glance"
+    ],
+    "ratio": 0,
+    "instr": "Tilt the chin down slightly and look up over the top of the sunglasses toward ca"
+  },
+  {
+    "id": "fashion-cross-leg-standing",
+    "cat": "fashion",
+    "name": "Standing Crossed Legs",
+    "kws": [
+      "standing",
+      "crossed",
+      "legs"
+    ],
+    "found": [],
+    "missing": [
+      "standing",
+      "crossed",
+      "legs"
+    ],
+    "ratio": 0,
+    "instr": "Stand with the back to camera to display the garment's back, then glance back ov"
+  },
+  {
+    "id": "fashion-editorial-brand-stare",
+    "cat": "fashion",
+    "name": "Brand Forward Stare",
+    "kws": [
+      "brand",
+      "forward",
+      "stare"
+    ],
+    "found": [
+      "forward"
+    ],
+    "missing": [
+      "brand",
+      "stare"
+    ],
+    "ratio": 0.3333333333333333,
+    "instr": "Cross one leg in front of the other at the ankle while standing, hips level, one"
+  },
+  {
+    "id": "fashion-arm-drape-product",
+    "cat": "fashion",
+    "name": "Arm Drape Product Display",
+    "kws": [
+      "arm",
+      "drape",
+      "product",
+      "display"
+    ],
+    "found": [
+      "arm"
+    ],
+    "missing": [
+      "drape",
+      "product",
+      "display"
+    ],
+    "ratio": 0.25,
+    "instr": "Stand tall with feet grounded shoulder-width apart, arms relaxed, and deliver a "
+  },
+  {
+    "id": "fashion-power-walk-toward-camera",
+    "cat": "fashion",
+    "name": "Power Walk Toward Camera",
+    "kws": [
+      "power",
+      "walk",
+      "toward",
+      "camera"
+    ],
+    "found": [
+      "camera"
+    ],
+    "missing": [
+      "power",
+      "walk",
+      "toward"
+    ],
+    "ratio": 0.25,
+    "instr": "Drape one arm across the front of the body to display a bag or clutch at the hip"
+  },
+  {
+    "id": "fashion-seated-floor-brand-cool",
+    "cat": "fashion",
+    "name": "Seated Floor Brand Cool",
+    "kws": [
+      "seated",
+      "floor",
+      "brand",
+      "cool"
+    ],
+    "found": [],
+    "missing": [
+      "seated",
+      "floor",
+      "brand",
+      "cool"
+    ],
+    "ratio": 0,
+    "instr": "Walk directly toward camera with long, confident strides, capturing the moment t"
+  },
+  {
+    "id": "fashion-hair-flip-motion",
+    "cat": "fashion",
+    "name": "Hair Flip Motion Capture",
+    "kws": [
+      "hair",
+      "flip",
+      "motion",
+      "capture"
+    ],
+    "found": [],
+    "missing": [
+      "hair",
+      "flip",
+      "motion",
+      "capture"
+    ],
+    "ratio": 0,
+    "instr": "Sit on the floor with legs extended to one side and lean back on both hands, til"
+  },
+  {
+    "id": "fashion-denim-pocket-thumbs",
+    "cat": "fashion",
+    "name": "Denim Pocket Thumbs Hook",
+    "kws": [
+      "denim",
+      "pocket",
+      "thumbs",
+      "hook"
+    ],
+    "found": [],
+    "missing": [
+      "denim",
+      "pocket",
+      "thumbs",
+      "hook"
+    ],
+    "ratio": 0,
+    "instr": "Flip the head and hair in one quick motion, capturing the peak moment the hair i"
+  },
+  {
+    "id": "fashion-runway-arms-swing-stride",
+    "cat": "fashion",
+    "name": "Runway Arm Swing Stride",
+    "kws": [
+      "runway",
+      "arm",
+      "swing",
+      "stride"
+    ],
+    "found": [],
+    "missing": [
+      "runway",
+      "arm",
+      "swing",
+      "stride"
+    ],
+    "ratio": 0,
+    "instr": "Hook both thumbs into the front pockets while standing in a relaxed three-quarte"
+  },
+  {
+    "id": "fashion-shoulder-roll-jacket-on",
+    "cat": "fashion",
+    "name": "Shoulder Roll Jacket Reveal",
+    "kws": [
+      "shoulder",
+      "roll",
+      "jacket",
+      "reveal"
+    ],
+    "found": [],
+    "missing": [
+      "shoulder",
+      "roll",
+      "jacket",
+      "reveal"
+    ],
+    "ratio": 0,
+    "instr": "Stride forward with purposeful energy, arms swinging naturally in opposition to "
+  },
+  {
+    "id": "fashion-editorial-crossbody-bag",
+    "cat": "fashion",
+    "name": "Crossbody Bag Commercial Stand",
+    "kws": [
+      "crossbody",
+      "bag",
+      "commercial"
+    ],
+    "found": [],
+    "missing": [
+      "crossbody",
+      "bag",
+      "commercial"
+    ],
+    "ratio": 0,
+    "instr": "Roll one shoulder back while pulling a jacket partially off to reveal what's wor"
+  },
+  {
+    "id": "lowhigh-floor-seated-start",
+    "cat": "low-to-high",
+    "name": "Floor Seated Starting Point",
+    "kws": [
+      "floor",
+      "seated",
+      "starting",
+      "point"
+    ],
+    "found": [],
+    "missing": [
+      "floor",
+      "seated",
+      "starting",
+      "point"
+    ],
+    "ratio": 0,
+    "instr": "Lean the torso slightly forward from the hips, both hands resting lightly on the"
+  },
+  {
+    "id": "lowhigh-floor-reach-up-arms",
+    "cat": "low-to-high",
+    "name": "Floor Reach Up Arms",
+    "kws": [
+      "floor",
+      "reach",
+      "arms"
+    ],
+    "found": [
+      "floor"
+    ],
+    "missing": [
+      "reach",
+      "arms"
+    ],
+    "ratio": 0.3333333333333333,
+    "instr": "Begin fully seated on the floor, legs folded to one side, both hands planted for"
+  },
+  {
+    "id": "lowhigh-deep-crouch-start",
+    "cat": "low-to-high",
+    "name": "Deep Crouch Starting Position",
+    "kws": [
+      "deep",
+      "crouch",
+      "starting",
+      "position"
+    ],
+    "found": [
+      "crouch"
+    ],
+    "missing": [
+      "deep",
+      "starting",
+      "position"
+    ],
+    "ratio": 0.25,
+    "instr": "Still seated on the floor, extend both arms upward and slightly forward as if re"
+  },
+  {
+    "id": "lowhigh-seated-to-kneel-transition",
+    "cat": "low-to-high",
+    "name": "Seated to Kneel Transition",
+    "kws": [
+      "seated",
+      "kneel",
+      "transition"
+    ],
+    "found": [],
+    "missing": [
+      "seated",
+      "kneel",
+      "transition"
+    ],
+    "ratio": 0,
+    "instr": "Stand fully upright on the balls of both feet, arms extended completely overhead"
+  },
+  {
+    "id": "lowhigh-floor-lie-back-start",
+    "cat": "low-to-high",
+    "name": "Floor Lie Back Starting Point",
+    "kws": [
+      "floor",
+      "lie",
+      "back",
+      "starting",
+      "point"
+    ],
+    "found": [
+      "floor"
+    ],
+    "missing": [
+      "lie",
+      "back",
+      "starting",
+      "point"
+    ],
+    "ratio": 0.2,
+    "instr": "Push up from a seated floor position onto both knees, using both hands on the fl"
+  },
+  {
+    "id": "lowhigh-hands-knees-push-up",
+    "cat": "low-to-high",
+    "name": "Hands and Knees Push-Up Point",
+    "kws": [
+      "hands",
+      "knees",
+      "push",
+      "point"
+    ],
+    "found": [],
+    "missing": [
+      "hands",
+      "knees",
+      "push",
+      "point"
+    ],
+    "ratio": 0,
+    "instr": "Roll from lying flat onto one side, propping onto a bent forearm as the first mo"
+  },
+  {
+    "id": "lowhigh-standing-half-turn-rise",
+    "cat": "low-to-high",
+    "name": "Standing Half-Turn on Rise",
+    "kws": [
+      "standing",
+      "half",
+      "turn",
+      "rise"
+    ],
+    "found": [
+      "rise"
+    ],
+    "missing": [
+      "standing",
+      "half",
+      "turn"
+    ],
+    "ratio": 0.25,
+    "instr": "Still mostly seated on the floor, lift both arms before the legs begin to move, "
+  },
+  {
+    "id": "lowhigh-floor-side-push-up-start",
+    "cat": "low-to-high",
+    "name": "Floor Side Push-Up Start",
+    "kws": [
+      "floor",
+      "side",
+      "push",
+      "start"
+    ],
+    "found": [],
+    "missing": [
+      "floor",
+      "side",
+      "push",
+      "start"
+    ],
+    "ratio": 0,
+    "instr": "As the body nears full height, add a slight half-turn of the torso so the rise c"
+  },
+  {
+    "id": "lowhigh-kneel-both-up-transition",
+    "cat": "low-to-high",
+    "name": "Both Knees Up Transition",
+    "kws": [
+      "both",
+      "knees",
+      "transition"
+    ],
+    "found": [],
+    "missing": [
+      "both",
+      "knees",
+      "transition"
+    ],
+    "ratio": 0,
+    "instr": "Lie on one side on the floor, lower arm bent for support, as an alternate low st"
+  },
+  {
+    "id": "lowhigh-single-leg-plant-rise",
+    "cat": "low-to-high",
+    "name": "Single Leg Plant Rising",
+    "kws": [
+      "single",
+      "leg",
+      "plant",
+      "rising"
+    ],
+    "found": [],
+    "missing": [
+      "single",
+      "leg",
+      "plant",
+      "rising"
+    ],
+    "ratio": 0,
+    "instr": "Rise from sitting on the heels to a fully upright kneeling position with both kn"
+  },
+  {
+    "id": "lowhigh-standing-tall-arms-out",
+    "cat": "low-to-high",
+    "name": "Standing Tall Arms Out Finish",
+    "kws": [
+      "standing",
+      "tall",
+      "arms",
+      "out",
+      "finish"
+    ],
+    "found": [
+      "arms"
+    ],
+    "missing": [
+      "standing",
+      "tall",
+      "out",
+      "finish"
+    ],
+    "ratio": 0.2,
+    "instr": "From a low kneeling position, plant one foot flat and drive upward through that "
+  },
+  {
+    "id": "lowhigh-floor-twist-rise-begin",
+    "cat": "low-to-high",
+    "name": "Floor Twist Rising Begin",
+    "kws": [
+      "floor",
+      "twist",
+      "rising",
+      "begin"
+    ],
+    "found": [
+      "floor"
+    ],
+    "missing": [
+      "twist",
+      "rising",
+      "begin"
+    ],
+    "ratio": 0.25,
+    "instr": "Reach the final standing position with both arms spread wide to the sides at sho"
+  },
+  {
+    "id": "lowhigh-crouch-to-stand-explosive",
+    "cat": "low-to-high",
+    "name": "Explosive Crouch to Stand",
+    "kws": [
+      "explosive",
+      "crouch"
+    ],
+    "found": [],
+    "missing": [
+      "explosive",
+      "crouch"
+    ],
+    "ratio": 0,
+    "instr": "From a seated floor position, twist the torso to one side while planting one han"
+  },
+  {
+    "id": "lowhigh-seated-legs-extend-lift",
+    "cat": "low-to-high",
+    "name": "Seated Legs Extending Lift",
+    "kws": [
+      "seated",
+      "legs",
+      "extending",
+      "lift"
+    ],
+    "found": [],
+    "missing": [
+      "seated",
+      "legs",
+      "extending",
+      "lift"
+    ],
+    "ratio": 0,
+    "instr": "Capture the explosive middle moment of springing up from a deep crouch, both fee"
+  },
+  {
+    "id": "lowhigh-floor-bridge-rise-start",
+    "cat": "low-to-high",
+    "name": "Floor Bridge Rising Start",
+    "kws": [
+      "floor",
+      "bridge",
+      "rising",
+      "start"
+    ],
+    "found": [],
+    "missing": [
+      "floor",
+      "bridge",
+      "rising",
+      "start"
+    ],
+    "ratio": 0,
+    "instr": "At the top of the sequence, stand fully upright and reach one arm high on a diag"
+  },
+  {
+    "id": "lowhigh-kneel-lean-forward-rise",
+    "cat": "low-to-high",
+    "name": "Kneel Lean Forward Into Rise",
+    "kws": [
+      "kneel",
+      "lean",
+      "forward",
+      "into",
+      "rise"
+    ],
+    "found": [
+      "into"
+    ],
+    "missing": [
+      "kneel",
+      "lean",
+      "forward",
+      "rise"
+    ],
+    "ratio": 0.2,
+    "instr": "Lie on the back and press the hips up into a bridge shape as an athletic startin"
+  },
+  {
+    "id": "lowhigh-floor-child-pose-start",
+    "cat": "low-to-high",
+    "name": "Floor Child's Pose Start",
+    "kws": [
+      "floor",
+      "child's",
+      "start"
+    ],
+    "found": [
+      "floor"
+    ],
+    "missing": [
+      "child's",
+      "start"
+    ],
+    "ratio": 0.3333333333333333,
+    "instr": "Complete the rising sequence with a small jump at the very end, both feet briefl"
+  },
+  {
+    "id": "lowhigh-standing-final-look-up",
+    "cat": "low-to-high",
+    "name": "Standing Final Look Up",
+    "kws": [
+      "standing",
+      "final",
+      "look"
+    ],
+    "found": [],
+    "missing": [
+      "standing",
+      "final",
+      "look"
+    ],
+    "ratio": 0,
+    "instr": "From a half-kneeling lunge, straighten the front leg while both arms lift wide t"
+  },
+  {
+    "id": "lowhigh-floor-kneel-hands-overhead-rise",
+    "cat": "low-to-high",
+    "name": "Kneeling Hands Overhead Rise",
+    "kws": [
+      "kneeling",
+      "hands",
+      "overhead",
+      "rise"
+    ],
+    "found": [
+      "rise"
+    ],
+    "missing": [
+      "kneeling",
+      "hands",
+      "overhead"
+    ],
+    "ratio": 0.25,
+    "instr": "End the sequence fully standing, head tilted back, both arms relaxed at the side"
+  },
+  {
+    "id": "highlow-standing-peak-start",
+    "cat": "high-to-low",
+    "name": "Standing Peak Starting Point",
+    "kws": [
+      "standing",
+      "peak",
+      "starting",
+      "point"
+    ],
+    "found": [
+      "standing"
+    ],
+    "missing": [
+      "peak",
+      "starting",
+      "point"
+    ],
+    "ratio": 0.25,
+    "instr": "From an upright kneeling position, press one foot flat on the floor while sweepi"
+  },
+  {
+    "id": "highlow-torso-begin-fall-forward",
+    "cat": "high-to-low",
+    "name": "Torso Beginning to Fall Forward",
+    "kws": [
+      "torso",
+      "beginning",
+      "fall",
+      "forward"
+    ],
+    "found": [],
+    "missing": [
+      "torso",
+      "beginning",
+      "fall",
+      "forward"
+    ],
+    "ratio": 0,
+    "instr": "Begin fully upright, both arms raised overhead, weight balanced evenly — the hig"
+  },
+  {
+    "id": "highlow-knees-bending-controlled",
+    "cat": "high-to-low",
+    "name": "Knees Bending Controlled Drop",
+    "kws": [
+      "knees",
+      "bending",
+      "controlled",
+      "drop"
+    ],
+    "found": [
+      "knees"
+    ],
+    "missing": [
+      "bending",
+      "controlled",
+      "drop"
+    ],
+    "ratio": 0.25,
+    "instr": "Continue the forward fall with the torso now well past horizontal, both arms tra"
+  },
+  {
+    "id": "highlow-standing-lean-back-start",
+    "cat": "high-to-low",
+    "name": "Standing Lean Back Starting Point",
+    "kws": [
+      "standing",
+      "lean",
+      "back",
+      "starting",
+      "point"
+    ],
+    "found": [
+      "point"
+    ],
+    "missing": [
+      "standing",
+      "lean",
+      "back",
+      "starting"
+    ],
+    "ratio": 0.2,
+    "instr": "Complete the descent fully seated or kneeling on the floor, torso relaxed, hands"
+  },
+  {
+    "id": "highlow-cascading-arms-drop",
+    "cat": "high-to-low",
+    "name": "Cascading Arms Drop",
+    "kws": [
+      "cascading",
+      "arms",
+      "drop"
+    ],
+    "found": [
+      "arms"
+    ],
+    "missing": [
+      "cascading",
+      "drop"
+    ],
+    "ratio": 0.3333333333333333,
+    "instr": "Begin standing tall but leaning slightly backward, arms relaxed, establishing an"
+  },
+  {
+    "id": "highlow-one-leg-lower-lunge",
+    "cat": "high-to-low",
+    "name": "One Leg Lowering Into Lunge",
+    "kws": [
+      "one",
+      "leg",
+      "lowering",
+      "into",
+      "lunge"
+    ],
+    "found": [
+      "leg"
+    ],
+    "missing": [
+      "one",
+      "lowering",
+      "into",
+      "lunge"
+    ],
+    "ratio": 0.2,
+    "instr": "From standing, drop both arms in a cascading wave from overhead down past the sh"
+  },
+  {
+    "id": "highlow-collapse-to-knees-dramatic",
+    "cat": "high-to-low",
+    "name": "Dramatic Collapse to Knees",
+    "kws": [
+      "dramatic",
+      "collapse",
+      "knees"
+    ],
+    "found": [],
+    "missing": [
+      "dramatic",
+      "collapse",
+      "knees"
+    ],
+    "ratio": 0,
+    "instr": "Step one leg back and lower into a deep lunge, dropping the back knee toward the"
+  },
+  {
+    "id": "highlow-elevated-platform-start",
+    "cat": "high-to-low",
+    "name": "Elevated Platform Starting Point",
+    "kws": [
+      "elevated",
+      "platform",
+      "starting",
+      "point"
+    ],
+    "found": [],
+    "missing": [
+      "elevated",
+      "platform",
+      "starting",
+      "point"
+    ],
+    "ratio": 0,
+    "instr": "From standing, let the body collapse down onto both knees in one fluid motion, t"
+  },
+  {
+    "id": "highlow-step-down-mid-air",
+    "cat": "high-to-low",
+    "name": "Step Down Mid-Air Moment",
+    "kws": [
+      "step",
+      "down",
+      "mid",
+      "air",
+      "moment"
+    ],
+    "found": [
+      "step"
+    ],
+    "missing": [
+      "down",
+      "mid",
+      "air",
+      "moment"
+    ],
+    "ratio": 0.2,
+    "instr": "Begin standing on a raised platform, box, or step, arms relaxed at the sides, us"
+  },
+  {
+    "id": "highlow-standing-tiptoe-start-tall",
+    "cat": "high-to-low",
+    "name": "Standing Tiptoe Tall Start",
+    "kws": [
+      "standing",
+      "tiptoe",
+      "tall",
+      "start"
+    ],
+    "found": [],
+    "missing": [
+      "standing",
+      "tiptoe",
+      "tall",
+      "start"
+    ],
+    "ratio": 0,
+    "instr": "Land from the descent by bending both knees deeply to absorb impact, torso leani"
+  },
+  {
+    "id": "highlow-torso-spiral-down",
+    "cat": "high-to-low",
+    "name": "Torso Spiral Descent",
+    "kws": [
+      "torso",
+      "spiral",
+      "descent"
+    ],
+    "found": [
+      "descent"
+    ],
+    "missing": [
+      "torso",
+      "spiral"
+    ],
+    "ratio": 0.3333333333333333,
+    "instr": "Begin rising onto the balls of both feet, arms stretched fully overhead, establi"
+  },
+  {
+    "id": "highlow-seated-fall-back-catch",
+    "cat": "high-to-low",
+    "name": "Seated Fall Back Catch",
+    "kws": [
+      "seated",
+      "fall",
+      "back",
+      "catch"
+    ],
+    "found": [],
+    "missing": [
+      "seated",
+      "fall",
+      "back",
+      "catch"
+    ],
+    "ratio": 0,
+    "instr": "Twist the torso while simultaneously lowering the body, spiraling downward so th"
+  },
+  {
+    "id": "highlow-arms-wide-falling-open",
+    "cat": "high-to-low",
+    "name": "Arms Wide Falling Open",
+    "kws": [
+      "arms",
+      "wide",
+      "falling",
+      "open"
+    ],
+    "found": [
+      "arms"
+    ],
+    "missing": [
+      "wide",
+      "falling",
+      "open"
+    ],
+    "ratio": 0.25,
+    "instr": "Complete the descent lying fully prone on the floor, arms relaxed forward, face "
+  },
+  {
+    "id": "highlow-standing-to-squat-transition",
+    "cat": "high-to-low",
+    "name": "Standing to Squat Transition",
+    "kws": [
+      "standing",
+      "squat",
+      "transition"
+    ],
+    "found": [],
+    "missing": [
+      "standing",
+      "squat",
+      "transition"
+    ],
+    "ratio": 0,
+    "instr": "While descending, spread both arms wide to the sides as if falling open, torso t"
+  },
+  {
+    "id": "highlow-diagonal-fall-freeze",
+    "cat": "high-to-low",
+    "name": "Diagonal Fall Freeze Frame",
+    "kws": [
+      "diagonal",
+      "fall",
+      "freeze",
+      "frame"
+    ],
+    "found": [],
+    "missing": [
+      "diagonal",
+      "fall",
+      "freeze",
+      "frame"
+    ],
+    "ratio": 0,
+    "instr": "Lower from standing into a full squat, heels grounded, torso upright, arms exten"
+  },
+  {
+    "id": "highlow-kneel-settle-final",
+    "cat": "high-to-low",
+    "name": "Kneel Settle Final Point",
+    "kws": [
+      "kneel",
+      "settle",
+      "final",
+      "point"
+    ],
+    "found": [
+      "point"
+    ],
+    "missing": [
+      "kneel",
+      "settle",
+      "final"
+    ],
+    "ratio": 0.25,
+    "instr": "Capture the peak dynamic moment of a diagonal fall through the frame, body angle"
+  },
+  {
+    "id": "highlow-standing-hip-drop-begin",
+    "cat": "high-to-low",
+    "name": "Standing Hip Drop Beginning",
+    "kws": [
+      "standing",
+      "hip",
+      "drop",
+      "beginning"
+    ],
+    "found": [],
+    "missing": [
+      "standing",
+      "hip",
+      "drop",
+      "beginning"
+    ],
+    "ratio": 0,
+    "instr": "Settle into a kneeling position, torso upright, hands resting gently on the thig"
+  },
+  {
+    "id": "highlow-standing-bow-forward-begin",
+    "cat": "high-to-low",
+    "name": "Standing Bow Forward Begin",
+    "kws": [
+      "standing",
+      "bow",
+      "forward",
+      "begin"
+    ],
+    "found": [],
+    "missing": [
+      "standing",
+      "bow",
+      "forward",
+      "begin"
+    ],
+    "ratio": 0,
+    "instr": "Fall to one side while extending the same-side arm down to catch the body's weig"
+  },
+  {
+    "id": "highlow-hands-floor-arch-back",
+    "cat": "high-to-low",
+    "name": "Hands to Floor Arch Back Descent",
+    "kws": [
+      "hands",
+      "floor",
+      "arch",
+      "back",
+      "descent"
+    ],
+    "found": [
+      "descent"
+    ],
+    "missing": [
+      "hands",
+      "floor",
+      "arch",
+      "back"
+    ],
+    "ratio": 0.2,
+    "instr": "From standing, begin a slow, formal bow forward from the waist, arms trailing na"
+  },
+  {
+    "id": "highlow-full-recline-final-settle",
+    "cat": "high-to-low",
+    "name": "Full Recline Final Settle",
+    "kws": [
+      "full",
+      "recline",
+      "final",
+      "settle"
+    ],
+    "found": [
+      "final"
+    ],
+    "missing": [
+      "full",
+      "recline",
+      "settle"
+    ],
+    "ratio": 0.25,
+    "instr": "Continue lowering the torso until both hands reach the floor while arching the b"
+  },
+  {
+    "id": "highlow-standing-arms-cross-drop",
+    "cat": "high-to-low",
+    "name": "Arms Crossing While Dropping",
+    "kws": [
+      "arms",
+      "crossing",
+      "while",
+      "dropping"
+    ],
+    "found": [],
+    "missing": [
+      "arms",
+      "crossing",
+      "while",
+      "dropping"
+    ],
+    "ratio": 0,
+    "instr": "Complete the descent by reclining fully onto one side on the floor, head resting"
+  },
+  {
+    "id": "highlow-elevated-chair-step-down",
+    "cat": "high-to-low",
+    "name": "Elevated Chair Step Down",
+    "kws": [
+      "elevated",
+      "chair",
+      "step",
+      "down"
+    ],
+    "found": [
+      "down"
+    ],
+    "missing": [
+      "elevated",
+      "chair",
+      "step"
+    ],
+    "ratio": 0.25,
+    "instr": "While lowering the body, cross both arms in front of the chest as if hugging inw"
+  },
+  {
+    "id": "highlow-final-floor-gaze-up",
+    "cat": "high-to-low",
+    "name": "Final Floor Gaze Up",
+    "kws": [
+      "final",
+      "floor",
+      "gaze"
+    ],
+    "found": [
+      "floor"
+    ],
+    "missing": [
+      "final",
+      "gaze"
+    ],
+    "ratio": 0.3333333333333333,
+    "instr": "Begin seated on a raised chair or stool and start stepping one foot down toward "
+  },
+  {
+    "id": "highlow-standing-shoulders-slump-begin",
+    "cat": "high-to-low",
+    "name": "Shoulders Slump Beginning Descent",
+    "kws": [
+      "shoulders",
+      "slump",
+      "beginning",
+      "descent"
+    ],
+    "found": [],
+    "missing": [
+      "shoulders",
+      "slump",
+      "beginning",
+      "descent"
+    ],
+    "ratio": 0,
+    "instr": "End the sequence lying on the back on the floor, one arm reaching up toward wher"
+  },
+  {
+    "id": "p14-standing-s1-hip-sway-side-glance",
+    "cat": "standing",
+    "name": "Overhead Arm Contrapposto",
+    "kws": [
+      "overhead",
+      "arm",
+      "contrapposto"
+    ],
+    "found": [
+      "arm"
+    ],
+    "missing": [
+      "overhead",
+      "contrapposto"
+    ],
+    "ratio": 0.3333333333333333,
+    "instr": "Stand facing the camera in a white lace bodysuit against a paneled wall. Shift w"
+  },
+  {
+    "id": "p13-floor-s9-prone-chin-hand",
+    "cat": "reclining",
+    "name": "Prone on Forearms, Finger at Lip",
+    "kws": [
+      "prone",
+      "forearms,",
+      "finger",
+      "lip"
+    ],
+    "found": [
+      "finger"
+    ],
+    "missing": [
+      "prone",
+      "forearms,",
+      "lip"
+    ],
+    "ratio": 0.25,
+    "instr": "Lie face-down on the floor and prop the upper body up on both forearms. Cross th"
+  },
+  {
+    "id": "p09-unconv-s11-leaning-table-kneel",
+    "cat": "eccentric",
+    "name": "Kneeling on Ottomans, Leaning on Table",
+    "kws": [
+      "kneeling",
+      "ottomans,",
+      "leaning",
+      "table"
+    ],
+    "found": [
+      "table"
+    ],
+    "missing": [
+      "kneeling",
+      "ottomans,",
+      "leaning"
+    ],
+    "ratio": 0.25,
+    "instr": "Kneel on a set of stools or ottomans with the legs extended back. Lean forward a"
+  },
+  {
+    "id": "p09-unconv-s13-bent-over-chair-headdown",
+    "cat": "eccentric",
+    "name": "Bent Over Ottoman, Head Down, Rear View",
+    "kws": [
+      "bent",
+      "over",
+      "ottoman,",
+      "head",
+      "down,",
+      "rear",
+      "view"
+    ],
+    "found": [
+      "over",
+      "head"
+    ],
+    "missing": [
+      "bent",
+      "ottoman,",
+      "down,",
+      "rear",
+      "view"
+    ],
+    "ratio": 0.2857142857142857,
+    "instr": "Bend forward over a tufted ottoman or chair with your back to the camera, lettin"
+  },
+  {
+    "id": "p11-armchair-s6-kneeling-back-view-armrest-grip",
+    "cat": "seated",
+    "name": "Armchair Kneeling Back View Armrest Grip",
+    "kws": [
+      "armchair",
+      "kneeling",
+      "back",
+      "view",
+      "armrest",
+      "grip"
+    ],
+    "found": [
+      "back",
+      "grip"
+    ],
+    "missing": [
+      "armchair",
+      "kneeling",
+      "view",
+      "armrest"
+    ],
+    "ratio": 0.3333333333333333,
+    "instr": "Kneel on the chair seat facing the back of the chair, one hand gripping the top "
+  },
+  {
+    "id": "p16-bed-b4-supine-overhead-view-arms-spread",
+    "cat": "boudoir",
+    "name": "Bed Supine Overhead View Arms Spread",
+    "kws": [
+      "bed",
+      "supine",
+      "overhead",
+      "view",
+      "arms",
+      "spread"
+    ],
+    "found": [
+      "bed",
+      "overhead"
+    ],
+    "missing": [
+      "supine",
+      "view",
+      "arms",
+      "spread"
+    ],
+    "ratio": 0.3333333333333333,
+    "instr": "Lie flat on your back centered on the bed, shot from directly overhead. Extend o"
+  },
+  {
+    "id": "p18-lounge-r2-prone-feet-up-back-arch",
+    "cat": "reclining",
+    "name": "Lounge Prone with Feet Raised",
+    "kws": [
+      "lounge",
+      "prone",
+      "feet",
+      "raised"
+    ],
+    "found": [],
+    "missing": [
+      "lounge",
+      "prone",
+      "feet",
+      "raised"
+    ],
+    "ratio": 0,
+    "instr": "Lie on your stomach along the chaise, chest and shoulders lifted and turned towa"
+  }
+]

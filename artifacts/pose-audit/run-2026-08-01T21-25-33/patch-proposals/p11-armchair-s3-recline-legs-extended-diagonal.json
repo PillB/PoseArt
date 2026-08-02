@@ -1,0 +1,49 @@
+{
+  "proposal_id": "patch-p11-armchair-s3-recline-legs-extended-diagonal-1785625372627",
+  "pose_id": "p11-armchair-s3-recline-legs-extended-diagonal",
+  "category": "seated",
+  "worker": "worker-A-seated-batch2",
+  "existing_config_hash": "e5af2bebabca",
+  "defects": [
+    {
+      "type": "left_arm_raised_up_not_on_armrest_pr_v4_overshoot",
+      "severity": "major",
+      "description": "Description: 'hands resting on the armrest and the seat between the legs'. LEFT hand should be on armrest (at side, hip y level). But config has leftShoulder:-70 (abducted 106° — arm raised up and out) with shoulderFwdL:20 (behind, per corrected convention). Left wrist at y=0.851 (above shoulders y=0.601) — clearly NOT on armrest. This is the PR-v4 overshoot pattern (shoulders scaled to extreme abduction)."
+    },
+    {
+      "type": "right_hand_not_between_legs",
+      "severity": "major",
+      "description": "Description: 'hands resting on... the seat between the legs'. RIGHT hand should be in front of hips, between the thighs (at hip y level, between knee x positions). Currently rightWrist at (0.687, 0.066, -0.203) — distance to hip 0.560 (far), and wrist is BEHIND hips (z=-0.203 vs hips z=-0.079) not between legs in front."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "left_wrist_at_armrest_level (y between 0.05 and 0.25, on side of body)",
+      "expected": "Lw_y in [0.05, 0.25] AND Lw_x < -0.25 (on left side)",
+      "actual": "Lw_y=0.851 (above shoulders, raised up)"
+    },
+    {
+      "assertion": "right_wrist_between_legs (at hip y level, between knee x positions, in front of hips)",
+      "expected": "Rw_y in [0.05, 0.20] AND Rw_x between leftKnee_x and rightKnee_x AND Rw_z > hips_z",
+      "actual": "Rw_y=0.066 (at hip level ✓), Rw_x=0.687 (FAR right of rightKnee_x=0.452 — outside legs), Rw_z=-0.203 (behind hips)"
+    }
+  ],
+  "field_changes": {
+    "leftShoulder": 0,
+    "leftElbow": 100,
+    "shoulderFwdL": 0,
+    "rightShoulder": -20,
+    "rightElbow": 90,
+    "shoulderFwdR": -30
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/p11-armchair-s3-recline-legs-extended-diagonal/baseline/",
+  "after_evidence": "",
+  "regression_risk": "low — 6-field change addressing 2 distinct contact defects. Anomalies 1→0 (cleared elbow_above_shoulder L). Plausibility 0→0. over_support false→false (preserved). Legs and torso unchanged.",
+  "confidence": 0.75,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "LEFT hand on armrest fix: leftShoulder -70→0 (arm down at side, was raised up; per corrected convention - = UP, so 0 = neutral side), leftElbow 81→100 (more bent, forearm comes forward to armrest position), shoulderFwdL 20→0 (neutral, was 'behind' which pushed arm back). Verified: Lw_y 0.851→0.072 (now at hip level ✓ = armrest height), Lw_Lhip 0.915→0.176 (under 0.25 threshold ✓ — wrist at left side near hip = 'on armrest'). RIGHT hand between legs fix: rightShoulder -30→-20 (slight reduction, arm less abducted so wrist comes inward), rightElbow 60→90 (more bent, brings wrist forward and inward), shoulderFwdR 15→-30 (forward per corrected convention - = FORWARD, brings wrist from behind body to in front between legs). Verified: Rw_Rhip 0.560→0.235 (under 0.25 threshold ✓), Rw_y 0.066→0.130 (at hip level ✓), Rw_x now between knee positions (between Lknee_x=-0.024 and Rknee_x=0.452), Rw_z=0.071 (in front of hips z=-0.079 ✓ — 'on seat between legs'). LEGS unchanged (leftHip:55+leftKnee:15, rightHip:58+rightKnee:18 — both extended diagonally ✓; hipAbductL:-20+hipAbductR:-18 — both abducted outward = 'diagonal' ✓). Head turned (neck:-6 + globalTwist:18) — renderer-limited (no head yaw) but roll+twist gives partial turn.",
+  "created_at": "2026-08-01T23:02:52.627Z"
+}

@@ -1,0 +1,54 @@
+{
+  "proposal_id": "patch-p01-master-s10-chair-armrest-sit-hip-leg-1785621562746",
+  "pose_id": "p01-master-s10-chair-armrest-sit-hip-leg",
+  "category": "seated",
+  "worker": "worker-C",
+  "existing_config_hash": "10096bea275e",
+  "defects": [
+    {
+      "id": "hand_on_hip_left",
+      "severity": "major",
+      "evidence": "leftWrist at (-0.775, 0.940, 0.385) — head height (y=0.94), distance to leftHip 1.201 units. Description says 'one hand on the hip'. Original leftShoulder:-95 abducted arm overhead instead of bringing hand to hip."
+    },
+    {
+      "id": "hand_touching_leg_right",
+      "severity": "major",
+      "evidence": "rightWrist at (0.604, 0.344, 0.011) — above hip (y=0.05) and outside thigh (rKnee at x=0.44). rW-to-thigh-line distance 0.50 units. Description says 'the other touching the leg'."
+    },
+    {
+      "id": "knees_together_violation",
+      "severity": "major",
+      "evidence": "hipAbductL:-10 hipAbductR:-12 (both negative). Per FK derivation, NEGATIVE hipAbduct ADDUCTS-OUTWARD (knee moves away from centerline) for both legs — so both knees are APART. Description says 'knees together'. Renderer comment '+ = leg spreads outward' is INVERTED: positive actually adducts (knee toward center)."
+    },
+    {
+      "id": "feet_barely_floor",
+      "severity": "minor",
+      "evidence": "leftFoot.y=0.005, rightFoot.y=0.154 — above floor (y~-0.88 absolute or body-lowest-0.04). Description says 'feet barely touching the floor'. Borderline contact; rig limitation (hips fixed at y=0.12)."
+    }
+  ],
+  "failing_tests": [
+    "expect(leftWrist-to-leftHip distance).lessThan(0.20) — was 1.201",
+    "expect(rightWrist-to-rightThighLine distance).lessThan(0.15) — was 0.50",
+    "expect(hipAbductL > 0 && hipAbductR > 0).toBe(true) for 'knees together' — was (-10, -12)"
+  ],
+  "field_changes": {
+    "leftShoulder": -10,
+    "leftElbow": 140,
+    "shoulderFwdL": -40,
+    "rightShoulder": 0,
+    "rightElbow": 40,
+    "shoulderFwdR": -40,
+    "hipAbductL": 10,
+    "hipAbductR": 10
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/p01-master-s10-chair-armrest-sit-hip-leg/baseline/",
+  "after_evidence": "",
+  "regression_risk": "low — arms transformed from overhead to at-side (dramatic but isolated); knees adducted (may affect balance/COM but still over_support=true per sweep).",
+  "confidence": 0.78,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Contact failures fixed via arm repositioning: LEFT arm — drop shoulder abduction from -95 (overhead) to -10 (arm at side), deepen elbow from 55 to 140 (forearm folds up to hip), set shoulderFwdL:-40 (arm forward per inverted-sign convention — renderer comment says + is forward but coordinate derivation proves + moves elbow BEHIND). Result: lW-to-lHip distance 0.057 (was 1.201). RIGHT arm — shoulder 0 (arm at side), elbow 40 (slight bend), shoulderFwdR:-40 (forward). Result: rW at (0.263, -0.014, 0.079), near right thigh (rW-to-rKnee 0.234). KNEES — flip hipAbduct from (-10,-12) to (+10,+10) to convert both-abducted-outward to both-adducted-inward (knees together). Note: globalTwist:20 shifts both knees to figure's right (lKnee.x=0.19, rKnee.x=0.30) — knees are 0.12 apart (not perfectly touching) but adduction direction is correct.",
+  "created_at": "2026-08-01T21:59:22.746Z"
+}

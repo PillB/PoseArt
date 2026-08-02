@@ -1,0 +1,35 @@
+{
+  "proposal_id": "patch-p17-tubes-s6-side-sit-twist-look-back-1785624530692",
+  "pose_id": "p17-tubes-s6-side-sit-twist-look-back",
+  "category": "seated",
+  "worker": "worker-D-seated-batch2",
+  "existing_config_hash": "ea33d6b06c5d",
+  "defects": [
+    "LEFT_HAND_NOT_ON_THIGH: Description says \"resting one hand on the tube behind you and the other on the top thigh\". Right wrist at z=-0.354 (behind torso, correct for tube-behind). But LEFT wrist at z=+0.682 (very forward, far from body) — should rest on top of left thigh near lap (z~0.15-0.30, y~0.05-0.10). Currently left wrist 0.82 from hips — arm over-extended forward.",
+    "LEG_ASYMMETRY: leftHip=90, rightHip=95 (5° asym) + hipAbductL=-10, hipAbductR=-8 (2° asym). Description says \"legs together\" — should be symmetric.",
+    "FALSE PLAUSIBILITY FLAG: right_shoulder_flexion -74° flagged as outside_band [-60,180] — but description explicitly requires right hand behind on tube (posterior extension). Flag is a false positive in this context."
+  ],
+  "failing_tests": [
+    "expect(leftWrist.z).toBeLessThan(0.40) — left wrist should not extend far forward of torso; should rest near lap (z<0.40)",
+    "expect(dist(leftWrist, leftHip)).toBeLessThan(0.45) — left wrist within reach of thigh",
+    "expect(Math.abs(leftHip - rightHip)).toBeLessThanOrEqual(2) — symmetric hip flexion for legs-together",
+    "expect(Math.abs(hipAbductL - hipAbductR)).toBeLessThanOrEqual(2) — symmetric abduction for legs-together"
+  ],
+  "field_changes": {
+    "leftShoulder": -12,
+    "leftElbow": 105,
+    "shoulderFwdL": -15,
+    "rightHip": 90,
+    "hipAbductR": -10
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/p17-tubes-s6-side-sit-twist-look-back/baseline/",
+  "after_evidence": "",
+  "regression_risk": "Medium — elbow flexion direction in renderer is complex (rotY around elbow); if elbow flexion rotates forearm forward instead of back, the wrist may stay forward. Right-arm plausibility flag remains but is contextually correct. Leg symmetry fix is minor (5° and 2° adjustments) and should not introduce new defects.",
+  "confidence": 0.65,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "CORRECTED sign conventions: shoulderFwd + = behind, - = forward; leftShoulder rotZ - = raise/abduct. Left arm currently reaches far forward (z=+0.68) because shoulder abducted 50° + elbow only 31° flexed (forearm extends away). Reducing shoulder abduction to ~22° and increasing elbow flexion to ~95° drops the forearm toward the lap; small shoulderFwdL forward nudge (-5→-15) reaches the top-thigh contact surface. Right arm stays behind (correctly positioned for tube-behind contact); its plausibility flag is a false positive (description explicitly requires posterior extension). Leg asymmetry corrected to match \"legs together\" (both hips 90°, both hipAbduct -10°). globalTwist=40 preserved for angled-away-from-camera body rotation.",
+  "created_at": "2026-08-01T22:48:50.692Z"
+}

@@ -1,0 +1,52 @@
+{
+  "proposal_id": "patch-floor-stretch-legs-1785621333045",
+  "pose_id": "floor-stretch-legs",
+  "category": "seated",
+  "worker": "worker-B",
+  "existing_config_hash": "7821077fd1d2",
+  "defects": [
+    {
+      "type": "reclining_false_positive",
+      "severity": "n/a",
+      "description": "Detector flagged reclining (globalTilt missing) but description explicitly says Sit on the floor — seated forward-fold stretch, NOT reclining."
+    },
+    {
+      "type": "knees_bent_not_extended",
+      "severity": "major",
+      "description": "Description says both legs extended straight ahead with a SOFT BEND in the knees. Baseline has both knees at 100° flexion (deep right-angle bend), NOT extended. Should be ~10-20° (soft bend)."
+    },
+    {
+      "type": "arms_not_reaching_forward",
+      "severity": "minor",
+      "description": "Description says reach both hands forward toward toes or rest on shins. Baseline arms are near-neutral (slight backward), not reaching forward. Renderer-limited: shoulder-to-toe distance exceeds arm length so hands cannot fully reach toes; partial forward reach is the best achievable."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "both knees should have soft bend (knee flexion between 5° and 25°)",
+      "expected": "L_knee and R_knee both in [5, 25]",
+      "actual": "L_knee=100, R_knee=100 (deep bend)"
+    },
+    {
+      "assertion": "both arms should reach forward (sagittal flexion > 10°)",
+      "expected": "L_arm_sagflx > 10 and R_arm_sagflx > 10",
+      "actual": "L_arm_sagflx=5.9, R_arm_sagflx=10.0 (near neutral)"
+    }
+  ],
+  "field_changes": {
+    "leftKnee": 15,
+    "rightKnee": 15,
+    "shoulderFwdL": -25,
+    "shoulderFwdR": -25
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/floor-stretch-legs/baseline/",
+  "after_evidence": "",
+  "regression_risk": "low — knee change is the critical fix; arm forward reach is minor improvement; verified no anomalies/plausibility flags",
+  "confidence": 0.85,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Reclining flag is FALSE POSITIVE — description says Sit on the floor with both legs extended (seated forward stretch, not lying down). Primary defect: knee flexion 100° (deep right-angle bend) contradicts soft bend in the knees for extended legs. leftKnee/rightKnee 100→15 (soft bend per tip — locked-straight reads stiffer). Empirical verify: feet_min_y drops from 0.5 to 0.1 (feet near floor, correct for extended legs on floor). Secondary defect: arms not reaching forward. Per actual renderer convention (empirically verified), NEGATIVE shoulderFwdL/R moves wrist FORWARD when shoulder in default abduction (renderer comment inverted). shoulderFwdL/R:-25 produces sagittal flexion +12°/+17° (forward), wrists at z=+0.07/+0.17 (forward of body, partial reach toward toes). Full toe-reach is renderer-limited (shoulder-to-toe distance 0.91 exceeds arm length 0.75).",
+  "created_at": "2026-08-01T21:55:33.045Z"
+}

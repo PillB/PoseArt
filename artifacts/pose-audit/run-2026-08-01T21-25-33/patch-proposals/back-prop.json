@@ -1,0 +1,63 @@
+{
+  "proposal_id": "patch-back-prop-1785633893934",
+  "pose_id": "back-prop",
+  "category": "reclining",
+  "worker": "worker-A-batch5",
+  "existing_config_hash": "16174cca2dd9",
+  "defects": [
+    {
+      "id": "knees_to_one_side_false_positive",
+      "severity": "INFO",
+      "claim": "Sweep flag 'knees_to_one_side' is FALSE POSITIVE. Description: 'Lie on one side propped up on one elbow, top leg straight or bent slightly forward and bottom leg straight beneath it.' Side-lying pose INHERENTLY has both knees on one side (legs stacked). This is correct configuration, not a defect.",
+      "evidence": "description explicitly says 'Lie on one side'."
+    },
+    {
+      "id": "asymmetric_knees_not_matching_description",
+      "severity": "MAJOR",
+      "claim": "Description: 'top leg straight or bent slightly forward and bottom leg straight beneath it'. Currently leftKnee=35, rightKnee=20 (both slightly bent). Need: top leg slight bend (or straight), bottom leg fully straight (knee=0).",
+      "evidence": "raw joints: leftKnee=35, rightKnee=20 (both bent, not differentiated)."
+    },
+    {
+      "id": "bottom_leg_not_straight_beneath",
+      "severity": "MAJOR",
+      "claim": "Description: 'bottom leg straight beneath it'. Currently rightHip=20 (thigh slightly flexed, not straight beneath). Should be rightHip=0 (thigh straight, no flexion).",
+      "evidence": "geometry.json: right_leg hip_flexion_deg=-55 (extended behind, not 'straight beneath')."
+    },
+    {
+      "id": "neck_tilt_right_mismatch",
+      "severity": "MINOR",
+      "claim": "Description: 'Rest the head in the raised hand or lift it for a longer neckline'. neck=8 tilts head RIGHT per corrected convention. Should be 0 (head lifted or resting, no side tilt).",
+      "evidence": "geometry.json: head roll_deg=28.5 (right tilt, exaggerated by globalTilt=75)."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "top leg straight or slightly bent forward; bottom leg straight",
+      "expected": "topKnee≤30 AND bottomKnee=0; bottomHip=0",
+      "actual": "leftKnee=35, rightKnee=20 (both bent); rightHip=20 (not straight)"
+    },
+    {
+      "assertion": "neck neutral (no side tilt)",
+      "expected": "0",
+      "actual": "8 (right tilt)"
+    }
+  ],
+  "field_changes": {
+    "neck": 0,
+    "leftKnee": 20,
+    "rightHip": 0,
+    "rightKnee": 0,
+    "leftShoulder": -90,
+    "rightShoulder": -90
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/reclining/back-prop/baseline/",
+  "after_evidence": "",
+  "regression_risk": "",
+  "confidence": 0.7,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Description: 'Lie on one side propped up on one elbow, top leg straight or bent slightly forward, bottom leg straight beneath. Rest head in raised hand or lift for longer neckline.' (1) Sweep flag 'knees_to_one_side' is FALSE POSITIVE — side-lying pose inherently has both knees on one side (legs stacked); not a defect. (2) Differentiate legs: leftKnee 35→20 (top leg slight bend per 'straight or bent slightly forward'), rightKnee 20→0 (bottom leg fully straight per 'straight beneath'), rightHip 20→0 (bottom leg no flex, straight beneath). (3) leftHip=30 keep (top leg slight forward ✓). (4) Symmetric shoulders: leftShoulder -100→-90, rightShoulder -100→-90 (slight reduction; both arms bent with one forearm on ground as prop, other hand on head; symmetric abduction is reasonable approximation). (5) neck 8→0 (no side tilt; 'lift head high' = pitch not modeled, no roll needed). globalTilt=75 is side-lying approximation (75° toward prone = mostly sideways). Rig limitation: no globalRoll control; side-lying is approximated via globalTilt=75.",
+  "created_at": "2026-08-02T01:24:53.934Z"
+}

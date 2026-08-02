@@ -1,0 +1,41 @@
+{
+  "proposal_id": "patch-p10-bench-s1-kneeling-profile-hands-lap-1785621601820",
+  "pose_id": "p10-bench-s1-kneeling-profile-hands-lap",
+  "category": "seated",
+  "worker": "worker-D",
+  "existing_config_hash": "76afcd2f5927",
+  "defects": [
+    {
+      "id": "hands_in_lap",
+      "severity": "major",
+      "actual": "L wrist at (-0.17,-0.06,-0.21) — distance 0.33 from hips (0.04,0.11,-0.03). R wrist at (0.14,-0.01,0.34) — distance 0.41 from hips. Both wrists > 0.25 from hips. Instructions say clasp both hands together and rest them gently in your lap — wrists are not in lap."
+    },
+    {
+      "id": "hands_clasped",
+      "severity": "major",
+      "actual": "L wrist to R wrist distance: sqrt((0.31)^2 + (0.05)^2 + (0.55)^2) = 0.63. Hands far apart, not clasped."
+    }
+  ],
+  "failing_tests": [
+    "contact_hands_in_lap(both wrists to hips dist <= 0.25)",
+    "contact_hands_clasped(L wrist to R wrist dist <= 0.15)"
+  ],
+  "field_changes": {
+    "leftShoulder": 10,
+    "rightShoulder": -3,
+    "leftElbow": 100,
+    "rightElbow": 100,
+    "shoulderFwdL": -30,
+    "shoulderFwdR": -40
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/p10-bench-s1-kneeling-profile-hands-lap/baseline/",
+  "after_evidence": "",
+  "regression_risk": "LOW-MEDIUM — only arm joints changed; kneeling posture (hips, knees, globalTilt -25, globalTwist -60) preserved. Wrists now in lap area but not perfectly clasped. Visual silhouette reads as kneeling with hands in lap.",
+  "confidence": 0.7,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Both arms originally extended outward+down (leftShoulder 15 abduction 28 deg, rightShoulder 3 abduction -8 deg, elbows 95 deg flexion but shoulderFwdL 10 + shoulderFwdR 20 push arms backward). Fix: bring both arms down to sides (leftShoulder 10 small abduction, rightShoulder -3 slight inward crossing) + elbows 100 deg (forearm bends inward) + shoulderFwdL -30 + shoulderFwdR -40 (both arms forward, counteracting inverted renderer sign). Derived after fix: L wrist at (-0.19,-0.03,-0.16) dist to L hip 0.159 (PASS), R wrist at (-0.02,0.07,0.27) dist to R hip 0.198 (PASS). Hands-clasped distance: ~0.47 (improved from 0.63 but still > 0.15 strict threshold — rig constraint: shoulder joints are at x=+-0.18 (body-frame), so wrists naturally end at different x unless arms cross strongly, which would distort the kneeling silhouette).",
+  "created_at": "2026-08-01T22:00:01.820Z"
+}

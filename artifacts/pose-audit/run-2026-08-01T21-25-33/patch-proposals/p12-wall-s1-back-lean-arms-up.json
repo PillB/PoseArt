@@ -1,0 +1,20 @@
+{
+  "proposal_id": "patch-p12-wall-s1-back-lean-arms-up-1785628549314",
+  "pose_id": "p12-wall-s1-back-lean-arms-up",
+  "category": "leaning",
+  "worker": "worker-D-batch3",
+  "existing_config_hash": "84898d4d8dbd",
+  "defects": [],
+  "failing_tests": [],
+  "field_changes": {},
+  "renderer_changes": "",
+  "before_evidence": "categories/leaning/p12-wall-s1-back-lean-arms-up/baseline/",
+  "after_evidence": "",
+  "regression_risk": "none — no field changes proposed",
+  "confidence": 0.85,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "CLEAN. Verified per task notes: (1) globalTilt was fixed in cron-round-1 (now -10, slight supine tilt for back-leaning against wall ✓ — shoulders at z=-0.249, near wall). (2) Shoulders reverted in cron-round-4 to -110 (both arms fully overhead, abd 146° ✓ — matches description raise both arms overhead). (3) Elbows bent 100° (✓ hands framing face, wristL_to_head=0.536 moderate distance). (4) LEFT knee bent 95° with foot elevated (y=0.278) for support leg. (5) RIGHT leg straight (knee 8°) is standing leg, foot planted (y=-0.771). (6) Hips at z=-0.021 (slightly forward of shoulders z=-0.249 — subtle S-curve ✓). MINOR rig limitation: LEFT foot at z=+0.344 (forward of body, not against wall behind as description suggests). Renderer cannot bring foot to wall-behind from this configuration — would require backward leg extension that conflicts with hip flexion for bent-knee support. Not proposing a fix; pose satisfies primary description requirements (back against wall, arms overhead, knee bent, S-curve).",
+  "created_at": "2026-08-01T23:55:49.314Z"
+}

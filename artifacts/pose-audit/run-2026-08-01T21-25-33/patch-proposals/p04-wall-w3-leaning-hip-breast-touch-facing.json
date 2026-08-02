@@ -1,0 +1,49 @@
+{
+  "proposal_id": "patch-p04-wall-w3-leaning-hip-breast-touch-facing-1785627880538",
+  "pose_id": "p04-wall-w3-leaning-hip-breast-touch-facing",
+  "category": "leaning",
+  "worker": "worker-C-batch3",
+  "existing_config_hash": "b236ab2b9c02",
+  "defects": [
+    {
+      "type": "contact_failure_hand_on_hip",
+      "severity": "major",
+      "description": "Description: one hand on the hip. L wrist→L hip dist2D=0.552, R wrist→R hip dist2D=0.712 (threshold <0.25). NEITHER hand on hip. L arm has leftShoulder=-35 (abduction ~59deg) + leftElbow=70 — upper arm below horizontal, forearm not folded to hip."
+    },
+    {
+      "type": "contact_failure_hand_on_breast",
+      "severity": "major",
+      "description": "Description: the other on the breast. L wrist→neck dist2D=0.795, R wrist→neck dist2D=0.663 (threshold ~0.20 for chest/breast contact). NEITHER hand at chest. shoulderFwdR=10 (positive = BEHIND per CORRECTED convention) — R arm extended backward not forward to chest."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "one wrist-to-hip dist2D < 0.25 for hand-on-hip",
+      "expected": "<0.25",
+      "actual": "L=0.552 R=0.712"
+    },
+    {
+      "assertion": "one wrist-to-neck dist2D < 0.25 for hand-on-breast",
+      "expected": "<0.25",
+      "actual": "L=0.795 R=0.663"
+    }
+  ],
+  "field_changes": {
+    "leftShoulder": -55,
+    "leftElbow": 100,
+    "shoulderFwdL": -10,
+    "rightShoulder": -25,
+    "shoulderFwdR": -50,
+    "rightElbow": 70
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/leaning/p04-wall-w3-leaning-hip-breast-touch-facing/baseline/",
+  "after_evidence": "",
+  "regression_risk": "medium-high — six simultaneous joint changes including shoulderFwdR sign flip. Rig constraint may prevent full <0.25 threshold achievement. Integrator should verify both contacts via test render.",
+  "confidence": 0.55,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Six coordinated changes for one-hand-on-hip (L) + one-hand-on-breast (R). Per CORRECTED sign convention shoulderFwd -=forward. L hand to hip: (1) leftShoulder -35→-55 (raise upper arm to ~80deg abduction, elbow approaches shoulder height). (2) leftElbow 70→100 (deep flexion, forearm folds down toward hip). (3) shoulderFwdL 2→-10 (slight forward, hand in front of body for hip contact). R hand to breast: (4) rightShoulder -65→-25 (reduce outward abduction, arm more forward-facing). (5) shoulderFwdR 10→-50 (SIGN FLIP: positive=behind was wrong; -50=forward brings R arm in front of chest). (6) rightElbow 85→70 (slight reduction, forearm reaches chest not folded). Goal: L wrist near L hip, R wrist near neck/chest center. spine=-14 (PR-v3), globalTilt=5, hipAbductR=-15 (R leg crossing), rightKnee=45 (R leg bent) preserved.",
+  "created_at": "2026-08-01T23:44:40.538Z"
+}

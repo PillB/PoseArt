@@ -1,0 +1,20 @@
+{
+  "proposal_id": "patch-cobra-lite-1785633963087",
+  "pose_id": "cobra-lite",
+  "category": "reclining",
+  "worker": "worker-B-batch5",
+  "existing_config_hash": "c10458b21d06",
+  "defects": [],
+  "failing_tests": [],
+  "field_changes": {},
+  "renderer_changes": "",
+  "before_evidence": "categories/reclining/cobra-lite/baseline/",
+  "after_evidence": "",
+  "regression_risk": "none — no changes proposed",
+  "confidence": 0.9,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "CLEAN. Description: Lie face down and press through both palms to lift the chest into a gentle backbend, hips staying grounded. Keep elbows slightly bent and the gaze level or lifted. Verification against derived geometry: (1) Face down PRONE — globalTilt=+65 ✓ (per corrected convention +90=prone; cron-round-1 fixed sign from negative). Body rotated 65° toward prone, partially lifted. (2) Press through both palms — shoulderFwdL=25, shoulderFwdR=25 (BEHIND in body frame per corrected convention) → in prone-leaning pose body-behind direction maps to mostly DOWN in world frame, bringing arms down to floor. Rendered wrists at y=-0.008/-0.019 (floor level) ✓ palms on floor. Wrists at z=+0.06/-0.035 (slightly forward of hips z=+0.109) — palms under chest area, correct for cobra. (3) Lift chest into gentle backbend — spine=-25 (negative = backward arch per corrected convention) ✓ chest lifted. Head at y=0.663 (high above hips y=0.051), chest lifted ~45° above horizontal. (4) Hips grounded — hips at y=0.051 (near floor) ✓. (5) Elbows slightly bent — leftElbow=rightElbow=81° (slight bend, not locked) ✓ matches tip soften the elbows. (6) Gaze level or lifted — neck=4.5 (slight head roll right per corrected convention; renderer neck joint is roll not pitch, gaze lift comes from spine arch). Head lifted via spine arch ✓ approximate. No defects. cron-round-1 globalTilt sign fix VERIFIED CORRECT (+65 prone).",
+  "created_at": "2026-08-02T01:26:03.087Z"
+}

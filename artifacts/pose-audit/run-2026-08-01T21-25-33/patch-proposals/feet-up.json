@@ -1,0 +1,48 @@
+{
+  "proposal_id": "patch-feet-up-1785620894942",
+  "pose_id": "feet-up",
+  "category": "seated",
+  "worker": "worker-A",
+  "existing_config_hash": "60914d25623c",
+  "defects": [
+    {
+      "type": "arm_behind_head_missing",
+      "severity": "major",
+      "description": "Instructions say rest one arm behind the head, elbow winged out. Derived: R shoulder_abd 34.4, L shoulder_abd 24.4 (both arms at sides, neither raised). R shoulder_sagittal_flexion +16.7, L +9 (both slightly forward, neither behind head). No arm is in behind-head position. PR-v3 fixed spine sign correctly (12 to -12 for recline) but did not address arm."
+    },
+    {
+      "type": "feet_not_propped",
+      "severity": "major",
+      "description": "Instructions say prop both feet on a nearby surface (legs extended forward, feet elevated on ottoman/stool). Derived: L/R knee 129.9 deg (deeply bent — feet tucked back near body, NOT extended forward onto surface). Hips flexed 80 deg (thighs slightly forward, OK). For feet propped forward, knees should be near-straight (~20-30 deg)."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "max(shoulder_abduction_deg) > 110 (one arm overhead)",
+      "expected": "> 110",
+      "actual": "max 34.4"
+    },
+    {
+      "assertion": "knee_flexion_deg < 40 (legs extended for propped feet)",
+      "expected": "< 40",
+      "actual": "L 129.9, R 129.9"
+    }
+  ],
+  "field_changes": {
+    "rightShoulder": -110,
+    "rightElbow": 100,
+    "shoulderFwdR": 15,
+    "leftKnee": 25,
+    "rightKnee": 25
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/feet-up/baseline/",
+  "after_evidence": "",
+  "regression_risk": "medium-high - 5-field change including large shoulder abduction (rightShoulder -110) and big knee straightening (130 to 25). Anatomically valid (arm-behind-head + legs-extended are common seated-recline shapes). Balance should remain OK (COM shifts forward with knee straightening but torso reclines back, compensating).",
+  "confidence": 0.55,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Two defects, five fields. (A) Arm behind head: rightShoulder -110 (was -12) raises right arm to ~130 deg abduction per cross-ankle-sit precedent (raw -110 produced derived 132.9 abd). rightElbow 100 (was 45) bends forearm so hand goes behind head, elbow winged out. shoulderFwdR 15 (was -5) flips sign: positive raw = negative derived = upper arm slightly BEHIND vertical (per inverted sign), positioning hand behind head rather than in front. (B) Feet propped: leftKnee/rightKnee 25 (was 130) straightens legs so lower legs extend forward onto prop surface at thigh height. Hip flexion 80 stays (thighs slightly forward, compatible with reclined sit). spine -12 already correct (PR-v3) for reclined back arch. Confidence moderate: 5-field change with renderer sign-flip on shoulderFwdR; magnitudes calibrated from cross-ankle-sit precedent but exact behind-head geometry cannot be verified without re-render.",
+  "created_at": "2026-08-01T21:48:14.942Z"
+}

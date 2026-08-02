@@ -1,0 +1,60 @@
+{
+  "proposal_id": "patch-p13-floor-s2-recline-look-up-1785634286136",
+  "pose_id": "p13-floor-s2-recline-look-up",
+  "category": "reclining",
+  "worker": "worker-D-batch5",
+  "existing_config_hash": "f7a94073be9a",
+  "defects": [
+    {
+      "type": "shoulderFwd_sign_inverted",
+      "severity": "critical",
+      "description": "shoulderFwdL/R=-35 (FORWARD per corrected convention - = forward) but description requires hands BEHIND hips for torso support. Tip \"press firmly through the palms to lift the chest\" confirms palms on floor behind body. CRITICAL sign inversion."
+    },
+    {
+      "type": "knees_apart_not_to_one_side",
+      "severity": "major",
+      "description": "hipAbductL=-15 (L outward LEFT) + hipAbductR=-18 (R outward RIGHT) → both legs fall APART. Description says \"let them fall gently to ONE SIDE\" (both tilted same direction)."
+    },
+    {
+      "type": "asymmetric_shoulders",
+      "severity": "major",
+      "description": "leftShoulder=-60 vs rightShoulder=-48 (12° asymmetry) + leftElbow=12 vs rightElbow=15. Description implies symmetric both-hands support pose."
+    },
+    {
+      "type": "neck_tilt_unmotivated",
+      "severity": "minor",
+      "description": "neck=25 (head tilt to figure right) not specified by description; \"drop head back\" is pitch (auto from spine+globalTilt) not roll."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "wrists_y_below_hip_for_floor_support",
+      "expected": "< hip y",
+      "actual": "wristL y=0.542 (above hip 0.000), wristR y=0.684"
+    },
+    {
+      "assertion": "knees_to_one_side",
+      "expected": "ankleL_to_ankleR < 0.30",
+      "actual": "0.706 (legs apart)"
+    }
+  ],
+  "field_changes": {
+    "leftShoulder": -30,
+    "rightShoulder": -30,
+    "shoulderFwdL": 60,
+    "shoulderFwdR": 60,
+    "hipAbductR": 15,
+    "leftElbow": 15,
+    "neck": 0
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/reclining/p13-floor-s2-recline-look-up/baseline/",
+  "after_evidence": "",
+  "regression_risk": "medium — shoulderFwd sign flip from -35 to +60 (95° change) reorients both arms from forward-up to back-down. Re-render verify required.",
+  "confidence": 0.7,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "shoulderFwdL/R -35 → +60 (sign flip per corrected convention: + = BEHIND). With body reclined (globalTilt=-55), \"behind body\" maps to \"down-back in world\" — wrists drop to y=-0.449/-0.133 (below hip, toward floor) for \"hands on floor behind hips for support\". leftShoulder/rightShoulder -60/-48 → -30 (symmetric, less abd for floor reach). hipAbductR -18 → +15 (R leg crosses LEFT, both knees tilt LEFT per \"knees to one side\"). leftElbow 12 → 15 (match rightElbow for symmetry). neck 25 → 0 (neutral, drop-head-back is pitch from spine+globalTilt). Result: wrists below hip behind body (rig-limited floor reach), ankles 0.224 apart (knees tilted LEFT), arms symmetric.",
+  "created_at": "2026-08-02T01:31:26.136Z"
+}

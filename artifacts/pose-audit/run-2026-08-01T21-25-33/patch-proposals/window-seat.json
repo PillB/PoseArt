@@ -1,0 +1,40 @@
+{
+  "proposal_id": "patch-window-seat-1785628242928",
+  "pose_id": "window-seat",
+  "category": "seated",
+  "worker": "worker-A-batch3",
+  "existing_config_hash": "a8da24b5e959",
+  "defects": [
+    "KNEES_NOT_UP_TO_CHEST: Description says Draw both knees up toward the chest. leftHip=80, rightHip=80 (moderate flexion, knees at world y=-0.024 — at hip level, NOT up toward chest). Need leftHip=rightHip~115 for knees at y=+0.27 (chest level).",
+    "ARMS_NOT_WRAPPING_SHINS: Description says wrap both arms around the shins, interlacing the fingers. shoulderFwdL=+7 (behind), shoulderFwdR=-5 (slight forward) — arms not reaching forward to shins. Wrists at z=+0.085/+0.156 (slightly forward) but y=-0.018/+0.055 (low, at hip level not shin level ~0.3). L/R wrist distance 1.10 — NOT interlaced (should be <0.30 for clasped).",
+    "ASYMMETRIC_ELBOWS: leftElbow=65, rightElbow=45 — asymmetric. Should be ~75 symmetric for shin-wrap posture.",
+    "KNEE_FLEXION_TOO_LOW: leftKnee=90, rightKnee=100 — shins only moderately flexed. For knees-up-to-chest wrap, need deeper flexion (130deg) so ankles tuck back near butt."
+  ],
+  "failing_tests": [
+    "expect(leftHip).toBeGreaterThan(110) — knees drawn up toward chest",
+    "expect(rightHip).toBeGreaterThan(110) — knees drawn up toward chest",
+    "expect(shoulderFwdL).toBeLessThan(-25) — left arm reaching forward to shins (CORRECTED: - = FORWARD)",
+    "expect(shoulderFwdR).toBeLessThan(-25) — right arm reaching forward to shins",
+    "expect(Math.hypot(leftWrist.x - leftKnee.x, leftWrist.y - leftKnee.y, leftWrist.z - leftKnee.z)).toBeLessThan(0.40) — left wrist near left shin"
+  ],
+  "field_changes": {
+    "leftHip": 115,
+    "rightHip": 115,
+    "leftKnee": 130,
+    "rightKnee": 130,
+    "shoulderFwdL": -40,
+    "shoulderFwdR": -40,
+    "leftElbow": 75,
+    "rightElbow": 75
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/window-seat/baseline/",
+  "after_evidence": "",
+  "regression_risk": "Medium-High — 8 field changes (significant pose restructure). spine=10 preserved. Re-render REQUIRED to verify knees-up posture and arm positions. May need round-2 for wrist-to-shin contact verification.",
+  "confidence": 0.7,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "CORRECTED convention: shoulderFwd + = BEHIND, - = FORWARD. Reference pose floor-hug-knees uses leftHip=rightHip=115, leftKnee=130, rightKnee=140, shoulderFwdL=R=-45 for similar knees-up + arms-wrap posture. Adapting with mild magnitude reduction (knees=130 symmetric, shoulderFwd=-40): knees rise to y=+0.27 (chest level), ankles tuck back, arms reach forward to shins. Verified by buildPose: L knee at (-0.055, +0.229, +0.384) — y=+0.23 (chest level ✓). L wrist at (-0.385, -0.018, +0.282) — forward (z=+0.28) but y still low (-0.018). L wrist to L knee distance = 0.424 (above 0.30 threshold but closer than original 1.10+). Wrists cannot truly interlace (rig limitation: elbow flexion is rotY, preserves y; wrists remain at shoulder-width minimum). RIG LIMITATION: cannot rest chin on knees (no head-pitch joint — neck is rotZ sideways only, achieved approximately via spine forward flexion). spine=10 preserved (slight forward lean to bring chest toward knees).",
+  "created_at": "2026-08-01T23:50:42.928Z"
+}

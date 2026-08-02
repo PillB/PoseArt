@@ -1,0 +1,63 @@
+{
+  "proposal_id": "patch-p12-wall-s4-seated-wall-base-1785628592200",
+  "pose_id": "p12-wall-s4-seated-wall-base",
+  "category": "leaning",
+  "worker": "worker-D-batch3",
+  "existing_config_hash": "efcd780ebae8",
+  "defects": [
+    {
+      "type": "globalTilt_excessive_supine",
+      "severity": "major",
+      "description": "globalTilt=-80 (almost fully supine, lying back). Description: SIT on floor with back against wall BASE — should be more upright seated, not lying back. Head at z=-0.915 (way back, past wall) — pose reads as lying not sitting."
+    },
+    {
+      "type": "forearms_not_on_knees",
+      "severity": "major",
+      "description": "wristL_to_kneeL=0.515, wristR_to_kneeR=0.662 (target <0.30). Description: rest one or both forearms on raised knee. With globalTilt=-80 (supine), arms reach BACK/UP not forward to knees."
+    },
+    {
+      "type": "knees_asymmetry_unintended",
+      "severity": "minor",
+      "description": "leftKnee=120, rightKnee=80 (asymmetric). Description: bend BOTH knees up toward chest OR one extended — currently both flexed but asymmetric."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "globalTilt in [-30, -10] for seated_upright_at_wall_base",
+      "expected": "[-30, -10]",
+      "actual": "-80 → -20"
+    },
+    {
+      "assertion": "wristL_to_kneeL < 0.30 for forearm_on_knee",
+      "expected": "<0.30",
+      "actual": "0.515 → 0.312"
+    },
+    {
+      "assertion": "head_z > -0.5 for seated (not lying back)",
+      "expected": ">-0.5",
+      "actual": "-0.915 → -0.379"
+    }
+  ],
+  "field_changes": {
+    "globalTilt": -20,
+    "spine": -5,
+    "leftHip": 110,
+    "rightHip": 110,
+    "leftKnee": 130,
+    "rightKnee": 130,
+    "leftElbow": 150,
+    "rightElbow": 150,
+    "shoulderFwdL": -50,
+    "shoulderFwdR": -50
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/leaning/p12-wall-s4-seated-wall-base/baseline/",
+  "after_evidence": "",
+  "regression_risk": "HIGH — 10-field change including globalTilt reduction (-80→-20) significantly alters body orientation from lying-back to seated-upright. Forearm-on-knee contact NOT fully achieved (rig-limited). Re-render verification CRITICAL.",
+  "confidence": 0.6,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Description: SIT on floor with back against wall BASE (low on wall, seated upright), bend both knees up, rest forearms on raised knee, tilt head back against wall. Current globalTilt=-80 is near-supine (lying back) — too reclined for seated. Changed globalTilt -80→-20 (upright seated with slight back-lean). spine -14→-5 (less back arch). Symmetric legs: leftHip/rightHip 100/70→110/110 (more hip flexion for raised knees), leftKnee/rightKnee 120/80→130/130 (symmetric deep knee bend). Arms: increased elbows 81/60→150/150 (deeply bent for forearms to reach knees), shoulderFwdL/R 2/5→-50/-50 (arms forward in body-frame to knees). Result: head_z -0.915→-0.379 (✓ at wall, less reclined), shoulder_z -0.677→-0.278 (✓ back against wall), wristL_to_kneeL 0.515→0.312 (improved but slightly over 0.30 threshold — rig limitation: elbow is rotY only, cannot bring forearm horizontally to knee from seated position). Knees raised symmetric (y=0.319).",
+  "created_at": "2026-08-01T23:56:32.200Z"
+}

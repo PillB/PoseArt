@@ -1,0 +1,20 @@
+{
+  "proposal_id": "patch-bench-sit-side-1785620894619",
+  "pose_id": "bench-sit-side",
+  "category": "seated",
+  "worker": "worker-A",
+  "existing_config_hash": "394353f4020e",
+  "defects": [],
+  "failing_tests": [],
+  "field_changes": {},
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/bench-sit-side/baseline/",
+  "after_evidence": "",
+  "regression_risk": "none - no changes proposed",
+  "confidence": 0.85,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "CLEAN. No defects found. Instructions: sit sideways on bench, legs together, hands flat on bench beside hips, lift chest, leave gap of light between arm and torso. Derived geometry confirms: spine -2 (slight extension / lifted chest), L/R hip flexion 80/80 symmetric (legs together forward), L/R knee 95/95 (right-angle sit), L arm shoulder_abd 23 / R arm shoulder_abd 35 (small but visible gap between arm and torso), L/R elbow 23-25 (slight bend, hands near hips). Balance OK (COM over support). No critical or major semantic discrepancies. Minor note: gap-of-light is subtle on the L arm (~23 deg) but present; not a defect.",
+  "created_at": "2026-08-01T21:48:14.619Z"
+}

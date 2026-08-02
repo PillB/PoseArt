@@ -1,0 +1,86 @@
+{
+  "proposal_id": "patch-p12-wall-s2-side-lean-hip-pop-1785628563521",
+  "pose_id": "p12-wall-s2-side-lean-hip-pop",
+  "category": "leaning",
+  "worker": "worker-D-batch3",
+  "existing_config_hash": "52dfb65418f4",
+  "defects": [
+    {
+      "type": "right_arm_overhead_overshoot",
+      "severity": "critical",
+      "description": "rightShoulder=-80 (abd 120°, wristR_y=1.000 above head). Description: one hand on popped hip, OTHER hand hang naturally or touch wall — neither is overhead. PR-v4 one-shoulder overshoot pattern."
+    },
+    {
+      "type": "spine_forward_fold_wrong_for_side_lean",
+      "severity": "major",
+      "description": "spine=14 (forward lean per corrected convention). Description: lean ONE SHOULDER against wall in profile/3-quarter stance — side-lean via globalRoll, not forward fold. spine should be 0."
+    },
+    {
+      "type": "left_hand_not_on_hip",
+      "severity": "major",
+      "description": "wristL_to_hipL=0.536 (target <0.25). Description: one hand on popped hip. LEFT wrist at (-0.568, -0.108, 0.321) far from LEFT hip at (-0.154, 0.035, 0.012)."
+    },
+    {
+      "type": "right_hand_not_at_wall",
+      "severity": "minor",
+      "description": "wristR_z=0.140 (NOT at wall). Description: other hand hang naturally OR touch wall. RIGHT wrist at body center, slightly forward."
+    },
+    {
+      "type": "ankles_not_crossed",
+      "severity": "minor",
+      "description": "ankleL_z=-0.013, ankleR_z=-0.012 (same depth). Description: cross one ankle in front of other — ankles should be at different z depths."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "rightShoulder_abduction < 90 for hand_at_side_or_wall",
+      "expected": "<90",
+      "actual": "120 → 49"
+    },
+    {
+      "assertion": "spine == 0 for side_lean (no forward fold)",
+      "expected": "0",
+      "actual": "14 → 0"
+    },
+    {
+      "assertion": "wristL_to_hipL < 0.25 for hand_on_hip",
+      "expected": "<0.25",
+      "actual": "0.536 → 0.264"
+    },
+    {
+      "assertion": "wristR_z < -0.20 for hand_at_wall",
+      "expected": "<-0.20",
+      "actual": "0.140 → -0.276"
+    },
+    {
+      "assertion": "ankleL_z != ankleR_z for ankle_cross",
+      "expected": "different z",
+      "actual": "z=-0.013/-0.012 → z=0.275/0.014 (LEFT in front of RIGHT)"
+    }
+  ],
+  "field_changes": {
+    "spine": 0,
+    "leftShoulder": -20,
+    "rightShoulder": -10,
+    "leftElbow": 140,
+    "rightElbow": 30,
+    "shoulderFwdL": 55,
+    "shoulderFwdR": 50,
+    "leftHip": 10,
+    "rightHip": -10,
+    "leftKnee": 15,
+    "rightKnee": 20,
+    "hipAbductL": -10,
+    "hipAbductR": 10
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/leaning/p12-wall-s2-side-lean-hip-pop/baseline/",
+  "after_evidence": "",
+  "regression_risk": "HIGH — 13-field change; significant pose reconfiguration. shoulderFwd values (55, 50) are anatomically extreme. Re-render verification CRITICAL.",
+  "confidence": 0.6,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "CRITICAL: RIGHT arm fully overhead (rightShoulder=-80, abd 120°) — PR-v4 one-shoulder overshoot. Description: one hand on popped hip, other hang/touch wall — neither overhead. Reverted rightShoulder -80→-10. spine 14→0 (remove incorrect forward fold — side-lean is via globalRoll=15, not spine). LEFT arm: increased leftElbow 40→140, shoulderFwdL -25→+55 (push elbow behind so forearm reaches hip), reduced leftShoulder -10→-20. RIGHT arm: reduced rightElbow 80→30, shoulderFwdR 15→+50 (push arm back to wall). Legs: adjusted leftHip/rightHip 10/-10 and leftKnee/rightKnee 15/20 for ankle cross (LEFT ankle forward of RIGHT ankle in z). hipAbductL/R 0/-6→-10/+10 for ankle separation in z. Result: wristL_to_hipL 0.536→0.264 (✓ contact), wristR_z 0.140→-0.276 (✓ at wall). LEFT shoulder_z=0.019, RIGHT shoulder_z=-0.019 (neither at wall — rig limitation: shoulders move together, can bring one to wall without asymmetric globalTilt).",
+  "created_at": "2026-08-01T23:56:03.521Z"
+}

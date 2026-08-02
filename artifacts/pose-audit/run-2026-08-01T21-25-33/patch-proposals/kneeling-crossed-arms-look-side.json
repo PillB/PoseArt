@@ -1,0 +1,73 @@
+{
+  "proposal_id": "patch-kneeling-crossed-arms-look-side-1785631929682",
+  "pose_id": "kneeling-crossed-arms-look-side",
+  "category": "kneeling",
+  "worker": "worker-C-batch4",
+  "existing_config_hash": "c4ce81787453",
+  "defects": [
+    {
+      "id": "LEFT_LEG_STANDING",
+      "severity": "CRITICAL",
+      "description": "leftKnee=5 and leftHip=0 (default) — LEFT leg standing straight, not kneeling. Description says Kneel (both knees down).",
+      "evidence": "baseline: kneeL y=-0.376, ankleL y=-0.787, footL y=-0.856 (standing)"
+    },
+    {
+      "id": "SPINE_TOO_SLIGHT",
+      "severity": "MAJOR",
+      "description": "spine=5 only slight forward. Description says bow the torso forward slowly and gracefully from the hips — needs stronger forward bow.",
+      "evidence": "baseline: head pitch slight, torso flexion 5deg"
+    },
+    {
+      "id": "ASYMMETRIC_ARMS",
+      "severity": "MAJOR",
+      "description": "leftShoulder=-30 (LEFT arm partially raised) vs rightShoulder=-12 (RIGHT arm slight raise). Description allows symmetric arms (resting on thighs or extended forward).",
+      "evidence": "baseline: wristL=(-0.475,0.214,0.339) high+forward, wristR=(0.421,0.054,0.239) lower+forward — asymmetric"
+    },
+    {
+      "id": "NECK_TILT_UNMOTIVATED",
+      "severity": "MINOR",
+      "description": "neck=28 (head tilt right). Description does not specify head direction (look side is in pose NAME only, not in INSTRUCTIONS/TIP). Pose-name vs description mismatch per worker-D finding.",
+      "evidence": "baseline: head roll 28deg"
+    }
+  ],
+  "failing_tests": [
+    {
+      "name": "both_knees_kneeling",
+      "expected": "both knees y near -0.024 (kneeling position)",
+      "actual": "kneeL y=-0.376 (standing)"
+    },
+    {
+      "name": "bow_forward_from_hips",
+      "expected": "spine forward flexion >= 20deg",
+      "actual": "spine=5"
+    },
+    {
+      "name": "symmetric_arms",
+      "expected": "leftShoulder=rightShoulder, leftElbow=rightElbow",
+      "actual": "leftShoulder=-30, rightShoulder=-12, leftElbow=100, rightElbow=100"
+    }
+  ],
+  "field_changes": {
+    "spine": 25,
+    "leftShoulder": 0,
+    "rightShoulder": 0,
+    "leftElbow": 90,
+    "rightElbow": 90,
+    "shoulderFwdL": -30,
+    "shoulderFwdR": -30,
+    "leftHip": 80,
+    "leftKnee": 90,
+    "leftAnkle": -35,
+    "neck": 0
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/kneeling/kneeling-crossed-arms-look-side/baseline/",
+  "after_evidence": "",
+  "regression_risk": "Medium — LEFT leg repositioned from standing to kneeling (significant geometry change). shoulderFwdL/R changed from cron-round-9 values (-12/-10) to -30/-30 (more forward). Verifying via FK sim: result wrists at (±0.496,-0.007,0.349) symmetric, both knees kneeling (kneeL y=-0.024, kneeR y=-0.096).",
+  "confidence": 0.7,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Per protocol §4, used INSTRUCTIONS/TIP text as ground truth (pose name crossed-arms-look-side does not match description which is for bow-forward pose). Description: Kneel and bow torso forward from hips, arms resting on thighs or extended forward. Fixes: (1) LEFT kneeling added (leftHip=80, leftKnee=90, leftAnkle=-35); (2) spine 5→25 for forward bow; (3) arms symmetrized (leftShoulder=rightShoulder=0, elbows=90); (4) shoulderFwdL/R=-30 for arms extended forward at hip level (wrist z=+0.349 forward of body); (5) neck 28→0 neutral (description does not specify head tilt).",
+  "created_at": "2026-08-02T00:52:09.682Z"
+}

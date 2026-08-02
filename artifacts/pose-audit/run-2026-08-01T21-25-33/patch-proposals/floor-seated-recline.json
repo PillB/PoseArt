@@ -1,0 +1,41 @@
+{
+  "proposal_id": "patch-floor-seated-recline-1785634026922",
+  "pose_id": "floor-seated-recline",
+  "category": "reclining",
+  "worker": "worker-B-batch5",
+  "existing_config_hash": "735e06c42d5d",
+  "defects": [
+    {
+      "type": "globaltilt_wrong_direction_torso_back",
+      "severity": "critical",
+      "description": "Description: SIT on floor + LOWER TORSO BACK GRADUALLY ONTO BOTH ELBOWS. Torso goes BACKWARD (supine-leaning, globalTilt NEGATIVE). Current globalTilt=+75 (mostly PRONE = face-DOWN). Body is leaning FORWARD not BACKWARD — opposite of description. cron-round-1 missed this pose. Should be globalTilt=-45 (mid-recline back between sitting and lying)."
+    },
+    {
+      "type": "elbows_not_supporting_behind_body",
+      "severity": "major",
+      "description": "Description: lower torso back onto BOTH ELBOWS (elbows supporting torso from behind). Current no shoulderFwd set, both elbows at y=0.093/0.086 (just above hip level, in front of body z=0.285/0.261). Elbows are not on floor behind body for support. Need shoulderFwdL/R POSITIVE (BEHIND in body frame per corrected convention) to swing arms backward/down to floor for elbow prop."
+    }
+  ],
+  "failing_tests": [
+    "description says lower torso back but globalTilt=+75 (forward/prone not back/supine)",
+    "description says onto both elbows but no shoulderFwd set, elbows in front not behind"
+  ],
+  "field_changes": {
+    "globalTilt": -45,
+    "shoulderFwdL": 60,
+    "shoulderFwdR": 60,
+    "rightShoulder": 0,
+    "leftElbow": 60,
+    "rightElbow": 60
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/reclining/floor-seated-recline/baseline/",
+  "after_evidence": "",
+  "regression_risk": "medium — 6-field change including globalTilt sign flip (CRITICAL fix). Sign flip from +75 (prone) to -45 (supine-leaning) is major reorientation. Re-render verify REQUIRED. May need to verify legs remain forward (leftHip=80, rightHip=80 preserved) after globalTilt flip — legs should extend forward along floor when torso reclines back.",
+  "confidence": 0.65,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Description: Sit on the floor and lower the torso back gradually onto both elbows, legs bent or extended forward. A relaxed mid-point between sitting up and lying flat. Current pose has globalTilt=+75 (PRONE-leaning, body forward) — opposite of description lower torso BACK. This is a SIGN ERROR (cron-round-1 missed this pose). Per corrected convention +90=PRONE, -90=SUPINE. Fix: (1) globalTilt +75→-45 (CRITICAL sign flip — body now supine-leaning back, mid-point between sitting upright 0° and lying flat -90° ✓). (2) Both elbows supporting behind body: shoulderFwdL 0→+60 + shoulderFwdR 0→+60 (both arms swing BEHIND body per corrected convention + = behind; in supine-leaning pose body-behind maps to DOWN-BACK in world frame, elbows go to floor behind body for support ✓). (3) rightShoulder 12→0 (RIGHT arm at neutral, both arms symmetric for elbow support). (4) leftElbow 81→60, rightElbow 81→60 (less bend, forearms more extended for support base). Legs preserved: leftHip=80, rightHip=80 (deep flexion, legs forward), leftKnee=5, rightKnee=5 (knees straight, legs extended forward ✓ matches description legs bent or extended forward). After globalTilt flip, legs rotate with body — legs should extend forward along floor. Re-render verify REQUIRED. Rig-limited: no hip-origin-y control, elbow cannot truly prop on floor from elevated torso — approximation.",
+  "created_at": "2026-08-02T01:27:06.922Z"
+}

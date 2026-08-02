@@ -1,0 +1,54 @@
+{
+  "proposal_id": "patch-p10-bench-s9-seated-head-tilt-back-1785625372396",
+  "pose_id": "p10-bench-s9-seated-head-tilt-back",
+  "category": "seated",
+  "worker": "worker-A-seated-batch2",
+  "existing_config_hash": "70e78b4a6539",
+  "defects": [
+    {
+      "type": "both_arms_overhead_unintended_pr_v4_overshoot",
+      "severity": "critical",
+      "description": "Description: 'Tilt the head back and raise ONE hand up into the hair. Let the OTHER hand rest on the raised knee.' Only ONE hand should be raised (to hair); the OTHER should rest on the raised LEFT knee (leftKnee y=0.190, raised). But config has BOTH shoulders at -110 (PR-v4 overshoot) → both arms fully overhead (L 132°, R 129°), BOTH wrists at y=1.14 above head. Both hands above head instead of one-at-hair + one-on-knee."
+    },
+    {
+      "type": "hand_to_hair_contact_failure",
+      "severity": "major",
+      "description": "Description: 'raise one hand up into the hair' — wrist should be within 0.25 of head. Currently Rw_head=0.673 (and Lw_head=0.665) — both far."
+    },
+    {
+      "type": "hand_on_knee_contact_failure",
+      "severity": "major",
+      "description": "Description: 'other hand rest on the raised knee' — wrist should be within 0.30 of raised LEFT knee (leftKnee at y=0.190). Currently Lw_Lknee=1.238 (and Rw_Rknee=1.586) — both far."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "one_wrist_to_head_distance < 0.25 (hand in hair)",
+      "expected": "<0.25",
+      "actual": "Rw_head=0.673 (right wrist chosen for hair contact — should be raised)"
+    },
+    {
+      "assertion": "other_wrist_to_raised_knee_distance < 0.30 (hand on raised knee)",
+      "expected": "<0.30",
+      "actual": "Lw_Lknee=1.238 (left wrist should rest on raised left knee)"
+    }
+  ],
+  "field_changes": {
+    "leftShoulder": -30,
+    "rightShoulder": -90,
+    "leftElbow": 110,
+    "rightElbow": 140,
+    "shoulderFwdL": -60,
+    "shoulderFwdR": -40
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/p10-bench-s9-seated-head-tilt-back/baseline/",
+  "after_evidence": "",
+  "regression_risk": "medium — 6-field change. Both contacts improved but neither under strict 0.25/0.30 threshold due to rig constraint (elbow flexion geometry). Anomalies 3→2 (cleared one knee_above_hip, retained elbow_above_shoulder R 'may be intended if arms overhead'). Plausibility 2→2 (shoulder flexion values still out of band — measurement convention artifact).",
+  "confidence": 0.65,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "PR-v4 overshoot fix + asymmetric hand placement. RIGHT hand to hair: rightShoulder -110→-90 (overhead, abduction ~90°), rightElbow 81→140 (deeply bent so forearm returns to head), shoulderFwdR 20→-40 (forward per corrected convention: - = FORWARD, brings elbow forward so wrist arrives at head — Rw_head 0.673→0.306, partial fix due to rig constraint: elbow flexion is rotY around vertical axis, preserves wrist y, so wrist y is bound to elbow y bound to shoulder y; can't get under strict 0.25 threshold without distorting the silhouette). LEFT hand on raised knee: leftShoulder -110→-30 (arm down/forward), leftElbow 100→110 (slightly more bent), shoulderFwdL 20→-60 (forward, brings wrist to knee in front of body — Lw_Lknee 1.238→0.277, partial fix). Lw_y 1.144→0.261 (left wrist at hip/knee level ✓). Rw_y 1.142→0.937 (right wrist above head y=0.802, near hair ✓). HEAD TILT-BACK already achieved (head_pitch -27.7° backward, from existing spine:-12 + globalTilt:-18) ✓. RAISED KNEE already correct (leftKnee y=0.190, leftFoot y=0.600) ✓.",
+  "created_at": "2026-08-01T23:02:52.396Z"
+}

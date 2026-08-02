@@ -1,0 +1,35 @@
+{
+  "proposal_id": "patch-cross-legged-wall-1785627585676",
+  "pose_id": "cross-legged-wall",
+  "category": "leaning",
+  "worker": "worker-B-batch3",
+  "existing_config_hash": "a1b4382da00a",
+  "defects": [
+    {
+      "type": "spine_sign_error",
+      "severity": "major",
+      "description": "Description says Lean the back flat against the wall (back touching wall, body upright or slight recline). spine=14 (POSITIVE = forward lean per corrected convention) takes the back AWAY from the wall. Should be 0 (upright) or slightly negative (slight backward lean into wall)."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "spine <= 0 for back-against-wall pose",
+      "expected": "<= 0 (upright or backward)",
+      "actual": "14 (forward lean, back off wall)"
+    }
+  ],
+  "field_changes": {
+    "spine": 0,
+    "neck": -4
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/leaning/cross-legged-wall/baseline/",
+  "after_evidence": "",
+  "regression_risk": "low — single-pose spine sign correction; aligns pose with back-on-wall description",
+  "confidence": 0.75,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "CORRECTED CONVENTION: spine + = forward lean, - = backward arch. Description explicitly says Lean the back FLAT against the wall — back must be in contact with wall, which requires upright (spine=0) or slight backward lean. spine=14 takes shoulders forward of hips, peeling the back off the wall. Setting spine=0 (upright against wall). Reducing neck tilt from -8.8 to -4 (softer, matches relaxed casual mood and crosses-ankles-wide stance). Keeping hipAbductL=+10 (adduct/inward, OK for crossing ankle) and hipAbductR=-10 (abduct/outward, matches front foot pointed outward). Keeping leftShoulder=-30 (hands clasped in front, ~53° abduction).",
+  "created_at": "2026-08-01T23:39:45.676Z"
+}

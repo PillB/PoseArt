@@ -1,0 +1,20 @@
+{
+  "proposal_id": "patch-p13-floor-s10-recline-ottoman-arms-up-1785634276095",
+  "pose_id": "p13-floor-s10-recline-ottoman-arms-up",
+  "category": "reclining",
+  "worker": "worker-D-batch5",
+  "existing_config_hash": "28477afe5e55",
+  "defects": [],
+  "failing_tests": [],
+  "field_changes": {},
+  "renderer_changes": "",
+  "before_evidence": "categories/reclining/p13-floor-s10-recline-ottoman-arms-up/baseline/",
+  "after_evidence": "",
+  "regression_risk": "none — pose verified clean per description",
+  "confidence": 0.85,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "CLEAN. Description explicitly says \"Raise both arms overhead with hands near the face or hair\" — both shoulders at -110 (abd ~113°, just under 120° but appropriate for hands-near-hair position vs fully-extended overhead). globalTilt=-78 (mostly supine) is correct for \"recline back against ottoman\". spine=-28 (slight arch) gives \"drop head back\" appearance (head pitch -109° = looking up). shoulderFwdL/R=+20 (BEHIND per corrected convention) swings arms slightly back so hands are positioned above-back of head near hair. hipAbductL=-20 (abduction outward LEFT) + hipAbductR=+18 (adduction inward LEFT) → both knees tilted to figure LEFT side, matching \"let them fall open or to one side\". arms_overhead flag was a false alarm — description supports overhead arms. knees_to_one_side interpretation is intentional per description option.",
+  "created_at": "2026-08-02T01:31:16.095Z"
+}

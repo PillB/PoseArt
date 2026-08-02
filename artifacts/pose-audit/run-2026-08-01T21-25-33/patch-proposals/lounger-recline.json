@@ -1,0 +1,34 @@
+{
+  "proposal_id": "patch-lounger-recline-1785621362153",
+  "pose_id": "lounger-recline",
+  "category": "seated",
+  "worker": "worker-B",
+  "existing_config_hash": "deefddf9bf4f",
+  "defects": [
+    {
+      "type": "legs_not_crossed_at_ankle",
+      "severity": "major",
+      "description": "Description says legs extended and crossed at the ankle. Baseline has hipAbductL:+10 (left leg crosses inward to figure right ✓) BUT hipAbductR:-10 (right leg abducts OUTWARD to figure right, NOT crossing inward). Both legs end up on figure right side (parallel, not crossed). For legs to cross at ankle, both legs must adduct inward to opposite sides — left to figure right, right to figure left."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "left ankle and right ankle should be on OPPOSITE sides of body midline (crossed)",
+      "expected": "leftAnkle.x > 0 and rightAnkle.x < 0 (or vice versa)",
+      "actual": "leftAnkle.x=+0.037, rightAnkle.x=+0.037 — wait, baseline actually shows L_hip_abd=-13° and R_hip_abd=+13°, meaning both legs shifted to figure right (parallel, not crossed)"
+    }
+  ],
+  "field_changes": {
+    "hipAbductR": 10
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/lounger-recline/baseline/",
+  "after_evidence": "",
+  "regression_risk": "low — single-field sign flip; verified leg geometry produces proper cross; no flags",
+  "confidence": 0.85,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Real defect: legs not crossed at ankle. Baseline hipAbductL:+10 (left leg crosses inward to figure right, correct direction for cross) but hipAbductR:-10 (right leg abducts outward to figure right, WRONG direction — should adduct inward to figure left to cross under). Per actual renderer convention (empirically verified), POSITIVE hipAbductR = right leg crosses INWARD to figure left (renderer comment inverted). Flipping hipAbductR from -10 to +10 produces: L_hip_abd=-13° (left leg to figure right) and R_hip_abd=-13° (right leg to figure left) — ankles swap sides (leftAnkle.x=+0.037, rightAnkle.x=-0.037), creating a true cross at the ankle. Knees stay on native sides (leftKnee.x=-0.055, rightKnee.x=+0.055), feet cross over — proper ankle cross. Single-field change, minimal risk. Verified no anomalies/plausibility flags.",
+  "created_at": "2026-08-01T21:56:02.153Z"
+}

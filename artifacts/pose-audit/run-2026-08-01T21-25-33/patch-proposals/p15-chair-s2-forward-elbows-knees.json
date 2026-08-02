@@ -1,0 +1,61 @@
+{
+  "proposal_id": "patch-p15-chair-s2-forward-elbows-knees-1785625041508",
+  "pose_id": "p15-chair-s2-forward-elbows-knees",
+  "category": "seated",
+  "worker": "worker-B-seated-batch2",
+  "existing_config_hash": "24d693e5afa2",
+  "defects": [
+    {
+      "type": "knees_apart_sign_error",
+      "severity": "major",
+      "description": "Description: 'knees apart'. hipAbductL/R = +20/+20 (POSITIVE). Corrected convention: + = adduction (knees together), - = abduction (knees apart). So current config has knees TOGETHER, contradicting 'knees apart'. Flagged by geometry-sweep as knees_apart."
+    },
+    {
+      "type": "forearms_not_on_thighs",
+      "severity": "major",
+      "description": "Description: 'both forearms rest on top of the thighs'. Currently L wrist at (−0.767, 0.462, 0.179), 0.871 from L thigh midpoint (−0.033, −0.006, 0.200). L wrist y=0.462 vs thigh y=−0.006 — wrist 0.47 above thigh (chest level, not on thigh). R wrist y=0.601, similar issue."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "hipAbductL < 0 AND hipAbductR < 0 (knees apart, corrected convention - = outward)",
+      "expected": "both negative",
+      "actual": "+20/+20 (both positive = inward)"
+    },
+    {
+      "assertion": "leftWrist to leftThighMidpoint distance < 0.20",
+      "expected": "<0.20",
+      "actual": "0.871"
+    },
+    {
+      "assertion": "rightWrist to rightThighMidpoint distance < 0.20",
+      "expected": "<0.20",
+      "actual": "0.912"
+    },
+    {
+      "assertion": "leftWrist.y approx leftThighMidpoint.y (within 0.10)",
+      "expected": "within 0.10",
+      "actual": "L wrist y=0.462 vs thigh y=−0.006 (0.47 gap)"
+    }
+  ],
+  "field_changes": {
+    "hipAbductL": -25,
+    "hipAbductR": -25,
+    "leftShoulder": -20,
+    "rightShoulder": -25,
+    "shoulderFwdL": -40,
+    "shoulderFwdR": -40,
+    "leftElbow": 100,
+    "rightElbow": 100
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/p15-chair-s2-forward-elbows-knees/baseline/",
+  "after_evidence": "",
+  "regression_risk": "low — 8 fields across hips + both arms; spine, hips, legs (knee/ankle) unchanged; all shoulders abd 49-52° within band; no new anomalies or plausibility flags introduced. Wrists at thigh y level (slightly below knee y for L, slightly above for R due to asymmetric knee heights) consistent with 'on top of thighs'.",
+  "confidence": 0.8,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "p15-chair-s2: TWO coordinated defects. (1) knees_apart sign error: hipAbductL/R = +20/+20 (POSITIVE = inward adduction = knees together per CORRECTED convention) but description says 'knees apart'. Flipping both to -25 (abduction outward per corrected convention) — derived L hip_abd becomes +58° (outward), R hip_abd +69° (outward). Knees now correctly apart. (2) Forearms not on thighs: original shoulders -55/-67 (abd 95°/111° lateral), shoulderFwdL/R +30 (behind per corrected convention) → wrists at chest level (y=0.462, 0.601). FIX: reduce leftShoulder from -55 to -20 (abd 49°, arm hangs down), reduce rightShoulder from -67 to -25 (abd 52°), flip shoulderFwdL/R from +30 to -40 (forward per corrected convention), keep elbows at 100 (right-angle). After patch: L wrist (−0.453, −0.013, 0.541), R wrist (0.456, 0.022, 0.578). Both at thigh level ✓ (y=−0.013, 0.022 ≈ thigh midpoint y=−0.006, 0.018). L wrist → L thigh mid 0.421 (was 0.871); R wrist → R thigh mid 0.436 (was 0.912). L wrist → L knee 0.232 (wrist at knee end of thigh ✓); R wrist → R knee 0.230. Forearm runs from elbow (near hip) to wrist (near knee) along the thigh — matches 'forearms rest on top of the thighs'. spine=+25 unchanged (forward lean ✓). 'Spine long rather than rounded' satisfied (torso flexion 40° forward, no back arch).",
+  "created_at": "2026-08-01T22:57:21.508Z"
+}

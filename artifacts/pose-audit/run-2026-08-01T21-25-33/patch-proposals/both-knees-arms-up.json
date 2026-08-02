@@ -1,0 +1,36 @@
+{
+  "proposal_id": "patch-both-knees-arms-up-1785630562532",
+  "pose_id": "both-knees-arms-up",
+  "category": "kneeling",
+  "worker": "worker-B-batch4",
+  "existing_config_hash": "410b4a7fda1c",
+  "defects": [
+    {
+      "id": "not_both_knees_down",
+      "severity": "MAJOR",
+      "claim": "Pose name 'Both Knees Arms Up' + description 'Kneel upright' require BOTH knees down (kneeling base). Current config has only ONE knee bent (rightKnee=80, rightHip=70) while LEFT leg is in STANDING position (leftHip=0 default, leftKnee=5 nearly straight). Left knee at y=-0.376 (below hip), left foot at y=-0.856 (planted on ground) — this is a STANDING leg, not a kneeling leg. Result: pose is half-kneeling/standing-on-one-leg, not 'both knees down'.",
+      "evidence": "geometry.json: leftKnee y=-0.376 (low, standing), rightKnee y=-0.096 (hip-level, kneeling) — asymmetric. leftFoot y=-0.856 (planted), rightFoot y=0.391 (elevated)."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "both knees symmetric (both kneeling)",
+      "expected": "leftKnee.y ~= rightKnee.y (both kneeling)",
+      "actual": "leftKnee y=-0.376 (standing), rightKnee y=-0.096 (kneeling) — asymmetric"
+    }
+  ],
+  "field_changes": {
+    "leftHip": 80,
+    "leftKnee": 90
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/kneeling/both-knees-arms-up/baseline/",
+  "after_evidence": "",
+  "regression_risk": "low — 2-field symmetric change mirroring existing right-leg config onto left leg. No arm changes (arms verified overhead per task hint).",
+  "confidence": 0.85,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "MAJOR fix: mirror the right leg's kneeling configuration on the left side. leftHip 0→80 (thigh forward, matching rightHip=70 approximation), leftKnee 5→90 (knee flexion, matching rightKnee=80). Brings left knee from y=-0.376 (standing position) to y=-0.024 (matching right knee y=-0.096, both kneeling approximation). Both legs now symmetric kneeling (hip flexion ~80°, knee flexion ~90°) ✓. Rig limitation (per task notes): hip origin fixed at y=0.12, true kneeling (knees at y=-0.8) cannot be achieved — deep knee flexion (90°) is the available approximation. Arms overhead verification (per task hint 'verify arms overhead >120°'): current L_arm_abd=150°, R_arm_abd=137° — both >120° ✓, arms correctly overhead (per pose name 'arms-up' and task hint). Note: description text says 'hands resting on the thighs' which CONTRADICTS pose name 'arms-up' and current overhead config; per task hint 'verify arms overhead (shoulder abduction >120°)' the overhead configuration is the expected intent — description text appears to be a copy-paste error from a different pose. Leaving arms as-is (overhead). Only fixing the leg asymmetry. Verified via verify-patch.js: leftKnee y -0.376→-0.024 (matches right ✓), no new anomalies, plausibility 0.",
+  "created_at": "2026-08-02T00:29:22.532Z"
+}

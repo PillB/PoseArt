@@ -1,0 +1,37 @@
+{
+  "proposal_id": "patch-p17-tubes-s5-seated-legs-open-hands-back-1785624372751",
+  "pose_id": "p17-tubes-s5-seated-legs-open-hands-back",
+  "category": "seated",
+  "worker": "worker-D-seated-batch2",
+  "existing_config_hash": "843b7b359a00",
+  "defects": [
+    "KNEES_CROSSED: hipAbductL/R=+20 (positive=adduction/inward per integrator-verified sign) → leftKnee.x=+0.017, rightKnee.x=-0.017 (crossed centerline). Description says \"knees open comfortably apart\" (abduction, outward).",
+    "HANDS_NOT_BEHIND: shoulderFwdL/R=-10 (negative=forward per integrator-verified sign) → wrist z=+0.19/0.19 (forward of torso z=+0.021). Description says \"Place both hands behind you on the tube edge\". Hands must be posterior (z<0).",
+    "SHOULDER_ABDUCTION_EXCESS: L 35°, R 47° abducted; hands resting on tube edge should be near body (~15°).",
+    "SWEEP_FALSE_POSITIVE: hand_to_chin flag triggered by regex matching \"lift the chin with\" in description — phrase refers to chin position, NOT a hand-to-chin contact. No semantic claim of hand-to-chin."
+  ],
+  "failing_tests": [
+    "expect(leftKnee.x).toBeLessThan(leftHip.x) — left knee should be lateral to left hip (open), not crossed past centerline",
+    "expect(rightKnee.x).toBeGreaterThan(rightHip.x) — right knee should be lateral to right hip (open)",
+    "expect(leftWrist.z).toBeLessThan(leftShoulder.z) — wrist posterior to shoulder when hands behind",
+    "expect(rightWrist.z).toBeLessThan(rightShoulder.z) — same"
+  ],
+  "field_changes": {
+    "hipAbductL": -20,
+    "hipAbductR": -20,
+    "shoulderFwdL": 30,
+    "shoulderFwdR": 30,
+    "leftShoulder": -8,
+    "rightShoulder": -10
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/p17-tubes-s5-seated-legs-open-hands-back/baseline/",
+  "after_evidence": "",
+  "regression_risk": "Low — change is field-level joints only, no renderer change. Spine=-10 (backward arch, correct for slight backward lean), globalTilt=+10 preserved (rig positioning). Risk: if globalTilt=+10 was actually forward-tilt compensation for tube, no change needed; if it was wrong, a future globalTilt fix would address it.",
+  "confidence": 0.85,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "CORRECTED sign conventions: hipAbduct + = adduction (inward/cross), - = abduction (outward/spread). shoulderFwd + = behind (posterior), - = forward (anterior). Description requires knees OPEN (abduction → negative hipAbduct) and hands BEHIND (posterior → positive shoulderFwd). Reduced shoulder abduction from 35°/47° to ~15°/18° so wrists rest near hip-level on tube edge instead of far out to sides. Original config had both signs INVERTED vs description, producing knees-crossed + hands-forward — a 2-axis contact failure. The hand_to_chin sweep flag is a regex false positive (matched \"chin with\" in lift-the-chin phrase); actual wrist→head distances are 0.94/0.98 (very far from chin).",
+  "created_at": "2026-08-01T22:46:12.752Z"
+}

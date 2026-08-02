@@ -1,0 +1,52 @@
+{
+  "proposal_id": "patch-both-knees-1785630562481",
+  "pose_id": "both-knees",
+  "category": "kneeling",
+  "worker": "worker-B-batch4",
+  "existing_config_hash": "afa0d0da70a9",
+  "defects": [
+    {
+      "id": "legs_symmetric_not_asymmetric_kneeling",
+      "severity": "CRITICAL",
+      "claim": "Description: 'Plant one knee on the floor directly under the hip, while the other leg bends at 90° with the foot flat.' Requires ASYMMETRIC legs: one kneeling (knee down, foot back) + one bent 90° (foot flat). Current config has both legs symmetric: leftHip=85, rightHip=85, leftKnee=100, rightKnee=100 — both legs in identical 'thigh forward + knee bent' seiza-style position. Both knees at y=0.013 (hip level, NOT on ground). Both feet at y=0.553 (elevated, NOT flat).",
+      "evidence": "geometry.json: leftKnee y=0.013, rightKnee y=0.013 (symmetric, hip-level), leftFoot y=0.553, rightFoot y=0.553 (symmetric, elevated)."
+    },
+    {
+      "id": "hand_not_on_raised_knee",
+      "severity": "MAJOR",
+      "claim": "Description: 'rest one hand on the raised knee'. The raised knee is the knee of the bent (non-kneeling) leg. Currently both knees at same y (no 'raised' knee), and right wrist at (0.565, 0.054, 0.134) is 0.578 from right knee (0.070, 0.013, 0.424) — far above 0.30 threshold. Left wrist not configured to reach any knee.",
+      "evidence": "geometry.json: R_wrist-to-R_knee distance = sqrt(0.495²+0.041²+0.290²) = 0.578 (threshold <0.30)."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "legs asymmetric (one straight/vertical, one bent 90°)",
+      "expected": "leftHip != rightHip OR leftKnee != rightKnee",
+      "actual": "leftHip=rightHip=85, leftKnee=rightKnee=100 (symmetric)"
+    },
+    {
+      "assertion": "rightWrist-to-rightKnee distance < 0.30 (hand on raised knee)",
+      "expected": "< 0.30",
+      "actual": "0.578"
+    }
+  ],
+  "field_changes": {
+    "spine": 0,
+    "leftHip": 0,
+    "leftKnee": 0,
+    "leftAnkle": 0,
+    "rightShoulder": 0,
+    "shoulderFwdR": -60,
+    "rightElbow": 80
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/kneeling/both-knees/baseline/",
+  "after_evidence": "",
+  "regression_risk": "medium — 7-field change including leg asymmetry + arm repositioning. Rig constraint: hand-to-knee contact partial (0.251 vs 0.20 strict threshold). Visual re-render verification recommended.",
+  "confidence": 0.7,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "CRITICAL fix: make legs asymmetric to match 'one knee down + one leg bent 90° foot flat'. (1) Left leg (kneeling approximation): leftHip 85→0, leftKnee 100→0, leftAnkle -35→0 — straight vertical leg with knee at y=-0.376 (below hip, 'directly under the hip' approximation) and foot at y=-0.856 (planted on ground). Rig limitation prevents true knee-on-ground (knee at y=-0.8) since hip origin is fixed at y=0.12 — knee-under-hip with foot-planted is the closest achievable kneeling approximation (per task notes). (2) Right leg (bent 90° raised knee): keep rightHip=85, rightKnee=100 unchanged — right knee at y=0.013 (hip level, 'raised knee' ✓), right foot at y=0.553 (elevated, rig-limited — description says 'foot flat' but rig constraint prevents foot-on-ground with knee at 90° from hip-flexed position). (3) Right hand on raised knee: rightShoulder -12→0 (no abduction, arm at side), shoulderFwdR 0→-60 (forward reach per CORRECTED convention '- = forward'), rightElbow 45→80 (deep flexion, wrist to knee). (4) spine -5→0 (upright, 'Sit the torso upright'). Verified via verify-patch.js: legs now asymmetric (left vertical/standing, right bent forward) ✓, rightWrist (0.208, -0.020, 0.216) to rightKnee (0.070, 0.013, 0.424) distance = 0.251 ✓ (under 0.30 threshold; partial achievement of 'hand on raised knee' — rig constraint: arm length 0.754 < shoulder-to-knee distance 0.775 prevents strict <0.20 contact). Note: 'hand on raised knee' read as 'right hand on right knee' (ipsilateral) per typical pose interpretation. Cron-round-9 spine audit left spine=-5 (slight back arch for 'chest open'); my fix sets spine=0 for stricter 'upright' per description 'Sit the torso upright with the chest open' — slight back arch was acceptable for 'chest open' but upright is closer to literal description.",
+  "created_at": "2026-08-02T00:29:22.481Z"
+}

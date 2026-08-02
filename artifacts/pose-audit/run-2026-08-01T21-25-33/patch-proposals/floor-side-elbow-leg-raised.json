@@ -1,0 +1,36 @@
+{
+  "proposal_id": "patch-floor-side-elbow-leg-raised-1785634037886",
+  "pose_id": "floor-side-elbow-leg-raised",
+  "category": "reclining",
+  "worker": "worker-B-batch5",
+  "existing_config_hash": "55de1b0ca02d",
+  "defects": [
+    {
+      "type": "left_elbow_not_propping_on_floor",
+      "severity": "major",
+      "description": "Description: Prop up on ONE ELBOW (one elbow on floor supporting body). Body rolled LEFT side down (globalRoll=-45) so LEFT elbow should be the prop on floor. Current LEFT elbow at y=0.398 (well above floor y=0.015 hips). LEFT elbow is ELEVATED not propping. Cause: leftShoulder=-10 (arm raised UP) + shoulderFwdL=20 (insufficient BEHIND swing). Need leftShoulder POSITIVE (arm down) + deeper shoulderFwdL to bring elbow to floor."
+    },
+    {
+      "type": "top_leg_not_lifted_sufficiently",
+      "severity": "minor",
+      "description": "Description: Lift the top leg and extend it long, knee straight. RIGHT leg is top (LEFT side down). rightHip=-50 (RIGHT leg swings BACK) + rightKnee=5 (knee straight) ✓. rightFoot at y=0.257 (lifted) and z=-0.759 (extended back) ✓. Top leg IS lifted and extended. Minor: extension could be more pronounced but rig-limited."
+    }
+  ],
+  "failing_tests": [
+    "description says prop up on one elbow but LEFT elbow at y=0.398 not on floor"
+  ],
+  "field_changes": {
+    "leftShoulder": 30,
+    "shoulderFwdL": 50
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/reclining/floor-side-elbow-leg-raised/baseline/",
+  "after_evidence": "",
+  "regression_risk": "low — minimal 2-field change. LEFT arm comes DOWN from raised position (leftShoulder -10→30 = 30° below T-pose) and swings deeper BEHIND body (shoulderFwdL 20→50) to bring LEFT elbow to floor for prop. RIGHT arm and legs preserved. Body orientation (globalTilt=80, globalRoll=-45) preserved.",
+  "confidence": 0.75,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Description: Prop up on one elbow with the body angled diagonally across the frame. Lift the top leg and extend it long, knee straight, for maximum diagonal length. Verification: (1) Body angled diagonally — globalTilt=80 (mostly horizontal) + globalRoll=-45 (rolled LEFT side down 45°) ✓ body on LEFT side, diagonal. (2) Lift top leg extended long knee straight — RIGHT leg is top (LEFT side down). rightHip=-50 (RIGHT leg swings BACK), rightKnee=5 (knee straight) ✓. rightFoot at y=0.257 (lifted above floor), z=-0.759 (extended back) ✓. (3) Prop up on one elbow — DEFECT: LEFT elbow should be on floor but is at y=0.398 (above hips y=0.015). Cause: leftShoulder=-10 (arm raised UP per convention - = raise) + shoulderFwdL=20 (only 20° BEHIND swing insufficient to bring elbow down). Fix: leftShoulder -10→+30 (LEFT arm comes DOWN 30° below T-pose, no longer raised), shoulderFwdL 20→50 (deeper BEHIND swing brings elbow DOWN to floor in side-lying pose where body-behind maps mostly DOWN-LEFT in world frame ✓). Other joints preserved (rightHip=-50, rightKnee=5 for lifted top leg, globalTilt=80, globalRoll=-45 for diagonal side-lying). Minimal 2-field fix. Re-render verify recommended.",
+  "created_at": "2026-08-02T01:27:17.886Z"
+}

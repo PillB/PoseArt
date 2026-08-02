@@ -1,0 +1,43 @@
+{
+  "proposal_id": "patch-p15-chair-s6-one-leg-up-chair-1785624599964",
+  "pose_id": "p15-chair-s6-one-leg-up-chair",
+  "category": "seated",
+  "worker": "worker-C-seated-batch2",
+  "existing_config_hash": "8fd207f76d38",
+  "defects": [
+    {
+      "id": "arms-overhead-pr-v4-overshoot",
+      "severity": "CRITICAL",
+      "claim": "Wrap both arms loosely around the raised shin",
+      "evidence": "Both arms overhead: L shoulder abducted 128°, R shoulder abducted 163°; elbows above shoulders; wrists at y=0.99 (L) and y=1.22 (R) — far above raised shin midpoint y≈0.27. PR-v4 comment confirms shoulders were forced to -110 (overhead) as auto-fix too-subtle, but description requires forward shin-wrap not overhead. left_shoulder_flexion -158° and right_shoulder_flexion -148° both outside plausibility band [-60,180]."
+    }
+  ],
+  "failing_tests": [
+    {
+      "name": "arms_should_wrap_raised_shin",
+      "assert": "leftWrist.y < 0.40 AND rightWrist.y < 0.40 AND left_arm.shoulder_abduction_deg < 50 AND right_arm.shoulder_abduction_deg < 50"
+    },
+    {
+      "name": "no_plausibility_flag_shoulder_flexion",
+      "assert": "NOT (left_shoulder_flexion.outside_band_review OR right_shoulder_flexion.outside_band_review)"
+    }
+  ],
+  "field_changes": {
+    "leftShoulder": -20,
+    "rightShoulder": -20,
+    "shoulderFwdL": -20,
+    "shoulderFwdR": -20,
+    "leftElbow": 95,
+    "rightElbow": 95
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/p15-chair-s6-one-leg-up-chair/baseline/",
+  "after_evidence": "",
+  "regression_risk": "Low — only arm fields changed. Legs (L hip flexion 120°, L knee 109° = raised knee; R leg extended), torso (24° forward lean), pelvis all preserved. No contact/regression expected beyond arm re-positioning.",
+  "confidence": 0.75,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "PR-v4 auto-fix blindly scaled shoulders to -110 (overhead) for a pose whose description requires wrapping arms around the raised shin (forward+down contact, not overhead). Same defect class as cross-ankle-sit critical fix from batch 1. Revert: drop shoulder abduction -110→-20 (brings arms from overhead to ~30° abducted, lateral-low); flip shoulderFwd from +25 (behind per corrected convention) to -20 (forward, reaching shin); keep elbow ~95° (right-angle for forearm to wrap shin). Sign convention verified: shoulderFwd + = BEHIND, - = FORWARD. Expected post-fix: wrists drop from y~1.0 to y~0.30 (shin level). Torso lean toward raised L knee preserved (lateral flexion -5° = lean figure-left toward L knee).",
+  "created_at": "2026-08-01T22:49:59.964Z"
+}

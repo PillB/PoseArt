@@ -1,0 +1,28 @@
+{
+  "proposal_id": "patch-soft-sit-1785628196578",
+  "pose_id": "soft-sit",
+  "category": "seated",
+  "worker": "worker-A-batch3",
+  "existing_config_hash": "f10c4a6ab7ac",
+  "defects": [
+    "KNEES_NOT_TO_ONE_SIDE: Description says angle both knees to one side rather than square to camera. hipAbductL=+20 and hipAbductR=+20 are SYMMETRIC (both positive=adduction, knees cross at centerline). leftKnee.x=+0.017, rightKnee.x=-0.017 (essentially at centerline, only 0.034 apart). Sweep knees_to_one_side check FAILS: abdAsym=0 (need >=12). Knees NOT angled to one side; they are crossed at centerline. This was the Phase 0 worked-example defect (worklog line 40)."
+  ],
+  "failing_tests": [
+    "expect(Math.abs(hipAbductL - hipAbductR)).toBeGreaterThanOrEqual(12) — knees angled to one side requires asymmetric hip abduction (currently diff=0)",
+    "expect(leftKnee.x).toBeGreaterThan(0) AND expect(rightKnee.x).toBeGreaterThan(0) — both knees on figure right side (currently L=+0.017 R=-0.017, R knee on left side)"
+  ],
+  "field_changes": {
+    "hipAbductL": 25,
+    "hipAbductR": -10
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/soft-sit/baseline/",
+  "after_evidence": "",
+  "regression_risk": "Low — 2 field changes (hipAbductL/R only). Legs only; arms, spine, torso preserved. Magnitudes within normal range. Right knee abduction at -10deg is modest (side-saddle uses -10deg with hipAbductL=+25).",
+  "confidence": 0.8,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "CORRECTED convention: hipAbduct + = adduction (inward/cross), - = abduction (outward/spread). To angle BOTH knees to figure right side: keep L adducted (knee crosses toward center-right) AND flip R to abducted (knee swings outward to right). hipAbductL 20->25 (slight increase, L knee at world x=+0.052), hipAbductR 20->-10 (sign flip, R knee at world x=+0.205). Both knees on figure-right side (x>0). Sweep abdAsym becomes |25-(-10)|=35 >= 12 (PASSES knees_to_one_side). Verified by buildPose: L knee at (+0.052, 0.016, +0.388), R knee at (+0.205, 0.013, +0.422). Smallest valid change: 2 fields, no globalTwist (preserves torso facing 3/4 view). Alternative considered: asymmetric hip flexion (rightHip 85->55) per task hint — but that changes knee DEPTH (z) not lateral position (x), and reads as one leg forward not knees-to-one-side. Asymmetric hipAbduct is the cleaner geometric fix for the description intent.",
+  "created_at": "2026-08-01T23:49:56.578Z"
+}

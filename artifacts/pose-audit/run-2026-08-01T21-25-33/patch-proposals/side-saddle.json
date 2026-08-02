@@ -1,0 +1,39 @@
+{
+  "proposal_id": "patch-side-saddle-1785625473796",
+  "pose_id": "side-saddle",
+  "category": "seated",
+  "worker": "worker-D-seated-batch2",
+  "existing_config_hash": "8cd2bf7bc731",
+  "defects": [
+    "LEGS_NOT_SWEPT_TO_ONE_SIDE: Description says \"Sit with both legs swept to one side\". Config: leftHip=80, rightHip=80 (symmetric forward flexion), hipAbductL/R UNSET (default 0 — no abduction), globalTwist UNSET (default 0 — no body rotation). Measured: leftKnee.x=-0.13, rightKnee.x=+0.13 (symmetric, on opposite sides — NOT swept to one side). This is a regular seated pose, NOT side-saddle.",
+    "ANKLES_NOT_CROSSED_STACKED: Description says \"ankles crossed and stacked precisely, one directly above the other\". Measured: leftAnkle at (-0.110, +0.395, +0.423), rightAnkle at (+0.110, +0.394, +0.387) — ankles at OPPOSITE x (not crossed) and same y (not stacked). Should be same xz, different y.",
+    "NO_UPPER_BODY_ROTATION: Description says \"Rotate the upper body a quarter turn toward camera while the legs stay angled away\". Config has no globalTwist, no axial rotation joint. Renderer cannot independently twist upper vs lower body — rig limitation. Best approximation: globalTwist to rotate whole body (angles both legs AND torso together).",
+    "SWEEP_KNEES_TO_ONE_SIDE_FLAG_VERIFIED_CORRECT: Sweep correctly flagged this pose — legs are symmetric, NOT to one side. Flag is a TRUE POSITIVE."
+  ],
+  "failing_tests": [
+    "expect(Math.sign(leftKnee.x)).toBe(Math.sign(rightKnee.x)) — both knees on same side of body (currently -0.13 vs +0.13, opposite sides)",
+    "expect(Math.abs(leftKnee.x - rightKnee.x)).toBeLessThan(0.15) — knees close together for side-saddle (currently 0.26 apart)",
+    "expect(globalTwist).not.toBe(0) — body rotation for quarter-turn toward camera",
+    "expect(hipAbductL).not.toBe(0) — asymmetric abduction required for legs-to-one-side",
+    "expect(Math.abs(leftAnkle.x - rightAnkle.x)).toBeLessThan(0.10) — ankles crossed (same x) for stacking"
+  ],
+  "field_changes": {
+    "globalTwist": 30,
+    "hipAbductL": 25,
+    "hipAbductR": -10,
+    "leftHip": 70,
+    "rightHip": 70,
+    "leftKnee": 115,
+    "rightKnee": 120
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/side-saddle/baseline/",
+  "after_evidence": "",
+  "regression_risk": "Medium-high — rig cannot independently twist upper and lower body, so \"upper body quarter turn toward camera while legs stay angled away\" is only partially achievable. globalTwist rotates whole body together (legs AND torso both angle right). Asymmetric hipAbduct (left +25, right -10) is the primary mechanism for legs-to-one-side — sign verified per integrator. Ankle stacking requires precise knee/ankle positioning that may need round-2. Spine, neck, shoulders preserved.",
+  "confidence": 0.55,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "CORRECTED sign conventions: hipAbductL/R + = adduction (inward/cross), - = abduction (outward/spread); globalTwist + = whole body rotates left. To achieve \"both legs swept to one side\" (right side): hipAbductL=+25 (left leg adducts strongly, left knee crosses past centerline to the right) + hipAbductR=-10 (right leg abducts slightly outward, right knee further right). Both legs end up on right side of body. hip flexion reduced 80→70 (slight) so thighs angle less forward, more lateral. Knee flexion increased 100/105→115/120 (deeper bend) to bring ankles closer together for stacking. globalTwist=30 (NEW) rotates whole body 30° left — angles legs further to the right (away from camera) AND rotates torso 30° toward camera (approximation of \"quarter turn toward camera\"). RIG LIMITATION: renderer has no independent axial rotation for upper vs lower body — globalTwist rotates everything together. True side-saddle twist (legs away, torso toward camera) requires renderer tier fix. Spine=6 preserved. Asymmetric knee flexion (115/120) attempts to produce ankle stacking — exact stacking may require round-2.",
+  "created_at": "2026-08-01T23:04:33.796Z"
+}

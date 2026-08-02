@@ -1,0 +1,54 @@
+{
+  "proposal_id": "patch-p10-bench-s5-side-recline-arm-up-1785625372167",
+  "pose_id": "p10-bench-s5-side-recline-arm-up",
+  "category": "seated",
+  "worker": "worker-A-seated-batch2",
+  "existing_config_hash": "cf5dcc6e9610",
+  "defects": [
+    {
+      "type": "arms_swapped_top_bottom",
+      "severity": "major",
+      "description": "Description says 'raise the TOP arm overhead, resting the hand behind the head' and 'BOTTOM arm supports head or rests along bench'. With globalRoll:40 + globalTilt:-82 the RIGHT side is up (rightShoulder y=0.250 > leftShoulder y=-0.032), so RIGHT is the TOP arm. But config has LEFT arm fully abducted (-131, overhead) and RIGHT arm at side (+60). Arms are SWAPPED — top and bottom inverted."
+    },
+    {
+      "type": "hand_behind_head_contact_failure",
+      "severity": "major",
+      "description": "Description says 'resting the hand behind the head' — top-arm wrist should be within 0.25 of head. Currently Lw_head=0.632 and Rw_head=0.853 (both far)."
+    },
+    {
+      "type": "bottom_arm_not_along_bench",
+      "severity": "major",
+      "description": "Description says bottom arm 'rest along the bench' — bottom-arm wrist should be at hip level (bench runs along body). Currently bottom (left) wrist 1.311 from left hip."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "top_arm_wrist_to_head_distance < 0.30",
+      "expected": "<0.30",
+      "actual": "Rw_head=0.853 (right wrist far from head, right arm is the top arm due to globalRoll)"
+    },
+    {
+      "assertion": "bottom_arm_wrist_to_hip_distance < 0.30",
+      "expected": "<0.30",
+      "actual": "Lw_Lhip=1.311 (left wrist far from hip, left arm is the bottom arm)"
+    }
+  ],
+  "field_changes": {
+    "leftShoulder": 60,
+    "rightShoulder": -90,
+    "leftElbow": 75,
+    "rightElbow": 150,
+    "shoulderFwdL": 30,
+    "shoulderFwdR": -50
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/p10-bench-s5-side-recline-arm-up/baseline/",
+  "after_evidence": "",
+  "regression_risk": "low — pose was clearly arms-swapped (rig restriction: which side is 'top' determined by globalRoll sign, not author intent). New anomalies: 2 elbow_above_shoulder (both marked 'may be intended if arms overhead' — expected for this pose). Plausibility flags unchanged (2 — pre-existing convention-mismatch artifacts).",
+  "confidence": 0.7,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Body is side-reclined via globalRoll:40+globalTilt:-82. Verifying shoulder world-frame y: rightShoulder y=0.250 > leftShoulder y=-0.032, so RIGHT side is UP (TOP), LEFT is DOWN (BOTTOM). Description requires TOP arm overhead-hand-behind-head and BOTTOM arm at side-along-bench. Original config has these inverted (LEFT overhead, RIGHT at side). FIX = swap shoulder roles: leftShoulder -131→60 (bottom arm down at side, shoulderFwdL:30 keeps elbow slightly behind body so forearm rests along bench at hip level — Lw_Lhip 1.311→0.276 ✓); rightShoulder 60→-90 (top arm overhead, abduction 173° ✓), rightElbow 75→150 (deeply bent so forearm returns to head), shoulderFwdR 30→-50 (forward in body-frame brings elbow forward so wrist arrives at head — Rw_head 0.853→0.231 ✓, under 0.25 threshold). Uses corrected conventions: shoulderFwdL/R + = BEHIND, - = FORWARD; leftShoulder/rightShoulder - = raise up. Side-recline context means 'overhead' maps to body-frame +y which after globalTilt:-82 is world -z (toward head end of body).",
+  "created_at": "2026-08-01T23:02:52.167Z"
+}

@@ -1,0 +1,49 @@
+{
+  "proposal_id": "patch-p13-floor-s8-plant-side-seated-1785634347028",
+  "pose_id": "p13-floor-s8-plant-side-seated",
+  "category": "reclining",
+  "worker": "worker-D-batch5",
+  "existing_config_hash": "287bef62f6a8",
+  "defects": [
+    {
+      "type": "left_arm_at_side_not_crossing",
+      "severity": "major",
+      "description": "Description: \"Bring ONE arm across the chest, resting the hand near the opposite shoulder\". Currently L arm reaches back-out (shoulderFwdL=+30 BEHIND, leftShoulder=60). Other arm (R) is the crosser candidate but currently also swings back. Neither arm crosses chest."
+    },
+    {
+      "type": "shoulderFwd_wrong_direction",
+      "severity": "major",
+      "description": "shoulderFwdL/R both positive (BEHIND per corrected convention). For cross-chest, arm should swing FORWARD (negative shoulderFwd) so forearm reaches across body."
+    },
+    {
+      "type": "asymmetric_unmotivated",
+      "severity": "minor",
+      "description": "leftShoulder=60 vs rightShoulder=-10 (70° asymmetry). Description implies ONE arm crosses, OTHER relaxed at side."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "one_arm_crosses_chest",
+      "expected": "wrist crosses body midline (x sign change) at chest level",
+      "actual": "wristR at (0.582, 0.104, 0.091) — far RIGHT, no cross; wristL at (0.118, -0.010, -0.100) — at center, hip level"
+    }
+  ],
+  "field_changes": {
+    "leftShoulder": 0,
+    "shoulderFwdL": 0,
+    "leftElbow": 30,
+    "rightShoulder": -30,
+    "shoulderFwdR": -90,
+    "rightElbow": 100
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/reclining/p13-floor-s8-plant-side-seated/baseline/",
+  "after_evidence": "",
+  "regression_risk": "medium — significant arm reorientation. Re-render verify required.",
+  "confidence": 0.65,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "L arm = relax at side: leftShoulder 60 → 0 (arm down at side), shoulderFwdL 30 → 0 (no swing), leftElbow 95 → 30 (slight bend, relaxed). Result: wristL=(-0.467, 0.009, -0.024) — at hip level on LEFT side, relaxed. R arm = cross chest to opposite shoulder: rightShoulder -10 → -30 (R arm raised 30° up), shoulderFwdR 10 → -90 (strong FORWARD swing per - = forward; brings forearm forward across body), rightElbow 30 → 100 (deep bend, forearm crosses chest). Result: wristR=(-0.089, 0.247, -0.097) — at chest level on LEFT side (crossed midline from R to L), approximation of \"hand near opposite shoulder\". Rig-limited: cannot truly cross horizontally (renderer elbow only rotY); forearm reaches forward and bends, ending on opposite-side chest. Legs PRESERVED: hipAbductL=+12 + hipAbductR=-15 (both legs cross to RIGHT side per description \"legs bent and folded to one side\"). globalTwist=-10 preserved (slight body angle toward plant).",
+  "created_at": "2026-08-02T01:32:27.028Z"
+}

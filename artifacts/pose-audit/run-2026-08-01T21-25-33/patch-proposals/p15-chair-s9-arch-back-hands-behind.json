@@ -1,0 +1,74 @@
+{
+  "proposal_id": "patch-p15-chair-s9-arch-back-hands-behind-1785624985593",
+  "pose_id": "p15-chair-s9-arch-back-hands-behind",
+  "category": "seated",
+  "worker": "worker-C-seated-batch2",
+  "existing_config_hash": "a22ddfe6f1c7",
+  "defects": [
+    {
+      "id": "legs-crossed-not-wide",
+      "severity": "CRITICAL",
+      "claim": "Legs planted wide for stability",
+      "evidence": "hipAbductL:+25 and hipAbductR:+25 — BOTH POSITIVE = ADDUCTION (inward/cross per corrected convention). L knee at x=-0.029, R knee at x=-0.131 — both knees clustered near body center-left, NOT wide stance. Should be ABDUCTED (negative hipAbduct) with knees spread to figure-left and figure-right respectively."
+    },
+    {
+      "id": "hands-not-clasped-behind-head",
+      "severity": "MAJOR",
+      "claim": "Both hands clasped behind the head",
+      "evidence": "L-R wrist distance 0.389 (should be <0.20 for clasped); leftWrist z=-0.757 FORWARD of head z=-0.831 (by 0.074); rightWrist z=-0.673 FORWARD of head (by 0.158). Wrists at y=0.95 (above head y=0.331) — hands above head, not behind. Wrists ARE behind torso (z<0) but should be specifically behind head (z<head.z)."
+    },
+    {
+      "id": "arms-too-vertical",
+      "severity": "MAJOR",
+      "claim": "Elbows wide (out to sides)",
+      "evidence": "L shoulder abducted 167°, R 157° — both nearly vertical/overhead, NOT out-to-sides. Elbow flexion 41-49° measured (raw 79°) — forearms continuing upward instead of bending back to head. Plausibility flags: both shoulder sagittal flexion outside band [-60,180] (-171°, -175°)."
+    },
+    {
+      "id": "body-over-reclined",
+      "severity": "MAJOR",
+      "claim": "Sit forward on the chair edge",
+      "evidence": "globalTilt:-40 produces 72° torso recline (torso flexion -72°) — figure deeply reclined, NOT perched forward on chair edge. Combined with spine:-32 + neck:-25 = head pitch -75° (way more than SLIGHT head tilt back per description)."
+    }
+  ],
+  "failing_tests": [
+    {
+      "name": "legs_should_be_wide",
+      "assert": "hipAbductL < -10 AND hipAbductR < -10 (both abducted outward)"
+    },
+    {
+      "name": "hands_clasped",
+      "assert": "|leftWrist.x - rightWrist.x| < 0.20 AND |leftWrist.z - rightWrist.z| < 0.20"
+    },
+    {
+      "name": "hands_behind_head",
+      "assert": "leftWrist.z < head.z AND rightWrist.z < head.z AND |leftWrist.y - head.y| < 0.30"
+    },
+    {
+      "name": "torso_slight_recline_only",
+      "assert": "anatomy.torso.flexion_deg > -25 (upright or slight arch, not deep recline)"
+    }
+  ],
+  "field_changes": {
+    "leftShoulder": -100,
+    "rightShoulder": -100,
+    "leftElbow": 110,
+    "rightElbow": 110,
+    "shoulderFwdL": 5,
+    "shoulderFwdR": 5,
+    "hipAbductL": -20,
+    "hipAbductR": -20,
+    "globalTilt": -10,
+    "neck": -10,
+    "spine": -25
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/p15-chair-s9-arch-back-hands-behind/baseline/",
+  "after_evidence": "",
+  "regression_risk": "High — 11 field changes across 4 defect classes (legs, arms, recline, head). Sign conventions verified (hipAbduct + = adduction, shoulderFwd + = behind, spine - = back arch, globalTilt - = supine). Re-render verification REQUIRED to confirm (1) hands actually meet behind head (target L-R wrist dist <0.20, wrists z < head z), (2) legs spread wide (target knee x positions opposite signs), (3) elbow flexion produces forearms-come-back-to-head not forearms-go-up-further.",
+  "confidence": 0.6,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Description: SEATED FORWARD on chair edge (upright, not reclined) with back arched, hands clasped behind head, elbows wide, legs planted WIDE. Current config inverts multiple signs: (1) hipAbduct +25/+25 = ADDUCTION (cross) but description says WIDE = abduction (negative); (2) arms nearly vertical overhead (shoulder abducted 157-167°) instead of out-to-sides (~110°) with forearms bending back to clasp behind head; (3) globalTilt:-40 + spine:-32 + neck:-25 = 72° back recline but description says sit forward + slight head tilt. Fixes: flip hipAbduct to -20 (abduction = wide stance, sign verified + = adduction, - = abduction); reduce shoulder abduction -136/-124 → -100 (arms out to sides); increase elbow 79 → 110 (forearms come back to head); flip shoulderFwd -5 → +5 (positive = BEHIND per corrected convention, hands go behind head); reduce globalTilt -40 → -10 (sit upright on chair edge); reduce neck -25 → -10 (slight head back); reduce spine -32 → -25 (moderate arch, chest up).",
+  "created_at": "2026-08-01T22:56:25.593Z"
+}

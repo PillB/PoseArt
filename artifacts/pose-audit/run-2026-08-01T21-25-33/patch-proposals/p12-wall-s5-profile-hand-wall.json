@@ -1,0 +1,51 @@
+{
+  "proposal_id": "patch-p12-wall-s5-profile-hand-wall-1785630047621",
+  "pose_id": "p12-wall-s5-profile-hand-wall",
+  "category": "leaning",
+  "worker": "worker-A-batch4",
+  "existing_config_hash": "aba876f7896c",
+  "defects": [
+    {
+      "type": "sign_error",
+      "severity": "major",
+      "description": "spine=-14 (backward arch) but description says \"Keep the torso upright with a small lean into the support\" — forward lean toward wall. PR-v3 auto-fix FALSE POSITIVE: comment claims description says back arch, but actual description does not contain back-arch language. Original spine:+14 was correct; auto-fix wrongly flipped to -14."
+    },
+    {
+      "type": "contact_failure",
+      "severity": "major",
+      "description": "Hand-on-wall contact not achieved: leftWrist at y=0.883 (above shoulder 0.663 by 0.22m) — too high for \"press palm flat against wall at shoulder height\". shoulder_abduction_deg=116° (overhead) instead of ~90°."
+    },
+    {
+      "type": "wrong_magnitude",
+      "severity": "minor",
+      "description": "shoulderFwdL=-20 swings arm forward, but for lateral wall-press the upper arm should reach laterally with no sagittal flexion. forearm_forward_deg=105° indicates arm angled forward instead of lateral."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "torso.flexion_deg > 0",
+      "expected": ">0 (small forward lean into wall)",
+      "actual": "-13.5° (backward arch)"
+    },
+    {
+      "assertion": "distance(leftWrist.y, leftShoulder.y) < 0.10",
+      "expected": "<0.10 (palm at shoulder height)",
+      "actual": "0.22m above shoulder"
+    }
+  ],
+  "field_changes": {
+    "spine": 14,
+    "shoulderFwdL": 0,
+    "leftShoulder": -75
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/leaning/p12-wall-s5-profile-hand-wall/baseline/",
+  "after_evidence": "",
+  "regression_risk": "low — 3 fields, single-pose. Spine flip restores original pre-PR-v3 value. Shoulder adjustments reduce overhead abduction to shoulder-height lateral press. No other joints affected.",
+  "confidence": 0.78,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "CORRECTED CONVENTION: spine + = forward lean, - = backward arch. Description explicitly says \"small lean into the support\" (forward toward wall), so spine must be POSITIVE. PR-v3 comment wrongly claimed description says back arch — false positive. shoulderFwdL: -20 → 0 because description says \"press palm flat against wall at shoulder height\" (lateral reach), not forward reach; CORRECTED CONVENTION: shoulderFwdL - = forward, so 0 = neutral sagittal. leftShoulder: -85 → -75 to reduce abduction from 116° (overhead) to ~95° (shoulder height) for wall-press geometry. globalTwist:15 preserved (profile stance). neck:27 preserved (head turned to look back at camera, matches description).",
+  "created_at": "2026-08-02T00:20:47.621Z"
+}

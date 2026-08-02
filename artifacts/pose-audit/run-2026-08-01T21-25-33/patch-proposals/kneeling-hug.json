@@ -1,0 +1,78 @@
+{
+  "proposal_id": "patch-kneeling-hug-1785632026740",
+  "pose_id": "kneeling-hug",
+  "category": "kneeling",
+  "worker": "worker-C-batch4",
+  "existing_config_hash": "5c0ac1ec00bd",
+  "defects": [
+    {
+      "id": "SPINE_NOT_DEEP_BACKBEND",
+      "severity": "CRITICAL",
+      "description": "spine=-5 (slight arch). Tip explicitly says: this deep stretch should never be forced + warm up hip and back flexibility first — implies DEEP backbend. spine=-5 is too slight.",
+      "evidence": "baseline: torso flexion -5deg (slight arch)"
+    },
+    {
+      "id": "LEFT_LEG_NOT_SWEPT_UP",
+      "severity": "CRITICAL",
+      "description": "leftHip=0 (default) and leftKnee=20 (slight bend). LEFT leg is standing straight, NOT swept up. Description: sweep the back leg up and hold the ankle.",
+      "evidence": "baseline: kneeL y=-0.376, ankleL y=-0.764, footL y=-0.797 (standing straight)"
+    },
+    {
+      "id": "LEFT_ARM_NOT_REACHING_FOR_ANKLE",
+      "severity": "MAJOR",
+      "description": "leftShoulder=-10 (LEFT arm at side). Description: hold the ankle with same-side hand — LEFT hand should reach back/down to LEFT foot.",
+      "evidence": "baseline: wristL y=0.040 (hip level, not reaching back for foot)"
+    },
+    {
+      "id": "ASYMMETRIC_ELBOWS",
+      "severity": "MINOR",
+      "description": "leftElbow=100, rightElbow=100 — both deeply bent but for different purposes (one reaching for foot, one at side).",
+      "evidence": "baseline: both elbows 100deg"
+    },
+    {
+      "id": "NECK_TILT_UNMOTIVATED",
+      "severity": "MINOR",
+      "description": "neck=12 (head tilt right). Description does not specify head direction.",
+      "evidence": "baseline: head roll 12deg"
+    }
+  ],
+  "failing_tests": [
+    {
+      "name": "deep_backbend",
+      "expected": "spine <= -20 (deep backward arch per corrected convention)",
+      "actual": "spine=-5 (slight)"
+    },
+    {
+      "name": "back_leg_swept_up",
+      "expected": "leftHip negative (leg swings back) + leftKnee deep flexion (>=130, foot comes up to hip level)",
+      "actual": "leftHip=0, leftKnee=20 (standing straight)"
+    },
+    {
+      "name": "hand_holds_ankle",
+      "expected": "LEFT wrist near LEFT foot (distance < 0.30)",
+      "actual": "wristL=(-0.423,0.040,0.112), footL=(0.019,-0.797,0.281), distance=1.001"
+    }
+  ],
+  "field_changes": {
+    "spine": -30,
+    "leftHip": -70,
+    "leftKnee": 160,
+    "leftShoulder": -110,
+    "leftElbow": 30,
+    "shoulderFwdL": 50,
+    "shoulderFwdR": 0,
+    "rightShoulder": 0,
+    "rightElbow": 60,
+    "neck": 0
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/kneeling/kneeling-hug/baseline/",
+  "after_evidence": "",
+  "regression_risk": "High — complex pose with multiple joint changes. LEFT leg repositioned from standing to back-swept-up (leftHip -70, leftKnee 160). spine doubled in magnitude (-5→-30). LEFT arm raised overhead and swung behind (leftShoulder -110, shoulderFwdL=+50 per corrected convention + = behind). Hand-foot contact rig-limited (distance wristL-to-footL still ~1.36m — renderer lacks hip-origin-y control and isolated torso twist).",
+  "confidence": 0.55,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Description: Low lunge with one knee down + sweep back leg up + hold ankle with same-side hand + torso opens toward camera + deep backbend. RIGHT leg preserved as kneeling lunge base (rightHip=70, rightKnee=80). Fixes: (1) spine -5→-30 (deep backbend per tip warm up... this deep stretch); (2) leftHip 0→-70 (LEFT leg swings BACK per corrected convention + = forward, so negative = back); (3) leftKnee 20→160 (deep flexion, foot comes up to hip level — rig-limited, foot reaches y=0.024 not higher); (4) leftShoulder -10→-110 (LEFT arm overhead, PR-v4-style raise); (5) leftElbow 100→30 (LEFT arm extended for reach); (6) shoulderFwdL 12→50 (LEFT arm swings BEHIND body per corrected convention + = behind, reaching back/down for foot); (7) rightShoulder 8→0, rightElbow 100→60 (RIGHT arm at side, less bent); (8) neck 12→0 (neutral). Result: LEFT leg lifted (foot at hip level y=0.024), LEFT arm overhead reaching back (wristL at (-0.790,1.075,-0.278)), spine deep arch (-30). Hand-to-foot contact rig-limited (distance 1.36m) — true ankle-hold not achievable without renderer hip-origin-y control.",
+  "created_at": "2026-08-02T00:53:46.740Z"
+}
