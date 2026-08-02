@@ -6,7 +6,14 @@
 <!-- SEC-04 fix: Content Security Policy — restricts script/style/font/image sources -->
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; base-uri 'self'; form-action 'self'">
 <title>PoseArt — Move like art.</title>
-<meta name="description" content="PoseArt — an Art Nouveau pose-coaching camera companion. Move like art.">
+<meta name="description" content="PoseArt — Master 745 studio-quality poses with a live ghost overlay. Art Nouveau-inspired pose coaching for photographers, models, and self-portrait artists.">
+<meta property="og:title" content="PoseArt — Move Like Art">
+<meta property="og:description" content="Master 745 studio-quality poses with a live ghost overlay that guides your body into place.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://pillb.github.io/PoseArt/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="PoseArt — Move Like Art">
+<meta name="twitter:description" content="Master 745 studio-quality poses with a live ghost overlay.">
 
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1479,7 +1486,7 @@ img { max-width: 100%; }
     <div class="login-panel">
       <div class="login-badge">Friends &amp; Family Test</div>
       <h1 class="login-wordmark" id="login-title">Pose<span>Art</span></h1>
-      <p class="login-subtitle">A private preview for invited pose artists and photographers.</p>
+      <p class="login-subtitle">Join photographers and models mastering their poses with Art Nouveau-inspired coaching.</p>
       <form class="login-form" data-testid="login-form" onsubmit="return handleLoginSubmit(event)" novalidate>
         <div class="login-field">
           <label for="login-username">Username</label>
@@ -1490,7 +1497,7 @@ img { max-width: 100%; }
           <input id="login-password" data-testid="login-password" name="password" type="password" autocomplete="current-password" required aria-describedby="login-error">
         </div>
         <p id="login-error" class="login-error" data-testid="login-error" role="alert" aria-live="polite" hidden></p>
-        <button class="btn btn-gold btn-block" data-testid="login-submit" type="submit" style="min-height:48px;">Enter PoseArt</button>
+        <button class="btn btn-gold btn-block" data-testid="login-submit" type="submit" style="min-height:48px;">Enter PoseArt →</button>
       </form>
       <p class="login-note">Invite-only preview · Your session remains on this device and closes when this browser tab closes.</p>
     </div>
@@ -1524,9 +1531,9 @@ img { max-width: 100%; }
     <div class="ob-wordmark">Pose<span class="accent">Art</span></div>
     <div class="ob-gold-rule"></div>
     <div class="ob-tagline">Move like art.</div>
-    <p class="ob-sub">Learn 745 studio-quality poses with a live ghost overlay that guides your body into place.</p>
+    <p class="ob-sub">Master 745 studio-quality poses with a live ghost overlay that guides your body into place — then capture, review, and build your own pose tours.</p>
 
-    <button class="btn btn-gold" data-testid="btn-begin" onclick="showScreen('ob2')">Begin</button>
+    <button class="btn btn-gold" data-testid="btn-begin" onclick="showScreen('ob2')">See How It Works</button>
     <a class="btn-link" data-testid="link-skip-ob1" onclick="completeOnboardingSkip()" style="margin-top:12px;font:var(--type-caption);color:var(--text-secondary);">Skip intro</a>
   </section>
 
@@ -1653,7 +1660,7 @@ img { max-width: 100%; }
       <div class="category-grid" id="category-grid" role="list"></div>
 
       <div class="section-label" style="display:flex;justify-content:space-between;align-items:center;">
-        <span>Marketplace</span>
+        <span>Move like art. Pose with purpose.</span>
         <button class="btn btn-gold" data-testid="btn-open-marketplace" onclick="openMarketplace()" style="font-size:12px;padding:6px 14px;">Browse Packs</button>
       </div>
 
@@ -1669,6 +1676,10 @@ img { max-width: 100%; }
         <div class="quick-stat">
           <div class="quick-stat-value" id="stat-poses">0</div>
           <div class="quick-stat-label">Poses Tried</div>
+        </div>
+        <div class="quick-stat">
+          <div class="quick-stat-value" id="stat-streak">0</div>
+          <div class="quick-stat-label">Day Streak</div>
         </div>
         <div class="quick-stat">
           <div class="quick-stat-value" id="stat-score">--</div>
