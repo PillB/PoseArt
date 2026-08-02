@@ -153,6 +153,27 @@ Antes de empezar, reúne esta información. Si no la tienes todavía, no te dete
 
 ---
 
+## Requisitos previos
+
+Antes de empezar, asegúrate de tener:
+
+| Herramienta | Por qué | Cómo verificar |
+|---|---|---|
+| **Docker Desktop** (o Podman) | El CLI de Supabase lo necesita para el stack local | `docker --version` |
+| **Node.js 18+** | Para Supabase CLI y herramientas | `node --version` |
+| **Stripe CLI** | Para probar webhooks en local | `stripe --version` |
+| **Git** | Ya lo tienes (estás leyendo esto del repo) | `git --version` |
+
+> ⚠️ **¿No tienes Docker?** Puedes usar el panel web de Supabase directamente (sin entorno local). Ve a `docs/backend/13-TROUBLESHOOTING-AND-FAQ.md` sección 1 para la alternativa.
+
+---
+
+## ¿Te atascaste?
+
+Si algo no funciona, consulta **`docs/backend/13-TROUBLESHOOTING-AND-FAQ.md`** — recopila los errores y confusiones más comunes de principiantes con Supabase + Stripe, con soluciones concretas.
+
+---
+
 ## Siguiente paso
 
 Abre `docs/backend/01-CURRENT-STATE-AUDIT.md` para ver el inventario real del repositorio.
