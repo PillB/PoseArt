@@ -1,0 +1,409 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PoseArt — Event Taxonomy",
+  "version": "1.0.0",
+  "last_updated": "2026-08-01",
+  "description": "Catálogo canónico de eventos de analytics para PoseArt. Cualquier evento que se envíe a PostHog (o a cualquier otro proveedor) debe estar definido aquí. Si necesitas un evento nuevo, añádelo a este archivo y abre un PR para revisión. NUNCA inventes eventos ad-hoc en el código.",
+  "providers": {
+    "posthog": {
+      "host_default": "https://app.posthog.com",
+      "key_env_var": "VITE_POSTHOG_KEY",
+      "anonymous_id_key": "anonymous_id",
+      "session_id_key": "$session_id",
+      "user_id_key": "distinct_id"
+    }
+  },
+  "global_rules": {
+    "user_identifier": {
+      "anonymous": "Antes del login, se usa `anonymous_id` (generado por PostHog SDK, persistente en localStorage del proveedor).",
+      "authenticated": "Tras login, se identifica con `user_id` = UUID de Supabase Auth. PostHog hace $identify para vincular `anonymous_id` previo con el nuevo `user_id`.",
+      "logout": "En logout se llama a `posthog.reset()` para generar un nuevo `anonymous_id` y romper la cadena con el usuario anterior."
+    },
+    "session_identifier": {
+      "field": "$session_id",
+      "owner": "PostHog SDK lo gestiona automáticamente. NO sobreescribir manualmente."
+    },
+    "consent": {
+      "model": "opt_in_per_category",
+      "categories": {
+        "strictly_necessary": {
+          "always_sent": true,
+          "example": "consent_updated"
+        },
+        "analytics": {
+          "default": false,
+          "required_for": "todos los eventos de producto excepto consent_updated",
+          "events_blocked_without_consent": true
+        },
+        "error_tracking": {
+          "default": true,
+          "required_for": "errores enviados a Sentry (agregados, sin PII)",
+          "rationale": "Los errores no contienen datos personales por defecto; se consideran necesarios para fiabilidad."
+        }
+      },
+      "consent_storage": "localStorage: poseart_consent_v1 (JSON con timestamps por categoría)",
+      "consent_changed_event": "consent_updated"
+    },
+    "forbidden_properties_global": [
+      "password",
+      "password_hash",
+      "current_password",
+      "new_password",
+      "token",
+      "access_token",
+      "refresh_token",
+      "jwt",
+      "session_token",
+      "supabase_service_role_key",
+      "stripe_secret_key",
+      "stripe_customer_id_default_source",
+      "card_number",
+      "card_cvc",
+      "card_expiry",
+      "bank_account",
+      "ssn",
+      "government_id",
+      "photo_data_url",
+      "image_base64",
+      "image_blob",
+      "capture_id_with_pixels",
+      "user_email_full",
+      "user_phone_full",
+      "ip_address",
+      "geolocation_lat",
+      "geolocation_lng",
+      "device_fingerprint_raw"
+    ],
+    "property_value_rules": {
+      "strings_max_length": 256,
+      "numbers_must_be_finite": true,
+      "no_nested_objects_deeper_than": 3,
+      "no_arrays_longer_than": 50
+    }
+  },
+  "events": [
+    {
+      "name": "consent_updated",
+      "emission_moment": "Cuando el usuario cambia cualquier preferencia de consentimiento (acepta, rechaza, o cambia categoría). También en el primer load si no había decisión previa y se aplica el default.",
+      "allowed_properties": {
+        "category": { "type": "string", "enum": ["analytics", "error_tracking", "marketing"] },
+        "status": { "type": "string", "enum": ["granted", "denied", "revoked"] },
+        "source": { "type": "string", "enum": ["banner_initial", "banner_explicit", "settings_page"] },
+        "previous_status": { "type": ["string", "null"], "enum": ["granted", "denied", "revoked", null] }
+      },
+      "forbidden_properties": ["user_email_full", "ip_address"],
+      "user_identifier": "anonymous_id o user_id si estaba logado",
+      "session_identifier": "$session_id (automático)",
+      "consent_required": "always_sent (es el evento de gestión de consentimiento)",
+      "metric_or_funnel": "Consent rate; (granted / total banner views). Auditable para RGPD."
+    },
+    {
+      "name": "signup_started",
+      "emission_moment": "Cuando el usuario envía el formulario de registro (clic en 'Crear cuenta') y antes de que la petición a Supabase Auth devuelva respuesta.",
+      "allowed_properties": {
+        "entry_point": { "type": "string", "enum": ["header_cta", "paywall_cta", "marketplace_cta", "direct_url"] },
+        "method": { "type": "string", "enum": ["email_password", "google_oauth", "github_oauth"] }
+      },
+      "forbidden_properties": ["email", "password", "password_hash"],
+      "user_identifier": "anonymous_id",
+      "session_identifier": "$session_id (automático)",
+      "consent_required": "analytics (si no hay consentimiento, el evento NO se envía)",
+      "metric_or_funnel": "Funnel Signup: step 1/3"
+    },
+    {
+      "name": "signup_completed",
+      "emission_moment": "Cuando Supabase Auth responde OK al alta (estado `signed_in` tras confirmar email si está activada confirmación por email, o inmediatamente si no).",
+      "allowed_properties": {
+        "method": { "type": "string", "enum": ["email_password", "google_oauth", "github_oauth"] },
+        "email_verified_at_signup": { "type": "boolean" },
+        "duration_ms": { "type": "number", "min": 0 }
+      },
+      "forbidden_properties": ["email", "password"],
+      "user_identifier": "anonymous_id → user_id (se identifica en este punto con $identify)",
+      "session_identifier": "$session_id (automático)",
+      "consent_required": "analytics",
+      "metric_or_funnel": "Funnel Signup: step 2/3. Métrica: signups/day."
+    },
+    {
+      "name": "onboarding_completed",
+      "emission_moment": "Cuando el usuario termina el último paso del onboarding (4 pantallas) y se persiste `profiles.onboarding_completed = true`.",
+      "allowed_properties": {
+        "selected_goal": { "type": "string", "enum": ["pose_mastery", "self_portrait", "teach_others", "sell_poses", "other"] },
+        "duration_ms": { "type": "number", "min": 0 },
+        "steps_completed": { "type": "number", "min": 0, "max": 4 }
+      },
+      "forbidden_properties": ["personal_notes", "free_text_input"],
+      "user_identifier": "user_id",
+      "session_identifier": "$session_id (automático)",
+      "consent_required": "analytics",
+      "metric_or_funnel": "Funnel Signup: step 3/3. Métrica: activation rate (onboarding_completed / signup_completed)."
+    },
+    {
+      "name": "pose_viewed",
+      "emission_moment": "Cuando el usuario abre el detalle de una pose (sheet o pantalla completa) y el skeleton renderer termina de dibujar al menos un frame.",
+      "allowed_properties": {
+        "pose_id": { "type": "string", "max_length": 64 },
+        "pose_category": { "type": "string", "max_length": 32 },
+        "pose_difficulty": { "type": "string", "enum": ["beginner", "intermediate", "advanced"] },
+        "pose_origin": { "type": "string", "enum": ["official", "user_custom", "marketplace_owned"] },
+        "source": { "type": "string", "enum": ["library_browse", "search", "favorite", "tour", "session_setup", "deep_link"] }
+      },
+      "forbidden_properties": ["joints_snapshot", "image_data_url", "user_notes"],
+      "user_identifier": "user_id (o anonymous_id si el contenido es público y el usuario no está logado)",
+      "session_identifier": "$session_id (automático)",
+      "consent_required": "analytics",
+      "metric_or_funnel": "Engagement: poses viewed per user. Funnel Activation → First pose viewed."
+    },
+    {
+      "name": "session_started",
+      "emission_moment": "Cuando el usuario pulsa 'Start session' y la cámara se inicializa con éxito (permiso concedido y stream activo).",
+      "allowed_properties": {
+        "pose_id": { "type": "string", "max_length": 64 },
+        "overlay_mode": { "type": "string", "enum": ["ghost", "skeleton", "avatar", "off"] },
+        "timer_seconds": { "type": "number", "min": 0, "max": 3600 },
+        "auto_capture": { "type": "boolean" },
+        "sensitivity": { "type": "string", "enum": ["low", "medium", "high"] },
+        "tour_id": { "type": ["string", "null"], "max_length": 64 },
+        "section_id": { "type": ["string", "null"], "max_length": 64 }
+      },
+      "forbidden_properties": ["camera_device_id", "geolocation", "image_data_url"],
+      "user_identifier": "user_id",
+      "session_identifier": "$session_id (automático)",
+      "consent_required": "analytics",
+      "metric_or_funnel": "Funnel Activation → First session started. Métrica: sessions/user/week."
+    },
+    {
+      "name": "session_completed",
+      "emission_moment": "Cuando la sesión termina (timer expira, usuario pulsa 'Stop', o cierra la pantalla con al menos 1 captura).",
+      "allowed_properties": {
+        "pose_id": { "type": "string", "max_length": 64 },
+        "duration_seconds": { "type": "number", "min": 0, "max": 3600 },
+        "captured_count": { "type": "number", "min": 0, "max": 1000 },
+        "best_score": { "type": "number", "min": 0, "max": 100 },
+        "avg_score": { "type": "number", "min": 0, "max": 100 },
+        "exit_reason": { "type": "string", "enum": ["timer_expired", "user_stopped", "navigated_away", "camera_error", "tab_closed"] },
+        "tour_id": { "type": ["string", "null"], "max_length": 64 }
+      },
+      "forbidden_properties": ["image_data_url", "image_blob_url", "captured_thumbnails"],
+      "user_identifier": "user_id",
+      "session_identifier": "$session_id (automático)",
+      "consent_required": "analytics",
+      "metric_or_funnel": "Funnel Activation → First session completed. Métrica: avg session duration."
+    },
+    {
+      "name": "tour_created",
+      "emission_moment": "Cuando el usuario guarda un tour nuevo o edita uno existente y la fila en `tours` se persiste con `updated_at` actualizado.",
+      "allowed_properties": {
+        "tour_id": { "type": "string", "max_length": 64 },
+        "section_count": { "type": "number", "min": 1, "max": 50 },
+        "pose_count": { "type": "number", "min": 1, "max": 500 },
+        "is_new": { "type": "boolean" },
+        "visibility": { "type": "string", "enum": ["private", "unlisted", "public"] }
+      },
+      "forbidden_properties": ["tour_full_definition", "pose_ids_array", "description_free_text"],
+      "user_identifier": "user_id",
+      "session_identifier": "$session_id (automático)",
+      "consent_required": "analytics",
+      "metric_or_funnel": "Feature adoption: tour creators. Métrica: tours/user."
+    },
+    {
+      "name": "tour_started",
+      "emission_moment": "Cuando el usuario inicia la reproducción de un tour (primer pose del primer sección cargada en el modo sesión).",
+      "allowed_properties": {
+        "tour_id": { "type": "string", "max_length": 64 },
+        "tour_origin": { "type": "string", "enum": ["own", "marketplace_owned", "official_sample"] },
+        "section_count": { "type": "number", "min": 1, "max": 50 },
+        "pose_count": { "type": "number", "min": 1, "max": 500 }
+      },
+      "forbidden_properties": ["tour_full_definition"],
+      "user_identifier": "user_id",
+      "session_identifier": "$session_id (automático)",
+      "consent_required": "analytics",
+      "metric_or_funnel": "Engagement: tours played. Métrica: tour completion rate."
+    },
+    {
+      "name": "product_viewed",
+      "emission_moment": "Cuando el usuario abre el detalle de un producto del marketplace (sheet/modal) y el contenido carga.",
+      "allowed_properties": {
+        "product_id": { "type": "string", "max_length": 64 },
+        "product_price_cents": { "type": "number", "min": 0, "max": 10000000 },
+        "product_currency": { "type": "string", "enum": ["usd", "eur", "gbp", "cad", "aud"] },
+        "product_category": { "type": "string", "max_length": 32 },
+        "already_owned": { "type": "boolean" },
+        "source": { "type": "string", "enum": ["marketplace_browse", "search", "deep_link", "creator_profile"] }
+      },
+      "forbidden_properties": ["stripe_price_id", "creator_email", "creator_real_name"],
+      "user_identifier": "user_id (o anonymous_id si está viendo marketplace público sin login)",
+      "session_identifier": "$session_id (automático)",
+      "consent_required": "analytics",
+      "metric_or_funnel": "Funnel Purchase: step 1/4 (product viewed → checkout started → purchase completed)."
+    },
+    {
+      "name": "paywall_viewed",
+      "emission_moment": "Cuando el usuario encuentra un contenido/profunción bloqueada y se renderiza la pantalla de paywall.",
+      "allowed_properties": {
+        "trigger": { "type": "string", "enum": ["pro_feature_blocked", "paid_product_blocked", "free_quota_exceeded", "manual_open"] },
+        "target_feature": { "type": "string", "max_length": 64 },
+        "target_product_id": { "type": ["string", "null"], "max_length": 64 },
+        "plan_offered": { "type": "string", "enum": ["monthly", "annual", "lifetime", "one_time"] }
+      },
+      "forbidden_properties": ["stripe_price_id", "user_email"],
+      "user_identifier": "user_id",
+      "session_identifier": "$session_id (automático)",
+      "consent_required": "analytics",
+      "metric_or_funnel": "Funnel Purchase: paywall viewed → checkout started."
+    },
+    {
+      "name": "checkout_started",
+      "emission_moment": "Cuando la Edge Function `create-checkout` responde OK con una `session_id` de Stripe y el navegador redirige a `checkout.stripe.com`.",
+      "allowed_properties": {
+        "product_id": { "type": "string", "max_length": 64 },
+        "product_price_cents": { "type": "number", "min": 0, "max": 10000000 },
+        "product_currency": { "type": "string", "enum": ["usd", "eur", "gbp", "cad", "aud"] },
+        "plan_type": { "type": "string", "enum": ["one_time", "monthly", "annual", "lifetime"] },
+        "checkout_session_id": { "type": "string", "max_length": 128 },
+        "abandoned_cart_likelihood": { "type": "string", "enum": ["low", "medium", "high"] }
+      },
+      "forbidden_properties": ["stripe_customer_email", "stripe_customer_id_default_source", "customer_card_last4"],
+      "user_identifier": "user_id",
+      "session_identifier": "$session_id (automático)",
+      "consent_required": "analytics",
+      "metric_or_funnel": "Funnel Purchase: step 2/4. Métrica: checkout conversion rate (checkout_started / product_viewed)."
+    },
+    {
+      "name": "purchase_completed",
+      "emission_moment": "Cuando el webhook verificado de Stripe recibe `checkout.session.completed` y la fila en `entitlements` se crea con éxito.",
+      "allowed_properties": {
+        "product_id": { "type": "string", "max_length": 64 },
+        "product_price_cents": { "type": "number", "min": 0, "max": 10000000 },
+        "product_currency": { "type": "string", "enum": ["usd", "eur", "gbp", "cad", "aud"] },
+        "plan_type": { "type": "string", "enum": ["one_time", "monthly", "annual", "lifetime"] },
+        "stripe_checkout_session_id": { "type": "string", "max_length": 128 },
+        "stripe_event_id": { "type": "string", "max_length": 128 },
+        "is_first_purchase": { "type": "boolean" }
+      },
+      "forbidden_properties": ["stripe_customer_email", "customer_card_last4", "customer_billing_address"],
+      "user_identifier": "user_id",
+      "session_identifier": "$session_id (automático)",
+      "consent_required": "analytics",
+      "metric_or_funnel": "Funnel Purchase: step 3/4. Métrica: MRR, ARPU, LTV."
+    },
+    {
+      "name": "subscription_started",
+      "emission_moment": "Cuando el webhook verificado de Stripe recibe `customer.subscription.created` con status `active` (no `trialing` si no quieres trial en evento aparte) y se crea la fila en `entitlements` de tipo subscription.",
+      "allowed_properties": {
+        "plan_type": { "type": "string", "enum": ["monthly", "annual", "lifetime"] },
+        "stripe_subscription_id": { "type": "string", "max_length": 128 },
+        "stripe_event_id": { "type": "string", "max_length": 128 },
+        "is_upgrade": { "type": "boolean" },
+        "previous_plan_type": { "type": ["string", "null"], "enum": ["monthly", "annual", "lifetime", null] }
+      },
+      "forbidden_properties": ["stripe_customer_email"],
+      "user_identifier": "user_id",
+      "session_identifier": "$session_id (automático)",
+      "consent_required": "analytics",
+      "metric_or_funnel": "MRR components: nuevos suscriptores. Métrica: net new subs/month."
+    },
+    {
+      "name": "subscription_cancelled",
+      "emission_moment": "Cuando el webhook verificado recibe `customer.subscription.updated` con `cancel_at_period_end = true` (cancelación diferida) o `customer.subscription.deleted` (cancelación inmediata).",
+      "allowed_properties": {
+        "stripe_subscription_id": { "type": "string", "max_length": 128 },
+        "stripe_event_id": { "type": "string", "max_length": 128 },
+        "cancellation_type": { "type": "string", "enum": ["immediate", "at_period_end"] },
+        "cancellation_reason_bucket": { "type": "string", "enum": ["too_expensive", "not_enough_content", "technical_issue", "competitor", "no_longer_needed", "other", "unknown"] },
+        "plan_type": { "type": "string", "enum": ["monthly", "annual", "lifetime"] }
+      },
+      "forbidden_properties": ["cancellation_reason_free_text", "user_email"],
+      "user_identifier": "user_id",
+      "session_identifier": "$session_id (automático)",
+      "consent_required": "analytics",
+      "metric_or_funnel": "Churn rate. Métrica: MRR churn."
+    },
+    {
+      "name": "bug_report_submitted",
+      "emission_moment": "Cuando el usuario envía un bug report desde el editor de poses y la fila en `bug_reports` se persiste.",
+      "allowed_properties": {
+        "bug_report_id": { "type": "string", "max_length": 64 },
+        "pose_id": { "type": "string", "max_length": 64 },
+        "bug_category_bucket": { "type": "string", "enum": ["geometry", "visual", "performance", "crash", "other"] },
+        "has_description": { "type": "boolean" }
+      },
+      "forbidden_properties": ["description_free_text", "joints_snapshot", "screenshot_data_url", "image_data_url"],
+      "user_identifier": "user_id",
+      "session_identifier": "$session_id (automático)",
+      "consent_required": "analytics",
+      "metric_or_funnel": "Quality: bugs/100 sessions."
+    }
+  ],
+  "funnels": [
+    {
+      "name": "signup_to_first_session",
+      "description": "Del primer intento de registro a la primera sesión completada.",
+      "steps": [
+        { "step": 1, "event": "signup_started" },
+        { "step": 2, "event": "signup_completed" },
+        { "step": 3, "event": "onboarding_completed" },
+        { "step": 4, "event": "session_started" },
+        { "step": 5, "event": "session_completed" }
+      ],
+      "target_conversion": "≥ 40% en 30 días",
+      "owner": "growth"
+    },
+    {
+      "name": "purchase_funnel",
+      "description": "Del primer contacto con un producto a la compra confirmada por webhook.",
+      "steps": [
+        { "step": 1, "event": "product_viewed" },
+        { "step": 2, "event": "paywall_viewed" },
+        { "step": 3, "event": "checkout_started" },
+        { "step": 4, "event": "purchase_completed" }
+      ],
+      "target_conversion": "≥ 5% product_viewed → purchase_completed",
+      "owner": "growth"
+    },
+    {
+      "name": "subscription_funnel",
+      "description": "Desde paywall hasta suscripción activa (reemplaza purchase_funnel para Pro).",
+      "steps": [
+        { "step": 1, "event": "paywall_viewed", "filter": "plan_offered IN [monthly, annual, lifetime]" },
+        { "step": 2, "event": "checkout_started", "filter": "plan_type IN [monthly, annual, lifetime]" },
+        { "step": 3, "event": "subscription_started" }
+      ],
+      "target_conversion": "≥ 8% paywall → subscription_started",
+      "owner": "growth"
+    }
+  ],
+  "retention_metrics": [
+    {
+      "name": "D1 retention",
+      "definition": "% de usuarios que vuelven a abrir la app el día siguiente al signup_completed.",
+      "cohorts": "weekly por signup_completed"
+    },
+    {
+      "name": "D7 retention",
+      "definition": "% que vuelve en cualquier momento de la 2ª semana."
+    },
+    {
+      "name": "D30 retention",
+      "definition": "% que vuelve en cualquier momento del 2º mes."
+    },
+    {
+      "name": "Weekly active users (WAU)",
+      "definition": "distinct_id con al menos 1 evento de engagement (pose_viewed, session_started, tour_started) en los últimos 7 días."
+    },
+    {
+      "name": "Conversion to paid",
+      "definition": "% de usuarios con signup_completed que tienen purchase_completed o subscription_started en 30 días."
+    }
+  ],
+  "privacy_review_checklist": [
+    "¿El evento envía algún campo PII (email, nombre real, IP)? → bloquear.",
+    "¿El evento envía contenido generado por el usuario sin anonimizar (notas, descripciones)? → bloquear.",
+    "¿El evento envía imágenes o Base64? → bloquear.",
+    "¿El evento envía tokens, contraseñas, claves? → bloquear.",
+    "¿El evento tiene consentimiento explícito de analytics? → si no, no enviar.",
+    "¿El evento permite identificación secundaria (p. ej. product_id + timestamp + user_id único)? → aceptable; no es PII directa.",
+    "¿Las propiedades tienen tamaño acotado? → strings ≤ 256 chars, arrays ≤ 50 items, anidamiento ≤ 3."
+  ]
+}
