@@ -1,0 +1,49 @@
+{
+  "proposal_id": "patch-floor-roll-side-1785634015820",
+  "pose_id": "floor-roll-side",
+  "category": "reclining",
+  "worker": "worker-B-batch5",
+  "existing_config_hash": "c6789eed5847",
+  "defects": [
+    {
+      "type": "globaltilt_sign_wrong_rolling_from_back",
+      "severity": "critical",
+      "description": "Description: rolling FROM THE BACK ONTO THE SIDE — starting position is SUPINE (on back, globalTilt=-90) rolling to side. Current globalTilt=+80 (mostly PRONE = face-DOWN). This is rolling from FRONT onto side, NOT from BACK. Sign is INVERTED. cron-round-1 fixed globalTilt signs for back-recline-knee-hug, cobra-lite, floor-stomach-flip-flop but MISSED floor-roll-side. Should be globalTilt=-80 (supine-leaning)."
+    },
+    {
+      "type": "arm_not_reaching_across_body",
+      "severity": "major",
+      "description": "Description: ONE ARM reaching across the body. Current no shoulderFwd set, arms at sides with mild abduction. No arm is reaching across body. Need shoulderFwd on one arm (negative = FORWARD per corrected convention) to swing arm across body midline."
+    },
+    {
+      "type": "legs_not_mid_turn",
+      "severity": "major",
+      "description": "Description: both legs mid-turn (in-between roll position, asymmetric). Current leftHip=30, rightHip=15 (slight asymmetric hip flexion), leftKnee/rightKnee default 5° (knees nearly straight). Legs not visibly in mid-turn — would expect some knee bend and more pronounced asymmetry."
+    }
+  ],
+  "failing_tests": [
+    "description says rolling from the back but globalTilt=+80 (prone not supine)",
+    "description says one arm reaching across body but no shoulderFwd set",
+    "description says both legs mid-turn but legs nearly straight and symmetric"
+  ],
+  "field_changes": {
+    "globalTilt": -80,
+    "shoulderFwdL": -50,
+    "leftShoulder": -30,
+    "leftElbow": 30,
+    "leftHip": 50,
+    "rightHip": 30,
+    "leftKnee": 50,
+    "rightKnee": 40
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/reclining/floor-roll-side/baseline/",
+  "after_evidence": "",
+  "regression_risk": "medium — 8-field change including globalTilt sign flip (CRITICAL fix). Sign flip changes face-down to face-up — major visual reorientation. Re-render verify REQUIRED. May read as supine-roll rather than in-between roll if globalTilt=-80 + globalRoll=-45 produces unexpected orientation.",
+  "confidence": 0.6,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Description: Capture the mid-motion of rolling FROM THE BACK onto the side, one arm reaching across the body and both legs mid-turn. Current pose has globalTilt=+80 (PRONE / face-DOWN) which contradicts description from the BACK (supine / on-back). This is a SIGN ERROR — cron-round-1 fixed globalTilt signs for several reclining poses but MISSED this one. Per corrected convention +90=PRONE, -90=SUPINE. Fix: (1) globalTilt +80→-80 (CRITICAL sign flip — body now supine-leaning, rolling from back ✓). (2) One arm reaching across body: shoulderFwdL 0→-50 (LEFT arm swings FORWARD in body frame per corrected convention - = forward; in supine pose body-forward maps to UP/ACROSS, arm reaches across body ✓). leftShoulder -10→-30 (LEFT arm raised more for reaching), leftElbow 65→30 (less bent, arm extended for reach). (3) Both legs mid-turn: leftHip 30→50 (LEFT leg more flexed), rightHip 15→30 (asymmetric), leftKnee default→50, rightKnee default→40 (knees bent, mid-turn). globalRoll=-45 preserved (body rolled 45° to LEFT side, mid-roll position). Neck and other defaults preserved. Re-render verify REQUIRED to confirm rolling-from-back orientation reads correctly. Rig-limited: no isolated torso twist, mid-motion approximation only.",
+  "created_at": "2026-08-02T01:26:55.820Z"
+}

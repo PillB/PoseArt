@@ -1,0 +1,45 @@
+{
+  "proposal_id": "patch-doorframe-lean-1785627651212",
+  "pose_id": "doorframe-lean",
+  "category": "leaning",
+  "worker": "worker-B-batch3",
+  "existing_config_hash": "cbfadcd24fd2",
+  "defects": [
+    {
+      "type": "shoulder_asymmetry",
+      "severity": "minor",
+      "description": "leftShoulder=-136 vs rightShoulder=-120 (16° asymmetry). Description says both hands up to grip doorframe above the head — implies symmetric grip. Geometry confirms: leftWrist y=1.326 vs rightWrist y=1.228 (0.098 vertical gap); leftWrist z=0.144 vs rightWrist z=0.247 (0.103 z-gap). Hands at different heights/depths."
+    },
+    {
+      "type": "shoulder_overshoot",
+      "severity": "minor",
+      "description": "leftShoulder=-136 is 46° past vertical (-90=overhead). Anatomically extreme. -110 is sufficient for hand-above-head doorframe grip."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "|leftShoulder - rightShoulder| < 8 for symmetric grip",
+      "expected": "<8",
+      "actual": "16"
+    },
+    {
+      "assertion": "leftShoulder >= -120 (not past overhead)",
+      "expected": ">=-120",
+      "actual": "-136"
+    }
+  ],
+  "field_changes": {
+    "leftShoulder": -110,
+    "rightShoulder": -110
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/leaning/doorframe-lean/baseline/",
+  "after_evidence": "",
+  "regression_risk": "low — single-pose 2-field shoulder reduction+symmetrization; arms remain overhead gripping position",
+  "confidence": 0.72,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "CORRECTED CONVENTION: leftShoulder/rightShoulder rotZ (mirrored sign for right). - = raise arm up/overhead. Computed FK at leftShoulder=-110, leftElbow=70: wrist at (-0.611, 1.182, 0.244), which is 0.30 above head (y=0.879) and slightly forward (z=0.244 vs head z=0.247). Matches hand-on-doorframe-above-head. Symmetric -110/-110 produces mirrored hand positions for both sides gripping doorframe. Original -136/-120 was asymmetric (16° diff) and overshoot past overhead. Plausibility flag for shoulder_sagittal_flexion is a known false-positive for overhead arms (degenerate projection).",
+  "created_at": "2026-08-01T23:40:51.212Z"
+}

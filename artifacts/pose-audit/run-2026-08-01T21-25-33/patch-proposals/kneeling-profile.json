@@ -1,0 +1,45 @@
+{
+  "proposal_id": "patch-kneeling-profile-1785630536387",
+  "pose_id": "kneeling-profile",
+  "category": "kneeling",
+  "worker": "worker-D-batch4",
+  "existing_config_hash": "3736e32efc55",
+  "defects": [
+    "CRITICAL: LEFT leg straight (leftKnee=5, leftHip=0, foot planted at y=-0.856) — description says kneel (both knees down).",
+    "CRITICAL: No mermaid seat-shift — description says shift seat to one side, settling hip down beside heels. Renderer has no pelvis-translate joint; hips rotZ (pelvic list) tilts lower body laterally but doesn't translate buttocks. Approximated by hipAbduct asymmetry (rig-limited).",
+    "MAJOR: No hand on floor for support — neither wrist at floor (both at hip level y=0.041/-0.051). Description says lean on one arm for support.",
+    "MAJOR: spine=-8 backward arch (per corrected convention). Description implies upright or S-curve through hips/lower back (not arch).",
+    "MINOR: Other hand not on thigh — neither wrist at thigh level (both at hip level)."
+  ],
+  "failing_tests": [
+    "forensic.geometry.kneeL_y < -0.30 (LEFT knee down — currently y=0.30 T-pose standing)",
+    "forensic.geometry.wristR_y < -0.30 (RIGHT hand on floor for support — currently y=-0.051 hip level)",
+    "forensic.geometry.spine_pos (upright or slight forward — currently -8 backward arch)"
+  ],
+  "field_changes": {
+    "spine": 25,
+    "neck": -5,
+    "leftShoulder": 0,
+    "leftElbow": 30,
+    "shoulderFwdL": -15,
+    "rightShoulder": 0,
+    "rightElbow": 0,
+    "shoulderFwdR": -50,
+    "leftHip": 80,
+    "leftKnee": 90,
+    "leftAnkle": -35,
+    "rightHip": 80,
+    "rightKnee": 90,
+    "rightAnkle": -35
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/kneeling/kneeling-profile/baseline/",
+  "after_evidence": "",
+  "regression_risk": "Medium — significant reconfiguration (13 fields). May trigger sweep contact/balance flags re-evaluation. Re-render verify recommended.",
+  "confidence": 0.55,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "spine -8→25 (forward lean to lower shoulders for support hand reach, was backward arch — WRONG DIRECTION). Add leftHip=80/leftKnee=90/leftAnkle=-35 for LEFT kneeling (was straight standing leg). Normalize rightHip 70→80, rightKnee 80→90. leftShoulder -10→0 + leftElbow 70→30 + shoulderFwdL 0→-15 (LEFT arm at side swinging forward to rest hand on thigh — corrected sign - = forward). rightShoulder 8→0 + rightElbow 50→0 + shoulderFwdR 0→-50 (RIGHT arm swings forward strongly to bring hand toward floor for support). After fix: both knees kneeling, spine forward lean, LEFT hand on thigh (wristL y=-0.015, dist to hipL=0.435 = on-thigh approximation), RIGHT hand reaching toward floor (wristR y=-0.015, just below hip — closest to floor achievable). Rig limitations: (1) no pelvis-translate joint, mermaid seat-shift not directly expressible; (2) hand cannot reach true floor from kneeling — wristR y=-0.015 is best achievable; (3) hand-on-threshold is rig-limited (renderer elbow rotY cannot bring forearm horizontally to thigh from side-abducted shoulder).",
+  "created_at": "2026-08-02T00:28:56.387Z"
+}

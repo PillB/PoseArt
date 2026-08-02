@@ -1,0 +1,45 @@
+{
+  "proposal_id": "patch-diagonal-lean-1785627595002",
+  "pose_id": "diagonal-lean",
+  "category": "leaning",
+  "worker": "worker-B-batch3",
+  "existing_config_hash": "12a1cb420959",
+  "defects": [
+    {
+      "type": "elbow_too_bent",
+      "severity": "minor",
+      "description": "Description says Extend the far arm OUTWARD for visual length and counterbalance. leftElbow=40 (bent 40°) shortens the arm visually. Should be near-straight (8° minimum) for full extension."
+    },
+    {
+      "type": "wrong_magnitude",
+      "severity": "minor",
+      "description": "spine=26 is described as steep diagonal. Could be steeper (30-35°) to better convey steepness. leftShoulder=-60 puts arm at 85° abduction (just past lateral); extending to -75 brings arm fully horizontal for visual length."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "leftElbow < 15 for extended-arm description",
+      "expected": "<15 (near-straight)",
+      "actual": "40 (bent)"
+    },
+    {
+      "assertion": "leftShoulder <= -70 for fully extended outward arm",
+      "expected": "<=-70",
+      "actual": "-60 (85° abduction)"
+    }
+  ],
+  "field_changes": {
+    "leftElbow": 10,
+    "leftShoulder": -75
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/leaning/diagonal-lean/baseline/",
+  "after_evidence": "",
+  "regression_risk": "low — single-pose 2-field change; arm extends straighter and slightly higher, no other joint affected",
+  "confidence": 0.78,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "CORRECTED CONVENTION: leftShoulder rotZ, - = raise arm up/overhead. Description: Extend the far arm OUTWARD for visual LENGTH and counterbalance. Currently leftElbow=40 bends the forearm, shortening visual length. Setting leftElbow=10 (renderer enforces 8° soft minimum, so effectively straight) for full extension. Raising leftShoulder from -60 to -75 brings arm from 85° to ~105° abduction — fully horizontal, maximizing visual length. Keeping spine=26 (forward diagonal lean) and leftHip=-10 (left foot back for steep diagonal stance).",
+  "created_at": "2026-08-01T23:39:55.002Z"
+}

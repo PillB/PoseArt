@@ -1,0 +1,37 @@
+{
+  "proposal_id": "patch-fetal-curl-1785634004662",
+  "pose_id": "fetal-curl",
+  "category": "reclining",
+  "worker": "worker-B-batch5",
+  "existing_config_hash": "29764117fdd0",
+  "defects": [
+    {
+      "type": "left_arm_not_curled_in",
+      "severity": "major",
+      "description": "Description: arms curled in close to the torso. Current leftShoulder=0 (default T-pose, LEFT arm extends horizontally outward to side). Rendered LEFT wrist at x=-0.519 (far LEFT of shoulder x=-0.229) — arm extends out perpendicular to body, NOT curled in close to torso. Need leftShoulder positive (arm comes DOWN from T-pose toward body) to curl arm in."
+    },
+    {
+      "type": "top_arm_not_separated",
+      "severity": "minor",
+      "description": "Tip: Let the TOP ARM separate slightly from the body so it does not flatten the silhouette. Body rolled LEFT side down (globalRoll=-30) so RIGHT arm is TOP. Current rightShoulder=12 (positive = arm down, draping ACROSS body) — opposite of separates slightly. Should be slightly NEGATIVE (raised) to lift top arm off body silhouette."
+    }
+  ],
+  "failing_tests": [
+    "description says arms curled in close to torso but LEFT arm in T-pose extending outward",
+    "tip says top arm separates slightly but RIGHT arm draped down (positive shoulder)"
+  ],
+  "field_changes": {
+    "leftShoulder": 30,
+    "rightShoulder": -10
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/reclining/fetal-curl/baseline/",
+  "after_evidence": "",
+  "regression_risk": "low — minimal 2-field change. LEFT arm comes down from T-pose (leftShoulder 0→30 = 30° below horizontal, arm hangs closer to body). RIGHT top arm raises slightly (rightShoulder 12→-10 = 10° above horizontal, lifts off body per tip). Other joints preserved (knees deeply bent, hips flexed, spine forward curled, globalTilt=80 + globalRoll=-30 side-lying). FK trace: LEFT wrist moves from x=-0.519 (way out) to x≈-0.14 (close to body center) ✓ curled in.",
+  "confidence": 0.8,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Description: Lie on the side and draw both knees up toward the chest, chin tucked and arms curled in close to the torso. A protective, introspective curled shape. Tip: Let the top arm separate slightly from the body so it does not flatten the silhouette. Verification: (1) Lie on side — globalTilt=80 (mostly prone-leaning) + globalRoll=-30 (rolled LEFT side down, 30° toward side-lying) ✓ approximation of side-lying (full side would need globalRoll=-90 but rig balances). (2) Knees up to chest — leftHip=70, rightHip=65 (deep flexion), leftKnee=110, rightKnee=105 (deep bend) ✓ knees drawn up. (3) Chin tucked — spine=20 (forward curl brings chin down) ✓. (4) Arms curled in close to torso — DEFECT: leftShoulder=0 (default T-pose, arm horizontal out). LEFT wrist at x=-0.519 far out from shoulder x=-0.229, arm extends perpendicular to body NOT curled in. Fix: leftShoulder 0→30 (LEFT/bottom arm comes DOWN from T-pose, elbow bends toward body, wrist moves to x≈-0.14 close to body center, curled in ✓). (5) Top arm separates slightly — DEFECT: rightShoulder=12 (positive = arm down, draping across body) is opposite of separates. Tip requires top arm slightly raised. Fix: rightShoulder 12→-10 (RIGHT/top arm raises 10° above horizontal, lifts off body silhouette ✓). rightElbow=50 preserved (moderate bend, hand near chest). Other joints preserved. Minimal 2-field fix. Re-render verify recommended.",
+  "created_at": "2026-08-02T01:26:44.662Z"
+}

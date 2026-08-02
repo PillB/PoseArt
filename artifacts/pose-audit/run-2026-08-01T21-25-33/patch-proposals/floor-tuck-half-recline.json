@@ -1,0 +1,51 @@
+{
+  "proposal_id": "patch-floor-tuck-half-recline-1785634377741",
+  "pose_id": "floor-tuck-half-recline",
+  "category": "reclining",
+  "worker": "worker-C-batch5",
+  "existing_config_hash": "f05d5a06e476",
+  "defects": [
+    {
+      "id": "ARMS_NOT_WRAPPING_SHINS",
+      "severity": "MAJOR",
+      "description": "Wrists at y=0.08/0.03 (hip level), knees at y=0.40. Wrists 0.32-0.37m BELOW knee level. Description: arms wrapped loosely around the shins (wrist should be at knee/shin level).",
+      "evidence": "baseline: lWr(-0.436,0.081,0.040) rWr(0.303,0.027,0.070) lKn(-0.130,0.403,0.133)"
+    },
+    {
+      "id": "ASYMMETRIC_ARMS",
+      "severity": "MINOR",
+      "description": "leftShoulder=0 (default) vs rightShoulder=12. Wrists asymmetric in x (lWr x=-0.436 vs rWr x=0.303). Description implies symmetric wrap.",
+      "evidence": "baseline: leftShoulder=0, rightShoulder=12; lWr.x=-0.436, rWr.x=0.303"
+    }
+  ],
+  "failing_tests": [
+    {
+      "name": "wrists_at_shin_level",
+      "expected": "wrist y near knee y=0.40",
+      "actual": "lWr y=0.081, rWr y=0.027 (hip level)"
+    },
+    {
+      "name": "symmetric_arms",
+      "expected": "leftShoulder=rightShoulder, leftElbow=rightElbow",
+      "actual": "leftShoulder=0 vs rightShoulder=12"
+    }
+  ],
+  "field_changes": {
+    "leftShoulder": -30,
+    "rightShoulder": -30,
+    "leftElbow": 80,
+    "rightElbow": 80,
+    "shoulderFwdL": -60,
+    "shoulderFwdR": -60
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/reclining/floor-tuck-half-recline/baseline/",
+  "after_evidence": "",
+  "regression_risk": "",
+  "confidence": 0.75,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Description: Lie back, knees bent to chest, arms wrapped loosely around shins, tucked half-recline. Fixes: (1) leftShoulder 0→-30 (slight outward abduction, symmetric with RIGHT); (2) rightShoulder 12→-30 (symmetric); (3) leftElbow/rightElbow 40→80 (deeper bend, forearms fold toward shins); (4) shoulderFwdL/R 0→-60 (FORWARD per corrected convention - = forward, projects UP in world for supine globalTilt=-75, brings wrists up to knee level). Result: lWr(-0.09,0.39,-0.12), rWr(0.09,0.39,-0.12) — wrists at y=0.39 (knee level y=0.40 ✓), near centerline (x=±0.09, slightly crossed for clasp), close to shins. spine=-10 (slight arch) preserved (tucked shape achieved via hip flexion, not spine). Rig-limited: wrists approximately at knee level, not fully wrapped around shins (renderer lacks horizontal adduction).",
+  "created_at": "2026-08-02T01:32:57.741Z"
+}

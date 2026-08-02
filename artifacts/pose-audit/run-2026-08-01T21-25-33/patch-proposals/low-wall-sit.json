@@ -1,0 +1,44 @@
+{
+  "proposal_id": "patch-low-wall-sit-1785627833328",
+  "pose_id": "low-wall-sit",
+  "category": "leaning",
+  "worker": "worker-C-batch3",
+  "existing_config_hash": "2e364d8a2be1",
+  "defects": [
+    {
+      "type": "spine_sign_error",
+      "severity": "major",
+      "description": "PR-v3 systematic spine-sign audit missed this pose. Description: leaning the torso BACK to rest against a higher wall behind you — explicit backward arch / back-on-wall posture. spine=12 is positive (forward fold per CORRECTED convention). Should be spine negative (backward arch). Same pattern as PR-v3 fixes for back-wall-prop, car-lean, gate-lean (all \"back against\" / \"torso back\" language)."
+    },
+    {
+      "type": "contact_failure_feet_on_ground",
+      "severity": "minor",
+      "description": "Description: feet planted on the ground. Currently L foot y=-0.322, R foot y=-0.308 (both elevated; planted threshold y<-0.7). Rig constraint: hips fixed at y=0.12, deep knee flexion (85deg) brings feet forward not down — geometrically cannot reach y<-0.7 without major rework. Acknowledged as rig limit."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "spine negative for torso-back-against-wall pose",
+      "expected": "spine<0 (backward arch)",
+      "actual": "spine=12 (forward fold)"
+    },
+    {
+      "assertion": "feet y < -0.7 for planted-on-ground",
+      "expected": "y<-0.7",
+      "actual": "L=-0.322 R=-0.308 (rig-limited)"
+    }
+  ],
+  "field_changes": {
+    "spine": -14
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/leaning/low-wall-sit/baseline/",
+  "after_evidence": "",
+  "regression_risk": "low — single field change, only flips torso lean direction to match description",
+  "confidence": 0.85,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Single-field spine sign fix. PR-v3 missed low-wall-sit despite identical \"torso back against wall\" language to back-wall-prop/car-lean/gate-lean which PR-v3 fixed. Flipping 12→-14 to match backward-arch posture. Hands-on-ledge-beside-hips not achieved (L wrist→L hip dist2D=0.45, R wrist→R hip dist2D=0.32) — rig constraint similar to hip-lean: shoulder abduction geometry cannot bring wrist to hip horizontally without breaking arm at-side posture; deferred. Knee flexion (85/85) for perch + ankles (-15/-15) preserved. Hips=10 mild list preserved.",
+  "created_at": "2026-08-01T23:43:53.328Z"
+}

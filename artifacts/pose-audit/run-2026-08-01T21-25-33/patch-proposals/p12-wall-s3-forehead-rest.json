@@ -1,0 +1,82 @@
+{
+  "proposal_id": "patch-p12-wall-s3-forehead-rest-1785628578585",
+  "pose_id": "p12-wall-s3-forehead-rest",
+  "category": "leaning",
+  "worker": "worker-D-batch3",
+  "existing_config_hash": "505c9ddefb0e",
+  "defects": [
+    {
+      "type": "spine_backward_arch_wrong_for_forward_lean",
+      "severity": "critical",
+      "description": "spine=-22 (backward arch per corrected convention). Description: lean FORWARD to rest forehead on wall. Should be spine POSITIVE (forward fold). PR-v3 spine-sign misfire for this pose — under corrected convention, spine - = backward arch, opposite of required forward lean."
+    },
+    {
+      "type": "globalTilt_wrong_direction",
+      "severity": "critical",
+      "description": "globalTilt=-35 (supine/backward tilt). Description: lean FORWARD. Should be globalTilt POSITIVE (prone/forward tilt) OR zero if spine provides the forward fold."
+    },
+    {
+      "type": "wrists_not_at_wall",
+      "severity": "major",
+      "description": "wristL_z=+0.058, wristR_z=-0.024 (at body center, NOT at wall). Description: place both palms flat on wall at shoulder height. With spine=-22 + globalTilt=-35, head goes BACKWARD (z=-0.739) but arms reach UP, not forward to wall."
+    },
+    {
+      "type": "head_backward_not_forward",
+      "severity": "major",
+      "description": "head_z=-0.739 (backward, away from camera). Description: lean forward to rest forehead on wall (wall is in front). Head should be at +z (forward)."
+    },
+    {
+      "type": "shoulder_abduction_too_high",
+      "severity": "minor",
+      "description": "leftShoulder=-60, rightShoulder=-72 (abd 125°/134°, near-overhead). Description: palms at shoulder height — arms should be horizontal, not overhead."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "spine > 0 for forward_lean (per corrected convention)",
+      "expected": ">0",
+      "actual": "-22 → +55"
+    },
+    {
+      "assertion": "globalTilt >= 0 for forward_lean or 0 if spine handles fold",
+      "expected": ">=0",
+      "actual": "-35 → 0"
+    },
+    {
+      "assertion": "head_z > 0 for forehead_at_wall_in_front",
+      "expected": ">0",
+      "actual": "-0.739 → +0.655"
+    },
+    {
+      "assertion": "wrist_z > 0.3 for palms_at_wall",
+      "expected": ">0.3",
+      "actual": "0.058/-0.024 → 0.485/0.485"
+    },
+    {
+      "assertion": "wrist_y ≈ shoulder_y for palms_at_shoulder_height",
+      "expected": "≈ shoulder_y",
+      "actual": "wrist 0.721/0.843 vs shoulder 0.403 → wrist 0.483 vs shoulder 0.441 ✓"
+    }
+  ],
+  "field_changes": {
+    "spine": 55,
+    "globalTilt": 0,
+    "rightShoulder": -60,
+    "leftElbow": 60,
+    "rightElbow": 60,
+    "shoulderFwdL": -25,
+    "shoulderFwdR": -25,
+    "leftHip": -15,
+    "rightHip": -15
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/leaning/p12-wall-s3-forehead-rest/baseline/",
+  "after_evidence": "",
+  "regression_risk": "HIGH — significant pose reorientation (backward arch → forward fold). 9-field change including spine sign flip and globalTilt removal. Re-render verification CRITICAL.",
+  "confidence": 0.65,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "CRITICAL: Description: face the wall and lean FORWARD to rest forehead. Under CORRECTED convention (spine + = forward lean, globalTilt + = prone/forward), current config has spine=-22 (backward arch) + globalTilt=-35 (supine tilt) — both WRONG DIRECTION (figure leans backward, head goes to z=-0.739 away from wall-in-front). PR-v3 spine sign misfire: pose was flipped from +22 to -22 based on back-arch wording, but description requires forward lean (spine +). Fix: spine -22→+55 (forward fold, head moves to +z), globalTilt -35→0 (remove backward tilt, spine alone provides forward fold). Reduced shoulder abduction 60/72→60/60 (arms more horizontal, palms at shoulder height). Adjusted shoulderFwd -35/-35→-25/-25 (arms forward in body-frame to wall). Adjusted elbows 45/25→60/60 (moderate bend). Adjusted leftHip/rightHip -20/-10→-15/-15 (legs slightly extended back). Result: head_z -0.739→+0.655 (✓ forehead forward at wall), shoulder_z -0.538→+0.459 (✓ shoulders forward at wall), wrist_z 0.058/-0.024→+0.485/+0.485 (✓ palms at wall), wrist_y 0.721/0.843→0.483 (✓ at shoulder height 0.441), hip_z -0.069→0.000 (✓ hips pushed back relative to forward-leaning upper body).",
+  "created_at": "2026-08-01T23:56:18.585Z"
+}

@@ -1,0 +1,51 @@
+{
+  "proposal_id": "patch-diagonal-prop-1785633975139",
+  "pose_id": "diagonal-prop",
+  "category": "reclining",
+  "worker": "worker-B-batch5",
+  "existing_config_hash": "45c083657e53",
+  "defects": [
+    {
+      "type": "side_lying_insufficient_globalroll",
+      "severity": "major",
+      "description": "Description: Lie on the SIDE. Current globalRoll=-15 (only 15° roll to LEFT side) — body is mostly prone-leaning (globalTilt=75) with slight tilt, NOT on side. Need globalRoll closer to ±60 for clearer side-lying."
+    },
+    {
+      "type": "hands_not_under_cheek",
+      "severity": "major",
+      "description": "Description: both hands tucked under the cheek as if sleeping. Current wrists at y=-0.028/-0.137 (floor level), z=0.082/-0.044 (body center, behind head z=0.889). Hands at floor NOT under cheek. Need to raise arms up to face level via shoulder abduction + deep elbow bend to bring hands to cheek."
+    },
+    {
+      "type": "knees_not_drawn_up",
+      "severity": "minor",
+      "description": "Description: knees drawn up gently. Current leftHip=40, rightHip=30 (moderate flexion) + leftKnee=30, rightKnee=20 (mild bend). Knees at y=-0.294/-0.315 (below hips). Mildly drawn up but could be deeper for sleeping curl."
+    }
+  ],
+  "failing_tests": [
+    "description says lie on side but globalRoll only -15°",
+    "description says hands tucked under cheek but wrists at floor level not face level",
+    "description says knees drawn up gently but knees barely flexed"
+  ],
+  "field_changes": {
+    "globalRoll": -60,
+    "leftShoulder": -90,
+    "rightShoulder": -90,
+    "leftElbow": 140,
+    "rightElbow": 140,
+    "leftHip": 70,
+    "rightHip": 65,
+    "leftKnee": 80,
+    "rightKnee": 80,
+    "spine": 12
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/reclining/diagonal-prop/baseline/",
+  "after_evidence": "",
+  "regression_risk": "medium-high — 10-field rework to convert partial-prone pose to side-lying sleeping pose. Hands-tucked-under-cheek is rig-limited (no horizontal adduction, cannot truly clasp hands under cheek). Approximation: both arms raised overhead + deep elbow bend brings hands to face/cheek level.",
+  "confidence": 0.5,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Description: Lie on the side with both hands tucked under the cheek as if sleeping, knees drawn up gently. Current pose is mostly prone-leaning (globalTilt=75, globalRoll=-15) with hands at floor — does NOT match side-lying sleeping pose. Per protocol §4 use description. Fix: (1) globalRoll -15→-60 (deeper side roll to LEFT, body more clearly on side). (2) Hands under cheek: leftShoulder -10→-90 + rightShoulder 8→-90 (both arms raised overhead, in side-lying this brings arms up alongside head); leftElbow 81→140 + rightElbow 18→140 (deep bend brings hands DOWN from overhead to face/cheek level — approximation of tucked under cheek). (3) Knees drawn up: leftHip 40→70, rightHip 30→65, leftKnee 30→80, rightKnee 20→80 (deeper flexion for sleeping curl). (4) spine 0→12 (slight forward curl for sleeping position). Rig-limited: no horizontal adduction joint, cannot truly clasp hands together under cheek; renderer elbow rotY only. Hands-near-cheek is best approximation. Re-render verify REQUIRED.",
+  "created_at": "2026-08-02T01:26:15.139Z"
+}

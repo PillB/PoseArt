@@ -1,0 +1,65 @@
+{
+  "proposal_id": "patch-one-knee-look-up-1785633893622",
+  "pose_id": "one-knee-look-up",
+  "category": "kneeling",
+  "worker": "worker-A-batch5",
+  "existing_config_hash": "59d60ed8cba8",
+  "defects": [
+    {
+      "id": "right_leg_standing_not_kneeling",
+      "severity": "CRITICAL",
+      "claim": "Description: 'Kneel upright with both knees down'. Currently rightHip=0 (thigh vertical), rightKnee=10 (nearly straight). Right leg is standing straight, foot planted below. Should be kneeling (thigh forward, knee bent) matching left leg.",
+      "evidence": "geometry.json: right_leg hip_flexion_deg=0, knee_flexion_deg=10 (straight); rightFoot y=-0.84 (planted below hip, not kneeling)."
+    },
+    {
+      "id": "spine_arch_too_slight",
+      "severity": "MAJOR",
+      "claim": "Description: 'arch the spine backward'. Currently spine=-4 (barely arched). Need deeper back arch for 'arch' (e.g., -25 to -30).",
+      "evidence": "geometry.json: torso flexion_deg=-4 (slight back arch)."
+    },
+    {
+      "id": "arms_not_behind",
+      "severity": "MINOR",
+      "claim": "Description: 'reaching both arms overhead AND BEHIND you'. Currently arms overhead (leftShoulder=-110, rightShoulder=-110) but shoulderFwdL/R not set (default 0, no forward/back). For 'behind', need shoulderFwdL/R positive per corrected convention (+ = behind).",
+      "evidence": "geometry.json: left_arm/right_arm shoulder_sagittal_flexion_deg=174.6 (forward, in plane); no behind component."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "both legs kneeling (symmetric)",
+      "expected": "leftHip≈rightHip AND leftKnee≈rightKnee",
+      "actual": "rightHip=0, rightKnee=10 (standing straight, asymmetric)"
+    },
+    {
+      "assertion": "spine back-arched",
+      "expected": "spine < -20",
+      "actual": "spine=-4 (slight)"
+    },
+    {
+      "assertion": "arms behind (overhead + back)",
+      "expected": "shoulderFwdL/R > 0 (positive = behind per corrected convention)",
+      "actual": "shoulderFwdL/R=0 (default, in plane)"
+    }
+  ],
+  "field_changes": {
+    "spine": -30,
+    "neck": 0,
+    "rightHip": 80,
+    "rightKnee": 90,
+    "rightAnkle": -35,
+    "shoulderFwdL": 25,
+    "shoulderFwdR": 25,
+    "leftElbow": 40,
+    "rightElbow": 40
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/kneeling/one-knee-look-up/baseline/",
+  "after_evidence": "",
+  "regression_risk": "",
+  "confidence": 0.75,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Description: 'Kneel upright with both knees down, arch the spine backward, reaching both arms overhead and behind you. Head follows arch.' (1) Right leg kneeling: rightHip 0→80 (match left), rightKnee 10→90 (match left), rightAnkle added=-35 (match left). (2) Spine arch: -4→-30 (deep back arch per 'arch the spine backward'). (3) Arms behind: shoulderFwdL/R added=+25 (positive = behind per corrected convention). (4) Elbows 70/50→40/40 (straighter for reaching up/behind; symmetric). (5) neck -18→0 (no side tilt; 'head follows arch' via spine extension producing head pitch back, no roll needed). Rig limitation: hip origin y=0.12 prevents true knee-on-ground; deep-knee-flexion is kneeling approximation.",
+  "created_at": "2026-08-02T01:24:53.622Z"
+}

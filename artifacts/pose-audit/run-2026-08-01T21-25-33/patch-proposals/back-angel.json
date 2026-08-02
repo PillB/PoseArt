@@ -1,0 +1,36 @@
+{
+  "proposal_id": "patch-back-angel-1785633893881",
+  "pose_id": "back-angel",
+  "category": "reclining",
+  "worker": "worker-A-batch5",
+  "existing_config_hash": "ac2c71c40f2c",
+  "defects": [
+    {
+      "id": "asymmetric_arms_snow_angel",
+      "severity": "MAJOR",
+      "claim": "Description: 'sweep both arms out and overhead like a snow angel' (both arms symmetric). Currently leftShoulder=-90 vs rightShoulder=-72 (18° asymmetry); leftElbow=70 vs rightElbow=78 (8° asymmetry). Should be symmetric for snow angel sweep.",
+      "evidence": "geometry.json: left_arm shoulder_abduction_deg=92.1 vs right_arm 90.4 (close, but raw -90 vs -72 produce different sweep positions)."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "arms symmetric (snow angel sweep)",
+      "expected": "leftShoulder≈rightShoulder AND leftElbow≈rightElbow",
+      "actual": "leftShoulder=-90, rightShoulder=-72 (18° asymmetry)"
+    }
+  ],
+  "field_changes": {
+    "rightShoulder": -90,
+    "rightElbow": 70
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/reclining/back-angel/baseline/",
+  "after_evidence": "",
+  "regression_risk": "",
+  "confidence": 0.85,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Clean symmetric fix. globalTilt=-85 (SUPINE per corrected convention) ✓ matches 'Lie on the back' — cron-round-1 fix verified. Arms should sweep symmetrically per 'sweep both arms out and overhead'. (1) rightShoulder -72→-90 (match left, symmetric abduction for mid-sweep horizontal-out position in supine frame). (2) rightElbow 78→70 (match left, symmetric elbow flexion). Legs symmetric (leftHip=rightHip=25) ✓. Plausibility flag 'shoulder_flexion -95° out of band' is false positive in reclining context (band doesn't account for body rotation; 'behind' in body frame = 'overhead' in world frame for snow angel).",
+  "created_at": "2026-08-02T01:24:53.881Z"
+}

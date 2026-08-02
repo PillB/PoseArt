@@ -1,0 +1,45 @@
+{
+  "proposal_id": "patch-p01-master-s3-chair-both-knees-bent-hands-clasped-1785621625169",
+  "pose_id": "p01-master-s3-chair-both-knees-bent-hands-clasped",
+  "category": "seated",
+  "worker": "worker-C",
+  "existing_config_hash": "8a514312db5f",
+  "defects": [
+    {
+      "id": "hands_not_clasped",
+      "severity": "major",
+      "evidence": "leftWrist at (-0.594, 0.119, 0.108), rightWrist at (0.676, 0.235, 0.133). Distance between wrists 1.275 units. Description says 'clasping hands together over the knees'. Hands are far apart (one on each side of body) and not at knee level (knees at y=0.05, wrists at y=0.12/0.24). Original shoulderFwdL:+15 shoulderFwdR:+15 — POSITIVE shoulderFwd moves arms BEHIND (sign inverted from comment), so arms extend backward instead of forward to clasp."
+    },
+    {
+      "id": "legs_not_crossed",
+      "severity": "minor",
+      "evidence": "hipAbductL:-5 hipAbductR:-5 (both slightly negative = both slightly abducted outward = knees slightly apart, NOT crossed). Description says 'legs crossed at the shin' — requires asymmetric abduction (one in, one out)."
+    }
+  ],
+  "failing_tests": [
+    "expect(leftWrist-to-rightWrist distance).lessThan(0.20) — was 1.275",
+    "expect(leftWrist-to-leftKnee distance).lessThan(0.25) — was 0.538",
+    "expect(rightWrist-to-rightKnee distance).lessThan(0.25) — was 0.616",
+    "expect(Math.sign(hipAbductL) !== Math.sign(hipAbductR)).toBe(true) for crossed — was (-5, -5)"
+  ],
+  "field_changes": {
+    "leftShoulder": -30,
+    "leftElbow": 100,
+    "shoulderFwdL": -60,
+    "rightShoulder": -30,
+    "rightElbow": 100,
+    "shoulderFwdR": -60,
+    "hipAbductL": 15,
+    "hipAbductR": -15
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/p01-master-s3-chair-both-knees-bent-hands-clasped/baseline/",
+  "after_evidence": "",
+  "regression_risk": "low — both arms repositioned symmetrically; legs slightly adjusted; spine/hips unchanged.",
+  "confidence": 0.78,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Hands-clasped-over-knees fixed. Both arms: shoulder abducted ~30° (out to side), elbow 100° (bent), shoulderFwd:-60 (strongly forward per inverted-sign convention — POSITIVE shoulderFwd moves arm BEHIND, so NEGATIVE brings arms forward to clasp). Result: lW at (-0.076, 0.214, 0.279), rW at (0.076, 0.214, 0.279) — wrists 0.152 apart (was 1.275), both at knee level (lW-to-lKnee 0.221, rW-to-rKnee 0.270). Rig cannot bring wrists fully together (min ~0.13) due to elbow rotY only swinging forearm forward/back, not inward — but 0.152 is close enough to read as 'clasped'. LEGS — flip hipAbductR from -5 to -15 (keep hipAbductL at +15) for asymmetric cross pattern (L knee in, R knee out). Result: lKnee.x=-0.019 (slightly left), rKnee.x=0.241 (further right) — cross at shin level.",
+  "created_at": "2026-08-01T22:00:25.169Z"
+}

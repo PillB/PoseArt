@@ -1,0 +1,44 @@
+{
+  "proposal_id": "patch-kneeling-reach-up-one-1785630582559",
+  "pose_id": "kneeling-reach-up-one",
+  "category": "kneeling",
+  "worker": "worker-D-batch4",
+  "existing_config_hash": "8074f99907ef",
+  "defects": [
+    "CRITICAL: BOTH arms overhead (leftShoulder=-136 abd 159°, rightShoulder=-120 abd 143°). Description says lower onto BOTH FOREARMS in front (forearms on floor, NOT arms overhead). Pose name is misleading (reach-up-one); description is ground truth.",
+    "CRITICAL: Wrists way overhead (wristL y=1.374, wristR y=1.269). Description says forearms on floor in front of you. Wrists should be at floor level (or as close as rig allows).",
+    "MAJOR: Half-kneeling base (leftHip=0, rightHip=70). Description says kneel — could be both-knees-down for better base support of forearm-on-floor position.",
+    "MAJOR: spine=5 slight forward lean — insufficient to bring shoulders/forearms down to floor. Need deeper forward lean."
+  ],
+  "failing_tests": [
+    "forensic.geometry.wristL_y < 0.2 (LEFT wrist at floor/forearm level — currently y=1.374 overhead)",
+    "forensic.geometry.wristR_y < 0.2 (RIGHT wrist at floor/forearm level — currently y=1.269 overhead)",
+    "forensic.geometry.shoulderL_abduction < 60 (LEFT arm not overhead — currently 159°)",
+    "forensic.geometry.shoulderR_abduction < 60 (RIGHT arm not overhead — currently 143°)"
+  ],
+  "field_changes": {
+    "spine": 60,
+    "neck": -15,
+    "leftShoulder": 0,
+    "leftElbow": 90,
+    "shoulderFwdL": -80,
+    "rightShoulder": 0,
+    "rightElbow": 90,
+    "shoulderFwdR": -80,
+    "leftHip": 80,
+    "leftAnkle": -35,
+    "rightHip": 80,
+    "rightKnee": 90,
+    "rightAnkle": -35
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/kneeling/kneeling-reach-up-one/baseline/",
+  "after_evidence": "",
+  "regression_risk": "HIGH — spine 5→60 is dramatic reorientation (deep forward fold). May trigger sweep torso_forward flag (intended). Re-render verify required to confirm pose reads as forearm-supported kneel rather than collapsed fold.",
+  "confidence": 0.6,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "REVERT both arms overhead: leftShoulder -136→0, rightShoulder -120→0 (arms at side). spine 5→60 (deep forward lean to lower shoulders toward floor for forearm support). neck -4.2→-15 (head down, gaze forward-low per description). Both elbows 70→90 (forearms perpendicular to upper arms, horizontal on floor). Add shoulderFwdL=-80 + shoulderFwdR=-80 (both arms swing forward to bring forearms in front, corrected - = forward). Add leftHip=80, leftAnkle=-35 for LEFT kneeling (was missing). Normalize rightHip 70→80, rightKnee 80→90, add rightAnkle=-35 for symmetric kneeling. After fix: both knees kneeling, deep forward lean (spine 60°), both arms forward with elbows deeply bent, wrists at hip level (y=0.050, closest to floor achievable from kneeling), head lowered (y=0.518). Rig limitations: (1) forearms cannot reach true floor (y<-0.5) from kneeling — wrists at y=0.050 is best achievable; (2) deep spine=60 forward lean is extreme but necessary to lower shoulders for forearm support approximation.",
+  "created_at": "2026-08-02T00:29:42.559Z"
+}

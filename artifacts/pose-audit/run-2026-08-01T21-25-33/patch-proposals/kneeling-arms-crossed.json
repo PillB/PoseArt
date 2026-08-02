@@ -1,0 +1,54 @@
+{
+  "proposal_id": "patch-kneeling-arms-crossed-1785630562584",
+  "pose_id": "kneeling-arms-crossed",
+  "category": "kneeling",
+  "worker": "worker-B-batch4",
+  "existing_config_hash": "32c8c04504e6",
+  "defects": [
+    {
+      "id": "arm_not_extended_to_side_at_shoulder_height",
+      "severity": "MAJOR",
+      "claim": "Description: 'extend one arm out to the side at shoulder height while the torso leans slightly opposite for counterbalance. Keep the reaching arm straight but not locked.' Requires one arm horizontal at shoulder height, nearly straight. Current leftShoulder=-30 (abd 53°), leftElbow=100 (bent 74°) — arm is bent, hanging at side, NOT extended horizontally. shoulderFwdL=12 (behind per CORRECTED convention) — wrong direction for arm extended to side (should be 0/neutral). Right arm similarly bent (rightElbow=100, abd 34°) hanging at side.",
+      "evidence": "geometry.json: L_arm_abd=52.7° (not 90° horizontal), L_elbow_flexion=74.2° (bent, not straight), L_wrist y=0.214 (below shoulder y=0.679)."
+    },
+    {
+      "id": "torso_not_counterbalanced",
+      "severity": "MAJOR",
+      "claim": "Description: 'torso leans slightly opposite for counterbalance'. With arm extending LEFT, torso should lean RIGHT. Current spine=-4 (slight back arch, no lateral lean) and hips=0 (no pelvic list) — no counterbalance lean. Renderer lacks torso lateral flexion joint; pelvic list (hips tilt) is the only available approximation.",
+      "evidence": "geometry.json: torso_lat=0°, pelvis_list=0° — no counterbalance lean."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "L_arm_abd ~= 90° (horizontal at shoulder height)",
+      "expected": "abduction ~90°",
+      "actual": "L_arm_abd=52.7° (below horizontal)"
+    },
+    {
+      "assertion": "L_elbow_flexion < 20° (arm straight, not locked)",
+      "expected": "< 20°",
+      "actual": "L_elbow_flexion=74.2° (bent)"
+    },
+    {
+      "assertion": "torso lateral lean opposite to extended arm",
+      "expected": "torso_lat != 0 OR pelvis_list != 0",
+      "actual": "torso_lat=0, pelvis_list=0 (no lean)"
+    }
+  ],
+  "field_changes": {
+    "leftShoulder": -65,
+    "leftElbow": 10,
+    "shoulderFwdL": 0,
+    "hips": -8
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/kneeling/kneeling-arms-crossed/baseline/",
+  "after_evidence": "",
+  "regression_risk": "low-medium — 4-field change focused on left arm + pelvic list. Arm extension geometry verified. Pelvic list is small (-8°) and represents artistic weight-shift, not a dramatic reorientation.",
+  "confidence": 0.75,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "MAJOR fix for arm extension: leftShoulder -30→-65 (full lateral abduction — verified shoulder=-65 produces elbow at y=0.663 matching shoulder y=0.679, arm horizontal at shoulder height ✓). leftElbow 100→10 (nearly straight per 'Keep the reaching arm straight but not locked'; renderer enforces 8° minimum soft bend). shoulderFwdL 12→0 (neutral — remove backward offset, arm straight out to side). Verified: leftWrist at (-0.962, 0.637, 0.068) — y=0.637 (shoulder height ✓), x=-0.962 (arm extended far to figure's left ✓), nearly straight (elbow 10°) ✓. MAJOR partial fix for counterbalance: hips 0→-8 (pelvic list -8°, right hip lower per CORRECTED convention 'hips + = left hip drops; - = right hip drops'). Right hip dropping puts torso weight onto right leg, creating counterbalance approximation against left arm extending left. Renderer limitation: no torso lateral flexion joint — pelvic list only tilts legs/pelvis, not upper body (spine remains vertical above pelvis). Partial achievement of 'torso leans slightly opposite'. Left arm position verified via verify-patch.js. Right arm unchanged (description doesn't require right arm in specific position — 'one arm extended' implies other arm relaxed at side, current right arm at side ✓).",
+  "created_at": "2026-08-02T00:29:22.584Z"
+}

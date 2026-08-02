@@ -1,0 +1,46 @@
+{
+  "proposal_id": "patch-door-side-lean-1785627604734",
+  "pose_id": "door-side-lean",
+  "category": "leaning",
+  "worker": "worker-B-batch3",
+  "existing_config_hash": "4b42d2224b7c",
+  "defects": [
+    {
+      "type": "hipabduct_sign_error",
+      "severity": "major",
+      "description": "cron-round-6 fix-hipabduct-signs.js detected both hipAbduct same sign and flipped BOTH to -10 (both abducted outward). But the script BUG: for crossed intent it should make signs OPPOSITE (one +, one -), not just negate both. Result: hipAbductL=-10, hipAbductR=-10 (both abducted outward) is WORSE than original (both adducted inward) — neither configuration is crossed. Description requires opposite leg to cross IN FRONT, which needs the crossing leg to adduct (POSITIVE hipAbduct) and swing forward (POSITIVE rightHip)."
+    },
+    {
+      "type": "missing_joint",
+      "severity": "major",
+      "description": "Description says opposite leg cross casually IN FRONT — requires the crossing leg to swing forward (rightHip positive). Currently rightHip=0 (no forward swing); the right leg never crosses in front, it just abducts outward."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "hipAbduct signs opposite (one +, one -) for crossed-leg description",
+      "expected": "opposite signs",
+      "actual": "both -10 (both abducted outward)"
+    },
+    {
+      "assertion": "rightHip > 0 for opposite-leg-crosses-in-front",
+      "expected": ">0",
+      "actual": "0 (no forward swing)"
+    }
+  ],
+  "field_changes": {
+    "hipAbductL": -10,
+    "hipAbductR": 15,
+    "rightHip": 18
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/leaning/door-side-lean/baseline/",
+  "after_evidence": "",
+  "regression_risk": "low — single-pose 3-field change; right leg now crosses in front of left as described",
+  "confidence": 0.8,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "CORRECTED CONVENTION: hipAbduct + = adduction (inward/cross), - = abduction (outward/spread). leftHip/rightHip + = leg swings FORWARD. Description: opposite leg cross casually in front. With leftShoulder=-8 (body slightly leaned toward left doorframe), the OPPOSITE (right) leg crosses in front. Set hipAbductR=+15 (right leg adducts/crosses inward toward left), rightHip=+18 (right leg swings forward to cross in front of left foot). hipAbductL=-10 keeps left leg slightly abducted (stable base against doorframe). The cron-round-6 fix script had a logic bug (negated both signs instead of making them opposite).",
+  "created_at": "2026-08-01T23:40:04.734Z"
+}

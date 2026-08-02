@@ -1,0 +1,54 @@
+{
+  "proposal_id": "patch-p13-floor-s3-side-seated-look-away-1785634297055",
+  "pose_id": "p13-floor-s3-side-seated-look-away",
+  "category": "reclining",
+  "worker": "worker-D-batch5",
+  "existing_config_hash": "148c78f8912a",
+  "defects": [
+    {
+      "type": "both_arms_mispositioned",
+      "severity": "critical",
+      "description": "Description requires ONE hand flat on floor BEHIND for support + OTHER hand on top of bent knee. Currently L arm reaches UP-BACK (wristL y=0.630 above shoulder y=0.416) and R arm hangs down-forward (wristR y=0.014 at hip level). Neither hand on floor behind nor on knee."
+    },
+    {
+      "type": "left_arm_overhead_unmotivated",
+      "severity": "major",
+      "description": "leftShoulder=-65 (LEFT arm abducted 65° up), shoulderFwdL=-30 (forward swing). With spine=8 + globalTilt=-60 + globalTwist=-35, LEFT arm ends up overhead-back. Description does not call for arm overhead."
+    },
+    {
+      "type": "right_arm_not_on_knee",
+      "severity": "major",
+      "description": "rightShoulder=15 (R arm at side), rightElbow=85 (bent), shoulderFwdR=15 (behind swing). wristR distance to kneeR = 0.418m (not on top of knee)."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "one_hand_on_floor_behind_body",
+      "expected": "wrist y < 0 and wrist z < 0 (behind body)",
+      "actual": "wristL (-0.599, 0.630, -0.780) — high y, not on floor"
+    },
+    {
+      "assertion": "other_hand_on_knee",
+      "expected": "wrist-to-knee distance < 0.20",
+      "actual": "wristR-to-kneeR = 0.418"
+    }
+  ],
+  "field_changes": {
+    "leftShoulder": 0,
+    "leftElbow": 0,
+    "shoulderFwdL": 60,
+    "rightShoulder": -30,
+    "rightElbow": 80,
+    "shoulderFwdR": -60
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/reclining/p13-floor-s3-side-seated-look-away/baseline/",
+  "after_evidence": "",
+  "regression_risk": "medium — significant arm reorientation. Re-render verify required.",
+  "confidence": 0.65,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "L arm = support hand on floor behind: leftShoulder -65 → 0 (arm at side, hangs down), leftElbow 12 → 0 (straight arm to floor), shoulderFwdL -30 → +60 (BEHIND swing per corrected convention; for reclined body globalTilt=-60, \"behind body\" maps to \"down-back in world\" — wristL drops to y=-0.209 below hip, z=-0.240 behind body, approximating floor support). R arm = hand on bent knee: rightShoulder 15 → -30 (R arm partially raised toward knee), rightElbow 85 → 80 (slight bend), shoulderFwdR 15 → -60 (FORWARD swing per corrected convention - = forward; brings wristR forward-up to y=0.586 near kneeR y=0.430, distance 0.175m). globalTwist=-35 preserved (torso turned). hipAbductL=+22 + hipAbductR=-20 preserved (both legs cross to one side per description). neck=-11 preserved (head tilt LEFT for \"look away over shoulder\").",
+  "created_at": "2026-08-02T01:31:37.055Z"
+}

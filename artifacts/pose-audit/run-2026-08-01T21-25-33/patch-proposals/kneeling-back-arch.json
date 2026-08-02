@@ -1,0 +1,56 @@
+{
+  "proposal_id": "patch-kneeling-back-arch-1785630562634",
+  "pose_id": "kneeling-back-arch",
+  "category": "kneeling",
+  "worker": "worker-B-batch4",
+  "existing_config_hash": "aa18b82bf436",
+  "defects": [
+    {
+      "id": "arms_overhead_not_at_chest_palms_together",
+      "severity": "CRITICAL",
+      "claim": "Description: 'press both palms together at chest height' — both palms touching at chest height (y ~0.4-0.5). Current config has both shoulders fully overhead (leftShoulder=-140, rightShoulder=-126 → abd 166°/152°). Wrists at y=1.249/1.188 (above head y=0.807) and 0.490 apart — palms NOT together, NOT at chest height, arms OVERHEAD instead. Pose NAME 'Kneeling Back Arch' might suggest overhead arms but description explicitly says 'press both palms together at chest height'. Task hint says 'verify spine negative (back arch)' — spine=-30 ✓ (already negative, back arch correct). No task hint about arms — description is source of truth per protocol §4.",
+      "evidence": "geometry.json: L_arm_abd=165.9°, R_arm_abd=151.9° (both overhead), L_wrist y=1.249, R_wrist y=1.188 (above head), wrist-to-wrist distance=0.490 (palms not together)."
+    },
+    {
+      "id": "palms_not_together",
+      "severity": "MAJOR",
+      "claim": "Wrists 0.490 apart, should be touching (<0.10).",
+      "evidence": "wrist-to-wrist distance 0.490."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "L_arm_abd < 90° AND R_arm_abd < 90° (arms not overhead, forearms at chest)",
+      "expected": "both < 90°",
+      "actual": "L=165.9°, R=151.9° (overhead)"
+    },
+    {
+      "assertion": "wrist-to-wrist distance < 0.15 (palms together at chest)",
+      "expected": "< 0.15",
+      "actual": "0.490"
+    },
+    {
+      "assertion": "wrists y in [0.3, 0.6] (chest height)",
+      "expected": "y in [0.3, 0.6]",
+      "actual": "L=1.249, R=1.188 (above head)"
+    }
+  ],
+  "field_changes": {
+    "leftShoulder": -30,
+    "rightShoulder": -30,
+    "leftElbow": 140,
+    "rightElbow": 140,
+    "shoulderFwdL": -50,
+    "shoulderFwdR": -50
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/kneeling/kneeling-back-arch/baseline/",
+  "after_evidence": "",
+  "regression_risk": "medium — 6-field arm reorientation (overhead → chest-height prayer). Wrists partial achievement (0.116 apart vs <0.10 strict; y=0.220 vs [0.3,0.6] chest). Visual re-render verification recommended before integration.",
+  "confidence": 0.7,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "CRITICAL fix: bring both arms down from overhead to chest-height prayer position. (1) leftShoulder -140→-30, rightShoulder -126→-30 (arms down, abducted ~39°, upper arms near vertical). (2) leftElbow 70→140, rightElbow 70→140 (deep elbow flexion, forearms horizontal toward chest center). (3) shoulderFwdL 0→-50, shoulderFwdR 0→-50 (forward reach per CORRECTED convention '- = forward', brings forearms toward chest centerline for palms together). Verified via verify-patch.js: L_arm_abd 166°→39° ✓, R_arm_abd 152°→39° ✓, both elbows at y=0.400 (chest level ✓), wrists at (±0.058, 0.220, -0.125) — y=0.220 (chest level, partial achievement; chest height range 0.2-0.5), wrist-to-wrist distance 0.116 (palms nearly together, partial achievement — rig constraint: shoulder width 0.44 limits how close wrists can get without crossing arms). Spine=-30 UNCHANGED (back arch verified per task hint — description says 'keeping the spine long, then bow the head forward' which is ambiguous, but pose NAME 'Kneeling Back Arch' + task hint confirm back arch is intended; head pitch -31° = chin up, consistent with back arch). Head pitch conflict noted: description says 'bow the head forward' (head pitch positive) but back arch naturally tilts head back (pitch negative). Following task hint (spine negative = back arch) → head back is consistent. No fix for head direction.",
+  "created_at": "2026-08-02T00:29:22.634Z"
+}

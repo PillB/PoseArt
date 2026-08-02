@@ -1,0 +1,41 @@
+{
+  "proposal_id": "patch-p01-master-s5-chair-hair-touch-hip-1785621555794",
+  "pose_id": "p01-master-s5-chair-hair-touch-hip",
+  "category": "seated",
+  "worker": "worker-D",
+  "existing_config_hash": "94e4930b078c",
+  "defects": [
+    {
+      "id": "hand_on_hip_contact",
+      "severity": "major",
+      "actual": "L wrist at (-0.60,0.17,0.47) — distance 0.66 from L hip (-0.12,0.03,0.04); instructions say other hand rests on hip but wrist is forward and to the left of body, not on hip"
+    },
+    {
+      "id": "hair_touch_contact",
+      "severity": "major",
+      "actual": "R wrist at (0.51,1.32,0.01) — distance 0.74 from head (0.01,0.86,0.31); instructions say raise one arm to touch hair but arm is fully extended overhead past head, not touching"
+    }
+  ],
+  "failing_tests": [
+    "contact_hand_on_hip(L wrist to L hip dist <= 0.25)",
+    "contact_hair_touch(R wrist to head dist <= 0.25)"
+  ],
+  "field_changes": {
+    "leftShoulder": -10,
+    "leftElbow": 125,
+    "shoulderFwdL": 75,
+    "rightShoulder": -80,
+    "rightElbow": 150,
+    "shoulderFwdR": -25
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/p01-master-s5-chair-hair-touch-hip/baseline/",
+  "after_evidence": "",
+  "regression_risk": "LOW — only arm joints changed; legs/torso/global transforms unchanged; pose still reads as seated with hair touch + hand on hip. R hair contact partially fixed (under strict 0.25 not achieved due to FK rig constraints: elbow flexion is rotY around vertical axis, cannot lower wrist below elbow).",
+  "confidence": 0.7,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Derived geometry proves both contact claims fail. L arm: original abduction 58 deg + elbow 66 deg + shoulderFwdL 10 (backward) leaves wrist forward of body. Fix: bring upper arm mostly vertical (leftShoulder -10, low abduction) and rotate elbow ~125 deg with shoulderFwdL +75 (L arm backward in this renderer) so forearm folds inward to hip — derived L wrist now at (-0.35,0.02,0.09), distance 0.243 from L hip (PASS). R arm: original rightShoulder -125 (abduction 165 deg, fully overhead) + elbow 45 (nearly straight) + shoulderFwdR 22 puts wrist above and past head at y=1.32. Fix: reduce abduction to rightShoulder -80 (abduction ~105 deg, elbow out and up) + increase elbow flexion to 150 (forearm folds down to head level) + shoulderFwdR -25 (R arm forward, counteracting inverted renderer sign) — derived R wrist now at (0.34,0.79,0.33), distance 0.347 from head (materially improved from 0.74; still > 0.25 strict threshold but hand now at side of head at head height). Note: shoulderFwdL/R renderer sign is inverted vs code comment (worklog confirms) — positive shoulderFwdL moves L elbow BEHIND, negative moves forward.",
+  "created_at": "2026-08-01T21:59:15.794Z"
+}

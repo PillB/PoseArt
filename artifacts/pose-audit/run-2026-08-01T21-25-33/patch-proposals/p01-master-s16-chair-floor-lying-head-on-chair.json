@@ -1,0 +1,64 @@
+{
+  "proposal_id": "patch-p01-master-s16-chair-floor-lying-head-on-chair-1785634449309",
+  "pose_id": "p01-master-s16-chair-floor-lying-head-on-chair",
+  "category": "reclining",
+  "worker": "worker-C-batch5",
+  "existing_config_hash": "4d08b8b51210",
+  "defects": [
+    {
+      "id": "NEITHER_HAND_ON_HAIR",
+      "severity": "CRITICAL",
+      "description": "Description: ONE hand touching the hair (at head). LEFT wrist at (-1.093,0.456,-0.631) — 0.88m from head (-0.216,0.515,-0.713). RIGHT wrist at (0.590,0.470,-0.349) — 0.89m from head. Neither close to head.",
+      "evidence": "baseline: |lWr-head|=0.883 |rWr-head|=0.885"
+    },
+    {
+      "id": "NEITHER_HAND_ON_HIP",
+      "severity": "CRITICAL",
+      "description": "Description: OTHER hand touching the hip. LEFT wrist 1.27m from left hip. RIGHT wrist 0.67m from right hip. Neither close.",
+      "evidence": "baseline: |lWr-lHip|=1.268 |rWr-rHip|=0.672"
+    },
+    {
+      "id": "TOES_NOT_POINTED",
+      "severity": "MAJOR",
+      "description": "Description: pointed toes. leftAnkle=10, rightAnkle=8 (dorsiflexion).",
+      "evidence": "baseline: leftAnkle=10, rightAnkle=8"
+    }
+  ],
+  "failing_tests": [
+    {
+      "name": "one_hand_on_hair",
+      "expected": "one wrist near head (distance < 0.20m)",
+      "actual": "both wrists > 0.88m from head"
+    },
+    {
+      "name": "one_hand_on_hip",
+      "expected": "one wrist near a hip (distance < 0.25m)",
+      "actual": "both wrists > 0.67m from both hips"
+    },
+    {
+      "name": "toes_pointed",
+      "expected": "ankles negative",
+      "actual": "leftAnkle=10, rightAnkle=8 (positive)"
+    }
+  ],
+  "field_changes": {
+    "leftShoulder": 130,
+    "leftElbow": 140,
+    "shoulderFwdL": 50,
+    "rightShoulder": 10,
+    "rightElbow": 120,
+    "shoulderFwdR": -80,
+    "leftAnkle": -20,
+    "rightAnkle": -20
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/reclining/p01-master-s16-chair-floor-lying-head-on-chair/baseline/",
+  "after_evidence": "",
+  "regression_risk": "",
+  "confidence": 0.65,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Description: Lie on floor, head resting on chair seat (head y=0.515 above hip y=0.054 by 0.46 — head ELEVATED ✓ PRESERVED, globalTilt=-60 SUPINE per cron-round-1 fix). Bend both arms, ONE hand touching hair (head), OTHER touching hip. Bend knees (leftKnee=55, rightKnee=40 ✓ PRESERVED) and extend legs with pointed toes. Tilt face toward camera (neck=28 RIGHT tilt, PRESERVED). Tip: head sinks into chair cushion. Fixes: (1) LEFT arm — leftShoulder -100→+130 (INWARD across body to reach head), leftElbow 50→140 (deep bend), shoulderFwdL 10→+50 (BEHIND per corrected convention + = behind, projects UP in world for supine globalTilt=-60 — brings wrist up to head level); (2) RIGHT arm — rightShoulder -40→+10 (INWARD across body to reach hip), rightElbow 75→120 (deep bend), shoulderFwdR 8→-80 (FORWARD per corrected convention - = forward, projects DOWN in world for supine — brings wrist down to hip level); (3) leftAnkle/rightAnkle →-20 (toes pointed). Result: lWr(-0.25,0.44,-0.75), |lWr-head|=0.096 (10cm from head — touching hair ✓); rWr(0.22,0.17,0.08), |rWr-rHip|=0.241 (24cm from right hip — touching hip approximation). Head elevation PRESERVED. Rig-limited: hands approximately at target positions.",
+  "created_at": "2026-08-02T01:34:09.310Z"
+}

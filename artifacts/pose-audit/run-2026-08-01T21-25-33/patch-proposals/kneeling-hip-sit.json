@@ -1,0 +1,69 @@
+{
+  "proposal_id": "patch-kneeling-hip-sit-1785631996907",
+  "pose_id": "kneeling-hip-sit",
+  "category": "kneeling",
+  "worker": "worker-C-batch4",
+  "existing_config_hash": "db0b02533f19",
+  "defects": [
+    {
+      "id": "LEFT_LEG_STANDING",
+      "severity": "CRITICAL",
+      "description": "leftHip not set (default 0, LEFT hip neutral) while rightHip=70 (RIGHT kneeling). leftKnee=90 but with leftHip=0 the thigh is vertical, so LEFT leg is hanging straight down (NOT kneeling position).",
+      "evidence": "baseline: kneeL y=-0.376 (low, standing-like), ankleL y=-0.376, footL y=-0.323"
+    },
+    {
+      "id": "ARMS_NOT_ON_THIGHS",
+      "severity": "MAJOR",
+      "description": "No shoulderFwd set — arms not brought forward to rest on thighs. Description: rest both forearms on thighs.",
+      "evidence": "baseline: shoulderFwdL=0, shoulderFwdR=0; wristL z=+0.175 (slightly forward), wristR z=+0.053 (at body plane)"
+    },
+    {
+      "id": "ASYMMETRIC_ARMS",
+      "severity": "MAJOR",
+      "description": "leftShoulder=-10 vs rightShoulder=8 (asymmetric). leftElbow=70 vs rightElbow=50 (asymmetric). Description implies symmetric arms on thighs.",
+      "evidence": "baseline: leftShoulder=-10, rightShoulder=8, leftElbow=70, rightElbow=50"
+    },
+    {
+      "id": "ASYMMETRIC_KNEES",
+      "severity": "MINOR",
+      "description": "leftKnee=90 vs rightKnee=100. Description: Kneel upright — both knees should be symmetric.",
+      "evidence": "baseline: leftKnee=90, rightKnee=100"
+    }
+  ],
+  "failing_tests": [
+    {
+      "name": "both_knees_kneeling",
+      "expected": "both knees y near -0.024 (kneeling position)",
+      "actual": "kneeL y=-0.376 (standing-like, leftHip not set)"
+    },
+    {
+      "name": "both_forearms_on_thighs",
+      "expected": "shoulderFwdL and shoulderFwdR negative (forward per convention), wrists near thigh level",
+      "actual": "no shoulderFwd set, arms hanging at side"
+    },
+    {
+      "name": "symmetric_arms",
+      "expected": "leftShoulder=rightShoulder, leftElbow=rightElbow",
+      "actual": "leftShoulder=-10, rightShoulder=8, leftElbow=70, rightElbow=50"
+    }
+  ],
+  "field_changes": {
+    "leftHip": 80,
+    "leftKnee": 100,
+    "shoulderFwdL": -30,
+    "shoulderFwdR": -30,
+    "leftShoulder": 0,
+    "rightShoulder": 0,
+    "rightElbow": 70
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/kneeling/kneeling-hip-sit/baseline/",
+  "after_evidence": "",
+  "regression_risk": "Medium — LEFT leg repositioned to kneeling (leftHip added). shoulderFwd added (negative per corrected convention = forward).",
+  "confidence": 0.8,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Description: Kneel upright + hinge torso forward from hips + rest both forearms on thighs + spine long + chest open + gaze direct. Fixes: (1) leftHip 0→80 (LEFT kneeling, was missing); (2) leftKnee 90→100 match RIGHT (symmetric); (3) shoulderFwdL/R=-30 (forward per corrected convention, arms forward to thighs); (4) leftShoulder/rightShoulder=0 (arms at side hanging down); (5) rightElbow 50→70 match LEFT (symmetric). spine=10 (forward hinge) preserved. Result: both wrists at (±0.425,-0.018,0.248) symmetric, z=+0.248 forward of body (mid-thigh level — between hip z=0 and knee z=+0.419), 0.851 apart (shoulder width). Forearms-on-thighs achieved as approximation (wrists at mid-thigh z).",
+  "created_at": "2026-08-02T00:53:16.907Z"
+}

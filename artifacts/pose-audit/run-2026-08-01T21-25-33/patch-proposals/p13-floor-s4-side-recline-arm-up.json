@@ -1,0 +1,53 @@
+{
+  "proposal_id": "patch-p13-floor-s4-side-recline-arm-up-1785634310253",
+  "pose_id": "p13-floor-s4-side-recline-arm-up",
+  "category": "reclining",
+  "worker": "worker-D-batch5",
+  "existing_config_hash": "6d83a0f38229",
+  "defects": [
+    {
+      "type": "both_arms_overhead_description_requires_one",
+      "severity": "critical",
+      "description": "Description: \"Reach ONE arm up and bend it so the hand rests near the head or hair, and let the OTHER arm relax naturally along the floor.\" Currently leftShoulder=-110 AND rightShoulder=-110 (BOTH arms overhead). OTHER arm should be at side relaxed along floor."
+    },
+    {
+      "type": "knees_apart_not_to_one_side",
+      "severity": "major",
+      "description": "hipAbductL=-20 (L outward LEFT) + hipAbductR=-18 (R outward RIGHT) → both legs fall APART. Description says \"Bend both knees and let them drape gently to ONE SIDE\". The knees_to_one_side flag was real defect (not false positive) — current state is APART, not tilted-to-one-side."
+    },
+    {
+      "type": "left_hand_not_near_head",
+      "severity": "minor",
+      "description": "L arm overhead (abd 110°) + elbow 95° (moderate bend) leaves wristL 0.649m from head. Description says hand \"rests near the head or hair\" — needs deeper elbow bend to bring hand closer."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "one_arm_at_side_relaxed",
+      "expected": "one shoulder abduction < 30°",
+      "actual": "both shoulders at -110 (abd ~102-113°)"
+    },
+    {
+      "assertion": "knees_to_one_side",
+      "expected": "ankle distance < 0.30 (tilted)",
+      "actual": "0.776 (legs apart)"
+    }
+  ],
+  "field_changes": {
+    "leftElbow": 130,
+    "rightShoulder": 0,
+    "rightElbow": 0,
+    "shoulderFwdR": 0,
+    "hipAbductR": 15
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/reclining/p13-floor-s4-side-recline-arm-up/baseline/",
+  "after_evidence": "",
+  "regression_risk": "low — R arm changes from overhead to side; L elbow deepens; hipAbduct sign flip on R. Re-render verify recommended.",
+  "confidence": 0.75,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "L arm (overhead, hand near hair): PRESERVED leftShoulder=-110, shoulderFwdL=10. leftElbow 95 → 130 (deeper bend brings wristL closer to head, distance 0.649 → 0.512). R arm (relaxed along floor): rightShoulder -110 → 0 (arm hangs down at side), rightElbow 20 → 0 (straight), shoulderFwdR 5 → 0 (no swing). With globalTilt=-85 (mostly supine), arm hangs down in body frame → extends sideways along floor in world (wristR at y=0.070, near floor). hipAbductR -18 → +15 (R leg crosses LEFT per corrected convention + = adduction/inward; combined with hipAbductL=-20, both knees tilt LEFT to one side). Ankle distance 0.776 → 0.294 (knees now tilted, not apart). globalTilt=-85 verified SUPINE (per cron-round-1 fix).",
+  "created_at": "2026-08-02T01:31:50.253Z"
+}

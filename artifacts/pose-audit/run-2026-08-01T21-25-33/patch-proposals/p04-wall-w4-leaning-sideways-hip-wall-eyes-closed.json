@@ -1,0 +1,49 @@
+{
+  "proposal_id": "patch-p04-wall-w4-leaning-sideways-hip-wall-eyes-closed-1785627889325",
+  "pose_id": "p04-wall-w4-leaning-sideways-hip-wall-eyes-closed",
+  "category": "leaning",
+  "worker": "worker-C-batch3",
+  "existing_config_hash": "1a08b7286f1b",
+  "defects": [
+    {
+      "type": "contact_failure_hand_on_hip",
+      "severity": "major",
+      "description": "Description: one hand on the hip. L wrist→L hip dist2D=0.568, R wrist→R hip dist2D=0.780 (threshold <0.25). NEITHER hand on hip. L arm has leftShoulder=-30 (abduction ~?) + leftElbow=65 — upper arm not horizontal, forearm not folded to hip."
+    },
+    {
+      "type": "contact_failure_hand_on_wall",
+      "severity": "major",
+      "description": "Description: the other touching the wall. Body sideways (globalRoll=10) so wall is to the side/behind. L wrist z=0.077 (slightly forward), R wrist z=0.336 (forward). Neither wrist clearly on wall (would need z near 0 or negative for back-wall contact, or significant x magnitude for side-wall). shoulderFwdR=8 (positive = BEHIND per CORRECTED convention) — R arm only slightly backward, not reaching wall behind."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "one wrist-to-hip dist2D < 0.25 for hand-on-hip",
+      "expected": "<0.25",
+      "actual": "L=0.568 R=0.780"
+    },
+    {
+      "assertion": "one wrist z <= 0.0 (back-wall contact) or shoulderFwdR significantly positive (backward extension)",
+      "expected": "z<=0 OR shoulderFwdR>=25",
+      "actual": "R wrist z=+0.336, shoulderFwdR=+8 (insufficient backward)"
+    }
+  ],
+  "field_changes": {
+    "leftShoulder": -55,
+    "leftElbow": 100,
+    "shoulderFwdL": -10,
+    "shoulderFwdR": 25,
+    "rightShoulder": -25,
+    "rightElbow": 45
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/leaning/p04-wall-w4-leaning-sideways-hip-wall-eyes-closed/baseline/",
+  "after_evidence": "",
+  "regression_risk": "medium-high — six simultaneous joint changes. Wall position relative to sideways body is ambiguous; shoulderFwdR=25 backward extension may not actually contact wall. Integrator should verify via test render.",
+  "confidence": 0.55,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Six coordinated changes for one-hand-on-hip (L) + one-hand-on-wall (R). Per CORRECTED sign convention shoulderFwd +=behind, -=forward. L hand to hip: (1) leftShoulder -30→-55 (raise upper arm to ~80deg abduction, elbow approaches shoulder height). (2) leftElbow 65→100 (deep flexion, forearm folds down toward hip). (3) shoulderFwdL 2→-10 (slight forward, hand in front of body for hip contact). R hand to wall: (4) shoulderFwdR 8→25 (increase backward extension, R arm reaches behind toward wall). (5) rightShoulder -50→-25 (reduce outward abduction, more natural arm position for backward reach). (6) rightElbow 20→45 (slight flexion for hand to reach wall surface). spine=-15 (PR-v3), globalRoll=10 (body sideways), globalTwist=-15, hipAbductR=-15 (R leg crossing) preserved.",
+  "created_at": "2026-08-01T23:44:49.325Z"
+}

@@ -1,0 +1,36 @@
+{
+  "proposal_id": "patch-perch-edge-1785625213074",
+  "pose_id": "perch-edge",
+  "category": "seated",
+  "worker": "worker-D-seated-batch2",
+  "existing_config_hash": "4602dd49d947",
+  "defects": [
+    "HANDS_NOT_ON_SEAT_EDGE: Description says \"rest both hands gently on the seat edge beside you\". Measured wrist→hip distances: L 0.349, R 0.493 (target <0.25). Wrists at x=±0.5 (far out to sides), should be near hip x=±0.13. Right shoulder abducted outward (rightShoulder=-12) puts wrist at x=+0.597; left shoulder unset (defaults to 0 = T-pose arms-out) puts wrist at x=-0.462.",
+    "SPINE_NOT_TALL: Description says \"Keep the spine tall\". spine=5 (slight forward lean) — should be 0 (upright) for tall posture.",
+    "SWEEP_FALSE_POSITIVE_KNEES_TO_ONE_SIDE: Sweep flagged knees_to_one_side but it is a REGEX BUG in geometry-sweep.js line 44: pattern `knees.*together.*side` greedily matches \"knees together. Keep the spine tall...seat edge beside\" (the \"side\" inside \"beside\" satisfies \\b at word boundary after \"beside\"). Actual config: hip flexion L/R 80/80 symmetric, hipAbductL/R 18/18 symmetric, knees at world x=±0.003 (only 0.006 apart — basically touching at centerline). knees_to_one_side is NOT a real defect.",
+    "KNEES_TOGETHER_SATISFIED: hipAbductL=18, hipAbductR=18 (positive = adduction per corrected sign = knees together ✓). leftKnee.x=+0.003, rightKnee.x=-0.003 — knees together at centerline.",
+    "RIG_LIMITATION_FLOATING: feet at y=0.462 (elevated, not planted on ground) — renderer seated convention (positive knee bends shin up). Description says \"both feet planted\". Deferred to renderer tier (cannot lower feet in seated position with current knee sign convention)."
+  ],
+  "failing_tests": [
+    "expect(Math.min(dist(leftWrist,leftHip), dist(rightWrist,rightHip))).toBeLessThan(0.25) — at least one hand on seat edge (currently 0.349 min)",
+    "expect(Math.abs(leftWrist.x - leftHip.x)).toBeLessThan(0.20) — left wrist near left hip",
+    "expect(Math.abs(rightWrist.x - rightHip.x)).toBeLessThan(0.20) — right wrist near right hip",
+    "expect(spine).toBeLessThanOrEqual(2) — spine tall (upright)",
+    "expect(Math.abs(hipAbductL - hipAbductR)).toBeLessThanOrEqual(2) — symmetric abduction (knees together verified)"
+  ],
+  "field_changes": {
+    "leftShoulder": 20,
+    "rightShoulder": 20,
+    "spine": 0
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/perch-edge/baseline/",
+  "after_evidence": "",
+  "regression_risk": "Low — field-level joints only. spine=0 is a minor adjustment (was 5° forward lean, now upright). Shoulder changes bring arms from out-abducted to at-side — predictable rotZ geometry. Elbow flexion (65/45 asymmetric) preserved — may need round-2 for symmetry. Right shoulder sign flip (-12→+20) is significant but justified by geometry (current puts wrist far out, fix puts wrist near hip).",
+  "confidence": 0.8,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "CORRECTED sign conventions: leftShoulder/rightShoulder rotZ - = raise arm up/overhead; + = arm swings back/down (to side). T-pose has arms out at ~70° abduction (elbow at x=±0.38, below shoulder). leftShoulder was UNSET (default 0 = T-pose arms-out); rightShoulder=-12 (slight outward abduction). To bring wrists to seat edge beside hips (x=±0.13, near hip x=±0.13), set both shoulders to +20 — empirically computed: rotZ(+20°) on T-pose elbow (relative -0.16,-0.38) yields new relative (-0.020,-0.412) — elbow at world x=-0.24 (near shoulder x=-0.22). Symmetric +20 on both shoulders produces matching arms-at-side posture. spine 5→0 for tall upright posture. KNEES_TOGETHER already satisfied (hipAbductL=R=+18 adduction, knees at world x=±0.003 — 0.006 apart, basically touching). SWEEP REGEX BUG: `knees.*together.*side` greedily matches across sentence boundary into \"beside\" — should be reported to integrator for sweep fix (require `\\\\bside\\\\b` standalone, not as suffix of \"beside\"). RIG LIMITATION: feet cannot be planted on ground in seated position (renderer positive-knee bends shin up, foot elevates) — deferred to renderer tier.",
+  "created_at": "2026-08-01T23:00:13.074Z"
+}

@@ -1,0 +1,48 @@
+{
+  "proposal_id": "patch-p10-bench-s8-seated-profile-tiptoe-1785625372338",
+  "pose_id": "p10-bench-s8-seated-profile-tiptoe",
+  "category": "seated",
+  "worker": "worker-A-seated-batch2",
+  "existing_config_hash": "08a0ac060d7e",
+  "defects": [
+    {
+      "type": "arms_overhead_unintended_pr_v4_overshoot",
+      "severity": "critical",
+      "description": "Description makes NO mention of arms — only 'Perch on the edge of the bench in profile. Extend one leg forward with the toes pointed... keeping the supporting leg bent beneath you. Tilt the head back and look up...'. Default arm position should be at sides or supporting. But config has BOTH shoulders at -110 (PR-v4 overshoot), giving 170°/128° abduction — arms fully overhead. Hands at y=1.16 — way above head. Same PR-v4 overshoot class as p10-bench-s7; missed by round-3 audit due to 'seated' classification despite 'perched' description."
+    },
+    {
+      "type": "supporting_leg_not_bent_beneath",
+      "severity": "major",
+      "description": "Description: 'keeping the supporting leg bent beneath you'. LEFT leg has hip:95 + knee:100 — this is a 'knee up' position (foot raised to y=0.581, ABOVE hips y=0.116). 'Bent BENEATH' requires foot BELOW hips (y<0.1) with knee deeply bent (~150-170°) so shin folds under thigh."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "shoulder_abduction < 90 (no overhead intent in description)",
+      "expected": "<90°",
+      "actual": "L 170°, R 128° (both fully overhead)"
+    },
+    {
+      "assertion": "supporting_leg_foot_below_hip (y < 0.05)",
+      "expected": "Lfoot_y < 0.05 (beneath body)",
+      "actual": "Lfoot_y=0.581 (above hips — 'knee up' not 'bent beneath')"
+    }
+  ],
+  "field_changes": {
+    "leftShoulder": -20,
+    "rightShoulder": -20,
+    "leftHip": 120,
+    "leftKnee": 170,
+    "leftAnkle": -30
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/p10-bench-s8-seated-profile-tiptoe/baseline/",
+  "after_evidence": "",
+  "regression_risk": "low — 5-field change with clear semantic intent. Plausibility 1→2 (left_knee 170° out of band [-5,155], left_hip_flexion 153° out of band [-30,130] — both expected for deep 'bent beneath' kneeling-like posture; measurement bands too strict for kneeling poses). RIGHT leg (the 'extended forward' leg) unchanged.",
+  "confidence": 0.75,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "PR-v4 overshoot fix: shoulders -110→-20 (abduction 170/128→28/27, arms at sides). RIGHT leg already correct (hip:20+knee:15, foot at y=-0.620 near floor, ankle -35° plantarflexed = 'toes pointed touching floor' ✓). LEFT leg (the 'supporting leg bent beneath') needs deeper flexion: leftHip 95→120 (thigh forward+down), leftKnee 100→170 (deeply bent so shin folds under thigh, foot ends up beneath body), leftAnkle -5→-30 (plantarflexed). Verified: Lfoot_y 0.581→-0.015 (foot now BELOW hips = 'beneath' ✓), Lknee_x -0.404→-0.317 (knee stays forward for support base), Rfoot_y unchanged (-0.620, still on floor ✓), over_support false→true (figure now over support base ✓). Anomalies 3→1 (cleared elbow_above_shoulder for both arms; retained knee_above_hip L which is expected for deep 'bent beneath' position). Did NOT change spine (head_pitch +8.7° is a minor renderer-limited issue; spine change has lateral side-effects under globalTwist:-60).",
+  "created_at": "2026-08-01T23:02:52.338Z"
+}

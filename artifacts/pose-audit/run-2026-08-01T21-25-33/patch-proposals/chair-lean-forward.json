@@ -1,0 +1,35 @@
+{
+  "proposal_id": "patch-chair-lean-forward-1785620894728",
+  "pose_id": "chair-lean-forward",
+  "category": "seated",
+  "worker": "worker-A",
+  "existing_config_hash": "78626962e80a",
+  "defects": [
+    {
+      "type": "elbow_on_knee",
+      "severity": "major",
+      "description": "Instructions say resting elbows on the knees. Geometry sweep reports elbow-knee distance L 0.56, R 0.64 (threshold 0.25). Raw config shoulderFwdL: 30, shoulderFwdR: 30 puts elbows BEHIND torso due to inverted renderer sign (positive shoulderFwdL moves elbow to -z, behind, per coordinate derivation). Elbows are going the wrong direction."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "elbow_to_knee_distance < 0.25 (both sides)",
+      "expected": "< 0.25",
+      "actual": "L 0.56, R 0.64"
+    }
+  ],
+  "field_changes": {
+    "shoulderFwdL": -30,
+    "shoulderFwdR": -30
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/chair-lean-forward/baseline/",
+  "after_evidence": "",
+  "regression_risk": "low - single-pose, two-field sign flip. Forearm direction reverses but no contact claims depend on forearm. May need post-apply verification with geometry sweep.",
+  "confidence": 0.7,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Renderer sign inversion: positive shoulderFwdL/R moves elbow BEHIND torso (-z), not forward as code comment claims (confirmed in Phase 0). Description requires elbows forward ON knees. Flipping sign to -30 puts elbows forward by ~28 deg sagittal flexion, projecting elbow forward 0.193 in body-z and down 0.364 from shoulder. With torso already hinged 20 deg forward (shoulder shifted +0.205 z, -0.036 y from hip), elbow lands at z ~0.398, y ~ hip_y + 0.2; knee at z 0.43, y ~ hip_y - 0.037; distance ~0.24 (under 0.25 threshold). Smallest valid sign-flip fix; magnitude preserved.",
+  "created_at": "2026-08-01T21:48:14.728Z"
+}

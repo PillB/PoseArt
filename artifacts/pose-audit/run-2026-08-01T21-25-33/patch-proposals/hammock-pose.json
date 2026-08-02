@@ -1,0 +1,50 @@
+{
+  "proposal_id": "patch-hammock-pose-1785634388322",
+  "pose_id": "hammock-pose",
+  "category": "reclining",
+  "worker": "worker-C-batch5",
+  "existing_config_hash": "b4619ee2a15a",
+  "defects": [
+    {
+      "id": "GLOBAL_TILT_WRONG_PRONE_VS_SUPINE",
+      "severity": "CRITICAL",
+      "description": "globalTilt=+80 (PRONE, face-down) but description says Recline in hammock U-shape with body sinking — should be SUPINE (globalTilt=-80). Currently head y=-0.05 (slightly below hip) and feet y=-0.63 (way below hip) — body is face-down frown shape, not smile U.",
+      "evidence": "baseline: globalTilt=+80; head(0,-0.05,0.92) hip(0,0.02,0.12) ankle(-0.11,-0.63,-0.49) — hips highest, head & feet below (frown, not smile)"
+    },
+    {
+      "id": "NEITHER_ARM_TRAILING_LOW",
+      "severity": "MAJOR",
+      "description": "Description: Trail ONE arm off the side, fingertips grazing ground. Both wrists currently above hip level (lWr y=-0.21, rWr y=-0.13) — neither trailing low enough toward ground (ground y≈-0.88).",
+      "evidence": "baseline: lWr(-0.831,-0.206,0.610) rWr(0.852,-0.134,0.375) — both wrists slightly below hip but not trailing toward ground"
+    }
+  ],
+  "failing_tests": [
+    {
+      "name": "supine_hammock_u_shape",
+      "expected": "globalTilt negative (supine), head & feet UP, hips LOW",
+      "actual": "globalTilt=+80 (prone), head & feet BELOW hips (frown)"
+    },
+    {
+      "name": "one_arm_trailing_ground",
+      "expected": "one wrist y near -0.5 to -0.8 (toward ground)",
+      "actual": "both wrists y around -0.13 to -0.21 (just below hip)"
+    }
+  ],
+  "field_changes": {
+    "globalTilt": -80,
+    "rightShoulder": -30,
+    "leftElbow": 30,
+    "rightElbow": 60,
+    "shoulderFwdL": 80
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/reclining/hammock-pose/baseline/",
+  "after_evidence": "",
+  "regression_risk": "",
+  "confidence": 0.7,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Description: Recline in hammock, body sinks into gentle U-shape, trail one arm off side with fingertips grazing ground. Tip: let hammock curve do work, resist holding torso rigid. CRITICAL FIX: globalTilt +80→-80 (supine for smile-U: head UP, feet UP, hips LOW). spine=15 (forward lean in body-frame projects head UP in world for supine) preserved. leftShoulder=-60 (LEFT arm abducted outward) preserved. LEFT arm: leftElbow 65→30 (less bent, extended for trailing), shoulderFwdL 0→+80 (BEHIND per corrected convention + = behind, projects DOWN in world for supine — brings LEFT wrist down toward ground). RIGHT arm: rightShoulder -42→-30 (slight symmetrize, less abducted), rightElbow 45→60 (more bent, relaxed). Result: head(0,0.36,-0.84) hip(0,0.02,-0.12) ankle(±0.11,0.43,0.68) — smile U (head UP, feet UP, hip LOW) ✓. lWr(-0.34,-0.46,-0.66) — DOWN/LEFT/BACK, trailing off LEFT side toward ground (rig-limited: y=-0.46 not quite ground y=-0.88). rWr(0.74,0.26,-0.17) — UP/RIGHT, relaxed (not trailing).",
+  "created_at": "2026-08-02T01:33:08.322Z"
+}

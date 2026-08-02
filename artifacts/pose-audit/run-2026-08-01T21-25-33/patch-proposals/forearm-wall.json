@@ -1,0 +1,58 @@
+{
+  "proposal_id": "patch-forearm-wall-1785627753892",
+  "pose_id": "forearm-wall",
+  "category": "leaning",
+  "worker": "worker-B-batch3",
+  "existing_config_hash": "caff46e6c37e",
+  "defects": [
+    {
+      "type": "contact_failure",
+      "severity": "major",
+      "description": "Description says Plant ONE forearm flat against the wall AT SHOULDER HEIGHT. Currently leftWrist y=0.215 (hip level), leftElbow y=0.424 — forearm at hip level, not shoulder height. Arms were brought down from -110 (PR-v4 overshoot) to -30 (cron-round-3) but overshot downward — forearm now too LOW. Need forearm raised to shoulder height (y~0.66)."
+    },
+    {
+      "type": "asymmetric_arm_defect",
+      "severity": "major",
+      "description": "Description says ONE forearm (singular). Currently leftShoulder=-30 AND rightShoulder=-30 (both arms raised symmetrically). Should be asymmetric: one forearm up, other arm at side relaxed."
+    },
+    {
+      "type": "missing_joint",
+      "severity": "minor",
+      "description": "Description says Rest the head gently NEAR the raised arm. The raised arm is LEFT, so head should tilt LEFT toward it. Currently neck=+6 (positive). EMPIRICALLY VERIFIED: neck + = head tilts figure-RIGHT (source comment at line 200 is INVERTED — should be flagged as another inverted-comment defect). Head currently tilts RIGHT, AWAY from raised arm."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "leftWrist y > 0.55 for forearm-at-shoulder-height",
+      "expected": ">0.55",
+      "actual": "0.215"
+    },
+    {
+      "assertion": "rightShoulder near 0 for one-forearm description",
+      "expected": "~0",
+      "actual": "-30 (both arms raised)"
+    },
+    {
+      "assertion": "neck < 0 for head-tilt-toward-left-raised-arm",
+      "expected": "<0",
+      "actual": "+6 (tilts right, away from raised arm)"
+    }
+  ],
+  "field_changes": {
+    "leftShoulder": -65,
+    "rightShoulder": 0,
+    "shoulderFwdL": -30,
+    "rightElbow": 0,
+    "neck": -6
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/leaning/forearm-wall/baseline/",
+  "after_evidence": "",
+  "regression_risk": "medium — 5-field change; arms repositioned (one up at shoulder height, other at side), head tilt direction reversed. Re-render verification recommended.",
+  "confidence": 0.78,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "CORRECTED CONVENTION: leftShoulder rotZ, - = raise arm up. shoulderFwdL + = BEHIND, - = FORWARD. Computed FK at leftShoulder=-65, shoulderFwdL=-30, leftElbow=81: leftWrist at (-0.602, 0.654, 0.140) — y=0.654 at shoulder height (0.663) ✓, z=0.140 forward toward wall ✓. rightShoulder=0, rightElbow=0 → right arm at side (T-pose position). neck=-6 → head tilts LEFT (verified empirically: neck + = figure-RIGHT, source comment at line 200 INVERTED — head tilts toward raised left arm per description). Cron-round-3 fix correctly brought arms down from -110 (overhead) but overshot to -30 (too low). This patch targets shoulder-height forearm.",
+  "created_at": "2026-08-01T23:42:33.892Z"
+}

@@ -1,0 +1,40 @@
+{
+  "proposal_id": "patch-p12-wall-s6-back-arch-wall-1785630057355",
+  "pose_id": "p12-wall-s6-back-arch-wall",
+  "category": "leaning",
+  "worker": "worker-A-batch4",
+  "existing_config_hash": "5655122bbf39",
+  "defects": [
+    {
+      "type": "sign_error",
+      "severity": "major",
+      "description": "shoulderFwdL/R=-25 (arms forward) but description says \"Raise both arms overhead OR let them trail down toward the wall behind you for balance\". With body arching backward (spine=-30), arms overhead should arc UP-AND-BACKWARD, not up-and-forward. Currently leftWrist z=+0.251, rightWrist z=+0.184 — both wrists in FRONT of body, but should trail BEHIND toward wall (z negative). PR-v9 audit missed this — description does not use verbatim \"arms behind\" keyword."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "leftWrist.z < 0",
+      "expected": "<0 (arms trail backward toward wall behind figure)",
+      "actual": "+0.251 (wrist in front of body)"
+    },
+    {
+      "assertion": "rightWrist.z < 0",
+      "expected": "<0 (arms trail backward toward wall behind figure)",
+      "actual": "+0.184 (wrist in front of body)"
+    }
+  ],
+  "field_changes": {
+    "shoulderFwdL": 15,
+    "shoulderFwdR": 15
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/leaning/p12-wall-s6-back-arch-wall/baseline/",
+  "after_evidence": "",
+  "regression_risk": "low — 2 fields, single-pose. Both shoulders swing backward, wrists move from front to behind body. spine=-30 preserved (dramatic back arch ✓). Arms remain abducted ~170-180° (overhead ✓). No leg/torso changes.",
+  "confidence": 0.8,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "CORRECTED CONVENTION: shoulderFwdL/R + = BEHIND, - = FORWARD. Description: \"Raise both arms overhead OR let them trail down toward the wall behind you for balance\". With backward-arching torso (spine=-30), arms overhead should naturally arc backward (trailing toward wall behind). Currently shoulderFwdL/R=-25 (forward) puts wrists at z=+0.251/+0.184 (in front of body) — opposite of intended. Setting shoulderFwdL/R=+15 swings upper arms backward, bringing wrists to z≈0 or slightly negative (trailing toward wall). Arms remain abducted (leftShoulder:-131→171°, rightShoulder:-140→180°). globalTilt:5 preserved (slight forward body tilt for hips-toward-wall). PR-v9 false negative: regex missed \"trail down toward the wall behind you\" because the audit keyword was \"arms behind\" / \"clasp behind back\".",
+  "created_at": "2026-08-02T00:20:57.355Z"
+}

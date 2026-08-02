@@ -1,0 +1,45 @@
+{
+  "proposal_id": "patch-p04-wall-w1-leaning-arm-overhead-facing-1785627853826",
+  "pose_id": "p04-wall-w1-leaning-arm-overhead-facing",
+  "category": "leaning",
+  "worker": "worker-C-batch3",
+  "existing_config_hash": "1dfb3cd01429",
+  "defects": [
+    {
+      "type": "contact_failure_hand_to_wrist",
+      "severity": "major",
+      "description": "Description: bend the arms slightly with one hand touching the wrist of the other, one arm raised overhead touching the wall. L arm correctly overhead (L wrist y=1.341, above head y=0.913, touching wall z=0.221). But R wrist at y=0.306 (at-side). L-wrist to R-wrist 3D distance 1.54 — hands far apart, no touching. The non-overhead arm (R) must reach UP to the overhead wrist."
+    },
+    {
+      "type": "description_vs_rig_conflict",
+      "severity": "minor",
+      "description": "Description says ONE arm raised overhead, but for R hand to touch L wrist (y=1.341, well above head y=0.913), R arm must also be raised significantly — rig constraint (max R wrist y = R shoulder y + upper_arm_len + forearm_len = 0.675+0.41+0.34 = 1.425). Partial fix only; full contact requires R arm near-overhead which conflicts with one-arm-overhead language."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "L wrist to R wrist dist3D < 0.20 for hand-touching-wrist",
+      "expected": "<0.20",
+      "actual": "1.54"
+    },
+    {
+      "assertion": "R wrist y > 1.0 (approaching L wrist y=1.341)",
+      "expected": ">1.0",
+      "actual": "0.306"
+    }
+  ],
+  "field_changes": {
+    "rightShoulder": -75,
+    "rightElbow": 70
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/leaning/p04-wall-w1-leaning-arm-overhead-facing/baseline/",
+  "after_evidence": "",
+  "regression_risk": "medium — rightShoulder=-75 is large magnitude approaching PR-v4 overshoot territory (-110). Visual verification essential. If R arm appears too close to overhead, integrator may revert and accept contact failure as rig limit.",
+  "confidence": 0.4,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Partial fix to bring R hand closer to L wrist without making R arm fully overhead (would conflict with one-arm-overhead). (1) rightShoulder -40→-75: raise R upper arm from ~63deg abduction to ~110deg (upper arm past horizontal, pointing up-and-out). (2) rightElbow 60→70: slight increase in flexion so R forearm angles upward. Even with these changes R wrist unlikely to fully reach L wrist (1.341) due to limb-length geometry — rig limit acknowledged. Spine=-12 (PR-v3 fix), L arm overhead, globalTilt=5, hipAbductR=-15 (R leg crossing) all preserved. shoulderFwdR=8 unchanged.",
+  "created_at": "2026-08-01T23:44:13.826Z"
+}

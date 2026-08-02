@@ -1,0 +1,60 @@
+{
+  "proposal_id": "patch-p17-tubes-s10-seated-knees-hugged-chin-rest-1785625273609",
+  "pose_id": "p17-tubes-s10-seated-knees-hugged-chin-rest",
+  "category": "seated",
+  "worker": "worker-C-seated-batch2",
+  "existing_config_hash": "cb422bb143e1",
+  "defects": [
+    {
+      "id": "spine-sign-wrong-back-arch-not-forward-flexion",
+      "severity": "MAJOR",
+      "claim": "Tip: Keep spine long, rounding only through upper back (forward flexion, not back arch)",
+      "evidence": "spine:-20 (negative = BACKWARD ARCH per corrected convention) — but tip explicitly says rounding through upper back = forward flexion (positive spine). Head pitch -16° (backward tilt) when description requires chin near knee = forward head tilt (positive pitch). PR-v3 likely mis-fired: pattern matches PR-v3 spine-sign defect class (spine sign flipped wrong way)."
+    },
+    {
+      "id": "arms-not-wrapping-shins",
+      "severity": "MAJOR",
+      "claim": "Wrap both arms around the shins",
+      "evidence": "L-R wrist 3D distance 1.255 (should be <0.30 for wrapping close together). Wrists at y=0.68/0.82 — way above shins (y~0.4 between knees at y=0.22 and hips at y=0.12). shoulderFwdL:+30, shoulderFwdR:+30 — positive = BEHIND per corrected convention, arms go backward not forward to shins. Shoulder abducted 95°/107° (lateral, arms out to sides)."
+    },
+    {
+      "id": "chin-not-near-knee",
+      "severity": "MAJOR",
+      "claim": "Rest the chin near a knee",
+      "evidence": "Head at (0.010, 0.889, -0.199), L knee at (-0.197, 0.225, 0.410). Head-to-L-knee 3D distance 0.924 (should be <0.30 for chin near knee). Head y=0.89 vs knee y=0.22 — vertical gap 0.67 (head far above knee). Head pitch -16° (backward) — should be +30 to +45° (forward chin-down)."
+    }
+  ],
+  "failing_tests": [
+    {
+      "name": "spine_should_be_forward_flexion",
+      "assert": "pose.joints.spine > 0 (rounding forward per tip, not backward arch)"
+    },
+    {
+      "name": "arms_wrap_shins",
+      "assert": "3D_distance(leftWrist, rightWrist) < 0.30 AND leftWrist.y < 0.45 AND rightWrist.y < 0.45"
+    },
+    {
+      "name": "chin_near_knee",
+      "assert": "3D_distance(head, nearest_knee) < 0.35"
+    }
+  ],
+  "field_changes": {
+    "spine": 25,
+    "leftShoulder": -30,
+    "rightShoulder": -30,
+    "shoulderFwdL": -25,
+    "shoulderFwdR": -25,
+    "leftElbow": 95,
+    "rightElbow": 95
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/p17-tubes-s10-seated-knees-hugged-chin-rest/baseline/",
+  "after_evidence": "",
+  "regression_risk": "Medium — 7 field changes including spine sign flip. Knees-up posture (hip flexion 118°, knee 130°) preserved. globalTilt:+5 preserved. Re-render verification REQUIRED to confirm (1) wrists converge near shins (target 3D dist <0.30), (2) head pitches forward enough to bring chin closer to knees (target head-to-knee <0.35, may be limited by renderer joint set).",
+  "confidence": 0.6,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Description requires curled-up knees-hugged pose with chin near knee — requires FORWARD flexion of upper back (rounding) to bring head down toward knees, plus both arms reaching FORWARD to wrap shins. Currently spine:-20 (BACKWARD ARCH, wrong sign — likely PR-v3 spine-sign defect), shoulderFwd:+30/+30 (BEHIND per corrected convention, arms go backward), shoulder abducted 95°/107° (lateral, arms out to sides not wrapping). Fixes: (1) Flip spine -20 → +25 (forward flexion, rounding upper back per tip; brings head forward-down toward knees — sign verified + = forward). (2) Reduce shoulder abduction -70/-82 → -30/-30 (arms from lateral to ~40°, closer to body midline). (3) Flip shoulderFwd +30 → -25 (negative=FORWARD per corrected convention, arms reach forward to shins). (4) Slight elbow reduction 100→95 (forearms wrap shins). Renderer limitation: no head-pitch joint (neck is rotZ sideways only) — chin-to-knee achieved indirectly via spine forward flexion. May not fully reach chin-near-knee target but is closest achievable.",
+  "created_at": "2026-08-01T23:01:13.609Z"
+}

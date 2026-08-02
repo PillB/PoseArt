@@ -1,0 +1,40 @@
+{
+  "proposal_id": "patch-chin-on-wall-1785627569250",
+  "pose_id": "chin-on-wall",
+  "category": "leaning",
+  "worker": "worker-B-batch3",
+  "existing_config_hash": "cf45e681db6c",
+  "defects": [
+    {
+      "type": "contact_failure",
+      "severity": "major",
+      "description": "Chin should rest on back of hand but leftWrist y=0.566 is 0.29 below head y=0.896 (chin ~0.85). Gap too large for chin-on-hand contact."
+    },
+    {
+      "type": "wrong_magnitude",
+      "severity": "minor",
+      "description": "leftShoulder=-60 puts arm at 83° abduction (lateral). Description requires hand at chin height, which needs arm raised further (~110° abduction)."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "distance(leftWrist, head) < 0.20",
+      "expected": "<0.20",
+      "actual": "0.31 (wrist y=0.566 vs head y=0.896)"
+    }
+  ],
+  "field_changes": {
+    "leftShoulder": -80,
+    "neck": -8
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/leaning/chin-on-wall/baseline/",
+  "after_evidence": "",
+  "regression_risk": "low — single-pose shoulder+neck change; arm rises from chest level to chin level, no other joint affected",
+  "confidence": 0.78,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "CORRECTED CONVENTION: leftShoulder rotZ, - = raise arm up/overhead. Computed FK: at leftShoulder=-80, elbow moves to y=0.772 (above shoulder 0.68), and with elbow=100 flexion the wrist ends at y=0.834, z=0.331 — i.e., at chin height (head y=0.896) and slightly forward of head (matches wrist relaxed under chin). Original -60 produced wrist y=0.566 (chest level, too low for chin rest). Tip mentions wrist relaxed under the chin — closing the chin-to-wrist gap is the primary fix. Also setting neck=-8 (slight head tilt figure-left) for the softness/relaxed mood implied by the tip. shoulderFwdL stays at -1 (near-zero, no forward swing needed — hand goes UP to wall, not forward).",
+  "created_at": "2026-08-01T23:39:29.250Z"
+}

@@ -1,0 +1,41 @@
+{
+  "proposal_id": "patch-p08-male-se4-chair-arm-along-back-belt-hand-1785621580681",
+  "pose_id": "p08-male-se4-chair-arm-along-back-belt-hand",
+  "category": "seated",
+  "worker": "worker-D",
+  "existing_config_hash": "04fb2753657e",
+  "defects": [
+    {
+      "id": "arm_along_back",
+      "severity": "major",
+      "actual": "L wrist at (-0.55,0.21,0.46) — z=0.46 (IN FRONT of torso at z~0). Instructions say drape one arm along the top of the chair back (behind torso). Worker-D task contact check: one wrist behind torso (z negative) near hip — FAILS."
+    },
+    {
+      "id": "hand_on_belt",
+      "severity": "major",
+      "actual": "R wrist at (0.57,0.15,0.01) — distance 0.466 from R hip (0.12,0.05,-0.02). Instructions say rest the other hand near the belt or jeans waistband (near hip). Wrist is far to the right of hip, not at belt."
+    }
+  ],
+  "failing_tests": [
+    "contact_arm_along_back(L wrist z <= 0, behind torso)",
+    "contact_hand_on_belt(R wrist to R hip dist <= 0.25)"
+  ],
+  "field_changes": {
+    "leftShoulder": -65,
+    "leftElbow": 35,
+    "shoulderFwdL": 85,
+    "rightShoulder": -10,
+    "rightElbow": 125,
+    "shoulderFwdR": -75
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/p08-male-se4-chair-arm-along-back-belt-hand/baseline/",
+  "after_evidence": "",
+  "regression_risk": "LOW-MEDIUM — both arms significantly reconfigured but legs/torso/global transforms unchanged. Pose still reads as seated-reclined diagonally with arm draped back and hand at belt. Visual silhouette changes (arms move from outward to inward/backward).",
+  "confidence": 0.85,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "L arm: original leftShoulder -40 (abduction 53 deg, arm out to side) + shoulderFwdL -5 (slightly forward per inverted-sign renderer) leaves wrist in front of body. Fix: increase abduction to -65 (upper arm horizontal, elbow at shoulder height) + minimal elbow flexion 35 (forearm mostly straight) + strong shoulderFwdL +85 (L arm backward, draping behind chair back) — derived L wrist at (-0.81,0.70,-0.45), z=-0.45 (BEHIND torso ✓), y=0.70 (at chair-back/shoulder height ✓). R arm: original rightShoulder -20 + shoulderFwdR 15 (slightly back) leaves wrist out to the right of body. Fix: reduce abduction to -10 (arm mostly down) + elbow 125 (forearm folds inward) + shoulderFwdR -75 (R arm forward, counteracting inverted renderer sign) — derived R wrist at (0.03,0.06,-0.05), distance 0.095 from R hip (PASS < 0.25).",
+  "created_at": "2026-08-01T21:59:40.681Z"
+}

@@ -1,0 +1,61 @@
+{
+  "proposal_id": "patch-p15-chair-s8-profile-cross-legged-1785624869672",
+  "pose_id": "p15-chair-s8-profile-cross-legged",
+  "category": "seated",
+  "worker": "worker-C-seated-batch2",
+  "existing_config_hash": "8e07519196cf",
+  "defects": [
+    {
+      "id": "legs-not-crossed",
+      "severity": "MAJOR",
+      "claim": "Cross one leg over the other at the knee",
+      "evidence": "Both hipAbduct same sign or near-zero (L=-5, R=0); L foot x=0.048 INNER, R foot x=0.297 OUTER — both feet on figure-right side but L foot is INNER of R foot, not crossed over. Both shins point leftward (parallel, not crossing). For cross, one thigh must adduct (positive) over the other."
+    },
+    {
+      "id": "hands-not-on-top-knee",
+      "severity": "MAJOR",
+      "claim": "Hands resting one on top of the other on the top knee",
+      "evidence": "leftWrist (-0.390, 0.445, 0.582) and rightWrist (0.638, 0.599, -0.317) are 1.03 units apart in x — hands nowhere near each other. Wrists at y~0.5-0.6, far above knee level y~0.06. L wrist 0.70 from L knee (0.184, 0.065, 0.421); R wrist 0.85 from L knee. Right shoulder plausibility flag: sagittal flexion -84° outside band [-60,180] due to shoulderFwdR:15 (positive=BEHIND per corrected convention) — arm goes wrong way."
+    },
+    {
+      "id": "right-shoulder-extended-behind",
+      "severity": "MINOR",
+      "claim": "Right arm should reach forward to top knee (not behind body)",
+      "evidence": "R shoulder sagittal flexion -84° (extended behind); shoulderFwdR:15 positive = BEHIND per corrected convention. Should be forward (negative) to reach knee."
+    }
+  ],
+  "failing_tests": [
+    {
+      "name": "legs_should_cross_at_knee",
+      "assert": "hipAbductL * hipAbductR < 0 (opposite signs) AND |hipAbductL|+|hipAbductR| > 15"
+    },
+    {
+      "name": "hands_on_top_knee",
+      "assert": "|leftWrist.x - rightWrist.x| < 0.20 AND leftWrist.y < 0.30 AND rightWrist.y < 0.30"
+    },
+    {
+      "name": "no_plausibility_flag_right_shoulder",
+      "assert": "NOT right_shoulder_flexion.outside_band_review"
+    }
+  ],
+  "field_changes": {
+    "hipAbductL": 20,
+    "hipAbductR": -15,
+    "leftShoulder": -25,
+    "rightShoulder": -25,
+    "shoulderFwdL": -10,
+    "shoulderFwdR": -10,
+    "leftElbow": 90,
+    "rightElbow": 90
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/p15-chair-s8-profile-cross-legged/baseline/",
+  "after_evidence": "",
+  "regression_risk": "Medium-High — 8 field changes across 2 defect classes (legs + arms). Body profile (globalTwist:45) and straight spine preserved. Re-render verification REQUIRED to confirm (1) L thigh actually crosses over R after globalTwist interaction, (2) both wrists converge near top knee (expected within 0.20).",
+  "confidence": 0.6,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Description requires BOTH (a) legs crossed at knee and (b) hands stacked on the TOP (crossed-over) knee. Currently legs do not cross (hipAbduct L=-5/R=0 same sign, near-zero magnitude — sweep passes but visual defect real). For L leg to cross over R: set hipAbductL:+20 (positive=ADDUCTION=inward cross per corrected convention) and hipAbductR:-15 (negative=abduction=outward). For hands to reach the top knee: reduce shoulder abductions (-50/-62 → -25/-25, brings arms from lateral 72°/80° to ~35°); flip shoulderFwd from positive (behind) to -10 (forward, reaching knee); keep elbows ~90° (forearm comes down to knee level y~0.1). Sign conventions verified: hipAbduct + = adduction (cross), shoulderFwd + = BEHIND, - = FORWARD, leftShoulder - = raise arm up.",
+  "created_at": "2026-08-01T22:54:29.672Z"
+}

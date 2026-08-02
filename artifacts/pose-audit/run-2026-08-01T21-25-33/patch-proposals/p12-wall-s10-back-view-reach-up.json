@@ -1,0 +1,71 @@
+{
+  "proposal_id": "patch-p12-wall-s10-back-view-reach-up-1785628606522",
+  "pose_id": "p12-wall-s10-back-view-reach-up",
+  "category": "leaning",
+  "worker": "worker-D-batch3",
+  "existing_config_hash": "675a42ad1b35",
+  "defects": [
+    {
+      "type": "globalTwist_insufficient_for_back_to_camera",
+      "severity": "critical",
+      "description": "globalTwist=-20 (slight twist, 3/4 view). Description: back FULLY toward camera — requires 180° twist. Currently shoulders at z=0.061/0.211 (asymmetric, body in 3/4 view)."
+    },
+    {
+      "type": "right_wrist_not_at_wall_above_head",
+      "severity": "major",
+      "description": "wristR at (0.444, 1.093, 0.398). y=1.093 (above head ✓) but z=0.398 (forward of body, NOT at wall). Description: reach one arm up to press palm flat against wall above head height."
+    },
+    {
+      "type": "left_wrist_not_near_neck",
+      "severity": "major",
+      "description": "wristL_to_neck=0.934 (target <0.30). Description: bring other hand up to rest near neck or opposite shoulder. LEFT wrist at (-1.048, 0.389, 0.037), far from neck at (-0.189, 0.736, 0.161)."
+    },
+    {
+      "type": "ankles_not_crossed",
+      "severity": "minor",
+      "description": "ankleL_to_ankleR=0.131 (close but not stacked). Description: cross one ankle in front of other."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "globalTwist == ±180 for back_to_camera",
+      "expected": "±180",
+      "actual": "-20 → -180"
+    },
+    {
+      "assertion": "wristR_z < -0.30 for palm_at_wall",
+      "expected": "<-0.30",
+      "actual": "0.398 → -0.468"
+    },
+    {
+      "assertion": "wristL_to_neck < 0.30 for hand_near_neck",
+      "expected": "<0.30",
+      "actual": "0.934 → 0.184"
+    },
+    {
+      "assertion": "ankleL_to_ankleR < 0.05 for ankle_cross",
+      "expected": "<0.05",
+      "actual": "0.131 → 0.040"
+    }
+  ],
+  "field_changes": {
+    "globalTwist": -180,
+    "leftShoulder": -80,
+    "rightShoulder": -110,
+    "leftElbow": 140,
+    "rightElbow": 80,
+    "shoulderFwdL": -90,
+    "shoulderFwdR": -30,
+    "hipAbductR": 15
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/leaning/p12-wall-s10-back-view-reach-up/baseline/",
+  "after_evidence": "",
+  "regression_risk": "medium-high — 8-field change including globalTwist -20→-180 (dramatic body flip) and shoulderFwdL=-90 (extreme forward reach). Re-render verification recommended.",
+  "confidence": 0.7,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "CRITICAL: Description: back FULLY toward camera — globalTwist=-20 insufficient. Changed to -180 (full back-to-camera). With globalTwist=-180, body-frame +z (forward) maps to world -z (toward wall). RIGHT arm reaching up to wall: rightShoulder -95→-110 (more abducted, fully overhead), shoulderFwdR 20→-30 (arm forward in body-frame = wrist at wall in world). LEFT hand near neck: leftShoulder -60→-80 (more abducted to raise elbow), leftElbow 38→140 (deeply bent, forearm angles down to neck), shoulderFwdL -15→-90 (strong forward reach in body-frame to bring wrist to neck in world). hipAbductR 6→15 (RIGHT leg crosses inward, ankles stack). Result: wristR_z 0.398→-0.468 (✓ at wall above head, y=1.049), wristL_to_neck 0.934→0.184 (✓ near neck), wristL_to_head 0.179 (✓ near head), ankleL_to_ankleR 0.131→0.040 (✓ ankles stacked/crossed).",
+  "created_at": "2026-08-01T23:56:46.522Z"
+}

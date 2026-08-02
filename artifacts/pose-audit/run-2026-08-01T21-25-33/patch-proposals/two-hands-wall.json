@@ -1,0 +1,63 @@
+{
+  "proposal_id": "patch-two-hands-wall-1785630562377",
+  "pose_id": "two-hands-wall",
+  "category": "leaning",
+  "worker": "worker-B-batch4",
+  "existing_config_hash": "17c9e96be8d1",
+  "defects": [
+    {
+      "id": "pr_v3_spine_sign_misfire",
+      "severity": "CRITICAL",
+      "claim": "Description: 'Face the wall directly and press both palms flat against it at shoulder height, arms extended. Walk the feet back and lean the torso in toward the wall, creating a strong diagonal.' Requires FORWARD torso lean toward wall (spine POSITIVE per CORRECTED convention 'spine + = forward lean'). PR-v3 comment (line 773 of poses-data.js) claims 'description says back arch but spine is positive (forward fold). Was spine:14, now spine:-14.' — PR-v3 MISFIRED: it interpreted unspecified 'back' cues as 'back arch' but the description explicitly says 'lean the torso in toward the wall' (forward toward wall in front of body). Current spine=-14 produces torso_flexion -14° (backward arch, AWAY from wall). Shoulders at z=-0.135 (behind hips), head at z=-0.194 (behind). Same defect class as stool-lean-back, p12-wall-s3, glass-lean, low-wall-sit (PR-v3 misfires on context-ambiguous 'back' wording).",
+      "evidence": "geometry.json: torso_flexion_deg=-14, spine z=-0.063, neck z=-0.160, head z=-0.194 (all behind hips, leaning AWAY from wall)."
+    },
+    {
+      "id": "wrists_not_at_shoulder_height",
+      "severity": "MAJOR",
+      "claim": "Description: 'press both palms flat against it at shoulder height'. Wrists should be at shoulder y (~0.663) and forward of body (z+) at wall surface. Current wrists at y=0.943/0.720 (L above shoulder, R slightly above shoulder) — asymmetric, neither at shoulder height. L arm abd 114°, R arm abd 96° — asymmetric.",
+      "evidence": "geometry.json: L_wrist y=0.943, R_wrist y=0.720, L_arm_abd=113.6°, R_arm_abd=95.6° (asymmetric)."
+    },
+    {
+      "id": "arms_not_extended",
+      "severity": "MINOR",
+      "claim": "Description: 'arms extended'. Current leftElbow=70, rightElbow=70 (deeply bent, not extended). Should be lower (closer to straight, 'arms extended').",
+      "evidence": "geometry.json: L_elbow_flexion=64.4°, R_elbow_flexion=70° (bent, not extended)."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "spine > 0 (forward lean toward wall)",
+      "expected": "spine POSITIVE",
+      "actual": "spine=-14 (backward arch, away from wall)"
+    },
+    {
+      "assertion": "shoulders.z > hips.z (forward lean into wall)",
+      "expected": "shoulders z > 0",
+      "actual": "shoulders z=-0.135 (behind hips)"
+    },
+    {
+      "assertion": "L_wrist.y == R_wrist.y (symmetric palms at shoulder height)",
+      "expected": "both ~0.663",
+      "actual": "L=0.943, R=0.720 (asymmetric, above shoulder)"
+    }
+  ],
+  "field_changes": {
+    "spine": 20,
+    "leftShoulder": -50,
+    "rightShoulder": -50,
+    "shoulderFwdL": -50,
+    "shoulderFwdR": -50,
+    "leftElbow": 20,
+    "rightElbow": 20
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/leaning/two-hands-wall/baseline/",
+  "after_evidence": "",
+  "regression_risk": "medium — spine sign flip + 6 arm field changes. Dramatically reorients upper body (from backward arch to forward lean). Visual re-render verification REQUIRED before integration to confirm palms-at-wall rendering.",
+  "confidence": 0.75,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "CRITICAL fix: spine -14→+20 (forward lean toward wall per CORRECTED convention 'spine + = forward lean'). Reverses PR-v3 misfire. Verified: shoulders move to z=+0.192 (forward of hips z=0, leaning INTO wall) ✓, head at z=+0.274 (forward, looking at wall) ✓, creating 'strong diagonal' from feet (back) to head (forward). MAJOR fix for shoulder-height palms: symmetric shoulders -90/-72 → -50/-50 (matched abduction ~73°), shoulderFwdL/R -1/-5 → -50/-50 (strong forward reach per CORRECTED convention '- = forward'), elbows 70/70 → 20/20 (arms extended). Verified: wrists at z=+0.648 (palms at wall surface in front) ✓, symmetric (both y=0.438) ✓, plausibility 0 ✓, anomalies 0 ✓. Wrist y=0.438 is between shoulder (0.646) and hip (0.120) — chest level, partial achievement of 'shoulder height' (rig constraint: elbow flexion is rotY around vertical axis, preserves y; with shoulder abduction ~73°, elbow y at 0.539 — wrist y at 0.438 is partial achievement of 'shoulder height'). Description's 'Walk the feet back' is artistic context (rig cannot put feet behind body in standing pose without breaking planted-foot ground contact). PR-v3 spine-sign audit (cron-round-4 + cron-round-9) caught 31 poses but missed two-hands-wall — recommend integrator re-run fix-spine-signs.js with broader regex catching 'lean the torso in toward the wall' phrasing.",
+  "created_at": "2026-08-02T00:29:22.377Z"
+}

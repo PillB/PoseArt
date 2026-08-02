@@ -1,0 +1,54 @@
+{
+  "proposal_id": "patch-p15-chair-s3-side-straddle-back-1785625041563",
+  "pose_id": "p15-chair-s3-side-straddle-back",
+  "category": "seated",
+  "worker": "worker-B-seated-batch2",
+  "existing_config_hash": "08c3a256b06a",
+  "defects": [
+    {
+      "type": "arms_not_folded_on_rail",
+      "severity": "major",
+      "description": "Description: 'Fold arms and rest them along the top rail of the chair back'. Currently L wrist at (−0.328, 0.568, +0.630) [forward+left] and R wrist at (+0.554, 0.722, −0.502) [behind+right]. Wrists on OPPOSITE sides of body (z signs opposite), 1.443 apart, at different heights. R shoulder abduction reported as -168° (way outside [0,180] band) — R arm in extreme cross-body configuration. Should be folded together on rail in front of twisted torso."
+    },
+    {
+      "type": "r_arm_extreme_cross_body",
+      "severity": "minor",
+      "description": "Right shoulder abduction -168° (way outside [0,180] band). Caused by shoulderFwdR=+25 (behind per corrected convention) with shoulder abducted — R arm crosses body to opposite side in extreme position."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "leftWrist to rightWrist distance < 0.70 (arms folded on narrow rail)",
+      "expected": "<0.70",
+      "actual": "1.443"
+    },
+    {
+      "assertion": "right_shoulder_abduction in [0, 180] band",
+      "expected": "0-180",
+      "actual": "-168 (way outside band)"
+    },
+    {
+      "assertion": "sign(leftWrist.z - spine.z) == sign(rightWrist.z - spine.z)",
+      "expected": "same sign",
+      "actual": "L=+0.599 forward, R=−0.533 behind (opposite)"
+    }
+  ],
+  "field_changes": {
+    "leftShoulder": -60,
+    "rightShoulder": -60,
+    "leftElbow": 100,
+    "rightElbow": 100,
+    "shoulderFwdL": -50,
+    "shoulderFwdR": -50
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/p15-chair-s3-side-straddle-back/baseline/",
+  "after_evidence": "",
+  "regression_risk": "medium — 6 fields across both arms; spine, hips, legs, globalTwist unchanged; L arm crosses body centerline (abduction -30°, false-positive plausibility flag for twist pose); R shoulder flexion -67° slightly outside band. Combined visual should be confirmed by integrator.",
+  "confidence": 0.65,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "p15-chair-s3: Backward straddle pose with arms folded on chair back rail. globalTwist:55 (body twisted toward chair back). Original config: L shoulder -60 (abd 83°), R shoulder -72 (abd -168° outside band), shoulderFwdL/R=+35/+25 (both BEHIND per corrected convention) → arms swing backwards in opposite directions ending on opposite sides of body. FIX: equalize both shoulders at -60 (abd 83° lateral), increase both elbows from 100/95 to 100 (right-angle forearms horizontal), flip both shoulderFwdL/R from +35/+25 to -50 (forward per corrected convention) → both forearms swing forward and converge. After patch: L wrist (0.325, 0.568, 0.576), R wrist (0.652, 0.568, 0.108). Both at SAME y (0.568 — chair rail height) ✓, both forward of torso ✓ (z=0.576, 0.108 both positive), both on figure's right side ✓ (x=0.325, 0.652 — toward chair back in front of twisted body), 0.571 apart (was 1.443 — 60% reduction). L arm abd -30° (slight cross-body to reach chair back on figure's right side — anatomically reasonable for straddle + twist; plausibility flag false-positive for twist). R shoulder flexion -67° (slightly outside band [-60,180], minor). spine=+12 unchanged (chest lifted ✓ slight forward).",
+  "created_at": "2026-08-01T22:57:21.563Z"
+}

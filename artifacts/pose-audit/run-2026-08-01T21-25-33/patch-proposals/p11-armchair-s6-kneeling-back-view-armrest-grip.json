@@ -1,0 +1,48 @@
+{
+  "proposal_id": "patch-p11-armchair-s6-kneeling-back-view-armrest-grip-1785625041181",
+  "pose_id": "p11-armchair-s6-kneeling-back-view-armrest-grip",
+  "category": "seated",
+  "worker": "worker-B-seated-batch2",
+  "existing_config_hash": "896548676df7",
+  "defects": [
+    {
+      "type": "hand_on_hip_missing",
+      "severity": "major",
+      "description": "Right wrist at (0.371, 0.221, -0.330), 0.441 from rightHip at (0.061, 0.027, -0.084). Description says 'one hand gripping the top of the backrest, the other resting on the hip' — R hand should be on hip (distance <0.20)."
+    },
+    {
+      "type": "arm_overhead_instead_of_backrest_grip",
+      "severity": "minor",
+      "description": "Left arm fully overhead (shoulder abducted 155°, L wrist y=1.206). Description says 'one hand gripping the top of the backrest' — backrest top is at shoulder height (~0.8), not fully overhead. L wrist at y=1.206 is ~0.4 above reasonable backrest top."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "rightWrist to rightHip distance < 0.20",
+      "expected": "<0.20",
+      "actual": "0.441"
+    },
+    {
+      "assertion": "leftWrist.y < 1.0 (backrest top height)",
+      "expected": "<1.0",
+      "actual": "1.206"
+    }
+  ],
+  "field_changes": {
+    "leftShoulder": -90,
+    "leftElbow": 80,
+    "rightShoulder": -15,
+    "shoulderFwdR": -30,
+    "rightElbow": 110
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/p11-armchair-s6-kneeling-back-view-armrest-grip/baseline/",
+  "after_evidence": "",
+  "regression_risk": "low — 5 fields across both arms; legs and torso unchanged; L arm abd 111° within band; R arm abd 64° within band; no new anomalies or plausibility flags introduced. Kneeling claim remains renderer-limited.",
+  "confidence": 0.75,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "p11-armchair-s6: Description requires (a) L hand gripping top of chair backrest, (b) R hand on hip. PR-v4 auto-fix had set leftShoulder:-140 (full overhead, abd 155°) — too extreme for backrest grip. Reducing leftShoulder from -140 to -90 (abd 111°) and increasing leftElbow from 45 to 80 brings L wrist from y=1.206 (overhead) to y=0.847 (backrest top height, ~shoulder height +0.34). For R hand on hip: reducing rightShoulder from -20 to -15, flipping shoulderFwdR from +10 (behind, per corrected convention) to -30 (forward), and increasing rightElbow from 75 to 110 brings R wrist from (0.371, 0.221, -0.330) to (0.143, 0.133, -0.075) — essentially on R hip at (0.061, 0.027, -0.084), distance 0.134 (within 0.20 threshold ✓). NOTE on kneeling: description says 'Kneel on the chair seat' but renderer rig constraint (hip origin fixed at y=0.12) cannot produce true kneeling — hips flexed 130-144° produces a deep squat, not kneeling. This is a renderer-level limitation, not config-fixable. Knees-above-hip anomaly (L knee y=0.389, R knee y=0.303 vs hips y=0.110) is a consequence of the extreme hip flexion required to approximate kneeling in this rig.",
+  "created_at": "2026-08-01T22:57:21.181Z"
+}

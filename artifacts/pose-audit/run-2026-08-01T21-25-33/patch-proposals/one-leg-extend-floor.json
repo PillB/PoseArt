@@ -1,0 +1,71 @@
+{
+  "proposal_id": "patch-one-leg-extend-floor-1785621384917",
+  "pose_id": "one-leg-extend-floor",
+  "category": "seated",
+  "worker": "worker-B",
+  "existing_config_hash": "1e0037c6e239",
+  "defects": [
+    {
+      "type": "reclining_false_positive",
+      "severity": "n/a",
+      "description": "Detector flagged reclining (globalTilt missing) but description says Sit on the floor — seated floor pose with one leg extended, NOT reclining."
+    },
+    {
+      "type": "legs_not_asymmetric",
+      "severity": "major",
+      "description": "Description says one leg extended straight ahead angled slightly away from square-to-camera, and the other bent with foot flat near opposite knee. Baseline has both legs symmetric (hip 80/80, knee 100/90, hipAbduct 0/0) — NEITHER leg extended, NEITHER angled, NEITHER crosses to opposite knee."
+    },
+    {
+      "type": "hand_not_planted_behind",
+      "severity": "major",
+      "description": "Description says Plant one hand on the floor behind you. Baseline has shoulderFwdL:+7 (slight backward) and elbow 65° (bent) — leftWrist at z=+0.087 (forward of body), NOT planted behind."
+    },
+    {
+      "type": "chest_not_lifted",
+      "severity": "minor",
+      "description": "Description says lift the chest. Baseline spine:+8 (slight forward lean) — chest not lifted. Lifted chest requires slight backward spine arch (negative spine)."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "one leg should be extended straight (knee flexion < 20°) and angled outward (hip abduction > 10°)",
+      "expected": "(L_knee < 20 and L_hip_abd > 10) OR (R_knee < 20 and R_hip_abd > 10)",
+      "actual": "L_knee=100, R_knee=90, both hips abducted 0° (no leg extended, none angled)"
+    },
+    {
+      "assertion": "opposite leg should be bent with foot near opposite knee (hip adducted inward)",
+      "expected": "opposite hip abduction < -10 (crossing inward)",
+      "actual": "both hips abducted 0° (no crossing)"
+    },
+    {
+      "assertion": "one wrist should be BEHIND body (z <= -0.05) for planted support hand",
+      "expected": "min(leftWrist.z, rightWrist.z) <= -0.05",
+      "actual": "leftWrist.z=+0.087 (forward of body)"
+    },
+    {
+      "assertion": "torso should be slightly backward (spine < 0) for lifted chest",
+      "expected": "torso_flexion < 5",
+      "actual": "torso_flexion=+8 (slight forward)"
+    }
+  ],
+  "field_changes": {
+    "leftKnee": 15,
+    "hipAbductL": -15,
+    "hipAbductR": 25,
+    "rightHip": 30,
+    "rightKnee": 140,
+    "shoulderFwdL": 30,
+    "leftElbow": 15,
+    "spine": -5
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/one-leg-extend-floor/baseline/",
+  "after_evidence": "",
+  "regression_risk": "medium — 8-field coordinated change; verified no anomalies/plausibility flags but visual confirmation recommended",
+  "confidence": 0.65,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Reclining flag is FALSE POSITIVE — description says Sit on the floor (seated one-leg-extend pose, not lying). Real defects: (1) Legs symmetric — neither extended nor crossed. hipAbductL:-15 sends left leg slightly OUT to figure left (angled away from camera-square per tip); leftKnee:100→15 straightens extended leg (soft bend). hipAbductR:+25 crosses right leg INWARD to figure left (toward opposite knee); rightHip:80→30 + rightKnee:90→140 folds right leg with foot near floor and near opposite-knee x-position. Verified: leftFoot at (x=-0.351, y=+0.140, z=+0.885) extended forward; rightFoot at (x=-0.281, y=+0.171, z=+0.154) — near left knee x=-0.241, partially on floor (renderer-limited: hips pinned at y=0.12 so foot cannot fully reach floor y=0). (2) Hand not planted behind — shoulderFwdL:7→30 (positive = backward, verified empirically), leftElbow:65→15 (almost straight). Verified: leftWrist.z=-0.104 (behind body). (3) Chest not lifted — spine:8→-5 (slight backward arch, lifts chest).",
+  "created_at": "2026-08-01T21:56:24.917Z"
+}

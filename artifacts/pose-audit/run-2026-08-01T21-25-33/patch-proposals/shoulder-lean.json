@@ -1,0 +1,20 @@
+{
+  "proposal_id": "patch-shoulder-lean-1785630125261",
+  "pose_id": "shoulder-lean",
+  "category": "leaning",
+  "worker": "worker-A-batch4",
+  "existing_config_hash": "ca7f4b2c028a",
+  "defects": [],
+  "failing_tests": [],
+  "field_changes": {},
+  "renderer_changes": "",
+  "before_evidence": "categories/leaning/shoulder-lean/baseline/",
+  "after_evidence": "",
+  "regression_risk": "none — pose is clean, no changes proposed",
+  "confidence": 0.85,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Pose is CLEAN — no defects detected. Verified geometry against CORRECTED sign conventions:\n1. spine=-14 (backward arch) — matches \"Press both shoulder blades flat against the wall while walking the feet one step forward, letting the hips settle slightly ahead of the shoulders\". Shoulders at z=-0.135 (behind hips at z=0) — shoulder blades toward wall behind. Hips at z=0, feet at z=+0.201/+0.204 (forward of body) — hips ahead of shoulders, feet ahead of hips ✓.\n2. Arms at sides with bent elbows (leftShoulder:-16, rightShoulder:2, leftElbow:95, rightElbow:95). Description: \"Cross the arms OR let them hang loose at your sides\" — pose interprets as bent-elbow hang (acceptable OR branch). Wrists at hip level (y=0.088/-0.025), at sides (x=-0.400/+0.246) — within hang-loose interpretation.\n3. Legs slightly adducted (hipAbductL/R:+10 → hip_abduction_deg:-15/-5, both legs slightly inward). Description does not specify leg cross — minor adduction is acceptable casual stance.\n4. Feet staggered (leftFoot z=+0.201, rightFoot z=+0.204 — only 0.3cm stagger). Description does not specify stagger magnitude for this pose. Both feet forward of body matches \"feet walked one step forward\".\n5. COM over support base (over_support=true) ✓. No floating, no penetration ✓.\n6. No plausibility flags, no anomalies ✓.\nRecommendation: integrate-patches should skip this pose (no field_changes).",
+  "created_at": "2026-08-02T00:22:05.261Z"
+}

@@ -1,0 +1,40 @@
+{
+  "proposal_id": "patch-kneeling-look-back-1785630362350",
+  "pose_id": "kneeling-look-back",
+  "category": "kneeling",
+  "worker": "worker-D-batch4",
+  "existing_config_hash": "f4afd81caf0a",
+  "defects": [
+    "CRITICAL: PR-v4 both-shoulder overshoot — leftShoulder=-110 AND rightShoulder=-110 (both arms overhead, abd 135°/135°). Description requires ONE arm overhead + OTHER hand toward floor (asymmetric).",
+    "CRITICAL: LEFT leg straight (leftKnee=5, leftHip=0, foot planted at y=-0.856) — description says kneel upright (both knees down). Right leg is half-kneeling (rightHip=70, rightKnee=80) but LEFT is standing.",
+    "MAJOR: spine=24 forward lean, but description says bend SIDEWAYS over opposite hip. Renderer has no lateral-spine joint; forward lean is closest approximation (rig-limited).",
+    "MAJOR: Neither wrist near floor — both wrists at y=1.113 (high). Description says slide other hand down toward floor."
+  ],
+  "failing_tests": [
+    "forensic.geometry.wristR_y < 0 (other hand toward floor — currently y=1.113)",
+    "forensic.geometry.kneeL_y < -0.30 (both knees down — currently y=0.30 T-pose standing)",
+    "forensic.geometry.shoulderR_abduction < 90 (right arm NOT overhead — currently 135°)"
+  ],
+  "field_changes": {
+    "spine": 15,
+    "neck": 15,
+    "rightShoulder": 8,
+    "rightElbow": 0,
+    "leftHip": 80,
+    "leftKnee": 90,
+    "leftAnkle": -35,
+    "rightHip": 80,
+    "rightKnee": 90,
+    "rightAnkle": -35
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/kneeling/kneeling-look-back/baseline/",
+  "after_evidence": "",
+  "regression_risk": "Low — restores asymmetric arm configuration (one up, one down) which is the canonical side-bend silhouette. May trigger sweep elbow_above_shoulder anomaly removal for RIGHT arm (was flagged before, now correctly at side).",
+  "confidence": 0.65,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "REVERT PR-v4 rightShoulder -110→+8 (arm at side, was overhead). Add leftHip=80/leftKnee=90/leftAnkle=-35 for LEFT kneeling (was straight leg). Normalize rightHip 70→80, rightKnee 80→90 for symmetric kneeling. spine 24→15 (slight forward lean suggesting side bend — rig has no lateral spine joint). rightElbow 50→0 (straight hanging arm reaching down). After fix: LEFT arm overhead (wristL y=1.155), RIGHT arm at side (wristR y=-0.048, below hip = toward floor approximation), both knees flexed (kneeling base), spine slight forward lean. Rig limitations: (1) no lateral spine flexion joint, side-bend approximated by forward lean + neck tilt; (2) wrist cannot reach true floor (y<-0.5) from kneeling position — wristR y=-0.048 is just below hip (best achievable).",
+  "created_at": "2026-08-02T00:26:02.350Z"
+}

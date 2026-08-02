@@ -1,0 +1,20 @@
+{
+  "proposal_id": "patch-stair-lean-1785630562219",
+  "pose_id": "stair-lean",
+  "category": "leaning",
+  "worker": "worker-B-batch4",
+  "existing_config_hash": "0be0a64d36aa",
+  "defects": [],
+  "failing_tests": [],
+  "field_changes": {},
+  "renderer_changes": "",
+  "before_evidence": "categories/leaning/stair-lean/baseline/",
+  "after_evidence": "",
+  "regression_risk": "none (no changes proposed)",
+  "confidence": 0.8,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "CLEAN. Forensic baseline (geometry hash 82db533a) shows pose satisfies description's semantic claims within rig constraints: (1) slight forward torso lean (spine=14°, 'settles into the incline') ✓; (2) slight pelvic list (hips=10°, approximates 'leaning one shoulder against the wall' lateral lean) ✓; (3) both feet planted at y=-0.804/-0.828 ✓; (4) both arms relaxed at sides with mild abduction (L 34°, R 24°) ✓; (5) right wrist at z=+0.038 (slightly forward of body, hip-level y=-0.016) — plausible interpretation of 'one hand trails loosely along the banister' at hip-height rail. Description's 'Stand a step above or below the camera' is environmental context (camera positioning, not body pose) — rig cannot model different step heights without lifting a foot, which would visually read as 'standing on one leg' rather than 'standing on two steps at different heights'. 'Leaning one shoulder against the wall/railing beside you' is artistic context — rig has no wall/railing surface to verify contact against; the lateral pelvic list provides the closest achievable approximation of the sideways lean. No defects to fix; no field_changes.",
+  "created_at": "2026-08-02T00:29:22.219Z"
+}

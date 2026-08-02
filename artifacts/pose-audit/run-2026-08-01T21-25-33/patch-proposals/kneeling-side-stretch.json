@@ -1,0 +1,45 @@
+{
+  "proposal_id": "patch-kneeling-side-stretch-1785630613497",
+  "pose_id": "kneeling-side-stretch",
+  "category": "kneeling",
+  "worker": "worker-D-batch4",
+  "existing_config_hash": "d49506716891",
+  "defects": [
+    "CRITICAL: LEFT arm fully overhead (leftShoulder=-136, abd 161°). Description says rest hands on the thighs (both hands on thighs, NOT overhead). Pose name side-stretch is misleading; description is ground truth (deep kneel between heels, hands on thighs).",
+    "CRITICAL: LEFT leg straight (leftKnee=5, leftHip=0, foot planted at y=-0.856). Description says kneel + lower seat between heels (both knees down, deep flexion).",
+    "MAJOR: spine=24 forward lean. Description says spine TALL despite low position (upright, no lean).",
+    "MAJOR: Knees not spread — hipAbductL=8, hipAbductR=8 are slight ADDUCTION (per corrected convention + = adduction/inward). Description says knees spread slightly APART (abduction, needs negative hipAbduct).",
+    "MINOR: RIGHT arm at side but no hand on thigh — wrist at hip level, not on thigh."
+  ],
+  "failing_tests": [
+    "forensic.geometry.shoulderL_abduction < 60 (LEFT arm not overhead — currently 161°)",
+    "forensic.geometry.kneeL_y < -0.30 (LEFT knee down — currently y=0.30 T-pose standing)",
+    "forensic.geometry.spine_pos_abs < 10 (spine tall/upright — currently 24° forward lean)",
+    "forensic.geometry.hipAbductL_neg (knees spread outward — currently +8 adduction)"
+  ],
+  "field_changes": {
+    "spine": 0,
+    "neck": 0,
+    "leftShoulder": 0,
+    "shoulderFwdL": -10,
+    "shoulderFwdR": -10,
+    "leftHip": 80,
+    "leftKnee": 120,
+    "leftAnkle": -35,
+    "rightHip": 80,
+    "rightKnee": 120,
+    "rightAnkle": -35,
+    "hipAbductL": -15,
+    "hipAbductR": -15
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/kneeling/kneeling-side-stretch/baseline/",
+  "after_evidence": "",
+  "regression_risk": "Low — straightforward revert of overhead arm + add kneeling + sign-correct hipAbduct. May clear elbow_above_shoulder anomaly for LEFT arm. hipAbduct sign flip (8→-15) consistent with cron-round-6 corrected convention.",
+  "confidence": 0.75,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "REVERT LEFT arm overhead: leftShoulder -136→0 (arm at side). spine 24→0 (upright, spine tall per description). neck -3.3→0 (neutral). Add leftHip=80, leftKnee=120, leftAnkle=-35 for LEFT kneeling (was straight standing leg). Normalize rightHip 70→80, rightKnee 80→120 (deep flexion for seat-between-heels), add rightAnkle=-35. hipAbductL/R 8→-15 (sign FLIP: + = adduction/inward, - = abduction/outward per corrected convention — knees spread apart). Add shoulderFwdL=-10 + shoulderFwdR=-10 (both arms swing slightly forward to rest hands on thighs). After fix: both knees deeply flexed (120°, y=-0.022) and spread outward (kneeL x=-0.241, kneeR x=+0.241, wider than T-pose ±0.13), spine upright, both arms at side with hands on thighs (wristL/R y=-0.020, dist-to-hip 0.313/0.342 under 0.35 on-thigh threshold). Description match: kneel ✓, lower seat between heels (deep flexion) ✓, knees spread ✓, hands on thighs ✓, spine tall ✓.",
+  "created_at": "2026-08-02T00:30:13.497Z"
+}

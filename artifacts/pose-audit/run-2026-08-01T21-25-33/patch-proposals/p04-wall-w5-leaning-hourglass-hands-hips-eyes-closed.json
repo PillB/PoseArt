@@ -1,0 +1,70 @@
+{
+  "proposal_id": "patch-p04-wall-w5-leaning-hourglass-hands-hips-eyes-closed-1785628499813",
+  "pose_id": "p04-wall-w5-leaning-hourglass-hands-hips-eyes-closed",
+  "category": "leaning",
+  "worker": "worker-D-batch3",
+  "existing_config_hash": "e5d10f73e9ab",
+  "defects": [
+    {
+      "type": "shoulderFwd_sign_inverted",
+      "severity": "major",
+      "description": "shoulderFwdL/R=-15 (arms forward) but description requires elbows pushed BEHIND back. Per corrected convention, shoulderFwd + = BEHIND, - = FORWARD."
+    },
+    {
+      "type": "hands_not_on_hips",
+      "severity": "major",
+      "description": "wristL_to_hipL=0.579, wristR_to_hipR=0.610 (target <0.25). Both hands far from ipsilateral hips."
+    },
+    {
+      "type": "hipAbductR_sign_inverted",
+      "severity": "major",
+      "description": "hipAbductR=-15 (abduction/outward) but description says bent knee crossing over. Per corrected convention, + = adduction (inward/cross)."
+    },
+    {
+      "type": "shoulder_abduction_asymmetry",
+      "severity": "minor",
+      "description": "L shoulder abducted 49°, R shoulder abducted 77° (asymmetric, should be similar for hourglass)"
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "wristL_to_hipL < 0.25 for hands_on_hips",
+      "expected": "<0.25",
+      "actual": "0.579 → 0.256"
+    },
+    {
+      "assertion": "wristR_to_hipR < 0.25 for hands_on_hips",
+      "expected": "<0.25",
+      "actual": "0.610 → 0.219"
+    },
+    {
+      "assertion": "hipAbductR > 0 (adduction) for knee_crossing_over",
+      "expected": "positive",
+      "actual": "-15 → +25"
+    },
+    {
+      "assertion": "shoulderFwdL > 0 (behind) for elbows_behind_back",
+      "expected": "positive",
+      "actual": "-15 → +40"
+    }
+  ],
+  "field_changes": {
+    "shoulderFwdL": 40,
+    "shoulderFwdR": 45,
+    "leftElbow": 140,
+    "rightElbow": 145,
+    "leftShoulder": -10,
+    "rightShoulder": -15,
+    "hipAbductR": 25
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/leaning/p04-wall-w5-leaning-hourglass-hands-hips-eyes-closed/baseline/",
+  "after_evidence": "",
+  "regression_risk": "medium — 7-field change including shoulderFwd sign flip and hipAbductR sign flip; elbow flexion increased significantly (75→140/145). Re-render verification recommended to confirm hourglass silhouette preserved.",
+  "confidence": 0.7,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Description: bend arms on hips with elbows pushed behind back to emphasize hourglass. Per CORRECTED convention, shoulderFwd + = BEHIND. Both shoulderFwdL/R were -15 (arms forward) — sign inverted. Increased to +40/+45 to push elbows behind. Increased elbow flexion to 140/145 to bring forearms back to hips. Reduced shoulder abduction (40/52 → 10/15) for less splayed arms. Flipped hipAbductR -15 → +25 to adduct (cross) bent knee inward per description. wristL_to_hipL improved 0.579→0.256 (borderline <0.25); wristR_to_hipR improved 0.610→0.219 (achieves contact).",
+  "created_at": "2026-08-01T23:54:59.813Z"
+}

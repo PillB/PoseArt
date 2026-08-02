@@ -1,0 +1,68 @@
+{
+  "proposal_id": "patch-kneeling-forearm-floor-1785631968328",
+  "pose_id": "kneeling-forearm-floor",
+  "category": "kneeling",
+  "worker": "worker-C-batch4",
+  "existing_config_hash": "9778a776a549",
+  "defects": [
+    {
+      "id": "SPINE_TOO_FORWARD",
+      "severity": "CRITICAL",
+      "description": "spine=32 (strong forward lean). Description: Kneel UPRIGHT — spine should be neutral or slight, not strong forward lean.",
+      "evidence": "baseline: torso flexion 32deg forward"
+    },
+    {
+      "id": "SHOULDERFWD_WRONG_DIRECTION",
+      "severity": "CRITICAL",
+      "description": "shoulderFwdL=35 and shoulderFwdR=35 (both BEHIND body per corrected convention + = behind). Description: trailing arm ACROSS body (forward) + front arm opens outward. Need asymmetric shoulderFwd with one arm forward.",
+      "evidence": "baseline: wristL z=+0.191 (forward due to globalTwist), wristR z=-0.218 (behind) — but both shoulderFwd are positive (behind)"
+    },
+    {
+      "id": "GLOBALTWIST_INSUFFICIENT",
+      "severity": "MAJOR",
+      "description": "globalTwist=25 (cron-round-7 added). Description: rotate torso FULLY to one side — 25deg is insufficient for full rotation.",
+      "evidence": "baseline: globalTwist=25"
+    },
+    {
+      "id": "NECK_TILT_UNMOTIVATED",
+      "severity": "MINOR",
+      "description": "neck=-10.6 (head tilt left per convention + = right). Description does not specify head direction.",
+      "evidence": "baseline: head roll -10.6deg"
+    }
+  ],
+  "failing_tests": [
+    {
+      "name": "upright_torso",
+      "expected": "spine near 0 (upright per description Kneel upright)",
+      "actual": "spine=32 (forward lean)"
+    },
+    {
+      "name": "trailing_arm_across_body",
+      "expected": "one shoulderFwd negative (forward, per corrected convention - = forward)",
+      "actual": "both shoulderFwd=35 (behind)"
+    },
+    {
+      "name": "front_arm_opens_outward",
+      "expected": "other shoulder at T-pose horizontal outward (joint=0)",
+      "actual": "rightShoulder=-12 (slight raise)"
+    }
+  ],
+  "field_changes": {
+    "spine": 0,
+    "shoulderFwdL": 0,
+    "shoulderFwdR": -50,
+    "rightShoulder": 0,
+    "globalTwist": 40,
+    "neck": 0
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/kneeling/kneeling-forearm-floor/baseline/",
+  "after_evidence": "",
+  "regression_risk": "Medium-High — spine 32→0 significant change. globalTwist 25→40 increases torso rotation. shoulderFwd sign flipped (35→0/-50) — using corrected convention (- = forward). Verifying via FK sim: result wristL=(-0.231,-0.020,0.348) opens outward (LEFT side, front), wristR=(0.326,-0.020,0.006) reaches forward (RIGHT side, trailing across body).",
+  "confidence": 0.7,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Description: Kneel UPRIGHT + rotate torso fully to one side + trailing arm across body + front arm opens outward + both knees anchored. With globalTwist=+40 (torso rotates LEFT per convention), LEFT side comes forward (front arm = LEFT), RIGHT side goes back (trailing arm = RIGHT). Fixes: (1) spine 32→0 (upright per Kneel UPRIGHT); (2) shoulderFwdL=35→0 (LEFT/front arm opens outward, no forward swing); (3) shoulderFwdR=35→-50 (RIGHT/trailing arm swings FORWARD across body per corrected convention - = forward); (4) rightShoulder=-12→0 (T-pose horizontal outward); (5) globalTwist 25→40 (more torso rotation); (6) neck -10.6→0 (neutral, description does not specify head direction). Both knees anchored preserved (leftHip=rightHip=80, knees=90).",
+  "created_at": "2026-08-02T00:52:48.328Z"
+}

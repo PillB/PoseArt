@@ -1,0 +1,51 @@
+{
+  "proposal_id": "patch-ledge-lean-elbow-1785627825741",
+  "pose_id": "ledge-lean-elbow",
+  "category": "leaning",
+  "worker": "worker-C-batch3",
+  "existing_config_hash": "d5ed1c0f15bc",
+  "defects": [
+    {
+      "type": "asymmetric_arm_failure",
+      "severity": "major",
+      "description": "Description: Rest a SINGLE elbow on a high ledge — singular, one elbow on ledge. PR-v4 reverted both shoulders to -30 (symmetric abduction 53deg). Both elbows at same y=0.424 (below shoulder y=0.663). Symmetric shoulders contradict single-elbow-on-ledge posture. Right arm should be relaxed at-side, not raised."
+    },
+    {
+      "type": "contact_failure_hand_to_chin",
+      "severity": "major",
+      "description": "Description: Prop the chin lightly on the raised hand. L wrist→neck dist2D=0.79, R wrist→neck dist2D=0.98 (threshold ~0.20). Neither hand near chin. The raised-hand-on-ledge side (L) should reach chin."
+    },
+    {
+      "type": "elbow_height_too_low",
+      "severity": "minor",
+      "description": "Elbows at y=0.424 (below shoulder y=0.663). For high ledge, elbow should be at shoulder height or above. Currently L shoulder abduction ~53deg (upper arm below horizontal)."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "left and right shoulder asymmetric for single-elbow pose",
+      "expected": "L shoulder abducted ~90deg (elbow at shoulder height), R shoulder near 0 (at-side)",
+      "actual": "both -30 (symmetric 53deg abduction)"
+    },
+    {
+      "assertion": "L wrist to neck dist2D < 0.20 for chin-prop",
+      "expected": "<0.20",
+      "actual": "0.79"
+    }
+  ],
+  "field_changes": {
+    "leftShoulder": -85,
+    "leftElbow": 90,
+    "rightShoulder": 0
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/leaning/ledge-lean-elbow/baseline/",
+  "after_evidence": "",
+  "regression_risk": "medium — large shoulder magnitude change (-30→-85) may interact with shoulderFwdL=-1 producing unexpected wrist position. Integrator should verify L wrist reaches chin via test render.",
+  "confidence": 0.6,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "PR-v4 fix reverted both shoulders from -110 to -30 (overshoot corrected). However PR-v4 left them SYMMETRIC — description requires asymmetric (single elbow on ledge). Three coordinated changes: (1) leftShoulder -30→-85 (raise L upper arm to ~90deg abduction so L elbow reaches shoulder height ~0.66 = high-ledge height). (2) leftElbow 100→90 (right-angle flexion, L forearm horizontal pointing inward toward chin). (3) rightShoulder -30→0 (R arm relaxed at-side, asymmetric from raised L arm). With L upper arm horizontal + L forearm horizontal-inward, L wrist approaches neck/chin level for chin-prop. Spine=14, hips=16, leftHip=12 preserved.",
+  "created_at": "2026-08-01T23:43:45.741Z"
+}

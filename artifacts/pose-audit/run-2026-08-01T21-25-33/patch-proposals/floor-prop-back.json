@@ -1,0 +1,47 @@
+{
+  "proposal_id": "patch-floor-prop-back-1785621310374",
+  "pose_id": "floor-prop-back",
+  "category": "seated",
+  "worker": "worker-B",
+  "existing_config_hash": "b8c49353688a",
+  "defects": [
+    {
+      "type": "reclining_false_positive",
+      "severity": "n/a",
+      "description": "Detector flagged reclining (globalTilt missing) but description explicitly says Sit on the floor — this is a back-prop seated floor pose, NOT a reclining/lying pose. globalTilt would tilt whole body backward lifting legs off floor — incorrect."
+    },
+    {
+      "type": "arms_not_behind_hips",
+      "severity": "major",
+      "description": "Description says lean back on both forearms angled slightly BEHIND the hips. Baseline has shoulderFwdL:+7 (slight backward) and shoulderFwdR:-5 (slight forward); right arm reaches forward, not backward. Both wrists end up forward of hips (z=+0.078/+0.166) instead of behind. Elbows too bent (65/45) for forearms to extend down to floor."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "both wrists z-coordinate should be <= 0 (behind body vertical axis) for forearms planted behind hips",
+      "expected": "leftWrist.z <= 0 and rightWrist.z <= 0",
+      "actual": "leftWrist.z=+0.078, rightWrist.z=+0.166 (both forward of body)"
+    },
+    {
+      "assertion": "globalTilt should be 0 for a seated-on-floor pose (description says Sit on the floor)",
+      "expected": "globalTilt absent or 0",
+      "actual": "globalTilt absent (correct)"
+    }
+  ],
+  "field_changes": {
+    "shoulderFwdL": 30,
+    "shoulderFwdR": 30,
+    "leftElbow": 20,
+    "rightElbow": 20
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/floor-prop-back/baseline/",
+  "after_evidence": "",
+  "regression_risk": "low — only arm fields changed; legs/torso unchanged; verified no anomalies/plausibility flags",
+  "confidence": 0.75,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Reclining flag is FALSE POSITIVE — description explicitly says Sit on the floor (seated floor pose with backward torso lean via spine:-18, NOT lying down). globalTilt would tilt whole body backward lifting legs off floor — incorrect. Real defect: arms forward instead of backward. Per actual renderer behavior (verified empirically via verify-patch.js), POSITIVE shoulderFwdL/R moves wrist BEHIND body when shoulder is in default abduction state (elbow at native x-side). Setting both shoulderFwdL/R to +30 produces wrists at z=-0.075 (L) and z=-0.121 (R) — both behind body, consistent with forearms planted behind hips. Elbows straightened (65/45 → 20) so forearms extend down toward floor. No anomalies or plausibility flags introduced.",
+  "created_at": "2026-08-01T21:55:10.374Z"
+}

@@ -1,0 +1,77 @@
+{
+  "proposal_id": "patch-prayer-kneeling-1785633893781",
+  "pose_id": "prayer-kneeling",
+  "category": "kneeling",
+  "worker": "worker-A-batch5",
+  "existing_config_hash": "0b700ac0466c",
+  "defects": [
+    {
+      "id": "name_vs_description_mismatch",
+      "severity": "INFO",
+      "claim": "NAME says 'prayer' but INSTRUCTIONS describe 'one knee down + opposite arm extended forward + torso diagonal reach'. Per protocol §4 use INSTRUCTIONS as ground truth. Pattern matches worker-D-batch4 finding (kneeling descriptions shuffled).",
+      "evidence": "instructions: 'From one knee down, extend the opposite arm dramatically forward... Let the torso follow the reach into a dynamic diagonal line.'"
+    },
+    {
+      "id": "both_knees_down_not_one",
+      "severity": "CRITICAL",
+      "claim": "Description: 'From one knee down'. Currently both knees symmetric (leftHip=80=rightHip, leftKnee=100=rightKnee). Need asymmetric: one knee down (kneeling), other leg in different position.",
+      "evidence": "geometry.json: left_leg hip_flexion_deg=80, right_leg hip_flexion_deg=80 (symmetric)."
+    },
+    {
+      "id": "no_arm_dramatically_extended",
+      "severity": "CRITICAL",
+      "claim": "Description: 'extend the opposite arm dramatically forward, reaching from the shoulder blade'. Currently both arms have slight abduction (leftShoulder missing=0, rightShoulder=-12), no dramatic forward extension. shoulderFwdL=-12, shoulderFwdR=-10 (slight forward, not dramatic).",
+      "evidence": "geometry.json: left_arm shoulder_abduction_deg=26.6, right_arm shoulder_abduction_deg=37.8 (both slight abduction, no dramatic forward reach)."
+    },
+    {
+      "id": "no_diagonal_torso",
+      "severity": "MAJOR",
+      "claim": "Description: 'Let the torso follow the reach into a dynamic diagonal line'. Currently spine=18 (forward fold, no diagonal). Need forward lean + slight axial twist toward reaching arm.",
+      "evidence": "geometry.json: torso flexion_deg=18, axial_rotation_deg=0 (forward fold, no twist toward reaching side)."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "legs asymmetric (one kneeling, one different)",
+      "expected": "leftHip≠rightHip OR leftKnee≠rightKnee",
+      "actual": "leftHip=rightHip=80, leftKnee=rightKnee=100 (symmetric)"
+    },
+    {
+      "assertion": "one arm dramatically forward (extended)",
+      "expected": "one shoulder: shoulderFwd ≈ -90 (forward) AND elbow ≈ 20 (straight)",
+      "actual": "both arms slight forward, both elbows bent 100°"
+    },
+    {
+      "assertion": "torso diagonal (forward + slight twist toward reaching side)",
+      "expected": "spine > 20 AND globalTwist rotated toward reaching arm",
+      "actual": "spine=18 (forward), no globalTwist (no diagonal)"
+    }
+  ],
+  "field_changes": {
+    "spine": 25,
+    "neck": 0,
+    "globalTwist": -10,
+    "leftHip": 0,
+    "leftKnee": 110,
+    "leftAnkle": 0,
+    "rightHip": 60,
+    "rightKnee": 90,
+    "rightAnkle": 0,
+    "leftShoulder": 0,
+    "shoulderFwdL": 0,
+    "leftElbow": 30,
+    "rightShoulder": 0,
+    "shoulderFwdR": -90,
+    "rightElbow": 20
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/kneeling/prayer-kneeling/baseline/",
+  "after_evidence": "",
+  "regression_risk": "",
+  "confidence": 0.6,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Per protocol §4 INSTRUCTIONS are ground truth (name 'prayer' but description is one-knee-reach-forward pose; matches worker-D-batch4 name-description mismatch pattern). (1) LEFT knee down (kneeling): leftHip 80→0 (thigh vertical, knee below hip), leftKnee 100→110 (deep flexion, shin trailing back), leftAnkle added=0. (2) RIGHT leg forward (lunge-style for balance): rightHip 80→60 (thigh forward), rightKnee 100→90 (right-angle), rightAnkle added=0. (3) RIGHT arm extended forward (opposite to left kneeling leg): rightShoulder -12→0 (no abduction, sagittal plane), shoulderFwdR -10→-90 (dramatic forward reach per corrected - = forward), rightElbow 100→20 (nearly straight, extended). (4) LEFT arm natural at side: leftShoulder added=0, shoulderFwdL -12→0, leftElbow 100→30 (slight bend). (5) Torso diagonal: spine 18→25 (deeper forward to 'follow reach'), globalTwist added=-10 (rotate torso toward figure's right where right arm reaches; per convention + = rotate left, so - = right). (6) neck 14→0 (no side tilt). Significant reconstruction; confidence 0.6 due to rig-limited kneeling approximation and inability to do true diagonal torso (no lateral flexion joint).",
+  "created_at": "2026-08-02T01:24:53.781Z"
+}

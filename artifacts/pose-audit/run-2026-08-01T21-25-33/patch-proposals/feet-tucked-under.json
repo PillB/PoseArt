@@ -1,0 +1,56 @@
+{
+  "proposal_id": "patch-feet-tucked-under-1785620894891",
+  "pose_id": "feet-tucked-under",
+  "category": "seated",
+  "worker": "worker-A",
+  "existing_config_hash": "88ab61cd3d1c",
+  "defects": [
+    {
+      "type": "knees_to_one_side",
+      "severity": "major",
+      "description": "Instructions say tuck both feet underneath the body TO ONE SIDE (asymmetric, both feet to one side of hips). Derived L/R hip flexion 80/80 symmetric, L/R hip_abduction 0/0 symmetric, L/R knee 138/138 symmetric. Legs are mirror-symmetric — no side-tuck at all. Sweep flagged this correctly."
+    },
+    {
+      "type": "torso_lateral_lean_missing",
+      "severity": "major",
+      "description": "Instructions say lean into the armrest with one elbow (torso tilted laterally toward armrest). Derived torso lateral_flexion = 0 (no tilt). Body is upright, not leaning into armrest."
+    },
+    {
+      "type": "elbow_on_armrest_missing",
+      "severity": "major",
+      "description": "Instructions say lean into the armrest with one elbow (elbow resting on armrest at hip height). Right arm: elbow flexion 9.9 deg (nearly straight). No bent-elbow shape to rest on armrest."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "abs(left_hip_flexion - right_hip_flexion) > 10 OR abs(hip_abduction_L - hip_abduction_R) > 15",
+      "expected": "asymmetric",
+      "actual": "fully symmetric (80/80, 0/0)"
+    },
+    {
+      "assertion": "torso_lateral_flexion_deg != 0 (lean toward armrest)",
+      "expected": "nonzero",
+      "actual": "0"
+    },
+    {
+      "assertion": "right_elbow_flexion_deg > 60 (bent for armrest)",
+      "expected": "> 60",
+      "actual": "9.9"
+    }
+  ],
+  "field_changes": {
+    "hipAbductL": -30,
+    "hips": -8,
+    "rightElbow": 80
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/feet-tucked-under/baseline/",
+  "after_evidence": "",
+  "regression_risk": "medium - 3-field change addressing 3 distinct description claims. hipAbductL negative crosses leg inward; if renderer geometry wraps unexpectedly, may produce anomaly. hips negative tilt is unusual but small magnitude. rightElbow large increase (18 to 80) is anatomically normal for armrest lean.",
+  "confidence": 0.55,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Three independent fixes for three defects. (1) hipAbductL: -30 (raw negative = crosses inward per FK) — left leg crosses rightward so both feet end up tucked to figure right side; right leg stays neutral (already on right side, tucked under right hip). Addresses knees_to_one_side. (2) hips: -8 — per FK hips rotZ + = pelvis tilts left (left hip drops = body leans LEFT); NEGATIVE hips = right hip drops = body leans RIGHT into right armrest. Addresses torso lateral lean. (3) rightElbow: 80 (from 18) — bend right elbow sharply so forearm extends forward, forming a clear elbow joint that rests on armrest at hip height. leftElbow 60 stays (already bent, free hand in lap). Note: leftShoulder field absent (defaults) — arm hangs at side, OK for hand in lap.",
+  "created_at": "2026-08-01T21:48:14.891Z"
+}

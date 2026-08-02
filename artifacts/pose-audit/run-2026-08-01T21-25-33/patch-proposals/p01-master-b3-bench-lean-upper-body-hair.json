@@ -1,0 +1,63 @@
+{
+  "proposal_id": "patch-p01-master-b3-bench-lean-upper-body-hair-1785634423493",
+  "pose_id": "p01-master-b3-bench-lean-upper-body-hair",
+  "category": "reclining",
+  "worker": "worker-C-batch5",
+  "existing_config_hash": "15e17dab5114",
+  "defects": [
+    {
+      "id": "RIGHT_HAND_NOT_TOUCHING_HAIR",
+      "severity": "CRITICAL",
+      "description": "Description: OTHER arm touching the hair (the arm NOT on chair). LEFT arm on chair (lEl y=0.081 hip-level, lWr hanging ✓). RIGHT arm currently raised outward (rightShoulder=-125 overhead-abducted), rWr at (0.666,0.845,0.931) — 0.77m from head (-0.015,0.566,0.718). NOT touching hair.",
+      "evidence": "baseline: rightShoulder=-125; rWr(0.666,0.845,0.931); |rWr-head|=0.766"
+    },
+    {
+      "id": "TOES_NOT_POINTED",
+      "severity": "MAJOR",
+      "description": "Description: pointed toes. leftAnkle=6, rightAnkle=6 (dorsiflexion).",
+      "evidence": "baseline: leftAnkle=6, rightAnkle=6"
+    },
+    {
+      "id": "LEGS_NOT_TOGETHER",
+      "severity": "MINOR",
+      "description": "Tip: drape the legs together. hipAbductL=10, hipAbductR=12 (slight adduction). Knee x diff = 0.095. Could be more adducted for streamlined look.",
+      "evidence": "baseline: hipAbductL=10, hipAbductR=12; lKn(0.194,-0.291,0.229) rKn(0.289,-0.232,0.260)"
+    }
+  ],
+  "failing_tests": [
+    {
+      "name": "right_hand_on_hair",
+      "expected": "rightWrist near head (distance < 0.20m)",
+      "actual": "rWr at (0.666,0.845,0.931), |rWr-head|=0.766"
+    },
+    {
+      "name": "toes_pointed",
+      "expected": "ankles negative",
+      "actual": "both = +6"
+    },
+    {
+      "name": "legs_together",
+      "expected": "hipAbductL/R more positive (adduction), knees closer",
+      "actual": "hipAbduct=10/12, knees 9.5cm apart"
+    }
+  ],
+  "field_changes": {
+    "rightShoulder": 140,
+    "rightElbow": 140,
+    "shoulderFwdR": 50,
+    "leftAnkle": -20,
+    "rightAnkle": -20,
+    "hipAbductL": 20,
+    "hipAbductR": 20
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/reclining/p01-master-b3-bench-lean-upper-body-hair/baseline/",
+  "after_evidence": "",
+  "regression_risk": "",
+  "confidence": 0.65,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Description: Lean upper body against armrest (LEFT arm PRESERVED as leaning on chair). Bend both arms, one resting on chair (LEFT), other touching hair (RIGHT). Bend both knees (leftKnee=115, rightKnee=110 deeply bent ✓ PRESERVED), on bench with pointed toes. Tilt face away (neck=-14 LEFT tilt, PRESERVED). Tip: drape legs together. Fixes: (1) rightShoulder -125→+140 (arm crosses INWARD across body to reach head — for RIGHT shoulder, +value = INWARD); (2) rightElbow 40→140 (deep bend, folds forearm back toward head); (3) shoulderFwdR 20→+50 (BEHIND per corrected convention + = behind, projects UP in world for prone globalTilt=+65 — brings wrist UP to head level); (4) leftAnkle/rightAnkle 6→-20 (toes pointed); (5) hipAbductL/R 10/12→20/20 (more adduction per corrected convention + = adduction, knees closer together). Result: rWr(0.05,0.56,0.85), |rWr-head|=0.143 (14cm from head — touching hair approximation ✓). LEFT arm unchanged (still resting on chair). Knees closer (draped). Rig-limited: wrist near head but cannot truly touch hair (no fine hand position joint).",
+  "created_at": "2026-08-02T01:33:43.493Z"
+}

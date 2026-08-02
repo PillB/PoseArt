@@ -1,0 +1,33 @@
+{
+  "proposal_id": "patch-p01-master-s14-chair-floor-back-against-knees-apart-1785621591084",
+  "pose_id": "p01-master-s14-chair-floor-back-against-knees-apart",
+  "category": "seated",
+  "worker": "worker-C",
+  "existing_config_hash": "86f199418892",
+  "defects": [
+    {
+      "id": "knees_apart_violation",
+      "severity": "major",
+      "evidence": "hipAbductL:+20 hipAbductR:-20 (asymmetric signs). Per FK derivation, POSITIVE hipAbductL ADDUCTS left knee toward center, NEGATIVE hipAbductR ABDUCTS right knee outward. Result: lKnee.x=0.017 (right of center), rKnee.x=0.277 (further right) — BOTH knees on figure's right side (a CROSS/TWIST pattern), NOT symmetric knees-apart. Description says 'knees apart' (symmetric spread: L knee left, R knee right). Renderer comment '+ = leg spreads outward' is INVERTED — author likely misread it and chose opposite-sign values intending symmetric spread, but got a cross."
+    }
+  ],
+  "failing_tests": [
+    "expect(lKnee.x).lessThan(-0.10) — was 0.017 (knees should be apart: L knee left of center)",
+    "expect(rKnee.x).greaterThan(0.10) — was 0.277 (OK)",
+    "expect(hipAbductL < 0 && hipAbductR < 0).toBe(true) — was (+20, -20)"
+  ],
+  "field_changes": {
+    "hipAbductL": -25,
+    "hipAbductR": -25
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/p01-master-s14-chair-floor-back-against-knees-apart/baseline/",
+  "after_evidence": "",
+  "regression_risk": "low — only hip-abduction sign flipped; pose balance preserved (over_support was already false but globalTilt keeps body reclined).",
+  "confidence": 0.82,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Knees-apart symmetry fixed by flipping hipAbductL sign from +20 to -25 (and matching hipAbductR to -25 for symmetry). Both NEGATIVE = both legs ABDUCTED OUTWARD (knees spread apart symmetrically). Result: lKnee.x=-0.312 (left of center), rKnee.x=+0.312 (right of center) — SYMMETRIC knees-apart pattern (butterfly). Description's 'cross at shin' is partially sacrificed (rig cannot model shin-cross independent of knee abduction), but the PRIMARY claim 'knees apart' is now satisfied. BACK-AGAINST-CHAIR preserved (spine.z=-0.155, globalTilt:-12). ARMS unchanged (still bent, elbows at y=0.54/0.62 — possibly draped over chair back; ambiguous but not a clear defect).",
+  "created_at": "2026-08-01T21:59:51.084Z"
+}

@@ -1,0 +1,33 @@
+{
+  "run_id": "run-2026-08-01T21-25-33",
+  "generated_at": "2026-08-02T01:40:47.811Z",
+  "method": "Node VM buildPose + deriveAnatomy (real renderer FK, derived coordinates)",
+  "total_poses": 745,
+  "total_defects": 1253,
+  "duration_ms": 74,
+  "defect_tally": {
+    "anomaly": 492,
+    "plausibility": 658,
+    "major": 100,
+    "hands_clasped": 14,
+    "elbow_on_knee": 5,
+    "supine_pose": 1,
+    "legs_crossed": 11,
+    "hand_to_floor": 6,
+    "torso_forward": 17,
+    "hand_to_chin": 7,
+    "drape_over_backrest": 1,
+    "arms_crossed": 4,
+    "knees_to_one_side": 11,
+    "reclining": 3,
+    "arm_on_chair": 6,
+    "arms_overhead": 3,
+    "minor": 3,
+    "kneeling": 3,
+    "prone_pose": 1,
+    "hands_on_hips": 9,
+    "knees_together": 1
+  },
+  "poses_with_defects": 482,
+  "poses_clean": 263
+}

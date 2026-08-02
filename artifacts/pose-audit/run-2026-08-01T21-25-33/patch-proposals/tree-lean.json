@@ -1,0 +1,53 @@
+{
+  "proposal_id": "patch-tree-lean-1785630562325",
+  "pose_id": "tree-lean",
+  "category": "leaning",
+  "worker": "worker-B-batch4",
+  "existing_config_hash": "41254ae2fabe",
+  "defects": [
+    {
+      "id": "spine_wrong_direction_back_should_be_arched",
+      "severity": "CRITICAL",
+      "claim": "Description: 'Lean the upper back and one shoulder against the tree trunk... Push the hips slightly forward of the shoulders for a flattering angle.' Requires upper back + shoulder AGAINST tree (behind body, z negative) and hips FORWARD of shoulders. Under CORRECTED convention 'spine + = forward lean, - = backward arch', spine must be NEGATIVE (backward arch) to put shoulders behind hips. Current spine=+14 (forward lean) puts shoulders at z=+0.135 (FORWARD of hips at z=0) — OPPOSITE of description.",
+      "evidence": "geometry.json: torso_flexion_deg=+14, shoulders z=+0.135, hips z=0.000, head z=+0.194 (all forward of hips, leaning AWAY from tree)."
+    },
+    {
+      "id": "foot_not_against_tree_behind",
+      "severity": "MAJOR",
+      "claim": "Description: 'the other bends with the sole resting against the bark' — sole of bent leg's foot pressed against tree trunk BEHIND body. Current leftKnee=65 produces foot at z=+0.450 (FORWARD of body, not against tree behind). Rig limitation: positive knee in standing context (hip=0) folds shin FORWARD despite 'shin bends backward' convention (worker-A-batch3 finding for back-wall-prop). Workaround: leftHip:-30 (leg swings back) + leftKnee:80 (deeper flexion) brings knee to z=-0.193 (behind body). Foot still at z=+0.221 (forward) due to shin-fold direction — partial achievement only.",
+      "evidence": "geometry.json: leftFoot z=+0.450 (forward, not against tree behind)."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "spine < 0 (backward arch, shoulders behind hips)",
+      "expected": "spine NEGATIVE",
+      "actual": "spine=+14 (forward lean, shoulders at z=+0.135 forward of hips)"
+    },
+    {
+      "assertion": "shoulders.z < hips.z (back against tree)",
+      "expected": "shoulders z < 0",
+      "actual": "shoulders z=+0.135 (forward of hips)"
+    },
+    {
+      "assertion": "leftFoot.z < 0 (sole against tree behind body)",
+      "expected": "foot z < 0",
+      "actual": "foot z=+0.221 (forward, rig-limited)"
+    }
+  ],
+  "field_changes": {
+    "spine": -14,
+    "leftHip": -30,
+    "leftKnee": 80
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/leaning/tree-lean/baseline/",
+  "after_evidence": "",
+  "regression_risk": "medium — spine sign flip dramatically reorients upper body (shoulders move from forward to behind). Combined with leg adjustment (leftHip:-30 outside default), visual re-render verification recommended before integration.",
+  "confidence": 0.75,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "CRITICAL fix: spine sign flip 14→-14 (backward arch per CORRECTED convention 'spine - = backward arch') puts shoulders at z=-0.135 and head at z=-0.194 (behind hips, against tree trunk) — matches 'Lean the upper back and one shoulder against the tree trunk' ✓ and 'Push the hips slightly forward of the shoulders' (hips z=0 > shoulders z=-0.135 ✓). MAJOR partial fix for foot-against-tree: leftHip 0→-30 (leg swings back, knee moves to z=-0.193 behind body) + leftKnee 65→80 (deeper flexion). Foot ends at z=+0.221 (still forward of body) due to rig limitation — positive knee in standing context folds shin FORWARD (worker-A-batch3 finding for back-wall-prop, gate-lean, glass-lean — all standing poses with foot-behind-wall descriptions). The knee is now correctly behind body (z=-0.193) and foot is raised (y=-0.509, off ground) — partial achievement of 'sole resting against bark'. Renderer tier-3 fix needed for true foot-behind-body in standing context (knee sign convention context-aware OR separate hip-extension-aware foot positioning joint). Verified via verify-patch.js: torso_flexion +14→-14° ✓, leftKnee z=0→-0.193 ✓, no new plausibility flags.",
+  "created_at": "2026-08-02T00:29:22.325Z"
+}

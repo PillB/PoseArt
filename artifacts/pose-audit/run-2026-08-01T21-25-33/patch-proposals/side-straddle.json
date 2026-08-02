@@ -1,0 +1,40 @@
+{
+  "proposal_id": "patch-side-straddle-1785625535477",
+  "pose_id": "side-straddle",
+  "category": "seated",
+  "worker": "worker-D-seated-batch2",
+  "existing_config_hash": "a6dd9aae1354",
+  "defects": [
+    "NO_TORSO_ROTATION: Description says \"rotate the torso toward camera\". Config has NO globalTwist (defaults to 0 — body faces forward, not rotated). Derived torso axial_rotation_deg=0 (no rotation). Missing the quarter-turn torso rotation explicitly required by description.",
+    "ARMS_NOT_DRAPED_OVER_BACKREST: Description says \"Drape both forearms over the top of the backrest\". Measured: leftElbow.y=0.298, rightElbow.y=0.340 (low, near chest-belly area); leftWrist.y=-0.019, rightWrist.y=+0.055 (very low, at hip level). Arms hanging DOWN, not raised to backrest height (~0.5-0.7) with forearms draped horizontally. Backrest is a prop (not rendered) — arms should be raised forward at chest height with elbows bent.",
+    "LEFT_ARM_BEHIND: shoulderFwdL=+7 (positive = BEHIND per corrected sign). Description requires arms forward over backrest. Left arm currently swings backward — wrong direction. Right arm shoulderFwdR=-5 (forward ✓) but slight.",
+    "ASYMMETRIC_SHOULDERS: leftShoulder UNSET (default 0 = T-pose arms-out), rightShoulder=-12 (slight outward abduction). Should be symmetric for both-arms-draped pose.",
+    "SWEEP_VERDICT_CLEAN_BUT_DEFECTS_EXIST: Sweep returned no flags for this pose, but the description requirements (torso rotation, arms draped over backrest) are NOT met. Sweep lacks claim-detection for \"rotate torso\" and \"drape over backrest\" — these defects are invisible to the current sweep."
+  ],
+  "failing_tests": [
+    "expect(globalTwist).not.toBe(0) — torso rotation toward camera (currently 0)",
+    "expect(Math.abs(torso.axial_rotation_deg)).toBeGreaterThan(10) — torso visibly rotated (currently 0)",
+    "expect(leftElbow.y).toBeGreaterThan(0.45) — left elbow raised to backrest height (currently 0.298)",
+    "expect(rightElbow.y).toBeGreaterThan(0.45) — right elbow raised (currently 0.340)",
+    "expect(shoulderFwdL).toBeLessThan(0) — left arm forward, not behind (currently +7)"
+  ],
+  "field_changes": {
+    "globalTwist": 25,
+    "leftShoulder": -25,
+    "rightShoulder": -25,
+    "shoulderFwdL": -15,
+    "shoulderFwdR": -15,
+    "leftElbow": 90,
+    "rightElbow": 90
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/side-straddle/baseline/",
+  "after_evidence": "",
+  "regression_risk": "Medium — globalTwist rotates whole body (including legs), which may slightly shift the seated appearance. Shoulder abduction sign and y-component calculation is approximate. Elbow flexion (rotY in XZ plane) does not lower wrist y from elbow — forearm draping is approximate (forearm swings forward in XZ, not down in Y). Spine, neck, hips, knees preserved.",
+  "confidence": 0.55,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "CORRECTED sign conventions: shoulderFwd + = behind, - = forward; leftShoulder/rightShoulder rotZ - = raise arm up. To achieve \"drape both forearms over backrest\" (which is a prop at chest/shoulder height, not rendered): (1) raise both arms via negative shoulder abduction (-25) to bring elbows UP to ~y=0.5 (geometry: elbow.y = shoulder.y - upper_arm_length*cos(abduction); abduction=65° → elbow.y ≈ 0.68-0.18=0.50); (2) shoulderFwd symmetric -15 (forward, both arms reach toward imaginary backrest in front-side); (3) elbow flexion 70→90 (forearm horizontal, draping). globalTwist=25 (NEW) rotates whole body 25° left — produces the \"torso toward camera\" rotation required by description (rig cannot independently rotate upper vs lower body, so globalTwist is the only mechanism). RIG LIMITATION: no axial rotation joint for upper body — globalTwist rotates legs too, but legs are in seated position (less visually affected than torso). Sweep missed these defects — claim-detection regex does not cover \"rotate torso\" or \"drape over backrest\" patterns. Shoulders made symmetric (-25 both) for matching arm posture.",
+  "created_at": "2026-08-01T23:05:35.477Z"
+}

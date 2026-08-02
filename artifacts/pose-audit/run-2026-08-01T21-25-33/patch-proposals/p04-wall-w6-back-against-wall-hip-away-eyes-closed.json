@@ -1,0 +1,53 @@
+{
+  "proposal_id": "patch-p04-wall-w6-back-against-wall-hip-away-eyes-closed-1785628508475",
+  "pose_id": "p04-wall-w6-back-against-wall-hip-away-eyes-closed",
+  "category": "leaning",
+  "worker": "worker-D-batch3",
+  "existing_config_hash": "9aec1f55ba46",
+  "defects": [
+    {
+      "type": "left_hand_not_on_hip",
+      "severity": "major",
+      "description": "wristL_to_hipL=0.492 (target <0.25). Description: one hand on the hip. LEFT wrist at (-0.534, 0.314, 0.134) far from LEFT hip at (-0.138, 0.065, -0.017)."
+    },
+    {
+      "type": "right_hand_not_touching_wall",
+      "severity": "major",
+      "description": "wristR_z=0.014 (target z<-0.30 for wall). Description: other hand touching the wall. RIGHT wrist at body center, NOT at wall (shoulders at z=-0.383)."
+    },
+    {
+      "type": "left_shoulder_abduction_excess",
+      "severity": "minor",
+      "description": "leftShoulder=-35 (abd 66°) — arms hanging out for hand-on-hip; reduce for closer hip contact."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "wristL_to_hipL < 0.25 for hand_on_hip",
+      "expected": "<0.25",
+      "actual": "0.492 → 0.249"
+    },
+    {
+      "assertion": "wristR_z < -0.30 for hand_touching_wall",
+      "expected": "<-0.30",
+      "actual": "0.014 → -0.435"
+    }
+  ],
+  "field_changes": {
+    "shoulderFwdL": 45,
+    "leftElbow": 130,
+    "leftShoulder": -10,
+    "shoulderFwdR": 65,
+    "rightShoulder": -15
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/leaning/p04-wall-w6-back-against-wall-hip-away-eyes-closed/baseline/",
+  "after_evidence": "",
+  "regression_risk": "medium — shoulderFwdR=65 is anatomically extreme (arm rotated 65° backward); may produce unnatural shoulder position. Re-render recommended.",
+  "confidence": 0.75,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Description: back against wall, hips away, ONE hand on hip, OTHER touching wall. LEFT arm should bend at elbow with hand on hip — increased leftElbow 70→130, shoulderFwdL 2→+45 (push elbow behind per corrected convention so forearm reaches hip), reduced leftShoulder -35→-10 for less abducted arm. RIGHT arm should hang and reach back to wall — increased shoulderFwdR 8→+65 (large positive = arm swung strongly backward to wall), reduced rightShoulder -25→-15. wristL_to_hipL improved 0.492→0.249 (✓ contact). wristR_z improved 0.014→-0.435 (✓ at wall, behind shoulders at z=-0.383).",
+  "created_at": "2026-08-01T23:55:08.475Z"
+}

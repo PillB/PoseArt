@@ -1,0 +1,77 @@
+{
+  "proposal_id": "patch-p04-wall-w8-arms-chest-against-wall-back-camera-1785628531310",
+  "pose_id": "p04-wall-w8-arms-chest-against-wall-back-camera",
+  "category": "leaning",
+  "worker": "worker-D-batch3",
+  "existing_config_hash": "d76b371ebcc1",
+  "defects": [
+    {
+      "type": "globalTwist_insufficient_for_back_to_camera",
+      "severity": "critical",
+      "description": "globalTwist=-60 (3/4 view). Description: back FULLY toward camera — requires 180° twist. Currently shoulders at z=-0.219 (L) and z=+0.162 (R), asymmetric — body in 3/4 view not back-view."
+    },
+    {
+      "type": "chest_not_at_wall",
+      "severity": "major",
+      "description": "spine_z=-0.008 (chest at body center). Description: arms AND CHEST against the wall. With globalTwist=-60, body-frame -z (back arch) maps partially to world -z (toward wall); chest only partially at wall."
+    },
+    {
+      "type": "right_wrist_not_at_wall",
+      "severity": "major",
+      "description": "wristR_z=+0.783 (way forward, NOT at wall). Description: one hand on wall. With globalTwist=-60, RIGHT wrist cannot reach wall (shoulderFwdR positive maps partially to world -z but not enough)."
+    },
+    {
+      "type": "hands_not_touching",
+      "severity": "major",
+      "description": "wristL_to_wristR=1.501 (target <0.30 for touching the wrist)."
+    },
+    {
+      "type": "legs_not_crossed",
+      "severity": "minor",
+      "description": "hipAbductL=5, hipAbductR=-5 (mild asymmetric). Description: cross the legs at the shin."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "globalTwist == ±180 for back_to_camera",
+      "expected": "±180",
+      "actual": "-60 → -180"
+    },
+    {
+      "assertion": "shoulder_z < -0.30 for chest_at_wall",
+      "expected": "<-0.30",
+      "actual": "-0.219/-0.219 → -0.447/-0.447"
+    },
+    {
+      "assertion": "wristR_z < 0 for hand_at_wall",
+      "expected": "<0",
+      "actual": "0.783 → -0.686"
+    },
+    {
+      "assertion": "wristL_to_wristR < 0.30 for touching_wrist",
+      "expected": "<0.30",
+      "actual": "1.501 → 1.416 (rig-limited)"
+    }
+  ],
+  "field_changes": {
+    "globalTwist": -180,
+    "spine": 20,
+    "globalTilt": 25,
+    "shoulderFwdL": -15,
+    "shoulderFwdR": -15,
+    "leftElbow": 80,
+    "rightElbow": 80,
+    "hipAbductL": 25,
+    "hipAbductR": 25
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/leaning/p04-wall-w8-arms-chest-against-wall-back-camera/baseline/",
+  "after_evidence": "",
+  "regression_risk": "HIGH — globalTwist change from -60 to -180 is dramatic; entire body orientation flips. Hands-touching contact NOT achieved (rig limitation). Leg cross not visually apparent in world frame after twist (rig limitation). Re-render verification CRITICAL.",
+  "confidence": 0.55,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "CRITICAL: Description says back FULLY toward camera — globalTwist=-60 is insufficient. Changed to -180 (full back-to-camera). With globalTwist=-180, body-frame +z (forward) maps to world -z (toward wall). spine -18 (back arch, away from wall) → +20 (forward lean, chest toward wall). globalTilt 10→25 (additional forward lean). shoulderFwdL/R 5/15→-15/-15 (arms forward in body-frame = hands at wall in world after twist). hipAbductL/R 5/-5→25/25 (both legs adducted for body-frame shin cross). Result: shoulders z=-0.447 (chest AT WALL ✓), wrists z=-0.619/-0.686 (hands at wall ✓). wrist-to-wrist 1.416 (still >0.30 — rig limitation: no horizontal elbow adduction). Legs cross in body-frame but appear normal-stance in world due to 180° twist mirroring (rig limitation).",
+  "created_at": "2026-08-01T23:55:31.310Z"
+}

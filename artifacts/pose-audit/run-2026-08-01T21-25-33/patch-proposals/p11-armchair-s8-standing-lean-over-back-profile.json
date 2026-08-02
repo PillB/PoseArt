@@ -1,0 +1,44 @@
+{
+  "proposal_id": "patch-p11-armchair-s8-standing-lean-over-back-profile-1785625041290",
+  "pose_id": "p11-armchair-s8-standing-lean-over-back-profile",
+  "category": "seated",
+  "worker": "worker-B-seated-batch2",
+  "existing_config_hash": "7022a311f61e",
+  "defects": [
+    {
+      "type": "hands_not_together_on_backrest",
+      "severity": "major",
+      "description": "Description: 'both hands resting flat on top of the backrest'. Currently L wrist at (−0.620, 0.728, +0.514) [figure's left, forward] and R wrist at (+0.739, 0.863, −0.358) [figure's right, behind]. Wrists on OPPOSITE sides of body (z signs opposite), 1.621 apart. Should be close together (~0.3) at backrest top height in front of body."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "leftWrist to rightWrist distance < 0.50 (both hands on narrow backrest top)",
+      "expected": "<0.50",
+      "actual": "1.621"
+    },
+    {
+      "assertion": "sign(leftWrist.z - spine.z) == sign(rightWrist.z - spine.z) (both hands on same side of body)",
+      "expected": "same sign",
+      "actual": "L=+0.328 forward, R=−0.545 behind (opposite)"
+    }
+  ],
+  "field_changes": {
+    "leftShoulder": -65,
+    "rightShoulder": -65,
+    "leftElbow": 110,
+    "rightElbow": 110,
+    "shoulderFwdL": -50,
+    "shoulderFwdR": -50
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/p11-armchair-s8-standing-lean-over-back-profile/baseline/",
+  "after_evidence": "",
+  "regression_risk": "low-medium — 6 fields across both arms; spine and legs unchanged; L shoulder abd 58° within band; R shoulder abd 75° within band; no new anomalies or plausibility flags introduced. Wrists at same height (0.311) consistent with 'flat on top of backrest'.",
+  "confidence": 0.7,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "p11-armchair-s8: spine=+18 (forward lean ✓ per corrected convention, was fixed in cron-round-4 from -18). Description requires both hands flat on top of backrest (narrow rail, hands close together at chest height when bent forward). Original config has both shoulders abducted overhead (L -70 = abd 113°, R -82 = abd 149°) with shoulderFwdL/R positive (behind per corrected convention) — arms splay wide and to opposite sides (L forward+left, R behind+right). Reducing both shoulders to -65 (abd ~58-75°), increasing both elbows from 35/15 to 110 (deep bend bringing forearms horizontal), and flipping both shoulderFwdL/R from +35/+25 to -50 (forward per corrected convention) brings both wrists to: L (0.228, 0.311, 0.832), R (0.704, 0.311, 0.499). Wrists now at SAME y (0.311, between hip 0.10 and shoulder 0.52 — at backrest top height for bent-forward figure), both FORWARD of torso (z=0.832, 0.499 both positive), and 0.582 apart (was 1.621 — 64% reduction). Not strict 0.30 threshold but materially corrected (hands together on rail vs splayed wide). Feet remain planted (feet_min_y=-0.824 ✓).",
+  "created_at": "2026-08-01T22:57:21.290Z"
+}

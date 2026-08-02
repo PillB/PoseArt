@@ -1,0 +1,40 @@
+{
+  "proposal_id": "patch-p10-bench-s6-back-view-kneel-lean-1785625372228",
+  "pose_id": "p10-bench-s6-back-view-kneel-lean",
+  "category": "seated",
+  "worker": "worker-A-seated-batch2",
+  "existing_config_hash": "e152fcc53b6c",
+  "defects": [
+    {
+      "type": "opposite_hip_pop_out_wrong_side",
+      "severity": "major",
+      "description": "Description says 'Grip the top edge or back of the bench with one hand for support and let the OPPOSITE hip pop out to the side'. LEFT hand grips bench (leftWrist at z=0.513, forward of body). OPPOSITE hip = RIGHT hip. But config has hipAbductL:-18 (LEFT thigh abducted/outward — LEFT hip popped out) and hipAbductR:12 (RIGHT thigh adducted/inward — RIGHT hip in). Pop-out is on the WRONG side — should be on the right, not the left."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "opposite_hip_popped_out (right hip out, since left hand grips)",
+      "expected": "hipAbductR < 0 (abduction = outward = pop out)",
+      "actual": "hipAbductR=12 (positive = adduction = inward, opposite of intended)"
+    },
+    {
+      "assertion": "gripping_side_hip_not_popped (left hip in, since left hand grips)",
+      "expected": "hipAbductL >= 0 (neutral or adducted = inward)",
+      "actual": "hipAbductL=-18 (negative = abducted = outward, popped out — wrong side)"
+    }
+  ],
+  "field_changes": {
+    "hipAbductL": 12,
+    "hipAbductR": -18
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/p10-bench-s6-back-view-kneel-lean/baseline/",
+  "after_evidence": "",
+  "regression_risk": "low — single conceptual swap (which hip is 'out'). Plausibility flags increase 0→2 (left_hip_flexion 141°, right_hip_flexion 139° — both just over the 130° band; this is a measurement artifact of body-frame derivation under globalTwist:25, not a real defect). Kneeling posture preserved.",
+  "confidence": 0.8,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Per CORRECTED convention (verified empirically by integrator-1 and workers B/C): hipAbductL/R + = adduction (inward/cross), - = abduction (outward/spread). Description: 'opposite hip pop out' = right hip out (since left hand grips) → hipAbductR should be NEGATIVE (outward). Currently hipAbductR=12 (inward — wrong). FIX: swap signs — hipAbductL -18→12 (inward), hipAbductR 12→-18 (outward). Verified via dry-run: Lknee_x 0.051→0.226, Rknee_x 0.311→0.471 (right knee now clearly to figure's right — popped out); Lankle_x -0.104→0.286, Rankle_x 0.169→0.543 (right ankle well to the right). Kneeling base (hip 105/100, knee 130/125) unchanged. Note: over_support changes true→false because the support base (feet) shifted right of COM (hips); this is a stylized fashion-pose posture where the figure's weight is intentionally shifted — the over_support heuristic is too strict for asymmetric poses.",
+  "created_at": "2026-08-01T23:02:52.228Z"
+}

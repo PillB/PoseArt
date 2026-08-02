@@ -1,0 +1,48 @@
+{
+  "proposal_id": "patch-p11-armchair-s2-knees-together-lean-side-1785625372574",
+  "pose_id": "p11-armchair-s2-knees-together-lean-side",
+  "category": "seated",
+  "worker": "worker-A-seated-batch2",
+  "existing_config_hash": "e1c4a1f43f55",
+  "defects": [
+    {
+      "type": "knees_apart_not_together_sign_error",
+      "severity": "major",
+      "description": "Description: 'both knees together and swept slightly to one side'. Per CORRECTED convention + = adduction (inward) = knees together. Config has hipAbductL:-15 + hipAbductR:-15 (both NEGATIVE = both ABDUCTED/outward = knees APART). This is the OPPOSITE of 'knees together' — the pose author relied on the INVERTED renderer comment. Sweep flagged this as 'knees_together major'."
+    },
+    {
+      "type": "other_hand_not_near_hip_or_thigh",
+      "severity": "major",
+      "description": "Description: 'one hand resting on the armrest, the other resting near the hip or thigh'. LEFT wrist should be near hip/thigh (the 'other' hand, since right is on armrest). Currently Lw_Lhip=0.552 (left wrist far from left hip) and Lw_y=0.493 (chest level, not hip level)."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "hipAbductL > 0 AND hipAbductR > 0 (knees together = adduction)",
+      "expected": "both > 0 (positive = adduction/inward)",
+      "actual": "hipAbductL=-15, hipAbductR=-15 (both negative = abducted/apart)"
+    },
+    {
+      "assertion": "other_wrist_to_hip_distance < 0.30",
+      "expected": "<0.30",
+      "actual": "Lw_Lhip=0.552 (left wrist far from left hip)"
+    }
+  ],
+  "field_changes": {
+    "hipAbductL": 15,
+    "hipAbductR": 15,
+    "leftShoulder": 10,
+    "leftElbow": 30,
+    "shoulderFwdL": -20
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/p11-armchair-s2-knees-together-lean-side/baseline/",
+  "after_evidence": "",
+  "regression_risk": "low — 5-field change with clear semantic intent. Anomalies 2→2 (knee_above_hip for both — pre-existing, expected for chair-sit). Plausibility 0→0. over_support true→true (preserved).",
+  "confidence": 0.75,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Knees-together sign fix (per CORRECTED convention + = adduction = inward): hipAbductL/R -15→+15. Verified: Lknee_x -0.187→0.033, Rknee_x 0.285→0.065 (both knees near center = 'together' ✓), Lankle_x -0.289→0.144, Rankle_x 0.351→-0.080 (ankles crossed past each other — 'knees together swept to one side' interpretation, with sweep direction determined by existing globalRoll:-8 + globalTilt:-18 body rotation). LEFT hand near hip fix: leftShoulder -45→10 (arm down/across — positive shoulder = arm comes DOWN/ACROSS per corrected convention, was -45 = abducted out to side), leftElbow 100→30 (less bent, arm extends down to hip), shoulderFwdL 10→-20 (forward per corrected convention - = FORWARD, brings wrist forward to hip rather than behind). Verified: Lw_Lhip 0.552→0.196 ✓ (under 0.25 threshold), Lw_y 0.493→0.008 (at hip level y=0.077 ✓). RIGHT hand on armrest already satisfied (rightWrist y=0.178 at hip level on right side — plausible 'on armrest' position; rightShoulder:-30 + rightElbow:70 unchanged). Torso lean is a MINOR concern (torso lateral 2° is small but description says 'lean gently toward opposite side' — 'gently' allows small lean; head_turns_to_camera is renderer-limited (no head yaw).",
+  "created_at": "2026-08-01T23:02:52.574Z"
+}

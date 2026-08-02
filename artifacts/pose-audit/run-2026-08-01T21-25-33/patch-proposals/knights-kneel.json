@@ -1,0 +1,72 @@
+{
+  "proposal_id": "patch-knights-kneel-1785633893571",
+  "pose_id": "knights-kneel",
+  "category": "kneeling",
+  "worker": "worker-A-batch5",
+  "existing_config_hash": "10ad6dcf5723",
+  "defects": [
+    {
+      "id": "right_leg_standing_not_lunge",
+      "severity": "CRITICAL",
+      "claim": "Description: 'Plant the right foot flat on the floor with the knee bent at 90°'. Currently rightHip=0 (thigh vertical), rightKnee=10 (nearly straight). Right leg is standing straight, foot planted below hip. Should be lunge: thigh forward, knee bent 90°, foot forward flat.",
+      "evidence": "geometry.json: right_leg hip_flexion_deg=0, knee_flexion_deg=10 (straight); rightFoot y=-0.84 (planted below hip, not forward)."
+    },
+    {
+      "id": "left_leg_not_kneeling_trailing",
+      "severity": "MAJOR",
+      "claim": "Description: 'lower the left knee directly to the ground beneath the left hip — shin trailing behind you'. Currently leftHip=80 (thigh forward, sitting-style), leftKnee=90. Left thigh is forward (kneeling-sit position), not vertical with knee below hip.",
+      "evidence": "geometry.json: left_leg hip_flexion_deg=80 (thigh forward), leftFoot y=0.524 (elevated, not trailing back)."
+    },
+    {
+      "id": "right_arm_not_on_thigh",
+      "severity": "MAJOR",
+      "claim": "Description: 'rest the right forearm or hand lightly on the right thigh just above the knee'. Currently right arm nearly straight (rightElbow=50, derived 12.3° flexion), hanging at side. Not on thigh.",
+      "evidence": "geometry.json: right_arm elbow_flexion_deg=12.3 (nearly straight); shoulder_abduction_deg=14.9 (at side)."
+    },
+    {
+      "id": "neck_tilt_left_mismatch",
+      "severity": "MINOR",
+      "claim": "Description doesn't mention head tilt. neck=-5 tilts head to figure's LEFT per corrected convention. Should be 0.",
+      "evidence": "geometry.json: head roll_deg=-5 (left tilt)."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "right leg lunge (foot forward, knee bent 90°, foot flat)",
+      "expected": "rightHip>40 AND rightKnee≈90",
+      "actual": "rightHip=0, rightKnee=10 (standing straight)"
+    },
+    {
+      "assertion": "left leg kneeling (knee below hip, shin trailing)",
+      "expected": "leftHip≈0 AND leftKnee>80",
+      "actual": "leftHip=80 (thigh forward)"
+    },
+    {
+      "assertion": "right wrist near right thigh",
+      "expected": "< 0.30 distance",
+      "actual": "right arm straight at side, not on thigh"
+    }
+  ],
+  "field_changes": {
+    "neck": 0,
+    "leftHip": 0,
+    "leftKnee": 90,
+    "leftAnkle": 0,
+    "rightHip": 60,
+    "rightKnee": 95,
+    "rightAnkle": 0,
+    "rightShoulder": 0,
+    "shoulderFwdR": -60,
+    "rightElbow": 90
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/kneeling/knights-kneel/baseline/",
+  "after_evidence": "",
+  "regression_risk": "",
+  "confidence": 0.7,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Description: 'Plant the right foot flat with knee bent 90°, left knee on ground beneath hip, right forearm on right thigh'. (1) Right leg lunge: rightHip 0→60 (thigh forward), rightKnee 10→95 (bent 90°), rightAnkle added=0 (foot flat). (2) Left leg kneeling: leftHip 80→0 (thigh vertical, knee below hip), leftKnee 90 keep, leftAnkle -35→0 (foot trailing, not pointed). (3) Right arm on thigh: rightShoulder 8→0 (no abduction), shoulderFwdR added=-60 (forward reach per corrected - = forward), rightElbow 50→90 (right-angle, forearm down to thigh). (4) neck -5→0 (no side tilt). Rig limitation: hip origin fixed at y=0.12 prevents true knee-on-ground; vertical-thigh + knee-bent is closest kneeling approximation.",
+  "created_at": "2026-08-02T01:24:53.571Z"
+}

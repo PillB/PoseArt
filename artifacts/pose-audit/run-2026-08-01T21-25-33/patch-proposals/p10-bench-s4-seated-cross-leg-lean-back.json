@@ -1,0 +1,32 @@
+{
+  "proposal_id": "patch-p10-bench-s4-seated-cross-leg-lean-back-1785621635032",
+  "pose_id": "p10-bench-s4-seated-cross-leg-lean-back",
+  "category": "seated",
+  "worker": "worker-D",
+  "existing_config_hash": "34a059453331",
+  "defects": [
+    {
+      "id": "hand_on_knee",
+      "severity": "major",
+      "actual": "R wrist at (0.54,0.06,0.16) — distance 0.51 from R knee (0.11,0.17,0.42). L wrist at (-0.30,-0.05,-0.01) — distance 0.50 from L knee. Neither wrist on top of crossed knee. Instructions say rest one arm on top of the crossed knee."
+    }
+  ],
+  "failing_tests": [
+    "contact_hand_on_knee(min wrist to nearest knee dist <= 0.25)"
+  ],
+  "field_changes": {
+    "rightShoulder": -30,
+    "rightElbow": 90,
+    "shoulderFwdR": -30
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/p10-bench-s4-seated-cross-leg-lean-back/baseline/",
+  "after_evidence": "",
+  "regression_risk": "LOW — only R arm joints changed. L arm, legs, torso, global transforms unchanged. Pose still reads as seated cross-legged leaning back with one arm on knee.",
+  "confidence": 0.85,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "R arm: original rightShoulder -10 (abduction 33 deg, arm slightly out) + rightElbow 40 (slight bend) + shoulderFwdR 5 (slightly back) leaves wrist far to right of body. Fix: increase abduction to -30 (upper arm out to side, elbow at shoulder height) + right-angle elbow 90 deg (forearm horizontal) + shoulderFwdR -30 (R arm forward, counteracting inverted renderer sign) — derived R wrist at (0.25,0.28,0.31), distance 0.21 from R knee (0.11,0.17,0.42) ✓ (PASS < 0.25). R wrist y=0.28 (above knee y=0.17 by 0.11 — ON TOP of knee ✓). Torso flexion -22 deg preserved (slight back lean, matches lean back slightly). Legs unchanged (cross-legged config preserved).",
+  "created_at": "2026-08-01T22:00:35.032Z"
+}

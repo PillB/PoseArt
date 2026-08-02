@@ -1,0 +1,43 @@
+{
+  "proposal_id": "patch-step-lean-1785630562273",
+  "pose_id": "step-lean",
+  "category": "leaning",
+  "worker": "worker-B-batch4",
+  "existing_config_hash": "1d8d78387e58",
+  "defects": [
+    {
+      "id": "arms_overhead_unintended",
+      "severity": "CRITICAL",
+      "claim": "Description requires 'Rest a hand on the nearby rail or wall for support' — one hand on rail/wall at hip/chest height. Current config has BOTH shoulders at -110 (PR-v4 overshoot), producing arms fully overhead (L abd 133°, R abd 133°) with wrists at y=1.159 (above head y=0.895). Plausibility flags on both shoulders (outside_band_review).",
+      "evidence": "geometry.json: L_arm_abd=133.3°, R_arm_abd=132.8°, L_wrist y=1.159, R_wrist y=1.159, plausibility_flags=2, anomalies=2 (elbow_above_shoulder both sides)"
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "shoulder_abduction_deg < 120",
+      "expected": "L,R < 120 (arms not overhead)",
+      "actual": "L=133.3°, R=132.8°"
+    },
+    {
+      "assertion": "no plausibility_flags",
+      "expected": "0",
+      "actual": "2 (left_shoulder_flexion -162.6 outside [-60,180]; right_shoulder_flexion -166.5 outside [-60,180])"
+    }
+  ],
+  "field_changes": {
+    "leftShoulder": -15,
+    "rightShoulder": -10,
+    "shoulderFwdR": -30,
+    "rightElbow": 50
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/leaning/step-lean/baseline/",
+  "after_evidence": "",
+  "regression_risk": "low — reverting PR-v4 overshoot (which had plausibility flags) to mild-abduction T-pose-ish values; sweep verified plausibility flags cleared, no new anomalies introduced.",
+  "confidence": 0.85,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "CRITICAL defect: PR-v4 'too-subtle → scale magnitudes' auto-fix (line 877 of poses-data.js) scaled BOTH shoulders from -10/8 to -110/-110, producing fully overhead arms. Description requires 'Rest a hand on the nearby rail or wall for support' — one hand on rail at hip/chest height, other arm relaxed. Fix: (1) revert leftShoulder -110→-15 (mild abduction, arm at side, per corrected convention 'leftShoulder rotZ; - = raise arm up'); (2) revert rightShoulder -110→-10 (mild abduction); (3) shoulderFwdR -5→-30 (forward reach per CORRECTED convention 'shoulderFwd +/- = BEHIND/- = forward' — brings right wrist forward to rail position); (4) rightElbow 20→50 (slight bend for hand-on-rail). Verified via verify-patch.js: L_arm_abd 133°→39° ✓, R_arm_abd 133°→35° ✓, plausibility 2→0 ✓, anomalies 2→0 ✓. Right wrist at (0.564, 0.043, 0.323) — y=0.043 (hip level, banister height) z=0.323 (forward of body, hand on rail) ✓. Description's 'Stand on a raised step with one foot higher than the other' is environmental context (steps not modeled by rig); legs remain symmetric standing, acceptable. Cron-round-3 PR-v4 audit caught 17 similar overshoots but missed this one — recommend integrator re-run pr-v4-overshoot-audit.js across all categories with round-4 overhead-first classifier to catch remaining both-shoulders overshoots.",
+  "created_at": "2026-08-02T00:29:22.273Z"
+}

@@ -1,0 +1,42 @@
+{
+  "proposal_id": "patch-p01-master-b6-bench-side-sit-lean-armrest-1785621490782",
+  "pose_id": "p01-master-b6-bench-side-sit-lean-armrest",
+  "category": "seated",
+  "worker": "worker-B",
+  "existing_config_hash": "41bc767b54a9",
+  "defects": [
+    {
+      "type": "plausibility_flags_false_positive",
+      "severity": "minor",
+      "description": "Geometry sweep flagged 2 plausibility flags (right_shoulder_flexion -118.5° outside [-60,180] band; right_hip_flexion 135° outside [-30,130] band) and 3 anomalies (knee_above_hip L+R, elbow_above_shoulder R). These are likely FALSE POSITIVES caused by the multi-axis global transforms (globalTilt:-18 + globalRoll:25 + globalTwist:30) which rotate the body, producing extreme derived body-frame angles that do not reflect actual anatomical impossibility. The base joint values (rightShoulder:-55, rightHip:95, leftHip:90, etc.) are within normal ranges."
+    },
+    {
+      "type": "shin_crossing_uncertain",
+      "severity": "uncertain",
+      "description": "Description says cross them at the shin. Baseline hipAbductL:-8 and hipAbductR:-8 are both slightly OUTWARD (negative = outward per actual renderer convention — comment is inverted). Joint coords show left ankle at x=-0.223 (figure left) and right ankle at x=+0.094 (near midline) — shins diverge (left goes left, right goes near-midline) rather than cross. VLM (front view) perceives shins as crossed, possibly due to perspective. Strict 3D shin-crossing not clearly achieved; testing symmetric hipAbductL/R:+15 produced ankles at x=+0.051 (L) and x=-0.172 (R) which swap sides but shins still do not strictly cross in 3D. Cannot confidently propose minimal fix without proper 3D line-intersection analysis or visual confirmation."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "plausibility bands should be satisfied OR flags confirmed as false positives",
+      "expected": "all derived joint angles within bands OR documented as transform-induced",
+      "actual": "right_shoulder_flexion -118.5° (band [-60,180]); right_hip_flexion 135° (band [-30,130]) — but produced by globalTilt/Roll/Twist composition, not raw joint values"
+    },
+    {
+      "assertion": "shins should cross in 3D (left ankle on figure right, right ankle on figure left, OR shins intersect)",
+      "expected": "leftAnkle.x > 0 AND rightAnkle.x < 0 (or shins intersect)",
+      "actual": "baseline: leftAnkle.x=-0.223 (figure left), rightAnkle.x=+0.094 (figure right) — ankles on NATIVE sides, not crossed"
+    }
+  ],
+  "field_changes": {},
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/p01-master-b6-bench-side-sit-lean-armrest/baseline/",
+  "after_evidence": "",
+  "regression_risk": "n/a — no field changes proposed",
+  "confidence": 0.55,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "This pose uses 3 global transforms (globalTilt:-18, globalRoll:25, globalTwist:30) which produce extreme derived body-frame angles (right_shoulder_flexion -118.5°, right_hip_flexion 135°) that trigger plausibility flags but are transform-induced artifacts, NOT actual anatomical defects — the base joint values are within normal ranges. Anomalies (knee_above_hip, elbow_above_shoulder) are expected for a sideways-lean pose with crossed legs lifted off the bench. VLM cross-check (front view) perceives all 5 semantic claims as satisfied (sideways sit, lean toward armrest, both arms bent one on armrest one on bench, knees bent and crossed at shin, face tilted away). POTENTIAL concern: shin-crossing is hard to verify — baseline hipAbductL/R:-8/-8 are both slightly OUTWARD (renderer comment inverted; actual FK: negative = outward), and joint coordinates show ankles on native sides (left ankle figure-left, right ankle figure-right), suggesting shins diverge rather than cross. Testing hipAbductL/R:+15/+15 (both legs adducted INWARD) produces ankles that swap sides but shins still do not strictly cross in 3D. Cannot confidently propose minimal fix without (a) proper 3D line-intersection analysis of the shins, or (b) integrator visual confirmation. Defer to integrator review. NO FIELD CHANGES PROPOSED — pose may be acceptable as-is for visual rendering purposes.",
+  "created_at": "2026-08-01T21:58:10.782Z"
+}

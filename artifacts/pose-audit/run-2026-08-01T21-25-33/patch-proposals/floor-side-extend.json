@@ -1,0 +1,59 @@
+{
+  "proposal_id": "patch-floor-side-extend-1785621321912",
+  "pose_id": "floor-side-extend",
+  "category": "seated",
+  "worker": "worker-B",
+  "existing_config_hash": "771a80b53e3b",
+  "defects": [
+    {
+      "type": "reclining_false_positive",
+      "severity": "n/a",
+      "description": "Detector flagged reclining (globalTilt missing) but description explicitly says Sit on the floor — seated floor pose with one leg extended to side, NOT reclining."
+    },
+    {
+      "type": "legs_symmetric_not_asymmetric",
+      "severity": "major",
+      "description": "Description says extend ONE leg straight out to the side while the OTHER bends in toward the body. Baseline has both legs symmetric (hip 80/80, knee 100/100, hipAbduct 0/0) — both legs in neutral forward position, neither extended to side nor bent inward."
+    },
+    {
+      "type": "arm_not_reaching_extended_leg",
+      "severity": "major",
+      "description": "Description says reach the same-side arm along the extended leg. Baseline has left arm at side (abduction 1.9°, sagittal flexion -11° = behind), neither abducted outward nor reaching forward along the extended leg."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "one leg should be abducted outward (hip abduction > 30°) and the other adducted inward (hip abduction < -10°)",
+      "expected": "L_hip_abd > 30 OR R_hip_abd > 30 (one leg out), and opposite leg adducted",
+      "actual": "L_hip_abd=0, R_hip_abd=0 (both neutral)"
+    },
+    {
+      "assertion": "extended leg knee should be straight (knee flexion < 20°)",
+      "expected": "one knee < 20°",
+      "actual": "both knees 100° (right-angle)"
+    },
+    {
+      "assertion": "same-side arm should be abducted outward > 45° and reaching forward along extended leg",
+      "expected": "L_arm_abd > 45 and L_arm_sagflx > 15",
+      "actual": "L_arm_abd=1.9, L_arm_sagflx=-11.4 (arm at side, behind)"
+    }
+  ],
+  "field_changes": {
+    "hipAbductL": -45,
+    "hipAbductR": 15,
+    "leftKnee": 10,
+    "leftShoulder": -55,
+    "leftElbow": 20,
+    "shoulderFwdL": -20
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/floor-side-extend/baseline/",
+  "after_evidence": "",
+  "regression_risk": "medium — multi-field change (6 fields) but each verified; only left arm/leg substantially changed, right side kept default",
+  "confidence": 0.7,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Reclining flag is FALSE POSITIVE — description says Sit on the floor (seated side-extend pose, not lying down). Real defects: (1) legs symmetric instead of one-out-one-in, (2) left arm not reaching along extended leg. Per actual renderer convention (verified empirically), NEGATIVE hipAbductL/R = leg spreads OUTWARD (renderer comment is INVERTED — comment says + = outward but FK proves + = crosses inward). hipAbductL:-45 sends left leg OUT to figure left (L_hip_abd +80°), hipAbductR:+15 brings right leg IN toward body (R_hip_abd -57°). leftKnee:100→10 straightens extended leg (soft bend per generic tip). leftShoulder:-55 abducts left arm outward to figure left (toward extended leg). With elbow now at native -x side (outward abduction), NEGATIVE shoulderFwdL moves arm FORWARD (verified: shoulderFwdL:-20 → L_arm_sagflx +36.7°, wrist at z=+0.336 forward reaching along extended leg past the knee). Verified no anomalies/plausibility flags.",
+  "created_at": "2026-08-01T21:55:21.912Z"
+}

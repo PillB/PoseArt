@@ -1,0 +1,67 @@
+{
+  "proposal_id": "patch-back-recline-arms-up-1785633893984",
+  "pose_id": "back-recline-arms-up",
+  "category": "reclining",
+  "worker": "worker-A-batch5",
+  "existing_config_hash": "6f59a5b1a6b4",
+  "defects": [
+    {
+      "id": "name_vs_description_mismatch",
+      "severity": "INFO",
+      "claim": "NAME says 'Back Recline Arms Up' but INSTRUCTIONS describe 'hand on stomach + hand beside you' (NOT arms up). Per protocol §4 use INSTRUCTIONS as ground truth. Pattern matches worker-D-batch4 finding (name-description mismatch).",
+      "evidence": "instructions: 'Rest one hand on the stomach and the other beside you.'"
+    },
+    {
+      "id": "both_arms_up_not_hand_on_stomach",
+      "severity": "CRITICAL",
+      "claim": "Description: 'Rest one hand on the stomach and the other beside you'. Currently leftShoulder=-155 (severely overhead), rightShoulder=-122 (overhead) — both arms UP, not one on stomach + one at side.",
+      "evidence": "geometry.json: left_arm shoulder_abduction_deg=156.5 (overhead), right_arm 97.1 (lateral/overhead); both arms raised, neither on stomach or at side."
+    },
+    {
+      "id": "both_legs_straight_not_one_bent",
+      "severity": "CRITICAL",
+      "claim": "Description: 'bend one knee up with the foot flat on the ground, letting the other leg rest straight'. Currently no leg joints set (defaults: leftHip=0, rightHip=0, leftKnee=0, rightKnee=0 — both legs straight). Need: one knee bent (foot flat), other straight.",
+      "evidence": "geometry.json: left_leg knee_flexion_deg=5.7 (straight), right_leg knee_flexion_deg=5.7 (straight); both legs straight."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "one hand on stomach (one arm forward with deep elbow flexion)",
+      "expected": "one shoulder: shoulderFwd ≈ -60 (forward), elbow ≈ 110",
+      "actual": "leftShoulder=-155 (overhead), no shoulderFwd set"
+    },
+    {
+      "assertion": "other hand beside body (arm at side, straight)",
+      "expected": "other shoulder: ≈ 0 (no abduction), elbow ≈ 0",
+      "actual": "rightShoulder=-122 (overhead)"
+    },
+    {
+      "assertion": "legs asymmetric (one knee bent, one straight)",
+      "expected": "leftKnee≠rightKnee OR leftHip≠rightHip",
+      "actual": "all leg joints = 0 (default, both straight)"
+    }
+  ],
+  "field_changes": {
+    "leftShoulder": 0,
+    "leftElbow": 110,
+    "shoulderFwdL": -70,
+    "rightShoulder": 0,
+    "rightElbow": 10,
+    "shoulderFwdR": 0,
+    "leftHip": 0,
+    "leftKnee": 0,
+    "rightHip": 80,
+    "rightKnee": 80,
+    "rightAnkle": 0
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/reclining/back-recline-arms-up/baseline/",
+  "after_evidence": "",
+  "regression_risk": "",
+  "confidence": 0.7,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Per protocol §4 INSTRUCTIONS are ground truth (name 'arms up' but description says 'hand on stomach + hand beside you'; matches worker-D-batch4 name-description mismatch pattern). globalTilt=-85 (SUPINE per corrected convention) ✓ matches 'Lie on the back' — cron-round-1 fix verified. (1) LEFT hand on stomach: leftShoulder -155→0 (arm down, no overhead), shoulderFwdL added=-70 (forward reach per corrected - = forward), leftElbow 70→110 (deep flexion, hand to stomach). (2) RIGHT hand beside body: rightShoulder -122→0 (arm at side), shoulderFwdR added=0 (no forward), rightElbow 78→10 (nearly straight, arm beside body). (3) LEFT leg straight (resting): leftHip added=0, leftKnee added=0. (4) RIGHT knee bent up (foot flat): rightHip added=80 (thigh forward/up in body frame = vertical in supine world frame), rightKnee added=80 (shin back/down = vertical down to foot flat), rightAnkle added=0 (foot flat). Rig limitation: supine frame interpretation may differ; 'foot flat on ground' is approximation (hip origin fixed at y=0.12).",
+  "created_at": "2026-08-02T01:24:53.984Z"
+}

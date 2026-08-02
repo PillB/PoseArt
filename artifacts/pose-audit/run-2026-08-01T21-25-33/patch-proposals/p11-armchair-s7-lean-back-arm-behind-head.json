@@ -1,0 +1,65 @@
+{
+  "proposal_id": "patch-p11-armchair-s7-lean-back-arm-behind-head-1785625041235",
+  "pose_id": "p11-armchair-s7-lean-back-arm-behind-head",
+  "category": "seated",
+  "worker": "worker-B-seated-batch2",
+  "existing_config_hash": "8dfc6ca01959",
+  "defects": [
+    {
+      "type": "torso_back_sign_error_pr_v3_misfix",
+      "severity": "major",
+      "description": "PR-v3 auto-fix comment claims 'description says forward lean/fold but spine is negative' and flipped spine from -20 to +20. Actual description: 'lean the torso back against the chair's arm or side' — clearly BACKWARD lean. Corrected convention: spine + = forward, - = backward. So PR-v3 misread the description and applied a WRONG sign flip; spine should be reverted to -20 (back arch)."
+    },
+    {
+      "type": "arm_behind_head_missing",
+      "severity": "major",
+      "description": "Left wrist at (−0.428, 1.262, −0.451), distance 0.689 from head at (0.066, 0.892, −0.145). L wrist is 0.37 ABOVE head — arm fully overhead, not 'behind head'. Description: 'raise one hand behind the head'."
+    },
+    {
+      "type": "hand_on_armrest_missing",
+      "severity": "major",
+      "description": "Right wrist at (0.746, 0.199, −0.145), 0.667 from rightHip. Description: 'the other hand resting on the armrest' — R hand should be at armrest level on figure's side."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "spine < 0 (back arch per corrected convention, description 'lean back')",
+      "expected": "<0",
+      "actual": "20"
+    },
+    {
+      "assertion": "leftWrist to head distance < 0.30 (behind head contact)",
+      "expected": "<0.30",
+      "actual": "0.689"
+    },
+    {
+      "assertion": "rightWrist.y < 0.30 (armrest level)",
+      "expected": "<0.30",
+      "actual": "0.199"
+    },
+    {
+      "assertion": "rightWrist to rightHip distance < 0.30",
+      "expected": "<0.30",
+      "actual": "0.667"
+    }
+  ],
+  "field_changes": {
+    "spine": -20,
+    "leftShoulder": -100,
+    "leftElbow": 130,
+    "shoulderFwdL": 70,
+    "rightShoulder": -10,
+    "shoulderFwdR": -30,
+    "rightElbow": 60
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/p11-armchair-s7-lean-back-arm-behind-head/baseline/",
+  "after_evidence": "",
+  "regression_risk": "medium — 7 fields across spine + both arms; verified via buildPose dry-run that no new anomalies or plausibility flags introduced. L shoulder abd 113° within band; R arm abd 39° within band. Head pitch changes from -1° to -41° as side-effect of spine sign fix (matches description 'head tilt back'). L wrist → head contact partial (0.49 > 0.30 threshold) due to rig constraint (elbow flexion preserves y).",
+  "confidence": 0.7,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "p11-armchair-s7: THREE coordinated defects. (1) PR-v3 auto-fix misread description ('lean the torso back against the chair's arm') as forward lean and wrongly flipped spine -20→+20. Reverting spine to -20 (back arch, corrected convention - = back) restores torso direction. With spine=-20, derived torso_flex drops from -8° (slight back) to -46° (clear back arch), and head_pitch drops from -1° to -41° (head tipped back, matching 'Let the head tilt back into the raised hand'). (2) L arm fully overhead (leftShoulder -136 = abd 153°, L wrist y=1.262) — too high for 'behind head'. Reducing leftShoulder from -136 to -100 (abd 113°), increasing leftElbow from 35 to 130 (deep bend), and increasing shoulderFwdL from 5 to 70 (way behind, per corrected convention + = behind) brings L wrist from y=1.262 to y=0.939 (near head y=0.892), z=-0.477 (clearly behind head z=-0.145). L wrist → head distance improves 0.689→0.493 (rig-limited partial fix; elbow flexion preserves y so wrist y is bound to elbow y bound to shoulder y). (3) R arm abducted 33° with shoulderFwdR=+15 (behind) puts R wrist at y=0.199 floating. Reducing rightShoulder from -35 to -10 (abd 39°), flipping shoulderFwdR from +15 to -30 (forward), and reducing rightElbow from 83 to 60 brings R wrist to y=0.087 (armrest level ✓), R wrist → R hip distance 0.667→0.233. globalTilt:-28 unchanged (supine lean ✓ per corrected convention - = supine).",
+  "created_at": "2026-08-01T22:57:21.235Z"
+}

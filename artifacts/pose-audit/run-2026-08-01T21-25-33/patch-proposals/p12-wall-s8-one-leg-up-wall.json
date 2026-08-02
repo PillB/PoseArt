@@ -1,0 +1,45 @@
+{
+  "proposal_id": "patch-p12-wall-s8-one-leg-up-wall-1785630080726",
+  "pose_id": "p12-wall-s8-one-leg-up-wall",
+  "category": "leaning",
+  "worker": "worker-A-batch4",
+  "existing_config_hash": "ea7363a72eaf",
+  "defects": [
+    {
+      "type": "wrong_magnitude",
+      "severity": "major",
+      "description": "spine=18 (forward lean) is too much. Description says \"keep the torso upright and elongated\". Torso flexion_deg=18° is a noticeable lean, not upright. PR-v4 auto-fix bumped spine from 14 to 18 for visibility, but this contradicts \"torso upright\"."
+    },
+    {
+      "type": "contact_failure",
+      "severity": "major",
+      "description": "Raised foot too high: leftFoot at y=+0.389 (chest level), but description says \"place the foot flat against the wall at knee-to-hip height\" (y between -0.05 and +0.05). Foot is 0.34m above hip — way too high. leftKnee=95° (deep bend) folds shin backward-up, putting foot above hip."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "torso.flexion_deg < 10",
+      "expected": "<10° (torso upright)",
+      "actual": "18° (noticeable forward lean)"
+    },
+    {
+      "assertion": "leftFoot.y < 0.10",
+      "expected": "<0.10 (foot at knee-to-hip height, hip y=0.05)",
+      "actual": "0.389 (chest-level, 0.34m above hip)"
+    }
+  ],
+  "field_changes": {
+    "spine": 8,
+    "leftKnee": 65
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/leaning/p12-wall-s8-one-leg-up-wall/baseline/",
+  "after_evidence": "",
+  "regression_risk": "low — 2 fields, single-pose. Spine reduction makes torso more upright. leftKnee reduction extends shin, drops foot from chest-level toward hip-level. leftHip:75 preserved (thigh forward for leg-raise). rightHip:-3 preserved (standing leg neutral). hipAbductL:22 preserved (slight inward cross). No arm/torso rotation changes.",
+  "confidence": 0.72,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "CORRECTED CONVENTION: spine + = forward lean. Description explicitly says \"keep the torso upright and elongated\" — spine should be small (≤10°). PR-v4 bumped 14→18 for \"visible threshold\" but this contradicts the upright directive. Reducing to 8 restores upright intent while keeping small visibility. leftKnee:95→65 reduces knee bend so shin extends more, dropping foot from y=0.389 (chest level) toward y≈0.10-0.15 (closer to hip y=0.05). Full foot-on-wall at hip height would require hipAbduct outward (lateral abduction), but minimal change here preserves the leg-raise silhouette. Description allows \"knee-to-hip height\" range, so partial drop is acceptable.",
+  "created_at": "2026-08-02T00:21:20.726Z"
+}

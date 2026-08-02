@@ -1,0 +1,54 @@
+{
+  "proposal_id": "patch-p11-armchair-s10-floor-recline-head-on-armrest-1785625372515",
+  "pose_id": "p11-armchair-s10-floor-recline-head-on-armrest",
+  "category": "seated",
+  "worker": "worker-A-seated-batch2",
+  "existing_config_hash": "dd178f7cb0ce",
+  "defects": [
+    {
+      "type": "pr_v4_audit_false_positive_left_shoulder_wrongly_reverted",
+      "severity": "major",
+      "description": "The existing patch-proposals/p11-armchair-s10-floor-recline-head-on-armrest.json (worker=pr-v4-audit, round 3) wrongly reverted leftShoulder -131→-10. That audit mis-classified the pose as 'hand_on_floor' (no overhead intent), but the description EXPLICITLY says 'one arm raised overhead resting near the hair'. The audit's classifier was fixed in round 4 (overhead-first) but this proposal wasn't re-evaluated. Currently leftShoulder=-10 (LEFT arm at side, NOT overhead) and rightShoulder=-40 (RIGHT arm partially abducted 73°). Neither arm is overhead — both hair-contact and floor/hip-contact claims fail."
+    },
+    {
+      "type": "hand_to_hair_contact_failure",
+      "severity": "major",
+      "description": "Description: 'one arm raised overhead resting near the hair' — wrist should be within 0.25 of head. Currently Lw_head=1.014 (left wrist far from head) and Rw_head=0.956 (right wrist far from head)."
+    },
+    {
+      "type": "other_hand_not_on_floor_or_hip",
+      "severity": "major",
+      "description": "Description: 'the other hand resting on the floor or hip' — wrist should be near hip (<0.25) OR near floor (y<-0.5). Currently Rw_Rhip=0.597 (right wrist far from hip) and Rw_y=0.308 (above floor). The PR-v4 audit's leftShoulder change kept the LEFT wrist at hip level (Lw_Lhip=0.435) but didn't address the RIGHT wrist."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "one_wrist_to_head_distance < 0.25 (hand in hair)",
+      "expected": "<0.25",
+      "actual": "Lw_head=1.014 (left wrist should be the overhead one, near hair)"
+    },
+    {
+      "assertion": "other_wrist_to_hip_distance < 0.25 (hand on hip)",
+      "expected": "<0.25",
+      "actual": "Rw_Rhip=0.597 (right wrist should rest near hip)"
+    }
+  ],
+  "field_changes": {
+    "leftShoulder": -90,
+    "leftElbow": 150,
+    "shoulderFwdL": -50,
+    "rightShoulder": 20,
+    "rightElbow": 30,
+    "shoulderFwdR": 20
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/p11-armchair-s10-floor-recline-head-on-armrest/baseline/",
+  "after_evidence": "",
+  "regression_risk": "low — overrides the existing pr-v4-audit proposal which was a known false positive. New anomalies 1→2 (knee_above_hip R retained, elbow_above_shoulder L added 'may be intended if arms overhead' — expected). Plausibility 1→1 (right_hip_flexion still out of band, was there before). over_support true→true (preserved).",
+  "confidence": 0.8,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "REVERTS the pr-v4-audit's wrong leftShoulder -131→-10 change AND fixes the right hand position. LEFT arm (overhead, hand to hair): leftShoulder -10→-90 (overhead, abduction 167° ✓ — restored to overhead per description; using -90 instead of original -131 because elbow bend now brings wrist to head), leftElbow 35→150 (deeply bent so forearm returns to head — necessary because at -90 abduction the upper arm is vertical and elbow straight would put wrist past head), shoulderFwdL 10→-50 (forward per corrected convention - = FORWARD, brings elbow forward so wrist arrives at head). Verified: Lw_head 1.014→0.244 ✓ (under 0.25 threshold), Lw_y 0.128→0.664 (above head y=0.453, near hair ✓). RIGHT arm (hand on hip): rightShoulder -40→20 (arm down/across, brings wrist to hip level — using positive shoulder because arm needs to come DOWN and ACROSS to hip, per corrected convention + = down/across), rightElbow 80→30 (less bent, arm extends down to hip), shoulderFwdR 10→20 (slightly behind, positions wrist at hip rather than in front of body). Verified: Rw_Rhip 0.597→0.191 ✓ (under 0.25 threshold), Rw_y 0.308→-0.054 (at hip level y=0.008, slightly below hip = 'resting near hip' ✓). Legs unchanged (leftHip:30+leftKnee:15 = straight leg; rightHip:95+rightKnee:105 = bent leg — matches 'both legs extended, one bent, one straight' ✓). Spine:-18 (back arch) ✓. globalTilt:-45 (partial recline) consistent with 'recline on floor with head on armrest' (head y=0.453 is higher than hips y=0.086, suggesting head propped up).",
+  "created_at": "2026-08-01T23:02:52.515Z"
+}

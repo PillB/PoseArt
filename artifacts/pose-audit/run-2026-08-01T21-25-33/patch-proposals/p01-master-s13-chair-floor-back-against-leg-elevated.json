@@ -1,0 +1,32 @@
+{
+  "proposal_id": "patch-p01-master-s13-chair-floor-back-against-leg-elevated-1785621582012",
+  "pose_id": "p01-master-s13-chair-floor-back-against-leg-elevated",
+  "category": "seated",
+  "worker": "worker-C",
+  "existing_config_hash": "45cb55046fef",
+  "defects": [
+    {
+      "id": "arm_on_chair_right",
+      "severity": "major",
+      "evidence": "rightWrist at (0.712, 0.641, -0.147) — y=0.64 (above chair backrest top ~y=0.30), z=-0.15 (behind chair back at z=0). Description says 'Bend both arms, resting one on the chair'. Original rightShoulder:-60 + shoulderFwdR:15 (arm behind) extends upper arm backward, but elbow:60 (moderate bend) leaves forearm above and behind chair back — not resting on it."
+    }
+  ],
+  "failing_tests": [
+    "expect(rightWrist near chair backrest).y within [0.05, 0.30] AND z within [-0.05, 0.05] — was (y=0.641, z=-0.147)"
+  ],
+  "field_changes": {
+    "rightShoulder": -20,
+    "rightElbow": 110,
+    "shoulderFwdR": 0
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/p01-master-s13-chair-floor-back-against-leg-elevated/baseline/",
+  "after_evidence": "",
+  "regression_risk": "low — single arm repositioned; rest of pose (back, legs, head) unchanged.",
+  "confidence": 0.75,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Arm-on-chair contact fixed. Reduce rightShoulder abduction from -60 (arm out to side, raised) to -20 (arm at side, lowered). Deepen elbow from 60 to 110 (forearm folds inward). Set shoulderFwdR:0 (arm neutral, neither forward nor behind — chair back is at z=0). Result: rightWrist at (0.309, 0.174, 0.012) — y=0.17 (within chair backrest y-range 0.05-0.30), z=0.01 (at chair back plane), x=0.31 (just outside hip, where armrest would be). rW-to-chair-back-center distance 0.028 (was ~0.65). LEFT arm left unchanged (elbow 70°, wrist at (-0.58, 0.20, 0.20) — bent arm with hand forward, plausibly on lap/floor). BACK-AGAINST-CHAIR satisfied (spine.z=-0.18, hips.z=-0.03, body reclined via globalTilt:-15). LEG-ELEVATED satisfied (left foot y=0.37, above hip y=0.12). RIGHT-FOOT-TOUCHES-FLOOR borderline (rFoot.y=0.105, body-lowest 0.07, so foot is 0.04 above floor — effectively touching per drawing logic).",
+  "created_at": "2026-08-01T21:59:42.012Z"
+}

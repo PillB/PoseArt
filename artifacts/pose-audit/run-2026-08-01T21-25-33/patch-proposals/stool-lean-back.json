@@ -1,0 +1,32 @@
+{
+  "proposal_id": "patch-stool-lean-back-1785628204968",
+  "pose_id": "stool-lean-back",
+  "category": "seated",
+  "worker": "worker-A-batch3",
+  "existing_config_hash": "96411906aed4",
+  "defects": [
+    "PR-v3 SPINE SIGN MISFIRE: Description says lean the torso back but PR-v3 flipped spine from -15 (correct backward arch) to +15 (forward lean). PR-v3 misclassified this pose because the word forward appears in Extend the legs loosely forward (referring to legs, not torso). Verified: spine=+15 -> spine z=+0.067 (forward of hips), should be z<0 (behind).",
+    "HANDS_NOT_BEHIND_BODY: Description says bracing weight on both hands placed flat behind you on the seat. shoulderFwdL=+7 (slight behind), shoulderFwdR=-5 (FORWARD — WRONG sign). Both hands should be behind body (z<0). Currently leftWrist z=+0.086, rightWrist z=+0.153 — both in FRONT of body, not behind on the seat."
+  ],
+  "failing_tests": [
+    "expect(spine).toBeLessThanOrEqual(-5) — backward lean (description: lean the torso back; CORRECTED: spine - = backward)",
+    "expect(leftWrist.z).toBeLessThan(0) — left hand behind body on seat",
+    "expect(rightWrist.z).toBeLessThan(0) — right hand behind body on seat",
+    "expect(shoulderFwdR).toBeGreaterThan(0) — right shoulder extended backward (CORRECTED: + = behind)"
+  ],
+  "field_changes": {
+    "spine": -15,
+    "shoulderFwdL": 30,
+    "shoulderFwdR": 30
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/stool-lean-back/baseline/",
+  "after_evidence": "",
+  "regression_risk": "Low — 3 field-level changes (spine sign revert + 2 shoulderFwd). All within normal magnitude ranges. Arms remain at sides (no shoulder abduction change). Re-render REQUIRED to verify wrist z is sufficiently negative for hands on seat behind.",
+  "confidence": 0.85,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "CORRECTED sign conventions: spine + = forward lean, - = backward arch; shoulderFwd + = BEHIND, - = FORWARD. PR-v3 (cron-round-4) misfired because regex matched forward in Extend the legs loosely forward (legs, not torso). Reverting spine +15 -> -15 (backward arch per description lean the torso back). Flipping shoulderFwdR from -5 (forward) to +30 (behind) and increasing shoulderFwdL from +7 (slight behind) to +30 (more behind) so both hands reach seat behind body. Verified by buildPose: spine z=-0.067 (was +0.067), leftWrist z=-0.003 (was +0.086), rightWrist z=-0.049 (was +0.153), rightWrist y=0.058 (near hip y=0.12, seat level). Chin-up (description: tilt the chin up) achieved automatically via spine backward tilt — no chin-pitch joint exists. Legs extended forward (leftHip=rightHip=80) preserved. elbows 65/45 preserved.",
+  "created_at": "2026-08-01T23:50:04.968Z"
+}

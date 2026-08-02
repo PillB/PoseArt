@@ -1,0 +1,47 @@
+{
+  "proposal_id": "patch-seated-v-stretch-1785625405358",
+  "pose_id": "seated-v-stretch",
+  "category": "seated",
+  "worker": "worker-D-seated-batch2",
+  "existing_config_hash": "47c464fbe693",
+  "defects": [
+    "RIGHT_LEG_BACKWARD: Description says \"open both legs into a wide V\". Config has leftHip=+40 (left leg forward) but rightHip=-40 (right leg BACKWARD — opposite direction). This is NOT a V-shape — legs are asymmetric (one forward, one back). Renderer convention: rightHip + = leg swings FORWARD. Right hip sign is INVERTED.",
+    "KNEES_BENT_NOT_STRAIGHT: Description implies extended legs for V stretch (\"wide V\"). Config has leftKnee=90, rightKnee=90 (right-angle, deeply bent). Knees should be nearly straight (slight bend ~10-15°).",
+    "NO_LEG_ABDUCTION: hipAbductL and hipAbductR are UNSET (default 0). For V-shape, both legs need outward abduction (negative hipAbduct per corrected sign — - = abduction/outward/spread).",
+    "LEFT_ARM_BEHIND: shoulderFwdL=+7 (positive = BEHIND per corrected sign). Description says \"reaching both arms between the legs\" — arms should be FORWARD (negative shoulderFwd). Right arm shoulderFwdR=-5 (forward ✓) but asymmetric with left.",
+    "ASYMMETRIC_SHOULDERS: leftShoulder=20 (set, arm brought inward), rightShoulder=UNSET (default 0 = T-pose arms-out). Should be symmetric.",
+    "SPINE_FIX_VERIFIED: spine=+6 (forward lean) — correct per cron-round-4 fix (-6→+6). Description says \"Lead with the chest as you lean forward\" — positive spine = forward lean ✓.",
+    "FALSE_PLAUSIBILITY: right_hip_flexion -40° outside band — this is the SYMPTOM of the rightHip sign error. Fix (rightHip -40→+30) will clear this flag."
+  ],
+  "failing_tests": [
+    "expect(Math.sign(leftHip)).toBe(Math.sign(rightHip)) — symmetric hip flexion for V-shape (currently +40 vs -40)",
+    "expect(Math.abs(leftHip - rightHip)).toBeLessThanOrEqual(2) — symmetric hip flexion",
+    "expect(leftKnee).toBeLessThan(20) — knee nearly straight for extended V (currently 90)",
+    "expect(rightKnee).toBeLessThan(20) — same (currently 90)",
+    "expect(hipAbductL).toBeLessThan(-15) — outward abduction for V spread (currently 0)",
+    "expect(hipAbductR).toBeLessThan(-15) — same (currently 0)",
+    "expect(shoulderFwdL).toBeLessThan(0) — left arm forward (currently +7, behind)",
+    "expect(Math.abs(shoulderFwdL - shoulderFwdR)).toBeLessThanOrEqual(5) — symmetric arm forward"
+  ],
+  "field_changes": {
+    "leftHip": 30,
+    "rightHip": 30,
+    "leftKnee": 10,
+    "rightKnee": 10,
+    "hipAbductL": -30,
+    "hipAbductR": -30,
+    "shoulderFwdL": -25,
+    "shoulderFwdR": -25,
+    "rightShoulder": 20
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/seated-v-stretch/baseline/",
+  "after_evidence": "",
+  "regression_risk": "Low-medium — primary fix is rightHip sign flip (-40→+30) which is unambiguous (description requires forward leg, sign convention is verified). Knee straightening (90→10) is required for V stretch. Hip abduction (-30) is required for V spread. Arm changes are symmetric (low risk). Spine preserved. Risk: knee straightening combined with hip flexion 30° may produce legs extended forward at slight downward angle (not perfectly horizontal) — acceptable for floor V stretch.",
+  "confidence": 0.85,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "CRITICAL SIGN FIX: rightHip was -40 (leg extended BACKWARD per renderer convention + = forward) — inverted sign. Description requires BOTH legs forward in V-shape, so rightHip -40→+30 (symmetric with left). Knees straightened 90→10 for extended V (description \"wide V\"). NEW hipAbductL/R=-30 (outward abduction per corrected sign - = abduction/outward) — produces V spread. Arms forward: shoulderFwdL +7→-25 (corrected sign + = behind; was wrong direction), shoulderFwdR -5→-25 (symmetric). rightShoulder=20 (NEW, symmetric with leftShoulder=20 — brings both arms inward toward body center, between the legs). spine=+6 preserved (cron-round-4 fix verified correct: forward lean leads with chest). Plausibility flag on right_hip_flexion will clear automatically once rightHip sign is corrected.",
+  "created_at": "2026-08-01T23:03:25.358Z"
+}

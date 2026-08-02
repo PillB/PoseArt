@@ -1,0 +1,61 @@
+{
+  "proposal_id": "patch-p17-tubes-s4-standing-lean-one-leg-on-tube-1730000000000",
+  "pose_id": "p17-tubes-s4-standing-lean-one-leg-on-tube",
+  "category": "seated",
+  "worker": "worker-C-seated-batch2",
+  "existing_config_hash": "5ae83569d48b",
+  "defects": [
+    {
+      "id": "arms-overhead-pr-v4-overshoot",
+      "severity": "CRITICAL",
+      "claim": "Resting a forearm on the bent knee (NOT arms overhead)",
+      "evidence": "PR-v4 source comment confirms shoulders forced to -110 (overhead) as too-subtle auto-fix. Description requires forearm-on-knee contact. L shoulder abducted 127°, R shoulder abducted 155° — both overhead. Both elbow_above_shoulder anomalies flagged. R shoulder plausibility flag: sagittal flexion -143° outside band. Same defect class as cross-ankle-sit (batch 1) and p15-chair-s6 (this batch)."
+    },
+    {
+      "id": "forearm-not-on-knee",
+      "severity": "MAJOR",
+      "claim": "Forearm resting on the bent knee",
+      "evidence": "L wrist at (-0.514, 1.084, 0.592), L knee at (0.322, 0.064, 0.174). L wrist-to-L-knee 3D distance 1.384 (should be <0.30 for forearm-on-knee contact). shoulderFwdL:+15 = BEHIND per corrected convention (wrong direction). L elbow at y=0.884 — way above L knee y=0.064."
+    },
+    {
+      "id": "pelvis-shifted-wrong-direction",
+      "severity": "MAJOR",
+      "claim": "Hips shifted to standing leg side (R)",
+      "evidence": "hips:+15 produces pelvis list +20° (LEFT hip lower) — but description says hips shifted to STANDING LEG SIDE. Standing leg is R (rightFoot planted at y=-0.735). Should be RIGHT hip lower for R weight-bearing. Sign wrong."
+    }
+  ],
+  "failing_tests": [
+    {
+      "name": "forearm_on_knee",
+      "assert": "3D_distance(leftWrist, leftKnee) < 0.30 (L wrist near L knee)"
+    },
+    {
+      "name": "no_arms_overhead",
+      "assert": "left_arm.shoulder_abduction_deg < 60 AND right_arm.shoulder_abduction_deg < 60 (no PR-v4 overhead overshoot)"
+    },
+    {
+      "name": "no_plausibility_flag",
+      "assert": "NOT right_shoulder_flexion.outside_band_review"
+    },
+    {
+      "name": "pelvis_shifted_to_standing_side",
+      "assert": "pelvis.list_deg < 0 (right hip lower for R weight-bearing)"
+    }
+  ],
+  "field_changes": {
+    "leftShoulder": -25,
+    "shoulderFwdL": -20,
+    "leftElbow": 90,
+    "rightShoulder": -15,
+    "shoulderFwdR": 0,
+    "hips": -15
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/p17-tubes-s4-standing-lean-one-leg-on-tube/baseline/",
+  "after_evidence": "",
+  "regression_risk": "Medium — 6 field changes including PR-v4 shoulder revert (high confidence, same pattern as batch 1 cross-ankle-sit critical fix) + hips sign flip (clearcut from description). Re-render verification REQUIRED to confirm (1) L wrist actually reaches near L knee (target 3D dist <0.30 — geometrically marginal since L shoulder-to-L-knee distance 0.76 vs arm span 0.754), (2) pelvis shift to R side doesn't break R leg planted position.",
+  "confidence": 0.7,
+  "files_touched": ["js/poses-data.js"],
+  "rationale": "Description: STANDING lean with one foot on tube, forearm resting on bent knee. PR-v4 forced shoulders to -110 (overhead) as too-subtle auto-fix — wrong direction for forearm-on-knee contact. Same defect class as cross-ankle-sit (batch 1) and p15-chair-s6 (this batch). Fixes: (1) L arm — drop shoulder abduction -110→-25 (overhead → ~30°, arm angled down toward knee), flip shoulderFwd +15→-20 (positive=BEHIND per corrected convention was wrong direction; negative=FORWARD reaches toward L knee), elbow 85→90 (right-angle forearm horizontal on knee). Target: L wrist near L knee (0.322, 0.064, 0.174), 3D distance <0.30. (2) R arm — drop shoulder -110→-15 (arm at side, not overhead; description doesn't specify R arm but default is relaxed at side), shoulderFwd 5→0 (neutral). (3) Pelvis — flip hips +15→-15 (sign wrong: was left-hip-lower but standing leg is R, need right-hip-lower for R weight-bearing per description). Legs preserved (L hip 95° flexed with foot on tube, R hip 5° straight standing). Sign conventions verified.",
+  "created_at": "2026-08-02T07:30:00.000Z"
+}

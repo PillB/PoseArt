@@ -1,0 +1,35 @@
+{
+  "proposal_id": "patch-wall-lean-1785630562428",
+  "pose_id": "wall-lean",
+  "category": "leaning",
+  "worker": "worker-B-batch4",
+  "existing_config_hash": "f1a06023eb36",
+  "defects": [
+    {
+      "id": "ankles_not_crossed_pr_v5_sign_error",
+      "severity": "MAJOR",
+      "claim": "Description: 'Cross the far ankle over the near one' — ankles should cross (one ankle in front of/side of other). Current hipAbductL=10 (slight adduction, left ankle moves toward center) + hipAbductR=-10 (abduction, right ankle moves outward). PR-v5 comment (line 619 of poses-data.js) claims 'right leg crosses behind left' but under CORRECTED convention 'hipAbduct + = adduction (inward/cross), - = abduction (outward/spread)', hipAbductR=-10 ABDUCTS the right leg (outward), NOT crossing. PR-v5 used the OLD INVERTED convention. Result: leftAnkle x=0.194, rightAnkle x=0.412 (both on right side, right ankle further right, ankles SPREADING apart, NOT crossed).",
+      "evidence": "geometry.json: leftAnkle x=0.194, rightAnkle x=0.412 — both on figure's right side, rightAnkle FURTHER right (legs spreading apart, not crossing)."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "rightAnkle.x < leftAnkle.x (right ankle crossed over left to figure's left side)",
+      "expected": "rightAnkle x < leftAnkle x",
+      "actual": "rightAnkle x=0.412 > leftAnkle x=0.194 (both on right side, spreading apart)"
+    }
+  ],
+  "field_changes": {
+    "hipAbductR": 20
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/leaning/wall-lean/baseline/",
+  "after_evidence": "",
+  "regression_risk": "low — single-field hipAbduct sign flip; verified ankles cross correctly, both feet remain planted, no new anomalies.",
+  "confidence": 0.85,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "MAJOR fix: hipAbductR -10→+20 (FLIP from abduction to adduction per CORRECTED convention 'hipAbduct + = adduction/inward, - = abduction/outward'). This moves the right ankle inward toward body centerline and past the left ankle to the LEFT side, achieving 'Cross the far ankle over the near one'. Verified via verify-patch.js: rightAnkle x 0.412→-0.027 (crosses to LEFT of body center ✓), leftAnkle x=0.194 (stays on right side), so right ankle is now LEFT of left ankle = CROSSED ✓. Both ankles remain planted at y=-0.758/-0.754 ✓. Single-field minimal fix. Same defect class as cron-round-6 fix-hipabduct-signs.js caught (lounger-recline, column-lean, fence-lean, car-lean, etc.) — wall-lean was missed by the cron-round-6 audit (PR-v5 comment in source fooled the script). Recommend integrator re-run fix-hipabduct-signs.js with PR-comment-aware scanning.",
+  "created_at": "2026-08-02T00:29:22.428Z"
+}

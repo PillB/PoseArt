@@ -1,0 +1,42 @@
+{
+  "proposal_id": "patch-p13-floor-s5-blanket-recline-hand-face-1785634318056",
+  "pose_id": "p13-floor-s5-blanket-recline-hand-face",
+  "category": "reclining",
+  "worker": "worker-D-batch5",
+  "existing_config_hash": "d0d37c5976f8",
+  "defects": [
+    {
+      "type": "both_arms_overhead_description_requires_one",
+      "severity": "critical",
+      "description": "Description: \"bring ONE hand up near the face or jaw. Relax the OTHER arm at your side\". Currently leftShoulder=-110 AND rightShoulder=-110 (BOTH arms overhead). OTHER arm should be at side relaxed."
+    },
+    {
+      "type": "left_hand_not_near_face",
+      "severity": "minor",
+      "description": "L arm overhead + elbow 100° leaves wristL 0.638m from head. Description says hand \"near the face or jaw\" — needs deeper elbow bend."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "one_arm_at_side_relaxed",
+      "expected": "one shoulder abduction < 30°",
+      "actual": "both shoulders at -110 (abd ~102-113°)"
+    }
+  ],
+  "field_changes": {
+    "leftElbow": 130,
+    "rightShoulder": 0,
+    "rightElbow": 0,
+    "shoulderFwdR": 0
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/reclining/p13-floor-s5-blanket-recline-hand-face/baseline/",
+  "after_evidence": "",
+  "regression_risk": "low — R arm changes from overhead to side; L elbow deepens. Re-render verify recommended.",
+  "confidence": 0.75,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "L arm (hand near face/jaw): PRESERVED leftShoulder=-110, shoulderFwdL=15. leftElbow 100 → 130 (deeper bend brings wristL closer to head, distance 0.638 → 0.520). R arm (relaxed at side): rightShoulder -110 → 0 (arm hangs down at side), rightElbow 15 → 0 (straight), shoulderFwdR 5 → 0 (no swing). With globalTilt=-85 (mostly supine), arm hangs down in body frame → extends sideways along floor in world (wristR at y=0.068, near floor). Legs PRESERVED: leftHip=8/leftKnee=10 (L extended), rightHip=90/rightKnee=88 (R bent up) — matches \"Bend one leg up while keeping the other extended\". globalTilt=-85 verified SUPINE (per cron-round-1 fix). Same pattern as p13-floor-s4: PR-v4 both-shoulder overshoot applied to a pose that needs asymmetric arms.",
+  "created_at": "2026-08-02T01:31:58.056Z"
+}

@@ -1,0 +1,41 @@
+{
+  "proposal_id": "patch-kneeling-reach-side-1785630566818",
+  "pose_id": "kneeling-reach-side",
+  "category": "kneeling",
+  "worker": "worker-D-batch4",
+  "existing_config_hash": "ca2206a4b38b",
+  "defects": [
+    "CRITICAL: PR-v3 spine-sign MISFIRE — spine=8 (forward lean) per cron-round-4 fix, but description says tilt chin UPWARD toward light. Under CORRECTED convention, spine + = forward lean (chin down), spine - = backward arch (chin up). PR-v3/cron-round-4 may have flipped spine wrong direction for this pose.",
+    "CRITICAL: LEFT arm overhead (leftShoulder=-90, abd 113°). Description does NOT mention left arm overhead — only says rest a hand on the raised knee (one hand, not both arms up).",
+    "MAJOR: RIGHT (raised/forward) foot NOT planted — rightFoot at y=0.391 (elevated). Description says other foot planted flat in front. Rig-limited: hip origin fixed at y=0.12, foot cannot reach ground from hip-flexed kneeling position.",
+    "MAJOR: RIGHT hand not on raised knee — wristR far from kneeR (distance > 0.5). Description says rest a hand on the raised knee.",
+    "MINOR: LEFT knee only at 90° flexion — for kneeling base, deeper flexion (110°+) is better approximation."
+  ],
+  "failing_tests": [
+    "forensic.geometry.spine_neg (chin up — currently spine=8 forward lean, should be slight backward arch)",
+    "forensic.geometry.wristR_to_kneeR_dist < 0.30 (RIGHT hand on raised knee — currently 0.281 after fix)",
+    "forensic.geometry.leftShoulder_abduction < 60 (LEFT arm not overhead — currently 113°)"
+  ],
+  "field_changes": {
+    "spine": -10,
+    "leftShoulder": 0,
+    "leftElbow": 30,
+    "rightShoulder": 0,
+    "rightElbow": 60,
+    "shoulderFwdR": -50,
+    "leftKnee": 110,
+    "rightHip": 80,
+    "rightKnee": 0,
+    "rightAnkle": -35
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/kneeling/kneeling-reach-side/baseline/",
+  "after_evidence": "",
+  "regression_risk": "Medium — PR-v3 spine flip revert may conflict with cron-round-4 audit policy. rightKnee 80→0 (straight) is significant change but matches planted-front-foot description. Re-render verify recommended.",
+  "confidence": 0.65,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "PR-v3 spine misfire REVERT: spine 8→-10 (slight backward arch for chin-up, corrected convention - = backward arch = chin up). LEFT arm revert: leftShoulder -90→0 (arm at side, was overhead). leftElbow 70→30 (slight bend). RIGHT hand on knee: rightShoulder 20→0 (arm at side) + rightElbow 50→60 (forearm bent) + shoulderFwdR 0→-50 (swing forward strongly to reach forward knee — corrected - = forward). LEFT knee 90→110 (deeper flexion for kneeling base). RIGHT leg: rightHip 70→80 (normalize forward lunge) + rightKnee 80→0 (straight, planted front foot approximation — was 80 which lifted foot up). Add rightAnkle=-35 (dorsiflexed foot). After fix: LEFT knee down (y=-0.376), RIGHT foot forward (y=-0.067, ankle-level — closest to planted achievable from kneeling), RIGHT wrist on RIGHT knee (dist=0.281 < 0.30 threshold ✓), spine slight backward (chin up ✓), LEFT arm at side (not overhead ✓). Rig limitations: (1) RIGHT foot cannot reach true ground (y=-0.88) from hip-flexed kneeling — y=-0.067 is best achievable; (2) chin-up via spine backward arch is approximation (renderer has no head pitch joint).",
+  "created_at": "2026-08-02T00:29:26.818Z"
+}

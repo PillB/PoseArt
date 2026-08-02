@@ -1,0 +1,46 @@
+{
+  "proposal_id": "patch-hip-lean-1785627675440",
+  "pose_id": "hip-lean",
+  "category": "leaning",
+  "worker": "worker-C-batch3",
+  "existing_config_hash": "5ed025160609",
+  "defects": [
+    {
+      "type": "contact_failure_hand_on_hip",
+      "severity": "major",
+      "description": "Description: \"Keep the free hand resting on the surface or in a pocket, never stiff at your side.\" Both wrists stiff at sides: L wrist→L hip dist2D=0.51, R wrist→R hip dist2D=0.32 (threshold <0.25). Right elbow flexion only 20° (nearly straight) — right arm is the \"stiff at side\" the description explicitly forbids."
+    },
+    {
+      "type": "subtle_joint_magnitude",
+      "severity": "minor",
+      "description": "Loose-leg soft knee bend too subtle: leftKnee=12 is barely a bend; \"soft knee bend\" implies ~25-35°."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "right wrist to right hip dist2D < 0.25 for hand-in-pocket",
+      "expected": "<0.25",
+      "actual": "0.32"
+    },
+    {
+      "assertion": "leftKnee in [25,40] for soft knee bend on loose leg",
+      "expected": "25-40",
+      "actual": "12"
+    }
+  ],
+  "field_changes": {
+    "leftKnee": 30,
+    "rightShoulder": -25,
+    "rightElbow": 85
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/leaning/hip-lean/baseline/",
+  "after_evidence": "",
+  "regression_risk": "low — moderate risk right wrist may not fully reach <0.25 due to rig constraint (wrist y bound to elbow y). Pose integrity preserved: hip-shift and one-leg-weight-bearing unchanged.",
+  "confidence": 0.6,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Right arm is stiff at side (rightElbow=20°, rightShoulder=8° abduction 16°). Per CORRECTED sign convention rightShoulder rotZ -=raise outward. Setting rightShoulder=-25 (raise upper arm outward ~50° abduction) + rightElbow=85 (right-angle flexion, forearm horizontal) brings right hand down toward hip area for hand-in-pocket posture. leftKnee 12→30 for visible \"soft knee bend\" on loose leg (left leg is forward via leftHip=12, takes non-weight-bearing role). Left arm unchanged (leftElbow=40 already bent, not stiff). Hip-shift (hips=10, pelvic list 10°) and weight-bearing right leg (rightKnee=10 straight) preserved.",
+  "created_at": "2026-08-01T23:41:15.440Z"
+}

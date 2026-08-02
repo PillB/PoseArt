@@ -1,0 +1,47 @@
+{
+  "proposal_id": "patch-fence-lean-1785627671050",
+  "pose_id": "fence-lean",
+  "category": "leaning",
+  "worker": "worker-B-batch3",
+  "existing_config_hash": "8e29e409a786",
+  "defects": [
+    {
+      "type": "shoulderFwd_sign_error",
+      "severity": "major",
+      "description": "PR-v2 set shoulderFwdL=35, shoulderFwdR=30 using the INVERTED (old) sign convention (claimed + = forward). Per CORRECTED convention + = BEHIND, - = FORWARD. Description says Rest both FOREARMS FLAT on top rail — arms reach forward toward fence. Currently shoulderFwdL=35 puts upper arm BEHIND body (elbow z=-0.094). Forearms then bend forward — anatomically awkward reverse-reach. Should be NEGATIVE (forward)."
+    },
+    {
+      "type": "hipabduct_sign_error",
+      "severity": "major",
+      "description": "PR-v2 set hipAbductR=-12 using inverted convention (claimed + = spread). Per CORRECTED convention + = ADDUCTION (inward/cross), - = ABDUCTION (outward/spread). Description says Cross one foot BEHIND the other — crossing foot moves INWARD (adduct, positive). PR-v2 made right leg abduct outward — opposite of crossing. Original +10 was closer (but still needs rightHip negative to swing leg back for cross-behind)."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "shoulderFwdL < 0 for forearm-forward reach",
+      "expected": "<0",
+      "actual": "35 (behind)"
+    },
+    {
+      "assertion": "hipAbductR > 0 for crossed-ankle description",
+      "expected": ">0",
+      "actual": "-12 (abducted outward)"
+    }
+  ],
+  "field_changes": {
+    "shoulderFwdL": -35,
+    "shoulderFwdR": -30,
+    "hipAbductR": 12,
+    "rightHip": -12
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/leaning/fence-lean/baseline/",
+  "after_evidence": "",
+  "regression_risk": "low — single-pose 4-field change; reverses PR-v2 sign errors that used inverted convention. Re-render verification recommended.",
+  "confidence": 0.85,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "CORRECTED CONVENTION: shoulderFwd + = BEHIND, - = FORWARD. hipAbduct + = adduction(inward/cross), - = abduction(outward). rightHip + = forward, - = BACKWARD. Description: Rest both forearms flat on top rail, cross one foot BEHIND the other. (1) shoulderFwdL 35 → -35, shoulderFwdR 30 → -30: flip sign so upper arms reach FORWARD toward fence rail (elbow moves to z+). (2) hipAbductR -12 → +12: adduct right leg INWARD (crossing). (3) rightHip 0 → -12: right leg swings BACKWARD (foot crosses BEHIND left). PR-v2 used inverted sign convention for both shoulderFwd and hipAbduct — both fixes were wrong-direction. Keeping spine=28 (forward lean ✓), leftShoulder=-55/rightShoulder=-50 (arms at 73°/67° abduction, chest-height ✓), leftElbow=95/rightElbow=95 (right-angle forearm flat on rail ✓).",
+  "created_at": "2026-08-01T23:41:11.050Z"
+}

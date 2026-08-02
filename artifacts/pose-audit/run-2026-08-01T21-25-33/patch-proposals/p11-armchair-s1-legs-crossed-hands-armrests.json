@@ -1,0 +1,34 @@
+{
+  "proposal_id": "patch-p11-armchair-s1-legs-crossed-hands-armrests-1785625372456",
+  "pose_id": "p11-armchair-s1-legs-crossed-hands-armrests",
+  "category": "seated",
+  "worker": "worker-A-seated-batch2",
+  "existing_config_hash": "6f70d2135e34",
+  "defects": [
+    {
+      "type": "legs_not_crossed",
+      "severity": "major",
+      "description": "Description: 'cross one leg tightly over the other'. Currently hipAbductL:-8 + hipAbductR:-5 (both slightly ABDUCTED = outward per corrected convention + = adduction/inward, - = abduction/outward). Knees stay on native sides (Lknee_x=-0.190, Rknee_x=0.167) — NOT crossed. Ankles also on native sides (Lankle_x=-0.228, Rankle_x=0.184)."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "one_ankle_crossed_past_other (legs crossed)",
+      "expected": "leftAnkle_x > rightAnkle_x (left crossed over right) OR rightAnkle_x < leftAnkle_x (right over left)",
+      "actual": "Lankle_x=-0.228, Rankle_x=0.184 (both on native sides — NOT crossed)"
+    }
+  ],
+  "field_changes": {
+    "hipAbductL": 25
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/p11-armchair-s1-legs-crossed-hands-armrests/baseline/",
+  "after_evidence": "",
+  "regression_risk": "low — single-field change. over_support changes true→false because crossed legs raise feet off floor (feet_min_y 0.518→0.485), so the support heuristic now sees COM as off the foot-support polygon. For an armchair seated pose the actual support is the chair SEAT (under hips), not the feet — the heuristic is inappropriate for chair-sit. Anomalies 0→0, Plausibility 0→0 (no regressions).",
+  "confidence": 0.85,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Per CORRECTED convention (verified by integrator-1 + workers B/C): hipAbductL + = adduction (inward/cross). For LEFT leg to cross OVER the RIGHT (the more common armchair cross): hipAbductL must be POSITIVE. Currently hipAbductL=-8 (slight outward, not crossed). FIX: hipAbductL -8→25 (inward cross). Verified: Lankle_x -0.228→0.247 (left ankle now on RIGHT side of body, crossed past right ankle at x=0.184), Lfoot_x -0.240→0.281 (left foot on right side, OUTSIDE right foot — 'crossed tightly over' ✓), Lknee_x -0.190→0.052 (left knee near center, crossing). Single-field minimal fix. Other leg (right) remains as the 'under' leg. Hands-on-armrests claim already satisfied (leftWrist y=0.267 at elbow/hip level on left side, rightWrist y=0.407 at elbow level on right side — both plausible 'on armrest' positions). Sit-tall (spine:2 upright) ✓, chin level (head_pitch 2°) ✓.",
+  "created_at": "2026-08-01T23:02:52.456Z"
+}

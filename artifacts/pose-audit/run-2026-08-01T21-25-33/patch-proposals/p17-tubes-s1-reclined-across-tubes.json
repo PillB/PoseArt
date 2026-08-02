@@ -1,0 +1,60 @@
+{
+  "proposal_id": "patch-p17-tubes-s1-reclined-across-tubes-1785625160755",
+  "pose_id": "p17-tubes-s1-reclined-across-tubes",
+  "category": "seated",
+  "worker": "worker-C-seated-batch2",
+  "existing_config_hash": "fe5a5810dc81",
+  "defects": [
+    {
+      "id": "left-arm-not-trailing-to-floor",
+      "severity": "MAJOR",
+      "claim": "Let one arm trail to the floor for support",
+      "evidence": "leftWrist at y=0.375 (high in air, VLM confirms high in air) — should be near floor (y < -0.3). Left arm abducted 91° (lateral horizontal), shoulderFwdL:+10 (positive=BEHIND per corrected convention, which when supine = DOWN-BACK in world). Arm angles wrong way for floor trail."
+    },
+    {
+      "id": "right-arm-not-on-stomach",
+      "severity": "MAJOR",
+      "claim": "Other rests on the stomach",
+      "evidence": "rightWrist at x=0.575 — far to figure-right of torso center x≈-0.05 (0.625 units away). Arm extends laterally instead of folding onto stomach. shoulderFwdR:+10 (behind in body) when supine = DOWN-BACK in world, not on top of stomach."
+    },
+    {
+      "id": "ankles-not-crossed",
+      "severity": "MAJOR",
+      "claim": "Ankles crossed and lifted",
+      "evidence": "leftFoot at (0.049, -0.176, 0.869), rightFoot at (0.406, -0.046, 0.794). 3D distance 0.39 — ankles NOT crossed (should be <0.15 for crossed). Both hipAbduct -5/-5 (same sign, slight outward) — no crossing intent. Feet ARE lifted (y above floor) ✓."
+    }
+  ],
+  "failing_tests": [
+    {
+      "name": "left_arm_trails_to_floor",
+      "assert": "leftWrist.y < -0.20 (near floor, not high in air)"
+    },
+    {
+      "name": "right_arm_on_stomach",
+      "assert": "|rightWrist.x - torso_center.x| < 0.20 AND rightWrist.y between 0.10 and 0.30"
+    },
+    {
+      "name": "ankles_crossed",
+      "assert": "3D_distance(leftFoot, rightFoot) < 0.15"
+    }
+  ],
+  "field_changes": {
+    "leftShoulder": -30,
+    "shoulderFwdL": 0,
+    "leftElbow": 15,
+    "rightShoulder": -10,
+    "shoulderFwdR": -10,
+    "rightElbow": 90,
+    "hipAbductL": 15
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/p17-tubes-s1-reclined-across-tubes/baseline/",
+  "after_evidence": "",
+  "regression_risk": "Medium-High — 7 field changes across 3 contact defects, all interacting with the supine globalTilt:-55 transform. Re-render verification REQUIRED to confirm (1) L wrist actually drops near floor (target y < -0.2), (2) R wrist lands on stomach (target x near 0, y 0.1-0.3), (3) L foot crosses over R foot (target 3D distance < 0.15). Supine orientation preserved (globalTilt:-55 unchanged).",
+  "confidence": 0.65,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Description: supine recline across tubes (globalTilt:-55 ✓ fixed in cron-round-1), one arm trails to floor (currently high in air), other on stomach (currently laterally extended), ankles crossed (currently 0.39 apart). Fixes: (1) L arm — reduce shoulder abduction -80→-30 (arm from horizontal-lateral to ~40° angled down toward floor), neutralize shoulderFwdL 10→0 (no behind-tilt), reduce elbow 35→15 (straighter arm for trailing reach). When supine, body-down direction maps to world down-forward, so reduced abduction brings wrist toward floor. (2) R arm — reduce shoulder abduction -20→-10 (arm closer to body, not extended laterally), flip shoulderFwdR 10→-10 (negative=FORWARD per corrected convention, when supine = world UP-FORWARD = on top of stomach), increase elbow 50→90 (right-angle forearm folds onto stomach). (3) Ankles — flip hipAbductL -5→+15 (positive=ADDUCTION per corrected convention, L leg crosses inward toward R for ankle cross). R hipAbduct kept at -5 (slight outward). Sign conventions verified.",
+  "created_at": "2026-08-01T22:59:20.755Z"
+}

@@ -1,0 +1,3 @@
+page.waitForFunction: Timeout 10000ms exceeded.
+    at Object.openPosesLibrary (/home/z/my-project/PoseArt/audit_harness/lib/pose-flow.js:56:14)
+    at async /home/z/my-project/PoseArt/audit_harness/smoke-soft-sit.js:22:5

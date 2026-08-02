@@ -1,0 +1,45 @@
+{
+  "proposal_id": "patch-ottoman-recline-1785621393081",
+  "pose_id": "ottoman-recline",
+  "category": "seated",
+  "worker": "worker-B",
+  "existing_config_hash": "fdf8913cf790",
+  "defects": [
+    {
+      "type": "supporting_arm_wrong_direction",
+      "severity": "major",
+      "description": "Description says lean back onto one supporting arm (arm reaches BEHIND for support). Baseline shoulderFwdR:-5 (slight forward) — RIGHT arm reaches forward, not backward. RIGHT arm should be the supporting arm (reaches behind+down to ottoman surface). LEFT arm is free hand on thigh (reaches forward+down)."
+    },
+    {
+      "type": "free_hand_not_on_thigh",
+      "severity": "major",
+      "description": "Description says rest the free hand on your thigh. Baseline shoulderFwdL:+7 (slight backward) — LEFT arm reaches backward, not forward to thigh. LEFT wrist at z=-0.172 (behind body), but thigh is forward (z=0 to 0.347)."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "supporting (right) arm should reach BEHIND body (wrist z < -0.05)",
+      "expected": "rightWrist.z < -0.05",
+      "actual": "rightWrist.z=+0.142 (forward of body)"
+    },
+    {
+      "assertion": "free (left) hand should be on thigh area (wrist z between 0.10 and 0.30, y near 0)",
+      "expected": "leftWrist.z in [0.10, 0.30] and leftWrist.y < 0.10",
+      "actual": "leftWrist.z=-0.172 (behind body), leftWrist.y=+0.235 (elevated)"
+    }
+  ],
+  "field_changes": {
+    "shoulderFwdL": -50,
+    "shoulderFwdR": 30
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/ottoman-recline/baseline/",
+  "after_evidence": "",
+  "regression_risk": "low — two-field sign/direction correction; verified geometry matches description; no flags",
+  "confidence": 0.8,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Real defects: (1) RIGHT arm (supporting) reaches forward instead of behind — shoulderFwdR:-5→+30. Per actual renderer convention (empirically verified), POSITIVE shoulderFwdR moves RIGHT wrist BEHIND body when shoulder in default abduction. Verified: rightWrist.z=+0.142 → -0.068 (behind body), supporting the reclined torso. (2) LEFT arm (free hand) reaches behind instead of forward to thigh — shoulderFwdL:+7→-50. NEGATIVE shoulderFwdL moves LEFT wrist FORWARD (verified). Verified: leftWrist.z=-0.172 → +0.179 (forward, at mid-thigh area between hip z=0 and knee z=0.347), leftWrist.y=+0.235 → -0.126 (drops to thigh level). Two-field minimal change; elbows already soft (30°) per description. No anomalies/plausibility flags.",
+  "created_at": "2026-08-01T21:56:33.081Z"
+}

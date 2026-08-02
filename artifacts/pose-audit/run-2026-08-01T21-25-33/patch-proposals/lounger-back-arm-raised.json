@@ -1,0 +1,49 @@
+{
+  "proposal_id": "patch-lounger-back-arm-raised-1785634396941",
+  "pose_id": "lounger-back-arm-raised",
+  "category": "reclining",
+  "worker": "worker-C-batch5",
+  "existing_config_hash": "4b97a7ade02a",
+  "defects": [
+    {
+      "id": "ANKLES_NOT_CROSSED",
+      "severity": "MAJOR",
+      "description": "Description: both legs relax long, ankles crossed loosely. hipAbductL/R not set (defaults 0). Ankles at pelvis width (lAnk x=-0.11, rAnk x=+0.11), 0.22m apart — NOT crossed.",
+      "evidence": "baseline: hipAbductL=0, hipAbductR=0; lAnk(-0.110,0.194,0.775) rAnk(0.110,0.050,0.800) |ankleDist|=0.264"
+    },
+    {
+      "id": "ASYMMETRIC_LEGS",
+      "severity": "MINOR",
+      "description": "leftKnee=15 vs rightKnee=0 (default), leftHip=20 vs rightHip=15. Description: both legs relax long — should be symmetric. Asymmetric legs produce uneven feet height (lAnk y=0.194 vs rAnk y=0.050).",
+      "evidence": "baseline: leftKnee=15, rightKnee=0; leftHip=20, rightHip=15"
+    }
+  ],
+  "failing_tests": [
+    {
+      "name": "ankles_crossed",
+      "expected": "hipAbductL/R positive (ADDUCTION per corrected convention), ankles crossed (LEFT ankle on right side, RIGHT ankle on left side)",
+      "actual": "hipAbduct not set, ankles at pelvis width (not crossed)"
+    },
+    {
+      "name": "symmetric_legs",
+      "expected": "leftKnee=rightKnee, leftHip=rightHip",
+      "actual": "leftKnee=15 vs rightKnee=0, leftHip=20 vs rightHip=15"
+    }
+  ],
+  "field_changes": {
+    "leftKnee": 0,
+    "leftHip": 15,
+    "hipAbductL": 15,
+    "hipAbductR": 15
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/reclining/lounger-back-arm-raised/baseline/",
+  "after_evidence": "",
+  "regression_risk": "",
+  "confidence": 0.85,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Description: Recline back on bed, ONE arm bent behind head (LEFT arm — leftShoulder=-120 raised, lWr y=0.53 above head y=0.24, lWr z=-1.18 behind head z=-0.89 ✓), OTHER hand on stomach (RIGHT arm — rWr y=0.04 at hip level, z=0.07 forward of hip z=-0.12 ✓), both legs relax long, ankles crossed loosely. globalTilt=-75 (supine) ✓ per cron-round-1 fix. LEFT arm behind head ✓ PRESERVED. RIGHT hand on stomach ✓ PRESERVED. Fixes: (1) leftKnee 15→0 (match RIGHT, both straight for relax long); (2) leftHip 20→15 (match RIGHT, symmetric); (3) hipAbductL/R 0→15 (ADDUCTION per corrected convention + = adduction/inward/cross — brings legs inward so ankles cross: LEFT ankle moves to +x, RIGHT ankle moves to -x, ankles swap sides = crossed). Result: lAnk(0.11,0.05,0.77) rAnk(-0.11,0.05,0.77) — ankles crossed (swapped sides), symmetric y=0.05, both extended forward z=0.77 ✓. Rig-limited: ankles 0.22m apart (cannot truly touch without horizontal leg adduction joint).",
+  "created_at": "2026-08-02T01:33:16.941Z"
+}

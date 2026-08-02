@@ -1,0 +1,57 @@
+{
+  "proposal_id": "patch-hip-pop-wall-1785627816701",
+  "pose_id": "hip-pop-wall",
+  "category": "leaning",
+  "worker": "worker-C-batch3",
+  "existing_config_hash": "a995c5a2ca1a",
+  "defects": [
+    {
+      "type": "hipAbduct_sign_error",
+      "severity": "major",
+      "description": "Description: drive the opposite hip sharply outward — opposite hip should abduct OUTWARD. Per CORRECTED convention hipAbduct +=adduction(inward), -=abduction(outward). Currently hipAbductR=10 (adducted/inward) — WRONG SIGN for hip-outward."
+    },
+    {
+      "type": "contact_failure_hand_on_hip",
+      "severity": "major",
+      "description": "Description: Rest the near hand on the popped hip for emphasis. R wrist→R hip dist2D=0.41 (threshold <0.25). L wrist→L hip dist2D=0.50. Neither hand on popped hip."
+    },
+    {
+      "type": "subtle_joint_magnitude",
+      "severity": "minor",
+      "description": "drive the opposite hip sharply outward — hips=10 too subtle for sharply outward hip pop. PR-v4 only bumped spine 14→18, not hips."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "hipAbductR < 0 for opposite-hip-outward",
+      "expected": "<0 (abduction outward)",
+      "actual": "+10 (adduction inward)"
+    },
+    {
+      "assertion": "wrist-to-hip dist2D < 0.25 for hand-on-hip",
+      "expected": "<0.25",
+      "actual": "L=0.50 R=0.41"
+    },
+    {
+      "assertion": "hips magnitude >=20 for sharply outward hip pop",
+      "expected": ">=20",
+      "actual": "10"
+    }
+  ],
+  "field_changes": {
+    "hips": 22,
+    "hipAbductR": -15,
+    "rightShoulder": -25,
+    "rightElbow": 85
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/leaning/hip-pop-wall/baseline/",
+  "after_evidence": "",
+  "regression_risk": "medium — multiple joint changes; hipAbduct sign flip could affect stance balance if other joints don't compensate. Visual verification recommended.",
+  "confidence": 0.55,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Three coordinated fixes: (1) hipAbductR sign flip +10→-15 to abduct right leg outward (correct sign per CORRECTED convention: -=outward). (2) hips 10→22 for visible hip-pop magnitude matching sharply outward (PR-v4 missed this — only bumped spine). (3) Right arm too straight (rightShoulder=-8, rightElbow=20) — set rightShoulder=-25 (raise upper arm outward ~50deg abduction) + rightElbow=85 (right-angle flexion) to bring right hand down toward popped hip. Left shoulder/leg unchanged. Spine=18 (PR-v4) preserved. Note: full <0.25 threshold may not be reachable due to renderer rig constraint (wrist y bound to elbow y) — partial contact fix.",
+  "created_at": "2026-08-01T23:43:36.701Z"
+}

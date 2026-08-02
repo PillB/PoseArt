@@ -1,0 +1,66 @@
+{
+  "proposal_id": "patch-kneeling-twist-back-1785633893519",
+  "pose_id": "kneeling-twist-back",
+  "category": "kneeling",
+  "worker": "worker-A-batch5",
+  "existing_config_hash": "f6ce43c77a0b",
+  "defects": [
+    {
+      "id": "self_hug_not_achieved",
+      "severity": "MAJOR",
+      "claim": "Description: 'wrap both arms around the torso in a self-hug'. Currently leftShoulder=30 (slight abd), rightShoulder=-60 (overhead abduction). Neither arm wraps torso. Left arm at side, right arm abducted lateral. Need both arms forward with deep elbow flexion for cross-body wrap approximation.",
+      "evidence": "geometry.json: left_arm shoulder_abduction_deg=-4.9 (at side, extended 24° behind); right_arm shoulder_abduction_deg=85.1 (lateral out), shoulder_sagittal_flexion_deg=-79.1 (extended behind). Neither arm crosses body midline."
+    },
+    {
+      "id": "asymmetric_legs",
+      "severity": "MAJOR",
+      "claim": "Description: 'Kneel back onto the heels' (both knees down, symmetric). Currently leftHip missing (=0, thigh vertical/standing) but rightHip=70 (thigh forward, kneeling-style). LEFT_LEG_STANDING pattern (leftHip=0 with rightHip>50).",
+      "evidence": "geometry.json: left_leg hip_flexion_deg=0 (thigh neutral), right_leg hip_flexion_deg=70 (thigh forward). Asymmetric kneeling base."
+    },
+    {
+      "id": "neck_tilt_right_mismatch",
+      "severity": "MINOR",
+      "claim": "Description: 'head tilted down a few degrees'. Renderer has no pitch joint; neck field produces roll (side tilt). neck=20 tilts head to figure's RIGHT per corrected convention. Should be 0 (no side tilt; 'down a few degrees' is pitch, not addressable).",
+      "evidence": "geometry.json: head roll_deg=20 (tilt right). Description says 'down' not 'right'."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "both arms wrap torso (self-hug)",
+      "expected": "both arms forward + deep elbow flexion, hands near midline",
+      "actual": "left arm at side, right arm lateral/overhead"
+    },
+    {
+      "assertion": "legs symmetric (both kneeling)",
+      "expected": "leftHip≈rightHip AND leftKnee≈rightKnee",
+      "actual": "leftHip=0 (default), rightHip=70 (asymmetric)"
+    },
+    {
+      "assertion": "neck roll near 0",
+      "expected": "0",
+      "actual": "20 (right tilt)"
+    }
+  ],
+  "field_changes": {
+    "spine": 12,
+    "neck": 0,
+    "leftShoulder": 0,
+    "leftElbow": 110,
+    "rightShoulder": 0,
+    "rightElbow": 110,
+    "shoulderFwdL": -60,
+    "shoulderFwdR": -60,
+    "leftHip": 70,
+    "rightHip": 70
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/kneeling/kneeling-twist-back/baseline/",
+  "after_evidence": "",
+  "regression_risk": "",
+  "confidence": 0.7,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Per protocol §4 use INSTRUCTIONS as ground truth (name 'twist back' but description is self-hug). (1) Self-hug approximation: both arms forward (shoulderFwdL/R=-60 per corrected convention - = forward) with deep elbow flexion (110°) to bring hands toward midline; renderer elbow is rotY-only so hands stay at shoulder width (rig-limited). (2) Symmetric kneeling: leftHip 0→70 (match right); both knees at 80 unchanged. (3) neck 20→0 (no side tilt; 'head tilted down' = pitch, not modeled). (4) spine 26→12 (mild forward fold for 'tender/introspective' mood, less extreme). Rig limitation: no horizontal adduction joint prevents true palms-to-torso contact; forward+deep-flexion is closest approximation.",
+  "created_at": "2026-08-02T01:24:53.519Z"
+}

@@ -1,0 +1,47 @@
+{
+  "proposal_id": "patch-railing-lean-1785630116273",
+  "pose_id": "railing-lean",
+  "category": "leaning",
+  "worker": "worker-A-batch4",
+  "existing_config_hash": "7b116031c395",
+  "defects": [
+    {
+      "type": "contact_failure",
+      "severity": "major",
+      "description": "Forearms not on railing. Description: \"Rest both forearms on the railing\". Currently shoulderFwdL=-1, shoulderFwdR=-5 (near-zero forward flexion) — arms hang at sides, not reaching forward to railing. Wrists at z=+0.207/+0.123 (slightly forward) and y=0.043/-0.048 (hip level). For forearm-on-railing, wrists should be forward of elbows (z+) and at same height as elbows (forearm horizontal). Currently elbows at y=0.328/0.276 (above wrists) — forearm angled DOWN, not horizontal."
+    },
+    {
+      "type": "wrong_magnitude",
+      "severity": "minor",
+      "description": "leftElbow/rightElbow config=81° but derived elbow_flexion_deg=42°/23° — elbows not bent enough for forearm-horizontal-on-railing pose. Forearm angle (forearm_forward_deg) is only 29°/12° — arms mostly straight down."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "leftWrist.z > leftElbow.z + 0.15",
+      "expected": "wrist forward of elbow by 0.15+ (forearm extends forward to railing)",
+      "actual": "wrist z=0.207 vs elbow z=0.047 (diff 0.16, barely forward)"
+    },
+    {
+      "assertion": "leftWrist.y > leftElbow.y - 0.05",
+      "expected": "wrist within 5cm of elbow height (forearm horizontal)",
+      "actual": "wrist y=0.043 vs elbow y=0.328 (wrist 0.29m below elbow — forearm angled down)"
+    }
+  ],
+  "field_changes": {
+    "shoulderFwdL": -25,
+    "shoulderFwdR": -25,
+    "leftElbow": 100,
+    "rightElbow": 100
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/leaning/railing-lean/baseline/",
+  "after_evidence": "",
+  "regression_risk": "low — 4 fields, single-pose. Both shoulders swing forward to reach railing; both elbows bend more for forearm-horizontal rest. spine:14 preserved (rounding back forward ✓). hipAbductL:+10, hipAbductR:-10 preserved (legs crossed at ankle, PR-v5 convention-correct for crossed stance). No torso/leg changes.",
+  "confidence": 0.74,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "CORRECTED CONVENTION: shoulderFwdL/R - = FORWARD. Description: \"Rest both forearms on the railing, rounding the back gently forward\". Arms must reach FORWARD to railing (shoulderFwd negative). Currently shoulderFwdL/R=-1/-5 (near-zero) — arms hang at sides. Setting -25 swings upper arms forward to reach railing. leftElbow/rightElbow:81→100 increases bend so forearms fold to horizontal on railing surface (typical lean-on-railing pose has ~90-100° elbow bend with forearm flat). spine:14 (forward) preserved — matches \"rounding the back gently forward\". PR-v3 correctly flipped spine from -14 to +14 (was a true positive for this pose). hipAbductL:+10, hipAbductR:-10 preserved (legs crossed, geometry verified: left hip_abduction_deg=-15 inward, right +15 outward — opposite signs = crossed).",
+  "created_at": "2026-08-02T00:21:56.273Z"
+}

@@ -1,0 +1,77 @@
+{
+  "proposal_id": "patch-kneeling-lean-forward-1785632039949",
+  "pose_id": "kneeling-lean-forward",
+  "category": "kneeling",
+  "worker": "worker-C-batch4",
+  "existing_config_hash": "ef2fac9bd67e",
+  "defects": [
+    {
+      "id": "LEFT_LEG_STANDING",
+      "severity": "CRITICAL",
+      "description": "leftKnee=5 (LEFT knee straight) and leftHip=0 (default, LEFT hip neutral). LEFT leg is STANDING, not kneeling. Description: Kneel on BOTH knees.",
+      "evidence": "baseline: kneeL y=-0.376, ankleL y=-0.787, footL y=-0.856 (standing)"
+    },
+    {
+      "id": "NO_HAND_ON_FLOOR",
+      "severity": "MAJOR",
+      "description": "No shoulderFwdL set — LEFT arm not brought forward to place hand on floor. Description: place one hand flat on the floor.",
+      "evidence": "baseline: shoulderFwdL=0; wristL z=+0.205 (slightly forward but not down-to-floor)"
+    },
+    {
+      "id": "NO_ARM_ON_THIGH",
+      "severity": "MAJOR",
+      "description": "No shoulderFwdR set — RIGHT arm not brought forward to rest on thigh. Description: rest the opposite arm on the thigh.",
+      "evidence": "baseline: shoulderFwdR=0; wristR z=+0.111 (at body plane, not on thigh)"
+    },
+    {
+      "id": "ASYMMETRIC_ARMS",
+      "severity": "MINOR",
+      "description": "leftShoulder=-10 vs rightShoulder=8 (asymmetric). Description: one hand flat on floor + opposite arm on thigh.",
+      "evidence": "baseline: leftShoulder=-10, rightShoulder=8"
+    },
+    {
+      "id": "NECK_TILT_UNMOTIVATED",
+      "severity": "MINOR",
+      "description": "neck=-6 (head tilt left). Description: look toward camera — neutral head.",
+      "evidence": "baseline: head roll -6deg"
+    }
+  ],
+  "failing_tests": [
+    {
+      "name": "both_knees_kneeling",
+      "expected": "both knees y near -0.024 (kneeling)",
+      "actual": "kneeL y=-0.376 (standing)"
+    },
+    {
+      "name": "one_hand_flat_on_floor",
+      "expected": "one shoulderFwd strongly negative (forward, hand reaches down-forward to floor)",
+      "actual": "shoulderFwdL=0 (no forward swing)"
+    },
+    {
+      "name": "opposite_arm_on_thigh",
+      "expected": "other shoulderFwd slightly negative (forward, arm rests on thigh)",
+      "actual": "shoulderFwdR=0"
+    }
+  ],
+  "field_changes": {
+    "leftHip": 80,
+    "leftKnee": 90,
+    "leftAnkle": -35,
+    "shoulderFwdL": -60,
+    "shoulderFwdR": -30,
+    "leftShoulder": 0,
+    "rightShoulder": 0,
+    "leftElbow": 60,
+    "neck": 0
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/kneeling/kneeling-lean-forward/baseline/",
+  "after_evidence": "",
+  "regression_risk": "Medium — LEFT leg repositioned from standing to kneeling. shoulderFwd added asymmetric (L=-60 forward to floor, R=-30 forward to thigh). spine=16 (forward lean) preserved per cron-round-4 fix.",
+  "confidence": 0.75,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Description: Kneel on BOTH knees + lean forward + place ONE hand flat on floor with soft bend at elbow for support + rest OPPOSITE arm on thigh + look toward camera. Fixes: (1) LEFT kneeling added (leftHip=80, leftKnee=90, leftAnkle=-35); (2) shoulderFwdL=-60 (LEFT hand forward to floor — strong forward swing per corrected convention - = forward); (3) shoulderFwdR=-30 (RIGHT arm forward to thigh — less forward); (4) leftShoulder/rightShoulder=0 (arms at side); (5) leftElbow 81→60 (less bent for support arm reaching down); (6) neck -6→0 (look toward camera, neutral). spine=16 (forward lean) PRESERVED per cron-round-4. Result: LEFT wrist at (-0.407,-0.015,0.389) — y=-0.015 (hip level, rig-limited floor reach), z=+0.389 (forward of body for hand-on-floor); RIGHT wrist at (0.450,-0.015,0.287) — less forward (on-thigh approximation); both knees kneeling. Hand-on-floor rig-limited (wrist y=-0.015 just below hip, cannot reach true floor y=-0.88 from kneeling base).",
+  "created_at": "2026-08-02T00:53:59.949Z"
+}

@@ -1,0 +1,66 @@
+{
+  "proposal_id": "patch-p04-wall-w9-standing-45-degree-crossed-facing-1785628542211",
+  "pose_id": "p04-wall-w9-standing-45-degree-crossed-facing",
+  "category": "leaning",
+  "worker": "worker-D-batch3",
+  "existing_config_hash": "14195b6db02e",
+  "defects": [
+    {
+      "type": "hands_not_touching_legs",
+      "severity": "major",
+      "description": "wristL_to_hipL=0.708, wristR_to_hipR=0.725 (target <0.25). Description: bend the arms touching the legs at different levels. Both wrists far from legs."
+    },
+    {
+      "type": "wrists_too_high",
+      "severity": "major",
+      "description": "wristL_y=0.356, wristR_y=0.481 (above hip y=0.028). Wrists at chest level, NOT at leg level (thigh between hip y=0.03 and knee y=-0.385, mid-thigh y≈-0.18)."
+    },
+    {
+      "type": "shoulder_abduction_excess",
+      "severity": "minor",
+      "description": "leftShoulder=-45, rightShoulder=-55 (abd 66°/74°). Description: drop the shoulders — arms should hang more naturally at sides."
+    },
+    {
+      "type": "legs_not_crossed",
+      "severity": "minor",
+      "description": "hipAbductL=5, hipAbductR=-12 (mild). ankleL_x=0.003, ankleR_x=0.072 (close but not stacked/crossed)."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "wristL_to_hipL < 0.30 for hand_on_leg",
+      "expected": "<0.30",
+      "actual": "0.708 → 0.315"
+    },
+    {
+      "assertion": "wristR_to_hipR < 0.30 for hand_on_leg",
+      "expected": "<0.30",
+      "actual": "0.725 → 0.154"
+    },
+    {
+      "assertion": "wrist_y < hip_y + 0.15 for leg_level",
+      "expected": "<0.18",
+      "actual": "0.356/0.481 → 0.028/0.156"
+    }
+  ],
+  "field_changes": {
+    "leftShoulder": -10,
+    "rightShoulder": -25,
+    "leftElbow": 70,
+    "rightElbow": 130,
+    "shoulderFwdL": -10,
+    "shoulderFwdR": -25,
+    "hipAbductL": 20,
+    "hipAbductR": 15
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/leaning/p04-wall-w9-standing-45-degree-crossed-facing/baseline/",
+  "after_evidence": "",
+  "regression_risk": "medium — 8-field change; arm asymmetry (different elbow flexion) may need re-render to verify visual levels. LEFT wrist slightly over 0.30 threshold (rig-limited).",
+  "confidence": 0.7,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Description: stand 45° to camera, drop shoulders, bend arms touching legs at different levels. Reduced shoulder abduction 45/55→10/25 (shoulders down, arms hang naturally at sides). Increased elbow flexion 60/75→70/130 with asymmetric values for different levels (L wrist at y=0.028 hip level, R wrist at y=0.156 waist level — difference 0.128 ≈ different levels ✓). shoulderFwdL/R -2/+8 → -10/-25 (arms forward in body-frame to reach legs). hipAbductL/R 5/-12→20/15 (both adducted, legs cross — ankleL_x=0.169 > ankleR_x=-0.245, LEFT ankle rightward of RIGHT ankle = crossed). wristL_to_hipL 0.708→0.315 (slightly over threshold, R wrist achieves contact at 0.154).",
+  "created_at": "2026-08-01T23:55:42.211Z"
+}

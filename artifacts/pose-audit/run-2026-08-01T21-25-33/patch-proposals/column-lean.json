@@ -1,0 +1,46 @@
+{
+  "proposal_id": "patch-column-lean-1785627577372",
+  "pose_id": "column-lean",
+  "category": "leaning",
+  "worker": "worker-B-batch3",
+  "existing_config_hash": "3a04976cd424",
+  "defects": [
+    {
+      "type": "hipabduct_sign_error",
+      "severity": "major",
+      "description": "PR-v5 flipped hipAbductR from +10 to -10 using the INVERTED (old) sign convention. Per CORRECTED convention, + = ADDUCTION (inward/cross) and - = ABDUCTION (outward/spread). Original +10 was CORRECT for crossing ankle inward. PR-v5 fix made right leg abduct outward — opposite of intended cross."
+    },
+    {
+      "type": "contact_failure",
+      "severity": "major",
+      "description": "Description says near arm drapes along column surface. leftShoulder=-8 puts arm abducted only 32° (near-neutral, at side). leftWrist y=0.030 (hip level). Arm should be raised along column to chest/shoulder height."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "hipAbductR > 0 for crossed-ankle description",
+      "expected": "positive (adduction)",
+      "actual": "-10 (abduction outward)"
+    },
+    {
+      "assertion": "leftWrist y > 0.4 for arm-draped-along-column",
+      "expected": ">0.4",
+      "actual": "0.030"
+    }
+  ],
+  "field_changes": {
+    "hipAbductR": 10,
+    "leftShoulder": -45,
+    "leftElbow": 30
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/leaning/column-lean/baseline/",
+  "after_evidence": "",
+  "regression_risk": "low — hipAbduct sign revert matches description; shoulder raise is single-pose",
+  "confidence": 0.82,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "CORRECTED CONVENTION: hipAbduct + = adduction (inward/cross), - = abduction (outward/spread). Description says Cross one ankle over the other → crossing ankle moves INWARD → hipAbductR should be POSITIVE (+10). PR-v5 used inverted convention and made it worse. Reverting to +10. Also: leftShoulder -8 → -45 raises the near arm to ~62° abduction so the wrist reaches chest height for draping along column. leftElbow 40 → 30 for slight bend matching drape (less acute). hipAbductL=+10 already correct (crossing ankle inward).",
+  "created_at": "2026-08-01T23:39:37.372Z"
+}

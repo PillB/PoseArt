@@ -1,0 +1,47 @@
+{
+  "proposal_id": "patch-elbow-ledge-1785627661259",
+  "pose_id": "elbow-ledge",
+  "category": "leaning",
+  "worker": "worker-B-batch3",
+  "existing_config_hash": "95671d163e0b",
+  "defects": [
+    {
+      "type": "contact_failure",
+      "severity": "major",
+      "description": "Description says Rest both ELBOWS ON A LEDGE. Currently leftElbow y=0.328, rightElbow y=0.276 (hip level). Ledge height should be at chest/shoulder level (~y=0.6). Elbows are 0.3 below ledge height. Arms are nearly at sides (leftShoulder=-10 → 33° abd; rightShoulder=8 → 17° abd) — not raised to ledge."
+    },
+    {
+      "type": "shoulderFwd_sign_error",
+      "severity": "major",
+      "description": "shoulderFwdL=4 (positive). Per CORRECTED convention + = BEHIND, - = FORWARD. Description says settle weight FORWARD THROUGH THE FOREARMS — arms reach forward. shoulderFwdL should be NEGATIVE. shoulderFwdR=-10 is correct sign but magnitude too small."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "elbow y > 0.55 for elbows-on-ledge",
+      "expected": ">0.55",
+      "actual": "0.328/0.276"
+    },
+    {
+      "assertion": "shoulderFwdL < 0 for forward-forearm reach",
+      "expected": "<0",
+      "actual": "4 (behind)"
+    }
+  ],
+  "field_changes": {
+    "leftShoulder": -75,
+    "rightShoulder": -75,
+    "shoulderFwdL": -20,
+    "shoulderFwdR": -20
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/leaning/elbow-ledge/baseline/",
+  "after_evidence": "",
+  "regression_risk": "medium — 4-field change; arms raise from sides to shoulder-height on ledge. Re-render verification recommended.",
+  "confidence": 0.8,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "CORRECTED CONVENTION: leftShoulder/rightShoulder rotZ (mirrored sign for right). - = raise arm up. shoulderFwdL/R + = BEHIND, - = FORWARD. Computed FK at leftShoulder=-75, leftElbow=100: elbow at (-0.628, 0.737, 0) which is above shoulder height (0.68) — perfect for resting on ledge. shoulderFwdL=-20 swings arm forward (z+) toward ledge. Symmetric -75/-75 + shoulderFwd -20/-20 for both elbows on ledge, forearms reaching forward. PR-v3 comment was a misclassification (description says forward lean, not back arch) — spine=14 is CORRECT (forward lean per corrected convention), not changing spine. neck=-4 already provides slight head tilt for chin-lift mood.",
+  "created_at": "2026-08-01T23:41:01.259Z"
+}

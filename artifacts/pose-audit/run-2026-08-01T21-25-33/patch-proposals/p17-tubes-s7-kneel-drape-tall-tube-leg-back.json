@@ -1,0 +1,31 @@
+{
+  "proposal_id": "patch-p17-tubes-s7-kneel-drape-tall-tube-leg-back-1785624721426",
+  "pose_id": "p17-tubes-s7-kneel-drape-tall-tube-leg-back",
+  "category": "seated",
+  "worker": "worker-D-seated-batch2",
+  "existing_config_hash": "48ff7023c5e7",
+  "defects": [
+    "LEFT_HAND_OFF_TUBE: Description says \"planting one hand on its [tall tube] surface for balance\". Tall tube is at the left knee world position (+0.19, +0.08, +0.42). Left wrist measured at world (-0.499, +0.061, +0.612) — opposite side of body (x=-0.50 vs knee x=+0.19) and 0.19 forward of tube surface. Left arm is reaching wrong direction relative to kneeling knee/tube.",
+    "FALSE_ANOMALY: knee_above_hip (L) flagged because left knee at y=0.077 is slightly above left hip y=0.006. This is rig limitation — hip origin fixed at y=0.12, cannot represent true kneeling with knee on tall tube. NOT a defect.",
+    "RIGHT_LEG_RIG_LIMITATION: Description says \"Extend the other leg back long\" but right leg is extended DOWN (rightHip=20, rightKnee=12, foot at y=-0.725). Renderer cannot extend leg backward (only forward via hip flexion). Rig-limited — not a fixable defect via field changes."
+  ],
+  "failing_tests": [
+    "expect(dist(leftWrist, leftKnee)).toBeLessThan(0.45) — left hand should plant near kneeling knee on tube (currently 0.71)",
+    "expect(Math.sign(leftWrist.x)).toBe(Math.sign(leftKnee.x)) — left hand and left knee on same side of body"
+  ],
+  "field_changes": {
+    "leftShoulder": -15,
+    "leftElbow": 80,
+    "shoulderFwdL": -10
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/p17-tubes-s7-kneel-drape-tall-tube-leg-back/baseline/",
+  "after_evidence": "",
+  "regression_risk": "Medium — globalTwist=45 makes body-frame to world-frame mapping non-intuitive; if shoulderFwdL direction is inverted in body frame, wrist may move further from tube. Right wrist (currently behind, possibly resting on hip for balance) is unchanged. Spine, neck, hips preserved.",
+  "confidence": 0.55,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "CORRECTED sign conventions: shoulderFwd + = behind (posterior), - = forward (anterior); leftShoulder rotZ - = raise/abduct. Left arm currently has shoulderFwdL=+20 (behind in body frame) — after globalTwist=45° rotation, body-frame \"behind\" maps to world \"left-forward\" (matches measured wrist x=-0.50, z=+0.61). To reach the tube at world right-forward (body-frame forward), shoulderFwdL should be NEGATIVE (forward in body frame). Reduced shoulder abduction (-30→-15) brings arm closer to body (less lateral splay), increased elbow flexion (45→80) drops forearm toward tube surface. The tube is at y≈0.08 (knee height); wrist y=0.061 already close. Targeted post-fix: left wrist near (+0.15, +0.07, +0.45). Right leg \"extended back\" is rig-limited (renderer cannot extend leg backward, only forward via hip flexion) — deferred to renderer tier. Knee_above_hip anomaly is rig-limited (hip origin fixed at y=0.12) — false positive for kneeling-on-tube context.",
+  "created_at": "2026-08-01T22:52:01.426Z"
+}

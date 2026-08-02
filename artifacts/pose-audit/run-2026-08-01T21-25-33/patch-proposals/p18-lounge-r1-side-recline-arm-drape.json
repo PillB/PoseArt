@@ -1,0 +1,40 @@
+{
+  "proposal_id": "patch-p18-lounge-r1-side-recline-arm-drape-1785634499223",
+  "pose_id": "p18-lounge-r1-side-recline-arm-drape",
+  "category": "reclining",
+  "worker": "worker-D-batch5",
+  "existing_config_hash": "213696829aa4",
+  "defects": [
+    {
+      "type": "pr_v4_overcorrected_top_arm",
+      "severity": "critical",
+      "description": "PR-v4 audit reverted both shoulders from -110 to -20 (abd ~20°, arms at side) claiming description indicates arm on chair. But actual INSTRUCTIONS say Drape the top arm along the backrest/armrest ABOVE THE HEAD, letting the elbow bend softly — top arm SHOULD be overhead. PR-v4 over-corrected based on misread description (likely confused with another lounge pose due to description-shuffling found in prior batches)."
+    },
+    {
+      "type": "right_elbow_too_bent",
+      "severity": "minor",
+      "description": "rightElbow=40 was set by PR-v4 (per its rationale Adjusting elbows to 40°). Tip says soft bend instead of rigid right angle — 40° is OK but slightly less than ideal soft bend (60°)."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "top_arm_overhead",
+      "expected": "one shoulder abduction > 90° (overhead)",
+      "actual": "both shoulders at -20 (abd ~83° — neither arm overhead)"
+    }
+  ],
+  "field_changes": {
+    "rightShoulder": -110,
+    "rightElbow": 60
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/reclining/p18-lounge-r1-side-recline-arm-drape/baseline/",
+  "after_evidence": "",
+  "regression_risk": "medium — R shoulder changes from -20 to -110 (overhead); may render as arm draped above head along backrest OR as fully-extended overhead depending on viewer angle. Re-render verify REQUIRED.",
+  "confidence": 0.65,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Description: Drape the top arm along the backrest/armrest above the head. Body lies on LEFT side (globalRoll=+20 puts R shoulder higher: R y=0.714, L y=0.564). R arm is the TOP arm. PR-v4 reverted R shoulder to -20 (at side, wrong). Restoring rightShoulder=-110 (overhead, abd 120° — draped above head). rightElbow 40 to 60 (soft bend per tip: soft bend instead of rigid right angle). L arm (bottom, against chaise) PRESERVED at -20 with elbow 95 (forearm tucked under body, plausible for bottom arm). shoulderFwdL/R preserved (10/25, slight back swing toward backrest). globalTilt=+70 + globalRoll=+20 + globalTwist=+25 preserved (rig approximation for side-lying with torso twist toward camera).",
+  "created_at": "2026-08-02T01:34:59.223Z"
+}

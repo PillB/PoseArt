@@ -1,0 +1,38 @@
+{
+  "proposal_id": "patch-p08-male-se3-chair-diagonal-lean-leg-extended-1785621572035",
+  "pose_id": "p08-male-se3-chair-diagonal-lean-leg-extended",
+  "category": "seated",
+  "worker": "worker-D",
+  "existing_config_hash": "63d6dc49a895",
+  "defects": [
+    {
+      "id": "torso_forward",
+      "severity": "major",
+      "actual": "PR-v3 auto-fix comment claims description says forward lean/fold and flipped spine -18 to +18. ACTUAL description: Lean the torso back diagonally against the chair — backward, not forward. The auto-fix regex matched forward in Extend one leg forward (leg direction, not torso). Resulting torso flexion +32 deg (forward) contradicts the lean-back description."
+    },
+    {
+      "id": "foot_on_floor",
+      "severity": "major",
+      "actual": "L foot at y=-0.65 (above floor at y=-0.8). Instructions say extend one leg forward with foot on the floor — L leg is extended (hip 25 deg, knee 15 deg, nearly straight) but foot is 0.15 above floor."
+    }
+  ],
+  "failing_tests": [
+    "torso_forward(torso flexion <= 0 OR < 8 for backward lean claim)",
+    "contact_foot_on_floor(L foot y <= -0.7)"
+  ],
+  "field_changes": {
+    "spine": -18,
+    "leftHip": 5,
+    "leftKnee": 10
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/p08-male-se3-chair-diagonal-lean-leg-extended/baseline/",
+  "after_evidence": "",
+  "regression_risk": "LOW — spine revert undoes PR-v3 mis-fix (description clearly says back diagonally). L leg straightened to reach floor; R leg unchanged. Arms unchanged (L arm overhead behind head approximation, R arm reaching forward). Note: geometry sweep flagged this as torso_forward false positive — manual review confirms description says back lean, not forward.",
+  "confidence": 0.9,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "PR-v3 mis-fix regression: the description says Lean the torso back diagonally against the chair (backward) but PR-v3 auto-fix matched the word forward in Extend one leg forward (about legs, not torso) and incorrectly flipped spine from -18 (correct backward arch) to +18 (forward fold). Reverting spine to -18 restores torso flexion to -3 deg (slight backward lean, matching description). For the foot-on-floor claim: original L leg (leftHip 40, leftKnee 15) gives foot at y=-0.65 (above floor). Fix: reduce leftHip to 5 (thigh nearly vertical down) and leftKnee to 10 (shin nearly straight) — derived L foot y=-0.886 (planted on floor), L leg still extended forward (hip flexion -9 deg, knee 10 deg, both small). R leg unchanged (still bent, sitting on chair).",
+  "created_at": "2026-08-01T21:59:32.035Z"
+}

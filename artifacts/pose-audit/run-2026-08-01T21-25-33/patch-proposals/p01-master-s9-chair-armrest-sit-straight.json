@@ -1,0 +1,31 @@
+{
+  "proposal_id": "patch-p01-master-s9-chair-armrest-sit-straight-1785621562491",
+  "pose_id": "p01-master-s9-chair-armrest-sit-straight",
+  "category": "seated",
+  "worker": "worker-D",
+  "existing_config_hash": "a686a26b4e12",
+  "defects": [
+    {
+      "id": "foot_on_floor",
+      "severity": "major",
+      "actual": "L foot at y=-0.11 (far above floor at y=-0.8); R foot at y=0.13 (also above floor). Instructions explicitly say one foot touching the floor and the other slightly elevated — neither foot is near floor level."
+    }
+  ],
+  "failing_tests": [
+    "contact_foot_on_floor(min foot y <= -0.7)"
+  ],
+  "field_changes": {
+    "leftHip": 10,
+    "leftKnee": 20
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/p01-master-s9-chair-armrest-sit-straight/baseline/",
+  "after_evidence": "",
+  "regression_risk": "LOW — only L hip/knee changed; R leg unchanged (still bent with foot elevated); torso/arms/global transforms unchanged. Pose still reads as seated-on-armrest with one foot on floor.",
+  "confidence": 0.85,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Derived geometry: feet_min_y=-0.11 (both feet dangling ~0.7 above floor). Instructions claim one foot on floor. Original L leg config: leftHip 45 (hip flexion 39 deg, thigh forward) + leftKnee 55 (knee flexion 55 deg, shin folded back) — foot ends up forward and at hip level, not on floor. Fix: reduce hip flexion to 10 (thigh nearly vertical down) and knee flexion to 20 (slight bend) so the leg extends downward and foot reaches floor. Derived after fix: L foot y=-0.762 (planted, within planted threshold of y < -0.7), R foot unchanged at y=0.13 (slightly elevated as described). Torso still arched backward (flexion -11 deg, PR-v3 spine -16 fix preserved). COM over support base.",
+  "created_at": "2026-08-01T21:59:22.491Z"
+}

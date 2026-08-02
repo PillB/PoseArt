@@ -1,0 +1,48 @@
+{
+  "proposal_id": "patch-p13-floor-s6-knees-bent-arms-crossed-1785634327842",
+  "pose_id": "p13-floor-s6-knees-bent-arms-crossed",
+  "category": "reclining",
+  "worker": "worker-D-batch5",
+  "existing_config_hash": "151ee7ce0ec9",
+  "defects": [
+    {
+      "type": "shoulderFwd_wrong_direction_for_crossed_forearms",
+      "severity": "critical",
+      "description": "shoulderFwdL/R=+25 (BEHIND per corrected convention) but description requires arms FORWARD to cross forearms on top of knee. With body reclined (globalTilt=-55), \"behind body\" maps to UP in world, but wrists end up at y=-0.073 (below hip) instead of at knee level (y=0.43)."
+    },
+    {
+      "type": "asymmetric_shoulders",
+      "severity": "major",
+      "description": "leftShoulder=45 vs rightShoulder=50 (5° asymmetry). Description implies symmetric crossed forearms."
+    },
+    {
+      "type": "wrists_not_on_knee",
+      "severity": "major",
+      "description": "wristL=(-0.017,-0.073,-0.031), wristR=(-0.012,-0.071,-0.066). Both wrists at hip level (y=-0.07), far below knee level (y=0.43). Distance to knee ~0.5m. Not on top of knee."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "wrists_on_top_of_knee",
+      "expected": "wrist-to-knee distance < 0.20",
+      "actual": "wristL-to-kneeL = 0.50, wristR-to-kneeR = 0.52"
+    }
+  ],
+  "field_changes": {
+    "leftShoulder": 75,
+    "rightShoulder": 75,
+    "shoulderFwdL": 90,
+    "shoulderFwdR": 90,
+    "leftElbow": 100
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/reclining/p13-floor-s6-knees-bent-arms-crossed/baseline/",
+  "after_evidence": "",
+  "regression_risk": "medium — shoulderFwd +25 → +90 (dramatic back swing) needed because body is reclined -55° (\"behind body\" maps to UP in world). Re-render verify required.",
+  "confidence": 0.65,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Description: \"Cross both forearms and rest them along the top knee\". With body reclined (globalTilt=-55), to bring wrists UP to knee level (y=0.43), shoulderFwd must be POSITIVE (behind in body = up in world for reclined body). shoulderFwdL/R +25 → +90 (dramatic up swing). leftShoulder 45 → 75, rightShoulder 50 → 75 (more abduction, arms out for crossing). leftElbow 95 → 100 (slight deeper bend). rightElbow=100 preserved. Result: wristL=(-0.011, 0.335, -0.044), wristR=(-0.047, 0.332, -0.039). wristL-to-kneeL=0.18m, wristR-to-kneeR=0.31m. wristL_to_wristR=0.036 (very close, crossed approximation). Rig-limited: cannot truly cross forearms horizontally (renderer elbow only rotY); arms extend forward to knee, hands close together. spine=-6 + globalTilt=-55 preserved (rig convention for floor seated).",
+  "created_at": "2026-08-02T01:32:07.842Z"
+}

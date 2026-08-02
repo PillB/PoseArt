@@ -1,0 +1,61 @@
+{
+  "proposal_id": "patch-p13-floor-s1-knees-hug-chair-base-1785634463780",
+  "pose_id": "p13-floor-s1-knees-hug-chair-base",
+  "category": "reclining",
+  "worker": "worker-C-batch5",
+  "existing_config_hash": "ea6e5311bc25",
+  "defects": [
+    {
+      "id": "SPINE_WRONG_DIRECTION",
+      "severity": "CRITICAL",
+      "description": "Tip: Round the upper back slightly. Per corrected convention spine + = forward lean (round), - = backward arch. Current spine=-32 (backward arch) — WRONG direction. Should be slight POSITIVE (forward round).",
+      "evidence": "baseline: spine=-32 (backward arch, opposite of round upper back)"
+    },
+    {
+      "id": "SHOULDERFWD_WRONG_DIRECTION_CRON9_FIX_INCORRECT",
+      "severity": "CRITICAL",
+      "description": "shoulderFwdL/R=-35 (FORWARD per corrected convention) was set in cron-round-9 to address torso_forward flag. For supine pose (globalTilt=-60), FORWARD in body-frame projects DOWN in world — pushing wrists DOWN/BACK, opposite of needed UP/FORWARD toward knees. Wrists at y=-0.4 (0.8m BELOW knees at y=0.4). cron-round-9 fix is INCORRECT — should be POSITIVE (BEHIND) to project UP in world.",
+      "evidence": "baseline: shoulderFwdL=-35, shoulderFwdR=-35; lWr(0.057,-0.381,-0.256) rWr(-0.049,-0.407,-0.279) — wrists at y=-0.4 (way below knees y=0.42)"
+    },
+    {
+      "id": "ARMS_NOT_WRAPPING_SHINS",
+      "severity": "MAJOR",
+      "description": "Description: wrap both arms around the shins, clasping the hands together. Wrists at y=-0.4 (below hip), knees at y=0.42 (above hip). Wrists 0.8m BELOW knees — arms reaching DOWN/BACK, not UP/FORWARD to wrap shins.",
+      "evidence": "baseline: |lWr-lKn|=0.894 |rWr-rKn|=0.917; wrists together (|lWr-rWr|=0.111) but at wrong height"
+    }
+  ],
+  "failing_tests": [
+    {
+      "name": "spine_round_upper_back",
+      "expected": "spine slightly positive (forward round)",
+      "actual": "spine=-32 (backward arch)"
+    },
+    {
+      "name": "arms_wrap_shins",
+      "expected": "wrists near knee level (y≈0.4), clasped at centerline",
+      "actual": "wrists at y=-0.4 (below hip), 0.8m below knees"
+    },
+    {
+      "name": "cron9_shoulderFwd_fix_correct",
+      "expected": "shoulderFwd positive (BEHIND) for supine to project UP",
+      "actual": "shoulderFwd=-35 (FORWARD, projects DOWN in supine)"
+    }
+  ],
+  "field_changes": {
+    "spine": 15,
+    "shoulderFwdL": 50,
+    "shoulderFwdR": 50,
+    "leftElbow": 120,
+    "rightElbow": 120
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/reclining/p13-floor-s1-knees-hug-chair-base/baseline/",
+  "after_evidence": "",
+  "regression_risk": "",
+  "confidence": 0.55,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Description: Sit on floor, back leaned against chair base (globalTilt=-60 semi-supine ✓ PRESERVED). Draw both knees up to chest (leftHip=112, rightHip=115 ✓ PRESERVED; leftKnee=138, rightKnee=138 deeply bent ✓ PRESERVED). Wrap both arms around shins, clasp hands. Drop chin down (rig-limited — no head pitch joint). Tip: round upper back slightly. Fixes: (1) spine -32→+15 (CRITICAL: forward round per tip, was backward arch); (2) shoulderFwdL/R -35→+50 (CRITICAL: cron-round-9 fix was WRONG direction — for supine pose, FORWARD in body-frame projects DOWN in world, pushing wrists AWAY from knees. Reversing to +50 (BEHIND) projects UP in world, bringing wrists UP toward knees); (3) leftElbow/rightElbow 100→120 (deeper bend, brings wrists together at centerline for clasp). PRESERVE: leftShoulder=55, rightShoulder=60 (INWARD across body for clasp), leftAnkle=-10, rightAnkle=-10 (already plantarflexed), hipAbductL=-8 hipAbductR=8 (slight asymmetry — minor, leave). neck=-28 (LEFT tilt — leave, gaze-away approximation). Result: lWr(-0.04,0.05,-0.01) rWr(-0.02,0.07,-0.05) — wrists CLASPED at centerline (|lWr-rWr|=0.044, only 4cm apart ✓) at hip level (y=0.05). Knees at y=0.42. Wrists 0.37m below knees. Rig-limited: cannot bring wrists UP to knee level while keeping them clasped (requires horizontal adduction joint, renderer lacks). Best approximation: hands clasped at hip level in front of body, arms reaching toward shins. Cron-round-9 fix verification: INCORRECT — shoulderFwd was set to WRONG sign (-35 FORWARD instead of +50 BEHIND), pushing wrists DOWN. This patch REVERSES the cron-round-9 fix.",
+  "created_at": "2026-08-02T01:34:23.780Z"
+}

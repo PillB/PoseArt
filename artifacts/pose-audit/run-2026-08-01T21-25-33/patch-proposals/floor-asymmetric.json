@@ -1,0 +1,51 @@
+{
+  "proposal_id": "patch-floor-asymmetric-1785620895000",
+  "pose_id": "floor-asymmetric",
+  "category": "seated",
+  "worker": "worker-A",
+  "existing_config_hash": "ddc61d46c316",
+  "defects": [
+    {
+      "type": "reclining_false_positive",
+      "severity": "minor",
+      "description": "FALSE POSITIVE. Geometry sweep flagged reclining (globalTilt missing) because description contains the word floor. Instructions clearly say SIT on the floor with one knee bent upward and the other leg tucked beneath the body — this is a SEATED floor pose, NOT a reclining/lying pose. No globalTilt needed. Sweep keyword matching too aggressive on the word floor."
+    },
+    {
+      "type": "torso_lateral_lean_missing",
+      "severity": "major",
+      "description": "Instructions say lean the torso a few degrees toward it [the raised knee]. Derived torso lateral_flexion = 0 (no lean). Raised knee is on LEFT (L knee 90, less bent = more upward; R knee 140, tucked). Torso should lean LEFT toward raised left knee."
+    },
+    {
+      "type": "arm_across_knee_missing",
+      "severity": "major",
+      "description": "Instructions say rest one arm across the raised knee. Derived: L arm shoulder_abd 22, elbow 22 (at side, slightly bent, not across knee); R arm shoulder_abd 36, elbow 10 (straight, not across knee). Neither arm reaches forward to rest on raised knee."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "torso_lateral_flexion_deg != 0 (lean toward raised knee)",
+      "expected": "nonzero",
+      "actual": "0"
+    },
+    {
+      "assertion": "one arm shoulder_sagittal_flexion_deg > 40 (forward reach across knee)",
+      "expected": "> 40",
+      "actual": "L -12.8, R -7.8 (both behind)"
+    }
+  ],
+  "field_changes": {
+    "hips": 8,
+    "shoulderFwdL": -50,
+    "hipAbductR": -10
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/floor-asymmetric/baseline/",
+  "after_evidence": "",
+  "regression_risk": "medium - 3-field change. hips tilt is small magnitude. shoulderFwdL sign-flip is the biggest change. hipAbductR small inward cross.",
+  "confidence": 0.5,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Reclining flag explicitly classified as FALSE POSITIVE — no globalTilt change. Real defects addressed: (1) hips: 8 — per FK hips rotZ + = pelvis tilts left (left hip drops = body leans LEFT) toward raised left knee. (2) shoulderFwdL: -50 (was +7, sign flip per inverted renderer convention) puts L arm forward ~50 deg sagittal flexion so forearm reaches across raised left knee. leftElbow already 60 (bent, OK for forearm resting on knee — leave unchanged). (3) hipAbductR: -10 (raw negative = crosses inward) tucks right leg slightly under body for asymmetric tucked-beneath shape. leftKnee 90 stays (raised knee right-angle), rightKnee 140 stays (tucked-under deep bend).",
+  "created_at": "2026-08-01T21:48:15.000Z"
+}

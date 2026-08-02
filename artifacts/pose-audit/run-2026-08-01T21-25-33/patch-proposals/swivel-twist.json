@@ -1,0 +1,31 @@
+{
+  "proposal_id": "patch-swivel-twist-1785628214753",
+  "pose_id": "swivel-twist",
+  "category": "seated",
+  "worker": "worker-A-batch3",
+  "existing_config_hash": "92ff04c39697",
+  "defects": [
+    "NO_TORSO_TWIST: Description says twisting the ribcage toward camera, keeping the hips anchored in place but globalTwist=0. Sweep torso_twist claim MISSED this pose due to regex bug in fix-torso-twist.js (regex requires (twist|rotation|rotate|turn)\\s+(torso|ribcage|...) but description uses twisting the ribcage (gerund form, no whitespace between twist and ing). 24 other poses fixed in cron-round-7 but swivel-twist was missed.",
+    "ARM_NOT_ON_CHAIR_BACK: Description says Rest one arm along the chair back to support and emphasize the twist. Sweep arm_on_chair check requires min(elbow.z, wrist.z) < -0.10. Currently all elbow/wrist z values POSITIVE (min=+0.043). Right shoulder rightShoulder=-12 (mild abduction) with shoulderFwdR=-5 (FORWARD — wrong sign). Need one arm with elbow/wrist behind torso (z<0)."
+  ],
+  "failing_tests": [
+    "expect(Math.abs(globalTwist)).toBeGreaterThanOrEqual(15) — torso twist visible",
+    "expect(Math.min(leftElbow.z, rightElbow.z, leftWrist.z, rightWrist.z)).toBeLessThan(-0.10) — at least one elbow/wrist behind torso (arm on chair back)",
+    "expect(shoulderFwdR).toBeGreaterThan(15) — right shoulder extended backward (CORRECTED: + = behind)"
+  ],
+  "field_changes": {
+    "globalTwist": 25,
+    "rightShoulder": -30,
+    "shoulderFwdR": 30
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/swivel-twist/baseline/",
+  "after_evidence": "",
+  "regression_risk": "Low-Medium — 3 field changes. rightShoulder magnitude increase (-12 -> -30) is significant but moderate; shoulderFwdR sign flip (-5 -> +30) puts arm behind body as required. globalTwist affects whole body orientation. Re-render REQUIRED to verify arm position relative to chair back visualized correctly.",
+  "confidence": 0.8,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "CORRECTED sign conventions: shoulderFwdR + = BEHIND, - = FORWARD. globalTwist + = rotate torso toward figure left (default moderate magnitude 25deg per cron-round-7 fix-torso-twist default). Setting rightShoulder: -12 -> -30 (more abducted, raises right elbow to chair-back height ~y=0.42), shoulderFwdR: -5 -> +30 (flips sign to behind, elbow z=-0.254). Verified by buildPose: rightElbow at (0.505, 0.427, -0.254), rightWrist at (0.675, 0.239, -0.494). Min z across arms = -0.494 < -0.10 (PASSES arm_on_chair sweep check). globalTwist: 0 -> +25 (ribcage twists toward camera per description; whole-body Y-rotation since renderer has no independent ribcage joint). Sweep torso_twist claim MISSED this pose due to regex bug — fix-torso-twist.js regex requires `twist\\s+torso` form but description uses twisting the ribcage (gerund + ribcage). Recommend cron-round-8 broaden regex to include gerund forms (twisting|rotating|turning).",
+  "created_at": "2026-08-01T23:50:14.753Z"
+}

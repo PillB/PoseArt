@@ -1,0 +1,69 @@
+{
+  "proposal_id": "patch-kneeling-upright-twist-1785621345143",
+  "pose_id": "kneeling-upright-twist",
+  "category": "seated",
+  "worker": "worker-B",
+  "existing_config_hash": "9ae8d375ec94",
+  "defects": [
+    {
+      "type": "knees_to_one_side_false_positive",
+      "severity": "n/a",
+      "description": "Detector flagged knees_to_one_side (legs symmetric) but description explicitly says hips stay squared forward — symmetric legs are CORRECT, not a defect."
+    },
+    {
+      "type": "reclining_false_positive",
+      "severity": "n/a",
+      "description": "Detector flagged reclining (globalTilt missing) but description says Sit back on the heels in a kneeling base — kneeling, NOT lying down."
+    },
+    {
+      "type": "not_kneeling_base",
+      "severity": "major",
+      "description": "Description says Sit back on the heels in a kneeling base. Baseline has hip 80° + knee 100° (chair-sit posture with knees up), NOT a kneeling base. Should have less hip flexion (thigh more vertical) and deeper knee flexion (shin folded back)."
+    },
+    {
+      "type": "hand_not_planted_behind",
+      "severity": "major",
+      "description": "Description says planting one hand on the floor behind you for support. Baseline has shoulderFwdL:+7 (slight backward) and elbow 65° (bent) — wrist at z=+0.087 (forward of body), not planted behind."
+    },
+    {
+      "type": "ribcage_twist_unmodeled",
+      "severity": "uncertain",
+      "description": "Description says twist the ribcage to one side. Renderer has no per-torso axial-twist joint — only globalTwist (whole-body Y rotation) which would also rotate the hips, contradicting hips stay squared forward. Renderer limitation; cannot fix via pose-data patch."
+    }
+  ],
+  "failing_tests": [
+    {
+      "assertion": "legs should be in kneeling posture (hip flexion < 60°, knee flexion > 130°)",
+      "expected": "L_hip_flx < 60 and L_knee > 130",
+      "actual": "L_hip_flx=80, L_knee=100 (chair-sit)"
+    },
+    {
+      "assertion": "one wrist should be BEHIND body (z <= -0.05) for planted support hand",
+      "expected": "min(leftWrist.z, rightWrist.z) <= -0.05",
+      "actual": "leftWrist.z=+0.087 (forward of body)"
+    },
+    {
+      "assertion": "ribcage axial rotation should be non-zero",
+      "expected": "torso_axial_rotation > 15 or < -15",
+      "actual": "torso_axial=0 (renderer does not model per-torso twist)"
+    }
+  ],
+  "field_changes": {
+    "leftHip": 40,
+    "rightHip": 40,
+    "leftKnee": 150,
+    "rightKnee": 150,
+    "shoulderFwdL": 30,
+    "leftElbow": 15
+  },
+  "renderer_changes": "",
+  "before_evidence": "categories/seated/kneeling-upright-twist/baseline/",
+  "after_evidence": "",
+  "regression_risk": "medium — substantial leg geometry change (4 fields); verified no anomalies/plausibility flags but visual confirmation needed",
+  "confidence": 0.6,
+  "files_touched": [
+    "js/poses-data.js"
+  ],
+  "rationale": "Both detector flags are FALSE POSITIVES: knees_to_one_side is wrong (description says hips squared forward, symmetric legs correct) and reclining is wrong (sit-back-on-heels is kneeling, not lying). Real defects: (1) not kneeling base — hip 80°/knee 100° is chair-sit; reducing hip to 40° (thigh more vertical) and deepening knee to 150° (shin folded back) brings posture closer to kneeling. Renderer cannot lower hips to floor (hips pinned at y=0.12), so true sit-back-on-heels is unachievable, but leg geometry is more kneeling-like (knee y drops from +0.279 to -0.279). (2) Hand not planted behind — shoulderFwdL:7→30 (backward, positive shoulderFwdL moves wrist behind when shoulder in default abduction, verified empirically), leftElbow:65→15 (almost straight, forearm extends down to floor). Verified: leftWrist.z=-0.138 (behind body). (3) Ribcage twist is renderer-limited (no per-torso twist joint; globalTwist would rotate hips too).",
+  "created_at": "2026-08-01T21:55:45.143Z"
+}
