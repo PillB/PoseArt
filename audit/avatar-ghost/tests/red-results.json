@@ -1,0 +1,64 @@
+{
+  "sha": "7a3a823",
+  "date": "2026-08-02T22:08:55.048Z",
+  "passed": 11,
+  "failed": 0,
+  "total": 11,
+  "results": [
+    {
+      "name": "T1 joint-inflation (avatar elbow <= 1.2x upper-arm segment)",
+      "pass": true,
+      "detail": "none"
+    },
+    {
+      "name": "T2 no-clipping (computeFit keeps figure bbox in canvas)",
+      "pass": true,
+      "detail": "none"
+    },
+    {
+      "name": "T3 grounded-placement (pixel bbox not floating)",
+      "pass": true,
+      "detail": "none"
+    },
+    {
+      "name": "T4 mode-distinctiveness (avatar vs ghost IoU < 0.55)",
+      "pass": true,
+      "detail": "all strongly distinct"
+    },
+    {
+      "name": "T5 cross-mode-alignment (avatar/skeleton/ghost joints align)",
+      "pass": true,
+      "detail": "aligned"
+    },
+    {
+      "name": "T6 bounds-calculator (visual bbox in plausible range)",
+      "pass": true,
+      "detail": "bbox=92x140"
+    },
+    {
+      "name": "T7 small-thumbnail-occupation (70x70 standing pixel-bbox in 20-80%)",
+      "pass": true,
+      "detail": "all in range"
+    },
+    {
+      "name": "T8 androgynous-torso (rib/pel 0.85-1.15, waist/pel>=0.78)",
+      "pass": true,
+      "detail": "all neutral"
+    },
+    {
+      "name": "T9 full-library-smoke (sampled 80 poses × 3 modes)",
+      "pass": true,
+      "detail": "240 renders ok"
+    },
+    {
+      "name": "T10 high-dpi-parity (dpr2 silhouette within 10% of dpr1)",
+      "pass": true,
+      "detail": "dpr1=16.2% dpr2=16.2%"
+    },
+    {
+      "name": "T11 view-consistency (front/side/quarter non-empty)",
+      "pass": true,
+      "detail": "all non-empty"
+    }
+  ]
+}

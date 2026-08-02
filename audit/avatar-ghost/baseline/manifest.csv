@@ -1,0 +1,259 @@
+pose_id,pose_name,category,mode,view,canvas,yaw,pitch,bbox_x,bbox_y,bbox_w,bbox_h,clipped,occupation_pct,silhouette_pct,margin_top,margin_bottom,margin_left,margin_right
+power-stance,"Power Stance",standing,avatar,0/0,160x180,0,0,32.3,15.9,91.8,140.1,0,44.7,16.2,15.9,24.0,32.3,35.9
+power-stance,"Power Stance",standing,avatar,90/0,160x180,90,0,57.1,15.9,57.7,140.1,0,28.1,10.4,15.9,24.0,57.1,45.2
+power-stance,"Power Stance",standing,avatar,45/0,160x180,45,0,41.7,15.9,79.1,140.1,0,38.5,14.1,15.9,24.0,41.7,39.2
+power-stance,"Power Stance",standing,skeleton,0/0,160x180,0,0,32.3,15.9,91.8,140.1,0,44.7,48.3,15.9,24.0,32.3,35.9
+power-stance,"Power Stance",standing,skeleton,90/0,160x180,90,0,57.1,15.9,57.7,140.1,0,28.1,47.1,15.9,24.0,57.1,45.2
+power-stance,"Power Stance",standing,skeleton,45/0,160x180,45,0,41.7,15.9,79.1,140.1,0,38.5,47.7,15.9,24.0,41.7,39.2
+power-stance,"Power Stance",standing,ghost,0/0,160x180,0,0,32.3,15.9,91.8,140.1,0,44.7,36.4,15.9,24.0,32.3,35.9
+power-stance,"Power Stance",standing,ghost,90/0,160x180,90,0,57.1,15.9,57.7,140.1,0,28.1,36.5,15.9,24.0,57.1,45.2
+power-stance,"Power Stance",standing,ghost,45/0,160x180,45,0,41.7,15.9,79.1,140.1,0,38.5,36.5,15.9,24.0,41.7,39.2
+scurve-stand,"S-Curve Stand",standing,avatar,0/0,160x180,0,0,18.3,20.2,108.3,137.0,0,51.5,16.7,20.2,22.8,18.3,33.4
+scurve-stand,"S-Curve Stand",standing,avatar,90/0,160x180,90,0,64.2,20.2,63.8,137.0,0,30.4,10.6,20.2,22.8,64.2,32.0
+scurve-stand,"S-Curve Stand",standing,avatar,45/0,160x180,45,0,42.9,20.2,97.4,137.0,0,46.3,15.0,20.2,22.8,42.9,19.6
+scurve-stand,"S-Curve Stand",standing,skeleton,0/0,160x180,0,0,18.3,20.2,108.3,137.0,0,51.5,48.3,20.2,22.8,18.3,33.4
+scurve-stand,"S-Curve Stand",standing,skeleton,90/0,160x180,90,0,64.2,20.2,63.8,137.0,0,30.4,47.1,20.2,22.8,64.2,32.0
+scurve-stand,"S-Curve Stand",standing,skeleton,45/0,160x180,45,0,42.9,20.2,97.4,137.0,0,46.3,47.7,20.2,22.8,42.9,19.6
+scurve-stand,"S-Curve Stand",standing,ghost,0/0,160x180,0,0,18.3,20.2,108.3,137.0,0,51.5,37.5,20.2,22.8,18.3,33.4
+scurve-stand,"S-Curve Stand",standing,ghost,90/0,160x180,90,0,64.2,20.2,63.8,137.0,0,30.4,36.5,20.2,22.8,64.2,32.0
+scurve-stand,"S-Curve Stand",standing,ghost,45/0,160x180,45,0,42.9,20.2,97.4,137.0,0,46.3,36.6,20.2,22.8,42.9,19.6
+fashion-power-stance-classic,"Classic Power Stance",fashion,avatar,0/0,160x180,0,0,22.3,0.3,120.0,159.8,0,66.6,12.9,0.3,20.0,22.3,17.7
+fashion-power-stance-classic,"Classic Power Stance",fashion,avatar,90/0,160x180,90,0,61.8,0.3,54.1,159.8,0,30.0,8.1,0.3,20.0,61.8,44.1
+fashion-power-stance-classic,"Classic Power Stance",fashion,avatar,45/0,160x180,45,0,44.6,0.3,94.9,159.8,0,52.6,11.0,0.3,20.0,44.6,20.5
+fashion-power-stance-classic,"Classic Power Stance",fashion,skeleton,0/0,160x180,0,0,22.3,0.3,120.0,159.8,0,66.6,48.3,0.3,20.0,22.3,17.7
+fashion-power-stance-classic,"Classic Power Stance",fashion,skeleton,90/0,160x180,90,0,61.8,0.3,54.1,159.8,0,30.0,47.1,0.3,20.0,61.8,44.1
+fashion-power-stance-classic,"Classic Power Stance",fashion,skeleton,45/0,160x180,45,0,44.6,0.3,94.9,159.8,0,52.6,47.7,0.3,20.0,44.6,20.5
+fashion-power-stance-classic,"Classic Power Stance",fashion,ghost,0/0,160x180,0,0,22.3,0.3,120.0,159.8,0,66.6,35.3,0.3,20.0,22.3,17.7
+fashion-power-stance-classic,"Classic Power Stance",fashion,ghost,90/0,160x180,90,0,61.8,0.3,54.1,159.8,0,30.0,34.1,0.3,20.0,61.8,44.1
+fashion-power-stance-classic,"Classic Power Stance",fashion,ghost,45/0,160x180,45,0,44.6,0.3,94.9,159.8,0,52.6,35.0,0.3,20.0,44.6,20.5
+crossed-arms-stand,"Crossed Arms",standing,avatar,0/0,160x180,0,0,29.0,15.9,95.1,141.0,0,46.6,15.7,15.9,23.1,29.0,35.9
+crossed-arms-stand,"Crossed Arms",standing,avatar,90/0,160x180,90,0,57.1,15.9,57.8,141.0,0,28.3,10.4,15.9,23.1,57.1,45.1
+crossed-arms-stand,"Crossed Arms",standing,avatar,45/0,160x180,45,0,35.0,15.9,84.3,141.0,0,41.3,14.3,15.9,23.1,35.0,40.7
+crossed-arms-stand,"Crossed Arms",standing,skeleton,0/0,160x180,0,0,29.0,15.9,95.1,141.0,0,46.6,48.3,15.9,23.1,29.0,35.9
+crossed-arms-stand,"Crossed Arms",standing,skeleton,90/0,160x180,90,0,57.1,15.9,57.8,141.0,0,28.3,47.1,15.9,23.1,57.1,45.1
+crossed-arms-stand,"Crossed Arms",standing,skeleton,45/0,160x180,45,0,35.0,15.9,84.3,141.0,0,41.3,47.7,15.9,23.1,35.0,40.7
+crossed-arms-stand,"Crossed Arms",standing,ghost,0/0,160x180,0,0,29.0,15.9,95.1,141.0,0,46.6,36.2,15.9,23.1,29.0,35.9
+crossed-arms-stand,"Crossed Arms",standing,ghost,90/0,160x180,90,0,57.1,15.9,57.8,141.0,0,28.3,36.5,15.9,23.1,57.1,45.1
+crossed-arms-stand,"Crossed Arms",standing,ghost,45/0,160x180,45,0,35.0,15.9,84.3,141.0,0,41.3,36.4,15.9,23.1,35.0,40.7
+soft-sit,"Soft Sit",seated,avatar,0/0,160x180,0,0,31.4,17.9,106.1,88.8,0,32.7,21.8,17.9,73.4,31.4,22.4
+soft-sit,"Soft Sit",seated,avatar,90/0,160x180,90,0,64.2,17.9,58.6,88.8,0,18.1,22.8,17.9,73.4,64.2,37.2
+soft-sit,"Soft Sit",seated,avatar,45/0,160x180,45,0,44.9,17.9,87.2,88.8,0,26.9,29.0,17.9,73.4,44.9,27.8
+soft-sit,"Soft Sit",seated,skeleton,0/0,160x180,0,0,31.4,17.9,106.1,88.8,0,32.7,48.3,17.9,73.4,31.4,22.4
+soft-sit,"Soft Sit",seated,skeleton,90/0,160x180,90,0,64.2,17.9,58.6,88.8,0,18.1,47.1,17.9,73.4,64.2,37.2
+soft-sit,"Soft Sit",seated,skeleton,45/0,160x180,45,0,44.9,17.9,87.2,88.8,0,26.9,47.7,17.9,73.4,44.9,27.8
+soft-sit,"Soft Sit",seated,ghost,0/0,160x180,0,0,31.4,17.9,106.1,88.8,0,32.7,32.9,17.9,73.4,31.4,22.4
+soft-sit,"Soft Sit",seated,ghost,90/0,160x180,90,0,64.2,17.9,58.6,88.8,0,18.1,44.6,17.9,73.4,64.2,37.2
+soft-sit,"Soft Sit",seated,ghost,45/0,160x180,45,0,44.9,17.9,87.2,88.8,0,26.9,37.0,17.9,73.4,44.9,27.8
+window-seat,"Window Seat",seated,avatar,0/0,160x180,0,0,39.6,16.4,84.5,90.5,0,26.6,31.6,16.4,73.1,39.6,35.9
+window-seat,"Window Seat",seated,avatar,90/0,160x180,90,0,57.2,16.4,63.4,90.5,0,19.9,21.5,16.4,73.1,57.2,39.5
+window-seat,"Window Seat",seated,avatar,45/0,160x180,45,0,46.9,16.4,85.1,90.5,0,26.8,26.4,16.4,73.1,46.9,27.9
+window-seat,"Window Seat",seated,skeleton,0/0,160x180,0,0,39.6,16.4,84.5,90.5,0,26.6,48.3,16.4,73.1,39.6,35.9
+window-seat,"Window Seat",seated,skeleton,90/0,160x180,90,0,57.2,16.4,63.4,90.5,0,19.9,47.1,16.4,73.1,57.2,39.5
+window-seat,"Window Seat",seated,skeleton,45/0,160x180,45,0,46.9,16.4,85.1,90.5,0,26.8,47.7,16.4,73.1,46.9,27.9
+window-seat,"Window Seat",seated,ghost,0/0,160x180,0,0,39.6,16.4,84.5,90.5,0,26.6,39.8,16.4,73.1,39.6,35.9
+window-seat,"Window Seat",seated,ghost,90/0,160x180,90,0,57.2,16.4,63.4,90.5,0,19.9,43.8,16.4,73.1,57.2,39.5
+window-seat,"Window Seat",seated,ghost,45/0,160x180,45,0,46.9,16.4,85.1,90.5,0,26.8,38.1,16.4,73.1,46.9,27.9
+forearms-crossed-table,"Forearms Crossed Table",lean-seat,avatar,0/0,160x180,0,0,31.5,17.4,100.3,95.8,0,33.4,23.4,17.4,66.9,31.5,28.2
+forearms-crossed-table,"Forearms Crossed Table",lean-seat,avatar,90/0,160x180,90,0,64.2,17.4,70.5,95.8,0,23.4,22.5,17.4,66.9,64.2,25.3
+forearms-crossed-table,"Forearms Crossed Table",lean-seat,avatar,45/0,160x180,45,0,46.0,17.4,92.4,95.8,0,30.7,26.8,17.4,66.9,46.0,21.6
+forearms-crossed-table,"Forearms Crossed Table",lean-seat,skeleton,0/0,160x180,0,0,31.5,17.4,100.3,95.8,0,33.4,48.3,17.4,66.9,31.5,28.2
+forearms-crossed-table,"Forearms Crossed Table",lean-seat,skeleton,90/0,160x180,90,0,64.2,17.4,70.5,95.8,0,23.4,47.1,17.4,66.9,64.2,25.3
+forearms-crossed-table,"Forearms Crossed Table",lean-seat,skeleton,45/0,160x180,45,0,46.0,17.4,92.4,95.8,0,30.7,47.7,17.4,66.9,46.0,21.6
+forearms-crossed-table,"Forearms Crossed Table",lean-seat,ghost,0/0,160x180,0,0,31.5,17.4,100.3,95.8,0,33.4,33.7,17.4,66.9,31.5,28.2
+forearms-crossed-table,"Forearms Crossed Table",lean-seat,ghost,90/0,160x180,90,0,64.2,17.4,70.5,95.8,0,23.4,43.0,17.4,66.9,64.2,25.3
+forearms-crossed-table,"Forearms Crossed Table",lean-seat,ghost,45/0,160x180,45,0,46.0,17.4,92.4,95.8,0,30.7,35.7,17.4,66.9,46.0,21.6
+both-knees,"Both Knees",kneeling,avatar,0/0,160x180,0,0,36.6,15.4,78.4,145.2,0,39.5,16.4,15.4,19.4,36.6,45.0
+both-knees,"Both Knees",kneeling,avatar,90/0,160x180,90,0,64.2,15.4,58.7,145.2,0,29.6,12.0,15.4,19.4,64.2,37.1
+both-knees,"Both Knees",kneeling,avatar,45/0,160x180,45,0,47.0,15.4,71.2,145.2,0,35.9,15.5,15.4,19.4,47.0,41.8
+both-knees,"Both Knees",kneeling,skeleton,0/0,160x180,0,0,36.6,15.4,78.4,145.2,0,39.5,50.5,15.4,19.4,36.6,45.0
+both-knees,"Both Knees",kneeling,skeleton,90/0,160x180,90,0,64.2,15.4,58.7,145.2,0,29.6,48.3,15.4,19.4,64.2,37.1
+both-knees,"Both Knees",kneeling,skeleton,45/0,160x180,45,0,47.0,15.4,71.2,145.2,0,35.9,49.8,15.4,19.4,47.0,41.8
+both-knees,"Both Knees",kneeling,ghost,0/0,160x180,0,0,36.6,15.4,78.4,145.2,0,39.5,35.6,15.4,19.4,36.6,45.0
+both-knees,"Both Knees",kneeling,ghost,90/0,160x180,90,0,64.2,15.4,58.7,145.2,0,29.6,35.8,15.4,19.4,64.2,37.1
+both-knees,"Both Knees",kneeling,ghost,45/0,160x180,45,0,47.0,15.4,71.2,145.2,0,35.9,35.6,15.4,19.4,47.0,41.8
+knights-kneel,"Knight's Kneel",kneeling,avatar,0/0,160x180,0,0,33.0,15.4,80.9,114.5,0,32.1,26.8,15.4,50.1,33.0,46.1
+knights-kneel,"Knight's Kneel",kneeling,avatar,90/0,160x180,90,0,61.5,15.4,69.1,114.5,0,27.4,16.3,15.4,50.1,61.5,29.4
+knights-kneel,"Knight's Kneel",kneeling,avatar,45/0,160x180,45,0,43.7,15.4,76.3,114.5,0,30.3,25.0,15.4,50.1,43.7,40.0
+knights-kneel,"Knight's Kneel",kneeling,skeleton,0/0,160x180,0,0,33.0,15.4,80.9,114.5,0,32.1,48.3,15.4,50.1,33.0,46.1
+knights-kneel,"Knight's Kneel",kneeling,skeleton,90/0,160x180,90,0,61.5,15.4,69.1,114.5,0,27.4,47.1,15.4,50.1,61.5,29.4
+knights-kneel,"Knight's Kneel",kneeling,skeleton,45/0,160x180,45,0,43.7,15.4,76.3,114.5,0,30.3,47.7,15.4,50.1,43.7,40.0
+knights-kneel,"Knight's Kneel",kneeling,ghost,0/0,160x180,0,0,33.0,15.4,80.9,114.5,0,32.1,39.2,15.4,50.1,33.0,46.1
+knights-kneel,"Knight's Kneel",kneeling,ghost,90/0,160x180,90,0,61.5,15.4,69.1,114.5,0,27.4,40.7,15.4,50.1,61.5,29.4
+knights-kneel,"Knight's Kneel",kneeling,ghost,45/0,160x180,45,0,43.7,15.4,76.3,114.5,0,30.3,40.1,15.4,50.1,43.7,40.0
+starfish,"Starfish",reclining,avatar,0/0,160x180,0,0,14.5,69.1,135.6,80.3,0,37.8,35.2,69.1,30.6,14.5,9.9
+starfish,"Starfish",reclining,avatar,90/0,160x180,90,0,25.8,69.1,128.3,80.3,0,35.8,33.1,69.1,30.6,25.8,5.8
+starfish,"Starfish",reclining,avatar,45/0,160x180,45,0,32.1,69.1,124.2,80.3,0,34.6,34.9,69.1,30.6,32.1,3.7
+starfish,"Starfish",reclining,skeleton,0/0,160x180,0,0,14.5,69.1,135.6,80.3,0,37.8,50.5,69.1,30.6,14.5,9.9
+starfish,"Starfish",reclining,skeleton,90/0,160x180,90,0,25.8,69.1,128.3,80.3,0,35.8,48.3,69.1,30.6,25.8,5.8
+starfish,"Starfish",reclining,skeleton,45/0,160x180,45,0,32.1,69.1,124.2,80.3,0,34.6,49.8,69.1,30.6,32.1,3.7
+starfish,"Starfish",reclining,ghost,0/0,160x180,0,0,14.5,69.1,135.6,80.3,0,37.8,31.2,69.1,30.6,14.5,9.9
+starfish,"Starfish",reclining,ghost,90/0,160x180,90,0,25.8,69.1,128.3,80.3,0,35.8,33.1,69.1,30.6,25.8,5.8
+starfish,"Starfish",reclining,ghost,45/0,160x180,45,0,32.1,69.1,124.2,80.3,0,34.6,32.6,69.1,30.6,32.1,3.7
+lounger-recline,"Lounger Recline",seated,avatar,0/0,160x180,0,0,37.9,26.9,92.0,76.5,0,24.5,21.0,26.9,76.6,37.9,30.1
+lounger-recline,"Lounger Recline",seated,avatar,90/0,160x180,90,0,21.2,26.9,112.8,76.5,0,30.0,13.3,26.9,76.6,21.2,25.9
+lounger-recline,"Lounger Recline",seated,avatar,45/0,160x180,45,0,31.9,26.9,92.1,76.5,0,24.5,22.2,26.9,76.6,31.9,36.0
+lounger-recline,"Lounger Recline",seated,skeleton,0/0,160x180,0,0,37.9,26.9,92.0,76.5,0,24.5,48.3,26.9,76.6,37.9,30.1
+lounger-recline,"Lounger Recline",seated,skeleton,90/0,160x180,90,0,21.2,26.9,112.8,76.5,0,30.0,47.1,26.9,76.6,21.2,25.9
+lounger-recline,"Lounger Recline",seated,skeleton,45/0,160x180,45,0,31.9,26.9,92.1,76.5,0,24.5,47.7,26.9,76.6,31.9,36.0
+lounger-recline,"Lounger Recline",seated,ghost,0/0,160x180,0,0,37.9,26.9,92.0,76.5,0,24.5,31.9,26.9,76.6,37.9,30.1
+lounger-recline,"Lounger Recline",seated,ghost,90/0,160x180,90,0,21.2,26.9,112.8,76.5,0,30.0,33.7,26.9,76.6,21.2,25.9
+lounger-recline,"Lounger Recline",seated,ghost,45/0,160x180,45,0,31.9,26.9,92.1,76.5,0,24.5,34.0,26.9,76.6,31.9,36.0
+crouching-prowl,"Crouching Prowl",eccentric,avatar,0/0,160x180,0,0,38.6,17.1,91.8,99.2,0,31.6,28.2,17.1,63.6,38.6,29.7
+crouching-prowl,"Crouching Prowl",eccentric,avatar,90/0,160x180,90,0,50.9,17.1,68.7,99.2,0,23.7,18.2,17.1,63.6,50.9,40.4
+crouching-prowl,"Crouching Prowl",eccentric,avatar,45/0,160x180,45,0,43.3,17.1,83.8,99.2,0,28.9,28.9,17.1,63.6,43.3,33.0
+crouching-prowl,"Crouching Prowl",eccentric,skeleton,0/0,160x180,0,0,38.6,17.1,91.8,99.2,0,31.6,50.5,17.1,63.6,38.6,29.7
+crouching-prowl,"Crouching Prowl",eccentric,skeleton,90/0,160x180,90,0,50.9,17.1,68.7,99.2,0,23.7,48.3,17.1,63.6,50.9,40.4
+crouching-prowl,"Crouching Prowl",eccentric,skeleton,45/0,160x180,45,0,43.3,17.1,83.8,99.2,0,28.9,49.8,17.1,63.6,43.3,33.0
+crouching-prowl,"Crouching Prowl",eccentric,ghost,0/0,160x180,0,0,38.6,17.1,91.8,99.2,0,31.6,39.0,17.1,63.6,38.6,29.7
+crouching-prowl,"Crouching Prowl",eccentric,ghost,90/0,160x180,90,0,50.9,17.1,68.7,99.2,0,23.7,42.2,17.1,63.6,50.9,40.4
+crouching-prowl,"Crouching Prowl",eccentric,ghost,45/0,160x180,45,0,43.3,17.1,83.8,99.2,0,28.9,42.0,17.1,63.6,43.3,33.0
+leap-forward,"Leap Forward",dynamic,avatar,0/0,160x180,0,0,50.1,16.9,59.8,140.5,0,29.2,14.0,16.9,22.6,50.1,50.1
+leap-forward,"Leap Forward",dynamic,avatar,90/0,160x180,90,0,37.1,16.9,108.8,140.5,0,53.1,11.5,16.9,22.6,37.1,14.2
+leap-forward,"Leap Forward",dynamic,avatar,45/0,160x180,45,0,50.0,16.9,76.2,140.5,0,37.2,12.5,16.9,22.6,50.0,33.8
+leap-forward,"Leap Forward",dynamic,skeleton,0/0,160x180,0,0,50.1,16.9,59.8,140.5,0,29.2,48.3,16.9,22.6,50.1,50.1
+leap-forward,"Leap Forward",dynamic,skeleton,90/0,160x180,90,0,37.1,16.9,108.8,140.5,0,53.1,47.1,16.9,22.6,37.1,14.2
+leap-forward,"Leap Forward",dynamic,skeleton,45/0,160x180,45,0,50.0,16.9,76.2,140.5,0,37.2,47.7,16.9,22.6,50.0,33.8
+leap-forward,"Leap Forward",dynamic,ghost,0/0,160x180,0,0,50.1,16.9,59.8,140.5,0,29.2,36.1,16.9,22.6,50.1,50.1
+leap-forward,"Leap Forward",dynamic,ghost,90/0,160x180,90,0,37.1,16.9,108.8,140.5,0,53.1,36.7,16.9,22.6,37.1,14.2
+leap-forward,"Leap Forward",dynamic,ghost,45/0,160x180,45,0,50.0,16.9,76.2,140.5,0,37.2,36.2,16.9,22.6,50.0,33.8
+arms-overhead,"Arms Overhead",standing,avatar,0/0,160x180,0,0,39.3,-11.2,88.5,169.9,1,52.2,11.0,-11.2,21.3,39.3,32.2
+arms-overhead,"Arms Overhead",standing,avatar,90/0,160x180,90,0,53.6,-11.2,61.3,169.9,1,36.2,7.7,-11.2,21.3,53.6,45.1
+arms-overhead,"Arms Overhead",standing,avatar,45/0,160x180,45,0,44.9,-11.2,82.6,169.9,1,48.7,9.9,-11.2,21.3,44.9,32.5
+arms-overhead,"Arms Overhead",standing,skeleton,0/0,160x180,0,0,39.3,-11.2,88.5,169.9,1,52.2,48.3,-11.2,21.3,39.3,32.2
+arms-overhead,"Arms Overhead",standing,skeleton,90/0,160x180,90,0,53.6,-11.2,61.3,169.9,1,36.2,47.1,-11.2,21.3,53.6,45.1
+arms-overhead,"Arms Overhead",standing,skeleton,45/0,160x180,45,0,44.9,-11.2,82.6,169.9,1,48.7,47.7,-11.2,21.3,44.9,32.5
+arms-overhead,"Arms Overhead",standing,ghost,0/0,160x180,0,0,39.3,-11.2,88.5,169.9,1,52.2,33.5,-11.2,21.3,39.3,32.2
+arms-overhead,"Arms Overhead",standing,ghost,90/0,160x180,90,0,53.6,-11.2,61.3,169.9,1,36.2,33.5,-11.2,21.3,53.6,45.1
+arms-overhead,"Arms Overhead",standing,ghost,45/0,160x180,45,0,44.9,-11.2,82.6,169.9,1,48.7,33.6,-11.2,21.3,44.9,32.5
+cross-body-arm,"Cross Body",eccentric,avatar,0/0,160x180,0,0,50.1,15.6,77.8,144.4,0,39.0,18.2,15.6,20.0,50.1,32.1
+cross-body-arm,"Cross Body",eccentric,avatar,90/0,160x180,90,0,62.0,15.6,50.6,144.4,0,25.4,10.5,15.6,20.0,62.0,47.5
+cross-body-arm,"Cross Body",eccentric,avatar,45/0,160x180,45,0,54.0,15.6,74.5,144.4,0,37.4,16.6,15.6,20.0,54.0,31.5
+cross-body-arm,"Cross Body",eccentric,skeleton,0/0,160x180,0,0,50.1,15.6,77.8,144.4,0,39.0,50.5,15.6,20.0,50.1,32.1
+cross-body-arm,"Cross Body",eccentric,skeleton,90/0,160x180,90,0,62.0,15.6,50.6,144.4,0,25.4,48.3,15.6,20.0,62.0,47.5
+cross-body-arm,"Cross Body",eccentric,skeleton,45/0,160x180,45,0,54.0,15.6,74.5,144.4,0,37.4,49.8,15.6,20.0,54.0,31.5
+cross-body-arm,"Cross Body",eccentric,ghost,0/0,160x180,0,0,50.1,15.6,77.8,144.4,0,39.0,36.2,15.6,20.0,50.1,32.1
+cross-body-arm,"Cross Body",eccentric,ghost,90/0,160x180,90,0,62.0,15.6,50.6,144.4,0,25.4,35.8,15.6,20.0,62.0,47.5
+cross-body-arm,"Cross Body",eccentric,ghost,45/0,160x180,45,0,54.0,15.6,74.5,144.4,0,37.4,36.2,15.6,20.0,54.0,31.5
+face-touch,"Face Touch",eccentric,avatar,0/0,160x180,0,0,34.4,18.5,94.6,141.5,0,46.5,19.1,18.5,20.0,34.4,31.0
+face-touch,"Face Touch",eccentric,avatar,90/0,160x180,90,0,64.2,18.5,50.1,141.5,0,24.6,11.4,18.5,20.0,64.2,45.7
+face-touch,"Face Touch",eccentric,avatar,45/0,160x180,45,0,49.7,18.5,82.6,141.5,0,40.6,17.7,18.5,20.0,49.7,27.6
+face-touch,"Face Touch",eccentric,skeleton,0/0,160x180,0,0,34.4,18.5,94.6,141.5,0,46.5,50.5,18.5,20.0,34.4,31.0
+face-touch,"Face Touch",eccentric,skeleton,90/0,160x180,90,0,64.2,18.5,50.1,141.5,0,24.6,48.3,18.5,20.0,64.2,45.7
+face-touch,"Face Touch",eccentric,skeleton,45/0,160x180,45,0,49.7,18.5,82.6,141.5,0,40.6,49.8,18.5,20.0,49.7,27.6
+face-touch,"Face Touch",eccentric,ghost,0/0,160x180,0,0,34.4,18.5,94.6,141.5,0,46.5,36.7,18.5,20.0,34.4,31.0
+face-touch,"Face Touch",eccentric,ghost,90/0,160x180,90,0,64.2,18.5,50.1,141.5,0,24.6,36.2,18.5,20.0,64.2,45.7
+face-touch,"Face Touch",eccentric,ghost,45/0,160x180,45,0,49.7,18.5,82.6,141.5,0,40.6,36.5,18.5,20.0,49.7,27.6
+hip-shift,"Hip Shift",standing,avatar,0/0,160x180,0,0,32.8,17.9,86.7,140.5,0,42.3,15.7,17.9,21.6,32.8,40.5
+hip-shift,"Hip Shift",standing,avatar,90/0,160x180,90,0,48.4,17.9,72.4,140.5,0,35.3,10.5,17.9,21.6,48.4,39.3
+hip-shift,"Hip Shift",standing,avatar,45/0,160x180,45,0,41.8,17.9,87.6,140.5,0,42.7,13.9,17.9,21.6,41.8,30.6
+hip-shift,"Hip Shift",standing,skeleton,0/0,160x180,0,0,32.8,17.9,86.7,140.5,0,42.3,48.3,17.9,21.6,32.8,40.5
+hip-shift,"Hip Shift",standing,skeleton,90/0,160x180,90,0,48.4,17.9,72.4,140.5,0,35.3,47.1,17.9,21.6,48.4,39.3
+hip-shift,"Hip Shift",standing,skeleton,45/0,160x180,45,0,41.8,17.9,87.6,140.5,0,42.7,47.7,17.9,21.6,41.8,30.6
+hip-shift,"Hip Shift",standing,ghost,0/0,160x180,0,0,32.8,17.9,86.7,140.5,0,42.3,36.2,17.9,21.6,32.8,40.5
+hip-shift,"Hip Shift",standing,ghost,90/0,160x180,90,0,48.4,17.9,72.4,140.5,0,35.3,36.5,17.9,21.6,48.4,39.3
+hip-shift,"Hip Shift",standing,ghost,45/0,160x180,45,0,41.8,17.9,87.6,140.5,0,42.7,36.6,17.9,21.6,41.8,30.6
+editorial-extreme-forward-lean,"Extreme Forward Lean",editorial,avatar,0/0,160x180,0,0,48.4,23.2,96.1,134.1,0,44.7,17.7,23.2,22.7,48.4,15.5
+editorial-extreme-forward-lean,"Extreme Forward Lean",editorial,avatar,90/0,160x180,90,0,63.0,23.2,65.0,134.1,0,30.3,11.7,23.2,22.7,63.0,32.0
+editorial-extreme-forward-lean,"Extreme Forward Lean",editorial,avatar,45/0,160x180,45,0,52.2,23.2,92.5,134.1,0,43.1,16.1,23.2,22.7,52.2,15.3
+editorial-extreme-forward-lean,"Extreme Forward Lean",editorial,skeleton,0/0,160x180,0,0,48.4,23.2,96.1,134.1,0,44.7,48.3,23.2,22.7,48.4,15.5
+editorial-extreme-forward-lean,"Extreme Forward Lean",editorial,skeleton,90/0,160x180,90,0,63.0,23.2,65.0,134.1,0,30.3,47.1,23.2,22.7,63.0,32.0
+editorial-extreme-forward-lean,"Extreme Forward Lean",editorial,skeleton,45/0,160x180,45,0,52.2,23.2,92.5,134.1,0,43.1,47.7,23.2,22.7,52.2,15.3
+editorial-extreme-forward-lean,"Extreme Forward Lean",editorial,ghost,0/0,160x180,0,0,48.4,23.2,96.1,134.1,0,44.7,38.2,23.2,22.7,48.4,15.5
+editorial-extreme-forward-lean,"Extreme Forward Lean",editorial,ghost,90/0,160x180,90,0,63.0,23.2,65.0,134.1,0,30.3,37.0,23.2,22.7,63.0,32.0
+editorial-extreme-forward-lean,"Extreme Forward Lean",editorial,ghost,45/0,160x180,45,0,52.2,23.2,92.5,134.1,0,43.1,37.5,23.2,22.7,52.2,15.3
+wall-lean,"Wall Lean",leaning,avatar,0/0,160x180,0,0,24.3,16.9,109.1,144.7,0,54.9,42.7,16.9,18.3,24.3,26.6
+wall-lean,"Wall Lean",leaning,avatar,90/0,160x180,90,0,64.2,16.9,44.7,144.7,0,22.5,10.4,16.9,18.3,64.2,51.1
+wall-lean,"Wall Lean",leaning,avatar,45/0,160x180,45,0,40.6,16.9,91.0,144.7,0,45.7,33.0,16.9,18.3,40.6,28.4
+wall-lean,"Wall Lean",leaning,skeleton,0/0,160x180,0,0,24.3,16.9,109.1,144.7,0,54.9,60.2,16.9,18.3,24.3,26.6
+wall-lean,"Wall Lean",leaning,skeleton,90/0,160x180,90,0,64.2,16.9,44.7,144.7,0,22.5,47.5,16.9,18.3,64.2,51.1
+wall-lean,"Wall Lean",leaning,skeleton,45/0,160x180,45,0,40.6,16.9,91.0,144.7,0,45.7,55.6,16.9,18.3,40.6,28.4
+wall-lean,"Wall Lean",leaning,ghost,0/0,160x180,0,0,24.3,16.9,109.1,144.7,0,54.9,36.3,16.9,18.3,24.3,26.6
+wall-lean,"Wall Lean",leaning,ghost,90/0,160x180,90,0,64.2,16.9,44.7,144.7,0,22.5,35.7,16.9,18.3,64.2,51.1
+wall-lean,"Wall Lean",leaning,ghost,45/0,160x180,45,0,40.6,16.9,91.0,144.7,0,45.7,36.0,16.9,18.3,40.6,28.4
+chair-lean-forward,"Chair Lean",seated,avatar,0/0,160x180,0,0,50.1,18.4,59.8,88.1,0,18.3,33.2,18.4,73.5,50.1,50.1
+chair-lean-forward,"Chair Lean",seated,avatar,90/0,160x180,90,0,64.2,18.4,60.5,88.1,0,18.5,24.8,18.4,73.5,64.2,35.3
+chair-lean-forward,"Chair Lean",seated,avatar,45/0,160x180,45,0,58.3,18.4,65.7,88.1,0,20.1,30.7,18.4,73.5,58.3,36.0
+chair-lean-forward,"Chair Lean",seated,skeleton,0/0,160x180,0,0,50.1,18.4,59.8,88.1,0,18.3,48.3,18.4,73.5,50.1,50.1
+chair-lean-forward,"Chair Lean",seated,skeleton,90/0,160x180,90,0,64.2,18.4,60.5,88.1,0,18.5,47.1,18.4,73.5,64.2,35.3
+chair-lean-forward,"Chair Lean",seated,skeleton,45/0,160x180,45,0,58.3,18.4,65.7,88.1,0,20.1,47.7,18.4,73.5,58.3,36.0
+chair-lean-forward,"Chair Lean",seated,ghost,0/0,160x180,0,0,50.1,18.4,59.8,88.1,0,18.3,44.7,18.4,73.5,50.1,50.1
+chair-lean-forward,"Chair Lean",seated,ghost,90/0,160x180,90,0,64.2,18.4,60.5,88.1,0,18.5,44.9,18.4,73.5,64.2,35.3
+chair-lean-forward,"Chair Lean",seated,ghost,45/0,160x180,45,0,58.3,18.4,65.7,88.1,0,20.1,45.4,18.4,73.5,58.3,36.0
+table-elbow-single,"Table Elbow Single",lean-seat,avatar,0/0,160x180,0,0,40.6,15.9,92.9,97.6,0,31.5,28.2,15.9,66.6,40.6,26.5
+table-elbow-single,"Table Elbow Single",lean-seat,avatar,90/0,160x180,90,0,51.8,15.9,76.5,97.6,0,25.9,25.4,15.9,66.6,51.8,31.7
+table-elbow-single,"Table Elbow Single",lean-seat,avatar,45/0,160x180,45,0,53.1,15.9,85.5,97.6,0,29.0,26.1,15.9,66.6,53.1,21.4
+table-elbow-single,"Table Elbow Single",lean-seat,skeleton,0/0,160x180,0,0,40.6,15.9,92.9,97.6,0,31.5,48.3,15.9,66.6,40.6,26.5
+table-elbow-single,"Table Elbow Single",lean-seat,skeleton,90/0,160x180,90,0,51.8,15.9,76.5,97.6,0,25.9,47.1,15.9,66.6,51.8,31.7
+table-elbow-single,"Table Elbow Single",lean-seat,skeleton,45/0,160x180,45,0,53.1,15.9,85.5,97.6,0,29.0,47.7,15.9,66.6,53.1,21.4
+table-elbow-single,"Table Elbow Single",lean-seat,ghost,0/0,160x180,0,0,40.6,15.9,92.9,97.6,0,31.5,38.0,15.9,66.6,40.6,26.5
+table-elbow-single,"Table Elbow Single",lean-seat,ghost,90/0,160x180,90,0,51.8,15.9,76.5,97.6,0,25.9,42.6,15.9,66.6,51.8,31.7
+table-elbow-single,"Table Elbow Single",lean-seat,ghost,45/0,160x180,45,0,53.1,15.9,85.5,97.6,0,29.0,44.5,15.9,66.6,53.1,21.4
+couple-embrace,"Close Embrace",couple,avatar,0/0,160x180,0,0,26.8,18.3,96.8,141.0,0,47.4,16.6,18.3,20.7,26.8,36.5
+couple-embrace,"Close Embrace",couple,avatar,90/0,160x180,90,0,61.5,18.3,50.1,141.0,0,24.5,9.7,18.3,20.7,61.5,48.4
+couple-embrace,"Close Embrace",couple,avatar,45/0,160x180,45,0,35.8,18.3,81.8,141.0,0,40.0,14.8,18.3,20.7,35.8,42.4
+couple-embrace,"Close Embrace",couple,skeleton,0/0,160x180,0,0,26.8,18.3,96.8,141.0,0,47.4,48.3,18.3,20.7,26.8,36.5
+couple-embrace,"Close Embrace",couple,skeleton,90/0,160x180,90,0,61.5,18.3,50.1,141.0,0,24.5,47.1,18.3,20.7,61.5,48.4
+couple-embrace,"Close Embrace",couple,skeleton,45/0,160x180,45,0,35.8,18.3,81.8,141.0,0,40.0,47.7,18.3,20.7,35.8,42.4
+couple-embrace,"Close Embrace",couple,ghost,0/0,160x180,0,0,26.8,18.3,96.8,141.0,0,47.4,36.8,18.3,20.7,26.8,36.5
+couple-embrace,"Close Embrace",couple,ghost,90/0,160x180,90,0,61.5,18.3,50.1,141.0,0,24.5,36.0,18.3,20.7,61.5,48.4
+couple-embrace,"Close Embrace",couple,ghost,45/0,160x180,45,0,35.8,18.3,81.8,141.0,0,40.0,36.8,18.3,20.7,35.8,42.4
+wheelchair-arms,"Arms Expressive",accessible,avatar,0/0,160x180,0,0,6.1,15.5,125.9,108.2,0,47.3,15.5,15.5,56.3,6.1,28.0
+wheelchair-arms,"Arms Expressive",accessible,avatar,90/0,160x180,90,0,64.2,15.5,73.5,108.2,0,27.6,15.0,15.5,56.3,64.2,22.3
+wheelchair-arms,"Arms Expressive",accessible,avatar,45/0,160x180,45,0,26.2,15.5,105.5,108.2,0,39.6,20.9,15.5,56.3,26.2,28.2
+wheelchair-arms,"Arms Expressive",accessible,skeleton,0/0,160x180,0,0,6.1,15.5,125.9,108.2,0,47.3,48.3,15.5,56.3,6.1,28.0
+wheelchair-arms,"Arms Expressive",accessible,skeleton,90/0,160x180,90,0,64.2,15.5,73.5,108.2,0,27.6,47.1,15.5,56.3,64.2,22.3
+wheelchair-arms,"Arms Expressive",accessible,skeleton,45/0,160x180,45,0,26.2,15.5,105.5,108.2,0,39.6,47.7,15.5,56.3,26.2,28.2
+wheelchair-arms,"Arms Expressive",accessible,ghost,0/0,160x180,0,0,6.1,15.5,125.9,108.2,0,47.3,32.1,15.5,56.3,6.1,28.0
+wheelchair-arms,"Arms Expressive",accessible,ghost,90/0,160x180,90,0,64.2,15.5,73.5,108.2,0,27.6,40.1,15.5,56.3,64.2,22.3
+wheelchair-arms,"Arms Expressive",accessible,ghost,45/0,160x180,45,0,26.2,15.5,105.5,108.2,0,39.6,36.2,15.5,56.3,26.2,28.2
+fashion-strong-silhouette-cape,"Strong Silhouette Cape Hold",fashion,avatar,0/0,160x180,0,0,27.1,17.2,97.4,142.0,0,48.0,16.3,17.2,20.8,27.1,35.5
+fashion-strong-silhouette-cape,"Strong Silhouette Cape Hold",fashion,avatar,90/0,160x180,90,0,61.8,17.2,55.5,142.0,0,27.4,10.4,17.2,20.8,61.8,42.7
+fashion-strong-silhouette-cape,"Strong Silhouette Cape Hold",fashion,avatar,45/0,160x180,45,0,43.9,17.2,79.4,142.0,0,39.2,14.5,17.2,20.8,43.9,36.7
+fashion-strong-silhouette-cape,"Strong Silhouette Cape Hold",fashion,skeleton,0/0,160x180,0,0,27.1,17.2,97.4,142.0,0,48.0,48.3,17.2,20.8,27.1,35.5
+fashion-strong-silhouette-cape,"Strong Silhouette Cape Hold",fashion,skeleton,90/0,160x180,90,0,61.8,17.2,55.5,142.0,0,27.4,47.1,17.2,20.8,61.8,42.7
+fashion-strong-silhouette-cape,"Strong Silhouette Cape Hold",fashion,skeleton,45/0,160x180,45,0,43.9,17.2,79.4,142.0,0,39.2,47.7,17.2,20.8,43.9,36.7
+fashion-strong-silhouette-cape,"Strong Silhouette Cape Hold",fashion,ghost,0/0,160x180,0,0,27.1,17.2,97.4,142.0,0,48.0,36.4,17.2,20.8,27.1,35.5
+fashion-strong-silhouette-cape,"Strong Silhouette Cape Hold",fashion,ghost,90/0,160x180,90,0,61.8,17.2,55.5,142.0,0,27.4,36.3,17.2,20.8,61.8,42.7
+fashion-strong-silhouette-cape,"Strong Silhouette Cape Hold",fashion,ghost,45/0,160x180,45,0,43.9,17.2,79.4,142.0,0,39.2,36.4,17.2,20.8,43.9,36.7
+power-stance,"Power Stance",standing,avatar,0/0,70x70,0,0,5.3,-6.3,57.9,79.1,1,93.5,17.0,-6.3,-2.8,5.3,6.8
+power-stance,"Power Stance",standing,avatar,0/0,92x80,0,0,14.3,-5.0,61.7,85.9,1,72.0,14.6,-5.0,-0.9,14.3,16.0
+power-stance,"Power Stance",standing,avatar,0/0,110x150,0,0,17.3,19.1,73.0,106.2,0,47.0,23.7,19.1,24.7,17.3,19.7
+power-stance,"Power Stance",standing,avatar,0/0,140x180,0,0,26.3,23.1,84.2,126.6,0,42.3,19.7,23.1,30.3,26.3,29.4
+power-stance,"Power Stance",standing,avatar,0/0,160x180,0,0,32.3,15.9,91.8,140.1,0,44.7,16.2,15.9,24.0,32.3,35.9
+power-stance,"Power Stance",standing,avatar,0/0,200x280,0,0,44.4,51.3,106.8,167.3,0,31.9,19.2,51.3,61.5,44.4,48.8
+power-stance,"Power Stance",standing,avatar,0/0,430x932,0,0,113.6,293.4,193.3,323.3,0,15.6,14.4,293.4,315.3,113.6,123.1
+soft-sit,"Soft Sit",seated,avatar,0/0,70x70,0,0,4.9,-5.4,64.2,56.6,1,74.2,20.1,-5.4,18.8,4.9,0.9
+soft-sit,"Soft Sit",seated,avatar,0/0,92x80,0,0,13.8,-4.0,68.9,60.2,1,56.3,26.0,-4.0,23.8,13.8,9.3
+soft-sit,"Soft Sit",seated,avatar,0/0,110x150,0,0,16.7,20.5,82.9,70.9,0,35.6,18.7,20.5,58.6,16.7,10.5
+soft-sit,"Soft Sit",seated,avatar,0/0,140x180,0,0,25.5,24.9,96.8,81.6,0,31.4,19.4,24.9,73.5,25.5,17.6
+soft-sit,"Soft Sit",seated,avatar,0/0,160x180,0,0,31.4,17.9,106.1,88.8,0,32.7,21.8,17.9,73.4,31.4,22.4
+soft-sit,"Soft Sit",seated,avatar,0/0,200x280,0,0,43.2,53.8,124.8,103.1,0,23.0,16.5,53.8,123.1,43.2,32.0
+soft-sit,"Soft Sit",seated,avatar,0/0,430x932,0,0,111.1,298.8,231.9,185.3,0,10.7,9.1,298.8,447.9,111.1,86.9
+both-knees,"Both Knees",kneeling,avatar,0/0,70x70,0,0,7.1,-6.5,52.1,81.3,1,86.4,21.0,-6.5,-4.8,7.1,10.8
+both-knees,"Both Knees",kneeling,avatar,0/0,92x80,0,0,16.4,-5.2,55.0,88.4,1,66.0,17.1,-5.2,-3.2,16.4,20.6
+both-knees,"Both Knees",kneeling,avatar,0/0,110x150,0,0,20.2,18.7,63.8,109.7,0,42.4,25.3,18.7,21.5,20.2,26.0
+both-knees,"Both Knees",kneeling,avatar,0/0,140x180,0,0,30.1,22.7,72.5,131.0,0,37.7,20.3,22.7,26.3,30.1,37.4
+both-knees,"Both Knees",kneeling,avatar,0/0,160x180,0,0,36.6,15.4,78.4,145.2,0,39.5,16.4,15.4,19.4,36.6,45.0
+both-knees,"Both Knees",kneeling,avatar,0/0,200x280,0,0,49.7,50.6,90.1,173.6,0,27.9,18.9,50.6,55.7,49.7,60.2
+both-knees,"Both Knees",kneeling,avatar,0/0,430x932,0,0,125.1,292.1,157.3,337.0,0,13.2,21.0,292.1,303.0,125.1,147.6
+starfish,"Starfish",reclining,avatar,0/0,70x70,0,0,-2.5,17.0,77.1,52.9,1,83.2,33.9,17.0,0.1,-2.5,-4.6
+starfish,"Starfish",reclining,avatar,0/0,92x80,0,0,5.4,21.6,83.6,55.9,0,63.5,45.7,21.6,2.4,5.4,3.0
+starfish,"Starfish",reclining,avatar,0/0,110x150,0,0,5.0,55.7,103.1,65.1,0,40.6,40.9,55.7,29.2,5.0,1.9
+starfish,"Starfish",reclining,avatar,0/0,140x180,0,0,10.7,69.7,122.6,74.2,0,36.1,37.9,69.7,36.1,10.7,6.7
+starfish,"Starfish",reclining,avatar,0/0,160x180,0,0,14.5,69.1,135.6,80.3,0,37.8,35.2,69.1,30.6,14.5,9.9
+starfish,"Starfish",reclining,avatar,0/0,200x280,0,0,22.1,117.8,161.6,92.4,0,26.7,35.3,117.8,69.7,22.1,16.3
+starfish,"Starfish",reclining,avatar,0/0,430x932,0,0,65.7,436.5,311.1,162.4,0,12.6,35.4,436.5,333.1,65.7,53.3
+leap-forward,"Leap Forward",dynamic,avatar,0/0,70x70,0,0,13.0,-5.9,43.9,79.3,1,71.0,14.7,-5.9,-3.4,13.0,13.0
+leap-forward,"Leap Forward",dynamic,avatar,0/0,92x80,0,0,23.2,-4.5,45.7,86.1,1,53.4,12.7,-4.5,-1.6,23.2,23.2
+leap-forward,"Leap Forward",dynamic,avatar,0/0,110x150,0,0,29.5,19.8,51.0,106.5,0,32.9,20.8,19.8,23.7,29.5,29.5
+leap-forward,"Leap Forward",dynamic,avatar,0/0,140x180,0,0,41.9,24.0,56.2,126.9,0,28.3,17.1,24.0,29.1,41.9,41.9
+leap-forward,"Leap Forward",dynamic,avatar,0/0,160x180,0,0,50.1,16.9,59.8,140.5,0,29.2,14.0,16.9,22.6,50.1,50.1
+leap-forward,"Leap Forward",dynamic,avatar,0/0,200x280,0,0,66.6,52.5,66.8,167.8,0,20.0,16.6,52.5,59.7,66.6,66.6
+leap-forward,"Leap Forward",dynamic,avatar,0/0,430x932,0,0,161.4,296.1,107.3,324.4,0,8.7,19.1,296.1,311.6,161.4,161.4
+face-touch,"Face Touch",eccentric,avatar,0/0,70x70,0,0,6.2,-5.2,59.2,79.7,1,96.2,24.7,-5.2,-4.5,6.2,4.7
+face-touch,"Face Touch",eccentric,avatar,0/0,92x80,0,0,15.3,-3.7,63.1,86.5,1,74.2,21.0,-3.7,-2.9,15.3,13.6
+face-touch,"Face Touch",eccentric,avatar,0/0,110x150,0,0,18.7,20.9,74.9,107.1,0,48.6,31.1,20.9,22.0,18.7,16.4
+face-touch,"Face Touch",eccentric,avatar,0/0,140x180,0,0,28.1,25.5,86.7,127.7,0,44.0,24.3,25.5,26.8,28.1,25.2
+face-touch,"Face Touch",eccentric,avatar,0/0,160x180,0,0,34.4,18.5,94.6,141.5,0,46.5,19.1,18.5,20.0,34.4,31.0
+face-touch,"Face Touch",eccentric,avatar,0/0,200x280,0,0,47.0,54.6,110.3,168.9,0,33.3,22.4,54.6,56.5,47.0,42.7
+face-touch,"Face Touch",eccentric,avatar,0/0,430x932,0,0,119.1,300.5,200.9,326.9,0,16.4,14.3,300.5,304.6,119.1,110.0

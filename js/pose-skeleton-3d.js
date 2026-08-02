@@ -583,6 +583,12 @@
     var isKey = !!KEY_JOINTS[key];
     var isHead = key === 'head';
     var isNeck = key === 'neck';
+    // avatar-ghost extension (Phase F): graceful androgynous skeleton — smaller,
+    // subtler joints. Elbows/knees kept readable for coaching; wrists/ankles/feet
+    // suppressed to a faint dot so the limb reads as a flowing taper rather than
+    // a string of beads. Suppresses the "ball-joint" read while preserving L/R/depth.
+    var isExtremity = (key==='leftWrist'||key==='rightWrist'||key==='leftAnkle'||key==='rightAnkle'||key==='leftFoot'||key==='rightFoot');
+    var isHinge = (key==='leftElbow'||key==='rightElbow'||key==='leftKnee'||key==='rightKnee');
     // PR-1 (v1.1) — Phase 4 directive #15 "halo over the ball joint which are
     // too big make them half as big" + directive #33 "make the head a bit
     // longer". Key joints (shoulders, hips, hips-center) shrunk from 4.5→2.5
@@ -594,7 +600,7 @@
     // (1.5 * 0.75 = 1.13 px, below the Math.max(radius, 2) floor anyway, so
     // the floor dominates and the reduction is invisible). 2.2 stays above
     // the floor at near depth (2.2 * 1.25 = 2.75 px, visible).
-    var baseRadius = isHead ? 9.5 : (isNeck ? 3.0 : (isKey ? 2.5 : 2.2));
+    var baseRadius = isHead ? 8.5 : (isNeck ? 2.2 : (isKey ? 2.0 : (isHinge ? 1.7 : (isExtremity ? 1.1 : 1.5))));
     var depthT = Math.max(0, Math.min(1, (proj.z + 0.8) / 1.6));
     var radius = baseRadius * (0.75 + 0.5 * depthT);
     var alpha = depthToAlpha(proj.z);
@@ -604,13 +610,14 @@
     var color = state.ghostMode ? COLOR_GHOST : (isKey ? COLOR_GOLD : COLOR_CENTER);
     var fillAlpha = state.ghostMode ? Math.min(1, alpha * (isKey ? 0.9 : 0.65)) : alpha;
     ctx.save();
+    var floor = isExtremity ? 0.8 : 1.6;
     ctx.beginPath();
     if (isHead) {
       // PR-1 (v1.1): draw head as a vertical ellipse (1.18 stretch) so it
       // reads as a longer skull — directive #33 "make the head a bit longer".
       ctx.ellipse(proj.x, proj.y, Math.max(radius, 2), Math.max(radius * 1.18, 2.4), 0, 0, Math.PI * 2);
     } else {
-      ctx.arc(proj.x, proj.y, Math.max(radius, 2), 0, Math.PI*2);
+      ctx.arc(proj.x, proj.y, Math.max(radius, floor), 0, Math.PI*2);
     }
     ctx.fillStyle = hexToRgba(color, fillAlpha);
     ctx.fill();
@@ -1126,28 +1133,29 @@
   function renderFrame(state) {
     if (!state.ctx) return;
     var ctx = state.ctx;
+    ctx.setTransform(state.dpr||1,0,0,state.dpr||1,0,0);
     ctx.clearRect(0, 0, state.width, state.height);
-    // PR-2 (v1.1): ghost-mode cyan halo behind the figure. Per Phase 1
-    // directive step 5 ("Add a subtle cyan <ellipse> halo behind the figure").
-    // Drawn BEFORE accessories/shadow so it sits at the bottom of the layer
-    // stack and bones/joints composite over it. Sized to the canvas's smaller
-    // dimension so the halo reads as ambient glow rather than a framed ring.
+    // avatar-ghost extension (Phase E): pose-aware framing shared with the
+    // avatar + ghost so all three modes use identical scale/translate.
+    var fit = computeFit(state); state.fit = fit;
+    ctx.save(); ctx.translate(fit.tx, fit.ty); ctx.scale(fit.scale, fit.scale);
+    // PR-2 (v1.1): ghost-mode cyan halo behind the figure (legacy — the ghost
+    // now uses renderGhostOutlineInternal; this only fires if renderFrame is
+    // called with ghostMode=true, which is non-default).
     if (state.ghostMode) {
       var fitScale = Math.min(state.width, state.height) * 0.40 * state.scale;
       var haloCx = state.width / 2;
-      var haloCy = state.height / 2 + fitScale * 0.1; // nudge down toward chest
+      var haloCy = state.height / 2 + fitScale * 0.1;
       var haloRx = fitScale * 0.95;
       var haloRy = fitScale * 1.25;
       var haloGrad = ctx.createRadialGradient(haloCx, haloCy, 0, haloCx, haloCy, haloRy);
       haloGrad.addColorStop(0, hexToRgba(COLOR_GHOST, 0.22));
       haloGrad.addColorStop(0.5, hexToRgba(COLOR_GHOST, 0.08));
       haloGrad.addColorStop(1, hexToRgba(COLOR_GHOST, 0.0));
-      ctx.save();
       ctx.beginPath();
       ctx.ellipse(haloCx, haloCy, Math.max(haloRx, 8), Math.max(haloRy, 8), 0, 0, Math.PI * 2);
       ctx.fillStyle = haloGrad;
       ctx.fill();
-      ctx.restore();
     }
     drawAccessory(state);
     drawGroundShadow(state);
@@ -1173,14 +1181,11 @@
     for (var j = 0; j < jointsDepth.length; j++) {
       drawJoint(state, jointsDepth[j].key);
     }
-    // PR-v6 (v1.6) Iter A2: for reclining poses, re-draw the floor AFTER the
-    // figure so it's visible. The pre-figure floor (drawn in drawAccessory)
-    // gets covered by the horizontal body. This post-figure pass draws a
-    // semi-transparent floor band that extends below the figure's silhouette.
     if (state.displaySkeleton.head && state.displaySkeleton.hips &&
         Math.abs(state.displaySkeleton.head.y - state.displaySkeleton.hips.y) < 0.50) {
       drawRecliningFloorOverlay(state);
     }
+    ctx.restore();
   }
 
   // PR-v6 (v1.6) Iter A2 — Reclining floor overlay (post-figure).
@@ -1517,10 +1522,11 @@
       state.poseCategory = options.category || '';
       // PR-v3 (v1.3): pass description for description-driven prop detection
       state.poseDescription = options.description || '';
-      // Use the avatar silhouette renderer with ghost colors (translucent silhouette,
-      // not a wireframe skeleton in cyan). This makes the ghost visually distinct
-      // from the skeleton — it's a water-aesthetic silhouette, not a recolored stick figure.
-      renderAvatarFrameInternal(state);
+      // avatar-ghost extension (Phase G): ghost is now an OUTLINE-TARGET — low
+      // fill + bright white-cyan outline + glow + faint line-of-action. This is
+      // structurally distinct from the filled avatar (H7 fix) and gives the ghost
+      // a unique role: a luminous target silhouette to match against the camera.
+      renderGhostOutlineInternal(state);
       return this;
     },
 
@@ -1582,12 +1588,279 @@
       state.displaySkeleton = cloneSkeleton(state.currentPose);
       state.poseCategory = options.category || '';
       state.poseDescription = options.description || '';
+      // avatar-ghost extension (R2): camera-avatar mode lowers the fill alpha so
+      // the filled silhouette is translucent enough to overlay on live video
+      // (default 0.85 is opaque and would occlude the user). Null = default.
+      state.avatarAlpha = (typeof options.alpha === 'number') ? options.alpha : null;
       renderAvatarFrameInternal(state);
       return this;
     },
 
-    _internals: { T_POSE: T_POSE, BONES: BONES, VIEW_ANGLES: VIEW_ANGLES, buildPose: buildPose, renderFrame: renderFrame, renderAvatarFrameInternal: null, createState: createState }
+    _internals: { T_POSE: T_POSE, BONES: BONES, VIEW_ANGLES: VIEW_ANGLES, buildPose: buildPose, renderFrame: renderFrame, renderAvatarFrameInternal: null, createState: createState, computeFit: null }
   };
+
+  // ===== avatar-ghost extension (Phase E/F/G): pose-aware framing + hybrid
+  // androgynous avatar + ghost outline-target. Replaces the fixed cx=w/2,cy=h/2
+  // centering (H5), the hourglass torso (H4), the per-bone endpoint circles (H1),
+  // and the ghost=avatar recolor (H7). All three renderers share computeFit() so
+  // framing is identical across modes (acceptance criterion #3). Pose semantics
+  // (buildPose, joints, yaw/pitch) are UNCHANGED. =====
+
+  // computeFit: derive {scale, tx, ty} that fits the figure's visual bbox
+  // (joints + head halo + padding) into the canvas, respecting a ground anchor
+  // for standing poses. Applied via ctx transform so project() stays unchanged
+  // (measurements/skeleton joints remain comparable across modes).
+  function computeFit(state) {
+    var skel = state.displaySkeleton; if (!skel) return { scale: 1, tx: 0, ty: 0 };
+    var minX=Infinity,minY=Infinity,maxX=-Infinity,maxY=-Infinity, n=0, footY=-Infinity;
+    for (var k in skel) { if(!Object.prototype.hasOwnProperty.call(skel,k)) continue;
+      var p = project(state, skel[k]); n++;
+      if(p.x<minX)minX=p.x; if(p.x>maxX)maxX=p.x; if(p.y<minY)minY=p.y; if(p.y>maxY)maxY=p.y;
+      if (k==='leftAnkle'||k==='rightAnkle'||k==='leftFoot'||k==='rightFoot') { if(p.y>footY)footY=p.y; }
+    }
+    if (!n) return { scale: 1, tx: 0, ty: 0 };
+    // 2-pass fit: the silhouette extent (limb half-widths, joint blends, halo)
+    // scales with fit.scale, so the reservation must too. Pass 1 estimates s
+    // with pad-only; pass 2 reserves (limbHalf*s0) for sides and (haloR) for top.
+    var haloR = Math.min(22, Math.min(state.width, state.height) * 0.13);
+    var pad = Math.max(5, Math.min(state.width, state.height) * 0.05);
+    var limbHalf = 8; // max limb half-width + joint-blend radius (projected px)
+    var bw = maxX - minX, bh = maxY - minY;
+    if (bw < 1 || bh < 1) return { scale: 1, tx: 0, ty: 0 };
+    var s0 = Math.min((state.width - 2*pad) / bw, (state.height - 2*pad) / bh);
+    var limbMarg = limbHalf * s0;        // scales with the figure
+    var footMarg = limbHalf * s0;        // bottom needs full limbHalf (knee blend + foot)
+    var topMarg = haloR + pad, sideMarg = limbMarg + pad, botMarg = footMarg + pad;
+    var availW = state.width - 2*sideMarg, availH = state.height - topMarg - botMarg;
+    var s = Math.min(availW / bw, availH / bh);
+    s = Math.max(0.40, Math.min(2.6, s));
+    // recompute limb margin with the final s (tighter)
+    limbMarg = limbHalf * s; footMarg = limbHalf * s;
+    sideMarg = limbMarg + pad; botMarg = footMarg + pad;
+    availW = state.width - 2*sideMarg; availH = state.height - topMarg - botMarg;
+    var cx = (minX+maxX)/2, cy = (minY+maxY)/2;
+    var tx = state.width/2 - s*cx;
+    var ty = topMarg + availH/2 - s*cy;
+    // semantic ground anchor: standing poses (feet well below hips) sit the
+    // lowest support near ~84% canvas height for a grounded feel.
+    if (footY > -Infinity && skel.hips && footY > project(state, skel.hips).y + 6) {
+      var targetFootScreen = state.height * 0.84;
+      var dy = targetFootScreen - (s*footY + ty);
+      ty += Math.max(-state.height*0.08, Math.min(state.height*0.08, dy));
+    }
+    // Clamp so the fitted silhouette (joint bbox + scaled margins) stays in canvas.
+    var leftEdge = s*minX + tx - limbMarg, rightEdge = s*maxX + tx + limbMarg;
+    var topEdge = s*minY + ty - haloR, botEdge = s*maxY + ty + footMarg;
+    if (leftEdge < pad) tx += (pad - leftEdge);
+    if (topEdge < pad) ty += (pad - topEdge);
+    if (rightEdge > state.width - pad) tx -= (rightEdge - (state.width - pad));
+    if (botEdge > state.height - pad) ty -= (botEdge - (state.height - pad));
+    return { scale: s, tx: tx, ty: ty };
+  }
+
+  // drawRibbonTorso: androgynous ribcage + pelvis volumes + STRUCTURAL waist
+  // ribbon (waistW = 0.5*(ribW+pelW)*0.76, NOT hipW*0.65). Widths from rig spans
+  // × camera, no fixed floors. (H3 + H4 fix.)
+  function drawRibbonTorso(state, opts) {
+    opts = opts || {};
+    var ctx = state.ctx, skel = state.displaySkeleton;
+    var lSh=skel.leftShoulder,rSh=skel.rightShoulder,spine=skel.spine,hips=skel.hips,lHip=skel.leftHip,rHip=skel.rightHip;
+    if(!lSh||!rSh||!spine||!hips||!lHip||!rHip) return;
+    var pLSh=project(state,lSh),pRSh=project(state,rSh),pSp=project(state,spine),pHi=project(state,hips),pLH=project(state,lHip),pRH=project(state,rHip);
+    var ribSpan=Math.abs(pRSh.x-pLSh.x), pelSpan=Math.abs(pRH.x-pLH.x);
+    var ribW=Math.max(ribSpan*0.60, 5);
+    var pelW=Math.max(pelSpan*0.62, 5.5);
+    // androgynous ratio clamp: keep ribcage:pelvis in [0.92, 1.08] so neither
+    // "broad shoulders" nor "exaggerated hips" dominates (H4 — directive: "Avoid
+    // exaggerated hips as the default neutral body").
+    if (pelW > ribW * 1.08) pelW = ribW * 1.08;
+    else if (ribW > pelW * 1.08) ribW = pelW * 1.08;
+    var waistW=Math.max(0.5*(ribW+pelW)*0.76, 4);
+    var ribCy=(pLSh.y+pRSh.y)/2*0.55+pSp.y*0.45;
+    var ribH=Math.max(Math.abs(pSp.y-ribCy)*0.95, 7);
+    var pelCy=pHi.y;
+    var pelH=Math.max(pelW*0.52, 4.5);
+    var alpha=depthToAlpha((pSp.z+pHi.z)/2)*(opts.alpha==null?0.88:opts.alpha);
+    var color=opts.color || (state.ghostMode ? COLOR_GHOST : '#0F3B3A');
+    ctx.beginPath(); ctx.ellipse((pLSh.x+pRSh.x)/2, ribCy, ribW, ribH, 0, 0, Math.PI*2);
+    ctx.fillStyle = hexToRgba(color, alpha*0.92); ctx.fill();
+    if (opts.outline) { ctx.lineWidth=opts.outline; ctx.strokeStyle=opts.outlineColor||'#FFFFFF'; ctx.stroke(); }
+    ctx.beginPath(); ctx.ellipse((pLH.x+pRH.x)/2, pelCy, pelW, pelH, 0, 0, Math.PI*2);
+    ctx.fillStyle = hexToRgba(color, alpha*0.92); ctx.fill();
+    if (opts.outline) { ctx.lineWidth=opts.outline; ctx.strokeStyle=opts.outlineColor||'#FFFFFF'; ctx.stroke(); }
+    var ribBotY=ribCy+ribH*0.72, pelTopY=pelCy-pelH*0.72;
+    var ccx=(pLSh.x+pRSh.x)/2, pcx=(pLH.x+pRH.x)/2;
+    ctx.beginPath();
+    ctx.moveTo(ccx-waistW, ribBotY);
+    ctx.quadraticCurveTo(pcx-waistW*0.92, (ribBotY+pelTopY)/2, pcx-waistW*0.96, pelTopY);
+    ctx.lineTo(pcx+waistW*0.96, pelTopY);
+    ctx.quadraticCurveTo(ccx+waistW*0.92, (ribBotY+pelTopY)/2, ccx+waistW, ribBotY);
+    ctx.closePath();
+    ctx.fillStyle = hexToRgba(color, alpha*0.9); ctx.fill();
+    if (opts.outline) { ctx.lineWidth=opts.outline; ctx.strokeStyle=opts.outlineColor||'#FFFFFF'; ctx.stroke(); }
+    // subtle shoulder slope (not a chunky clavicle bar)
+    ctx.beginPath(); ctx.moveTo(pLSh.x, pLSh.y); ctx.quadraticCurveTo((pLSh.x+pRSh.x)/2, pLSh.y-2.5, pRSh.x, pRSh.y);
+    ctx.lineWidth = Math.max(ribW*0.5, 2.5); ctx.lineCap='round';
+    ctx.strokeStyle = hexToRgba(color, alpha*0.85); ctx.stroke();
+  }
+
+  // drawBezierLimbs: continuous Bézier contour chains for arms + legs with
+  // tangent continuity at elbows/knees. NO per-bone endpoint circles (H1 fix).
+  function drawBezierLimbs(state, opts) {
+    opts = opts || {};
+    var ctx = state.ctx, skel = state.displaySkeleton;
+    var color = opts.color || (state.ghostMode ? COLOR_GHOST : '#0F3B3A');
+    var alphaBase = opts.alpha==null ? (state.ghostMode ? 0.5 : 0.85) : opts.alpha;
+    var chains = [['leftShoulder','leftElbow','leftWrist'],['rightShoulder','rightElbow','rightWrist'],['leftHip','leftKnee','leftAnkle'],['rightHip','rightKnee','rightAnkle']];
+    for (var ci=0; ci<chains.length; ci++) {
+      var ch = chains[ci];
+      var p0=project(state,skel[ch[0]]),p1=project(state,skel[ch[1]]),p2=project(state,skel[ch[2]]);
+      if(!p0||!p1||!p2) continue;
+      var bw1=BONE_WIDTHS[ch[0]+'-'+ch[1]]||[6,4], bw2=BONE_WIDTHS[ch[1]+'-'+ch[2]]||[4,2.5];
+      var wA=depthToWidth(p0.z,bw1[0])*1.10, wM=depthToWidth(p1.z,bw1[1])*0.82, wB=depthToWidth(p2.z,bw2[1])*0.76;
+      var t1x=p1.x-p0.x,t1y=p1.y-p0.y,t2x=p2.x-p1.x,t2y=p2.y-p1.y;
+      var l1=Math.sqrt(t1x*t1x+t1y*t1y)||1, l2=Math.sqrt(t2x*t2x+t2y*t2y)||1;
+      t1x/=l1;t1y/=l1;t2x/=l2;t2y/=l2;
+      var mtx=(t1x+t2x)/2, mty=(t1y+t2y)/2, mtl=Math.sqrt(mtx*mtx+mty*mty)||1; mtx/=mtl;mty/=mtl;
+      var nx=-mty, ny=mtx;
+      var alpha=depthToAlpha((p0.z+p1.z+p2.z)/3)*alphaBase;
+      ctx.beginPath();
+      ctx.moveTo(p0.x+nx*wA, p0.y+ny*wA);
+      ctx.quadraticCurveTo(p1.x+nx*wM, p1.y+ny*wM, p2.x+nx*wB, p2.y+ny*wB);
+      ctx.lineTo(p2.x-nx*wB, p2.y-ny*wB);
+      ctx.quadraticCurveTo(p1.x-nx*wM, p1.y-ny*wM, p0.x-nx*wA, p0.y-ny*wA);
+      ctx.closePath();
+      ctx.fillStyle = hexToRgba(color, alpha); ctx.fill();
+      if (opts.outline) { ctx.lineWidth=opts.outline; ctx.strokeStyle=opts.outlineColor||'#FFFFFF'; ctx.stroke(); }
+    }
+    var stubs=[['leftAnkle','leftFoot'],['rightAnkle','rightFoot']];
+    for (var si=0; si<stubs.length; si++) {
+      var a=stubs[si][0], b=stubs[si][1];
+      var pa=project(state,skel[a]), pb=project(state,skel[b]); if(!pa||!pb) continue;
+      var bw=BONE_WIDTHS[a+'-'+b]||[3,2];
+      var wA=depthToWidth(pa.z,bw[0])*0.9, wB=depthToWidth(pb.z,bw[1])*0.7;
+      var dx=pb.x-pa.x, dy=pb.y-pa.y, len=Math.sqrt(dx*dx+dy*dy); if(len<1) continue;
+      var nx=-dy/len, ny=dx/len;
+      var alpha=depthToAlpha((pa.z+pb.z)/2)*alphaBase;
+      ctx.beginPath();
+      ctx.moveTo(pa.x+nx*wA,pa.y+ny*wA); ctx.lineTo(pb.x+nx*wB,pb.y+ny*wB);
+      ctx.lineTo(pb.x-nx*wB,pb.y-ny*wB); ctx.lineTo(pa.x-nx*wA,pa.y-ny*wA); ctx.closePath();
+      ctx.fillStyle=hexToRgba(color,alpha); ctx.fill();
+      if (opts.outline) { ctx.lineWidth=opts.outline; ctx.strokeStyle=opts.outlineColor||'#FFFFFF'; ctx.stroke(); }
+    }
+  }
+
+  // drawJointBlends: each shared joint drawn ONCE as a bisector-aligned ellipse
+  // (H1 fix). Sized to max adjacent proximal width × 0.92.
+  function drawJointBlends(state, opts) {
+    opts = opts || {};
+    var ctx = state.ctx, skel = state.displaySkeleton;
+    var color = opts.color || (state.ghostMode ? COLOR_GHOST : '#0F3B3A');
+    var alphaBase = opts.alpha==null ? (state.ghostMode ? 0.5 : 0.85) : opts.alpha;
+    var JL = {
+      leftShoulder:[['neck','leftShoulder'],['leftShoulder','leftElbow']],
+      rightShoulder:[['neck','rightShoulder'],['rightShoulder','rightElbow']],
+      leftHip:[['hips','leftHip'],['leftHip','leftKnee']],
+      rightHip:[['hips','rightHip'],['rightHip','rightKnee']]
+    };
+    for (var j in JL) {
+      var jp = project(state, skel[j]); if(!jp) continue;
+      var limbs = JL[j];
+      var bx=0, by=0;
+      for (var i=0; i<limbs.length; i++) {
+        var a=project(state,skel[limbs[i][0]]), b=project(state,skel[limbs[i][1]]);
+        var dx=b.x-a.x, dy=b.y-a.y, len=Math.sqrt(dx*dx+dy*dy)||1;
+        bx+=dx/len; by+=dy/len;
+      }
+      var blen=Math.sqrt(bx*bx+by*by)||1; bx/=blen; by/=blen;
+      var ang=Math.atan2(by,bx);
+      var maxW=3;
+      for (var i2=0; i2<limbs.length; i2++) {
+        var bw=BONE_WIDTHS[limbs[i2][0]+'-'+limbs[i2][1]]||[5.5,3.5];
+        var w=depthToWidth(jp.z, (limbs[i2][1]===j)?bw[1]:bw[0]);
+        if(w>maxW) maxW=w;
+      }
+      var r=maxW*0.92;
+      ctx.save(); ctx.translate(jp.x,jp.y); ctx.rotate(ang);
+      ctx.beginPath(); ctx.ellipse(0,0,Math.max(r,2),Math.max(r*0.68,1.5),0,0,Math.PI*2);
+      ctx.fillStyle=hexToRgba(color, depthToAlpha(jp.z)*alphaBase); ctx.fill();
+      if (opts.outline) { ctx.lineWidth=opts.outline; ctx.strokeStyle=opts.outlineColor||'#FFFFFF'; ctx.stroke(); }
+      ctx.restore();
+    }
+  }
+
+  // drawNeckAvatar: slender tapered neck (Mucha-elongated, androgynous)
+  function drawNeckAvatar(state, opts) {
+    opts = opts || {};
+    var ctx=state.ctx, skel=state.displaySkeleton;
+    if(!skel.neck||!skel.head) return;
+    var pN=project(state,skel.neck), pH=project(state,skel.head);
+    var w=3.2*(state.scale||1);
+    var color=opts.color||(state.ghostMode?COLOR_GHOST:'#0F3B3A');
+    var alpha=depthToAlpha(pN.z)*(opts.alpha==null?(state.ghostMode?0.5:0.85):opts.alpha);
+    ctx.beginPath();
+    ctx.moveTo(pN.x-w,pN.y); ctx.lineTo(pH.x-w*0.7,pH.y);
+    ctx.lineTo(pH.x+w*0.7,pH.y); ctx.lineTo(pN.x+w,pN.y); ctx.closePath();
+    ctx.fillStyle=hexToRgba(color,alpha); ctx.fill();
+    if (opts.outline) { ctx.lineWidth=opts.outline; ctx.strokeStyle=opts.outlineColor||'#FFFFFF'; ctx.stroke(); }
+  }
+
+  // drawHeadAndrogynous: oval head + gold halo, NO gold eyes (androgynous — no
+  // gendered face decoration, directive: "Avoid makeup or eyelashes").
+  function drawHeadAndrogynous(state, opts) {
+    opts = opts || {};
+    var ctx=state.ctx, skel=state.displaySkeleton;
+    if(!skel.head) return;
+    var p=project(state,skel.head);
+    var depthT=Math.max(0,Math.min(1,(p.z+0.8)/1.6));
+    var r=9.5*(0.75+0.5*depthT);
+    var color=opts.color||(state.ghostMode?COLOR_GHOST:'#0F3B3A');
+    var alpha=depthToAlpha(p.z)*(opts.alpha==null?(state.ghostMode?0.55:0.88):opts.alpha);
+    ctx.beginPath();
+    ctx.ellipse(p.x,p.y,Math.max(r*0.86,3),Math.max(r*1.12,3.6),0,0,Math.PI*2);
+    ctx.fillStyle=hexToRgba(color,alpha); ctx.fill();
+    if (opts.outline) { ctx.lineWidth=opts.outline; ctx.strokeStyle=opts.outlineColor||'#FFFFFF'; ctx.stroke(); }
+  }
+
+  // renderGhostOutlineInternal: Phase G option 1 — ghost as OUTLINE-TARGET.
+  // Low-alpha fill + bright white-cyan outline + soft glow + faint line-of-action.
+  // Structurally distinct from the filled avatar (H7 fix) and WCAG 1.4.11-luminant
+  // against bright camera backgrounds.
+  function renderGhostOutlineInternal(state) {
+    if(!state.ctx) return;
+    var ctx=state.ctx;
+    ctx.setTransform(state.dpr||1,0,0,state.dpr||1,0,0);
+    ctx.clearRect(0,0,state.width,state.height);
+    var skel=state.displaySkeleton;
+    var fit=computeFit(state); state.fit=fit;
+    // soft cyan glow behind figure
+    ctx.save(); ctx.translate(fit.tx,fit.ty); ctx.scale(fit.scale,fit.scale);
+    var allP=[]; for(var k in skel){ if(Object.prototype.hasOwnProperty.call(skel,k)) allP.push(project(state,skel[k])); }
+    if(allP.length){
+      var mnx=Infinity,mny=Infinity,mxx=-Infinity,mxy=-Infinity;
+      for(var i=0;i<allP.length;i++){var pp=allP[i]; if(pp.x<mnx)mnx=pp.x; if(pp.x>mxx)mxx=pp.x; if(pp.y<mny)mny=pp.y; if(pp.y>mxy)mxy=pp.y;}
+      var ccx=(mnx+mxx)/2, ccy=(mny+mxy)/2, cr=Math.max(mxx-mnx,mxy-mny)/2+14;
+      var gg=ctx.createRadialGradient(ccx,ccy,2,ccx,ccy,cr);
+      gg.addColorStop(0,hexToRgba(COLOR_GHOST,0.18)); gg.addColorStop(0.6,hexToRgba(COLOR_GHOST,0.06)); gg.addColorStop(1,hexToRgba(COLOR_GHOST,0));
+      ctx.fillStyle=gg; ctx.fillRect(ccx-cr,ccy-cr,cr*2,cr*2);
+    }
+    ctx.restore();
+    // figure: low fill + bright outline (the outline is the distinctive cue)
+    ctx.save(); ctx.translate(fit.tx,fit.ty); ctx.scale(fit.scale,fit.scale);
+    var o={color:COLOR_GHOST, alpha:0.16, outline:2.0, outlineColor:'rgba(255,255,255,0.92)'};
+    drawRibbonTorso(state,o);
+    drawBezierLimbs(state,o);
+    drawJointBlends(state,o);
+    drawNeckAvatar(state,o);
+    drawHeadAndrogynous(state,o);
+    // faint line of action (spine flow) — the ghost's "inner center line"
+    if(skel.spine&&skel.head&&skel.hips){
+      var pSp=project(state,skel.spine),pH=project(state,skel.head),pHi=project(state,skel.hips);
+      ctx.beginPath(); ctx.moveTo(pH.x,pH.y); ctx.quadraticCurveTo(pSp.x,pSp.y,pHi.x,pHi.y);
+      ctx.lineWidth=1; ctx.strokeStyle='rgba(255,255,255,0.35)'; ctx.setLineDash([3,4]); ctx.stroke(); ctx.setLineDash([]);
+    }
+    ctx.restore();
+  }
 
   // PR-v4 (v1.4): Procedural avatar silhouette renderer.
   // Draws a filled silhouette (not wireframe) from the posed skeleton.
@@ -1596,230 +1869,48 @@
   function renderAvatarFrameInternal(state) {
     if (!state.ctx) return;
     var ctx = state.ctx;
+    ctx.setTransform(state.dpr||1,0,0,state.dpr||1,0,0);
     ctx.clearRect(0, 0, state.width, state.height);
-
-    // Draw accessory (chair/wall/floor/bed) behind the figure
-    drawAccessory(state);
-    // Draw ground shadow
-    drawGroundShadow(state);
-
-    // Gold halo behind the head (Art Nouveau Mucha aesthetic)
     var skel = state.displaySkeleton;
+    var fit = computeFit(state); state.fit = fit;
+    // gold halo in SCREEN space (fixed fraction of canvas — matches computeFit's
+    // haloR reservation exactly, so framing is consistent at every canvas size).
     if (skel.head) {
-      var headProj = project(state, skel.head);
-      var haloR = 24 * state.scale;
-      ctx.save();
-      // Soft radial glow
-      var haloGrad = ctx.createRadialGradient(headProj.x, headProj.y, 2, headProj.x, headProj.y, haloR);
-      haloGrad.addColorStop(0, 'rgba(201,162,76,0.18)');
-      haloGrad.addColorStop(0.6, 'rgba(201,162,76,0.08)');
-      haloGrad.addColorStop(1, 'rgba(201,162,76,0.0)');
-      ctx.fillStyle = haloGrad;
-      ctx.fillRect(headProj.x - haloR, headProj.y - haloR, haloR * 2, haloR * 2);
-      // Dashed gold ring
-      ctx.beginPath();
-      ctx.arc(headProj.x, headProj.y, haloR * 0.85, 0, Math.PI * 2);
-      ctx.strokeStyle = 'rgba(201,162,76,0.2)';
-      ctx.lineWidth = 1;
-      ctx.setLineDash([2, 4]);
-      ctx.stroke();
-      ctx.setLineDash([]);
-      ctx.restore();
+      var hp = project(state, skel.head);
+      var hsx = fit.scale * hp.x + fit.tx, hsy = fit.scale * hp.y + fit.ty;
+      var haloR = Math.min(22, Math.min(state.width, state.height) * 0.13);
+      var hg = ctx.createRadialGradient(hsx, hsy, 2, hsx, hsy, haloR);
+      hg.addColorStop(0, hexToRgba(COLOR_GOLD, 0.16)); hg.addColorStop(1, hexToRgba(COLOR_GOLD, 0));
+      ctx.fillStyle = hg; ctx.fillRect(hsx-haloR, hsy-haloR, haloR*2, haloR*2);
+      ctx.beginPath(); ctx.arc(hsx, hsy, haloR*0.82, 0, Math.PI*2);
+      ctx.strokeStyle = hexToRgba(COLOR_GOLD, 0.18); ctx.lineWidth = 1; ctx.setLineDash([2,4]); ctx.stroke(); ctx.setLineDash([]);
     }
-
-    // --- Feminine silhouette rendering (Art Nouveau inspired) ---
-    // Key proportions from research:
-    // - Waist: ~70% of hip width (hourglass)
-    // - Hips broader than shoulders
-    // - Elongated neck (Mucha signature)
-    // - Tapered limbs (thick near body, slender at extremities)
-    // - Oval head (not perfect circle)
-    var avatarColor = state.ghostMode ? COLOR_GHOST : '#0F3B3A';
-    var avatarAlphaBase = state.ghostMode ? 0.55 : 0.85;
-
-    // Draw torso as a shaped silhouette (not just thick bones)
-    var lSh = skel.leftShoulder, rSh = skel.rightShoulder;
-    var spine = skel.spine, hips = skel.hips;
-    var lHip = skel.leftHip, rHip = skel.rightHip;
-    if (lSh && rSh && spine && hips && lHip && rHip) {
-      var pLSh = project(state, lSh), pRSh = project(state, rSh);
-      var pSpine = project(state, spine), pHips = project(state, hips);
-      var pLHip = project(state, lHip), pRHip = project(state, rHip);
-
-      var shoulderW = Math.abs(pRSh.x - pLSh.x) / 2;
-      var hipW = Math.abs(pRHip.x - pLHip.x) / 2;
-      // Ensure minimum widths for visible silhouette
-      shoulderW = Math.max(shoulderW, 10);
-      hipW = Math.max(hipW, 12);
-      var waistW = Math.max(hipW * 0.65, 7); // Feminine waist taper
-
-      var avgZ = (pSpine.z + pHips.z) / 2;
-      var torsoAlpha = depthToAlpha(avgZ) * avatarAlphaBase;
-
-      ctx.save();
-      ctx.beginPath();
-      // Right shoulder → right waist (curve inward)
-      ctx.moveTo(pRSh.x + shoulderW * 0.5, pRSh.y);
-      ctx.quadraticCurveTo(pRSh.x + shoulderW * 0.3, pSpine.y, pHips.x + waistW * 0.5, pSpine.y);
-      // Right waist → right hip (curve outward)
-      ctx.quadraticCurveTo(pRHip.x + hipW * 0.6, (pSpine.y + pHips.y) / 2, pRHip.x + hipW * 0.7, pHips.y);
-      // Bottom (hip line)
-      ctx.lineTo(pLHip.x - hipW * 0.7, pHips.y);
-      // Left hip → left waist (curve inward)
-      ctx.quadraticCurveTo(pLHip.x - hipW * 0.6, (pSpine.y + pHips.y) / 2, pHips.x - waistW * 0.5, pSpine.y);
-      // Left waist → left shoulder (curve outward)
-      ctx.quadraticCurveTo(pLSh.x - shoulderW * 0.3, pSpine.y, pLSh.x - shoulderW * 0.5, pLSh.y);
-      // Shoulder line
-      ctx.lineTo(pRSh.x + shoulderW * 0.5, pRSh.y);
-      ctx.closePath();
-
-      // Fill with gradient for depth
-      var torsoGrad = ctx.createLinearGradient(pHips.x - hipW, pHips.y, pHips.x + hipW, pLSh.y);
-      torsoGrad.addColorStop(0, hexToRgba(avatarColor, torsoAlpha * 0.9));
-      torsoGrad.addColorStop(0.5, hexToRgba(avatarColor, torsoAlpha));
-      torsoGrad.addColorStop(1, hexToRgba(avatarColor, torsoAlpha * 0.85));
-      ctx.fillStyle = torsoGrad;
-      ctx.fill();
-      ctx.restore();
-    }
-
-    // Draw limbs as tapered capsules (feminine: thinner at extremities)
-    var bonesDepth = BONES.map(function(bone) {
-      var a = state.displaySkeleton[bone[0]], b = state.displaySkeleton[bone[1]];
-      var za = applyCamera(a, state.yaw, state.pitch).z;
-      var zb = applyCamera(b, state.yaw, state.pitch).z;
-      return { bone: bone, depth: (za+zb)/2 };
-    });
-    bonesDepth.sort(function(m,n) { return m.depth - n.depth; });
-
-    for (var i = 0; i < bonesDepth.length; i++) {
-      var bone = bonesDepth[i].bone;
-      var aKey = bone[0], bKey = bone[1];
-      // Skip torso bones (already drawn as shaped silhouette)
-      if (aKey === 'leftShoulder' && bKey === 'rightShoulder') continue;
-      if (aKey === 'neck' && bKey === 'spine') continue;
-      if (aKey === 'spine' && bKey === 'hips') continue;
-      if (aKey === 'leftHip' && bKey === 'rightHip') continue;
-      var a = skel[aKey], b = skel[bKey];
-      if (!a || !b) continue;
-      var pa = project(state, a), pb = project(state, b);
-      var avgZ = (pa.z + pb.z) / 2;
-      var alpha = depthToAlpha(avgZ) * avatarAlphaBase;
-
-      var boneKey = aKey + '-' + bKey;
-      var widths = BONE_WIDTHS[boneKey] || [5.5, 3.5];
-      // Feminine taper: 1.4× at body, 0.8× at extremity (slender wrists/ankles)
-      var isLimb = (aKey.indexOf('Elbow') !== -1 || aKey.indexOf('Knee') !== -1 ||
-                    bKey.indexOf('Wrist') !== -1 || bKey.indexOf('Ankle') !== -1 ||
-                    bKey.indexOf('Foot') !== -1);
-      var wA = depthToWidth(pa.z, widths[0]) * (isLimb ? 1.3 : 1.5);
-      var wB = depthToWidth(pb.z, widths[1]) * (isLimb ? 0.7 : 1.2);
-
-      ctx.save();
-      var dx = pb.x - pa.x, dy = pb.y - pa.y;
-      var len = Math.sqrt(dx*dx + dy*dy);
-      if (len < 1) { ctx.restore(); continue; }
-      var nx = -dy / len, ny = dx / len;
-
-      // Draw filled capsule with gradient
-      ctx.beginPath();
-      ctx.moveTo(pa.x + nx * wA, pa.y + ny * wA);
-      ctx.lineTo(pb.x + nx * wB, pb.y + ny * wB);
-      ctx.lineTo(pb.x - nx * wB, pb.y - ny * wB);
-      ctx.lineTo(pa.x - nx * wA, pa.y - ny * wA);
-      ctx.closePath();
-      ctx.fillStyle = hexToRgba(avatarColor, alpha);
-      ctx.fill();
-      // Smooth joint circles
-      ctx.beginPath();
-      ctx.arc(pa.x, pa.y, wA, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.beginPath();
-      ctx.arc(pb.x, pb.y, wB, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.restore();
-    }
-
-    // Draw elegant neck (Mucha signature: elongated, slender)
-    var neckPt = skel.neck;
-    if (neckPt && skel.head) {
-      var pNeck = project(state, neckPt);
-      var pHead = project(state, skel.head);
-      var neckAlpha = depthToAlpha(pNeck.z) * avatarAlphaBase;
-      var neckW = 4 * state.scale;
-      ctx.save();
-      ctx.beginPath();
-      ctx.moveTo(pNeck.x - neckW, pNeck.y);
-      ctx.lineTo(pHead.x - neckW * 0.7, pHead.y);
-      ctx.lineTo(pHead.x + neckW * 0.7, pHead.y);
-      ctx.lineTo(pNeck.x + neckW, pNeck.y);
-      ctx.closePath();
-      ctx.fillStyle = hexToRgba(avatarColor, neckAlpha);
-      ctx.fill();
-      ctx.restore();
-    }
-
-    // Draw head as elegant oval (not circle) with gold eyes
-    if (skel.head) {
-      var headProj2 = project(state, skel.head);
-      var headR = 10 * state.scale * (0.75 + 0.5 * Math.max(0, Math.min(1, (headProj2.z + 0.8) / 1.6)));
-      var headAlpha = depthToAlpha(headProj2.z) * avatarAlphaBase;
-      ctx.save();
-      ctx.beginPath();
-      // Oval head (taller than wide = feminine)
-      ctx.ellipse(headProj2.x, headProj2.y, Math.max(headR * 0.85, 3), Math.max(headR * 1.1, 3.5), 0, 0, Math.PI * 2);
-      ctx.fillStyle = hexToRgba(avatarColor, headAlpha);
-      ctx.fill();
-      // Directional eyes (gold, Mucha-style)
-      var eyeOffsetX = 0.06, eyeOffsetY = 0.02, eyeOffsetZ = 0.07;
-      var headModel = skel.head;
-      var eyeL_model = { x: headModel.x - eyeOffsetX, y: headModel.y + eyeOffsetY, z: headModel.z + eyeOffsetZ };
-      var eyeR_model = { x: headModel.x + eyeOffsetX, y: headModel.y + eyeOffsetY, z: headModel.z + eyeOffsetZ };
-      var eyeL_proj = project(state, eyeL_model);
-      var eyeR_proj = project(state, eyeR_model);
-      var headProjZ = headProj2.z;
-      var depthT = Math.max(0, Math.min(1, (headProj2.z + 0.8) / 1.6));
-      var eyeR = Math.max(1.0, 2.0 * (0.6 + 0.7 * depthT));
-      if (eyeL_proj.z >= headProjZ - 0.05) {
-        ctx.beginPath();
-        ctx.arc(eyeL_proj.x, eyeL_proj.y, eyeR, 0, Math.PI * 2);
-        ctx.fillStyle = state.ghostMode ? 'rgba(255,255,255,0.6)' : 'rgba(201,162,76,0.75)';
-        ctx.fill();
-      }
-      if (eyeR_proj.z >= headProjZ - 0.05) {
-        ctx.beginPath();
-        ctx.arc(eyeR_proj.x, eyeR_proj.y, eyeR, 0, Math.PI * 2);
-        ctx.fillStyle = state.ghostMode ? 'rgba(255,255,255,0.6)' : 'rgba(201,162,76,0.75)';
-        ctx.fill();
-      }
-      ctx.restore();
-    }
-
-    // Ghost: add water glow effect
-    if (state.ghostMode) {
-      ctx.save();
-      ctx.globalCompositeOperation = 'screen';
-      var glowGrad = ctx.createRadialGradient(
-        state.width / 2, state.height / 2, 10,
-        state.width / 2, state.height / 2, state.width * 0.6
-      );
-      glowGrad.addColorStop(0, 'rgba(62,169,184,0.08)');
-      glowGrad.addColorStop(0.5, 'rgba(62,169,184,0.03)');
-      glowGrad.addColorStop(1, 'rgba(62,169,184,0.0)');
-      ctx.fillStyle = glowGrad;
-      ctx.fillRect(0, 0, state.width, state.height);
-      ctx.restore();
-    }
-
-    // Reclining floor overlay
-    if (skel.head && skel.hips &&
-        Math.abs(skel.head.y - skel.hips.y) < 0.50) {
+    ctx.save(); ctx.translate(fit.tx, fit.ty); ctx.scale(fit.scale, fit.scale);
+    drawAccessory(state);
+    drawGroundShadow(state);
+    // hybrid androgynous figure: structural ribbon torso + Bezier limb chains +
+    // joint-blend-once + androgynous head (no gold eyes). No hourglass, no
+    // overlapping endpoint circles, no min-width floors. cameraAlpha (if set)
+    // lowers the fill for camera-overlay use (R2).
+    var aOpts = (state.avatarAlpha != null) ? { alpha: state.avatarAlpha } : {};
+    drawRibbonTorso(state, aOpts);
+    drawBezierLimbs(state, aOpts);
+    drawJointBlends(state, aOpts);
+    drawNeckAvatar(state, aOpts);
+    drawHeadAndrogynous(state, aOpts);
+    ctx.restore();
+    // Reclining floor overlay (framed)
+    if (skel.head && skel.hips && Math.abs(skel.head.y - skel.hips.y) < 0.50) {
+      ctx.save(); ctx.translate(fit.tx, fit.ty); ctx.scale(fit.scale, fit.scale);
       drawRecliningFloorOverlay(state);
+      ctx.restore();
     }
   }
 
   // Expose the internal avatar renderer for testing
   PoseSkeleton3D._internals.renderAvatarFrameInternal = renderAvatarFrameInternal;
+  PoseSkeleton3D._internals.renderGhostOutlineInternal = renderGhostOutlineInternal;
+  PoseSkeleton3D._internals.computeFit = computeFit;
 
   global.PoseSkeleton3D = PoseSkeleton3D;
 
