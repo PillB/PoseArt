@@ -652,6 +652,21 @@ function getNextPoseId() {
   return ids[(ids.indexOf(AppState.selectedPoseId) + 1) % ids.length];
 }
 
+// Navigate to prev (-1) or next (+1) pose within the current category, directly
+// from the pose-detail sheet (keyboard shortcut: ArrowLeft / ArrowRight).
+// Reuses openPoseDetail so the skeleton + sheet re-init correctly.
+window.navigatePoseInCategory = function(dir) {
+  const current = POSES_LIBRARY[AppState.selectedPoseId];
+  if (!current) return;
+  const ids = Object.values(POSES_LIBRARY).filter(pose => pose.category === current.category).map(pose => pose.id);
+  const idx = ids.indexOf(AppState.selectedPoseId);
+  if (idx < 0) return;
+  const nextId = ids[(idx + dir + ids.length) % ids.length];
+  if (nextId && nextId !== AppState.selectedPoseId) {
+    openPoseDetail(nextId);
+  }
+};
+
 function updateNextPosePreview() {
   const id = getNextPoseId(); const pose = POSES_LIBRARY[id];
   const figure = document.getElementById('next-pose-figure'); const name = document.getElementById('next-pose-name');
@@ -1847,6 +1862,32 @@ document.addEventListener('keydown', (e) => {
     } else if (AppState.currentScreen === 'category-list') {
       goBack();
     }
+  }
+  // Next-step UX: keyboard shortcuts for the pose-detail sheet (power-user +
+  // accessibility). Only fires when the sheet is visible AND the user is not
+  // typing in an input/textarea (so the keys don't interfere with text entry).
+  if (poseSheet?.classList.contains('visible') && !/input|textarea|select/i.test(e.target.tagName)) {
+    if (e.key === 'ArrowLeft') { e.preventDefault(); navigatePoseInCategory(-1); }
+    else if (e.key === 'ArrowRight') { e.preventDefault(); navigatePoseInCategory(1); }
+    else if (e.key === 'f' || e.key === 'F') {
+      e.preventDefault();
+      // Call toggleFavorite directly (toggleFavFromSheet expects a DOM event
+      // for stopPropagation). Then sync the sheet button's visual state.
+      const isNowFav = toggleFavorite(AppState.selectedPoseId);
+      const btn = document.getElementById('sheet-fav-btn');
+      if (btn) {
+        btn.classList.toggle('active', isNowFav);
+        btn.setAttribute('aria-pressed', isNowFav ? 'true' : 'false');
+        btn.setAttribute('aria-label', isNowFav ? 'Remove from favorites' : 'Add to favorites');
+        const path = btn.querySelector('path');
+        if (path) { path.setAttribute('fill', isNowFav ? '#C96A4C' : 'none'); }
+      }
+      showToast(isNowFav ? '★ Added to favorites' : 'Removed from favorites');
+    }
+    else if (e.key === '1') { e.preventDefault(); setSkelView('front'); }
+    else if (e.key === '2') { e.preventDefault(); setSkelView('side-left'); }
+    else if (e.key === '3') { e.preventDefault(); setSkelView('quarter-front-left'); }
+    else if (e.key === '4') { e.preventDefault(); setSkelView('auto'); }
   }
 });
 
