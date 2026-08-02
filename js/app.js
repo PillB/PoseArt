@@ -82,6 +82,8 @@ if (typeof window.restore === 'function') {
 // ── INITIALIZATION ─────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   initStatusBarTime();
+  // Initialize analytics (no-op if PostHog key not set — safe for F&F)
+  PoseArtAnalytics?.init();
   renderCategoryGrid();
   renderCategoryThumbs();
   renderRecentCaptures();
@@ -105,6 +107,7 @@ function checkOnboardingStatus() {
     showTab('home');
   } else {
     showScreen('ob1');
+    PoseArtAnalytics?.track('login_completed', { user: 'tester' });
   }
 }
 
@@ -326,6 +329,7 @@ window.completeOnboarding = function() {
     return;
   }
   _onboardingCompleted = true;
+  PoseArtAnalytics?.track("onboarding_completed", { goal: AppState.selectedGoal });
   window.persist?.('onboardingCompleted', true);
   window.persist?.('selectedGoal', AppState.selectedGoal);
   showTab('home');
@@ -335,6 +339,7 @@ window.completeOnboarding = function() {
 window.completeOnboardingSkip = function() {
   AppState.selectedGoal = AppState.selectedGoal || 'exploring';
   _onboardingCompleted = true;
+  PoseArtAnalytics?.track("onboarding_completed", { goal: AppState.selectedGoal, skipped: true });
   window.persist?.('onboardingCompleted', true);
   window.persist?.('selectedGoal', AppState.selectedGoal);
   showTab('home');
@@ -459,6 +464,7 @@ window.cycleOption = function(option) {
   if (navigator.vibrate) navigator.vibrate(15);
 }
 
+  PoseArtAnalytics?.track("session_started", { pose_id: AppState.selectedPoseId });
 window.startCameraSession = async function() {
   const beginBtn = document.getElementById('begin-session-btn');
   if (beginBtn) {
@@ -2411,6 +2417,7 @@ window.renderMarketplace = function() {
   }).join('');
 };
 
+  PoseArtAnalytics?.track("checkout_started", { pack_id: packId });
 window.purchasePack = function(packId) {
   const pack = _marketplacePacks.find(p => p.id === packId);
   if (!pack) return;
@@ -2460,7 +2467,7 @@ window.renderOwnedPacks = function() {
   if (!list) return;
   const owned = _marketplacePacks.filter(p => _ownedPacks.includes(p.id));
   if (owned.length === 0) {
-    list.innerHTML = '<div style="text-align:center;padding:24px;color:var(--text-secondary);">No purchased packs yet. Browse the marketplace to find pose packs!</div>';
+    list.innerHTML = '<div style="text-align:center;padding:24px;color:var(--text-secondary);"><div style="font-size:36px;margin-bottom:8px;">📦</div>No purchased packs yet.<br><button class="btn btn-gold" style="margin-top:12px;font-size:12px;padding:8px 16px;" onclick="switchMarketplaceTab(\'browse\')">Browse Packs</button></div>';
     return;
   }
   list.innerHTML = owned.map(p => `
