@@ -1565,6 +1565,7 @@ function loadSessionStats() {
   const sessions = getSessionHistory();
   const statSessions = document.getElementById('stat-sessions');
   const statPoses    = document.getElementById('stat-poses');
+  const statStreak   = document.getElementById('stat-streak');
   const statScore    = document.getElementById('stat-score');
   const historyList  = document.getElementById('session-history-list');
 
@@ -1572,6 +1573,23 @@ function loadSessionStats() {
 
   const uniquePoses = new Set(sessions.map(s => s.poseId)).size;
   if (statPoses) statPoses.textContent = uniquePoses;
+
+  // Streak: consecutive days with at least 1 session (Zeigarnik effect — re-engagement hook)
+  let streak = 0;
+  if (sessions.length > 0) {
+    const today = new Date(); today.setHours(0,0,0,0);
+    const dayMs = 86400000;
+    let checkDay = today;
+    // If no session today, start from yesterday (grace period)
+    const hasToday = sessions.some(s => { const d = new Date(s.timestamp); d.setHours(0,0,0,0); return d.getTime() === today.getTime(); });
+    if (!hasToday) checkDay = new Date(today.getTime() - dayMs);
+    for (let i = 0; i < 365; i++) {
+      const dayHasSession = sessions.some(s => { const d = new Date(s.timestamp); d.setHours(0,0,0,0); return d.getTime() === checkDay.getTime(); });
+      if (dayHasSession) { streak++; checkDay = new Date(checkDay.getTime() - dayMs); }
+      else break;
+    }
+  }
+  if (statStreak) statStreak.textContent = streak;
 
   const bestScore = sessions.reduce((max, s) => Math.max(max, s.score || 0), 0);
   if (statScore) statScore.textContent = bestScore > 0 ? bestScore + '%' : '--';
@@ -1730,9 +1748,9 @@ window.renderPendingAvatars = function(container) {
 function personalizeHome() {
   const goal = AppState.selectedGoal;
   const goalCategory = { photographer: 'editorial', model: 'fashion', 'self-portrait': 'standing' };
-  const goalLabel = { photographer: 'Photographer', model: 'Model', 'self-portrait': 'Self-Portrait', exploring: 'Just Exploring' };
+  const goalLabel = { photographer: 'Photographer', model: 'Model', 'self-portrait': 'Self-Portrait', exploring: 'Artist' };
 
-  // Greeting
+  // Greeting — personalized based on onboarding persona selection
   const greetEl = document.getElementById('home-greeting');
   if (greetEl) {
     const who = goalLabel[goal] || 'Artist';
@@ -2401,7 +2419,7 @@ window.purchasePack = function(packId) {
     // Free pack — instant "purchase"
     _ownedPacks.push(packId);
     window.persist?.('ownedPacks', _ownedPacks);
-    showToast('Added to your library: ' + pack.name);
+    showToast('✓ ' + pack.name + ' is now in your library');
     renderMarketplace();
     renderOwnedPacks();
   } else {
@@ -2413,7 +2431,7 @@ window.purchasePack = function(packId) {
       pack.sales++;
       window.persist?.('ownedPacks', _ownedPacks);
       window.persist?.('marketplacePacks', _marketplacePacks);
-      showToast('Purchase complete! ' + pack.name + ' added to your library ✓');
+      showToast('✓ ' + pack.name + ' is now in your library');
       renderMarketplace();
       renderOwnedPacks();
     }, 1200);
