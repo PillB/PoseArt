@@ -331,3 +331,22 @@
 > ⚠️ **Los precios y límites de los planes gratuitos cambian.** Antes de registrarte en cualquier servicio, verifica los límites actuales en su página de pricing. Los valores citados en esta documentación (500 MB DB en Supabase, 1M eventos/mes en PostHog, 5k errores/mes en Sentry) eran vigentes a agosto 2026 pero pueden haber cambiado.
 
 > ⚠️ **No se inventaron funciones.** Si una funcionalidad no estaba clara en la documentación oficial, se marcó como "verifica en la documentación oficial" en lugar de asumirla.
+
+---
+
+## 8. Fuentes adicionales (Troubleshooting research)
+
+| Servicio | Título | URL | Fecha | Decisión |
+|---|---|---|---|---|
+| Reddit r/Supabase | Stripe Webhook Signature Verification Fails in Deno | https://www.reddit.com/r/Supabase/comments/1kj1zkb/ | 2026-08-02 | Raw body requirement for webhook |
+| Reddit r/Supabase | My Stripe webhook doesn't update my database table | https://www.reddit.com/r/Supabase/comments/1cgcgqd/ | 2026-08-02 | service_role key for webhooks |
+| Reddit r/Supabase | Billing on Supabase + Stripe: the edge cases | https://www.reddit.com/r/Supabase/comments/1u8o4od/ | 2026-08-02 | Webhook idempotency + raw body |
+| Reddit r/Supabase | Stripe webhook integration, permission denied | https://www.reddit.com/r/Supabase/comments/1ebec61/ | 2026-08-02 | service_role vs anon in Edge Functions |
+| Reddit r/Supabase | RLS issue: Correct policies not working | https://www.reddit.com/r/Supabase/ | 2026-08-02 | Common RLS pitfalls |
+| Reddit r/Supabase | Is local dev on supabase really hard | https://www.reddit.com/r/Supabase/ | 2026-08-02 | Docker requirement gap |
+| Supabase Docs | Redirect URLs | https://supabase.com/docs/guides/auth/redirect-urls | 2026-08-02 | Site URL configuration |
+| Stripe Docs | Testing | https://docs.stripe.com/testing | 2026-08-02 | Test card numbers |
+| Stripe Docs | Customize redirect behavior | https://docs.stripe.com/payments/checkout/custom-success-page | 2026-08-02 | success_url best practices |
+| GitHub Docs | Custom 404 page for Pages | https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-custom-404-page-for-your-github-pages-site | 2026-08-02 | SPA routing on GitHub Pages |
+| PostHog Docs | Privacy | https://posthog.com/docs/privacy | 2026-08-02 | Opt-out and consent |
+| Sentry Docs | GDPR and Privacy | https://docs.sentry.io/security-legal-pii-control/ | 2026-08-02 | PII scrubbing |

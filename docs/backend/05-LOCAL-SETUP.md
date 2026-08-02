@@ -60,6 +60,52 @@ Cada paso tiene **siempre** estos campos:
 
 ---
 
+## Paso 0: Instalar Docker Desktop (PRERREQUISITO CRÍTICO)
+
+- **Objetivo:** Tener Docker (o Podman) disponible para que el CLI de Supabase pueda levantar el stack local.
+- **Por qué hace falta:** El CLI de Supabase (`supabase start`) necesita un container runtime para ejecutar PostgreSQL, Auth, Storage y Edge Functions localmente. **Sin Docker, `supabase start` falla con "docker: command not found".**
+- **Prerrequisitos:** Ninguno (pero necesitas ~4 GB de RAM libre).
+- **Dónde ejecutar:** 🟢 **TERMINAL** (verificar) + descarga desde la web oficial.
+- **Acción exacta:**
+
+  ```bash
+  # Verificar si ya tienes Docker:
+  docker --version
+  ```
+
+  Si no lo tienes, instálalo desde:
+  - **macOS:** https://docs.docker.com/desktop/install/mac-install/
+  - **Windows:** https://docs.docker.com/desktop/install/windows-install/
+  - **Linux:** https://docs.docker.com/engine/install/
+
+  Después de instalar, abre Docker Desktop y espera a que el icono de la ballena deje de animarse (indica que el motor está corriendo).
+
+- **Resultado esperado:**
+  ```bash
+  $ docker --version
+  Docker version 27.x.x, build xxxxxx
+  ```
+
+- **Cómo verificar:**
+  ```bash
+  docker info
+  # Debe mostrar: Server Version: 27.x.x y información de contenedores
+  ```
+
+- **Errores comunes:**
+  - **"docker: command not found"** → Docker no está instalado o no está en el PATH. Reinicia la terminal después de instalar.
+  - **"Cannot connect to the Docker daemon"** → Docker Desktop no está corriendo. Ábrelo y espera.
+  - **Linux: "permission denied"** → Tu usuario no está en el grupo docker: `sudo usermod -aG docker $USER` (cierra sesión y vuelve a entrar).
+  - **"failed to inspect container health"** → Verifica que tienes suficiente RAM libre (mínimo 4 GB).
+
+- **Cómo revertir:** Desinstala Docker Desktop desde el panel de aplicaciones.
+
+- **Alternativa sin Docker:** Si no puedes instalar Docker, puedes usar el panel web de Supabase directamente. Crea un proyecto en https://supabase.com/dashboard (plan Free) y ejecuta los SQL desde el SQL Editor del panel. No tendrás Edge Functions locales, pero podrás desplegarlas al proyecto de prueba. Ve a `13-TROUBLESHOOTING-AND-FAQ.md` sección 1 para más detalles.
+
+- **Fuente oficial:** https://supabase.com/docs/guides/local-development — "you'll need to install the Supabase CLI and a container runtime"
+
+---
+
 ## Paso 1: Instalar Node.js LTS
 
 - **Objetivo:** Tener `node` y `npm` disponibles en la terminal.

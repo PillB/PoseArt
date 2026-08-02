@@ -571,6 +571,12 @@ Deno.serve(async (req: Request) => {
   const signature = req.headers.get("stripe-signature");
   if (!signature) return new Response("Missing signature", { status: 400 });
 
+  // ⚠️ CRÍTICO: Leer el body como TEXTO RAW (no como JSON).
+  // Stripe verifica la firma contra el body exacto que recibió.
+  // Si usas req.json(), el body se re-serializa y la firma NO coincide.
+  // Error común: "Webhook signature verification failed"
+  // Solución: SIEMPRE usar req.text() para webhooks de Stripe.
+  // Fuente: https://www.reddit.com/r/Supabase/comments/1kj1zkb/
   const rawBody = await req.text();
 
   // 1) Verificar firma — NUNCA procesar sin esto
