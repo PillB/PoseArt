@@ -44,7 +44,8 @@ function expectedClaims(pose) {
   // greedy `knees.*together.*side` (matched across sentences: "knees together.
   // ...seat edge beside") with tight patterns requiring "side" adjacent to
   // knees/angle within a few words.
-  if (/\b(one side|to one side|both knees (to the )?(left|right|side)|knees (angled|tilted|pointing) (to )?(one side|the (left|right))|angle (both )?knees (to )?(one side|the (left|right)))\b/i.test(d)) claims.push({ id: 'knees_to_one_side', expect: 'asymmetric hip flexion or global yaw' });
+  // FIX iter4: Exclude "lie on one side" / "shift to one side" (body orientation, not knee direction)
+  if (/\b(both knees (to the )?(left|right|side)|knees (angled|tilted|pointing) (to )?(one side|the (left|right))|angle (both )?knees (to )?(one side|the (left|right)))\b/i.test(d) && !/\b(lie|lying|shift|seat)\b.*\bone side\b/i.test(d)) claims.push({ id: 'knees_to_one_side', expect: 'asymmetric hip flexion or global yaw' });
   // Knees together
   if (/\bknees together\b/i.test(d)) claims.push({ id: 'knees_together', expect: 'hip abduction near 0 or negative (adduction)' });
   // Knees apart / wide
@@ -64,7 +65,8 @@ function expectedClaims(pose) {
   if (/\b(arch\s+(backward|backwards|the\s+back|spine\s+back)|backward\s+arch|back\s+arch|recline.*back|lean\s+back)\b/i.test(d)) claims.push({ id: 'torso_back', expect: 'torso flexion < 0 or globalTilt supine' });
   // Lying / reclining / supine / prone — now checks SIGN too (not just presence)
   // TRUTH: +90=PRONE, -90=SUPINE (verified 2026-08-02)
-  if (/\b(lying|reclining|lie\s+back|on\s+(the\s+)?back|on\s+(the\s+)?floor|on\s+(the\s+)?bed)\b/i.test(d) && !/\bkneel|sit|perch|stand\b/i.test(d)) {
+  // FIX iter4: Tightened "on the back" to exclude "back of the chair" and "back leg"
+  if (/\b(lying|reclining|lie\s+back|on\s+(the\s+)?back(?!.*chair|.*leg|.*foot|.*heel)|on\s+(the\s+)?floor|on\s+(the\s+)?bed)\b/i.test(d) && !/\bkneel|sit|perch|stand\b/i.test(d)) {
     claims.push({ id: 'reclining', expect: 'globalTilt != 0' });
   }
   if (/\b(lie|lying|recline|reclining)\s+(on\s+)?(the\s+)?back\b|\bsupine\b|\bback\s+lying\b|\blying\s+back\b/i.test(d) && !/\bprone|face[\s-]down|belly\b/i.test(d)) {
@@ -84,7 +86,9 @@ function expectedClaims(pose) {
   if (/\b(hand|fingers|palm)\s+(on|to|resting\s+on)\s+(the\s+)?(floor|ground|mat)\b|hand\s+on\s+floor\b/i.test(d)) claims.push({ id: 'hand_to_floor', expect: 'wrist y near -0.80 (ground)' });
   if (/\bhand\s+(on|resting\s+on)\s+(the\s+)?(hip|waist)\b|hands?\s+on\s+hips?\b/i.test(d)) claims.push({ id: 'hands_on_hips', expect: 'wrist within 0.25 of hip' });
   if (/\bhands?\s+(clasped|clasped\s+together|together|folded)\b|clasp\s+(both\s+)?hands?\b/i.test(d)) claims.push({ id: 'hands_clasped', expect: 'L/R wrist distance < 0.25' });
-  if (/\b(arm|elbow|forearm)\s+(on|along|resting\s+on)\s+(the\s+)?(armrest|backrest|chair\s+back|back\s+of\s+chair)\b/i.test(d)) claims.push({ id: 'arm_on_chair', expect: 'elbow/wrist behind torso (z negative)' });
+  // FIX iter4: Split arm_on_chair into armrest (lateral, x-axis) vs backrest (posterior, z-axis)
+  if (/\b(arm|elbow|forearm)\s+(on|along|resting\s+on)\s+(the\s+)?(backrest|chair\s+back|back\s+of\s+chair)\b/i.test(d)) claims.push({ id: 'arm_on_chair_back', expect: 'elbow/wrist behind torso (z negative)' });
+  if (/\b(arm|elbow|forearm)\s+(on|along|resting\s+on)\s+(the\s+)?armrest\b/i.test(d)) claims.push({ id: 'arm_on_armrest', expect: 'elbow at armrest height (lateral, near shoulder y)' });
   if (/\bhand\s+(on|resting\s+on|near)\s+(the\s+)?(belt|waistband|lap)\b|hands?\s+in\s+lap\b/i.test(d)) claims.push({ id: 'hand_on_lap', expect: 'wrist near hips (y 0.0-0.2, x near 0)' });
   // NEW 2026-08-02 (cron-round-6): torso rotation + drape-over-backrest claims
   // (worker-D found sweep blind spots: side-straddle returned clean but has real defects)
@@ -176,9 +180,15 @@ function checkClaim(claim, anatomy, skel, pose) {
       break;
     }
     case 'elbow_on_knee': {
+      // FIX iter4: Check BOTH elbow-to-knee AND wrist-to-knee (description may say "hand on knee")
       const le = skel.leftElbow, lk = skel.leftKnee, re = skel.rightElbow, rk = skel.rightKnee;
-      const dl = Math.hypot(le.x - lk.x, le.y - lk.y, le.z - lk.z), dr = Math.hypot(re.x - rk.x, re.y - rk.y, re.z - rk.z);
-      if (Math.min(dl, dr) > 0.30) return fail(`elbow not near knee (L ${dl.toFixed(2)}, R ${dr.toFixed(2)})`, 'major');
+      const lw = skel.leftWrist, rw = skel.rightWrist;
+      const dlElbow = Math.hypot(le.x - lk.x, le.y - lk.y, le.z - lk.z);
+      const drElbow = Math.hypot(re.x - rk.x, re.y - rk.y, re.z - rk.z);
+      const dlWrist = Math.hypot(lw.x - lk.x, lw.y - lk.y, lw.z - lk.z);
+      const drWrist = Math.hypot(rw.x - rk.x, rw.y - rk.y, rw.z - rk.z);
+      const minDist = Math.min(dlElbow, drElbow, dlWrist, drWrist);
+      if (minDist > 0.35) return fail(`neither elbow nor wrist near knee (min dist ${minDist.toFixed(2)}, threshold 0.35)`, 'major');
       break;
     }
     // NEW contact checks (2026-08-02)
@@ -225,12 +235,21 @@ function checkClaim(claim, anatomy, skel, pose) {
       if (dist > 0.30) return fail(`wrists too far apart to be clasped (dist ${dist.toFixed(2)}, threshold 0.30)`, 'major');
       break;
     }
-    case 'arm_on_chair': {
-      // Arm along back of chair = elbow/wrist behind torso (z negative)
+    case 'arm_on_chair_back': {
+      // Arm along BACK of chair (posterior): elbow/wrist behind torso (z negative)
       const le = skel.leftElbow, re = skel.rightElbow;
       const lw = skel.leftWrist, rw = skel.rightWrist;
       const minZ = Math.min(le.z, re.z, lw.z, rw.z);
       if (minZ > -0.10) return fail(`no elbow/wrist behind torso (min z ${minZ.toFixed(2)}, need < -0.10 for arm-on-chair-back)`, 'major');
+      break;
+    }
+    case 'arm_on_armrest': {
+      // Arm on ARMREST (lateral): elbow near shoulder y level
+      const le = skel.leftElbow, re = skel.rightElbow;
+      const lSh = skel.leftShoulder, rSh = skel.rightShoulder;
+      const shoulderMidY = (lSh.y + rSh.y) / 2;
+      const elbowNearArmrest = Math.min(Math.abs(le.y - shoulderMidY), Math.abs(re.y - shoulderMidY));
+      if (elbowNearArmrest > 0.25) return fail(`elbow not at armrest height (nearest ${elbowNearArmrest.toFixed(2)} from shoulder y, threshold 0.25)`, 'major');
       break;
     }
     case 'hand_on_lap': {
