@@ -1,0 +1,15 @@
+{
+  "generated_at": "2026-08-02T14:26:16.445Z",
+  "commit_sha": "b09f998f159adb83e5fb1d7d5c631d9cab2857e1",
+  "poses_total": 745,
+  "categories_total": 16,
+  "screens_total": 20,
+  "overlay_modes_total": 4,
+  "figure_types_total": 76,
+  "controls_total": 181,
+  "flows_total": 15,
+  "external_libraries_total": 3,
+  "localStorage_keys_total": 12,
+  "auth_mechanism": "client-side Base64 F&F",
+  "backend": "none (static site)"
+}

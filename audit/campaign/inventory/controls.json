@@ -1,0 +1,1631 @@
+[
+  {
+    "id": "ctrl-1",
+    "type": "button",
+    "handler": "showScreen('ob2')",
+    "visible_label": "Begin",
+    "dom_selector": "[onclick=\"showScreen('ob2')\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-2",
+    "type": "button",
+    "handler": "completeOnboardingSkip()",
+    "visible_label": "Skip intro",
+    "dom_selector": "[onclick=\"completeOnboardingSkip()\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-3",
+    "type": "button",
+    "handler": "runOnboardingDemo()",
+    "visible_label": "Try it",
+    "dom_selector": "[onclick=\"runOnboardingDemo()\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-4",
+    "type": "button",
+    "handler": "showScreen('ob3')",
+    "visible_label": "Skip",
+    "dom_selector": "[onclick=\"showScreen('ob3')\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-5",
+    "type": "button",
+    "handler": "requestCameraPermission()",
+    "visible_label": "Allow Camera",
+    "dom_selector": "[onclick=\"requestCameraPermission()\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-6",
+    "type": "button",
+    "handler": "continueInDemoMode()",
+    "visible_label": "Continue in Demo Mode",
+    "dom_selector": "[onclick=\"continueInDemoMode()\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-7",
+    "type": "button",
+    "handler": "selectGoal(this, 'photographer')",
+    "visible_label": "",
+    "dom_selector": "[onclick=\"selectGoal(this, 'photographer')\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-8",
+    "type": "button",
+    "handler": "selectGoal(this, 'model')",
+    "visible_label": "",
+    "dom_selector": "[onclick=\"selectGoal(this, 'model')\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-9",
+    "type": "button",
+    "handler": "selectGoal(this, 'self-portrait')",
+    "visible_label": "",
+    "dom_selector": "[onclick=\"selectGoal(this, 'self-portrait')\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-10",
+    "type": "button",
+    "handler": "selectGoal(this, 'exploring')",
+    "visible_label": "",
+    "dom_selector": "[onclick=\"selectGoal(this, 'exploring')\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-11",
+    "type": "button",
+    "handler": "completeOnboarding()",
+    "visible_label": "Start Exploring",
+    "dom_selector": "[onclick=\"completeOnboarding()\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-12",
+    "type": "button",
+    "handler": "goToSession('scurve-stand')",
+    "visible_label": "Start Session",
+    "dom_selector": "[onclick=\"goToSession('scurve-stand')\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-13",
+    "type": "button",
+    "handler": "showTab('library')",
+    "visible_label": "",
+    "dom_selector": "[onclick=\"showTab('library')\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-14",
+    "type": "button",
+    "handler": "document.querySelectorAll('.filter-pill').forEach(p=>{p.classList.remove('active');p.setAttribute('aria-pressed','false')});this.classList.add('active');this.setAttribute('aria-pressed','true')",
+    "visible_label": "All",
+    "dom_selector": "[onclick=\"document.querySelectorAll('.filter-pill').forEach(p=>{p.classList.remove('active');p.setAttribute('aria-pressed','false')});this.classList.add('active');this.setAttribute('aria-pressed','true')\"]",
+    "screen": "multiple",
+    "security_sensitivity": "high"
+  },
+  {
+    "id": "ctrl-15",
+    "type": "button",
+    "handler": "document.querySelectorAll('.filter-pill').forEach(p=>{p.classList.remove('active');p.setAttribute('aria-pressed','false')});this.classList.add('active');this.setAttribute('aria-pressed','true');searchPoses('beginner')",
+    "visible_label": "Beginner",
+    "dom_selector": "[onclick=\"document.querySelectorAll('.filter-pill').forEach(p=>{p.classList.remove('active');p.setAttribute('aria-pressed','false')});this.classList.add('active');this.setAttribute('aria-pressed','true');searchPoses('beginner')\"]",
+    "screen": "multiple",
+    "security_sensitivity": "high"
+  },
+  {
+    "id": "ctrl-16",
+    "type": "button",
+    "handler": "document.querySelectorAll('.filter-pill').forEach(p=>{p.classList.remove('active');p.setAttribute('aria-pressed','false')});this.classList.add('active');this.setAttribute('aria-pressed','true');searchPoses('intermediate')",
+    "visible_label": "Intermediate",
+    "dom_selector": "[onclick=\"document.querySelectorAll('.filter-pill').forEach(p=>{p.classList.remove('active');p.setAttribute('aria-pressed','false')});this.classList.add('active');this.setAttribute('aria-pressed','true');searchPoses('intermediate')\"]",
+    "screen": "multiple",
+    "security_sensitivity": "high"
+  },
+  {
+    "id": "ctrl-17",
+    "type": "button",
+    "handler": "document.querySelectorAll('.filter-pill').forEach(p=>{p.classList.remove('active');p.setAttribute('aria-pressed','false')});this.classList.add('active');this.setAttribute('aria-pressed','true');searchPoses('advanced')",
+    "visible_label": "Advanced",
+    "dom_selector": "[onclick=\"document.querySelectorAll('.filter-pill').forEach(p=>{p.classList.remove('active');p.setAttribute('aria-pressed','false')});this.classList.add('active');this.setAttribute('aria-pressed','true');searchPoses('advanced')\"]",
+    "screen": "multiple",
+    "security_sensitivity": "high"
+  },
+  {
+    "id": "ctrl-18",
+    "type": "button",
+    "handler": "document.querySelectorAll('.filter-pill').forEach(p=>{p.classList.remove('active');p.setAttribute('aria-pressed','false')});this.classList.add('active');this.setAttribute('aria-pressed','true');showFavorites()",
+    "visible_label": "Favorites ♥",
+    "dom_selector": "[onclick=\"document.querySelectorAll('.filter-pill').forEach(p=>{p.classList.remove('active');p.setAttribute('aria-pressed','false')});this.classList.add('active');this.setAttribute('aria-pressed','true');showFavorites()\"]",
+    "screen": "multiple",
+    "security_sensitivity": "high"
+  },
+  {
+    "id": "ctrl-19",
+    "type": "button",
+    "handler": "closePoseSheet()",
+    "visible_label": "",
+    "dom_selector": "[onclick=\"closePoseSheet()\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-20",
+    "type": "button",
+    "handler": "toggleFavFromSheet(event)",
+    "visible_label": "",
+    "dom_selector": "[onclick=\"toggleFavFromSheet(event)\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-21",
+    "type": "button",
+    "handler": "sharePoseFromSheet()",
+    "visible_label": "",
+    "dom_selector": "[onclick=\"sharePoseFromSheet()\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-22",
+    "type": "button",
+    "handler": "setSkelView('front')",
+    "visible_label": "Front",
+    "dom_selector": "[onclick=\"setSkelView('front')\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-23",
+    "type": "button",
+    "handler": "setSkelView('side-left')",
+    "visible_label": "Side",
+    "dom_selector": "[onclick=\"setSkelView('side-left')\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-24",
+    "type": "button",
+    "handler": "setSkelView('quarter-front-left')",
+    "visible_label": "¾",
+    "dom_selector": "[onclick=\"setSkelView('quarter-front-left')\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-25",
+    "type": "button",
+    "handler": "setSkelView('auto')",
+    "visible_label": "Auto ↺",
+    "dom_selector": "[onclick=\"setSkelView('auto')\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-26",
+    "type": "button",
+    "handler": "goToSession()",
+    "visible_label": "Start Session",
+    "dom_selector": "[onclick=\"goToSession()\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-27",
+    "type": "button",
+    "handler": "goBack()",
+    "visible_label": "",
+    "dom_selector": "[onclick=\"goBack()\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-28",
+    "type": "button",
+    "handler": "cycleOption('timer')",
+    "visible_label": "5 sec",
+    "dom_selector": "[onclick=\"cycleOption('timer')\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-29",
+    "type": "button",
+    "handler": "cycleOption('sensitivity')",
+    "visible_label": "Balanced",
+    "dom_selector": "[onclick=\"cycleOption('sensitivity')\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-30",
+    "type": "button",
+    "handler": "selectOverlayMode(this,'avatar')",
+    "visible_label": "Avatar",
+    "dom_selector": "[onclick=\"selectOverlayMode(this,'avatar')\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-31",
+    "type": "button",
+    "handler": "selectOverlayMode(this,'skeleton')",
+    "visible_label": "Skeleton",
+    "dom_selector": "[onclick=\"selectOverlayMode(this,'skeleton')\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-32",
+    "type": "button",
+    "handler": "selectOverlayMode(this,'ghost')",
+    "visible_label": "Ghost",
+    "dom_selector": "[onclick=\"selectOverlayMode(this,'ghost')\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-33",
+    "type": "button",
+    "handler": "selectOverlayMode(this,'off')",
+    "visible_label": "Off",
+    "dom_selector": "[onclick=\"selectOverlayMode(this,'off')\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-34",
+    "type": "button",
+    "handler": "startCameraSession()",
+    "visible_label": "Begin Capture →",
+    "dom_selector": "[onclick=\"startCameraSession()\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-35",
+    "type": "button",
+    "handler": "endSession()",
+    "visible_label": "",
+    "dom_selector": "[onclick=\"endSession()\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-36",
+    "type": "button",
+    "handler": "toggleFlash()",
+    "visible_label": "",
+    "dom_selector": "[onclick=\"toggleFlash()\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-37",
+    "type": "button",
+    "handler": "flipCamera()",
+    "visible_label": "",
+    "dom_selector": "[onclick=\"flipCamera()\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-38",
+    "type": "button",
+    "handler": "cycleOverlay()",
+    "visible_label": "",
+    "dom_selector": "[onclick=\"cycleOverlay()\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-39",
+    "type": "button",
+    "handler": "toggleFlowMode()",
+    "visible_label": "FLOW OFF",
+    "dom_selector": "[onclick=\"toggleFlowMode()\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-40",
+    "type": "button",
+    "handler": "toggleTimer()",
+    "visible_label": "",
+    "dom_selector": "[onclick=\"toggleTimer()\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-41",
+    "type": "button",
+    "handler": "goToNextPose()",
+    "visible_label": "",
+    "dom_selector": "[onclick=\"goToNextPose()\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-42",
+    "type": "button",
+    "handler": "toggleGalleryGrouping()",
+    "visible_label": "Group by pose",
+    "dom_selector": "[onclick=\"toggleGalleryGrouping()\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-43",
+    "type": "button",
+    "handler": "toggleGallerySelectionMode()",
+    "visible_label": "Select",
+    "dom_selector": "[onclick=\"toggleGallerySelectionMode()\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-44",
+    "type": "button",
+    "handler": "bulkDownloadGallery()",
+    "visible_label": "Download",
+    "dom_selector": "[onclick=\"bulkDownloadGallery()\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-45",
+    "type": "button",
+    "handler": "bulkDeleteGallery()",
+    "visible_label": "Delete",
+    "dom_selector": "[onclick=\"bulkDeleteGallery()\"]",
+    "screen": "multiple",
+    "security_sensitivity": "high"
+  },
+  {
+    "id": "ctrl-46",
+    "type": "button",
+    "handler": "showTab('home')",
+    "visible_label": "Find a Pose",
+    "dom_selector": "[onclick=\"showTab('home')\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-47",
+    "type": "button",
+    "handler": "returnFromGalleryDetail()",
+    "visible_label": "",
+    "dom_selector": "[onclick=\"returnFromGalleryDetail()\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-48",
+    "type": "button",
+    "handler": "saveToPhotos()",
+    "visible_label": "",
+    "dom_selector": "[onclick=\"saveToPhotos()\"]",
+    "screen": "multiple",
+    "security_sensitivity": "medium"
+  },
+  {
+    "id": "ctrl-49",
+    "type": "button",
+    "handler": "duplicateGalleryItem()",
+    "visible_label": "",
+    "dom_selector": "[onclick=\"duplicateGalleryItem()\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-50",
+    "type": "button",
+    "handler": "downloadGalleryItem()",
+    "visible_label": "",
+    "dom_selector": "[onclick=\"downloadGalleryItem()\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-51",
+    "type": "button",
+    "handler": "sharePhoto()",
+    "visible_label": "",
+    "dom_selector": "[onclick=\"sharePhoto()\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-52",
+    "type": "button",
+    "handler": "toggleGalleryItemFav()",
+    "visible_label": "",
+    "dom_selector": "[onclick=\"toggleGalleryItemFav()\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-53",
+    "type": "button",
+    "handler": "deleteGalleryItem()",
+    "visible_label": "",
+    "dom_selector": "[onclick=\"deleteGalleryItem()\"]",
+    "screen": "multiple",
+    "security_sensitivity": "high"
+  },
+  {
+    "id": "ctrl-54",
+    "type": "button",
+    "handler": "retakePhoto()",
+    "visible_label": "",
+    "dom_selector": "[onclick=\"retakePhoto()\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-55",
+    "type": "button",
+    "handler": "applyPreset(this,'none')",
+    "visible_label": "Original",
+    "dom_selector": "[onclick=\"applyPreset(this,'none')\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-56",
+    "type": "button",
+    "handler": "applyPreset(this,'warm')",
+    "visible_label": "Warm",
+    "dom_selector": "[onclick=\"applyPreset(this,'warm')\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-57",
+    "type": "button",
+    "handler": "applyPreset(this,'film')",
+    "visible_label": "Film",
+    "dom_selector": "[onclick=\"applyPreset(this,'film')\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-58",
+    "type": "button",
+    "handler": "applyPreset(this,'bw')",
+    "visible_label": "B&amp;W",
+    "dom_selector": "[onclick=\"applyPreset(this,'bw')\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-59",
+    "type": "button",
+    "handler": "applyPreset(this,'faded')",
+    "visible_label": "Faded",
+    "dom_selector": "[onclick=\"applyPreset(this,'faded')\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-60",
+    "type": "button",
+    "handler": "applyPreset(this,'moody')",
+    "visible_label": "Moody",
+    "dom_selector": "[onclick=\"applyPreset(this,'moody')\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-61",
+    "type": "button",
+    "handler": "saveToGallery()",
+    "visible_label": "Save",
+    "dom_selector": "[onclick=\"saveToGallery()\"]",
+    "screen": "multiple",
+    "security_sensitivity": "medium"
+  },
+  {
+    "id": "ctrl-62",
+    "type": "button",
+    "handler": "logoutPoseArt()",
+    "visible_label": "Log out",
+    "dom_selector": "[onclick=\"logoutPoseArt()\"]",
+    "screen": "multiple",
+    "security_sensitivity": "high"
+  },
+  {
+    "id": "ctrl-63",
+    "type": "button",
+    "handler": "openPoseEditor()",
+    "visible_label": "✎ Open Custom Pose Editor",
+    "dom_selector": "[onclick=\"openPoseEditor()\"]",
+    "screen": "multiple",
+    "security_sensitivity": "medium"
+  },
+  {
+    "id": "ctrl-64",
+    "type": "button",
+    "handler": "showTab('gallery')",
+    "visible_label": "",
+    "dom_selector": "[onclick=\"showTab('gallery')\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-65",
+    "type": "button",
+    "handler": "showTab('progress')",
+    "visible_label": "",
+    "dom_selector": "[onclick=\"showTab('progress')\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-66",
+    "type": "button",
+    "handler": "showTab('profile')",
+    "visible_label": "",
+    "dom_selector": "[onclick=\"showTab('profile')\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-67",
+    "type": "button",
+    "handler": "showToast('Drag sliders to pose the figure. Save to add to library.')",
+    "visible_label": "",
+    "dom_selector": "[onclick=\"showToast('Drag sliders to pose the figure. Save to add to library.')\"]",
+    "screen": "multiple",
+    "security_sensitivity": "medium"
+  },
+  {
+    "id": "ctrl-68",
+    "type": "button",
+    "handler": "undoPoseEdit()",
+    "visible_label": "↶ Undo",
+    "dom_selector": "[onclick=\"undoPoseEdit()\"]",
+    "screen": "multiple",
+    "security_sensitivity": "medium"
+  },
+  {
+    "id": "ctrl-69",
+    "type": "button",
+    "handler": "redoPoseEdit()",
+    "visible_label": "↷ Redo",
+    "dom_selector": "[onclick=\"redoPoseEdit()\"]",
+    "screen": "multiple",
+    "security_sensitivity": "medium"
+  },
+  {
+    "id": "ctrl-70",
+    "type": "button",
+    "handler": "resetPoseEditor()",
+    "visible_label": "Reset",
+    "dom_selector": "[onclick=\"resetPoseEditor()\"]",
+    "screen": "multiple",
+    "security_sensitivity": "medium"
+  },
+  {
+    "id": "ctrl-71",
+    "type": "button",
+    "handler": "saveCustomPose()",
+    "visible_label": "Save Pose",
+    "dom_selector": "[onclick=\"saveCustomPose()\"]",
+    "screen": "multiple",
+    "security_sensitivity": "medium"
+  },
+  {
+    "id": "ctrl-72",
+    "type": "button",
+    "handler": "loadCustomPoseList()",
+    "visible_label": "Load",
+    "dom_selector": "[onclick=\"loadCustomPoseList()\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-73",
+    "type": "button",
+    "handler": "useCustomPoseInSession()",
+    "visible_label": "Use in Session",
+    "dom_selector": "[onclick=\"useCustomPoseInSession()\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-74",
+    "type": "button",
+    "handler": "submitBugReportFromEditor()",
+    "visible_label": "Submit Bug Report with Pose Data",
+    "dom_selector": "[onclick=\"submitBugReportFromEditor()\"]",
+    "screen": "multiple",
+    "security_sensitivity": "medium"
+  },
+  {
+    "id": "ctrl-75",
+    "type": "button",
+    "handler": "showToast('Browse and purchase pose packs from creators. Revenue share: 70% creator / 30% platform.')",
+    "visible_label": "",
+    "dom_selector": "[onclick=\"showToast('Browse and purchase pose packs from creators. Revenue share: 70% creator / 30% platform.')\"]",
+    "screen": "multiple",
+    "security_sensitivity": "high"
+  },
+  {
+    "id": "ctrl-76",
+    "type": "button",
+    "handler": "switchMarketplaceTab('browse')",
+    "visible_label": "Browse",
+    "dom_selector": "[onclick=\"switchMarketplaceTab('browse')\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-77",
+    "type": "button",
+    "handler": "switchMarketplaceTab('mine')",
+    "visible_label": "My Packs",
+    "dom_selector": "[onclick=\"switchMarketplaceTab('mine')\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-78",
+    "type": "button",
+    "handler": "switchMarketplaceTab('creator')",
+    "visible_label": "Creator",
+    "dom_selector": "[onclick=\"switchMarketplaceTab('creator')\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-79",
+    "type": "button",
+    "handler": "setMpFilter('all')",
+    "visible_label": "All",
+    "dom_selector": "[onclick=\"setMpFilter('all')\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-80",
+    "type": "button",
+    "handler": "setMpFilter('standing')",
+    "visible_label": "Standing",
+    "dom_selector": "[onclick=\"setMpFilter('standing')\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-81",
+    "type": "button",
+    "handler": "setMpFilter('boudoir')",
+    "visible_label": "Boudoir",
+    "dom_selector": "[onclick=\"setMpFilter('boudoir')\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-82",
+    "type": "button",
+    "handler": "setMpFilter('editorial')",
+    "visible_label": "Editorial",
+    "dom_selector": "[onclick=\"setMpFilter('editorial')\"]",
+    "screen": "multiple",
+    "security_sensitivity": "medium"
+  },
+  {
+    "id": "ctrl-83",
+    "type": "button",
+    "handler": "setMpFilter('fashion')",
+    "visible_label": "Fashion",
+    "dom_selector": "[onclick=\"setMpFilter('fashion')\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-84",
+    "type": "button",
+    "handler": "setMpFilter('free')",
+    "visible_label": "Free",
+    "dom_selector": "[onclick=\"setMpFilter('free')\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-85",
+    "type": "button",
+    "handler": "setMpFilter('paid')",
+    "visible_label": "Paid",
+    "dom_selector": "[onclick=\"setMpFilter('paid')\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-86",
+    "type": "button",
+    "handler": "publishPack()",
+    "visible_label": "Publish Pack (uses your saved custom poses)",
+    "dom_selector": "[onclick=\"publishPack()\"]",
+    "screen": "multiple",
+    "security_sensitivity": "high"
+  },
+  {
+    "id": "ctrl-87",
+    "type": "button",
+    "handler": "saveCurrentTour()",
+    "visible_label": "✓",
+    "dom_selector": "[onclick=\"saveCurrentTour()\"]",
+    "screen": "multiple",
+    "security_sensitivity": "medium"
+  },
+  {
+    "id": "ctrl-88",
+    "type": "button",
+    "handler": "addTourSection()",
+    "visible_label": "＋ Add Section",
+    "dom_selector": "[onclick=\"addTourSection()\"]",
+    "screen": "multiple",
+    "security_sensitivity": "medium"
+  },
+  {
+    "id": "ctrl-89",
+    "type": "button",
+    "handler": "openTourSession()",
+    "visible_label": "Start Tour Session",
+    "dom_selector": "[onclick=\"openTourSession()\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-90",
+    "type": "button",
+    "handler": "publishTourToMarketplace()",
+    "visible_label": "Sell on Marketplace",
+    "dom_selector": "[onclick=\"publishTourToMarketplace()\"]",
+    "screen": "multiple",
+    "security_sensitivity": "high"
+  },
+  {
+    "id": "ctrl-91",
+    "type": "button",
+    "handler": "endTourSession()",
+    "visible_label": "← End",
+    "dom_selector": "[onclick=\"endTourSession()\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-92",
+    "type": "button",
+    "handler": "toggleTourOverview()",
+    "visible_label": "☰",
+    "dom_selector": "[onclick=\"toggleTourOverview()\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-93",
+    "type": "button",
+    "handler": "prevTourPose()",
+    "visible_label": "◀ Prev",
+    "dom_selector": "[onclick=\"prevTourPose()\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-94",
+    "type": "button",
+    "handler": "captureTourPhoto()",
+    "visible_label": "📸 Capture",
+    "dom_selector": "[onclick=\"captureTourPhoto()\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-95",
+    "type": "button",
+    "handler": "nextTourPose()",
+    "visible_label": "Next ▶",
+    "dom_selector": "[onclick=\"nextTourPose()\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-96",
+    "type": "button",
+    "handler": "prevTourSection()",
+    "visible_label": "◀ Section",
+    "dom_selector": "[onclick=\"prevTourSection()\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-97",
+    "type": "button",
+    "handler": "nextTourSection()",
+    "visible_label": "Section ▶",
+    "dom_selector": "[onclick=\"nextTourSection()\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-98",
+    "type": "button",
+    "handler": "toggleTourSearch()",
+    "visible_label": "⌕ Search pose",
+    "dom_selector": "[onclick=\"toggleTourSearch()\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-99",
+    "type": "button",
+    "handler": "startTourCamera()",
+    "visible_label": "Camera",
+    "dom_selector": "[onclick=\"startTourCamera()\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-100",
+    "type": "button",
+    "handler": "reportTourPoseIssue()",
+    "visible_label": "Report pose",
+    "dom_selector": "[onclick=\"reportTourPoseIssue()\"]",
+    "screen": "multiple",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-101",
+    "type": "button",
+    "testid": "login-form",
+    "visible_label": "",
+    "dom_selector": "[data-testid=\"login-form\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-102",
+    "type": "button",
+    "testid": "login-username",
+    "visible_label": "",
+    "dom_selector": "[data-testid=\"login-username\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-103",
+    "type": "button",
+    "testid": "login-password",
+    "visible_label": "",
+    "dom_selector": "[data-testid=\"login-password\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-104",
+    "type": "button",
+    "testid": "login-error",
+    "visible_label": "",
+    "dom_selector": "[data-testid=\"login-error\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-105",
+    "type": "button",
+    "testid": "login-submit",
+    "visible_label": "Enter PoseArt",
+    "dom_selector": "[data-testid=\"login-submit\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-106",
+    "type": "button",
+    "testid": "btn-begin",
+    "visible_label": "Begin",
+    "dom_selector": "[data-testid=\"btn-begin\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-107",
+    "type": "button",
+    "testid": "link-skip-ob1",
+    "visible_label": "Skip intro",
+    "dom_selector": "[data-testid=\"link-skip-ob1\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-108",
+    "type": "button",
+    "testid": "ob2-demo-stage",
+    "visible_label": "",
+    "dom_selector": "[data-testid=\"ob2-demo-stage\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-109",
+    "type": "button",
+    "testid": "btn-try-it",
+    "visible_label": "Try it",
+    "dom_selector": "[data-testid=\"btn-try-it\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-110",
+    "type": "button",
+    "testid": "link-skip-ob2",
+    "visible_label": "Skip",
+    "dom_selector": "[data-testid=\"link-skip-ob2\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-111",
+    "type": "button",
+    "testid": "btn-allow-camera",
+    "visible_label": "Allow Camera",
+    "dom_selector": "[data-testid=\"btn-allow-camera\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-112",
+    "type": "button",
+    "testid": "link-demo-mode",
+    "visible_label": "Continue in Demo Mode",
+    "dom_selector": "[data-testid=\"link-demo-mode\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-113",
+    "type": "button",
+    "testid": "persona-photographer",
+    "visible_label": "",
+    "dom_selector": "[data-testid=\"persona-photographer\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-114",
+    "type": "button",
+    "testid": "persona-model",
+    "visible_label": "",
+    "dom_selector": "[data-testid=\"persona-model\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-115",
+    "type": "button",
+    "testid": "persona-selfportrait",
+    "visible_label": "",
+    "dom_selector": "[data-testid=\"persona-selfportrait\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-116",
+    "type": "button",
+    "testid": "persona-exploring",
+    "visible_label": "",
+    "dom_selector": "[data-testid=\"persona-exploring\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-117",
+    "type": "button",
+    "testid": "btn-start-exploring",
+    "visible_label": "Start Exploring",
+    "dom_selector": "[data-testid=\"btn-start-exploring\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-118",
+    "type": "button",
+    "testid": "btn-start-session-home",
+    "visible_label": "Start Session",
+    "dom_selector": "[data-testid=\"btn-start-session-home\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-119",
+    "type": "button",
+    "testid": "fab-library",
+    "visible_label": "",
+    "dom_selector": "[data-testid=\"fab-library\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-120",
+    "type": "button",
+    "testid": "input-pose-search",
+    "visible_label": "",
+    "dom_selector": "[data-testid=\"input-pose-search\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-121",
+    "type": "button",
+    "testid": "filter-all",
+    "visible_label": "{p.classList.remove('active');p.setAttribute('aria",
+    "dom_selector": "[data-testid=\"filter-all\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-122",
+    "type": "button",
+    "testid": "filter-beginner",
+    "visible_label": "{p.classList.remove('active');p.setAttribute('aria",
+    "dom_selector": "[data-testid=\"filter-beginner\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-123",
+    "type": "button",
+    "testid": "filter-intermediate",
+    "visible_label": "{p.classList.remove('active');p.setAttribute('aria",
+    "dom_selector": "[data-testid=\"filter-intermediate\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-124",
+    "type": "button",
+    "testid": "filter-advanced",
+    "visible_label": "{p.classList.remove('active');p.setAttribute('aria",
+    "dom_selector": "[data-testid=\"filter-advanced\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-125",
+    "type": "button",
+    "testid": "filter-favorites",
+    "visible_label": "{p.classList.remove('active');p.setAttribute('aria",
+    "dom_selector": "[data-testid=\"filter-favorites\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-126",
+    "type": "button",
+    "testid": "btn-close-pose-sheet",
+    "visible_label": "",
+    "dom_selector": "[data-testid=\"btn-close-pose-sheet\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-127",
+    "type": "button",
+    "testid": "btn-sheet-fav",
+    "visible_label": "",
+    "dom_selector": "[data-testid=\"btn-sheet-fav\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-128",
+    "type": "button",
+    "testid": "btn-sheet-share",
+    "visible_label": "",
+    "dom_selector": "[data-testid=\"btn-sheet-share\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-129",
+    "type": "button",
+    "testid": "canvas-skeleton-3d",
+    "visible_label": "",
+    "dom_selector": "[data-testid=\"canvas-skeleton-3d\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-130",
+    "type": "button",
+    "testid": "btn-skel-front",
+    "visible_label": "Front",
+    "dom_selector": "[data-testid=\"btn-skel-front\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-131",
+    "type": "button",
+    "testid": "btn-skel-side",
+    "visible_label": "Side",
+    "dom_selector": "[data-testid=\"btn-skel-side\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-132",
+    "type": "button",
+    "testid": "btn-skel-quarter",
+    "visible_label": "¾",
+    "dom_selector": "[data-testid=\"btn-skel-quarter\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-133",
+    "type": "button",
+    "testid": "btn-skel-auto",
+    "visible_label": "Auto ↺",
+    "dom_selector": "[data-testid=\"btn-skel-auto\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-134",
+    "type": "button",
+    "testid": "btn-start-session-detail",
+    "visible_label": "Start Session",
+    "dom_selector": "[data-testid=\"btn-start-session-detail\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-135",
+    "type": "button",
+    "testid": "btn-back-setup",
+    "visible_label": "",
+    "dom_selector": "[data-testid=\"btn-back-setup\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-136",
+    "type": "button",
+    "testid": "opt-timer",
+    "visible_label": "5 sec",
+    "dom_selector": "[data-testid=\"opt-timer\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-137",
+    "type": "button",
+    "testid": "opt-sensitivity",
+    "visible_label": "Balanced",
+    "dom_selector": "[data-testid=\"opt-sensitivity\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-138",
+    "type": "button",
+    "testid": "overlay-avatar",
+    "visible_label": "Avatar",
+    "dom_selector": "[data-testid=\"overlay-avatar\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-139",
+    "type": "button",
+    "testid": "overlay-skeleton",
+    "visible_label": "Skeleton",
+    "dom_selector": "[data-testid=\"overlay-skeleton\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-140",
+    "type": "button",
+    "testid": "overlay-ghost",
+    "visible_label": "Ghost",
+    "dom_selector": "[data-testid=\"overlay-ghost\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-141",
+    "type": "button",
+    "testid": "overlay-off",
+    "visible_label": "Off",
+    "dom_selector": "[data-testid=\"overlay-off\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-142",
+    "type": "button",
+    "testid": "btn-begin-capture",
+    "visible_label": "Begin Capture →",
+    "dom_selector": "[data-testid=\"btn-begin-capture\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-143",
+    "type": "button",
+    "testid": "btn-browse-only",
+    "visible_label": "← Back to Pose",
+    "dom_selector": "[data-testid=\"btn-browse-only\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-144",
+    "type": "button",
+    "testid": "btn-end-session",
+    "visible_label": "",
+    "dom_selector": "[data-testid=\"btn-end-session\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-145",
+    "type": "button",
+    "testid": "pill-demo-mode",
+    "visible_label": "DEMO MODE",
+    "dom_selector": "[data-testid=\"pill-demo-mode\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-146",
+    "type": "button",
+    "testid": "pill-simulated-scoring",
+    "visible_label": "SIMULATED SCORING",
+    "dom_selector": "[data-testid=\"pill-simulated-scoring\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-147",
+    "type": "button",
+    "testid": "btn-flash",
+    "visible_label": "",
+    "dom_selector": "[data-testid=\"btn-flash\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-148",
+    "type": "button",
+    "testid": "btn-flip-camera",
+    "visible_label": "",
+    "dom_selector": "[data-testid=\"btn-flip-camera\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-149",
+    "type": "button",
+    "testid": "btn-cycle-overlay",
+    "visible_label": "",
+    "dom_selector": "[data-testid=\"btn-cycle-overlay\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-150",
+    "type": "button",
+    "testid": "next-pose-preview",
+    "visible_label": "",
+    "dom_selector": "[data-testid=\"next-pose-preview\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-151",
+    "type": "button",
+    "testid": "flow-mode-toggle",
+    "visible_label": "FLOW OFF",
+    "dom_selector": "[data-testid=\"flow-mode-toggle\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-152",
+    "type": "button",
+    "testid": "burst-indicator",
+    "visible_label": "BURST 3",
+    "dom_selector": "[data-testid=\"burst-indicator\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-153",
+    "type": "button",
+    "testid": "btn-timer",
+    "visible_label": "",
+    "dom_selector": "[data-testid=\"btn-timer\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-154",
+    "type": "button",
+    "testid": "btn-shutter",
+    "visible_label": "",
+    "dom_selector": "[data-testid=\"btn-shutter\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-155",
+    "type": "button",
+    "testid": "btn-next-pose",
+    "visible_label": "",
+    "dom_selector": "[data-testid=\"btn-next-pose\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-156",
+    "type": "button",
+    "testid": "btn-back-gallery-detail",
+    "visible_label": "",
+    "dom_selector": "[data-testid=\"btn-back-gallery-detail\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-157",
+    "type": "button",
+    "testid": "btn-save-photos",
+    "visible_label": "",
+    "dom_selector": "[data-testid=\"btn-save-photos\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-158",
+    "type": "button",
+    "testid": "btn-copy-detail",
+    "visible_label": "",
+    "dom_selector": "[data-testid=\"btn-copy-detail\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-159",
+    "type": "button",
+    "testid": "btn-download-detail",
+    "visible_label": "",
+    "dom_selector": "[data-testid=\"btn-download-detail\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-160",
+    "type": "button",
+    "testid": "btn-share-detail",
+    "visible_label": "",
+    "dom_selector": "[data-testid=\"btn-share-detail\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-161",
+    "type": "button",
+    "testid": "btn-fav-detail",
+    "visible_label": "",
+    "dom_selector": "[data-testid=\"btn-fav-detail\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-162",
+    "type": "button",
+    "testid": "btn-delete-detail",
+    "visible_label": "",
+    "dom_selector": "[data-testid=\"btn-delete-detail\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-163",
+    "type": "button",
+    "testid": "btn-close-review",
+    "visible_label": "",
+    "dom_selector": "[data-testid=\"btn-close-review\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-164",
+    "type": "button",
+    "testid": "btn-retake",
+    "visible_label": "Retake",
+    "dom_selector": "[data-testid=\"btn-retake\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-165",
+    "type": "button",
+    "testid": "btn-share-review",
+    "visible_label": "Share",
+    "dom_selector": "[data-testid=\"btn-share-review\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-166",
+    "type": "button",
+    "testid": "btn-save-gallery",
+    "visible_label": "Save",
+    "dom_selector": "[data-testid=\"btn-save-gallery\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-167",
+    "type": "button",
+    "testid": "btn-back-category-list",
+    "visible_label": "",
+    "dom_selector": "[data-testid=\"btn-back-category-list\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-168",
+    "type": "button",
+    "testid": "toggle-haptics",
+    "visible_label": "",
+    "dom_selector": "[data-testid=\"toggle-haptics\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-169",
+    "type": "button",
+    "testid": "toggle-sound",
+    "visible_label": "",
+    "dom_selector": "[data-testid=\"toggle-sound\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-170",
+    "type": "button",
+    "testid": "toggle-autocapture",
+    "visible_label": "",
+    "dom_selector": "[data-testid=\"toggle-autocapture\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-171",
+    "type": "button",
+    "testid": "logout-button",
+    "visible_label": "Log out",
+    "dom_selector": "[data-testid=\"logout-button\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-172",
+    "type": "button",
+    "testid": "tab-home",
+    "visible_label": "",
+    "dom_selector": "[data-testid=\"tab-home\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-173",
+    "type": "button",
+    "testid": "tab-library",
+    "visible_label": "",
+    "dom_selector": "[data-testid=\"tab-library\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-174",
+    "type": "button",
+    "testid": "tab-gallery",
+    "visible_label": "",
+    "dom_selector": "[data-testid=\"tab-gallery\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-175",
+    "type": "button",
+    "testid": "tab-progress",
+    "visible_label": "",
+    "dom_selector": "[data-testid=\"tab-progress\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-176",
+    "type": "button",
+    "testid": "tab-profile",
+    "visible_label": "",
+    "dom_selector": "[data-testid=\"tab-profile\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-177",
+    "type": "button",
+    "testid": "tour-add-section",
+    "visible_label": "＋ Add Section",
+    "dom_selector": "[data-testid=\"tour-add-section\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-178",
+    "type": "button",
+    "testid": "tour-start",
+    "visible_label": "Start Tour Session",
+    "dom_selector": "[data-testid=\"tour-start\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-179",
+    "type": "button",
+    "testid": "tour-sell",
+    "visible_label": "Sell on Marketplace",
+    "dom_selector": "[data-testid=\"tour-sell\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-180",
+    "type": "button",
+    "testid": "tour-capture",
+    "visible_label": "📸 Capture",
+    "dom_selector": "[data-testid=\"tour-capture\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  },
+  {
+    "id": "ctrl-181",
+    "type": "button",
+    "testid": "tour-open-camera",
+    "visible_label": "Camera",
+    "dom_selector": "[data-testid=\"tour-open-camera\"]",
+    "screen": "pose-detail",
+    "security_sensitivity": "low"
+  }
+]

@@ -1,0 +1,145 @@
+[
+  {
+    "id": "flow-01",
+    "name": "First visit + onboarding",
+    "steps": [
+      "login",
+      "ob1",
+      "ob2",
+      "ob3",
+      "ob4",
+      "home"
+    ]
+  },
+  {
+    "id": "flow-02",
+    "name": "Browse poses",
+    "steps": [
+      "home",
+      "library",
+      "category-list",
+      "pose-detail"
+    ]
+  },
+  {
+    "id": "flow-03",
+    "name": "Search poses",
+    "steps": [
+      "library",
+      "search-input",
+      "search-results",
+      "pose-detail"
+    ]
+  },
+  {
+    "id": "flow-04",
+    "name": "Favorite a pose",
+    "steps": [
+      "pose-detail",
+      "fav-toggle",
+      "library"
+    ]
+  },
+  {
+    "id": "flow-05",
+    "name": "Session setup + camera",
+    "steps": [
+      "pose-detail",
+      "session-setup",
+      "camera",
+      "review",
+      "gallery"
+    ]
+  },
+  {
+    "id": "flow-06",
+    "name": "Gallery view",
+    "steps": [
+      "home",
+      "gallery",
+      "gallery-detail"
+    ]
+  },
+  {
+    "id": "flow-07",
+    "name": "Progress dashboard",
+    "steps": [
+      "home",
+      "progress"
+    ]
+  },
+  {
+    "id": "flow-08",
+    "name": "Profile",
+    "steps": [
+      "home",
+      "profile"
+    ]
+  },
+  {
+    "id": "flow-09",
+    "name": "Custom pose editor",
+    "steps": [
+      "home",
+      "custom-pose-editor",
+      "save",
+      "library"
+    ]
+  },
+  {
+    "id": "flow-10",
+    "name": "Tour creation",
+    "steps": [
+      "home",
+      "tour-creator",
+      "save",
+      "tour-session",
+      "tour-summary"
+    ]
+  },
+  {
+    "id": "flow-11",
+    "name": "Marketplace browse",
+    "steps": [
+      "home",
+      "marketplace",
+      "product-detail"
+    ]
+  },
+  {
+    "id": "flow-12",
+    "name": "Marketplace purchase (free)",
+    "steps": [
+      "marketplace",
+      "purchase-free",
+      "owned"
+    ]
+  },
+  {
+    "id": "flow-13",
+    "name": "Marketplace purchase (paid, simulated)",
+    "steps": [
+      "marketplace",
+      "purchase-paid",
+      "owned"
+    ]
+  },
+  {
+    "id": "flow-14",
+    "name": "Creator dashboard",
+    "steps": [
+      "marketplace",
+      "creator-tab",
+      "creator-profile"
+    ]
+  },
+  {
+    "id": "flow-15",
+    "name": "Logout",
+    "steps": [
+      "home",
+      "logout",
+      "login"
+    ]
+  }
+]

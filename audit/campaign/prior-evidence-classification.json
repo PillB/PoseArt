@@ -1,0 +1,67 @@
+{
+  "classification_date": "2026-08-02",
+  "current_sha": "b09f998f159adb83e5fb1d7d5c631d9cab2857e1",
+  "prior_claims": [
+    {
+      "claim": "5 renderer comments corrected (globalTilt, hipAbduct, shoulderFwd, spine, neck)",
+      "source": "worklog.md cron-round-1 through cron-round-9",
+      "verification": "grep -c 'EMPIRICALLY VERIFIED' js/pose-skeleton-3d.js = 4",
+      "status": "REVALIDATED_CURRENT_SHA"
+    },
+    {
+      "claim": "46 poses globalTilt sign flipped (supine/prone)",
+      "source": "worklog.md cron-round-1",
+      "verification": "back-angel globalTilt=-85 (supine), sphinx-pose globalTilt=70 (prone)",
+      "status": "REVALIDATED_CURRENT_SHA"
+    },
+    {
+      "claim": "398 poses corrected across all rounds",
+      "source": "worklog.md cron-round-11",
+      "verification": "Sample poses verified: back-angel, soft-sit, cross-ankle-sit, chair-twist-both, sphinx-pose all have corrected values",
+      "status": "REVALIDATED_CURRENT_SHA"
+    },
+    {
+      "claim": "16 backend docs created in docs/backend/",
+      "source": "worklog.md backend-docs-1",
+      "verification": "ls docs/backend/*.md | wc -l = 16",
+      "status": "REVALIDATED_CURRENT_SHA"
+    },
+    {
+      "claim": "Base64 F&F credentials in js/auth.js",
+      "source": "worklog.md Phase 0 + 01-CURRENT-STATE-AUDIT.md",
+      "verification": "grep -c 'UG9zZUFydDIwMjYh' js/auth.js = 1",
+      "status": "REVALIDATED_CURRENT_SHA"
+    },
+    {
+      "claim": "745 poses across 16 categories",
+      "source": "worklog.md Phase 0 + prior inventory",
+      "verification": "Object.keys(POSES_LIBRARY).length = 745, categories = 16",
+      "status": "REVALIDATED_CURRENT_SHA"
+    },
+    {
+      "claim": "Prior pose forensics: seated, leaning, kneeling categories complete",
+      "source": "worklog.md cron-round-8 through cron-round-10",
+      "verification": "Cannot fully revalidate individual pose fixes without per-pose geometry check. Status is UNVERIFIED until Phase 2 baseline runs.",
+      "status": "UNVERIFIED"
+    },
+    {
+      "claim": "Prior geometry sweep found 513 defect poses initially, reduced to 100",
+      "source": "worklog.md cron-round-9",
+      "verification": "Geometry sweep script exists at audit_harness/geometry-sweep.js. Must re-run against current SHA to verify current defect count.",
+      "status": "UNVERIFIED"
+    },
+    {
+      "claim": "Solarize skill specification at PillB/solarize_skill",
+      "source": "Campaign prompt",
+      "verification": "Not yet inspected. Must review for methodology alignment.",
+      "status": "UNVERIFIED"
+    }
+  ],
+  "summary": {
+    "REVALIDATED_CURRENT_SHA": 6,
+    "STALE": 0,
+    "CONTRADICTED": 0,
+    "MISSING_ARTIFACT": 0,
+    "UNVERIFIED": 3
+  }
+}
