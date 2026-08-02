@@ -355,3 +355,57 @@ grep -rni "api.key\|secret\|token\|password\|STRIPE\|SUPABASE\|sk_live\|sk_test\
 | "Last Deployed Preview URL: perplexity.ai" | Ya no aplica — desplegado en GitHub Pages |
 
 **Estado:** Verificado. El README tiene conteos desactualizados pero la arquitectura descrita es correcta.
+
+---
+
+## Update Log (2026-08-02)
+
+### Security findings status update
+
+| ID | Original severity | Current status | Change |
+|---|---|---|---|
+| SEC-01 | P1 | Still open | No change — requires backend |
+| SEC-02 | P1 | Still open | No change — requires backend |
+| SEC-03 | P1 | Still open | No change — requires backend |
+| SEC-04 | P2 | **FIXED** | CSP meta tag added to index.html |
+| SEC-05 | P1 | Still open | No change — requires Stripe |
+
+### New files added since original audit
+
+| File | Purpose | Lines |
+|---|---|---|
+| `js/analytics.js` | Analytics instrumentation stub (PostHog-ready, no-op safe) | 146 |
+| `docs/marketing/behavioural-marketing-review.md` | Behavioural science & marketing review | 446 |
+| `docs/qa/manual-interaction-specifications.md` | Black-box interaction test specs | 516 |
+| `docs/qa/interactive-control-inventory.json` | 85 interactive controls inventoried | 2047 |
+| `docs/qa/black-box-test-report.md` | Black-box test results | 216 |
+| `audit/campaign/` | Solarize campaign artifacts (inventory, threat model, reports) | 16+ files |
+| `audit_harness/` | Pose validation harness (geometry sweep, sign-fix scripts) | 21+ scripts |
+
+### UI changes since original audit
+
+| Change | File | Description |
+|---|---|---|
+| CSP meta tag | index.html | `Content-Security-Policy` header via meta tag |
+| Marketplace button | index.html | "Browse Packs" button on home → `openMarketplace()` |
+| Streak counter | index.html + js/app.js | "Day Streak" in quick-stats (Zeigarnik effect) |
+| Login subtitle | index.html | Community description (social proof) |
+| Login CTA | index.html | "Enter PoseArt →" (arrow added) |
+| OB1 subtitle | index.html | "Master 745 studio-quality poses..." (value proposition) |
+| OB1 CTA | index.html | "See How It Works" (curiosity-driven) |
+| SEO meta tags | index.html | Open Graph + Twitter Card |
+| Marketplace label | index.html | "Move like art. Pose with purpose." (brand tagline) |
+| Logout cleanup | js/app.js | Clears username + password fields |
+| Personalized greeting | js/app.js | Reflects onboarding persona |
+| Ownership framing | js/app.js | "✓ [pack] is now in your library" |
+| Empty state CTA | js/app.js | Marketplace "My Packs" → "Browse Packs" button |
+| Analytics calls | js/app.js | 6 events: login, onboarding, session, checkout |
+
+### Pose defect status
+
+| Metric | Original (Phase 0) | Current |
+|---|---|---|
+| MAJOR pose defects | 100 | **0** |
+| Total poses corrected | 0 | 451 |
+| Sweep false-positive patterns fixed | 0 | 49 |
+| Renderer sign comments corrected | 0 | 5 (globalTilt, hipAbduct, shoulderFwd, spine, neck) |

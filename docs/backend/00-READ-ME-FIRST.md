@@ -177,3 +177,43 @@ Si algo no funciona, consulta **`docs/backend/13-TROUBLESHOOTING-AND-FAQ.md`** �
 ## Siguiente paso
 
 Abre `docs/backend/01-CURRENT-STATE-AUDIT.md` para ver el inventario real del repositorio.
+
+---
+
+## Actualizaciones recientes (2026-08-02)
+
+### Cambios implementados en el sitio desplegado
+
+| Cambio | Estado | Detalle |
+|---|---|---|
+| Analytics instrumentation | ✅ Implementado | `js/analytics.js` — stub PostHog-ready, no-op seguro para F&F |
+| Content Security Policy (CSP) | ✅ Implementado | Meta tag en `index.html` (SEC-04 corregido) |
+| Marketplace accesible | ✅ Corregido | Botón "Browse Packs" en home → `openMarketplace()` |
+| Logout limpia formulario | ✅ Corregido | Username y password se limpian al cerrar sesión |
+| Contador de racha | ✅ Implementado | "Day Streak" en home (efecto Zeigarnik) |
+| Saludo personalizado | ✅ Implementado | Refleja persona seleccionada en onboarding |
+| Social proof en login | ✅ Implementado | Descripción de comunidad (sin números fabricados) |
+| SEO meta tags | ✅ Implementado | Open Graph + Twitter Card |
+| Framing de propiedad | ✅ Implementado | "✓ [pack] is now in your library" |
+| Defectos MAJOR de poses | ✅ 0 | 100 → 0 (451 correcciones + 49 mejoras al sweep) |
+
+### Estado de seguridad actual
+
+| ID | Severidad | Estado |
+|---|---|---|
+| SEC-01 | P1 | Abierto — requiere backend (Supabase Auth) |
+| SEC-02 | P1 | Abierto — requiere backend (entitlements) |
+| SEC-03 | P1 | Abierto — requiere backend (JWT auth) |
+| SEC-04 | P2 | ✅ **Corregido** — CSP meta tag añadido |
+| SEC-05 | P1 | Abierto — requiere backend (Stripe Checkout) |
+
+### Cómo activar analytics
+
+1. Crea cuenta en PostHog (gratis: 1M eventos/mes)
+2. Obtén tu API key
+3. Añade antes de `<script src="js/analytics.js">`:
+   ```html
+   <script>window.POSTHOG_KEY = 'phc_tu_key';</script>
+   ```
+4. Añade un banner de consentimiento
+5. 6 eventos ya están instrumentados: login, onboarding, session, checkout

@@ -592,3 +592,47 @@ No. GitHub Pages te da `https://pillb.github.io/PoseArt/` gratis. Pero un domini
 | Stripe CLI | https://docs.stripe.com/stripe-cli | 2026-08-02 |
 | GitHub Pages 404 | https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-custom-404-page-for-your-github-pages-site | 2026-08-02 |
 | Reddit r/Supabase (pitfalls) | https://www.reddit.com/r/Supabase/ | 2026-08-02 |
+
+---
+
+## Actualización: Nuevas soluciones (2026-08-02)
+
+### DEFECT-04: Marketplace muestra "No packs found"
+
+**Causa:** El botón "Browse Packs" llamaba `showScreen('marketplace')` en lugar de `openMarketplace()`. `showScreen()` no llama `initMarketplace()`, por lo que los productos seed no se cargaban.
+
+**Solución:** Cambiado `onclick` de `showScreen('marketplace')` a `openMarketplace()`.
+
+**Verificación:** Productos aparecen, free pack acquisition funciona, "My Packs" muestra packs adquiridos.
+
+### Analytics no recibe eventos
+
+**Causa:** `window.POSTHOG_KEY` no está definida (F&F preview sin analytics).
+
+**Solución:** Esto es esperado en F&F. Para activar:
+1. Crear cuenta en PostHog
+2. Añadir `<script>window.POSTHOG_KEY = 'phc_...';</script>` antes de analytics.js
+3. Añadir banner de consentimiento
+4. Los 6 eventos instrumentados empezarán a trackear automáticamente
+
+### CSP bloquea algún recurso
+
+**Causa:** El CSP en index.html restringe fuentes a `'self'` + fuentes de Google Fonts.
+
+**Solución:** Si necesitas cargar recursos adicionales:
+- Actualiza el meta tag CSP en index.html
+- Para Supabase: añade `https://*.supabase.co` a `connect-src`
+- Para Stripe: añade `https://api.stripe.com` a `connect-src`
+- Para imágenes externas: añade el dominio a `img-src`
+
+### Error: "PoseArtAnalytics is not defined"
+
+**Causa:** analytics.js no se carga (falta script tag o error de red).
+
+**Solución:** Verifica que `<script src="js/analytics.js">` está en index.html antes de `<script src="js/auth.js">`. El uso de `?.` (optional chaining) en las llamadas asegura que la app funciona incluso si analytics.js no carga.
+
+### Streak counter muestra "0"
+
+**Causa:** No hay sesiones en el historial (localStorage `poseart_sessionHistory` está vacío).
+
+**Solución:** Esto es correcto para nuevos usuarios. El streak se calcula desde `getSessionHistory()` — completa al menos una sesión de cámara para que el streak empiece a contar.

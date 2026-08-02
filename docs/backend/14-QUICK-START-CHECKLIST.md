@@ -140,3 +140,29 @@
 - Fotos en Storage privado (con consentimiento)
 - Stripe Connect para pagar a creadores
 - App móvil (PWA o nativa)
+
+---
+
+## Actualización: Items completados (2026-08-02)
+
+### Fase 4: Verificación de seguridad — Actualizada
+
+- [x] SEC-04: CSP añadido a index.html (corregido)
+- [x] `SUPABASE_SERVICE_ROLE_KEY` NO aparece en JS del navegador (verificado)
+- [x] `STRIPE_SECRET_KEY` NO aparece en JS del navegador (verificado)
+- [x] Usuario no puede auto-asignarse Pro (no hay backend — localStorage only)
+- [x] Analytics stub respeta consentimiento (GDPR)
+- [x] Analytics sanitiza PII (FORBIDDEN_KEYS)
+
+### Nuevas verificaciones
+
+- [x] Analytics.js cargado antes de auth.js (orden correcto)
+- [x] PoseArtAnalytics usa optional chaining (no rompe si no carga)
+- [x] CSP permite Google Fonts pero bloquea externos no autorizados
+- [x] SEO meta tags (Open Graph + Twitter Card) presentes
+- [x] Streak counter funciona (calcula desde sessionHistory)
+- [x] Marketplace inicializa correctamente (openMarketplace)
+- [x] Logout limpia ambos campos (username + password)
+- [x] 0 MAJOR pose defects (geometry sweep limpio)
+- [x] 0 console errors en flujos probados
+- [x] 0 page errors en flujos probados
