@@ -59,8 +59,9 @@ function expectedClaims(pose) {
   // Crossed arms
   if (/\bcross(ed)?\s+arms\b/i.test(d)) claims.push({ id: 'arms_crossed', expect: 'elbow > 80°, shoulder abducted + forward flexion' });
   // Forward lean / fold
-  // FIX iter3: Replaced greedy 'lean.*forward' (matched across sentences) with tight patterns.
-  if (/\b(forward\s+(lean|fold|hinge|round|tilt|hunch|curve|bend)|lean\s+forward|hinge\s+from\s+the\s+hips?|round\s+(forward|the\s+back)|hunch\s+forward|curve\s+forward|bend\s+forward|torso\s+forward|chest\s+forward|lean\s+the\s+torso\s+forward|leaning\s+forward|rest\s+the\s+forehead)\b/i.test(d)) claims.push({ id: 'torso_forward', expect: 'torso flexion > 5°' });
+  // FIX iter3+iter5: Replaced greedy 'lean.*forward' with tight patterns.
+  // FIX iter5: Don't generate torso_forward if 'arch' appears (arch = backward, not forward)
+  if (/\b(forward\s+(lean|fold|hinge|round|tilt|hunch|curve|bend)|lean\s+forward|hinge\s+from\s+the\s+hips?|round\s+(forward|the\s+back)|hunch\s+forward|curve\s+forward|bend\s+forward|torso\s+forward|chest\s+forward|lean\s+the\s+torso\s+forward|leaning\s+forward|rest\s+the\s+forehead)\b/i.test(d) && !/\barch\b/i.test(d)) claims.push({ id: 'torso_forward', expect: 'torso flexion > 5°' });
   // Back arch / backward
   if (/\b(arch\s+(backward|backwards|the\s+back|spine\s+back)|backward\s+arch|back\s+arch|recline.*back|lean\s+back)\b/i.test(d)) claims.push({ id: 'torso_back', expect: 'torso flexion < 0 or globalTilt supine' });
   // Lying / reclining / supine / prone — now checks SIGN too (not just presence)
@@ -81,7 +82,8 @@ function expectedClaims(pose) {
   if (/\b(elbow|hand|forearm)s?\s+on\s+(the\s+)?knees?\b/i.test(d)) claims.push({ id: 'elbow_on_knee', expect: 'wrist near knee (proximity)' });
   // NEW contact checks (2026-08-02) — the sweep missed 17 of these in batch 1
   if (/\b(hand|finger|palm)s?\s+(on|to|near|on\s+the)\s+(forehead|brow|temple|head|face)\b|hand\s+to\s+(forehead|face|head)\b/i.test(d)) claims.push({ id: 'hand_to_head', expect: 'wrist within 0.25 of head' });
-  if (/\b(chin\s+(touch|rest|on|with)|hand\s+on\s+chin|fingers\s+under\s+chin)\b/i.test(d)) claims.push({ id: 'hand_to_chin', expect: 'wrist within 0.25 of neck/head junction' });
+  // FIX iter5: 'chin with' matches 'tilt the chin down' (not hand-to-chin). Require hand/finger near chin.
+  if (/\b(chin\s+(touch|rest|on\s+top\s+of)|hand\s+on\s+chin|fingers\s+under\s+chin|hand\s+near\s+chin|hand\s+to\s+chin)\b/i.test(d)) claims.push({ id: 'hand_to_chin', expect: 'wrist within 0.30 of neck/head junction' });
   if (/\b(hair\s+touch|touch\s+hair|hand\s+in\s+hair|hand\s+to\s+hair|fingers\s+through\s+hair)\b/i.test(d)) claims.push({ id: 'hand_to_hair', expect: 'wrist within 0.30 of head' });
   if (/\b(hand|fingers|palm)\s+(on|to|resting\s+on)\s+(the\s+)?(floor|ground|mat)\b|hand\s+on\s+floor\b/i.test(d)) claims.push({ id: 'hand_to_floor', expect: 'wrist y near -0.80 (ground)' });
   if (/\bhand\s+(on|resting\s+on)\s+(the\s+)?(hip|waist)\b|hands?\s+on\s+hips?\b/i.test(d)) claims.push({ id: 'hands_on_hips', expect: 'wrist within 0.25 of hip' });
