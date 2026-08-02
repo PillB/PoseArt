@@ -1,0 +1,23 @@
+[
+  {
+    "name": "Cormorant Garamond",
+    "type": "font",
+    "source": "https://fonts.googleapis.com",
+    "version": "unknown",
+    "loaded_in": "index.html"
+  },
+  {
+    "name": "Inter",
+    "type": "font",
+    "source": "https://fonts.googleapis.com",
+    "version": "unknown",
+    "loaded_in": "index.html"
+  },
+  {
+    "name": "Cinzel Decorative",
+    "type": "font",
+    "source": "https://fonts.googleapis.com",
+    "version": "unknown",
+    "loaded_in": "index.html"
+  }
+]

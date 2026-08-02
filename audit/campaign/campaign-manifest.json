@@ -1,0 +1,47 @@
+{
+  "campaign_id": "solarize-v2.2-poseart-2026-08-02",
+  "specification": "TDD Solarize v2.2",
+  "repository": "https://github.com/PillB/PoseArt",
+  "commit_sha": "b09f998f159adb83e5fb1d7d5c631d9cab2857e1",
+  "start_date": "2026-08-02",
+  "iterations_planned": 10,
+  "iterations_completed": 0,
+  "phases": {
+    "phase_0_recovery_scope": "IN_PROGRESS",
+    "phase_1_inventory": "PENDING",
+    "phase_2_baseline_threat_model": "PENDING",
+    "iterations_1_10": "PENDING"
+  },
+  "severity_levels": {
+    "P0": "Critical — blocks release. Security vulnerability, data loss, or complete feature failure.",
+    "P1": "High — blocks release. Major functionality broken, security weakness exploitable.",
+    "P2": "Medium — should fix before release. Significant usability or quality issue.",
+    "P3": "Low — fix if time permits. Minor visual, accessibility, or polish issue.",
+    "P4": "Informational — document for future. No action required for release."
+  },
+  "acceptance_thresholds": {
+    "pose_pass": "No rubric dimension below 4, mean ≥ 4.5, no unresolved anatomy/contact/renderer error",
+    "security_release_gate": "No P0 or P1 issues remain",
+    "accessibility_release_gate": "No high-severity accessibility issues remain",
+    "iteration_convergence": "Iterations 9 and 10 must be consecutive quiet rounds with no new P0/P1, no new pose anatomy failure, no new broken control, no visual regression"
+  },
+  "graph_roles": [
+    "orchestrator", "researcher", "security_red_team", "pose_anatomy_reviewer",
+    "avatar_art_director", "functional_test_designer", "accessibility_reviewer",
+    "implementer", "independent_validator", "reporter", "memory_manager"
+  ],
+  "status_model": [
+    "UNTESTED", "RESEARCHED", "RED", "FIX_IN_PROGRESS", "PASS", "FAIL",
+    "BLOCKED_RIG", "BLOCKED_ENVIRONMENT", "BLOCKED_AUTHORIZATION",
+    "ACCEPTED_RISK", "NOT_APPLICABLE"
+  ],
+  "prior_evidence_classification": {
+    "note": "Prior campaign claims from worklog.md (1945 lines) are historical inputs. Every claim must be revalidated against current SHA b09f998 before being relied upon.",
+    "classification_categories": [
+      "REVALIDATED_CURRENT_SHA", "STALE", "CONTRADICTED", "MISSING_ARTIFACT", "UNVERIFIED"
+    ],
+    "prior_pose_fixes": "398 poses corrected in prior sessions — revalidation required against current SHA",
+    "prior_sign_corrections": "5 renderer comments corrected — verify still present in source",
+    "prior_backend_docs": "22 files in docs/backend/ — verify still present and consistent"
+  }
+}

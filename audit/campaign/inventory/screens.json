@@ -1,0 +1,142 @@
+[
+  {
+    "id": "screen-login",
+    "name": "login",
+    "dom_selector": "#screen-login",
+    "is_onboarding": false,
+    "is_main_app": false
+  },
+  {
+    "id": "screen-ob1",
+    "name": "ob1",
+    "dom_selector": "#screen-ob1",
+    "is_onboarding": true,
+    "is_main_app": false
+  },
+  {
+    "id": "screen-ob2",
+    "name": "ob2",
+    "dom_selector": "#screen-ob2",
+    "is_onboarding": true,
+    "is_main_app": false
+  },
+  {
+    "id": "screen-ob3",
+    "name": "ob3",
+    "dom_selector": "#screen-ob3",
+    "is_onboarding": true,
+    "is_main_app": false
+  },
+  {
+    "id": "screen-ob4",
+    "name": "ob4",
+    "dom_selector": "#screen-ob4",
+    "is_onboarding": true,
+    "is_main_app": false
+  },
+  {
+    "id": "screen-home",
+    "name": "home",
+    "dom_selector": "#screen-home",
+    "is_onboarding": false,
+    "is_main_app": true
+  },
+  {
+    "id": "screen-library",
+    "name": "library",
+    "dom_selector": "#screen-library",
+    "is_onboarding": false,
+    "is_main_app": true
+  },
+  {
+    "id": "screen-session-setup",
+    "name": "session setup",
+    "dom_selector": "#screen-session-setup",
+    "is_onboarding": false,
+    "is_main_app": true
+  },
+  {
+    "id": "screen-camera",
+    "name": "camera",
+    "dom_selector": "#screen-camera",
+    "is_onboarding": false,
+    "is_main_app": true
+  },
+  {
+    "id": "screen-gallery",
+    "name": "gallery",
+    "dom_selector": "#screen-gallery",
+    "is_onboarding": false,
+    "is_main_app": true
+  },
+  {
+    "id": "screen-gallery-detail",
+    "name": "gallery detail",
+    "dom_selector": "#screen-gallery-detail",
+    "is_onboarding": false,
+    "is_main_app": true
+  },
+  {
+    "id": "screen-review",
+    "name": "review",
+    "dom_selector": "#screen-review",
+    "is_onboarding": false,
+    "is_main_app": true
+  },
+  {
+    "id": "screen-category-list",
+    "name": "category list",
+    "dom_selector": "#screen-category-list",
+    "is_onboarding": false,
+    "is_main_app": true
+  },
+  {
+    "id": "screen-progress",
+    "name": "progress",
+    "dom_selector": "#screen-progress",
+    "is_onboarding": false,
+    "is_main_app": true
+  },
+  {
+    "id": "screen-profile",
+    "name": "profile",
+    "dom_selector": "#screen-profile",
+    "is_onboarding": false,
+    "is_main_app": true
+  },
+  {
+    "id": "screen-custom-pose-editor",
+    "name": "custom pose editor",
+    "dom_selector": "#screen-custom-pose-editor",
+    "is_onboarding": false,
+    "is_main_app": true
+  },
+  {
+    "id": "screen-marketplace",
+    "name": "marketplace",
+    "dom_selector": "#screen-marketplace",
+    "is_onboarding": false,
+    "is_main_app": true
+  },
+  {
+    "id": "screen-tour-creator",
+    "name": "tour creator",
+    "dom_selector": "#screen-tour-creator",
+    "is_onboarding": false,
+    "is_main_app": true
+  },
+  {
+    "id": "screen-tour-session",
+    "name": "tour session",
+    "dom_selector": "#screen-tour-session",
+    "is_onboarding": false,
+    "is_main_app": true
+  },
+  {
+    "id": "screen-tour-summary",
+    "name": "tour summary",
+    "dom_selector": "#screen-tour-summary",
+    "is_onboarding": false,
+    "is_main_app": true
+  }
+]

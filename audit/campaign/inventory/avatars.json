@@ -1,0 +1,336 @@
+{
+  "overlay_modes": [
+    {
+      "id": "avatar",
+      "name": "Avatar",
+      "renderer": "renderAvatarFrame",
+      "canvas_id": "pose-detail-animation"
+    },
+    {
+      "id": "skeleton",
+      "name": "Skeleton",
+      "renderer": "PoseSkeleton3D.init",
+      "canvas_id": "pose-skeleton-3d-canvas"
+    },
+    {
+      "id": "ghost",
+      "name": "Ghost",
+      "renderer": "renderGhostFrame",
+      "canvas_id": "setup-ghost-canvas"
+    },
+    {
+      "id": "off",
+      "name": "Off",
+      "renderer": "none",
+      "canvas_id": null
+    }
+  ],
+  "figure_types": [
+    {
+      "id": "scurve",
+      "count": 6
+    },
+    {
+      "id": "standing-front",
+      "count": 31
+    },
+    {
+      "id": "hip-shift",
+      "count": 23
+    },
+    {
+      "id": "catwalk-stride",
+      "count": 9
+    },
+    {
+      "id": "crossed-arms-stand",
+      "count": 7
+    },
+    {
+      "id": "dance-arms-high",
+      "count": 8
+    },
+    {
+      "id": "arm-reach",
+      "count": 13
+    },
+    {
+      "id": "tiptoe-reach",
+      "count": 7
+    },
+    {
+      "id": "profile-stand",
+      "count": 11
+    },
+    {
+      "id": "seated-side",
+      "count": 25
+    },
+    {
+      "id": "seated-floor",
+      "count": 25
+    },
+    {
+      "id": "elbow-prop",
+      "count": 19
+    },
+    {
+      "id": "throne-sit",
+      "count": 3
+    },
+    {
+      "id": "feet-up-recline",
+      "count": 2
+    },
+    {
+      "id": "floor-hug-knees",
+      "count": 3
+    },
+    {
+      "id": "wall-lean",
+      "count": 20
+    },
+    {
+      "id": "back-arch-wall",
+      "count": 6
+    },
+    {
+      "id": "forearm-wall",
+      "count": 1
+    },
+    {
+      "id": "two-hands-wall",
+      "count": 5
+    },
+    {
+      "id": "chin-on-hand",
+      "count": 11
+    },
+    {
+      "id": "face-frame-hands",
+      "count": 8
+    },
+    {
+      "id": "kneeling",
+      "count": 13
+    },
+    {
+      "id": "both-knees-prayer",
+      "count": 7
+    },
+    {
+      "id": "seiza",
+      "count": 4
+    },
+    {
+      "id": "kneeling-forward",
+      "count": 18
+    },
+    {
+      "id": "kneeling-back-arch",
+      "count": 7
+    },
+    {
+      "id": "side-recline",
+      "count": 16
+    },
+    {
+      "id": "prone-flat",
+      "count": 6
+    },
+    {
+      "id": "back-arms-up",
+      "count": 10
+    },
+    {
+      "id": "fetal",
+      "count": 6
+    },
+    {
+      "id": "supine",
+      "count": 8
+    },
+    {
+      "id": "sphinx-pose",
+      "count": 4
+    },
+    {
+      "id": "dynamic-reach",
+      "count": 13
+    },
+    {
+      "id": "jump-tuck",
+      "count": 5
+    },
+    {
+      "id": "spin-turn",
+      "count": 6
+    },
+    {
+      "id": "run-mid",
+      "count": 4
+    },
+    {
+      "id": "warrior-lunge",
+      "count": 7
+    },
+    {
+      "id": "hip-hop-lean",
+      "count": 5
+    },
+    {
+      "id": "matrix-lean",
+      "count": 7
+    },
+    {
+      "id": "superhero-land",
+      "count": 2
+    },
+    {
+      "id": "ragdoll-hang",
+      "count": 5
+    },
+    {
+      "id": "couple-embrace",
+      "count": 4
+    },
+    {
+      "id": "couple-back-to-back",
+      "count": 3
+    },
+    {
+      "id": "couple-forehead-touch",
+      "count": 5
+    },
+    {
+      "id": "couple-slow-dance",
+      "count": 5
+    },
+    {
+      "id": "couple-piggyback",
+      "count": 4
+    },
+    {
+      "id": "couple-side-profile",
+      "count": 9
+    },
+    {
+      "id": "upper-body",
+      "count": 13
+    },
+    {
+      "id": "chair-reach-diagonal",
+      "count": 8
+    },
+    {
+      "id": "chair-arms-wide",
+      "count": 5
+    },
+    {
+      "id": "boudoir-recline",
+      "count": 7
+    },
+    {
+      "id": "boudoir-drape",
+      "count": 3
+    },
+    {
+      "id": "boudoir-seated-knee",
+      "count": 5
+    },
+    {
+      "id": "boudoir-prone-elbow",
+      "count": 4
+    },
+    {
+      "id": "boudoir-lying-arch",
+      "count": 5
+    },
+    {
+      "id": "editorial-angular",
+      "count": 4
+    },
+    {
+      "id": "editorial-lean-far",
+      "count": 4
+    },
+    {
+      "id": "editorial-floor-reach",
+      "count": 2
+    },
+    {
+      "id": "editorial-twist",
+      "count": 2
+    },
+    {
+      "id": "editorial-contort",
+      "count": 1
+    },
+    {
+      "id": "fashion-power",
+      "count": 2
+    },
+    {
+      "id": "fine-art-arabesque",
+      "count": 4
+    },
+    {
+      "id": "fine-art-contrapposto",
+      "count": 4
+    },
+    {
+      "id": "fine-art-odalisque",
+      "count": 1
+    },
+    {
+      "id": "fine-art-pietà",
+      "count": 1
+    },
+    {
+      "id": "fine-art-balance",
+      "count": 1
+    },
+    {
+      "id": "fashion-turn",
+      "count": 1
+    },
+    {
+      "id": "fashion-stomp",
+      "count": 1
+    },
+    {
+      "id": "fashion-overshoot",
+      "count": 1
+    },
+    {
+      "id": "low-high-floor",
+      "count": 6
+    },
+    {
+      "id": "low-high-crouch",
+      "count": 4
+    },
+    {
+      "id": "low-high-kneel-rise",
+      "count": 6
+    },
+    {
+      "id": "high-low-over-shoulder",
+      "count": 7
+    },
+    {
+      "id": "high-low-descent",
+      "count": 8
+    },
+    {
+      "id": "high-low-floor-reach",
+      "count": 4
+    },
+    {
+      "id": "default",
+      "count": 205
+    }
+  ],
+  "total_overlay_modes": 4,
+  "total_figure_types": 76
+}

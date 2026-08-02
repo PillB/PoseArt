@@ -1,0 +1,7 @@
+{"issue_id":"SEC-01","target":"js/auth.js","severity":"P1","confidence":"high","status":"open","description":"Base64 credentials in public JavaScript"}
+{"issue_id":"SEC-02","target":"localStorage poseart_ownedPacks","severity":"P1","confidence":"high","status":"open","description":"Client-side purchase bypass"}
+{"issue_id":"SEC-03","target":"sessionStorage poseart_auth_session","severity":"P1","confidence":"high","status":"open","description":"Session forgery"}
+{"issue_id":"SEC-04","target":"GitHub Pages deployment","severity":"P2","confidence":"high","status":"open","description":"No Content Security Policy"}
+{"issue_id":"SEC-05","target":"js/app.js purchasePack()","severity":"P1","confidence":"high","status":"open","description":"Simulated checkout with no real payment"}
+{"issue_id":"POSE-001","target":"geometry-sweep","severity":"P2","confidence":"high","status":"open","description":"100 MAJOR pose defects detected by geometry sweep"}
+{"issue_id":"POSE-002","target":"joint_validator","severity":"P3","confidence":"high","status":"open","description":"Joint validator too weak — finds 6 issues vs sweep's 100. Cannot be used as proof of correctness."}

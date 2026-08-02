@@ -1,0 +1,111 @@
+{
+  "captured_at": "2026-08-02T03:35:00Z",
+  "repository": {
+    "url": "https://github.com/PillB/PoseArt",
+    "default_branch": "master",
+    "checked_out_branch": "master",
+    "commit_sha": "b09f998f159adb83e5fb1d7d5c631d9cab2857e1",
+    "commit_date": "2026-08-01T22:23:32-05:00",
+    "working_tree_status": "modified .bak-* files only (no production source changes uncommitted)"
+  },
+  "deployment": {
+    "workflow": ".github/workflows/deploy.yml (GitHub Actions → GitHub Pages)",
+    "trigger": "push to master",
+    "production_url": "https://pillb.github.io/PoseArt/",
+    "local_url": "http://localhost:8095",
+    "local_server": "python3 -m http.server 8095 (background, HTTP 200 confirmed)"
+  },
+  "runtime": {
+    "node_version": "v24.18.0",
+    "bun_version": "1.3.14",
+    "agent_browser_version": "0.32.3",
+    "playwright_version": "1.61.1",
+    "chromium_available": true
+  },
+  "derived_inventory": {
+    "poses_total": 745,
+    "categories_total": 16,
+    "category_counts": {
+      "standing": 47,
+      "seated": 86,
+      "leaning": 49,
+      "lean-seat": 30,
+      "kneeling": 32,
+      "reclining": 56,
+      "dynamic": 30,
+      "eccentric": 44,
+      "couple": 30,
+      "accessible": 30,
+      "boudoir": 161,
+      "editorial": 30,
+      "fine-art": 30,
+      "fashion": 30,
+      "low-to-high": 30,
+      "high-to-low": 30
+    },
+    "screens_total": 20,
+    "screen_ids": [
+      "screen-login", "screen-ob1", "screen-ob2", "screen-ob3", "screen-ob4",
+      "screen-home", "screen-library", "screen-category-list", "screen-session-setup",
+      "screen-camera", "screen-review", "screen-gallery", "screen-gallery-detail",
+      "screen-progress", "screen-profile", "screen-custom-pose-editor",
+      "screen-marketplace", "screen-tour-creator", "screen-tour-session", "screen-tour-summary"
+    ],
+    "overlay_modes": ["avatar", "skeleton", "ghost", "off"],
+    "overlay_modes_total": 4,
+    "view_buttons": ["auto", "front", "side", "quarter"],
+    "view_buttons_total": 4,
+    "onclick_handlers_total": 123,
+    "localStorage_keys": [
+      "editorCustomPoses", "favorites", "gallery", "marketplacePacks",
+      "marketplaceReviews", "onboardingCompleted", "ownedPacks", "publishedPacks",
+      "selectedGoal", "sessionHistory", "sessionOptions", "tours"
+    ],
+    "localStorage_keys_total": 12,
+    "external_assets": [
+      "https://fonts.googleapis.com (Cormorant Garamond, Inter, Cinzel Decorative)"
+    ],
+    "auth_state": "Client-side F&F auth (Base64 credentials in js/auth.js)",
+    "auth_files": ["js/auth.js", "js/app.js"]
+  },
+  "prior_campaign_evidence": {
+    "worklog_lines": 1945,
+    "worklog_path": "/home/z/my-project/worklog.md",
+    "audit_harness_scripts": 21,
+    "audit_harness_lib_modules": 2,
+    "prior_pose_fixes_applied": "398 poses corrected across 5 systematic sign-fix audits + 5 worker batches",
+    "prior_categories_completed": ["seated (86/86)", "leaning (49/49)", "kneeling (32/32)"],
+    "prior_categories_partial": ["reclining (33/56 processed)"],
+    "prior_categories_unprocessed": [
+      "standing (47)", "lean-seat (30)", "dynamic (30)", "eccentric (44)",
+      "couple (30)", "accessible (30)", "boudoir (161)", "editorial (30)",
+      "fine-art (30)", "fashion (30)", "low-to-high (30)", "high-to-low (30)"
+    ],
+    "prior_backend_docs_created": "16 markdown + 3 SQL + 3 examples in docs/backend/",
+    "prior_sign_corrections": {
+      "globalTilt": "+90=PRONE, -90=SUPINE (46 poses flipped)",
+      "hipAbductL/R": "+ = adduction(inward), - = abduction(outward) (22 poses fixed)",
+      "shoulderFwdL/R": "+ = behind, - = forward (62 poses fixed)",
+      "spine": "+ = forward lean, - = backward arch (31 poses fixed)",
+      "neck": "+ = head tilts RIGHT, - = LEFT (comment corrected, 0 pose fixes needed)"
+    }
+  },
+  "authorization": {
+    "scope": "Authorized assessment of PillB/PoseArt repository, local environment, and first-party deployed site",
+    "permitted": [
+      "Inspect source code", "Run local and staging tests", "Use synthetic test accounts",
+      "Safe low-impact validation against deployed site", "Test client-side trust boundaries",
+      "Test auth/authorization with test accounts", "Test input validation, state manipulation, routing, storage",
+      "Run non-destructive static and dynamic security tools"
+    ],
+    "prohibited": [
+      "Test unrelated third-party infrastructure", "Denial-of-service or load exhaustion",
+      "Credential stuffing or leaked credentials", "Access/modify/exfiltrate real-user data",
+      "Persist malware or backdoors", "Send spam or abusive traffic", "Social engineering",
+      "Bypass payment systems with real transactions", "Publish secrets or exploitable details",
+      "Destroy/corrupt/irreversibly modify production data", "Push/merge/deploy without human gate"
+    ],
+    "production_testing_mode": "passive inspection and low-impact requests only",
+    "secret_handling": "Redact values immediately. Record location, type, exposure, rotation requirement, remediation state only."
+  }
+}
