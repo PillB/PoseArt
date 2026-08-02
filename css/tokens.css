@@ -173,3 +173,23 @@
   .breathe-animation-fallback,
   .particle-bloom-fallback { display: block !important; }
 }
+
+/* ── KEYBOARD HINTS (kbd elements in pose-detail sheet) ── */
+kbd {
+  display: inline-block;
+  padding: 1px 5px;
+  font-size: 9px;
+  font-family: var(--font-mono, monospace);
+  line-height: 1.4;
+  color: #0F3B3A;
+  background: rgba(15, 59, 58, 0.06);
+  border: 1px solid rgba(15, 59, 58, 0.18);
+  border-radius: 3px;
+  box-shadow: 0 1px 0 rgba(15, 59, 58, 0.08);
+  vertical-align: middle;
+}
+.kbd-hint { user-select: none; }
+@media (max-width: 480px) {
+  .kbd-hint { font-size: 9px; }
+  kbd { padding: 0 4px; }
+}
