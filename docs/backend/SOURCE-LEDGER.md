@@ -350,3 +350,18 @@
 | GitHub Docs | Custom 404 page for Pages | https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-custom-404-page-for-your-github-pages-site | 2026-08-02 | SPA routing on GitHub Pages |
 | PostHog Docs | Privacy | https://posthog.com/docs/privacy | 2026-08-02 | Opt-out and consent |
 | Sentry Docs | GDPR and Privacy | https://docs.sentry.io/security-legal-pii-control/ | 2026-08-02 | PII scrubbing |
+
+---
+
+## 9. Additional sources (2026-08-02 — Marketing deep-dive)
+
+| Service | Title | URL | Date | Decision |
+|---|---|---|---|---|
+| TrustPulse | Trust Signals & Social Proof: 9 Tactics | trustpulse.com | 2026 | Social proof on login screen |
+| BehaviorDesign | Better Onboarding Through Behavioral Science | behaviordesign.com | Dec 2024 | Personalized onboarding |
+| Appcues | Maximize user retention: cognitive science | appcues.com | Jul 2023 | Streak counter (Zeigarnik effect) |
+| CTA-Rock | CTA Button Best Practices: What the Data Says | cta-rock.com | Jun 2025 | CTA copy improvement |
+| UserPilot | Onboarding Best Practices from 200+ Apps | userpilot.com | 2025 | Value proposition on OB1 |
+| PostHog | JavaScript Web Documentation | posthog.com/docs | 2025 | Analytics stub implementation |
+| NN Group | Confirmation Dialogs: How to Design | nngroup.com | Sep 2025 | Undo pattern for destructive actions |
+| Empty States | Empty States That Convert | emptystates.com | 2025 | Marketplace empty state CTA |

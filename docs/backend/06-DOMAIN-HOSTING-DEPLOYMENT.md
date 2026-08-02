@@ -510,3 +510,38 @@ Sentry:                https://sentry.io/organizations/<org>/projects/poseart/
 ```
 
 Mantén este archivo actualizado en cada rotación de claves o cambio de dominio.
+
+---
+
+## Actualización: Content Security Policy (2026-08-02)
+
+### CSP ya implementado
+
+SEC-04 ha sido corregido. El CSP está implementado como un meta tag en `index.html`:
+
+```html
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; base-uri 'self'; form-action 'self'">
+```
+
+**Notas:**
+- `'unsafe-inline'` es necesario para scripts y estilos porque PoseArt es una SPA vanilla JS sin build step
+- Cuando se migre a un build con bundler (webpack/vite), se puede usar hashes en lugar de `'unsafe-inline'`
+- `connect-src 'self'` debe actualizarse a `connect-src 'self' https://*.supabase.co https://api.stripe.com` cuando el backend esté activo
+- Verificado: 0 violaciones CSP, 0 errores de consola
+
+### SEO meta tags
+
+Open Graph y Twitter Card tags añadidos a `index.html`:
+
+```html
+<meta property="og:title" content="PoseArt — Move Like Art">
+<meta property="og:description" content="Master 745 studio-quality poses...">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://pillb.github.io/PoseArt/">
+<meta name="twitter:card" content="summary_large_image">
+```
+
+**Para añadir og:image:** Crea una imagen 1200×630px en `public/og-image.png` y añade:
+```html
+<meta property="og:image" content="https://pillb.github.io/PoseArt/og-image.png">
+```

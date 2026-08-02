@@ -214,3 +214,54 @@ All 5 tabs switch correctly. aria-selected updates properly. No console errors.
 5. **Test mobile viewport:** All features on 430×932
 6. **Test Spanish language:** If i18n is configured
 7. **Test reduced motion:** If motion preferences are supported
+
+---
+
+## Update: Defects Fixed (2026-08-02)
+
+### DEFECT-01: Marketplace unreachable — FIXED ✅
+
+- **Fix:** Added "Browse Packs" button on home screen with `onclick="openMarketplace()"`
+- **Verified:** Products render correctly, free pack acquisition works, "My Packs" shows owned packs
+- **Commit:** 01262ab (DEFECT-04 fix — openMarketplace initialization)
+
+### DEFECT-02: Username persists after logout — FIXED ✅
+
+- **Fix:** Added username + password field clearing in `logoutPoseArt()` function
+- **Verified:** Both fields are empty after logout
+
+### DEFECT-04: Marketplace not initializing — FIXED ✅
+
+- **Fix:** Changed button onclick from `showScreen('marketplace')` to `openMarketplace()`
+- **Root cause:** `showScreen()` doesn't call `initMarketplace()` which loads seed data
+- **Verified:** Products appear immediately on first visit
+
+### SEC-04: No Content Security Policy — FIXED ✅
+
+- **Fix:** Added CSP meta tag to index.html
+- **Verified:** 0 CSP violations, 0 console errors
+
+### Additional features tested after fixes
+
+| Feature | Status | Notes |
+|---|---|---|
+| Marketplace browse + filter | ✅ PASS | Products render, filters work |
+| Marketplace free pack acquisition | ✅ PASS | Toast: "✓ [pack] is now in your library" |
+| Marketplace "My Packs" empty state | ✅ PASS | Has CTA button ("Browse Packs") |
+| Custom pose editor | ✅ PASS | Name input, slider, save all work |
+| Tour creator | ✅ PASS | Name, section, add pose, save |
+| Session setup | ✅ PASS | Timer cycle, overlay modes, sensitivity |
+| Mobile viewport (430×932) | ✅ PASS | Login, onboarding, navigation |
+
+### Updated release gate
+
+| Criterion | Status |
+|---|---|
+| Every top-level section traversed | ✅ (marketplace now accessible) |
+| Every visible control inventoried | ✅ (85 controls) |
+| No route produces uncaught exception | ✅ |
+| No interaction exposes raw translation keys | ✅ |
+| No visible control falsely appears interactive | ✅ |
+| No hidden script used | ✅ (strict black-box) |
+
+**Release gate: PASSED** ✅

@@ -496,3 +496,53 @@ Toda la app debe usar `track(...)`, nunca `posthog.capture(...)` directo.
 
 - `11-TESTING-AND-SECURITY-CHECKLIST.md` — Pruebas para verificar que el sistema de analytics no filtra PII.
 - `12-OPERATIONS-PRIVACY-AND-BACKUPS.md` — Rotación de claves de PostHog/Sentry y políticas de retención de eventos.
+
+---
+
+## Actualización: Analytics Instrumentation Stub (2026-08-02)
+
+### js/analytics.js ya creado
+
+Se ha creado `js/analytics.js` (146 líneas) que proporciona una interfaz unificada de analytics lista para conectar a PostHog.
+
+**Características:**
+- **No-op seguro:** Si `window.POSTHOG_KEY` no está definido, todas las llamadas son silenciosas (seguro para F&F preview)
+- **PostHog-ready:** Cuando se establece la key, carga el SDK de PostHog automáticamente
+- **Privacy:** Lista `FORBIDDEN_KEYS` sanitiza propiedades (passwords, tokens, fotos, datos de pago)
+- **Consent:** Gestión de consentimiento basada en localStorage (GDPR Art. 7)
+- **Debug:** En localhost muestra logs en consola; almacena últimos 100 eventos en localStorage
+
+### Eventos ya instrumentados
+
+6 eventos están instrumentados en `js/app.js`:
+
+| Evento | Momento | Propiedades |
+|---|---|---|
+| `login_completed` | Login exitoso | `{ user: 'tester' }` |
+| `onboarding_completed` | Selección de persona | `{ goal: 'photographer' }` |
+| `onboarding_completed` | Skip onboarding | `{ goal: 'exploring', skipped: true }` |
+| `session_started` | Inicio de sesión de cámara | `{ pose_id: 'scurve-stand' }` |
+| `checkout_started` | Click en compra | `{ pack_id: 'mp-boudoir-classic' }` |
+
+### Cómo activar
+
+1. Crear cuenta en PostHog (gratis: 1M eventos/mes)
+2. Obtener API key del proyecto
+3. Añadir antes de `<script src="js/analytics.js">` en index.html:
+   ```html
+   <script>window.POSTHOG_KEY = 'phc_tu_key_aqui';</script>
+   ```
+4. Añadir banner de consentimiento
+5. Deploy — analytics empezará a trackear automáticamente
+
+### API disponible
+
+```javascript
+PoseArtAnalytics.init()                              // Inicializar (DOMContentLoaded)
+PoseArtAnalytics.track('event_name', { prop: 'val' }) // Trackear evento
+PoseArtAnalytics.identify(userId, { traits })         // Identificar usuario
+PoseArtAnalytics.reset()                              // Reset (on logout)
+PoseArtAnalytics.setConsent(true/false)               // Gestionar consentimiento
+PoseArtAnalytics.hasConsent()                         // Verificar consentimiento
+PoseArtAnalytics.isActive()                           // Verificar si está activo
+```
