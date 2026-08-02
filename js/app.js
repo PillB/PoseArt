@@ -146,7 +146,14 @@ window.logoutPoseArt = function() {
   window.PoseArtAuth?.logout();
   AppState.screenStack = [];
   showScreen('login');
-  document.getElementById('login-username')?.focus();
+  // DEFECT-02 fix: clear both username and password fields on logout
+  const username = document.getElementById('login-username');
+  const password = document.getElementById('login-password');
+  if (username) username.value = '';
+  if (password) { password.value = ''; password.removeAttribute('aria-invalid'); }
+  const error = document.getElementById('login-error');
+  if (error) { error.textContent = ''; error.hidden = true; }
+  username?.focus();
 };
 
 function updateAuthenticatedProfile() {
