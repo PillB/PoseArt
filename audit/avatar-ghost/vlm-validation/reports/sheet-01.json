@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE power-stance: skeleton mode not distinct (shows filled body instead of wireframe); ghost mode not distinct (outline too faint/thin)\nPOSE scurve-stand: skeleton mode not distinct; ghost mode not distinct\nPOSE crossed-arms-st: skeleton mode not distinct; ghost mode not distinct\nPOSE soft-sit: pose unreadable in skeleton and ghost modes (standing T-pose instead of sitting); skeleton mode not distinct; ghost mode not distinct\nPOSE window-seat: pose unreadable in skeleton and ghost modes (standing T-pose instead of sitting); skeleton mode not distinct; ghost mode not distinct\nPOSE forearms-crosse: pose unreadable in skeleton and ghost modes (standing T-pose instead of sitting); skeleton mode not distinct; ghost mode not distinct",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785720964,
+  "id": "20260803093601574eb528fb22464a",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260803093601574eb528fb22464a",
+  "usage": {
+    "completion_tokens": 157,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 1600,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 1757
+  }
+}

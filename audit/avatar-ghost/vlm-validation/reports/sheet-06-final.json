@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE 31 (fashion-runway-): OK\nPOSE 32 (lowhigh-deep-cr): OK\nPOSE 33 (highlow-floor-l): OK",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785722899,
+  "id": "20260803100818193ba81906da4a09",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260803100818193ba81906da4a09",
+  "usage": {
+    "completion_tokens": 35,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 857,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 892
+  }
+}

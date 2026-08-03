@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "hair-flip: OK\ncouple-embrace: OK\nwaltz-hold: OK\nwheelchair-arms: OK\nseated-power: OK\nboudoir-s-curve: OK",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785721072,
+  "id": "2026080309374774cd9be7844f45c2",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "2026080309374774cd9be7844f45c2",
+  "usage": {
+    "completion_tokens": 42,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 1595,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 1637
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "boudoir-elegant: clipping; floating\neditorial-sharp: OK\neditorial-extre: OK\nfineart-contrap: OK\nfineart-odalisq: clipping; floating\nfashion-power-s: OK",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785721074,
+  "id": "20260803093752b9c8b34961114385",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260803093752b9c8b34961114385",
+  "usage": {
+    "completion_tokens": 50,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 1595,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 1645
+  }
+}
