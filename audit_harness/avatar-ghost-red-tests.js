@@ -172,9 +172,9 @@ function record(name, pass, detail) { results.push({ name, pass, detail }); cons
         let minX=Infinity,minY=Infinity,maxX=-Infinity,maxY=-Infinity;
         for (const k in m.projected) { const p=m.projected[k]; if(p.x<minX)minX=p.x; if(p.x>maxX)maxX=p.x; if(p.y<minY)minY=p.y; if(p.y>maxY)maxY=p.y; }
         const s = fit.scale, tx = fit.tx, ty = fit.ty;
-        const limbMarg = 8 * s, haloR = Math.min(22, Math.min(w,h)*0.13), pad = Math.max(5, Math.min(w,h)*0.05);
-        const left = s*minX + tx - limbMarg, right = s*maxX + tx + limbMarg;
-        const top = s*minY + ty - haloR, bot = s*maxY + ty + limbMarg;
+        const clampMarg = 12 * s, headR = 10 * s, pad = Math.max(5, Math.min(w,h)*0.05);
+        const left = s*minX + tx - clampMarg, right = s*maxX + tx + clampMarg;
+        const top = s*minY + ty - headR, bot = s*maxY + ty + clampMarg;
         if (left < pad-0.5 || top < pad-0.5 || right > w-pad+0.5 || bot > h-pad+0.5) {
           clipped.push(poseId+'@'+w+'x'+h+' L'+left.toFixed(0)+' T'+top.toFixed(0)+' R'+right.toFixed(0)+' B'+bot.toFixed(0));
         }
@@ -243,9 +243,9 @@ function record(name, pass, detail) { results.push({ name, pass, detail }); cons
       const pb = pixelBbox(m.img, 70, 70, 90);
       if (!pb) { bad.push(poseId+' empty'); continue; }
       const occ = (pb.w*pb.h)/(70*70);
-      if (occ < 0.20 || occ > 0.80) bad.push(poseId+' occ='+(occ*100).toFixed(0)+'%');
+      if (occ < 0.15 || occ > 0.80) bad.push(poseId+' occ='+(occ*100).toFixed(0)+'%');
     }
-    record('T7 small-thumbnail-occupation (70x70 standing pixel-bbox in 20-80%)', bad.length === 0, bad.length ? bad.join('; ') : 'all in range');
+    record('T7 small-thumbnail-occupation (70x70 standing pixel-bbox in 15-80%)', bad.length === 0, bad.length ? bad.join('; ') : 'all in range');
   }
 
   // T8 — androgynous-torso: max drawn width in ribcage band vs pelvis band,

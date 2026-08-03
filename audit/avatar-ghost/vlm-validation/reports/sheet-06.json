@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE 1 (fashion-runway-): floating; blob-like joints; skeleton/ghost pose mismatch\nPOSE 2 (lowhigh-deep-cr): floating; skeleton/ghost pose mismatch\nPOSE 3 (highlow-floor-l): floating; skeleton/ghost pose mismatch",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785720975,
+  "id": "20260803093613615890a85d8e4f40",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260803093613615890a85d8e4f40",
+  "usage": {
+    "completion_tokens": 57,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 928,
+    "prompt_tokens_details": {
+      "cached_tokens": 140
+    },
+    "total_tokens": 985
+  }
+}

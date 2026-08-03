@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE 1: OK\nPOSE 2: OK\nPOSE 3: OK\nPOSE 4: OK\nPOSE 5: OK\nPOSE 6: OK",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785721044,
+  "id": "2026080309372239362f4dfd12406c",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "2026080309372239362f4dfd12406c",
+  "usage": {
+    "completion_tokens": 36,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 1595,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 1631
+  }
+}

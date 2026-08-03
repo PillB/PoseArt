@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "boudoir-elegant: pose unreadable (skeleton/ghost show T-pose, avatar shows diving); clipping (avatar hands/feet cut off)\neditorial-sharp: OK\neditorial-extre: OK\nfineart-contrap: OK\nfineart-odalisq: pose unreadable (skeleton/ghost show T-pose, avatar shows diving); clipping (avatar hands/feet cut off)\nfashion-power-s: OK",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785720973,
+  "id": "202608030936116220c04fdeaf4f6e",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "202608030936116220c04fdeaf4f6e",
+  "usage": {
+    "completion_tokens": 96,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 1600,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 1696
+  }
+}

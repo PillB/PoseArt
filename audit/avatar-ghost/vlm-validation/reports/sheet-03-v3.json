@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "lounger-recline: OK\nside-recline: OK\nleap-forward: floating\ncrouching-prowl: floating, blob joints\nface-touch: OK\ncross-body-arm: OK",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785721437,
+  "id": "20260803094356d39176e4287a45b7",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260803094356d39176e4287a45b7",
+  "usage": {
+    "completion_tokens": 43,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 1563,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 1606
+  }
+}

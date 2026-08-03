@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE 1 (wall-lean): OK\nPOSE 2 (doorframe-lean): OK\nPOSE 3 (table-elbow-sit): OK\nPOSE 4 (both-knees): OK\nPOSE 5 (knights-knee): OK\nPOSE 6 (starfish): a",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785721045,
+  "id": "202608030937242bd3b03892864d3b",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "202608030937242bd3b03892864d3b",
+  "usage": {
+    "completion_tokens": 63,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 1595,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 1658
+  }
+}

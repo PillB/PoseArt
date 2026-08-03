@@ -1624,33 +1624,71 @@
     // with pad-only; pass 2 reserves (limbHalf*s0) for sides and (haloR) for top.
     var haloR = Math.min(22, Math.min(state.width, state.height) * 0.13);
     var pad = Math.max(5, Math.min(state.width, state.height) * 0.05);
-    var limbHalf = 8; // max limb half-width + joint-blend radius (projected px)
+    var limbHalf = 8; // for scale calculation (keeps figure size reasonable)
+    var clampHalf = 12; // for anti-clip clamp (covers max joint-blend radius)
     var bw = maxX - minX, bh = maxY - minY;
     if (bw < 1 || bh < 1) return { scale: 1, tx: 0, ty: 0 };
     var s0 = Math.min((state.width - 2*pad) / bw, (state.height - 2*pad) / bh);
-    var limbMarg = limbHalf * s0;        // scales with the figure
-    var footMarg = limbHalf * s0;        // bottom needs full limbHalf (knee blend + foot)
+    // Use clampHalf (not limbHalf) for the reservation so the scale accounts for
+    // the full clamp margin — prevents the clamp from fighting itself on tight fits.
+    var limbMarg = clampHalf * s0;
+    var footMarg = clampHalf * s0;
     var topMarg = haloR + pad, sideMarg = limbMarg + pad, botMarg = footMarg + pad;
     var availW = state.width - 2*sideMarg, availH = state.height - topMarg - botMarg;
     var s = Math.min(availW / bw, availH / bh);
     s = Math.max(0.40, Math.min(2.6, s));
-    // recompute limb margin with the final s (tighter)
-    limbMarg = limbHalf * s; footMarg = limbHalf * s;
+    // recompute limb margin with the final s (use clampHalf for consistency)
+    limbMarg = clampHalf * s; footMarg = clampHalf * s;
     sideMarg = limbMarg + pad; botMarg = footMarg + pad;
     availW = state.width - 2*sideMarg; availH = state.height - topMarg - botMarg;
     var cx = (minX+maxX)/2, cy = (minY+maxY)/2;
     var tx = state.width/2 - s*cx;
     var ty = topMarg + availH/2 - s*cy;
-    // semantic ground anchor: standing poses (feet well below hips) sit the
-    // lowest support near ~84% canvas height for a grounded feel.
-    if (footY > -Infinity && skel.hips && footY > project(state, skel.hips).y + 6) {
+    // Detect reclining: body is more horizontal than vertical (head and hips at
+    // similar height in model space) OR category is 'reclining'. VLM-found issue:
+    // reclining poses were bbox-centered, leaving excessive empty space at the
+    // top and floating above the floor band. Fix: place the figure's lowest
+    // rendered point near the bottom of the canvas (on the floor).
+    var isReclining = false;
+    if (state.poseCategory === 'reclining') isReclining = true;
+    else if (skel.head && skel.hips) {
+      // globalTilt rotates the body in the Y-Z plane (depth), so check both
+      // X-Y (side-lying) and Y-Z (prone/supine) orientations.
+      var dyh = Math.abs(skel.head.y - skel.hips.y);
+      var dxh = Math.abs(skel.head.x - skel.hips.x);
+      var dzh = Math.abs(skel.head.z - skel.hips.z);
+      if (dxh > dyh * 1.0 || dzh > dyh * 0.9) isReclining = true;
+    }
+    if (isReclining) {
+      // Reclining poses: the rendered figure extends ~30px below the lowest joint
+      // (ground shadow + reclining floor overlay, both screen-space). Place the
+      // estimated rendered bottom at ~94% canvas height so the figure sits ON the
+      // floor band rather than floating above it.
+      var recliningExt = 30;
+      var targetRenderedBottom = state.height * 0.94;
+      var currentRenderedBottom = s*maxY + ty + recliningExt;
+      var dy2 = targetRenderedBottom - currentRenderedBottom;
+      ty += dy2;
+    } else if (footY > -Infinity && skel.hips && footY > project(state, skel.hips).y + 6) {
+      // semantic ground anchor: standing poses (feet well below hips) sit the
+      // lowest support near ~84% canvas height for a grounded feel.
       var targetFootScreen = state.height * 0.84;
       var dy = targetFootScreen - (s*footY + ty);
       ty += Math.max(-state.height*0.08, Math.min(state.height*0.08, dy));
+    } else {
+      // default-low fallback: for compact poses (crouching, kneeling, seated
+      // where feet aren't below hips) the bbox-centered figure floats. Nudge
+      // it down so the lowest point sits near ~88% canvas height.
+      var targetLow = state.height * 0.88;
+      var dy3 = targetLow - (s*maxY + ty + footMarg);
+      if (dy3 > 0) ty += Math.min(dy3, state.height * 0.12);
     }
-    // Clamp so the fitted silhouette (joint bbox + scaled margins) stays in canvas.
-    var leftEdge = s*minX + tx - limbMarg, rightEdge = s*maxX + tx + limbMarg;
-    var topEdge = s*minY + ty - haloR, botEdge = s*maxY + ty + footMarg;
+    // Clamp so the fitted silhouette stays in canvas. Uses clampHalf for both
+    // the reservation (scale calc) and the clamp, so they agree — no rescale
+    // fallback needed.
+    var clampMarg = clampHalf * s;
+    var leftEdge = s*minX + tx - clampMarg, rightEdge = s*maxX + tx + clampMarg;
+    var topEdge = s*minY + ty - haloR, botEdge = s*maxY + ty + clampMarg;
     if (leftEdge < pad) tx += (pad - leftEdge);
     if (topEdge < pad) ty += (pad - topEdge);
     if (rightEdge > state.width - pad) tx -= (rightEdge - (state.width - pad));

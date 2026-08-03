@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "power-stance: OK\nscurve-stand: OK\ncrossed-arms-st: OK\nsoft-sit: OK\nwindow-seat: clipping (legs through seat)\nforearms-crosse: clipping (legs through seat)",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785722892,
+  "id": "20260803100810184535282cce414b",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260803100810184535282cce414b",
+  "usage": {
+    "completion_tokens": 48,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 1529,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 1577
+  }
+}

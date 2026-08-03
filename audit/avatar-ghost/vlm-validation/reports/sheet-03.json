@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "lounger-recline: skeleton/ghost pose mismatch (T-pose instead of recline); avatar clipping (head cut off)\nside-recline: skeleton/ghost pose mismatch (T-pose instead of recline); blob-like joints (avatar head/shoulders)\nleap-forward: floating; skeleton/ghost pose mismatch (T-pose instead of leap)\ncrouching-prowl: skeleton/ghost pose mismatch (T-pose instead of crouch)\nface-touch: skeleton/ghost pose mismatch (T-pose instead of face-touch)\ncross-body-arm: skeleton/ghost pose mismatch (T-pose instead of cross-body)",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785720969,
+  "id": "202608030936062bb2b4e687bd40b9",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "202608030936062bb2b4e687bd40b9",
+  "usage": {
+    "completion_tokens": 130,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 1600,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 1730
+  }
+}

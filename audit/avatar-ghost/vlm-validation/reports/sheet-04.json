@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE hair-flip: clipping (right arm/hand cut off in avatar); pose unreadable (skeleton/ghost show T-pose, not hair-flip)\nPOSE couple-embrace: pose unreadable (skeleton/ghost show T-pose, not embrace)\nPOSE waltz-hold: pose unreadable (skeleton/ghost show T-pose, not waltz hold)\nPOSE wheelchair-arms: floating (excessive empty space below legs in skeleton/ghost); mode not distinct (skeleton and ghost nearly identical)\nPOSE seated-power: floating (excessive empty space below legs in skeleton/ghost); mode not distinct (skeleton and ghost nearly identical)\nPOSE boudoir-s-curve: pose unreadable (skeleton/ghost show T-pose, not S-curve)",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785720971,
+  "id": "2026080309360930aa712c4e4a4522",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "2026080309360930aa712c4e4a4522",
+  "usage": {
+    "completion_tokens": 165,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 1600,
+    "prompt_tokens_details": {
+      "cached_tokens": 140
+    },
+    "total_tokens": 1765
+  }
+}

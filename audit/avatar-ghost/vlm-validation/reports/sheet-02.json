@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE: wall-lean: skeleton/ghost mode not distinct; pose unreadable in skeleton\nPOSE: doorframe-lean: skeleton mode not distinct (T-pose instead of leaning)\nPOSE: table-elbow-sin: skeleton mode not distinct (standing T-pose); avatar clipping at bottom\nPOSE: both-knees: skeleton mode not distinct\nPOSE: knights-knee: skeleton mode not distinct\nPOSE: starfish: skeleton mode not distinct",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785720966,
+  "id": "202608030936045422c7c3398748fc",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "202608030936045422c7c3398748fc",
+  "usage": {
+    "completion_tokens": 93,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 1600,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 1693
+  }
+}
