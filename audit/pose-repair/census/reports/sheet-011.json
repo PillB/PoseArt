@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "boudoir-la-priere: OK\nboudoir-lebandon: ISSUE - feet not touching ground, floating in mid-air\nboudoir-lazy-lounge: OK\nboudoir-little-dancer: OK\nboudoir-n-pose: OK\nboudoir-mattress-edge-: OK",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785734461,
+  "id": "202608031321002f6352cdc8e8414f",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "202608031321002f6352cdc8e8414f",
+  "usage": {
+    "completion_tokens": 68,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 384,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 452
+  }
+}

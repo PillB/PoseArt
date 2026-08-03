@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "boudoir-doorframe-hang: OK\nboudoir-drape-arms: OK\nboudoir-dying-slave: ISSUE - right arm position looks unnatural/unclear\nboudoir-elegant-recline: ISSUE - feet not on ground, floating\nboudoir-embrace-pose: ISSUE - feet off balance, leaning too far back\nboudoir-esquiline-venus: OK",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785734453,
+  "id": "20260803132051fde311248fcc4856",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260803132051fde311248fcc4856",
+  "usage": {
+    "completion_tokens": 87,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 384,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 471
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "boudoir-window-light-1: OK\nboudoir-winged-victory: ISSUE - feet floating above ground\nboxer-jab: OK\ncar-lean: OK\ncartwheel-freeze: ISSUE - foot not on ground, balance unstable\ncatch-reach: OK",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785734490,
+  "id": "20260803132127131b340bd50e491b",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260803132127131b340bd50e491b",
+  "usage": {
+    "completion_tokens": 59,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 384,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 443
+  }
+}

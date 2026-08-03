@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "arms-tangled: OK\navant-garde-arms: OK\nback-angel: ISSUE - feet floating above ground\nback-arch: OK\nback-arch-wall: OK\nback-prop: ISSUE - feet not touching ground, balance unclear",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785734434,
+  "id": "202608031320339575eb7dcbd04c3e",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "202608031320339575eb7dcbd04c3e",
+  "usage": {
+    "completion_tokens": 51,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 384,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 435
+  }
+}

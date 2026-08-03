@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "1: ISSUE - Floating above ground, limbs disconnected.\n2: ISSUE - Floating, unnatural limb angles.\n3: ISSUE - Levitating, spine direction inconsistent with gravity.\n4: ISSUE - Head/neck detached, floating legs.\n5: ISSUE - Multiple overlapping figures, unclear pose.\n6: OK",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785734456,
+  "id": "202608031320548a0cf7bdf98648a6",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "202608031320548a0cf7bdf98648a6",
+  "usage": {
+    "completion_tokens": 61,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 384,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 445
+  }
+}

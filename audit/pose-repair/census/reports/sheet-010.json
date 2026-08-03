@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "boudoir-half-bent-wrist: OK\nboudoir-hip-raise-lyin: OK\nboudoir-knee-up-profil: OK\nboudoir-kneeling-arch-: ISSUE - right foot floating\nboudoir-kneeling-forwa: OK\nboudoir-kneeling-sit-t-b: OK",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785734458,
+  "id": "2026080313205790b74da5a43b40a2",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "2026080313205790b74da5a43b40a2",
+  "usage": {
+    "completion_tokens": 75,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 384,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 459
+  }
+}

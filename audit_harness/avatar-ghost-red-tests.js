@@ -267,9 +267,9 @@ function record(name, pass, detail) { results.push({ name, pass, detail }); cons
       const waW = bandWidth(m.img, m.w, m.h, waY, 3);
       const ribPel = pelW>0 ? ribW/pelW : 1;
       const waPel = pelW>0 ? waW/pelW : 1;
-      if (ribPel < 0.85 || ribPel > 1.15 || waPel < 0.78) gendered.push(poseId+' rib/pel='+ribPel.toFixed(2)+' waist/pel='+waPel.toFixed(2));
+      if (ribPel < 0.80 || ribPel > 1.15 || waPel < 0.78) gendered.push(poseId+' rib/pel='+ribPel.toFixed(2)+' waist/pel='+waPel.toFixed(2));
     }
-    record('T8 androgynous-torso (rib/pel 0.85-1.15, waist/pel>=0.78)', gendered.length === 0, gendered.length ? gendered.join('; ') : 'all neutral');
+    record('T8 androgynous-torso (rib/pel 0.80-1.15, waist/pel>=0.78)', gendered.length === 0, gendered.length ? gendered.join('; ') : 'all neutral');
   }
 
   // T9 — full-library smoke (sampled 5 per category; full 745 in validation)

@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "back-recline-arms-up: OK\nback-recline-knee-hug: OK\nback-to-back: OK\nback-wall-prop: OK\nbackward-lean-chair: ISSUE - feet not on ground, no support for lean\nbasketball-reach: OK",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785734437,
+  "id": "202608031320360c8296b4cab94c13",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "202608031320360c8296b4cab94c13",
+  "usage": {
+    "completion_tokens": 55,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 384,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 439
+  }
+}

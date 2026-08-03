@@ -1671,17 +1671,19 @@
       ty += dy2;
     } else if (footY > -Infinity && skel.hips && footY > project(state, skel.hips).y + 6) {
       // semantic ground anchor: standing poses (feet well below hips) sit the
-      // lowest support near ~84% canvas height for a grounded feel.
-      var targetFootScreen = state.height * 0.84;
+      // lowest support near ~92% canvas height for a grounded feel (was 84%,
+      // raised to fix VLM-reported "floating feet" issue across 44 poses).
+      var targetFootScreen = state.height * 0.92;
       var dy = targetFootScreen - (s*footY + ty);
-      ty += Math.max(-state.height*0.08, Math.min(state.height*0.08, dy));
+      ty += Math.max(-state.height*0.10, Math.min(state.height*0.10, dy));
     } else {
       // default-low fallback: for compact poses (crouching, kneeling, seated
       // where feet aren't below hips) the bbox-centered figure floats. Nudge
-      // it down so the lowest point sits near ~88% canvas height.
-      var targetLow = state.height * 0.88;
+      // it down so the lowest point sits near ~93% canvas height (was 88%,
+      // raised to fix VLM-reported "floating" issue on seated/kneeling poses).
+      var targetLow = state.height * 0.93;
       var dy3 = targetLow - (s*maxY + ty + footMarg);
-      if (dy3 > 0) ty += Math.min(dy3, state.height * 0.12);
+      if (dy3 > 0) ty += Math.min(dy3, state.height * 0.15);
     }
     // Clamp so the fitted silhouette stays in canvas. Uses clampHalf for both
     // the reservation (scale calc) and the clamp, so they agree — no rescale

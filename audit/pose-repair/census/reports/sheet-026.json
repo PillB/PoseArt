@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "chest-open: OK\nchin-on-both-hands: OK\nchin-on-fist: ISSUE - right arm appears to pass through the leg/thigh area.\nchin-on-wall: OK\nchin-rest: ISSUE - left arm is positioned awkwardly behind the back with an unnatural joint angle; balance seems precarious.\nchin-up-stand: OK",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785734508,
+  "id": "20260803132146b5e63c79c18f4594",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260803132146b5e63c79c18f4594",
+  "usage": {
+    "completion_tokens": 70,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 384,
+    "prompt_tokens_details": {
+      "cached_tokens": 60
+    },
+    "total_tokens": 454
+  }
+}

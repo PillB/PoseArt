@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE 1 (boudoir-shadow-silhouette): OK\nPOSE 2 (boudoir-sheet-pull): ISSUE - hands appear to float above the sheet surface.\nPOSE 3 (boudoir-side-lying-top): OK\nPOSE 4 (boudoir-side-pillow-hu): ISSUE - left arm/hand appears to clip into or float below the pillow surface.\nPOSE 5 (boudoir-sleeping-ariad): ISSUE - feet are floating significantly above the ground plane.\nPOSE 6 (boudoir-standing-back-): OK",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785734473,
+  "id": "202608031321118530d7c4c3804d6c",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "202608031321118530d7c4c3804d6c",
+  "usage": {
+    "completion_tokens": 118,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 384,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 502
+  }
+}

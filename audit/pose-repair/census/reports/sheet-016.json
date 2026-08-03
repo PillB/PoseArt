@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "boudoir-standing-corset: ISSUE - feet floating above ground\nboudoir-standing-hair-: ISSUE - feet not touching ground, unbalanced\nboudoir-standing-hand-: OK\nboudoir-standing-leg-u: OK\nboudoir-standing-look-: OK\nboudoir-standing-profil: OK",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785734477,
+  "id": "20260803132114fa0c19a38cb24cf1",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260803132114fa0c19a38cb24cf1",
+  "usage": {
+    "completion_tokens": 69,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 384,
+    "prompt_tokens_details": {
+      "cached_tokens": 1
+    },
+    "total_tokens": 453
+  }
+}

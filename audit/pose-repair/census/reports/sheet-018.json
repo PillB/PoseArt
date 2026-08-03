@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE 1 (boudoir-thinker): OK\nPOSE 2 (boudoir-three-goddess): ISSUE - feet not on ground, balance unclear.\nPOSE 3 (boudoir-tippy-toe-cross): OK\nPOSE 4 (boudoir-toe-point-rect): OK\nPOSE 5 (boudoir-torso-marie-th): OK\nPOSE 6 (boudoir-triangle-pocke): OK",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785734482,
+  "id": "20260803132121537f3337c0234a4d",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260803132121537f3337c0234a4d",
+  "usage": {
+    "completion_tokens": 94,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 384,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 478
+  }
+}

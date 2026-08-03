@@ -1,0 +1,770 @@
+{
+  "total": 745,
+  "ok": 112,
+  "issues": 42,
+  "fails": 95,
+  "findings": [
+    {
+      "poseId": "abstract-contortion",
+      "status": "OK"
+    },
+    {
+      "poseId": "acrobat-balance",
+      "status": "ISSUE",
+      "detail": "acrobat-balance: ISSUE - floating foot, unstable balance"
+    },
+    {
+      "poseId": "arabesque-balance",
+      "status": "OK"
+    },
+    {
+      "poseId": "arm-drape-knee",
+      "status": "OK"
+    },
+    {
+      "poseId": "arm-throw",
+      "status": "OK"
+    },
+    {
+      "poseId": "arms-overhead",
+      "status": "OK"
+    },
+    {
+      "poseId": "arms-tangled",
+      "status": "OK"
+    },
+    {
+      "poseId": "avant-garde-arms",
+      "status": "OK"
+    },
+    {
+      "poseId": "back-angel",
+      "status": "ISSUE",
+      "detail": "back-angel: ISSUE - feet floating above ground"
+    },
+    {
+      "poseId": "back-arch",
+      "status": "OK"
+    },
+    {
+      "poseId": "back-arch-wall",
+      "status": "OK"
+    },
+    {
+      "poseId": "back-prop",
+      "status": "ISSUE",
+      "detail": "back-prop: ISSUE - feet not touching ground, balance unclear"
+    },
+    {
+      "poseId": "back-recline-arms-up",
+      "status": "OK"
+    },
+    {
+      "poseId": "back-recline-knee-hug",
+      "status": "OK"
+    },
+    {
+      "poseId": "back-to-back",
+      "status": "OK"
+    },
+    {
+      "poseId": "back-wall-prop",
+      "status": "OK"
+    },
+    {
+      "poseId": "backward-lean-chair",
+      "status": "ISSUE",
+      "detail": "backward-lean-chair: ISSUE - feet not on ground, no support for lean"
+    },
+    {
+      "poseId": "basketball-reach",
+      "status": "OK"
+    },
+    {
+      "poseId": "belly-up-arms-wide",
+      "status": "OK"
+    },
+    {
+      "poseId": "bench-lean-side",
+      "status": "ISSUE",
+      "detail": "bench-lean-side: ISSUE - feet floating above ground"
+    },
+    {
+      "poseId": "bench-sit-side",
+      "status": "OK"
+    },
+    {
+      "poseId": "both-hands-chin",
+      "status": "OK"
+    },
+    {
+      "poseId": "both-knees",
+      "status": "OK"
+    },
+    {
+      "poseId": "both-knees-arms-up",
+      "status": "OK"
+    },
+    {
+      "poseId": "both-knees-forearms",
+      "status": "UNKNOWN"
+    },
+    {
+      "poseId": "both-look-camera-hold-hands",
+      "status": "UNKNOWN"
+    },
+    {
+      "poseId": "boudoir-aphrodite-knidos",
+      "status": "UNKNOWN"
+    },
+    {
+      "poseId": "boudoir-arm-overhead-stretch",
+      "status": "UNKNOWN"
+    },
+    {
+      "poseId": "boudoir-armchair-twist",
+      "status": "UNKNOWN"
+    },
+    {
+      "poseId": "boudoir-asymmetric-stool",
+      "status": "UNKNOWN"
+    },
+    {
+      "poseId": "boudoir-back-one",
+      "status": "OK"
+    },
+    {
+      "poseId": "boudoir-back-to-camera-glance",
+      "status": "OK"
+    },
+    {
+      "poseId": "boudoir-barberini-faun",
+      "status": "OK"
+    },
+    {
+      "poseId": "boudoir-bedsheet-drape-sit",
+      "status": "OK"
+    },
+    {
+      "poseId": "boudoir-both-knees-prayer-soft",
+      "status": "OK"
+    },
+    {
+      "poseId": "boudoir-capitoline-venus",
+      "status": "OK"
+    },
+    {
+      "poseId": "boudoir-chair-straddle",
+      "status": "UNKNOWN"
+    },
+    {
+      "poseId": "boudoir-clios-dream",
+      "status": "UNKNOWN"
+    },
+    {
+      "poseId": "boudoir-corner-pocket",
+      "status": "UNKNOWN"
+    },
+    {
+      "poseId": "boudoir-crouching-venus",
+      "status": "UNKNOWN"
+    },
+    {
+      "poseId": "boudoir-danaïd",
+      "status": "UNKNOWN"
+    },
+    {
+      "poseId": "boudoir-diamond-sit",
+      "status": "UNKNOWN"
+    },
+    {
+      "poseId": "boudoir-doorframe-hang",
+      "status": "OK"
+    },
+    {
+      "poseId": "boudoir-drape-arms",
+      "status": "OK"
+    },
+    {
+      "poseId": "boudoir-dying-slave",
+      "status": "ISSUE",
+      "detail": "boudoir-dying-slave: ISSUE - right arm position looks unnatural/unclear"
+    },
+    {
+      "poseId": "boudoir-elegant-recline",
+      "status": "ISSUE",
+      "detail": "boudoir-elegant-recline: ISSUE - feet not on ground, floating"
+    },
+    {
+      "poseId": "boudoir-embrace-pose",
+      "status": "ISSUE",
+      "detail": "boudoir-embrace-pose: ISSUE - feet off balance, leaning too far back"
+    },
+    {
+      "poseId": "boudoir-esquiline-venus",
+      "status": "OK"
+    },
+    {
+      "poseId": "boudoir-extended-leg-sit",
+      "status": "UNKNOWN"
+    },
+    {
+      "poseId": "boudoir-fireplace-lean",
+      "status": "UNKNOWN"
+    },
+    {
+      "poseId": "boudoir-floor-hug-knees-soft",
+      "status": "UNKNOWN"
+    },
+    {
+      "poseId": "boudoir-floor-lounge-stretch",
+      "status": "UNKNOWN"
+    },
+    {
+      "poseId": "boudoir-forward-chair-straddle",
+      "status": "UNKNOWN"
+    },
+    {
+      "poseId": "boudoir-hair-tracer",
+      "status": "UNKNOWN"
+    },
+    {
+      "poseId": "boudoir-half-bent-wrist",
+      "status": "OK"
+    },
+    {
+      "poseId": "boudoir-hip-raise-lying",
+      "status": "OK"
+    },
+    {
+      "poseId": "boudoir-knee-up-profile",
+      "status": "OK"
+    },
+    {
+      "poseId": "boudoir-kneeling-arch-back",
+      "status": "ISSUE",
+      "detail": "boudoir-kneeling-arch-: ISSUE - right foot floating"
+    },
+    {
+      "poseId": "boudoir-kneeling-forward-reach",
+      "status": "ISSUE",
+      "detail": "boudoir-kneeling-arch-: ISSUE - right foot floating"
+    },
+    {
+      "poseId": "boudoir-kneeling-sit-back-heels",
+      "status": "ISSUE",
+      "detail": "boudoir-kneeling-arch-: ISSUE - right foot floating"
+    },
+    {
+      "poseId": "boudoir-la-priere",
+      "status": "OK"
+    },
+    {
+      "poseId": "boudoir-labandon",
+      "status": "UNKNOWN"
+    },
+    {
+      "poseId": "boudoir-lazy-lounge",
+      "status": "OK"
+    },
+    {
+      "poseId": "boudoir-little-dancer",
+      "status": "OK"
+    },
+    {
+      "poseId": "boudoir-m-pose",
+      "status": "UNKNOWN"
+    },
+    {
+      "poseId": "boudoir-mattress-edge-melt",
+      "status": "OK"
+    },
+    {
+      "poseId": "boudoir-mermaid-side-sit",
+      "status": "ISSUE",
+      "detail": "boudoir-mermaid-side-s: ISSUE - floating above ground, no support"
+    },
+    {
+      "poseId": "boudoir-mirror-reflection-pose",
+      "status": "OK"
+    },
+    {
+      "poseId": "boudoir-nymph-fontainebleau",
+      "status": "OK"
+    },
+    {
+      "poseId": "boudoir-nymph-scorpion",
+      "status": "OK"
+    },
+    {
+      "poseId": "boudoir-over-shoulder-glance",
+      "status": "OK"
+    },
+    {
+      "poseId": "boudoir-peek-a-boo",
+      "status": "OK"
+    },
+    {
+      "poseId": "boudoir-pillow-peek",
+      "status": "OK"
+    },
+    {
+      "poseId": "boudoir-pretzel-twist",
+      "status": "ISSUE",
+      "detail": "boudoir-pretzel-twist: ISSUE - figure is floating, feet not on ground"
+    },
+    {
+      "poseId": "boudoir-primary-instincts",
+      "status": "OK"
+    },
+    {
+      "poseId": "boudoir-prone-arch",
+      "status": "OK"
+    },
+    {
+      "poseId": "boudoir-prone-elbows-lift",
+      "status": "OK"
+    },
+    {
+      "poseId": "boudoir-psyche-revived",
+      "status": "ISSUE",
+      "detail": "boudoir-psyche-revived: ISSUE - figure is floating upside down, head not on ground"
+    },
+    {
+      "poseId": "boudoir-r-evolution",
+      "status": "ISSUE",
+      "detail": "boudoir-r-evolution: ISSUE - feet crossed, unstable balance"
+    },
+    {
+      "poseId": "boudoir-reclined-back-support",
+      "status": "OK"
+    },
+    {
+      "poseId": "boudoir-s-curve-stand",
+      "status": "OK"
+    },
+    {
+      "poseId": "boudoir-seated-knee-wrap",
+      "status": "OK"
+    },
+    {
+      "poseId": "boudoir-seated-legs-crossed-lean",
+      "status": "OK"
+    },
+    {
+      "poseId": "boudoir-seated-spine-stretch",
+      "status": "OK"
+    },
+    {
+      "poseId": "boudoir-shadow-silhouette",
+      "status": "OK"
+    },
+    {
+      "poseId": "boudoir-sheet-pull",
+      "status": "ISSUE",
+      "detail": "POSE 2 (boudoir-sheet-pull): ISSUE - hands appear to float above the sheet surface."
+    },
+    {
+      "poseId": "boudoir-side-lying-top-leg-bent",
+      "status": "OK"
+    },
+    {
+      "poseId": "boudoir-side-pillow-hug",
+      "status": "ISSUE",
+      "detail": "POSE 4 (boudoir-side-pillow-hu): ISSUE - left arm/hand appears to clip into or float below the pillow surface."
+    },
+    {
+      "poseId": "boudoir-sleeping-ariadne",
+      "status": "ISSUE",
+      "detail": "POSE 5 (boudoir-sleeping-ariad): ISSUE - feet are floating significantly above the ground plane."
+    },
+    {
+      "poseId": "boudoir-standing-back-arch-wall",
+      "status": "OK"
+    },
+    {
+      "poseId": "boudoir-standing-corset-hands",
+      "status": "ISSUE",
+      "detail": "boudoir-standing-corset: ISSUE - feet floating above ground"
+    },
+    {
+      "poseId": "boudoir-standing-hair-flip-still",
+      "status": "ISSUE",
+      "detail": "boudoir-standing-corset: ISSUE - feet floating above ground"
+    },
+    {
+      "poseId": "boudoir-standing-hand-hip",
+      "status": "ISSUE",
+      "detail": "boudoir-standing-corset: ISSUE - feet floating above ground"
+    },
+    {
+      "poseId": "boudoir-standing-leg-up-chair",
+      "status": "ISSUE",
+      "detail": "boudoir-standing-corset: ISSUE - feet floating above ground"
+    },
+    {
+      "poseId": "boudoir-standing-look-back-drape",
+      "status": "ISSUE",
+      "detail": "boudoir-standing-corset: ISSUE - feet floating above ground"
+    },
+    {
+      "poseId": "boudoir-standing-profile-curve",
+      "status": "ISSUE",
+      "detail": "boudoir-standing-corset: ISSUE - feet floating above ground"
+    },
+    {
+      "poseId": "boudoir-supine-arch",
+      "status": "OK"
+    },
+    {
+      "poseId": "boudoir-supine-arms-up-soft",
+      "status": "OK"
+    },
+    {
+      "poseId": "boudoir-the-dawn",
+      "status": "ISSUE",
+      "detail": "boudoir-the-dawn: ISSUE - Single point of balance, feet off ground"
+    },
+    {
+      "poseId": "boudoir-the-kiss",
+      "status": "OK"
+    },
+    {
+      "poseId": "boudoir-the-night",
+      "status": "OK"
+    },
+    {
+      "poseId": "boudoir-the-source",
+      "status": "ISSUE",
+      "detail": "boudoir-the-source: ISSUE - Floating, no ground contact"
+    },
+    {
+      "poseId": "boudoir-thinker",
+      "status": "OK"
+    },
+    {
+      "poseId": "boudoir-three-goddesses",
+      "status": "ISSUE",
+      "detail": "POSE 2 (boudoir-three-goddess): ISSUE - feet not on ground, balance unclear."
+    },
+    {
+      "poseId": "boudoir-tippy-toe-cross",
+      "status": "OK"
+    },
+    {
+      "poseId": "boudoir-toe-point-recline",
+      "status": "OK"
+    },
+    {
+      "poseId": "boudoir-torso-marie-therese",
+      "status": "OK"
+    },
+    {
+      "poseId": "boudoir-triangle-pocket",
+      "status": "OK"
+    },
+    {
+      "poseId": "boudoir-truth-unveiled",
+      "status": "OK"
+    },
+    {
+      "poseId": "boudoir-venus-de-medici",
+      "status": "OK"
+    },
+    {
+      "poseId": "boudoir-venus-de-milo",
+      "status": "OK"
+    },
+    {
+      "poseId": "boudoir-venus-kallipygos",
+      "status": "OK"
+    },
+    {
+      "poseId": "boudoir-walking-woman",
+      "status": "ISSUE",
+      "detail": "boudoir-walking-woman: ISSUE - right foot floating, poor balance"
+    },
+    {
+      "poseId": "boudoir-wall-arch",
+      "status": "OK"
+    },
+    {
+      "poseId": "boudoir-window-light-lean",
+      "status": "OK"
+    },
+    {
+      "poseId": "boudoir-winged-victory",
+      "status": "ISSUE",
+      "detail": "boudoir-winged-victory: ISSUE - feet floating above ground"
+    },
+    {
+      "poseId": "boxer-jab",
+      "status": "OK"
+    },
+    {
+      "poseId": "car-lean",
+      "status": "OK"
+    },
+    {
+      "poseId": "cartwheel-freeze",
+      "status": "ISSUE",
+      "detail": "cartwheel-freeze: ISSUE - foot not on ground, balance unstable"
+    },
+    {
+      "poseId": "catch-reach",
+      "status": "OK"
+    },
+    {
+      "poseId": "catwalk-extreme",
+      "status": "OK"
+    },
+    {
+      "poseId": "chair-arms-crossed",
+      "status": "OK"
+    },
+    {
+      "poseId": "chair-arms-overhead",
+      "status": "OK"
+    },
+    {
+      "poseId": "chair-back-lean",
+      "status": "OK"
+    },
+    {
+      "poseId": "chair-both-arms-wide",
+      "status": "OK"
+    },
+    {
+      "poseId": "chair-chin-tilt",
+      "status": "OK"
+    },
+    {
+      "poseId": "chair-dramatic-reach",
+      "status": "OK"
+    },
+    {
+      "poseId": "chair-editorial-profile",
+      "status": "OK"
+    },
+    {
+      "poseId": "chair-face-frame",
+      "status": "OK"
+    },
+    {
+      "poseId": "chair-forward-elbows",
+      "status": "OK"
+    },
+    {
+      "poseId": "chair-hair-touch",
+      "status": "ISSUE",
+      "detail": "chair-hair-touch: ISSUE - arms appear to float without clear shoulder connection"
+    },
+    {
+      "poseId": "chair-laugh-gesture",
+      "status": "OK"
+    },
+    {
+      "poseId": "chair-lean-back-casual",
+      "status": "UNKNOWN"
+    },
+    {
+      "poseId": "chair-lean-forward",
+      "status": "UNKNOWN"
+    },
+    {
+      "poseId": "chair-lean-side",
+      "status": "UNKNOWN"
+    },
+    {
+      "poseId": "chair-look-over-shoulder",
+      "status": "UNKNOWN"
+    },
+    {
+      "poseId": "chair-meditation",
+      "status": "UNKNOWN"
+    },
+    {
+      "poseId": "chair-point-gesture",
+      "status": "UNKNOWN"
+    },
+    {
+      "poseId": "chair-profile-strong",
+      "status": "OK"
+    },
+    {
+      "poseId": "chair-reach-diagonal",
+      "status": "ISSUE",
+      "detail": "chair-reach-diagonal: ISSUE - feet floating off ground"
+    },
+    {
+      "poseId": "chair-reach-floor",
+      "status": "ISSUE",
+      "detail": "chair-reach-floor: ISSUE - feet floating off ground"
+    },
+    {
+      "poseId": "chair-seated-look-up",
+      "status": "OK"
+    },
+    {
+      "poseId": "chair-self-hug",
+      "status": "OK"
+    },
+    {
+      "poseId": "chair-stretch-arms-back",
+      "status": "OK"
+    },
+    {
+      "poseId": "chair-thinking-pose",
+      "status": "OK"
+    },
+    {
+      "poseId": "chair-triumphant-arms",
+      "status": "OK"
+    },
+    {
+      "poseId": "chair-turn-twist",
+      "status": "ISSUE",
+      "detail": "chair-turn-twist: ISSUE - feet floating off ground"
+    },
+    {
+      "poseId": "chair-twist-both",
+      "status": "OK"
+    },
+    {
+      "poseId": "chair-wave",
+      "status": "OK"
+    },
+    {
+      "poseId": "cheek-to-cheek",
+      "status": "OK"
+    },
+    {
+      "poseId": "chest-open",
+      "status": "OK"
+    },
+    {
+      "poseId": "chin-on-both-hands",
+      "status": "OK"
+    },
+    {
+      "poseId": "chin-on-fist",
+      "status": "ISSUE",
+      "detail": "chin-on-fist: ISSUE - right arm appears to pass through the leg/thigh area."
+    },
+    {
+      "poseId": "chin-on-wall",
+      "status": "OK"
+    },
+    {
+      "poseId": "chin-rest",
+      "status": "ISSUE",
+      "detail": "chin-rest: ISSUE - left arm is positioned awkwardly behind the back with an unnatural joint angle; balance seems precarious."
+    },
+    {
+      "poseId": "chin-up-stand",
+      "status": "OK"
+    },
+    {
+      "poseId": "cobra-lite",
+      "status": "OK"
+    },
+    {
+      "poseId": "column-lean",
+      "status": "ISSUE",
+      "detail": "column-lean: ISSUE - feet floating, no ground contact"
+    },
+    {
+      "poseId": "contrapposto",
+      "status": "OK"
+    },
+    {
+      "poseId": "couple-embrace",
+      "status": "OK"
+    },
+    {
+      "poseId": "cradled-from-behind",
+      "status": "OK"
+    },
+    {
+      "poseId": "cross-ankle-sit",
+      "status": "OK"
+    },
+    {
+      "poseId": "cross-body-arm",
+      "status": "OK"
+    },
+    {
+      "poseId": "cross-legged-wall",
+      "status": "ISSUE",
+      "detail": "cross-legged-wall: ISSUE - feet floating off ground"
+    },
+    {
+      "poseId": "crossed-arms-stand",
+      "status": "OK"
+    },
+    {
+      "poseId": "crossed-elbow-crossed-legs",
+      "status": "OK"
+    },
+    {
+      "poseId": "crouching-prowl",
+      "status": "ISSUE",
+      "detail": "crouching-prowl: ISSUE - feet floating off ground"
+    },
+    {
+      "poseId": "dance-arms-up",
+      "status": "ISSUE",
+      "detail": "dance-arms-up: ISSUE - poor balance, one foot barely touching"
+    },
+    {
+      "poseId": "dance-step",
+      "status": "OK"
+    },
+    {
+      "poseId": "diagonal-lean",
+      "status": "OK"
+    },
+    {
+      "poseId": "diagonal-lean-elbow",
+      "status": "ISSUE",
+      "detail": "diagonal-lean-elbow: ISSUE - feet floating above the ground"
+    },
+    {
+      "poseId": "diagonal-prop",
+      "status": "OK"
+    },
+    {
+      "poseId": "diagonal-step",
+      "status": "OK"
+    },
+    {
+      "poseId": "door-side-lean",
+      "status": "OK"
+    },
+    {
+      "poseId": "doorframe-lean",
+      "status": "OK"
+    },
+    {
+      "poseId": "double-elbow",
+      "status": "ISSUE",
+      "detail": "double-elbow: ISSUE - hands not reaching targets, awkward arm positioning"
+    },
+    {
+      "poseId": "dramatic-gasp",
+      "status": "OK"
+    },
+    {
+      "poseId": "drowsy-recline",
+      "status": "OK"
+    },
+    {
+      "poseId": "dynamic-reach",
+      "status": "OK"
+    },
+    {
+      "poseId": "editorial-arm-reach",
+      "status": "OK"
+    }
+  ]
+}

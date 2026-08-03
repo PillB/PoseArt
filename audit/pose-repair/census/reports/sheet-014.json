@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "boudoir-r-evolution: ISSUE - feet crossed, unstable balance\nboudoir-reclined-back-support: OK\nboudoir-s-curve-stand: OK\nboudoir-seated-knee-wr: OK\nboudoir-seated-legs-cr: ISSUE - legs floating above ground\nboudoir-seated-spine-s: OK",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785734470,
+  "id": "202608031321099daa38cdc37941de",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "202608031321099daa38cdc37941de",
+  "usage": {
+    "completion_tokens": 76,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 384,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 460
+  }
+}

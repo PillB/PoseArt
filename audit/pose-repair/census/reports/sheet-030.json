@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "doorframe-lean: OK\ndouble-elbow: ISSUE - hands not reaching targets, awkward arm positioning\ndramatic-gasp: OK\ndrowsy-recline: OK\ndynamic-reach: OK\neditorial-arm-reach: OK",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785734523,
+  "id": "202608031322021a40aef64279440a",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "202608031322021a40aef64279440a",
+  "usage": {
+    "completion_tokens": 52,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 384,
+    "prompt_tokens_details": {
+      "cached_tokens": 60
+    },
+    "total_tokens": 436
+  }
+}

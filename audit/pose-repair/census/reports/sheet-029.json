@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "dance-step: OK\ndiagonal-lean: OK\ndiagonal-lean-elbow: ISSUE - feet floating above the ground\ndiagonal-prop: OK\ndiagonal-step: OK\ndoor-side-lean: OK",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785734521,
+  "id": "202608031322009d241f3a24e24343",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "202608031322009d241f3a24e24343",
+  "usage": {
+    "completion_tokens": 46,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 384,
+    "prompt_tokens_details": {
+      "cached_tokens": 60
+    },
+    "total_tokens": 430
+  }
+}

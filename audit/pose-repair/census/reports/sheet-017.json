@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "boudoir-supine-arch: OK\nboudoir-supine-arms-up: ISSUE - Feet floating above ground\nboudoir-the-dawn: ISSUE - Single point of balance, feet off ground\nboudoir-the-kiss: OK\nboudoir-the-night: OK\nboudoir-the-source: ISSUE - Floating, no ground contact",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785734480,
+  "id": "20260803132119efd56aaf764c446e",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260803132119efd56aaf764c446e",
+  "usage": {
+    "completion_tokens": 75,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 384,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 459
+  }
+}

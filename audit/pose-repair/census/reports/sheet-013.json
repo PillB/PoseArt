@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "boudoir-pillow-peek: OK\nboudoir-pretzel-twist: ISSUE - figure is floating, feet not on ground\nboudoir-primary-instincts: OK\nboudoir-prone-arch: OK\nboudoir-prone-elbows-l: OK\nboudoir-psyche-revived: ISSUE - figure is floating upside down, head not on ground",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785734467,
+  "id": "20260803132106397f0a5c33a74047",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260803132106397f0a5c33a74047",
+  "usage": {
+    "completion_tokens": 84,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 384,
+    "prompt_tokens_details": {
+      "cached_tokens": 60
+    },
+    "total_tokens": 468
+  }
+}

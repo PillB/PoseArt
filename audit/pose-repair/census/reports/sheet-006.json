@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "boudoir-back-one: OK\nboudoir-back-to-camera-glance: OK\nboudoir-barberini-faun: OK\nboudoir-bedsheet-drape: OK\nboudoir-both-knees-pra: OK\nboudoir-capitoline-ven: OK",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785734446,
+  "id": "20260803132045c0e76405325e4597",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260803132045c0e76405325e4597",
+  "usage": {
+    "completion_tokens": 65,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 384,
+    "prompt_tokens_details": {
+      "cached_tokens": 60
+    },
+    "total_tokens": 449
+  }
+}

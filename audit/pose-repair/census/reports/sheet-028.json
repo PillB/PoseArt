@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "cross-body-arm: OK\ncross-legged-wall: ISSUE - feet floating off ground\ncrossed-arms-stand: OK\ncrossed-elbow-crosse: OK\ncrouching-prowl: ISSUE - feet floating off ground\ndance-arms-up: ISSUE - poor balance, one foot barely touching",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785734518,
+  "id": "202608031321524a4f719b8bcd4150",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "202608031321524a4f719b8bcd4150",
+  "usage": {
+    "completion_tokens": 64,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 384,
+    "prompt_tokens_details": {
+      "cached_tokens": 60
+    },
+    "total_tokens": 448
+  }
+}

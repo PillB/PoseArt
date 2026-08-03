@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "belly-up-arms-wide: OK\nbench-lean-side: ISSUE - feet floating above ground\nbench-sit-side: OK\nboth-hands-chin: OK\nboth-knees: OK\nboth-knees-arms-up: OK",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785734439,
+  "id": "20260803132038de899de50ef949de",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260803132038de899de50ef949de",
+  "usage": {
+    "completion_tokens": 51,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 384,
+    "prompt_tokens_details": {
+      "cached_tokens": 60
+    },
+    "total_tokens": 435
+  }
+}

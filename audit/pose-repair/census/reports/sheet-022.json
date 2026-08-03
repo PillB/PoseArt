@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "chair-dramatic-reach: OK\nchair-editorial-profil: OK\nchair-face-frame: OK\nchair-forward-elbows: OK\nchair-hair-touch: ISSUE - arms appear to float without clear shoulder connection\nchair-laugh-gesture: OK",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785734495,
+  "id": "20260803132134c98d5e2476a04bcf",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260803132134c98d5e2476a04bcf",
+  "usage": {
+    "completion_tokens": 54,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 384,
+    "prompt_tokens_details": {
+      "cached_tokens": 60
+    },
+    "total_tokens": 438
+  }
+}

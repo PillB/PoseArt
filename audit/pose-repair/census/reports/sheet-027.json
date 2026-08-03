@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "cobra-lite: OK\ncolumn-lean: ISSUE - feet floating, no ground contact\ncontrapposto: OK\ncouple-embrace: OK\ncradled-from-behind: OK\ncross-ankle-sit: OK",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785734510,
+  "id": "202608031321496099b68143574bdc",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "202608031321496099b68143574bdc",
+  "usage": {
+    "completion_tokens": 49,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 384,
+    "prompt_tokens_details": {
+      "cached_tokens": 60
+    },
+    "total_tokens": 433
+  }
+}

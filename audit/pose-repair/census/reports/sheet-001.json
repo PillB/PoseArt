@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "abstract-contortion: OK\nacrobat-balance: ISSUE - floating foot, unstable balance\narabesque-balance: OK\narm-drape-knee: OK\narm-throw: OK\narms-overhead: OK",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785734431,
+  "id": "20260803132030dd5dfeb7000a4245",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260803132030dd5dfeb7000a4245",
+  "usage": {
+    "completion_tokens": 48,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 384,
+    "prompt_tokens_details": {
+      "cached_tokens": 60
+    },
+    "total_tokens": 432
+  }
+}

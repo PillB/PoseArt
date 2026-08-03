@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "catwalk-extreme: OK\nchair-arms-crossed: OK\nchair-arms-overhead: OK\nchair-back-lean: OK\nchair-both-arms-wide: OK\nchair-chin-tilt: OK",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785734492,
+  "id": "20260803132131f3823d1618ab41ff",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260803132131f3823d1618ab41ff",
+  "usage": {
+    "completion_tokens": 48,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 384,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 432
+  }
+}
