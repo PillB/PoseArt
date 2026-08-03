@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "**OK**\n\nThe silhouette depicts a balanced, natural standing pose with correct anatomical proportions:\n\n*   **Head/Neck:** Centered, aligned with the spine.\n*   **Shoulders/Arms:** Relaxed posture; right arm (viewer's left) has a natural slight bend at the elbow; left arm hangs straight.\n*   **Wrists/Hands:** Hands are positioned at the sides (standard resting position).\n*   **Torso/Spine:** Shows a subtle, realistic S-curve (slight contrapposto) with the hips shifted slightly to one side.\n*   **Hips/Legs:** Hips are level relative to the stance; legs show proper taper from thighs to calves.\n*   **Ankle/Feet:** Feet are close together or slightly crossed, with weight distributed over the base of support (shadow indicates stable footing).\n*   **Balance:** Center of gravity falls within the base of support; pose is stable.\n*   **Props:** None present.\n\nNo anatomical or structural issues detected.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785725100,
+  "id": "20260803104457668229eff03246fe",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260803104457668229eff03246fe",
+  "usage": {
+    "completion_tokens": 214,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 159,
+    "prompt_tokens_details": {
+      "cached_tokens": 59
+    },
+    "total_tokens": 373
+  }
+}

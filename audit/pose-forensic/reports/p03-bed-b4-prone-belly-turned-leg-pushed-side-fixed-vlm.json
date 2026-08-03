@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "**OK**\n\nThe silhouette depicts a dynamic, balanced pose (likely a mid-stride or crouching action). The anatomy is stylized but structurally sound:\n*   **Head/Neck:** Clear connection, appropriate size.\n*   **Shoulders/Arms:** Arms are bent at the elbows in a natural, active position.\n*   **Torso/Spine:** Shows a clear forward lean with a slight twist, indicating movement.\n*   **Hips/Legs:** Legs are positioned asymmetrically (one forward/bent, one back/extended), creating a strong sense of weight and momentum.\n*   **Balance:** The center of gravity is well-placed over the supporting leg/foot area.\n*   **Feet:** One foot appears planted while the other is lifted or pushing off, consistent with the action.\n\nNo specific anatomical or structural errors are visible.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785725068,
+  "id": "2026080310442423b012a74cd34ece",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "2026080310442423b012a74cd34ece",
+  "usage": {
+    "completion_tokens": 181,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 159,
+    "prompt_tokens_details": {
+      "cached_tokens": 1
+    },
+    "total_tokens": 340
+  }
+}

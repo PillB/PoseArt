@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "**OK**\n\nThe silhouette depicts a standard seated meditation pose (likely Sukhasana or a variation of Padmasana) with the following observations:\n\n*   **Head/Neck:** Aligned vertically over the spine in a neutral, upright position.\n*   **Shoulders/Arms:** Shoulders are relaxed and level. Arms are curved outward with elbows bent at natural angles.\n*   **Wrists/Hands:** Hands rest gently on the knees (or shins), which is a stable and anatomically correct position for this pose.\n*   **Torso/Spine:** The spine is straight and elongated, showing good posture without slouching or excessive arching.\n*   **Hips/Legs/Knees:** Hips are grounded. Legs are crossed or folded in front; knees are angled outward in a typical cross-legged configuration.\n*   **Ankle/Feet:** Feet are tucked beneath the thighs/knees, consistent with the seated posture.\n*   **Balance:** The center of gravity is centered over the base of support (the sitting bones/mat), indicating a stable, balanced pose.\n*   **Props:** The figure is correctly positioned on a flat surface (mat).\n\nNo specific anatomical issues detected; the proportions and alignment are consistent for this type of figure-drawing reference.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785725022,
+  "id": "202608031043384573cd8cd1034240",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "202608031043384573cd8cd1034240",
+  "usage": {
+    "completion_tokens": 266,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 159,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 425
+  }
+}

@@ -1,0 +1,114 @@
+{
+  "accessible": [
+    "chair-arms-overhead",
+    "chair-seated-look-up",
+    "chair-laugh-gesture",
+    "chair-look-over-shoulder",
+    "wheelchair-arms"
+  ],
+  "boudoir": [
+    "p05-bench-b14-standing-lean-facing-camera",
+    "boudoir-prone-elbows-lift",
+    "boudoir-fireplace-lean",
+    "p05-bench-b4-lying-underwear-hair-touch",
+    "p06-chair-b10-armrest-hip-hand-leg"
+  ],
+  "couple": [
+    "piggyback-couple",
+    "hand-in-hand-walk",
+    "facing-away-hold",
+    "forehead-touch-hands-held",
+    "couple-embrace"
+  ],
+  "dynamic": [
+    "skip-step",
+    "arm-throw",
+    "dance-arms-up",
+    "pivot-turn",
+    "dynamic-reach"
+  ],
+  "eccentric": [
+    "catwalk-extreme",
+    "floating-gesture",
+    "cross-body-arm",
+    "p09-unconv-s12-table-side-extend-leg",
+    "fashion-backward"
+  ],
+  "editorial": [
+    "editorial-power-crouch",
+    "editorial-hip-thrust-dramatic",
+    "editorial-single-leg-balance-angular",
+    "editorial-fabric-toss-freeze",
+    "editorial-sharp-angles-stand"
+  ],
+  "fashion": [
+    "fashion-accessory-focus-hand",
+    "fashion-hand-in-pocket-cool",
+    "fashion-hair-flip-motion",
+    "fashion-shoulder-back-confident",
+    "fashion-power-stance-classic"
+  ],
+  "fine-art": [
+    "fineart-standing-back-bend-soft",
+    "fineart-seated-forward-fold",
+    "fineart-kneeling-both-arms-extend-fwd",
+    "fineart-seated-profile-still",
+    "fineart-classic-arabesque"
+  ],
+  "high-to-low": [
+    "highlow-elevated-platform-start",
+    "highlow-floor-landing-final",
+    "highlow-hands-floor-arch-back",
+    "highlow-step-down-mid-air",
+    "highlow-standing-peak-start"
+  ],
+  "kneeling": [
+    "kneeling-arms-crossed",
+    "kneeling-twist-back",
+    "kneeling-lean-hands-floor",
+    "kneeling-hip-sit",
+    "kneeling-reach-side"
+  ],
+  "lean-seat": [
+    "both-knees-forearms",
+    "table-elbow-single",
+    "face-frame-hands",
+    "table-lean-back-look",
+    "elbow-prop"
+  ],
+  "leaning": [
+    "p12-wall-s3-forehead-rest",
+    "railing-lean",
+    "stair-lean",
+    "chin-on-wall",
+    "fence-lean"
+  ],
+  "low-to-high": [
+    "lowhigh-roll-to-side-rise-begin",
+    "lowhigh-half-standing-arms-mid",
+    "lowhigh-kneel-lean-forward-rise",
+    "lowhigh-hands-knees-push-up",
+    "lowhigh-floor-seated-start"
+  ],
+  "reclining": [
+    "floor-seated-recline",
+    "p18-lounge-r8-side-lying-head-propped",
+    "supine-one-knee-up",
+    "p13-floor-s8-plant-side-seated",
+    "p18-lounge-r3-seated-edge-lean-forward"
+  ],
+  "seated": [
+    "p11-armchair-s10-floor-recline-head-on-armrest",
+    "p10-bench-s4-seated-cross-leg-lean-back",
+    "p01-master-s13-chair-floor-back-against-leg-elevated",
+    "p01-master-s2-chair-hand-forehead",
+    "p15-chair-s4-side-perch-legs-extended"
+  ],
+  "standing": [
+    "p14-standing-s2-crossed-legs-lean",
+    "p01-master-s12-chair-lean-bra-touch",
+    "contrapposto",
+    "p14-standing-s7-one-hand-hair",
+    "tiptoe-reach"
+  ]
+}

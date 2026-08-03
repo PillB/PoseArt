@@ -1,0 +1,518 @@
+{
+  "summary": {
+    "accessible": {
+      "sampled": 5,
+      "withIssues": 0,
+      "errorRate": "0%"
+    },
+    "boudoir": {
+      "sampled": 5,
+      "withIssues": 0,
+      "errorRate": "0%"
+    },
+    "couple": {
+      "sampled": 5,
+      "withIssues": 0,
+      "errorRate": "0%"
+    },
+    "dynamic": {
+      "sampled": 5,
+      "withIssues": 0,
+      "errorRate": "0%"
+    },
+    "eccentric": {
+      "sampled": 5,
+      "withIssues": 0,
+      "errorRate": "0%"
+    },
+    "editorial": {
+      "sampled": 5,
+      "withIssues": 0,
+      "errorRate": "0%"
+    },
+    "fashion": {
+      "sampled": 5,
+      "withIssues": 0,
+      "errorRate": "0%"
+    },
+    "fine-art": {
+      "sampled": 5,
+      "withIssues": 0,
+      "errorRate": "0%"
+    },
+    "high-to-low": {
+      "sampled": 5,
+      "withIssues": 0,
+      "errorRate": "0%"
+    },
+    "kneeling": {
+      "sampled": 5,
+      "withIssues": 0,
+      "errorRate": "0%"
+    },
+    "lean-seat": {
+      "sampled": 5,
+      "withIssues": 0,
+      "errorRate": "0%"
+    },
+    "leaning": {
+      "sampled": 5,
+      "withIssues": 0,
+      "errorRate": "0%"
+    },
+    "low-to-high": {
+      "sampled": 5,
+      "withIssues": 0,
+      "errorRate": "0%"
+    },
+    "reclining": {
+      "sampled": 5,
+      "withIssues": 0,
+      "errorRate": "0%"
+    },
+    "seated": {
+      "sampled": 5,
+      "withIssues": 0,
+      "errorRate": "0%"
+    },
+    "standing": {
+      "sampled": 5,
+      "withIssues": 0,
+      "errorRate": "0%"
+    }
+  },
+  "allResults": {
+    "accessible": [
+      {
+        "poseId": "chair-arms-overhead",
+        "name": "Chair Arms Overhead",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "chair-seated-look-up",
+        "name": "Chair Look Up",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "chair-laugh-gesture",
+        "name": "Chair Laugh Gesture",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "chair-look-over-shoulder",
+        "name": "Chair Look Over Shoulder",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "wheelchair-arms",
+        "name": "Arms Expressive",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      }
+    ],
+    "boudoir": [
+      {
+        "poseId": "p05-bench-b14-standing-lean-facing-camera",
+        "name": "Bench Standing Lean Facing Camera",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "boudoir-prone-elbows-lift",
+        "name": "Prone Elbow Lift",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "boudoir-fireplace-lean",
+        "name": "The Fireplace Lean",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "p05-bench-b4-lying-underwear-hair-touch",
+        "name": "Bench Lying Underwear and Hair Touch",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "p06-chair-b10-armrest-hip-hand-leg",
+        "name": "Chair Armrest Seated Hip and Leg Hands",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      }
+    ],
+    "couple": [
+      {
+        "poseId": "piggyback-couple",
+        "name": "Piggyback Ride",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "hand-in-hand-walk",
+        "name": "Walk Together",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "facing-away-hold",
+        "name": "Facing Away Hold",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "forehead-touch-hands-held",
+        "name": "Forehead Touch Hands Held",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "couple-embrace",
+        "name": "Close Embrace",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      }
+    ],
+    "dynamic": [
+      {
+        "poseId": "skip-step",
+        "name": "Skip Step",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "arm-throw",
+        "name": "Arm Throw",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "dance-arms-up",
+        "name": "Dance Arms Up",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "pivot-turn",
+        "name": "Pivot Turn",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "dynamic-reach",
+        "name": "Dynamic Reach",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      }
+    ],
+    "eccentric": [
+      {
+        "poseId": "catwalk-extreme",
+        "name": "Catwalk Extreme",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "floating-gesture",
+        "name": "Floating Gesture",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "cross-body-arm",
+        "name": "Cross Body",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "p09-unconv-s12-table-side-extend-leg",
+        "name": "Leaning Over Table, Leg Extended Back",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "fashion-backward",
+        "name": "Fashion Backward",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      }
+    ],
+    "editorial": [
+      {
+        "poseId": "editorial-power-crouch",
+        "name": "Power Crouch Stare",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "editorial-hip-thrust-dramatic",
+        "name": "Dramatic Hip Thrust",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "editorial-single-leg-balance-angular",
+        "name": "Angular Single-Leg Balance",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "editorial-fabric-toss-freeze",
+        "name": "Fabric Toss Freeze Frame",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "editorial-sharp-angles-stand",
+        "name": "Sharp Angles Stand",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      }
+    ],
+    "fashion": [
+      {
+        "poseId": "fashion-accessory-focus-hand",
+        "name": "Accessory Focus Hand",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "fashion-hand-in-pocket-cool",
+        "name": "Hand in Pocket Cool",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "fashion-hair-flip-motion",
+        "name": "Hair Flip Motion Capture",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "fashion-shoulder-back-confident",
+        "name": "Confident Shoulder Set",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "fashion-power-stance-classic",
+        "name": "Classic Power Stance",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      }
+    ],
+    "fine-art": [
+      {
+        "poseId": "fineart-standing-back-bend-soft",
+        "name": "Soft Standing Back Bend",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "fineart-seated-forward-fold",
+        "name": "Seated Forward Fold",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "fineart-kneeling-both-arms-extend-fwd",
+        "name": "Kneeling Arms Extend Forward",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "fineart-seated-profile-still",
+        "name": "Seated Profile Stillness",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "fineart-classic-arabesque",
+        "name": "Classic Arabesque Line",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      }
+    ],
+    "high-to-low": [
+      {
+        "poseId": "highlow-elevated-platform-start",
+        "name": "Elevated Platform Starting Point",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "highlow-floor-landing-final",
+        "name": "Floor Landing Final Position",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "highlow-hands-floor-arch-back",
+        "name": "Hands to Floor Arch Back Descent",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "highlow-step-down-mid-air",
+        "name": "Step Down Mid-Air Moment",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "highlow-standing-peak-start",
+        "name": "Standing Peak Starting Point",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      }
+    ],
+    "kneeling": [
+      {
+        "poseId": "kneeling-arms-crossed",
+        "name": "Kneeling Arms Crossed",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "kneeling-twist-back",
+        "name": "Kneeling Twist Back",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "kneeling-lean-hands-floor",
+        "name": "Kneeling Lean Hands Floor",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "kneeling-hip-sit",
+        "name": "Kneeling Hip Sit",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "kneeling-reach-side",
+        "name": "Kneeling Reach Side",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      }
+    ],
+    "lean-seat": [
+      {
+        "poseId": "both-knees-forearms",
+        "name": "Both Knees Forearms",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "table-elbow-single",
+        "name": "Table Elbow Single",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "face-frame-hands",
+        "name": "Face Frame Hands",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "table-lean-back-look",
+        "name": "Table Lean Back Look",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "elbow-prop",
+        "name": "Elbow Prop",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      }
+    ],
+    "leaning": [
+      {
+        "poseId": "p12-wall-s3-forehead-rest",
+        "name": "Forehead Rest Against Wall",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "railing-lean",
+        "name": "Railing Lean",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "stair-lean",
+        "name": "Stair Lean",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "chin-on-wall",
+        "name": "Chin on Wall",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "fence-lean",
+        "name": "Fence Lean",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      }
+    ],
+    "low-to-high": [
+      {
+        "poseId": "lowhigh-roll-to-side-rise-begin",
+        "name": "Roll to Side Rising Begin",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "lowhigh-half-standing-arms-mid",
+        "name": "Half-Standing Arms at Mid-Rise",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "lowhigh-kneel-lean-forward-rise",
+        "name": "Kneel Lean Forward Into Rise",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "lowhigh-hands-knees-push-up",
+        "name": "Hands and Knees Push-Up Point",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "lowhigh-floor-seated-start",
+        "name": "Floor Seated Starting Point",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      }
+    ],
+    "reclining": [
+      {
+        "poseId": "floor-seated-recline",
+        "name": "Floor Seated Recline",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "p18-lounge-r8-side-lying-head-propped",
+        "name": "Side-Lying with Head Propped on Hand",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "supine-one-knee-up",
+        "name": "Supine One Knee Up",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "p13-floor-s8-plant-side-seated",
+        "name": "Side-Seated by Potted Plant, Eyes Closed",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "p18-lounge-r3-seated-edge-lean-forward",
+        "name": "Seated Edge Forward Lean on Chaise",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      }
+    ],
+    "seated": [
+      {
+        "poseId": "p11-armchair-s10-floor-recline-head-on-armrest",
+        "name": "Floor Recline Head Resting on Armrest",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "p10-bench-s4-seated-cross-leg-lean-back",
+        "name": "Seated Cross-Legged, Leaning Back",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "p01-master-s13-chair-floor-back-against-leg-elevated",
+        "name": "Floor Seated Against Chair One Leg Elevated",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "p01-master-s2-chair-hand-forehead",
+        "name": "Chair Sit One Arm Elevated Hand to Forehead",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "p15-chair-s4-side-perch-legs-extended",
+        "name": "Chair Side Perch Extended Legs",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      }
+    ],
+    "standing": [
+      {
+        "poseId": "p14-standing-s2-crossed-legs-lean",
+        "name": "Standing Crossed-Leg Lean",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "p01-master-s12-chair-lean-bra-touch",
+        "name": "Standing Lean Forward Hip Pushed Side Bra Touch",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "contrapposto",
+        "name": "Contrapposto",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "p14-standing-s7-one-hand-hair",
+        "name": "One Hand in Hair, Weight Shift",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      },
+      {
+        "poseId": "tiptoe-reach",
+        "name": "Tiptoe Reach",
+        "error": "Failed to make vision API request: 143 |                 headers: headers,\n144 |"
+      }
+    ]
+  }
+}

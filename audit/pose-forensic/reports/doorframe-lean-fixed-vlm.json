@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "**OK**\n\nThe silhouette avatar displays a balanced, anatomically consistent pose with no significant issues:\n\n*   **Head/Neck:** Centered, upright alignment.\n*   **Shoulders/Arms:** Arms raised in a symmetrical V-shape with natural elbow bends.\n*   **Wrists/Hands:** Positioned appropriately for the raised-arm gesture.\n*   **Torso/Spine:** Straight, vertical posture.\n*   **Hips/Legs:** Legs crossed at the ankles (or lower calves) with knees slightly bent; hip alignment is level and supports the torso correctly.\n*   **Ankle/Feet:** Feet are positioned to support the crossed-leg stance on a single balance point (shadow).\n*   **Balance:** Center of gravity appears stable over the base of support (the feet).\n*   **Props:** The figure stands before a rectangular frame (door/window), which does not interfere with the pose.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785725013,
+  "id": "20260803104331e95483db99b44233",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260803104331e95483db99b44233",
+  "usage": {
+    "completion_tokens": 190,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 159,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 349
+  }
+}

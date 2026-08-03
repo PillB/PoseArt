@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "**OK**\n\nThe silhouette demonstrates a balanced, dynamic pose (likely a high-knee march or step-up). Key observations:\n*   **Balance:** Center of gravity is well-supported over the standing leg and base.\n*   **Anatomy:** Limb proportions are consistent; joints (elbows, knees) show natural, functional articulation.\n*   **Reach/Target:** The extended arm creates a clear line of action appropriate for the movement.\n*   **Spine/Torso:** Shows a slight contrapposto twist that complements the raised knee.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785725033,
+  "id": "2026080310434828f330c578ea4905",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "2026080310434828f330c578ea4905",
+  "usage": {
+    "completion_tokens": 113,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 159,
+    "prompt_tokens_details": {
+      "cached_tokens": 1
+    },
+    "total_tokens": 272
+  }
+}
