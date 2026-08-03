@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "Based on the visual analysis of the **Chair Twist (Both Arms)** pose:\n\n**Legs/Knees/Ankles/Feet Position:**\n*   **Feet:** The feet appear to be flat on the floor (or a prop/platform), providing a stable base of support. They are positioned roughly hip-width apart or slightly wider, which is appropriate for balance in this pose.\n*   **Knees:** The knees are bent at approximately a 90-degree angle (or slightly more open), which is the standard alignment for Chair Pose to protect the knee joints and engage the leg muscles effectively.\n*   **Ankles:** The ankles appear stable and aligned over the heels.\n\n**Weight Distribution:**\n*   The weight is distributed evenly through the feet, centered towards the heels rather than the toes. This helps maintain balance and prevents the knees from extending too far forward past the toes.\n\n**Verdict:**\n**OK.** The lower body alignment looks correct for this variation of the pose. The foundation is solid, allowing for safe rotation of the spine while maintaining stability in the legs.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785728419,
+  "id": "20260803114013b51b9141337244ec",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260803114013b51b9141337244ec",
+  "usage": {
+    "completion_tokens": 223,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 144,
+    "prompt_tokens_details": {
+      "cached_tokens": 1
+    },
+    "total_tokens": 367
+  }
+}

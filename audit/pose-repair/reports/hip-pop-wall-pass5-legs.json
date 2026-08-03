@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "Based on the image provided, here is the assessment of the **Hip Pop Wall** pose:\n\n*   **Feet Position:** The feet are extended forward and downward. The toes appear to be touching or very close to the floor/prop (indicated by the shadow), but the heels are significantly elevated.\n*   **Knees:** The knees are bent, which is correct for this pose to allow the hips to drop and \"pop\" away from the wall.\n*   **Weight Distribution:** The weight appears to be supported by the upper back/shoulders against the wall, with the legs acting as a counterbalance.\n\n**Assessment: OK (with minor caveats)**\n\nThe pose is generally executed correctly for a \"Hip Pop\" or wall-supported leg lift variation. The key elements—back against the wall, knees bent, and hips lowered—are present. While the heels are off the ground, this is often acceptable depending on the specific flexibility drill or variation being performed; however, ideally, one would aim to keep the feet flat on the floor if possible to engage the posterior chain more fully.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785728410,
+  "id": "20260803114006586a67b145864038",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260803114006586a67b145864038",
+  "usage": {
+    "completion_tokens": 224,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 143,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 367
+  }
+}

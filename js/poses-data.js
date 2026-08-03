@@ -4566,7 +4566,7 @@ const POSES_LIBRARY = {
       angle: 'Front View',
       intent: 'Fine Art',
       effort: 'Static',
-      instructions: 'Stand with a long piece of fabric draped over one shoulder, gathered at the waist with one hand, weight distributed evenly between both feet. Let the free arm rest naturally at the side to complete a timeless composition.',
+      instructions: 'Lie on the back and curve the spine gently upward into a soft bridge shape, resting both arms overhead along the floor. Move slowly and with control, as if the body were being carved from marble.',
       tip: 'Shoot from above to reveal the full curved silhouette against the floor.',
     // PR-v3 (v1.3) — auto-fix spine sign error: description says back arch but spine is positive (forward fold). Was spine:15, now spine:-15.
     // PR-v7 (v1.7) — fix recline_missing: "Lie on the back" → globalTilt:-85
@@ -4581,7 +4581,7 @@ const POSES_LIBRARY = {
       angle: 'Front View',
       intent: 'Fine Art',
       effort: 'Static',
-      instructions: 'Lie on the back and curve the spine gently upward into a soft bridge shape, resting both arms overhead along the floor. Move slowly and with control, as if the body were being carved from marble.',
+      instructions: 'Stand with a long piece of fabric draped over one shoulder, gathered at the waist with one hand, weight distributed evenly between both feet. Let the free arm rest naturally at the side to complete a timeless composition.',
       tip: 'Let the fabric fall in natural folds — over-arranging kills the classical feel.',
       joints: {spine: 10, neck: 10, leftShoulder: -32, rightShoulder: -12, leftElbow: 100, rightElbow: 100, leftHip: 10, rightKnee: 110, rightAnkle: -35, leftAnkle: -18, shoulderFwdL: 8, shoulderFwdR: -6},
       color: 'var(--color-gold-100)',
@@ -4690,7 +4690,7 @@ const POSES_LIBRARY = {
       angle: 'Front View',
       intent: 'Fine Art',
       effort: 'Static',
-      instructions: 'Stand with feet together and bend the entire torso directly to one side, reaching the same-side arm overhead in a smooth curve while the opposite arm curves low. Keep both hips level and facing forward.',
+      instructions: 'Sit with legs extended and twist the torso to one side, one hand behind for support and the other resting on the opposite knee. Lengthen the spine upward before deepening the twist.',
       tip: 'Cue her to grow taller through the spine first, then twist, to avoid collapsing.',
       joints: { spine: 32, neck: 15, leftShoulder: 8, leftElbow: 40, rightShoulder: 28, rightElbow: 18, leftHip: 10, leftAnkle: -18, rightKnee: 5, rightAnkle: -18, shoulderFwdL: 8, shoulderFwdR: 6 , globalTwist: 25},
       color: 'var(--color-gold-100)',
@@ -4703,7 +4703,7 @@ const POSES_LIBRARY = {
       angle: '3/4 View',
       intent: 'Fine Art',
       effort: 'Static',
-      instructions: 'Sit with legs extended and twist the torso to one side, one hand behind for support and the other resting on the opposite knee. Lengthen the spine upward before deepening the twist.',
+      instructions: 'Stand with feet together and bend the entire torso directly to one side, reaching the same-side arm overhead in a smooth curve while the opposite arm curves low. Keep both hips level and facing forward.',
       tip: 'Watch for forward or backward hip drift — this is a pure lateral bend.',
     // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder 60→-110, rightShoulder 20→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
       joints: {spine: 15, neck: -9.8, leftShoulder: -110, rightShoulder: -110, leftElbow: 40, leftHip: 10, rightKnee: 110, rightAnkle: -35, rightElbow: 18, leftAnkle: -18, shoulderFwdL: -8, shoulderFwdR: -6},

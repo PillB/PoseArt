@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "**Pose Analysis: Ankle Cross (Seated)**\n\n**Position Check:**\n- **Legs/Knees**: Knees appear bent at approximately 90° (or slightly less), positioned directly above the feet with proper alignment\n- **Ankles/Feet**: Feet are flat on the floor (or prop surface), positioned roughly hip-width apart or slightly narrower\n- **Weight Distribution**: Weight appears centered over the sit bones, with even distribution between both feet and the seat\n\n**Assessment: OK**\n\n**Details:**\n- ✅ **Feet reach floor/prop**: Yes, full contact with ground\n- ✅ **Knees bent correctly**: Yes, appropriate flexion for seated position (not hyperextended or excessively bent)\n- ✅ **Weight distribution correct**: Yes, balanced and stable base of support\n\n**Notes:** The leg positioning shows proper form for a seated ankle-cross variation. The knees track over the ankles without collapsing inward or splaying outward, and the heels are grounded providing a stable foundation. No issues detected in lower body alignment.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785728395,
+  "id": "202608031139527adcd360e42b46c4",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "202608031139527adcd360e42b46c4",
+  "usage": {
+    "completion_tokens": 218,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 143,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 361
+  }
+}
