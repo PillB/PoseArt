@@ -3399,7 +3399,7 @@ const POSES_LIBRARY = {
       tip: 'Warm up the spine first — never force a deep arch like this cold.',
     // PR-v3 (v1.3) — auto-fix spine sign error: description says back arch but spine is positive (forward fold). Was spine:15, now spine:-15.
       joints: {
-"globalTilt":50,"spine":-15,"neck":10,"leftShoulder":20,"leftElbow":55,"rightShoulder":20,"rightElbow":80,"leftHip":15,"leftKnee":30,"leftAnkle":-18,"rightHip":20,"rightKnee":15,"rightAnkle":-18
+"globalTilt":50,"spine":-15,"neck":10,"leftShoulder":20,"leftElbow":55,"rightShoulder":20,"rightElbow":80,"leftHip":15,"leftKnee":90,"leftAnkle":-18,"rightHip":20,"rightKnee":90,"rightAnkle":-18
   },
       color: 'var(--color-teal-100)',
       figure: 'profile-stand',
@@ -5717,7 +5717,7 @@ const POSES_LIBRARY = {
       instructions: 'Complete the descent fully seated or kneeling on the floor, torso relaxed, hands resting on the ground — the lowest point of the sequence. Keep the shape settled and grounded.',
       tip: 'Let this final frame feel fully resolved, contrasting clearly with the elevated start.',
       joints: {
-"globalTilt":-25,"spine":-10,"neck":10,"leftShoulder":-10,"leftElbow":70,"rightShoulder":8,"rightElbow":50,"hips":10,"leftHip":5,"leftKnee":45,"rightHip":10,"rightKnee":10,"hipAbductL":10,"hipAbductR":10
+"globalTilt":-25,"spine":-10,"neck":10,"leftShoulder":-10,"leftElbow":70,"rightShoulder":8,"rightElbow":50,"hips":10,"leftHip":5,"leftKnee":90,"rightHip":10,"rightKnee":90,"hipAbductL":10,"hipAbductR":10
   },
       color: 'var(--color-amber-100)',
       figure: 'standing-front',
@@ -5964,7 +5964,7 @@ const POSES_LIBRARY = {
       instructions: 'From standing, begin a slow, formal bow forward from the waist, arms trailing naturally down, legs staying straight as the earliest phase of the descent. Keep the motion graceful and deliberate.',
       tip: 'Use this graceful bow-like beginning for elegant, formal descending sequences.',
       joints: {
-"globalTilt":-25,"spine":-10,"neck":27,"leftShoulder":-10,"leftElbow":70,"rightShoulder":8,"rightElbow":50,"leftHip":110,"leftKnee":100,"rightHip":10,"rightKnee":120
+"globalTilt":-25,"spine":-10,"neck":27,"leftShoulder":5,"leftElbow":10,"rightShoulder":5,"rightElbow":10,"leftHip":110,"leftKnee":100,"rightHip":10,"rightKnee":120
   },
       color: 'var(--color-amber-100)',
       figure: 'high-low-floor-reach',
@@ -6744,7 +6744,7 @@ const POSES_LIBRARY = {
     instructions: "Lie on your back with your hips near the headboard, kick both legs up to rest against the headboard or wall, arch the upper back and tilt the head back over the edge of the bed, one hand near the face.",
     tip: "Keep the core gently engaged even while arching — this supports the lower back and keeps the pose from looking strained.",
     joints: {
-"spine":-30,"neck":-25,"hips":20,"globalTilt":-55,"globalRoll":0,"globalTwist":5,"leftShoulder":-70,"rightShoulder":-35,"leftElbow":85,"rightElbow":60,"shoulderFwdL":-50,"shoulderFwdR":10,"leftHip":115,"rightHip":118,"leftKnee":15,"rightKnee":12,"leftAnkle":-3,"rightAnkle":-3,"hipAbductL":8,"hipAbductR":-8
+"spine":-30,"neck":-25,"hips":20,"globalTilt":-55,"globalRoll":0,"globalTwist":5,"leftShoulder":-70,"rightShoulder":-35,"leftElbow":85,"rightElbow":60,"shoulderFwdL":-50,"shoulderFwdR":-50,"leftHip":115,"rightHip":118,"leftKnee":15,"rightKnee":12,"leftAnkle":-3,"rightAnkle":-3,"hipAbductL":8,"hipAbductR":-8
   }
   },
   "p16-bed-b6-legs-up-wall-side-glance": {
@@ -6847,7 +6847,7 @@ const POSES_LIBRARY = {
     instructions: "Sit upright on the chaise with legs crossed at the knee, angled to one side. Rest one elbow on the top knee and bring that hand up near the chin. Let the other hand rest on the seat beside the hip for support. Turn the shoulders slightly toward camera with a soft, direct gaze.",
     tip: "Keep the supporting hand's fingers relaxed and slightly spread rather than flat and tense against the cushion.",
     joints: {
-"spine":8,"neck":-7.7,"hips":-15,"globalTilt":65,"globalRoll":5,"globalTwist":28,"leftShoulder":-75,"rightShoulder":-30,"leftElbow":100,"rightElbow":20,"shoulderFwdL":-50,"shoulderFwdR":10,"leftHip":88,"rightHip":92,"leftKnee":100,"rightKnee":105,"leftAnkle":-8,"rightAnkle":-5,"hipAbductL":12,"hipAbductR":-10
+"spine":8,"neck":-7.7,"hips":-15,"globalTilt":65,"globalRoll":5,"globalTwist":28,"leftShoulder":-75,"rightShoulder":-30,"leftElbow":100,"rightElbow":20,"shoulderFwdL":-50,"shoulderFwdR":-50,"leftHip":88,"rightHip":92,"leftKnee":100,"rightKnee":105,"leftAnkle":-8,"rightAnkle":-5,"hipAbductL":12,"hipAbductR":-10
   }
   },
   "p18-lounge-r8-side-lying-head-propped": {
@@ -6997,7 +6997,7 @@ const POSES_LIBRARY = {
     instructions: "Recline against pillows on the bed, torso propped up at an angle. Bring one hand up near the ear or temple while the other grips a raised bent knee. Gaze off to the side with a relaxed expression.",
     tip: "Let the propped shoulder sink into the pillows rather than staying rigid, to keep the recline looking genuinely comfortable.",
     joints: {
-"spine":-10,"neck":4.3,"hips":5,"globalTilt":45,"globalRoll":5,"globalTwist":15,"leftShoulder":-130,"rightShoulder":-40,"leftElbow":81,"rightElbow":85,"shoulderFwdL":-50,"shoulderFwdR":15,"leftHip":95,"rightHip":30,"leftKnee":90,"rightKnee":20,"leftAnkle":-23,"rightAnkle":-26,"hipAbductL":-10,"hipAbductR":5
+"spine":-10,"neck":4.3,"hips":5,"globalTilt":45,"globalRoll":5,"globalTwist":15,"leftShoulder":-130,"rightShoulder":-40,"leftElbow":81,"rightElbow":85,"shoulderFwdL":-50,"shoulderFwdR":-50,"leftHip":95,"rightHip":30,"leftKnee":90,"rightKnee":20,"leftAnkle":-23,"rightAnkle":-26,"hipAbductL":-10,"hipAbductR":5
   }
   },
   "p08-male-r6-lying-back-eyes-closed-fist-face": {

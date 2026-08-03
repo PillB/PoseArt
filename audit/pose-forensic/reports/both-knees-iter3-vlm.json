@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "**OK.**\n\nThe figure is in a balanced, natural standing pose with no anatomical errors or structural issues:\n\n*   **Head/Neck:** Centered, aligned with the spine.\n*   **Shoulders/Arms:** Shoulders are level; arms hang naturally at sides with relaxed elbows.\n*   **Wrists/Hands:** Hands are positioned naturally near the hips/thighs (no specific target to reach).\n*   **Torso/Spine:** Upright posture with a straight vertical alignment through the torso.\n*   **Hips/Legs:** Hips are level; legs show a natural stance (one leg slightly forward or shifted), knees are not locked unnaturally.\n*   **Ankle/Feet:** The supporting foot is planted firmly on the base within the center of gravity.\n*   **Balance:** Weight distribution appears stable and centered over the base of support.\n*   **Props:** The figure stands correctly on the provided platform/base.\n\nThis is a standard, anatomically sound reference for a neutral standing pose.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785725531,
+  "id": "20260803105206a21222d3f6c24a95",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260803105206a21222d3f6c24a95",
+  "usage": {
+    "completion_tokens": 215,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 152,
+    "prompt_tokens_details": {
+      "cached_tokens": 1
+    },
+    "total_tokens": 367
+  }
+}

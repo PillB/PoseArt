@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "**OK**\n\nThe figure is a simplified, stylized mannequin (likely a 3D rig or basic drawing reference) in a neutral standing pose. All anatomical landmarks are present and correctly positioned for this level of abstraction:\n\n*   **Head/Neck:** Centered, aligned with the spine.\n*   **Shoulders/Arms:** Symmetrical, arms hanging naturally at sides with slight bend at elbows.\n*   **Wrists/Hands:** Hands are simple shapes (no specific target to reach), positioned naturally at ends of forearms.\n*   **Torso/Spine:** Straight vertical alignment, ribcage and pelvis properly stacked.\n*   **Hips/Legs:** Legs extend straight down from hips with natural slight inward angle at knees.\n*   **Ankle/Feet:** Feet are planted on the ground plane/base.\n*   **Balance:** Center of gravity is centered over the base of support; figure appears stable.\n*   **Props:** None present (or base platform is functioning as intended).\n\nNo structural or proportional errors detected for this reference type.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785725615,
+  "id": "20260803105328cb626ad3db6f488a",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260803105328cb626ad3db6f488a",
+  "usage": {
+    "completion_tokens": 224,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 152,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 376
+  }
+}

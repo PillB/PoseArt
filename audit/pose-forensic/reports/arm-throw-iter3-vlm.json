@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "**OK**\n\nThe figure's pose is anatomically sound and balanced:\n\n*   **Head/Neck:** Centered and aligned with the spine.\n*   **Shoulders/Arms:** Arms raised in a natural \"V\" shape with elbows slightly bent; shoulder joints appear correctly positioned.\n*   **Torso/Spine:** Upright with a slight, natural curve.\n*   **Hips/Legs:** Legs are crossed at the ankles or lower calves in a dynamic jumping/kicking motion. The knees are bent appropriately for the action.\n*   **Ankle/Feet:** Feet are pointed (plantar flexed), which is correct for a mid-air or leaping pose.\n*   **Balance:** The figure appears to be in mid-jump or landing, so the center of gravity is consistent with dynamic movement rather than a static standing pose.\n*   **Props:** None present.\n\nNo specific structural issues detected.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785725680,
+  "id": "20260803105436db0da7171a0e4a8b",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260803105436db0da7171a0e4a8b",
+  "usage": {
+    "completion_tokens": 192,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 157,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 349
+  }
+}

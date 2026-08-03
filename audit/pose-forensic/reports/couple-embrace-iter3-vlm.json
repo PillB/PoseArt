@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "**OK.**\n\nThe figure is a simplified, stylized mannequin (likely a 3D base mesh or \"doll\" reference) with the following characteristics:\n\n*   **Head/Neck:** Centered, neutral tilt.\n*   **Shoulders:** Relaxed, slight natural slope.\n*   **Arms/Elbows:** Arms hang naturally at sides with a slight angle away from the torso (avoiding the \"T-pose\" look). Elbows show subtle bend.\n*   **Wrists/Hands:** Hands are simplified blocks/shapes; position is consistent with relaxed arms.\n*   **Torso/Spine:** Upright posture with slight natural S-curve (lumbar curve visible).\n*   **Hips:** Level and aligned with shoulders.\n*   **Legs/Knees:** Legs straight but not locked; knees face forward correctly.\n*   **Ankles/Feet:** Feet together in a neutral standing position (attention stance), flat on the ground plane.\n*   **Balance:** Center of gravity appears stable over the base of support (feet).\n*   **Props:** None present.\n\n*Note: This appears to be a basic T-pose or A-pose variation used for rigging or as a drawing starter template. Proportions are slightly stylized (elongated limbs/torso ratio common in fashion or animation bases), but anatomically functional for its purpose.*",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785725558,
+  "id": "20260803105233287d4f64efb54795",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260803105233287d4f64efb54795",
+  "usage": {
+    "completion_tokens": 290,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 152,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 442
+  }
+}

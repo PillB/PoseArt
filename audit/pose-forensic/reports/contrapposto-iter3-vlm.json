@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "**OK**\n\nThe figure is a stylized, simplified mannequin (likely a 3D model or vector illustration) with consistent proportions and a stable, balanced pose. Specific observations:\n\n*   **Head/Neck:** Centered, neutral alignment.\n*   **Shoulders/Arms:** Arms hang naturally at sides with slight bend at elbows; shoulders level.\n*   **Wrists/Hands:** Hands appear relaxed; no specific reach target indicated.\n*   **Torso/Spine:** Upright posture with slight natural curve; no twisting or unnatural compression.\n*   **Hips/Legs:** Asymmetrical stance (contrapposto-like) with weight shifted to one leg; the other leg crosses behind in a relaxed, natural position for walking or standing.\n*   **Ankle/Feet:** One foot planted firmly on the ground plane (shadow indicates contact); trailing foot positioned appropriately for balance.\n*   **Balance:** Center of gravity appears stable over the supporting leg/foot.\n*   **Props:** None present.\n\nNo anatomical or structural issues detected for this style of reference figure.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785725551,
+  "id": "202608031052243cd7f955a5674226",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "202608031052243cd7f955a5674226",
+  "usage": {
+    "completion_tokens": 228,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 152,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 380
+  }
+}
