@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "**Mismatches:**\n\n1.  **Pose Name vs. Description:** The name says **\"Standing\"**, but the description explicitly instructs to **\"Kneel and sit back fully onto the heels.\"**\n2.  **Description vs. Visible Figure:**\n    *   The description calls for a **kneeling/sitting position with an arched spine and arms reaching behind to the floor**.\n    *   The visible figure is clearly **standing upright on its feet** (not kneeling), has a relatively straight posture, and its arms are held out to the sides/forward, not reaching behind it.\n\nThe pose name, description, and image are all inconsistent with one another.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785727511,
+  "id": "20260803112508fff78461a3e1493c",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260803112508fff78461a3e1493c",
+  "usage": {
+    "completion_tokens": 143,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 173,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 316
+  }
+}

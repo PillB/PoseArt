@@ -1,0 +1,1153 @@
+{
+  "standing × seated-chair × none": [
+    "scurve-stand",
+    "hip-shift",
+    "hand-in-pocket",
+    "contrapposto",
+    "one-leg-balance",
+    "side-stretch",
+    "neck-roll",
+    "shoulder-roll-back",
+    "hand-behind-head",
+    "p14-standing-s5-back-to-camera-look",
+    "p14-standing-s6-arms-crossed-chest",
+    "p14-standing-s10-window-light-lean"
+  ],
+  "standing × standing × none": [
+    "power-stance",
+    "crossed-arms-stand",
+    "shoulder-drop",
+    "wind-pose",
+    "tiptoe-reach",
+    "chest-open",
+    "hands-clasped-front",
+    "chin-up-stand",
+    "head-tilt-stand",
+    "two-hands-pockets",
+    "diagonal-step",
+    "p14-standing-s2-crossed-legs-lean",
+    "p14-standing-s3-overhead-arms-stretch",
+    "p14-standing-s4-hand-on-hip-profile",
+    "p14-standing-s8-side-profile-arch",
+    "p14-standing-s9-hands-clasped-front",
+    "p08-male-st1-shirt-pull-overhead",
+    "p08-male-st2-hand-behind-neck-waistband"
+  ],
+  "standing × seated-chair × railing": [
+    "model-walk"
+  ],
+  "standing × dynamic-airborne × none": [
+    "arms-overhead",
+    "back-arch",
+    "profile-stand",
+    "runway-stop",
+    "half-turn",
+    "victory-arms",
+    "p14-standing-s7-one-hand-hair"
+  ],
+  "standing × standing × floor": [
+    "prayer-hands",
+    "weight-forward"
+  ],
+  "standing × leaning-standing × wall": [
+    "lean-no-support"
+  ],
+  "seated × seated-chair × none": [
+    "soft-sit",
+    "window-seat",
+    "throne-sit",
+    "feet-up",
+    "cross-ankle-sit",
+    "side-saddle",
+    "ottoman-recline",
+    "knees-apart-forward",
+    "perch-edge",
+    "stool-lean-back",
+    "p17-tubes-s2-seated-lean-back-hands-support",
+    "p17-tubes-s4-standing-lean-one-leg-on-tube",
+    "p17-tubes-s6-side-sit-twist-look-back",
+    "p17-tubes-s8-seated-foot-on-second-tube",
+    "p17-tubes-s9-seated-hand-hair-leg-back",
+    "p17-tubes-s10-seated-knees-hugged-chin-rest",
+    "p01-master-s5-chair-hair-touch-hip"
+  ],
+  "seated × seated-floor × floor": [
+    "floor-cross-leg",
+    "floor-side-extend",
+    "meditation-palms",
+    "floor-hug-knees",
+    "one-leg-extend-floor",
+    "floor-stretch-legs",
+    "floor-asymmetric",
+    "seated-v-stretch",
+    "floor-prop-back",
+    "p17-tubes-s1-reclined-across-tubes",
+    "p17-tubes-s5-seated-legs-open-hands-back",
+    "p01-master-s10-chair-armrest-sit-hip-leg",
+    "p01-master-s11-chair-armrest-sit-hair"
+  ],
+  "seated × seated-chair × chair": [
+    "chair-lean-forward",
+    "side-straddle",
+    "chair-back-lean",
+    "swivel-twist",
+    "chair-twist-both",
+    "p15-chair-s1-thinker-crossed-ankles",
+    "p15-chair-s2-forward-elbows-knees",
+    "p15-chair-s3-side-straddle-back",
+    "p15-chair-s4-side-perch-legs-extended",
+    "p15-chair-s5-side-saddle-look-back",
+    "p15-chair-s7-recline-arms-overhead",
+    "p15-chair-s8-profile-cross-legged",
+    "p15-chair-s9-arch-back-hands-behind",
+    "p15-chair-s10-twist-both-hands-rail",
+    "p11-armchair-s1-legs-crossed-hands-armrests",
+    "p11-armchair-s2-knees-together-lean-side",
+    "p11-armchair-s3-recline-legs-extended-diagonal",
+    "p11-armchair-s5-both-legs-over-armrest-smile",
+    "p11-armchair-s8-standing-lean-over-back-profile",
+    "p11-armchair-s9-standing-front-hands-armrests",
+    "p08-male-se4-chair-arm-along-back-belt-hand",
+    "p01-master-s1-chair-legs-side-crossed",
+    "p01-master-s2-chair-hand-forehead",
+    "p01-master-s3-chair-both-knees-bent-hands-clasped",
+    "p01-master-s4-chair-chin-touch",
+    "p01-master-s17-chair-back-seat-hair-touch"
+  ],
+  "seated × seated-chair × bed": [
+    "seated-hug-pillow"
+  ],
+  "seated × seated-chair × couch": [
+    "lounger-recline",
+    "feet-tucked-under"
+  ],
+  "seated × seated-chair × bench": [
+    "bench-sit-side",
+    "p10-bench-s2-all-fours-arch-back",
+    "p10-bench-s4-seated-cross-leg-lean-back",
+    "p10-bench-s7-standing-drape-fabric",
+    "p01-master-b6-bench-side-sit-lean-armrest"
+  ],
+  "seated × seated-chair × table": [
+    "tabletop-sit"
+  ],
+  "seated × kneeling × floor": [
+    "kneeling-upright-twist",
+    "p17-tubes-s3-kneeling-arch-over-tube"
+  ],
+  "leaning × leaning-standing × wall": [
+    "wall-lean",
+    "doorframe-lean",
+    "shoulder-lean",
+    "back-wall-prop",
+    "stair-lean",
+    "shoulder-wall",
+    "forearm-wall",
+    "two-hands-wall",
+    "back-arch-wall",
+    "cross-legged-wall",
+    "low-wall-sit",
+    "chin-on-wall",
+    "diagonal-lean",
+    "step-lean",
+    "p12-wall-s1-back-lean-arms-up",
+    "p12-wall-s2-side-lean-hip-pop",
+    "p12-wall-s5-profile-hand-wall",
+    "p12-wall-s6-back-arch-wall",
+    "p12-wall-s8-one-leg-up-wall",
+    "p12-wall-s9-side-stretch-wall",
+    "p04-wall-w1-leaning-arm-overhead-facing",
+    "p04-wall-w2-leaning-arms-crossed-turned-away",
+    "p04-wall-w3-leaning-hip-breast-touch-facing",
+    "p04-wall-w4-leaning-sideways-hip-wall-eyes-closed",
+    "p04-wall-w5-leaning-hourglass-hands-hips-eyes-closed",
+    "p04-wall-w6-back-against-wall-hip-away-eyes-closed",
+    "p04-wall-w7-back-against-wall-buttocks-touching-facing",
+    "p04-wall-w8-arms-chest-against-wall-back-camera",
+    "p04-wall-w9-standing-45-degree-crossed-facing"
+  ],
+  "leaning × leaning-standing × table": [
+    "hip-lean"
+  ],
+  "leaning × leaning-standing × railing": [
+    "elbow-ledge",
+    "railing-lean"
+  ],
+  "leaning × leaning-standing × fabric": [
+    "column-lean"
+  ],
+  "leaning × leaning-standing × none": [
+    "fence-lean",
+    "tree-lean",
+    "car-lean",
+    "gate-lean",
+    "glass-lean"
+  ],
+  "leaning × crouching × wall": [
+    "squat-lean",
+    "p12-wall-s7-crouch-wall-base"
+  ],
+  "leaning × seated-chair × wall": [
+    "pillar-wrap",
+    "hip-pop-wall",
+    "p12-wall-s3-forehead-rest",
+    "p12-wall-s10-back-view-reach-up"
+  ],
+  "leaning × seated-chair × railing": [
+    "ledge-lean-elbow"
+  ],
+  "leaning × seated-chair × none": [
+    "mirror-lean",
+    "door-side-lean"
+  ],
+  "leaning × leaning-standing × bench": [
+    "bench-lean-side"
+  ],
+  "lean-seat × seated-chair × none": [
+    "elbow-prop",
+    "chin-rest",
+    "side-lean-seated",
+    "both-knees-forearms",
+    "look-up-chin-raised",
+    "elbow-on-thigh-look-away",
+    "crossed-elbow-crossed-legs",
+    "both-hands-chin",
+    "reading-position",
+    "diagonal-lean-elbow",
+    "neck-rest-arm"
+  ],
+  "lean-seat × seated-chair × table": [
+    "double-elbow",
+    "table-elbow-single",
+    "chin-on-fist",
+    "forearms-crossed-table",
+    "table-lean-back-look",
+    "chin-on-both-hands",
+    "seated-head-tilt-prop",
+    "hand-on-cheek",
+    "tea-cup-hold",
+    "face-frame-hands",
+    "wrist-rest",
+    "table-lean-forward-arms-wide"
+  ],
+  "lean-seat × seated-chair × chair": [
+    "backward-lean-chair",
+    "one-elbow-knee"
+  ],
+  "lean-seat × seated-chair × fabric": [
+    "slump-back-chair",
+    "arm-drape-knee"
+  ],
+  "lean-seat × seated-floor × floor": [
+    "floor-leaning-arms-back"
+  ],
+  "lean-seat × seated-floor × wall": [
+    "seated-lean-wall-single"
+  ],
+  "lean-seat × seated-chair × bed": [
+    "pillow-hug-seated"
+  ],
+  "kneeling × kneeling × floor": [
+    "knights-kneel",
+    "both-knees",
+    "sitting-on-heels",
+    "kneeling-lean-forward",
+    "kneeling-look-back",
+    "kneeling-prayer-up",
+    "kneeling-reach-up-one",
+    "kneeling-tuck-forward",
+    "kneeling-lean-hands-floor",
+    "kneeling-chest-open",
+    "kneeling-bow"
+  ],
+  "kneeling × kneeling × none": [
+    "kneeling-reach",
+    "prayer-kneeling",
+    "kneeling-back-arch",
+    "one-knee-look-up",
+    "kneeling-arms-crossed",
+    "kneeling-hand-floor",
+    "kneeling-hip-sit",
+    "kneeling-profile",
+    "both-knees-arms-up",
+    "kneeling-sit-between-heels",
+    "kneeling-side-stretch",
+    "kneeling-dragon",
+    "kneeling-hug",
+    "kneeling-twist-back",
+    "kneeling-seated-arms-wide",
+    "kneeling-crouch",
+    "kneeling-crossed-arms-look-side"
+  ],
+  "kneeling × half-kneeling × none": [
+    "kneeling-reach-side"
+  ],
+  "kneeling × kneeling × railing": [
+    "kneeling-forearm-floor"
+  ],
+  "reclining × prone × none": [
+    "side-recline",
+    "back-prop",
+    "belly-up-arms-wide",
+    "supine-one-knee-up",
+    "fetal-curl",
+    "diagonal-prop",
+    "floor-side-elbow-leg-raised",
+    "floor-stomach-flip-flop"
+  ],
+  "reclining × supine × none": [
+    "prone-chin",
+    "back-angel",
+    "spread-eagle",
+    "floor-tuck-half-recline",
+    "back-recline-knee-hug"
+  ],
+  "reclining × prone × floor": [
+    "starfish",
+    "sphinx-pose",
+    "prone-push-up-position",
+    "superman-arms",
+    "cobra-lite",
+    "p13-floor-s9-prone-chin-hand"
+  ],
+  "reclining × side-reclining × floor": [
+    "side-fetal",
+    "prone-tuck-arms",
+    "back-recline-arms-up",
+    "side-recline-gaze-up",
+    "hammock-pose",
+    "p13-floor-s4-side-recline-arm-up"
+  ],
+  "reclining × side-reclining × none": [
+    "side-recline-top-leg-bent",
+    "floor-roll-side",
+    "stargaze"
+  ],
+  "reclining × supine × bed": [
+    "lounger-back-arm-raised"
+  ],
+  "reclining × seated-floor × floor": [
+    "floor-seated-recline",
+    "p13-floor-s2-recline-look-up",
+    "p13-floor-s3-side-seated-look-away",
+    "p13-floor-s7-knees-hug-chin-rest",
+    "p13-floor-s8-plant-side-seated"
+  ],
+  "reclining × prone × water": [
+    "pool-float"
+  ],
+  "reclining × other × none": [
+    "drowsy-recline"
+  ],
+  "dynamic × seated-chair × none": [
+    "dynamic-reach",
+    "run-stride",
+    "arm-throw",
+    "arabesque-balance",
+    "throw-pose",
+    "sprint-lean",
+    "martial-arts-guard"
+  ],
+  "dynamic × dynamic-airborne × floor": [
+    "mid-jump",
+    "leap-freeze",
+    "cartwheel-freeze",
+    "hip-hop-lean"
+  ],
+  "dynamic × dynamic-airborne × none": [
+    "spin-pose",
+    "leap-forward",
+    "dance-step",
+    "freeze-frame",
+    "warrior-lunge",
+    "toss-hair",
+    "pivot-turn",
+    "basketball-reach",
+    "tennis-follow",
+    "catch-reach",
+    "boxer-jab",
+    "dance-arms-up",
+    "salsa-step",
+    "acrobat-balance",
+    "street-dance-tilt",
+    "windmill-arm"
+  ],
+  "dynamic × seated-chair × railing": [
+    "skip-step",
+    "run-freeze"
+  ],
+  "dynamic × dynamic-airborne × table": [
+    "karate-chop"
+  ],
+  "eccentric × standing × none": [
+    "editorial-arm-reach",
+    "face-touch",
+    "look-away",
+    "peek-over-shoulder",
+    "matrix-lean",
+    "avant-garde-arms",
+    "abstract-contortion",
+    "statue-freeze",
+    "mirror-pose",
+    "villain-stand",
+    "puppet-strings",
+    "neck-extreme",
+    "arms-tangled",
+    "dramatic-gasp",
+    "elongated-reach"
+  ],
+  "eccentric × dynamic-airborne × none": [
+    "hair-flip",
+    "catwalk-extreme",
+    "fashion-backward",
+    "operatic-arms"
+  ],
+  "eccentric × seated-chair × none": [
+    "cross-body-arm",
+    "magic-cast",
+    "extreme-hip",
+    "gravity-defiance",
+    "p09-unconv-s7-seated-box-arm-overhead",
+    "p09-unconv-s8-seated-box-knee-crossed"
+  ],
+  "eccentric × crouching × floor": [
+    "superhero-land",
+    "crouching-prowl",
+    "p09-unconv-s10-wide-squat-floor-point"
+  ],
+  "eccentric × standing × water": [
+    "floating-gesture"
+  ],
+  "eccentric × standing × floor": [
+    "ragdoll-hang",
+    "theater-bow",
+    "p09-unconv-s1-forward-bend-heels"
+  ],
+  "eccentric × crouching × none": [
+    "thinker-extreme",
+    "p09-unconv-s9-back-view-squat-boxes"
+  ],
+  "eccentric × standing × railing": [
+    "fashion-collapse"
+  ],
+  "couple × couple × partner": [
+    "couple-embrace",
+    "back-to-back",
+    "forehead-touch",
+    "waltz-hold",
+    "piggyback",
+    "hand-in-hand-walk",
+    "over-shoulder-look",
+    "side-hug",
+    "slow-dance",
+    "over-shoulder-look-couple",
+    "piggyback-couple",
+    "forehead-touch-hands-held",
+    "whisper-ear",
+    "one-holds-other-waist",
+    "romantic-reach",
+    "hand-in-hand-walk-couple",
+    "nose-to-nose",
+    "both-look-camera-hold-hands",
+    "one-leans-other-stands",
+    "facing-away-hold",
+    "partners-lean",
+    "cradled-from-behind"
+  ],
+  "couple × seated-chair × partner": [
+    "cheek-to-cheek",
+    "shoulder-to-shoulder",
+    "side-by-side-lean"
+  ],
+  "couple × dynamic-airborne × partner": [
+    "lead-dance-hand",
+    "together-arms-up"
+  ],
+  "couple × seated-floor × floor": [
+    "seated-together-back"
+  ],
+  "couple × seated-chair × chair": [
+    "sitting-one-standing-one",
+    "seated-one-stands-behind"
+  ],
+  "accessible × seated-chair × none": [
+    "wheelchair-arms",
+    "seated-power",
+    "forward-lean-power",
+    "chair-arms-crossed",
+    "chair-arms-overhead",
+    "chair-self-hug",
+    "chair-chin-tilt"
+  ],
+  "accessible × accessible × none": [
+    "upper-reach",
+    "chair-seated-look-up",
+    "chair-reach-diagonal",
+    "chair-profile-strong",
+    "chair-face-frame",
+    "chair-wave",
+    "chair-point-gesture",
+    "chair-hair-touch",
+    "chair-thinking-pose",
+    "chair-both-arms-wide",
+    "chair-dramatic-reach",
+    "chair-editorial-profile"
+  ],
+  "accessible × accessible × chair": [
+    "side-arm-drape",
+    "chair-lean-side",
+    "chair-look-over-shoulder",
+    "chair-stretch-arms-back"
+  ],
+  "accessible × dynamic-airborne × table": [
+    "chair-forward-elbows"
+  ],
+  "accessible × seated-floor × chair": [
+    "chair-reach-floor"
+  ],
+  "accessible × dynamic-airborne × none": [
+    "chair-turn-twist",
+    "chair-triumphant-arms",
+    "chair-laugh-gesture"
+  ],
+  "accessible × dynamic-airborne × chair": [
+    "chair-lean-back-casual"
+  ],
+  "accessible × seated-floor × floor": [
+    "chair-meditation"
+  ],
+  "boudoir × prone × floor": [
+    "boudoir-elegant-recline",
+    "boudoir-prone-elbows-lift"
+  ],
+  "boudoir × dynamic-airborne × none": [
+    "boudoir-s-curve-stand",
+    "boudoir-over-shoulder-glance",
+    "boudoir-hair-tracer"
+  ],
+  "boudoir × dynamic-airborne × fabric": [
+    "boudoir-drape-arms",
+    "boudoir-venus-kallipygos"
+  ],
+  "boudoir × seated-chair × none": [
+    "boudoir-seated-knee-wrap",
+    "boudoir-arm-overhead-stretch",
+    "boudoir-seated-legs-crossed-lean",
+    "boudoir-asymmetric-stool",
+    "boudoir-triangle-pocket",
+    "boudoir-the-kiss",
+    "boudoir-thinker",
+    "boudoir-embrace-pose",
+    "p06-chair-b2-seated-hand-forehead",
+    "p06-chair-b3-seated-knees-bent-hands-clasped",
+    "p06-chair-b4-seated-crossed-chin-touch",
+    "p03-bed-b9-kneeling-hands-knees-eyes-closed",
+    "p03-bed-b14-seated-side-legs-extended-knee-touch"
+  ],
+  "boudoir × side-reclining × none": [
+    "boudoir-hip-raise-lying",
+    "p03-bed-b4-prone-belly-turned-leg-pushed-side",
+    "p03-bed-b5-prone-belly-elevated-hands-crossed-facing"
+  ],
+  "boudoir × standing × none": [
+    "boudoir-window-light-lean",
+    "boudoir-back-to-camera-glance",
+    "boudoir-standing-hand-hip",
+    "boudoir-mirror-reflection-pose",
+    "boudoir-standing-corset-hands",
+    "boudoir-floor-hug-knees-soft",
+    "boudoir-tippy-toe-cross",
+    "boudoir-shadow-silhouette",
+    "boudoir-venus-de-milo",
+    "boudoir-capitoline-venus",
+    "boudoir-winged-victory",
+    "boudoir-esquiline-venus",
+    "boudoir-venus-de-medici",
+    "boudoir-primary-instincts",
+    "boudoir-little-dancer",
+    "boudoir-walking-woman",
+    "boudoir-r-evolution",
+    "boudoir-doorframe-hang",
+    "p16-bed-b8-prone-forearms-look-camera",
+    "p08-male-r9-reclined-floral-cushion-eyes-closed",
+    "p06-chair-b5-legs-crossed-hair-hip"
+  ],
+  "boudoir × dynamic-airborne × chair": [
+    "boudoir-chair-straddle",
+    "boudoir-armchair-twist"
+  ],
+  "boudoir × prone × couch": [
+    "boudoir-floor-lounge-stretch"
+  ],
+  "boudoir × kneeling × none": [
+    "boudoir-kneeling-arch-back",
+    "boudoir-both-knees-prayer-soft",
+    "boudoir-labandon"
+  ],
+  "boudoir × seated-chair × bed": [
+    "boudoir-bedsheet-drape-sit",
+    "boudoir-m-pose",
+    "p16-bed-b2-recline-headboard-arm-up",
+    "p16-bed-b10-seated-legs-bent-lean-back-hands",
+    "p03-bed-b6-side-lying-hair-touch-hand-bed",
+    "p03-bed-b8-seated-back-straight-knees-touch"
+  ],
+  "boudoir × standing × wall": [
+    "boudoir-standing-back-arch-wall",
+    "boudoir-fireplace-lean",
+    "boudoir-peek-a-boo",
+    "boudoir-corner-pocket",
+    "p16-bed-b6-legs-up-wall-side-glance"
+  ],
+  "boudoir × prone × none": [
+    "boudoir-toe-point-recline",
+    "boudoir-nymph-fontainebleau",
+    "boudoir-clios-dream"
+  ],
+  "boudoir × kneeling × floor": [
+    "boudoir-kneeling-forward-reach",
+    "boudoir-standing-profile-curve",
+    "boudoir-danaïd",
+    "boudoir-la-priere"
+  ],
+  "boudoir × standing × chair": [
+    "boudoir-standing-leg-up-chair",
+    "p06-chair-b6-standing-lean-arch",
+    "p06-chair-b7-leaning-crossed-elevated-eyes-closed",
+    "p06-chair-b8-standing-lean-facing-camera",
+    "p06-chair-b12-leaning-bra-touch",
+    "p06-chair-b16-floor-lying-head-on-chair"
+  ],
+  "boudoir × prone × chair": [
+    "boudoir-supine-arms-up-soft"
+  ],
+  "boudoir × side-reclining × floor": [
+    "boudoir-side-lying-top-leg-bent"
+  ],
+  "boudoir × standing × floor": [
+    "boudoir-standing-hair-flip-still"
+  ],
+  "boudoir × supine × none": [
+    "boudoir-reclined-back-support",
+    "boudoir-psyche-revived",
+    "p03-bed-b1-prone-belly-legs-crossed-shin",
+    "p03-bed-b2-prone-belly-arch-hips-up-eyes-closed",
+    "p03-bed-b3-prone-belly-arch-legs-extended-crossed",
+    "p03-bed-b11-supine-back-hand-belly-facing",
+    "p03-bed-b12-supine-back-hands-together-facing",
+    "p03-bed-b13-supine-legs-bent-hair-breast-eyes-closed"
+  ],
+  "boudoir × seated-floor × floor": [
+    "boudoir-standing-look-back-drape",
+    "boudoir-nymph-scorpion",
+    "boudoir-diamond-sit",
+    "boudoir-mermaid-side-sit",
+    "boudoir-pretzel-twist",
+    "boudoir-extended-leg-sit",
+    "boudoir-seated-spine-stretch",
+    "p06-chair-b10-armrest-hip-hand-leg",
+    "p06-chair-b11-armrest-hair-eyes-closed"
+  ],
+  "boudoir × seated-chair × fabric": [
+    "boudoir-kneeling-sit-back-heels"
+  ],
+  "boudoir × prone × water": [
+    "boudoir-sheet-pull"
+  ],
+  "boudoir × supine × bed": [
+    "boudoir-prone-arch"
+  ],
+  "boudoir × prone × bed": [
+    "boudoir-supine-arch",
+    "boudoir-sleeping-ariadne",
+    "boudoir-the-dawn",
+    "boudoir-torso-marie-therese",
+    "boudoir-mattress-edge-melt",
+    "boudoir-side-pillow-hug",
+    "boudoir-pillow-peek",
+    "p08-male-r6-lying-back-eyes-closed-fist-face",
+    "p08-male-r7-side-lying-knee-raised-forearm-bedding"
+  ],
+  "boudoir × prone × fabric": [
+    "boudoir-three-goddesses"
+  ],
+  "boudoir × dynamic-airborne × bed": [
+    "boudoir-barberini-faun"
+  ],
+  "boudoir × seated-chair × chair": [
+    "boudoir-truth-unveiled",
+    "boudoir-forward-chair-straddle",
+    "boudoir-lazy-lounge",
+    "boudoir-knee-up-profile",
+    "p06-chair-b1-seated-legs-crossed-shin",
+    "p06-chair-b17-back-seat-hair-touch"
+  ],
+  "boudoir × seated-chair × bench": [
+    "boudoir-the-night",
+    "p05-bench-b1-leaning-armrest-hip",
+    "p05-bench-b3-leaning-upper-body-hair",
+    "p05-bench-b4-lying-underwear-hair-touch",
+    "p05-bench-b5-lying-back-arch-eyes-closed",
+    "p05-bench-b6-side-sit-lean-armrest",
+    "p05-bench-b12-armrest-seated-turned-camera"
+  ],
+  "boudoir × dynamic-airborne × wall": [
+    "boudoir-wall-arch"
+  ],
+  "boudoir × standing × fabric": [
+    "boudoir-aphrodite-knidos",
+    "boudoir-half-bent-wrist"
+  ],
+  "boudoir × leaning-standing × wall": [
+    "boudoir-dying-slave",
+    "boudoir-back-one"
+  ],
+  "boudoir × seated-chair × wall": [
+    "boudoir-the-source",
+    "p02-couch-c5-lying-sideways-elevated-hip-hand"
+  ],
+  "boudoir × crouching × none": [
+    "boudoir-crouching-venus"
+  ],
+  "editorial × standing × none": [
+    "editorial-sharp-angles-stand",
+    "editorial-extreme-forward-lean",
+    "editorial-hip-thrust-dramatic",
+    "editorial-wide-stance-power",
+    "editorial-one-arm-extreme-reach",
+    "editorial-chair-sprawl",
+    "editorial-hunched-power-lean",
+    "editorial-runway-freeze-turn"
+  ],
+  "editorial × dynamic-airborne × none": [
+    "editorial-floor-diagonal-reach",
+    "editorial-kneel-collapse"
+  ],
+  "editorial × seated-floor × floor": [
+    "editorial-full-body-twist",
+    "editorial-negative-space-arm",
+    "editorial-back-arch-tension"
+  ],
+  "editorial × seated-chair × none": [
+    "editorial-off-camera-stare",
+    "editorial-vogue-arm-frame",
+    "editorial-contorted-reach-floor",
+    "editorial-shoulder-drop-asymmetry",
+    "editorial-power-crouch",
+    "editorial-shadow-profile-stark",
+    "editorial-leg-kick-freeze",
+    "editorial-wind-machine-lean",
+    "editorial-face-tilt-extreme"
+  ],
+  "editorial × crouching × none": [
+    "editorial-fabric-toss-freeze"
+  ],
+  "editorial × standing × fabric": [
+    "editorial-geometric-seated",
+    "editorial-single-leg-balance-angular"
+  ],
+  "editorial × standing × floor": [
+    "editorial-hand-face-cover-partial",
+    "editorial-side-lunge-sharp"
+  ],
+  "editorial × standing × chair": [
+    "editorial-mirrored-hands-hip"
+  ],
+  "editorial × prone × none": [
+    "editorial-floor-lie-diagonal"
+  ],
+  "editorial × dynamic-airborne × floor": [
+    "editorial-arms-crossed-overhead"
+  ],
+  "fine-art × seated-chair × none": [
+    "fineart-classic-arabesque",
+    "fineart-contrapposto-classic",
+    "fineart-releve-reach",
+    "fineart-side-lying-torso-lift",
+    "fineart-torso-curve-floor",
+    "fineart-standing-cambre-side",
+    "fineart-kneeling-both-arms-extend-fwd"
+  ],
+  "fine-art × prone × none": [
+    "fineart-odalisque-recline",
+    "fineart-lying-fetal-soft-classical"
+  ],
+  "fine-art × standing × none": [
+    "fineart-pieta-kneel",
+    "fineart-seated-forward-fold",
+    "fineart-standing-back-bend-soft",
+    "fineart-kneeling-side-stretch",
+    "fineart-standing-releve-attitude",
+    "fineart-standing-devant-extension"
+  ],
+  "fine-art × kneeling × none": [
+    "fineart-standing-torso-twist-sculpt",
+    "fineart-standing-figure-eight-arms"
+  ],
+  "fine-art × dynamic-airborne × none": [
+    "fineart-kneeling-torso-extend"
+  ],
+  "fine-art × kneeling × table": [
+    "fineart-standing-arm-sweep"
+  ],
+  "fine-art × dynamic-airborne × floor": [
+    "fineart-seated-profile-still"
+  ],
+  "fine-art × seated-floor × floor": [
+    "fineart-standing-leg-extension-hand"
+  ],
+  "fine-art × supine × floor": [
+    "fineart-standing-still-life-drape"
+  ],
+  "fine-art × seated-chair × fabric": [
+    "fineart-kneeling-arms-crossed-chest"
+  ],
+  "fine-art × prone × floor": [
+    "fineart-lying-leg-raised-line",
+    "fineart-seated-spinal-twist-classic",
+    "fineart-side-plank-elegant"
+  ],
+  "fine-art × side-reclining × floor": [
+    "fineart-standing-hand-to-heart"
+  ],
+  "fine-art × half-kneeling × none": [
+    "fineart-standing-passe-balance",
+    "fineart-standing-toe-touch-reach"
+  ],
+  "fine-art × supine × none": [
+    "fineart-prone-back-lift-elegant"
+  ],
+  "fashion × standing × none": [
+    "fashion-power-stance-classic",
+    "fashion-mid-turn-sweep",
+    "fashion-runway-stomp-stride",
+    "fashion-strong-silhouette-cape",
+    "fashion-jacket-shoulder-pop",
+    "fashion-walking-motion-blur",
+    "fashion-seated-editorial-commercial",
+    "fashion-shoulder-back-confident",
+    "fashion-leg-forward-point",
+    "fashion-back-view-glance",
+    "fashion-editorial-brand-stare",
+    "fashion-seated-floor-brand-cool",
+    "fashion-runway-arms-swing-stride",
+    "fashion-editorial-crossbody-bag",
+    "fashion-brand-lean-forward-desk"
+  ],
+  "fashion × seated-chair × none": [
+    "fashion-catalog-three-quarter",
+    "fashion-accessory-focus-hand",
+    "fashion-shoulder-roll-jacket-on"
+  ],
+  "fashion × standing × floor": [
+    "fashion-hand-in-pocket-cool",
+    "fashion-oversized-coat-swirl",
+    "fashion-arm-drape-product"
+  ],
+  "fashion × standing × fabric": [
+    "fashion-wide-leg-stance-bold",
+    "fashion-cross-leg-standing",
+    "fashion-power-walk-toward-camera"
+  ],
+  "fashion × dynamic-airborne × fabric": [
+    "fashion-crossed-ankle-lean-wall"
+  ],
+  "fashion × leaning-standing × wall": [
+    "fashion-power-jump-freeze"
+  ],
+  "fashion × dynamic-airborne × none": [
+    "fashion-belt-cinch-waist",
+    "fashion-sunglasses-tilt-down"
+  ],
+  "fashion × seated-floor × floor": [
+    "fashion-hair-flip-motion"
+  ],
+  "fashion × standing × table": [
+    "fashion-denim-pocket-thumbs"
+  ],
+  "low-to-high × transitional × none": [
+    "lowhigh-floor-seated-start",
+    "lowhigh-full-standing-peak",
+    "lowhigh-seated-to-kneel-transition",
+    "lowhigh-floor-side-push-up-start",
+    "lowhigh-floor-bridge-rise-start",
+    "lowhigh-floor-kneel-hands-overhead-rise"
+  ],
+  "low-to-high × seated-floor × floor": [
+    "lowhigh-floor-reach-up-arms",
+    "lowhigh-deep-crouch-start",
+    "lowhigh-standing-half-turn-rise",
+    "lowhigh-kneel-both-up-transition",
+    "lowhigh-floor-twist-rise-begin",
+    "lowhigh-crouch-to-stand-explosive",
+    "lowhigh-standing-side-reach-peak"
+  ],
+  "low-to-high × crouching × floor": [
+    "lowhigh-crouch-arms-spread-begin",
+    "lowhigh-seated-legs-extend-lift"
+  ],
+  "low-to-high × crouching × none": [
+    "lowhigh-one-knee-rising",
+    "lowhigh-arms-first-lift-floor"
+  ],
+  "low-to-high × kneeling × floor": [
+    "lowhigh-half-standing-arms-mid",
+    "lowhigh-standing-crouch-mid-rise",
+    "lowhigh-single-leg-plant-rise"
+  ],
+  "low-to-high × half-kneeling × none": [
+    "lowhigh-nearly-standing-stretch",
+    "lowhigh-standing-tall-arms-out",
+    "lowhigh-standing-final-look-up"
+  ],
+  "low-to-high × prone × floor": [
+    "lowhigh-floor-lie-back-start"
+  ],
+  "low-to-high × side-reclining × floor": [
+    "lowhigh-roll-to-side-rise-begin"
+  ],
+  "low-to-high × prone × none": [
+    "lowhigh-hands-knees-push-up"
+  ],
+  "low-to-high × supine × none": [
+    "lowhigh-kneel-lean-forward-rise"
+  ],
+  "low-to-high × kneeling × none": [
+    "lowhigh-standing-jump-reach-top"
+  ],
+  "low-to-high × dynamic-airborne × floor": [
+    "lowhigh-floor-child-pose-start"
+  ],
+  "low-to-high × transitional × floor": [
+    "lowhigh-half-kneel-arms-rising-wide"
+  ],
+  "high-to-low × kneeling × floor": [
+    "highlow-standing-peak-start",
+    "highlow-standing-lean-back-start"
+  ],
+  "high-to-low × transitional × none": [
+    "highlow-torso-begin-fall-forward",
+    "highlow-cascading-arms-drop",
+    "highlow-standing-tiptoe-start-tall",
+    "highlow-standing-to-squat-transition",
+    "highlow-side-fall-catch-arm"
+  ],
+  "high-to-low × transitional × railing": [
+    "highlow-arms-trailing-descent",
+    "highlow-knees-bending-controlled",
+    "highlow-elevated-platform-start",
+    "highlow-hands-floor-arch-back"
+  ],
+  "high-to-low × dynamic-airborne × none": [
+    "highlow-near-floor-reach-down",
+    "highlow-one-leg-lower-lunge"
+  ],
+  "high-to-low × transitional × floor": [
+    "highlow-floor-landing-final",
+    "highlow-landing-crouch-absorb",
+    "highlow-standing-arms-cross-drop",
+    "highlow-elevated-chair-step-down",
+    "highlow-standing-shoulders-slump-begin"
+  ],
+  "high-to-low × seated-floor × floor": [
+    "highlow-collapse-to-knees-dramatic"
+  ],
+  "high-to-low × transitional × table": [
+    "highlow-step-down-mid-air",
+    "highlow-torso-spiral-down"
+  ],
+  "high-to-low × seated-chair × none": [
+    "highlow-seated-fall-back-catch",
+    "highlow-standing-bow-forward-begin"
+  ],
+  "high-to-low × supine × floor": [
+    "highlow-full-prone-final-floor"
+  ],
+  "high-to-low × prone × floor": [
+    "highlow-arms-wide-falling-open",
+    "highlow-full-recline-final-settle"
+  ],
+  "high-to-low × crouching × floor": [
+    "highlow-diagonal-fall-freeze"
+  ],
+  "high-to-low × transitional × fabric": [
+    "highlow-kneel-settle-final"
+  ],
+  "high-to-low × kneeling × none": [
+    "highlow-standing-hip-drop-begin"
+  ],
+  "high-to-low × seated-floor × chair": [
+    "highlow-final-floor-gaze-up"
+  ],
+  "standing × standing × wall": [
+    "p14-standing-s1-hip-sway-side-glance",
+    "p08-male-st10-standing-back-view-hands-clasped"
+  ],
+  "leaning × seated-floor × wall": [
+    "p12-wall-s4-seated-wall-base"
+  ],
+  "reclining × seated-floor × chair": [
+    "p13-floor-s1-knees-hug-chair-base"
+  ],
+  "reclining × side-reclining × bed": [
+    "p13-floor-s5-blanket-recline-hand-face"
+  ],
+  "reclining × seated-floor × wall": [
+    "p13-floor-s6-knees-bent-arms-crossed"
+  ],
+  "reclining × side-reclining × chair": [
+    "p13-floor-s10-recline-ottoman-arms-up"
+  ],
+  "seated × kneeling × bench": [
+    "p10-bench-s1-kneeling-profile-hands-lap",
+    "p10-bench-s6-back-view-kneel-lean"
+  ],
+  "seated × supine × bench": [
+    "p10-bench-s3-recline-arm-overhead",
+    "p10-bench-s10-recline-legs-up-vertical"
+  ],
+  "seated × side-reclining × bench": [
+    "p10-bench-s5-side-recline-arm-up"
+  ],
+  "seated × seated-floor × bench": [
+    "p10-bench-s8-seated-profile-tiptoe",
+    "p10-bench-s9-seated-head-tilt-back",
+    "p08-male-se8-floor-lean-bench-legs-extended"
+  ],
+  "eccentric × supine × floor": [
+    "p09-unconv-s2-bridge-pose-floor",
+    "p09-unconv-s6-shoulder-stand-fold"
+  ],
+  "eccentric × side-reclining × floor": [
+    "p09-unconv-s3-legs-up-wall-recline"
+  ],
+  "eccentric × prone × floor": [
+    "p09-unconv-s4-plank-reading-book"
+  ],
+  "eccentric × prone × bench": [
+    "p09-unconv-s5-prone-legs-up-chin-hands"
+  ],
+  "eccentric × kneeling × table": [
+    "p09-unconv-s11-leaning-table-kneel"
+  ],
+  "eccentric × standing × table": [
+    "p09-unconv-s12-table-side-extend-leg"
+  ],
+  "eccentric × standing × chair": [
+    "p09-unconv-s13-bent-over-chair-headdown"
+  ],
+  "eccentric × prone × chair": [
+    "p09-unconv-s14-prone-legs-up-chair"
+  ],
+  "seated × seated-floor × chair": [
+    "p15-chair-s6-one-leg-up-chair",
+    "p11-armchair-s4-one-leg-kicked-up-armrest",
+    "p11-armchair-s7-lean-back-arm-behind-head",
+    "p11-armchair-s10-floor-recline-head-on-armrest",
+    "p08-male-se3-chair-diagonal-lean-leg-extended",
+    "p01-master-s9-chair-armrest-sit-straight",
+    "p01-master-s13-chair-floor-back-against-leg-elevated",
+    "p01-master-s14-chair-floor-back-against-knees-apart",
+    "p01-master-s15-chair-floor-back-against-hand-floor"
+  ],
+  "seated × kneeling × chair": [
+    "p11-armchair-s6-kneeling-back-view-armrest-grip"
+  ],
+  "boudoir × standing × bed": [
+    "p16-bed-b1-prone-smile-ankles-crossed",
+    "p16-bed-b4-supine-overhead-view-arms-spread",
+    "p16-bed-b5-arch-legs-up-headboard",
+    "p16-bed-b7-prone-legs-kicked-up-look-back",
+    "p08-male-r5-reclined-pillows-hand-near-face",
+    "p03-bed-b7-side-lying-back-camera-hair-hip"
+  ],
+  "boudoir × side-reclining × bed": [
+    "p16-bed-b3-side-lying-knees-bent-look-camera"
+  ],
+  "boudoir × kneeling × bed": [
+    "p16-bed-b9-kneeling-arch-hand-in-hair",
+    "p03-bed-b10-kneeling-elbows-elevated-foot"
+  ],
+  "reclining × prone × couch": [
+    "p18-lounge-r1-side-recline-arm-drape",
+    "p18-lounge-r3-seated-edge-lean-forward",
+    "p18-lounge-r6-kneeling-over-armrest",
+    "p18-lounge-r7-seated-legs-crossed-hand-chin",
+    "p18-lounge-r8-side-lying-head-propped",
+    "p18-lounge-r9-seated-back-arch-hands-behind"
+  ],
+  "reclining × other × couch": [
+    "p18-lounge-r2-prone-feet-up-back-arch"
+  ],
+  "reclining × dynamic-airborne × couch": [
+    "p18-lounge-r4-reclined-knees-up-hand-hair"
+  ],
+  "reclining × supine × couch": [
+    "p18-lounge-r5-back-lying-arms-overhead"
+  ],
+  "reclining × side-reclining × couch": [
+    "p18-lounge-r10-full-length-recline-legs-crossed"
+  ],
+  "seated × half-kneeling × fabric": [
+    "p17-tubes-s7-kneel-drape-tall-tube-leg-back"
+  ],
+  "boudoir × seated-floor × chair": [
+    "p06-chair-b9-armrest-seated-straight",
+    "p06-chair-b13-floor-back-against-leg-elevated",
+    "p06-chair-b14-floor-back-against-knees-apart",
+    "p06-chair-b15-floor-back-against-hand-floor"
+  ],
+  "boudoir × seated-floor × bench": [
+    "p05-bench-b2-leaning-armrest-knee",
+    "p05-bench-b11-plank-knees-bent-legs-up",
+    "p05-bench-b15-seated-floor-lean-bench-leg"
+  ],
+  "boudoir × kneeling × bench": [
+    "p05-bench-b7-kneeling-hip-knee-touch",
+    "p05-bench-b8-kneeling-elevated-forward-lean",
+    "p05-bench-b9-kneeling-forward-lean-armrest",
+    "p05-bench-b10-kneeling-hands-crossed-elevated-legs"
+  ],
+  "boudoir × standing × bench": [
+    "p05-bench-b13-standing-arm-raised-lean",
+    "p05-bench-b14-standing-lean-facing-camera"
+  ],
+  "boudoir × supine × bench": [
+    "p05-bench-b16-floor-head-on-bench-hands-connected",
+    "p05-bench-b17-floor-head-on-bench-hair-underwear"
+  ],
+  "boudoir × seated-chair × couch": [
+    "p02-couch-c1-seated-lean-armrest-facing",
+    "p02-couch-c2-lying-sideways-breast-touch",
+    "p02-couch-c4-seated-lean-armrest-breast-hair",
+    "p02-couch-c8-seated-lean-back-neck-elongated",
+    "p02-couch-c9-armrest-seated-hip-hand-eyes-closed"
+  ],
+  "boudoir × standing × couch": [
+    "p02-couch-c3-lying-head-armrest-breast-touch",
+    "p02-couch-c6-lying-sideways-elevated-hip-chin-up",
+    "p02-couch-c7-lying-sideways-twisted-breast-touch"
+  ],
+  "standing × standing × chair": [
+    "p01-master-s6-chair-stand-lean-arch",
+    "p01-master-s7-chair-lean-eyes-closed",
+    "p01-master-s8-chair-stand-lean-facing-camera",
+    "p01-master-s12-chair-lean-bra-touch"
+  ],
+  "reclining × other × chair": [
+    "p01-master-s16-chair-floor-lying-head-on-chair"
+  ],
+  "reclining × prone × bench": [
+    "p01-master-b1-bench-lean-armrest-hip",
+    "p01-master-b2-bench-lean-armrest-knee",
+    "p01-master-b3-bench-lean-upper-body-hair"
+  ],
+  "reclining × supine × bench": [
+    "p01-master-b4-bench-lying-underwear-touch",
+    "p01-master-b5-bench-lying-back-arch"
+  ],
+  "kneeling × kneeling × bench": [
+    "p01-master-b7-bench-kneel-hip-knee-touch",
+    "p01-master-b8-bench-kneel-elevated-arch"
+  ]
+}

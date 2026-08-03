@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "**Pass 1 — Record Identity:**\n\n*   **Name vs. Description Mismatch:** **YES.** The name \"Standing Cambré Side\" describes a standing backbend (cambré) to the side. However, the description explicitly describes a **seated spinal twist** (\"Sit with legs extended and twist...\").\n*   **Category Mismatch:** **YES.** The category is \"fine-art,\" which typically aligns with the graceful, elongated lines of a cambré, but it contradicts the seated yoga/fitness nature of the written description.\n*   **Figure Type Consistency:** The figure shows a **standing** posture with legs together and a slight lateral curve (consistent with \"Cambré Side\"), but this contradicts the \"seated\" instruction in the text.\n*   **Semantic Mismatches:**\n    1.  **Posture State:** Name says \"Standing,\" Description says \"Sit.\"\n    2.  **Movement Type:** Name implies a \"Cambré\" (arch/bend), Description describes a \"Twist.\"\n    3.  **Limb Position:** Description specifies \"legs extended\" (implying a straddle or split-like base for a seated twist), whereas the figure shows legs together in a standing position.\n\n**Verdict:** Significant semantic conflict between the title/description and the visual representation/textual instructions.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785727419,
+  "id": "20260803112334e51e8551b5514fb5",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260803112334e51e8551b5514fb5",
+  "usage": {
+    "completion_tokens": 288,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 234,
+    "prompt_tokens_details": {
+      "cached_tokens": 1
+    },
+    "total_tokens": 522
+  }
+}

@@ -1,0 +1,1044 @@
+{
+  "base_sha": "d844a59",
+  "current_sha": "0b55b62",
+  "total_changed": 52,
+  "classifications": [
+    {
+      "poseId": "floor-cross-leg",
+      "name": "Cross-Legged",
+      "category": "seated",
+      "desc": "Sit on the floor with legs crossed and weight balanced evenly on both sit bones. Rest hands lightly ",
+      "rules": [
+        "manual_fix (iteration 4+)"
+      ],
+      "changedJoints": {
+        "hipAbductL": {
+          "before": 25,
+          "after": -25
+        },
+        "hipAbductR": {
+          "before": 25,
+          "after": -25
+        }
+      },
+      "classification": "UNVERIFIED_AUTOMATIC_CHANGE"
+    },
+    {
+      "poseId": "doorframe-lean",
+      "name": "Doorframe Lean",
+      "category": "leaning",
+      "desc": "Reach both hands up to grip the doorframe above the head, arms holding real tension rather than full",
+      "rules": [
+        "manual_fix (iteration 4+)"
+      ],
+      "changedJoints": {
+        "spine": {
+          "before": 18,
+          "after": -12
+        }
+      },
+      "classification": "UNVERIFIED_AUTOMATIC_CHANGE"
+    },
+    {
+      "poseId": "low-wall-sit",
+      "name": "Low Wall Sit",
+      "category": "leaning",
+      "desc": "Perch on a low ledge with feet planted on the ground, leaning the torso back to rest against a highe",
+      "rules": [
+        "manual_fix (iteration 4+)"
+      ],
+      "changedJoints": {
+        "leftHip": {
+          "after": 85
+        },
+        "rightHip": {
+          "after": 85
+        }
+      },
+      "classification": "UNVERIFIED_AUTOMATIC_CHANGE"
+    },
+    {
+      "poseId": "both-knees-forearms",
+      "name": "Both Knees Forearms",
+      "category": "lean-seat",
+      "desc": "Sit with both elbows resting on both knees, forearms hanging loosely between the legs. Hinge forward",
+      "rules": [
+        "manual_fix (iteration 4+)"
+      ],
+      "changedJoints": {
+        "leftShoulder": {
+          "before": 60,
+          "after": -15
+        },
+        "rightShoulder": {
+          "before": 20,
+          "after": -15
+        },
+        "shoulderFwdL": {
+          "before": 7,
+          "after": -40
+        },
+        "shoulderFwdR": {
+          "before": -5,
+          "after": -40
+        }
+      },
+      "classification": "UNVERIFIED_AUTOMATIC_CHANGE"
+    },
+    {
+      "poseId": "kneeling-arms-crossed",
+      "name": "Kneeling Arms Crossed",
+      "category": "kneeling",
+      "desc": "From a one-knee kneeling base, extend one arm out to the side at shoulder height while the torso lea",
+      "rules": [
+        "manual_fix (iteration 4+)"
+      ],
+      "changedJoints": {
+        "leftElbow": {
+          "before": 10,
+          "after": 90
+        }
+      },
+      "classification": "UNVERIFIED_AUTOMATIC_CHANGE"
+    },
+    {
+      "poseId": "kneeling-look-back",
+      "name": "Kneeling Look Back",
+      "category": "kneeling",
+      "desc": "Kneel upright and reach one arm overhead, bending the torso sideways over the opposite hip. Slide th",
+      "rules": [
+        "manual_fix (iteration 4+)"
+      ],
+      "changedJoints": {
+        "leftShoulder": {
+          "before": -110,
+          "after": -130
+        },
+        "rightShoulder": {
+          "before": 8,
+          "after": -130
+        }
+      },
+      "classification": "UNVERIFIED_AUTOMATIC_CHANGE"
+    },
+    {
+      "poseId": "kneeling-chest-open",
+      "name": "Kneeling Chest Open",
+      "category": "kneeling",
+      "desc": "Kneel and lean forward onto both hands flat on the floor, hips lifted slightly off the heels. Arch t",
+      "rules": [
+        "manual_fix (iteration 4+)"
+      ],
+      "changedJoints": {
+        "spine": {
+          "before": -10,
+          "after": -8
+        }
+      },
+      "classification": "UNVERIFIED_AUTOMATIC_CHANGE"
+    },
+    {
+      "poseId": "kneeling-crossed-arms-look-side",
+      "name": "Kneeling Crossed Arms Look Side",
+      "category": "kneeling",
+      "desc": "Kneel and bow the torso forward slowly and gracefully from the hips, arms resting on the thighs or e",
+      "rules": [
+        "manual_fix (iteration 4+)"
+      ],
+      "changedJoints": {
+        "spine": {
+          "before": 25,
+          "after": -8
+        }
+      },
+      "classification": "UNVERIFIED_AUTOMATIC_CHANGE"
+    },
+    {
+      "poseId": "prone-chin",
+      "name": "Prone Chin",
+      "category": "reclining",
+      "desc": "Sit and lean back onto both hands with legs extended forward. Let the chest open toward the sky and ",
+      "rules": [
+        "manual_fix (iteration 4+)"
+      ],
+      "changedJoints": {
+        "globalTilt": {
+          "before": -80,
+          "after": 85
+        }
+      },
+      "classification": "UNVERIFIED_AUTOMATIC_CHANGE"
+    },
+    {
+      "poseId": "prone-tuck-arms",
+      "name": "Prone Tuck Arms",
+      "category": "reclining",
+      "desc": "Lie on one side propped on one elbow, then bend the top leg forward and rest the knee on the ground ",
+      "rules": [
+        "manual_fix (iteration 4+)"
+      ],
+      "changedJoints": {
+        "globalTilt": {
+          "before": -80,
+          "after": 85
+        }
+      },
+      "classification": "UNVERIFIED_AUTOMATIC_CHANGE"
+    },
+    {
+      "poseId": "back-to-back",
+      "name": "Back to Back",
+      "category": "couple",
+      "desc": "Stand back-to-back with weight evenly shared, arms crossed or relaxed at the sides. Turn heads sligh",
+      "rules": [
+        "manual_fix (iteration 4+)"
+      ],
+      "changedJoints": {
+        "leftElbow": {
+          "before": 30,
+          "after": 90
+        },
+        "rightElbow": {
+          "before": 30,
+          "after": 90
+        },
+        "shoulderFwdL": {
+          "before": 14,
+          "after": -40
+        }
+      },
+      "classification": "UNVERIFIED_AUTOMATIC_CHANGE"
+    },
+    {
+      "poseId": "seated-together-back",
+      "name": "Seated Together Back to Back",
+      "category": "couple",
+      "desc": "Sit on the ground back-to-back, spines gently touching, each with knees drawn up or legs extended in",
+      "rules": [
+        "manual_fix (iteration 4+)"
+      ],
+      "changedJoints": {
+        "leftHip": {
+          "after": 85
+        },
+        "rightHip": {
+          "after": 85
+        }
+      },
+      "classification": "UNVERIFIED_AUTOMATIC_CHANGE"
+    },
+    {
+      "poseId": "partners-lean",
+      "name": "Partners Lean",
+      "category": "couple",
+      "desc": "Stand back to back and lean into each other for mutual support, arms crossed or hands in pockets. A ",
+      "rules": [
+        "manual_fix (iteration 4+)"
+      ],
+      "changedJoints": {
+        "leftElbow": {
+          "before": 30,
+          "after": 90
+        },
+        "rightElbow": {
+          "before": 30,
+          "after": 90
+        },
+        "shoulderFwdL": {
+          "before": 14,
+          "after": -40
+        }
+      },
+      "classification": "UNVERIFIED_AUTOMATIC_CHANGE"
+    },
+    {
+      "poseId": "sitting-one-standing-one",
+      "name": "Sitting One Standing One",
+      "category": "couple",
+      "desc": "One partner sits on a chair, step, or ledge while the other stands close beside or behind, a hand re",
+      "rules": [
+        "manual_fix (iteration 4+)"
+      ],
+      "changedJoints": {
+        "leftHip": {
+          "after": 85
+        },
+        "rightHip": {
+          "after": 85
+        }
+      },
+      "classification": "UNVERIFIED_AUTOMATIC_CHANGE"
+    },
+    {
+      "poseId": "seated-one-stands-behind",
+      "name": "Seated One Stands Behind",
+      "category": "couple",
+      "desc": "One partner sits while the other stands directly behind, leaning forward to rest arms around their s",
+      "rules": [
+        "manual_fix (iteration 4+)"
+      ],
+      "changedJoints": {
+        "leftHip": {
+          "after": 85
+        },
+        "rightHip": {
+          "after": 85
+        }
+      },
+      "classification": "UNVERIFIED_AUTOMATIC_CHANGE"
+    },
+    {
+      "poseId": "boudoir-bedsheet-drape-sit",
+      "name": "Bedsheet Drape Sit",
+      "category": "boudoir",
+      "desc": "Sit on the edge of the bed with a sheet draped across the lap, leaning back on one straight arm. Cro",
+      "rules": [
+        "manual_fix (iteration 4+)"
+      ],
+      "changedJoints": {
+        "leftHip": {
+          "before": 20,
+          "after": 85
+        },
+        "rightHip": {
+          "before": 20,
+          "after": 85
+        }
+      },
+      "classification": "UNVERIFIED_AUTOMATIC_CHANGE"
+    },
+    {
+      "poseId": "boudoir-standing-profile-curve",
+      "name": "Standing Profile Curve",
+      "category": "boudoir",
+      "desc": "Kneel and sit back fully onto the heels, arch through the spine, and reach both arms behind to rest ",
+      "rules": [
+        "sitting_hip_angle"
+      ],
+      "changedJoints": {
+        "leftShoulder": {
+          "before": -110,
+          "after": 20
+        },
+        "rightShoulder": {
+          "before": -110,
+          "after": 20
+        },
+        "leftKnee": {
+          "before": 30,
+          "after": 90
+        },
+        "rightKnee": {
+          "before": 15,
+          "after": 90
+        }
+      },
+      "classification": "UNVERIFIED_AUTOMATIC_CHANGE"
+    },
+    {
+      "poseId": "boudoir-prone-arch",
+      "name": "Prone Arch",
+      "category": "boudoir",
+      "desc": "Lie flat on your stomach and lift your chest off the mattress using your elbows. Arch your lower spi",
+      "rules": [
+        "manual_fix (iteration 4+)"
+      ],
+      "changedJoints": {
+        "globalTilt": {
+          "before": -70,
+          "after": 85
+        }
+      },
+      "classification": "UNVERIFIED_AUTOMATIC_CHANGE"
+    },
+    {
+      "poseId": "editorial-back-arch-tension",
+      "name": "Tension Back Arch",
+      "category": "editorial",
+      "desc": "Sit with knees bent sharply, feet flat, angling both knees to one side while the torso rotates to th",
+      "rules": [
+        "manual_fix (iteration 4+)"
+      ],
+      "changedJoints": {
+        "spine": {
+          "before": 32,
+          "after": -10
+        }
+      },
+      "classification": "UNVERIFIED_AUTOMATIC_CHANGE"
+    },
+    {
+      "poseId": "fineart-standing-torso-twist-sculpt",
+      "name": "Sculptural Torso Twist",
+      "category": "fine-art",
+      "desc": "Kneel and let the torso fall back and to one side as if in sorrow, extending both arms low and open ",
+      "rules": [
+        "manual_fix (iteration 4+)"
+      ],
+      "changedJoints": {
+        "rightKnee": {
+          "before": 8,
+          "after": 90
+        },
+        "leftKnee": {
+          "after": 90
+        }
+      },
+      "classification": "UNVERIFIED_AUTOMATIC_CHANGE"
+    },
+    {
+      "poseId": "fineart-standing-arm-sweep",
+      "name": "Graceful Arm Sweep",
+      "category": "fine-art",
+      "desc": "Kneel upright on both knees and extend the torso upward and slightly back, reaching one arm high ove",
+      "rules": [
+        "manual_fix (iteration 4+)"
+      ],
+      "changedJoints": {
+        "rightKnee": {
+          "before": 5,
+          "after": 90
+        },
+        "leftKnee": {
+          "after": 90
+        }
+      },
+      "classification": "UNVERIFIED_AUTOMATIC_CHANGE"
+    },
+    {
+      "poseId": "fineart-standing-figure-eight-arms",
+      "name": "Figure-Eight Arm Line",
+      "category": "fine-art",
+      "desc": "Kneel upright and cross both arms gently over the chest, holding opposite shoulders, spine tall, eye",
+      "rules": [
+        "manual_fix (iteration 4+)"
+      ],
+      "changedJoints": {
+        "rightKnee": {
+          "before": 10,
+          "after": 90
+        },
+        "leftKnee": {
+          "after": 90
+        }
+      },
+      "classification": "UNVERIFIED_AUTOMATIC_CHANGE"
+    },
+    {
+      "poseId": "fineart-prone-back-lift-elegant",
+      "name": "Elegant Prone Back Lift",
+      "category": "fine-art",
+      "desc": "Balance on one straight leg while drawing the opposite foot to rest against the inner knee, arms rou",
+      "rules": [
+        "manual_fix (iteration 4+)"
+      ],
+      "changedJoints": {
+        "globalTilt": {
+          "before": -70,
+          "after": 85
+        }
+      },
+      "classification": "UNVERIFIED_AUTOMATIC_CHANGE"
+    },
+    {
+      "poseId": "lowhigh-floor-lie-back-start",
+      "name": "Floor Lie Back Starting Point",
+      "category": "low-to-high",
+      "desc": "Push up from a seated floor position onto both knees, using both hands on the floor for support, hea",
+      "rules": [
+        "hand_to_floor"
+      ],
+      "changedJoints": {
+        "leftShoulder": {
+          "before": -10,
+          "after": -60
+        },
+        "rightShoulder": {
+          "before": 8,
+          "after": -60
+        },
+        "leftElbow": {
+          "before": 65,
+          "after": 20
+        },
+        "rightElbow": {
+          "before": 45,
+          "after": 20
+        }
+      },
+      "classification": "UNVERIFIED_AUTOMATIC_CHANGE"
+    },
+    {
+      "poseId": "lowhigh-standing-half-turn-rise",
+      "name": "Standing Half-Turn on Rise",
+      "category": "low-to-high",
+      "desc": "Still mostly seated on the floor, lift both arms before the legs begin to move, leading the rise wit",
+      "rules": [
+        "manual_fix (iteration 4+)"
+      ],
+      "changedJoints": {
+        "leftHip": {
+          "before": 15,
+          "after": 85
+        },
+        "rightHip": {
+          "before": 20,
+          "after": 85
+        },
+        "rightKnee": {
+          "before": 10,
+          "after": 90
+        }
+      },
+      "classification": "UNVERIFIED_AUTOMATIC_CHANGE"
+    },
+    {
+      "poseId": "lowhigh-standing-side-reach-peak",
+      "name": "Standing Side Reach Peak",
+      "category": "low-to-high",
+      "desc": "Still seated on the floor, begin extending both legs forward and pressing the hands down to lift the",
+      "rules": [
+        "manual_fix (iteration 4+)"
+      ],
+      "changedJoints": {
+        "leftHip": {
+          "before": 20,
+          "after": 85
+        },
+        "rightHip": {
+          "before": 20,
+          "after": 85
+        },
+        "rightKnee": {
+          "before": 10,
+          "after": 90
+        }
+      },
+      "classification": "UNVERIFIED_AUTOMATIC_CHANGE"
+    },
+    {
+      "poseId": "highlow-standing-peak-start",
+      "name": "Standing Peak Starting Point",
+      "category": "high-to-low",
+      "desc": "From an upright kneeling position, press one foot flat on the floor while sweeping both arms overhea",
+      "rules": [
+        "manual_fix (iteration 4+)"
+      ],
+      "changedJoints": {
+        "leftKnee": {
+          "before": 45,
+          "after": 90
+        },
+        "rightKnee": {
+          "before": 5,
+          "after": 90
+        }
+      },
+      "classification": "UNVERIFIED_AUTOMATIC_CHANGE"
+    },
+    {
+      "poseId": "highlow-standing-lean-back-start",
+      "name": "Standing Lean Back Starting Point",
+      "category": "high-to-low",
+      "desc": "Complete the descent fully seated or kneeling on the floor, torso relaxed, hands resting on the grou",
+      "rules": [
+        "manual_fix (iteration 4+)"
+      ],
+      "changedJoints": {
+        "spine": {
+          "before": 15,
+          "after": -10
+        },
+        "leftKnee": {
+          "before": 45,
+          "after": 90
+        },
+        "rightKnee": {
+          "before": 10,
+          "after": 90
+        }
+      },
+      "classification": "UNVERIFIED_AUTOMATIC_CHANGE"
+    },
+    {
+      "poseId": "highlow-full-prone-final-floor",
+      "name": "Full Prone Final Floor Position",
+      "category": "high-to-low",
+      "desc": "Lower to a seated position on the floor while leaning back onto both hands for support, legs extendi",
+      "rules": [
+        "manual_fix (iteration 4+)"
+      ],
+      "changedJoints": {
+        "globalTilt": {
+          "before": -82,
+          "after": 85
+        }
+      },
+      "classification": "UNVERIFIED_AUTOMATIC_CHANGE"
+    },
+    {
+      "poseId": "highlow-standing-hip-drop-begin",
+      "name": "Standing Hip Drop Beginning",
+      "category": "high-to-low",
+      "desc": "Settle into a kneeling position, torso upright, hands resting gently on the thighs, marking a calm, ",
+      "rules": [
+        "manual_fix (iteration 4+)"
+      ],
+      "changedJoints": {
+        "leftKnee": {
+          "before": 45,
+          "after": 90
+        },
+        "rightKnee": {
+          "before": 30,
+          "after": 90
+        }
+      },
+      "classification": "UNVERIFIED_AUTOMATIC_CHANGE"
+    },
+    {
+      "poseId": "highlow-hands-floor-arch-back",
+      "name": "Hands to Floor Arch Back Descent",
+      "category": "high-to-low",
+      "desc": "From standing, begin a slow, formal bow forward from the waist, arms trailing naturally down, legs s",
+      "rules": [
+        "manual_fix (iteration 4+)"
+      ],
+      "changedJoints": {
+        "spine": {
+          "before": 32,
+          "after": -10
+        },
+        "leftShoulder": {
+          "before": -10,
+          "after": 5
+        },
+        "leftElbow": {
+          "before": 70,
+          "after": 10
+        },
+        "rightShoulder": {
+          "before": 8,
+          "after": 5
+        },
+        "rightElbow": {
+          "before": 50,
+          "after": 10
+        }
+      },
+      "classification": "UNVERIFIED_AUTOMATIC_CHANGE"
+    },
+    {
+      "poseId": "highlow-final-floor-gaze-up",
+      "name": "Final Floor Gaze Up",
+      "category": "high-to-low",
+      "desc": "Begin seated on a raised chair or stool and start stepping one foot down toward the floor, torso lea",
+      "rules": [
+        "manual_fix (iteration 4+)"
+      ],
+      "changedJoints": {
+        "leftHip": {
+          "before": 15,
+          "after": 85
+        },
+        "rightHip": {
+          "before": 10,
+          "after": 85
+        },
+        "rightKnee": {
+          "before": 10,
+          "after": 90
+        }
+      },
+      "classification": "UNVERIFIED_AUTOMATIC_CHANGE"
+    },
+    {
+      "poseId": "p13-floor-s2-recline-look-up",
+      "name": "Floor Recline with Head Tilted Back",
+      "category": "reclining",
+      "desc": "Sit on the floor and lean back, propping the torso up on both hands placed behind the hips. Bend bot",
+      "rules": [
+        "manual_fix (iteration 4+)"
+      ],
+      "changedJoints": {
+        "leftHip": {
+          "before": 20,
+          "after": 85
+        },
+        "rightHip": {
+          "before": 20,
+          "after": 85
+        }
+      },
+      "classification": "UNVERIFIED_AUTOMATIC_CHANGE"
+    },
+    {
+      "poseId": "p13-floor-s5-blanket-recline-hand-face",
+      "name": "Cozy Blanket Recline, Hand Near Face",
+      "category": "reclining",
+      "desc": "Lie back on a soft blanket or bedding on the floor. Bend one leg up while keeping the other extended",
+      "rules": [
+        "manual_fix (iteration 4+)"
+      ],
+      "changedJoints": {
+        "shoulderFwdL": {
+          "before": 15,
+          "after": -50
+        }
+      },
+      "classification": "UNVERIFIED_AUTOMATIC_CHANGE"
+    },
+    {
+      "poseId": "p13-floor-s6-knees-bent-arms-crossed",
+      "name": "Seated Knees-to-Side with Arms Crossed",
+      "category": "reclining",
+      "desc": "Sit on the floor against a plain wall with both knees bent and drawn together toward one side. Cross",
+      "rules": [
+        "manual_fix (iteration 4+)"
+      ],
+      "changedJoints": {
+        "leftShoulder": {
+          "before": 75,
+          "after": -10
+        },
+        "rightShoulder": {
+          "before": 75,
+          "after": -10
+        },
+        "shoulderFwdL": {
+          "before": 90,
+          "after": -40
+        },
+        "shoulderFwdR": {
+          "before": 90,
+          "after": -40
+        }
+      },
+      "classification": "UNVERIFIED_AUTOMATIC_CHANGE"
+    },
+    {
+      "poseId": "p10-bench-s3-recline-arm-overhead",
+      "name": "Reclined on Bench, Arm Overhead",
+      "category": "seated",
+      "desc": "Lie back on the bench with the head tilted back over the edge. Raise one arm overhead so the hand re",
+      "rules": [
+        "manual_fix (iteration 4+)"
+      ],
+      "changedJoints": {
+        "rightShoulder": {
+          "before": -25,
+          "after": -130
+        }
+      },
+      "classification": "UNVERIFIED_AUTOMATIC_CHANGE"
+    },
+    {
+      "poseId": "p10-bench-s5-side-recline-arm-up",
+      "name": "Side Recline Along Bench, Arm Overhead",
+      "category": "seated",
+      "desc": "Lie on your side along the full length of the bench. Extend the legs along the bench and raise the t",
+      "rules": [
+        "manual_fix (iteration 4+)"
+      ],
+      "changedJoints": {
+        "leftShoulder": {
+          "before": 60,
+          "after": -130
+        },
+        "rightShoulder": {
+          "before": -90,
+          "after": -130
+        }
+      },
+      "classification": "UNVERIFIED_AUTOMATIC_CHANGE"
+    },
+    {
+      "poseId": "p09-unconv-s13-bent-over-chair-headdown",
+      "name": "Bent Over Ottoman, Head Down, Rear View",
+      "category": "eccentric",
+      "desc": "Bend forward over a tufted ottoman or chair with your back to the camera, letting the head hang down",
+      "rules": [
+        "manual_fix (iteration 4+)"
+      ],
+      "changedJoints": {
+        "spine": {
+          "before": 45,
+          "after": -10
+        }
+      },
+      "classification": "UNVERIFIED_AUTOMATIC_CHANGE"
+    },
+    {
+      "poseId": "p16-bed-b5-arch-legs-up-headboard",
+      "name": "Bed Back Arch Legs Up Against Headboard",
+      "category": "boudoir",
+      "desc": "Lie on your back with your hips near the headboard, kick both legs up to rest against the headboard ",
+      "rules": [
+        "manual_fix (iteration 4+)"
+      ],
+      "changedJoints": {
+        "shoulderFwdL": {
+          "before": 15,
+          "after": -50
+        },
+        "shoulderFwdR": {
+          "before": 10,
+          "after": -50
+        }
+      },
+      "classification": "UNVERIFIED_AUTOMATIC_CHANGE"
+    },
+    {
+      "poseId": "p18-lounge-r5-back-lying-arms-overhead",
+      "name": "Lying Back with Arms Overhead",
+      "category": "reclining",
+      "desc": "Lie back along the chaise with the torso flat and both arms reaching up overhead, wrists loosely cro",
+      "rules": [
+        "manual_fix (iteration 4+)"
+      ],
+      "changedJoints": {
+        "leftShoulder": {
+          "before": -15,
+          "after": -130
+        },
+        "rightShoulder": {
+          "before": -15,
+          "after": -130
+        }
+      },
+      "classification": "UNVERIFIED_AUTOMATIC_CHANGE"
+    },
+    {
+      "poseId": "p18-lounge-r7-seated-legs-crossed-hand-chin",
+      "name": "Seated with Legs Crossed and Hand at Chin",
+      "category": "reclining",
+      "desc": "Sit upright on the chaise with legs crossed at the knee, angled to one side. Rest one elbow on the t",
+      "rules": [
+        "manual_fix (iteration 4+)"
+      ],
+      "changedJoints": {
+        "shoulderFwdL": {
+          "before": 20,
+          "after": -50
+        },
+        "shoulderFwdR": {
+          "before": 10,
+          "after": -50
+        }
+      },
+      "classification": "UNVERIFIED_AUTOMATIC_CHANGE"
+    },
+    {
+      "poseId": "p08-male-r5-reclined-pillows-hand-near-face",
+      "name": "Reclined Against Pillows with Hand Near Face",
+      "category": "boudoir",
+      "desc": "Recline against pillows on the bed, torso propped up at an angle. Bring one hand up near the ear or ",
+      "rules": [
+        "manual_fix (iteration 4+)"
+      ],
+      "changedJoints": {
+        "shoulderFwdL": {
+          "before": 10,
+          "after": -50
+        },
+        "shoulderFwdR": {
+          "before": 15,
+          "after": -50
+        }
+      },
+      "classification": "UNVERIFIED_AUTOMATIC_CHANGE"
+    },
+    {
+      "poseId": "p08-male-se8-floor-lean-bench-legs-extended",
+      "name": "Floor Seated Leaning Against Bench",
+      "category": "seated",
+      "desc": "Sit on the floor with your back leaning against a tufted bench or ottoman. Extend both legs forward,",
+      "rules": [
+        "manual_fix (iteration 4+)"
+      ],
+      "changedJoints": {
+        "leftHip": {
+          "before": 15,
+          "after": 85
+        },
+        "rightHip": {
+          "before": 18,
+          "after": 85
+        },
+        "leftKnee": {
+          "before": 10,
+          "after": 90
+        },
+        "rightKnee": {
+          "before": 12,
+          "after": 90
+        }
+      },
+      "classification": "UNVERIFIED_AUTOMATIC_CHANGE"
+    },
+    {
+      "poseId": "p05-bench-b15-seated-floor-lean-bench-leg",
+      "name": "Bench Seated on Floor Leaning Against Bench Leg",
+      "category": "boudoir",
+      "desc": "Sit on the floor leaning against the bench leg, one arm resting on the bench and the other near the ",
+      "rules": [
+        "manual_fix (iteration 4+)"
+      ],
+      "changedJoints": {
+        "leftHip": {
+          "before": 15,
+          "after": 85
+        },
+        "rightHip": {
+          "before": 20,
+          "after": 85
+        },
+        "leftKnee": {
+          "before": 8,
+          "after": 90
+        },
+        "rightKnee": {
+          "before": 10,
+          "after": 90
+        }
+      },
+      "classification": "UNVERIFIED_AUTOMATIC_CHANGE"
+    },
+    {
+      "poseId": "p03-bed-b1-prone-belly-legs-crossed-shin",
+      "name": "Bed Prone Belly Legs Crossed at Shin",
+      "category": "boudoir",
+      "desc": "Lie on the belly with the upper body slightly elevated. Bend both arms with hands crossed. Bring the",
+      "rules": [
+        "manual_fix (iteration 4+)"
+      ],
+      "changedJoints": {
+        "globalTilt": {
+          "before": -75,
+          "after": 85
+        }
+      },
+      "classification": "UNVERIFIED_AUTOMATIC_CHANGE"
+    },
+    {
+      "poseId": "p03-bed-b2-prone-belly-arch-hips-up-eyes-closed",
+      "name": "Bed Prone Belly Arch Hips Up",
+      "category": "boudoir",
+      "desc": "Lie on the belly with both arms bent. Bring the knees together and cross the legs at the shin level,",
+      "rules": [
+        "manual_fix (iteration 4+)"
+      ],
+      "changedJoints": {
+        "globalTilt": {
+          "before": -78,
+          "after": 85
+        }
+      },
+      "classification": "UNVERIFIED_AUTOMATIC_CHANGE"
+    },
+    {
+      "poseId": "p03-bed-b3-prone-belly-arch-legs-extended-crossed",
+      "name": "Bed Prone Belly Arch Legs Extended Crossed",
+      "category": "boudoir",
+      "desc": "Lie on the belly with both arms bent. Bring the knees together, slightly bent to push the hips up, l",
+      "rules": [
+        "manual_fix (iteration 4+)"
+      ],
+      "changedJoints": {
+        "globalTilt": {
+          "before": -76,
+          "after": 85
+        }
+      },
+      "classification": "UNVERIFIED_AUTOMATIC_CHANGE"
+    },
+    {
+      "poseId": "p03-bed-b4-prone-belly-turned-leg-pushed-side",
+      "name": "Bed Prone Belly Turned Leg Pushed to Side",
+      "category": "boudoir",
+      "desc": "Lie on the belly with the upper body slightly turned to the side. Bend both arms. Bend one leg, push",
+      "rules": [
+        "manual_fix (iteration 4+)"
+      ],
+      "changedJoints": {
+        "globalTilt": {
+          "before": -72,
+          "after": 85
+        }
+      },
+      "classification": "UNVERIFIED_AUTOMATIC_CHANGE"
+    },
+    {
+      "poseId": "p03-bed-b5-prone-belly-elevated-hands-crossed-facing",
+      "name": "Bed Prone Belly Elevated Hands Crossed Facing Camera",
+      "category": "boudoir",
+      "desc": "Lie on the belly with the upper body elevated. Bend both arms with hands crossed. Bend one leg, push",
+      "rules": [
+        "manual_fix (iteration 4+)"
+      ],
+      "changedJoints": {
+        "globalTilt": {
+          "before": -74,
+          "after": 85
+        }
+      },
+      "classification": "UNVERIFIED_AUTOMATIC_CHANGE"
+    },
+    {
+      "poseId": "p01-master-s4-chair-chin-touch",
+      "name": "Chair Sit Knees Crossed Hand to Chin",
+      "category": "seated",
+      "desc": "Sit in the chair with both knees bent and crossed, toes pointed. Rest one hand on the armrest and br",
+      "rules": [
+        "manual_fix (iteration 4+)"
+      ],
+      "changedJoints": {
+        "shoulderFwdL": {
+          "before": 8,
+          "after": -50
+        }
+      },
+      "classification": "UNVERIFIED_AUTOMATIC_CHANGE"
+    },
+    {
+      "poseId": "p01-master-s8-chair-stand-lean-facing-camera",
+      "name": "Standing Lean Forward Body Turned to Camera",
+      "category": "standing",
+      "desc": "Stand by the chair with the body leaning forward. Bend one arm while keeping the other straight, cro",
+      "rules": [
+        "manual_fix (iteration 4+)"
+      ],
+      "changedJoints": {
+        "spine": {
+          "before": -28,
+          "after": -8
+        }
+      },
+      "classification": "UNVERIFIED_AUTOMATIC_CHANGE"
+    },
+    {
+      "poseId": "p01-master-s15-chair-floor-back-against-hand-floor",
+      "name": "Floor Seated Against Chair Hand on Floor Hip Hand",
+      "category": "seated",
+      "desc": "Sit on the floor with the back against the chair. Keep one arm bent and the other straight; place on",
+      "rules": [
+        "manual_fix (iteration 4+)"
+      ],
+      "changedJoints": {
+        "leftShoulder": {
+          "before": 0,
+          "after": 5
+        },
+        "rightShoulder": {
+          "before": 0,
+          "after": -35
+        },
+        "rightElbow": {
+          "before": 120,
+          "after": 90
+        }
+      },
+      "classification": "UNVERIFIED_AUTOMATIC_CHANGE"
+    }
+  ]
+}

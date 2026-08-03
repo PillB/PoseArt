@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "**Pass 1 — Record Identity:**\n\n*   **Name vs. Description Mismatch:** **Significant.** The name \"Standing Tall Arms Out Finish\" and the description (\"arms swinging up for momentum,\" \"dynamic frame,\" \"freeze the driving motion\") both imply a dynamic, high-energy pose with arms raised/outstretched. The figure shown has one arm down by the side and the other bent across the torso in a static, relaxed posture.\n*   **Category Mismatch:** **Yes.** The category is \"low-to-high\" (implying a vertical transition or jump), but the figure is standing on a single leg with the other lifted (a balancing pose), showing no clear upward driving motion from a low position.\n*   **Figure Type:** Consistent (stylized humanoid/mannequin).\n*   **Specific Mismatches:**\n    *   **Arms:** Description says \"arms swinging up\" / \"Arms Out\"; Figure shows right arm down, left arm bent inward.\n    *   **Action/Legs:** Description says \"drive upward... other trails behind\" (suggesting a lunge or jump takeoff); Figure shows a static single-leg balance with the trailing leg bent at the knee (not trailing straight behind as in a drive).\n    *   **Energy:** Description emphasizes \"real physical effort\" and \"driving motion\"; Figure appears static and calm.\n\n**Verdict:** **FAIL** — The image does not match the provided name, description, or category.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785727458,
+  "id": "20260803112355fe3d72b988714b86",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260803112355fe3d72b988714b86",
+  "usage": {
+    "completion_tokens": 309,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 235,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 544
+  }
+}

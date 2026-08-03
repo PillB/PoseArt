@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "**Mismatches:**\n\n1.  **Pose Name vs. Description:** The name \"Soft Standing Back Bend\" describes a standing pose, but the description explicitly says to \"Lie on one side.\" These are contradictory.\n2.  **Description vs. Visible Figure:** The figure is **standing upright with arms raised**, while the description details a **side-lying pose** (pressing up on a forearm and extending the top leg).\n3.  **Pose Name vs. Visible Figure:** While both imply a vertical orientation, \"Back Bend\" implies an arching of the spine backward, whereas the visible figure is in a straight, neutral standing position.\n\n**Conclusion:** There are significant mismatches between all three elements (Name, Description, and Image).",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785727518,
+  "id": "20260803112513e5f5090194034bb6",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260803112513e5f5090194034bb6",
+  "usage": {
+    "completion_tokens": 154,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 168,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 322
+  }
+}

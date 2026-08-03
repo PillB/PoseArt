@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "**MISMATCH**\n\nThe description specifies a **standing** pose (\"Plant feet hip-width apart... shift weight...\"), but the visible figure is clearly in a **walking or stepping pose** with one leg lifted off the ground and bent at the knee. The figure does not have both feet planted on the ground as required by the S-Curve Stand description.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785727499,
+  "id": "20260803112457fd588b20f43e4bc2",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260803112457fd588b20f43e4bc2",
+  "usage": {
+    "completion_tokens": 72,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 172,
+    "prompt_tokens_details": {
+      "cached_tokens": 1
+    },
+    "total_tokens": 244
+  }
+}

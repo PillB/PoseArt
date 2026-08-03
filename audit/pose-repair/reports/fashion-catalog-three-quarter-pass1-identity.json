@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "**Pass 1 — Record Identity:**\n\n*   **Pose Name vs. Description:** **MISMATCH.** The description specifies a \"strong, deliberate forward step\" with the \"front knee slightly bent\" and \"back leg driving off the ball of the foot\" (indicating a walking or striding motion). The image shows a static standing pose with legs crossed and weight shifted to one leg, not a forward stride.\n*   **Category:** **MISMATCH.** The category is \"fashion,\" which typically implies dynamic movement (like a runway walk) or specific catalog stances. The figure's posture is more akin to a neutral or relaxed standing pose rather than a fashion-specific stance.\n*   **Figure Type Consistency:** **OK.** The figure is a standard 3D mannequin, consistent with pose reference imagery.\n*   **Semantic Mismatches:**\n    *   **Leg Position:** Description calls for a forward step/stride; image shows legs crossed in a stationary position.\n    *   **Action:** Description describes active movement (\"driving off,\" \"swinging\"); image depicts a static, balanced pose.\n    *   **Arm Position:** Description mentions arms \"swinging in opposition\"; image shows arms hanging relatively straight down at the sides.\n\n**Verdict:** The image does not match the provided description for \"Catalog Three-Quarter Stand.\"",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785727432,
+  "id": "2026080311234330b861cd732248d6",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "2026080311234330b861cd732248d6",
+  "usage": {
+    "completion_tokens": 280,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 238,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 518
+  }
+}

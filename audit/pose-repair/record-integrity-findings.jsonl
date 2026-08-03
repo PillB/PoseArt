@@ -1,0 +1,22 @@
+{"poseId":"p17-tubes-s4-standing-lean-one-leg-on-tube","type":"CATEGORY_DESC_MISMATCH","severity":"medium","detail":"seated category but desc is standing"}
+{"poseId":"scurve-stand","type":"NAME_DESC_MISMATCH","severity":"high","detail":"name says standing but desc says sit/recline"}
+{"poseId":"knights-kneel","type":"NAME_DESC_MISMATCH","severity":"medium","detail":"name says kneeling but desc doesn't mention it"}
+{"poseId":"kneeling-reach","type":"NAME_DESC_MISMATCH","severity":"medium","detail":"name says kneeling but desc doesn't mention it"}
+{"poseId":"prayer-kneeling","type":"NAME_DESC_MISMATCH","severity":"medium","detail":"name says kneeling but desc doesn't mention it"}
+{"poseId":"kneeling-hug","type":"NAME_DESC_MISMATCH","severity":"medium","detail":"name says kneeling but desc doesn't mention it"}
+{"poseId":"kneeling-crouch","type":"NAME_DESC_MISMATCH","severity":"medium","detail":"name says kneeling but desc doesn't mention it"}
+{"poseId":"kneeling-tuck-forward","type":"NAME_DESC_MISMATCH","severity":"medium","detail":"name says kneeling but desc doesn't mention it"}
+{"poseId":"editorial-kneel-collapse","type":"NAME_DESC_MISMATCH","severity":"medium","detail":"name says kneeling but desc doesn't mention it"}
+{"poseId":"fineart-pieta-kneel","type":"NAME_DESC_MISMATCH","severity":"medium","detail":"name says kneeling but desc doesn't mention it"}
+{"poseId":"fineart-kneeling-torso-extend","type":"NAME_DESC_MISMATCH","severity":"medium","detail":"name says kneeling but desc doesn't mention it"}
+{"poseId":"fineart-kneeling-arms-crossed-chest","type":"NAME_DESC_MISMATCH","severity":"medium","detail":"name says kneeling but desc doesn't mention it"}
+{"poseId":"fineart-kneeling-side-stretch","type":"NAME_DESC_MISMATCH","severity":"medium","detail":"name says kneeling but desc doesn't mention it"}
+{"poseId":"fineart-kneeling-both-arms-extend-fwd","type":"NAME_DESC_MISMATCH","severity":"medium","detail":"name says kneeling but desc doesn't mention it"}
+{"poseId":"fashion-catalog-three-quarter","type":"NAME_DESC_MISMATCH","severity":"high","detail":"name says standing but desc says sit/recline"}
+{"poseId":"lowhigh-seated-to-kneel-transition","type":"NAME_DESC_MISMATCH","severity":"medium","detail":"name says kneeling but desc doesn't mention it"}
+{"poseId":"lowhigh-kneel-lean-forward-rise","type":"NAME_DESC_MISMATCH","severity":"medium","detail":"name says kneeling but desc doesn't mention it"}
+{"poseId":"lowhigh-half-kneel-arms-rising-wide","type":"NAME_DESC_MISMATCH","severity":"medium","detail":"name says kneeling but desc doesn't mention it"}
+{"poseId":"lowhigh-floor-kneel-hands-overhead-rise","type":"NAME_DESC_MISMATCH","severity":"medium","detail":"name says kneeling but desc doesn't mention it"}
+{"poseId":"highlow-kneel-settle-final","type":"NAME_DESC_MISMATCH","severity":"medium","detail":"name says kneeling but desc doesn't mention it"}
+{"poseId":"p09-unconv-s6-shoulder-stand-fold","type":"NAME_DESC_MISMATCH","severity":"high","detail":"name says standing but desc says sit/recline"}
+{"poseId":"p03-bed-b9-kneeling-hands-knees-eyes-closed","type":"NAME_DESC_MISMATCH","severity":"medium","detail":"name says kneeling but desc doesn't mention it"}

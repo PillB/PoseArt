@@ -1,0 +1,42 @@
+{
+  "displaced": [
+    "scurve-stand",
+    "boudoir-reclined-back-support",
+    "boudoir-standing-profile-curve",
+    "fineart-standing-back-bend-soft",
+    "fineart-standing-still-life-drape",
+    "fineart-standing-cambre-side",
+    "fashion-catalog-three-quarter",
+    "lowhigh-standing-tall-arms-out",
+    "highlow-standing-hip-drop-begin",
+    "highlow-standing-bow-forward-begin",
+    "p09-unconv-s6-shoulder-stand-fold"
+  ],
+  "stratum": [
+    "wall-lean",
+    "doorframe-lean",
+    "shoulder-wall",
+    "hip-pop-wall",
+    "back-wall-prop",
+    "soft-sit",
+    "chair-lean-forward",
+    "chair-arms-overhead",
+    "cross-ankle-sit",
+    "chair-twist-both",
+    "couple-embrace",
+    "waltz-hold",
+    "back-to-back",
+    "forehead-touch",
+    "hand-in-hand-walk",
+    "both-knees",
+    "knights-kneel",
+    "kneeling-arms-crossed",
+    "kneeling-reach",
+    "kneeling-back-arch",
+    "starfish",
+    "lounger-recline",
+    "side-recline",
+    "prone-chin",
+    "pool-float"
+  ]
+}
