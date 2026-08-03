@@ -118,11 +118,12 @@ const RULES = [
     },
     fix: (j) => { if ((j.spine || 0) > 15) j.spine = -12; return j; }
   },
-  // LEAN FORWARD: spine should be positive
+  // LEAN FORWARD: spine should be positive (but NOT if "arch" is also in desc)
   {
     name: 'lean_forward_spine',
     match: /(?:lean|fold|bend)\s+(?:forward|ahead|down forward)/i,
     check: (j, d) => {
+      if (/arch/i.test(d)) return null; // "arch back" takes precedence over "lean forward"
       if ((j.spine || 0) < -5) return `lean forward but spine=${j.spine} (should be positive=forward)`;
       return null;
     },
@@ -176,6 +177,127 @@ const RULES = [
     },
     fix: (j) => { if ((j.globalTilt || 0) > -30 && (j.globalTilt || 0) < 30) j.globalTilt = -85; return j; }
   },
+  // ── Iteration 2 rules ──
+  // HAND TO FACE/CHIN: active shoulder should be negative (raised) + shoulderFwd negative (forward)
+  {
+    name: 'hand_to_face',
+    match: /hand\s+(?:to|near|on|at|touching)\s+(?:the\s+)?(?:face|chin|cheek|forehead|jaw)/i,
+    check: (j, d) => {
+      // At least one shoulder should be raised (negative)
+      const ls = j.leftShoulder, rs = j.rightShoulder;
+      if (ls > 0 && rs > 0) return `hand to face but both shoulders positive L=${ls} R=${rs} (one should be negative=raised)`;
+      // The raised arm's shoulderFwd should be forward (negative)
+      if (ls < 0 && (j.shoulderFwdL || 0) > 0) return `hand to face but shoulderFwdL=${j.shoulderFwdL} (should be negative=forward for hand to face)`;
+      if (rs < 0 && (j.shoulderFwdR || 0) > 0) return `hand to face but shoulderFwdR=${j.shoulderFwdR} (should be negative=forward)`;
+      return null;
+    },
+    fix: (j) => {
+      // Make left arm the active one if neither is raised
+      if (j.leftShoulder > 0 && j.rightShoulder > 0) { j.leftShoulder = -50; j.shoulderFwdL = -50; j.leftElbow = 110; }
+      else if (j.leftShoulder < 0 && (j.shoulderFwdL || 0) > 0) j.shoulderFwdL = -50;
+      else if (j.rightShoulder < 0 && (j.shoulderFwdR || 0) > 0) j.shoulderFwdR = -50;
+      return j;
+    }
+  },
+  // SITTING: hip angle should be > 70 (legs forward, not standing)
+  // Only match descriptions that clearly indicate seated pose (not "sit the torso upright")
+  {
+    name: 'sitting_hip_angle',
+    match: /(?:sit\s+(?:on|down|back|upright)|seated\s+(?:on|in|at|with)|sitting\s+(?:on|in|at|with)|perch(?:ed)?\s+(?:on|at))/i,
+    check: (j, d, cat) => {
+      if (cat === 'standing' || cat === 'fashion') return null; // standing poses excluded
+      if (Math.abs(j.globalTilt || 0) > 60) return null; // reclining poses excluded
+      const lh = j.leftHip || 0, rh = j.rightHip || 0;
+      if (lh < 30 && rh < 30) return `sitting but hips L=${lh} R=${rh} (should be > 70 for seated)`;
+      return null;
+    },
+    fix: (j) => {
+      if ((j.leftHip || 0) < 30) j.leftHip = 85;
+      if ((j.rightHip || 0) < 30) j.rightHip = 85;
+      if ((j.leftKnee || 0) < 30) j.leftKnee = 90;
+      if ((j.rightKnee || 0) < 30) j.rightKnee = 90;
+      return j;
+    }
+  },
+  // KNEELING: knees should be deeply bent (> 80)
+  {
+    name: 'kneeling_knee_depth',
+    match: /(?:kneel|kneeling)/i,
+    check: (j, d) => {
+      if (Math.abs(j.globalTilt || 0) > 60) return null; // reclining excluded
+      const lk = j.leftKnee || 0, rk = j.rightKnee || 0;
+      if (lk < 60 && rk < 60) return `kneeling but knees L=${lk} R=${rk} (should be > 80 for kneeling)`;
+      return null;
+    },
+    fix: (j) => {
+      if ((j.leftKnee || 0) < 60) j.leftKnee = 90;
+      if ((j.rightKnee || 0) < 60) j.rightKnee = 90;
+      return j;
+    }
+  },
+  // ELBOW ON KNEE: elbow should be bent (> 90) and arm forward
+  {
+    name: 'elbow_on_knee',
+    match: /elbow\s+(?:on|resting on|at)\s+(?:the\s+)?knee/i,
+    check: (j, d) => {
+      const le = j.leftElbow || 0, re = j.rightElbow || 0;
+      if (le < 70 && re < 70) return `elbow on knee but elbows L=${le} R=${re} (should be > 90 for resting on knee)`;
+      return null;
+    },
+    fix: (j) => {
+      if ((j.leftElbow || 0) < 70) j.leftElbow = 100;
+      if ((j.rightElbow || 0) < 70) j.rightElbow = 100;
+      if ((j.leftShoulder || 0) > 20) j.leftShoulder = -10;
+      if ((j.rightShoulder || 0) > 20) j.rightShoulder = -10;
+      return j;
+    }
+  },
+  // HAND TO FLOOR: shoulders should be negative (arms down/forward)
+  {
+    name: 'hand_to_floor',
+    match: /hand[s]?\s+(?:on|to|touching|reaching toward)\s+(?:the\s+)?(?:floor|ground)/i,
+    check: (j, d) => {
+      const ls = j.leftShoulder, rs = j.rightShoulder;
+      // For hands on floor, shoulders should be very negative (arms down)
+      if (ls > -20 && rs > -20) return `hands to floor but shoulders L=${ls} R=${rs} (should be < -20 for reaching down)`;
+      return null;
+    },
+    fix: (j) => {
+      // Arms at side (shoulder near 0) to reach floor, NOT raised (negative = up)
+      if (j.leftShoulder > -20) j.leftShoulder = 5;
+      if (j.rightShoulder > -20) j.rightShoulder = 5;
+      if ((j.leftElbow || 0) > 40) j.leftElbow = 10;
+      if ((j.rightElbow || 0) > 40) j.rightElbow = 10;
+      return j;
+    }
+  },
+  // LEAN BACK: spine should be negative (backward)
+  {
+    name: 'lean_back_spine',
+    match: /(?:lean\s+back|arch\s+(?:the\s+)?back|leaning back|back arch)/i,
+    check: (j, d) => {
+      if ((j.spine || 0) > 10) return `lean back/arch back but spine=${j.spine} (should be negative=backward)`;
+      return null;
+    },
+    fix: (j) => { if ((j.spine || 0) > 10) j.spine = -10; return j; }
+  },
+  // ARMS BEHIND BACK: shoulders positive (back) + shoulderFwd positive (behind)
+  {
+    name: 'arms_behind_back',
+    match: /arms?\s+(?:behind|behind the|clasped behind|hands behind)/i,
+    check: (j, d) => {
+      if (j.leftShoulder < -30 && j.rightShoulder < -30) return `arms behind back but shoulders L=${j.leftShoulder} R=${j.rightShoulder} (should be positive=back)`;
+      if ((j.shoulderFwdL || 0) < -20 && (j.shoulderFwdR || 0) < -20) return `arms behind back but shoulderFwd L=${j.shoulderFwdL} R=${j.shoulderFwdR} (should be positive=behind)`;
+      return null;
+    },
+    fix: (j) => {
+      if (j.leftShoulder < -30) j.leftShoulder = 20;
+      if (j.rightShoulder < -30) j.rightShoulder = 20;
+      if ((j.shoulderFwdL || 0) < -20) j.shoulderFwdL = 40;
+      if ((j.shoulderFwdR || 0) < -20) j.shoulderFwdR = 40;
+      return j;
+    }
+  },
 ];
 
 // Run all rules on all poses
@@ -187,7 +309,7 @@ for (const id in lib) {
   const joints = pose.joints || {};
   for (const rule of RULES) {
     if (rule.match.test(desc)) {
-      const issue = rule.check(joints, desc);
+      const issue = rule.check(joints, desc, pose.category);
       if (issue) {
         issues.push({ poseId: id, rule: rule.name, issue, joints: JSON.stringify(joints) });
         fixes.push({ poseId: id, rule: rule.name, fix: rule.fix(JSON.parse(JSON.stringify(joints))) });
