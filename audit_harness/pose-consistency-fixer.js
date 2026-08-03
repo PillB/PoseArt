@@ -259,7 +259,7 @@ const RULES = [
     check: (j, d) => {
       const ls = j.leftShoulder, rs = j.rightShoulder;
       // For hands on floor, shoulders should be very negative (arms down)
-      if (ls > -20 && rs > -20) return `hands to floor but shoulders L=${ls} R=${rs} (should be < -20 for reaching down)`;
+      if (Math.abs(ls) > 40 && Math.abs(rs) > 40) return `hands to floor but shoulders L=${ls} R=${rs} (should be < -20 for reaching down)`;
       return null;
     },
     fix: (j) => {

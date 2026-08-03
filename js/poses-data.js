@@ -1021,7 +1021,7 @@ const POSES_LIBRARY = {
     difficulty: 'Beginner', angle: 'Front', intent: 'Editorial', effort: 'Static',
     instructions: 'Sit with both elbows resting on both knees, forearms hanging loosely between the legs. Hinge forward from the hips and hold a direct, engaged gaze into the lens.',
     tip: 'This classic forward lean instantly reads as approachable — keep the spine long, not rounded. The thinker base reads as candid and grounded, perfect for environmental portrait sessions.',
-    joints: {spine: 18, neck: -4, leftShoulder: 60, rightShoulder: 20, leftElbow: 81, rightElbow: 81, leftHip: 70, rightHip: 70, leftKnee: 80, rightKnee: 80, hips: 9, shoulderFwdL: 7, shoulderFwdR: -5},
+    joints: {spine: 18, neck: -4, leftShoulder: -15, rightShoulder: -15, leftElbow: 81, rightElbow: 81, leftHip: 70, rightHip: 70, leftKnee: 80, rightKnee: 80, hips: 9, shoulderFwdL: -40, shoulderFwdR: -40},
     color: 'var(--color-teal-100)', figure: 'elbow-prop',
     tags: ['candid', 'beginner', 'seated', 'leaning']
   },
