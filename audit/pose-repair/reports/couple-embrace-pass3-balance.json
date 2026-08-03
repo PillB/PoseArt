@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "Based on the reference image and the \"Close Embrace\" pose description, here is the evaluation:\n\n**Status: Issues**\n\n**Specific Issues Identified:**\n\n1.  **Pose Mismatch (Critical):** The image depicts a **single figure** in a standing pose with arms extended outward (open/neutral position), not a **couple** in an embrace. The arms are not wrapped around anyone, and there is no second figure present to embrace.\n2.  **Line of Action:** The current line of action is a relatively straight, static vertical line suitable for a neutral standing pose. A close embrace would require a curved or intertwined line of action reflecting the connection between two bodies.\n3.  **Silhouette:** The silhouette shows isolated limbs (arms away from body) rather than the unified, compact mass typical of a close embrace where limbs are wrapped and bodies overlap.\n4.  **Base of Support & Balance:** While the single figure appears balanced over its base (feet), a true close embrace couple would share a combined center of mass and potentially a wider or offset base of support depending on the specific style of embrace.\n\n**Correction Needed:** To achieve the \"Close Embrace\" pose, the figure(s) must be repositioned to face each other at intimate proximity, with arms flexed and wrapped around the partner's torso/back, creating a connected two-person silhouette.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785727881,
+  "id": "2026080311311162ca6f2acc43477e",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "2026080311311162ca6f2acc43477e",
+  "usage": {
+    "completion_tokens": 281,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 169,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 450
+  }
+}

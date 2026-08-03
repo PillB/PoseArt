@@ -52,7 +52,7 @@ const POSES_LIBRARY = {
     // undermined. The joint values need to be bold enough to read at 160×180
     // preview size. 70% weight shift = significant hip pop; "dropping the
     // opposite shoulder" = at least 15° shoulder asymmetry.
-    joints: {spine: 25, hips: 22, neck: -8, leftShoulder: -25, rightShoulder: 18, leftElbow: 70, rightElbow: 50, hipAbductL: 15, hipAbductR: 12, leftHip: 20, rightKnee: 5, leftKnee: 35},
+    joints: {spine: 25, hips: 8, neck: -8, leftShoulder: -25, rightShoulder: 18, leftElbow: 70, rightElbow: 50, hipAbductL: 15, hipAbductR: 12, leftHip: 5, rightHip: 5, rightKnee: 10, leftKnee: 10, leftAnkle: 0, rightAnkle: 0},
     color: 'var(--color-teal-100)', figure: 'scurve',
     tags: ['portrait', 'beginner', 'standing', 'classic']
   },
