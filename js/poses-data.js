@@ -933,7 +933,7 @@ const POSES_LIBRARY = {
     difficulty: 'Beginner', angle: '3/4 View', intent: 'Photography', effort: 'Static',
     instructions: 'Rest a single elbow on the knee and balance the chin delicately in the open palm, fingers soft along the jawline. Keep the neck relaxed and the gaze contemplative.',
     tip: 'Rest the jaw on the side of the index finger, not the full palm, to avoid squishing the cheek.',
-    joints: {spine: 45, hips: 9, neck: -14, leftShoulder: 40, rightShoulder: -12, leftElbow: 140, rightElbow: 18, hipAbductL: -30, leftHip: 115, rightHip: 85, leftKnee: 80, rightKnee: 80, shoulderFwdL: -130, shoulderFwdR: -30},
+    joints: {spine: 45, hips: 9, neck: -14, leftShoulder: -20, rightShoulder: -12, leftElbow: 140, rightElbow: 18, hipAbductL: -30, leftHip: 115, rightHip: 85, leftKnee: 80, rightKnee: 80, shoulderFwdL: -130, shoulderFwdR: -30},
     color: 'var(--color-teal-100)', figure: 'chin-on-hand',
     tags: ['portrait', 'beginner', 'seated', 'leaning']
   },
@@ -978,7 +978,7 @@ const POSES_LIBRARY = {
     difficulty: 'Beginner', angle: '3/4 View', intent: 'Photography', effort: 'Static',
     instructions: 'Rest an elbow on the table and curl the fingers into a loose fist, resting the chin lightly on top. Let the eyes drift thoughtfully off to the side rather than at the lens.',
     tip: 'A loose fist under the chin reads playful; an open palm reads contemplative — pick your mood.',
-    joints: {spine: -10, neck: -12, leftElbow: 95, leftHip: 70, rightHip: 70, leftKnee: 80, rightKnee: 80, rightElbow: 18, rightShoulder: -12, hips: 12, shoulderFwdL: 7, shoulderFwdR: -5},
+    joints: {spine: -10, neck: -12, leftShoulder: -20, leftElbow: 95, leftHip: 70, rightHip: 70, leftKnee: 80, rightKnee: 80, rightElbow: 18, rightShoulder: -12, hips: 12, shoulderFwdL: -30, shoulderFwdR: -5},
     color: 'var(--color-teal-100)', figure: 'chin-on-hand',
     tags: ['thoughtful', 'beginner', 'seated', 'leaning']
   },
