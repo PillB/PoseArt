@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "1. **Top Left:** OK. Arms raised, legs crossed, balanced on one foot. Spine straight.\n2. **Top Middle:** ISSUE. Left leg appears detached or floating; no clear support.\n3. **Top Right:** ISSUE. Legs crossed awkwardly, looks unstable or disjointed.\n4. **Bottom Left:** OK. Leaning on rail, one leg lifted. Balanced with support.\n5. **Bottom Middle:** ISSUE. Right leg seems to pass through left or is misaligned; unnatural stance.\n6. **Bottom Right:** ISSUE. Legs crossed, but the positioning looks stiff and potentially unbalanced.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785735316,
+  "id": "20260803133513c417ea5f771b490e",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260803133513c417ea5f771b490e",
+  "usage": {
+    "completion_tokens": 127,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 362,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 489
+  }
+}

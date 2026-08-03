@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE 1 (Top Left): OK. Limbs aligned, balanced stance, feet planted, hands natural, spine straight.\nPOSE 2 (Top Middle): ISSUE. Floating torso/legs disconnected from ground; limbs lack structural logic.\nPOSE 3 (Top Right): OK. Dynamic running pose with proper limb counterbalance and foot placement.\nPOSE 4 (Bottom Left): OK. Leaning posture is stable; spine curve matches the lean.\nPOSE 5 (Bottom Middle): OK. Relaxed standing pose; joints appear functional and grounded.\nPOSE 6 (Bottom Right): ISSUE. Knee joint appears hyperextended or broken; hip connection looks disjointed.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785735285,
+  "id": "20260803133441dd0f3d97121c4cd4",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260803133441dd0f3d97121c4cd4",
+  "usage": {
+    "completion_tokens": 133,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 362,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 495
+  }
+}

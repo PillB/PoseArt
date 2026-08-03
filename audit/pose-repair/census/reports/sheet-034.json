@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE 1: ISSUE. Limbs: Left leg detached at knee. Balance: Unstable. Feet: Floating. Hands: OK. Spine: OK.\nPOSE 2: ISSUE. Limbs: Right leg detached at hip/knee. Balance: Unstable. Feet: Floating. Hands: OK. Spine: OK.\nPOSE 3: ISSUE. Limbs: Legs detached, floating. Balance: Unsupported. Feet: Not grounded. Hands: OK. Spine: OK.\nPOSE 4: ISSUE. Limbs: Left leg detached at ankle/foot. Balance: Unstable. Feet: Missing contact. Hands: OK. Spine: OK.\nPOSE 5: ISSUE. Limbs: Both legs detached at ankles. Balance: Unstable. Feet: Floating. Hands: OK. Spine: OK.\nPOSE 6: ISSUE. Limbs: Right leg detached at knee. Balance: Unstable. Feet: Floating. Hands: OK. Spine: OK.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785735273,
+  "id": "2026080313343153e8e14bb7b94ac7",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "2026080313343153e8e14bb7b94ac7",
+  "usage": {
+    "completion_tokens": 203,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 362,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 565
+  }
+}

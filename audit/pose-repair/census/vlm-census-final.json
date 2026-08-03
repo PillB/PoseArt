@@ -1,0 +1,283 @@
+{
+  "total": 745,
+  "reviewed": 240,
+  "ok": 115,
+  "issues": 39,
+  "unknown": 86,
+  "unreviewed": 505,
+  "issuePoses": [
+    {
+      "poseId": "acrobat-balance",
+      "detail": "acrobat-balance: ISSUE - floating foot, unstable balance"
+    },
+    {
+      "poseId": "back-angel",
+      "detail": "back-angel: ISSUE - feet floating above ground"
+    },
+    {
+      "poseId": "back-prop",
+      "detail": "back-prop: ISSUE - feet not touching ground, balance unclear"
+    },
+    {
+      "poseId": "backward-lean-chair",
+      "detail": "backward-lean-chair: ISSUE - feet not on ground, no support for lean"
+    },
+    {
+      "poseId": "bench-lean-side",
+      "detail": "bench-lean-side: ISSUE - feet floating above ground"
+    },
+    {
+      "poseId": "boudoir-dying-slave",
+      "detail": "boudoir-dying-slave: ISSUE - right arm position looks unnatural/unclear"
+    },
+    {
+      "poseId": "boudoir-elegant-recline",
+      "detail": "boudoir-elegant-recline: ISSUE - feet not on ground, floating"
+    },
+    {
+      "poseId": "boudoir-embrace-pose",
+      "detail": "boudoir-embrace-pose: ISSUE - feet off balance, leaning too far back"
+    },
+    {
+      "poseId": "boudoir-mermaid-side-sit",
+      "detail": "boudoir-mermaid-side-s: ISSUE - floating above ground, no support"
+    },
+    {
+      "poseId": "boudoir-pretzel-twist",
+      "detail": "boudoir-pretzel-twist: ISSUE - figure is floating, feet not on ground"
+    },
+    {
+      "poseId": "boudoir-psyche-revived",
+      "detail": "boudoir-psyche-revived: ISSUE - figure is floating upside down, head not on ground"
+    },
+    {
+      "poseId": "boudoir-r-evolution",
+      "detail": "boudoir-r-evolution: ISSUE - feet crossed, unstable balance"
+    },
+    {
+      "poseId": "boudoir-sheet-pull",
+      "detail": "POSE 2 (boudoir-sheet-pull): ISSUE - hands appear to float above the sheet surface."
+    },
+    {
+      "poseId": "boudoir-sleeping-ariadne",
+      "detail": "POSE 5 (boudoir-sleeping-ariad): ISSUE - feet are floating significantly above the ground plane."
+    },
+    {
+      "poseId": "boudoir-standing-corset-hands",
+      "detail": "boudoir-standing-corset: ISSUE - feet floating above ground"
+    },
+    {
+      "poseId": "boudoir-standing-hair-flip-still",
+      "detail": "boudoir-standing-corset: ISSUE - feet floating above ground"
+    },
+    {
+      "poseId": "boudoir-standing-hand-hip",
+      "detail": "boudoir-standing-corset: ISSUE - feet floating above ground"
+    },
+    {
+      "poseId": "boudoir-standing-leg-up-chair",
+      "detail": "boudoir-standing-corset: ISSUE - feet floating above ground"
+    },
+    {
+      "poseId": "boudoir-standing-look-back-drape",
+      "detail": "boudoir-standing-corset: ISSUE - feet floating above ground"
+    },
+    {
+      "poseId": "boudoir-standing-profile-curve",
+      "detail": "boudoir-standing-corset: ISSUE - feet floating above ground"
+    },
+    {
+      "poseId": "boudoir-the-dawn",
+      "detail": "boudoir-the-dawn: ISSUE - Single point of balance, feet off ground"
+    },
+    {
+      "poseId": "boudoir-the-kiss",
+      "detail": "boudoir-the-dawn: ISSUE - Single point of balance, feet off ground"
+    },
+    {
+      "poseId": "boudoir-the-night",
+      "detail": "boudoir-the-dawn: ISSUE - Single point of balance, feet off ground"
+    },
+    {
+      "poseId": "boudoir-the-source",
+      "detail": "boudoir-the-dawn: ISSUE - Single point of balance, feet off ground"
+    },
+    {
+      "poseId": "boudoir-three-goddesses",
+      "detail": "POSE 2 (boudoir-three-goddess): ISSUE - feet not on ground, balance unclear."
+    },
+    {
+      "poseId": "boudoir-walking-woman",
+      "detail": "boudoir-walking-woman: ISSUE - right foot floating, poor balance"
+    },
+    {
+      "poseId": "boudoir-winged-victory",
+      "detail": "boudoir-winged-victory: ISSUE - feet floating above ground"
+    },
+    {
+      "poseId": "cartwheel-freeze",
+      "detail": "cartwheel-freeze: ISSUE - foot not on ground, balance unstable"
+    },
+    {
+      "poseId": "chair-hair-touch",
+      "detail": "chair-hair-touch: ISSUE - arms appear to float without clear shoulder connection"
+    },
+    {
+      "poseId": "chair-reach-diagonal",
+      "detail": "chair-reach-diagonal: ISSUE - feet floating off ground"
+    },
+    {
+      "poseId": "chair-reach-floor",
+      "detail": "chair-reach-diagonal: ISSUE - feet floating off ground"
+    },
+    {
+      "poseId": "chair-turn-twist",
+      "detail": "chair-turn-twist: ISSUE - feet floating off ground"
+    },
+    {
+      "poseId": "chin-on-fist",
+      "detail": "chin-on-fist: ISSUE - right arm appears to pass through the leg/thigh area."
+    },
+    {
+      "poseId": "chin-rest",
+      "detail": "chin-rest: ISSUE - left arm is positioned awkwardly behind the back with an unnatural joint angle; balance seems precarious."
+    },
+    {
+      "poseId": "column-lean",
+      "detail": "column-lean: ISSUE - feet floating, no ground contact"
+    },
+    {
+      "poseId": "cross-legged-wall",
+      "detail": "cross-legged-wall: ISSUE - feet floating off ground"
+    },
+    {
+      "poseId": "crouching-prowl",
+      "detail": "crouching-prowl: ISSUE - feet floating off ground"
+    },
+    {
+      "poseId": "dance-arms-up",
+      "detail": "dance-arms-up: ISSUE - poor balance, one foot barely touching"
+    },
+    {
+      "poseId": "double-elbow",
+      "detail": "double-elbow: ISSUE - hands not reaching targets, awkward arm positioning"
+    }
+  ],
+  "okPoses": [
+    "abstract-contortion",
+    "arabesque-balance",
+    "arm-drape-knee",
+    "arm-throw",
+    "arms-overhead",
+    "arms-tangled",
+    "avant-garde-arms",
+    "back-arch",
+    "back-arch-wall",
+    "back-recline-arms-up",
+    "back-recline-knee-hug",
+    "back-to-back",
+    "back-wall-prop",
+    "basketball-reach",
+    "belly-up-arms-wide",
+    "bench-sit-side",
+    "both-hands-chin",
+    "both-knees",
+    "both-knees-arms-up",
+    "boudoir-back-one",
+    "boudoir-back-to-camera-glance",
+    "boudoir-barberini-faun",
+    "boudoir-bedsheet-drape-sit",
+    "boudoir-both-knees-prayer-soft",
+    "boudoir-capitoline-venus",
+    "boudoir-doorframe-hang",
+    "boudoir-drape-arms",
+    "boudoir-esquiline-venus",
+    "boudoir-half-bent-wrist",
+    "boudoir-hip-raise-lying",
+    "boudoir-knee-up-profile",
+    "boudoir-kneeling-arch-back",
+    "boudoir-kneeling-forward-reach",
+    "boudoir-kneeling-sit-back-heels",
+    "boudoir-la-priere",
+    "boudoir-lazy-lounge",
+    "boudoir-little-dancer",
+    "boudoir-mattress-edge-melt",
+    "boudoir-mirror-reflection-pose",
+    "boudoir-nymph-fontainebleau",
+    "boudoir-nymph-scorpion",
+    "boudoir-over-shoulder-glance",
+    "boudoir-peek-a-boo",
+    "boudoir-pillow-peek",
+    "boudoir-primary-instincts",
+    "boudoir-prone-arch",
+    "boudoir-prone-elbows-lift",
+    "boudoir-reclined-back-support",
+    "boudoir-s-curve-stand",
+    "boudoir-seated-knee-wrap",
+    "boudoir-seated-legs-crossed-lean",
+    "boudoir-seated-spine-stretch",
+    "boudoir-shadow-silhouette",
+    "boudoir-side-lying-top-leg-bent",
+    "boudoir-side-pillow-hug",
+    "boudoir-standing-back-arch-wall",
+    "boudoir-supine-arch",
+    "boudoir-supine-arms-up-soft",
+    "boudoir-thinker",
+    "boudoir-tippy-toe-cross",
+    "boudoir-toe-point-recline",
+    "boudoir-torso-marie-therese",
+    "boudoir-triangle-pocket",
+    "boudoir-truth-unveiled",
+    "boudoir-venus-de-medici",
+    "boudoir-venus-de-milo",
+    "boudoir-venus-kallipygos",
+    "boudoir-wall-arch",
+    "boudoir-window-light-lean",
+    "boxer-jab",
+    "car-lean",
+    "catch-reach",
+    "catwalk-extreme",
+    "chair-arms-crossed",
+    "chair-arms-overhead",
+    "chair-back-lean",
+    "chair-both-arms-wide",
+    "chair-chin-tilt",
+    "chair-dramatic-reach",
+    "chair-editorial-profile",
+    "chair-face-frame",
+    "chair-forward-elbows",
+    "chair-laugh-gesture",
+    "chair-profile-strong",
+    "chair-seated-look-up",
+    "chair-self-hug",
+    "chair-stretch-arms-back",
+    "chair-thinking-pose",
+    "chair-triumphant-arms",
+    "chair-twist-both",
+    "chair-wave",
+    "cheek-to-cheek",
+    "chest-open",
+    "chin-on-both-hands",
+    "chin-on-wall",
+    "chin-up-stand",
+    "cobra-lite",
+    "contrapposto",
+    "couple-embrace",
+    "cradled-from-behind",
+    "cross-ankle-sit",
+    "cross-body-arm",
+    "crossed-arms-stand",
+    "crossed-elbow-crossed-legs",
+    "dance-step",
+    "diagonal-lean",
+    "diagonal-lean-elbow",
+    "diagonal-prop",
+    "diagonal-step",
+    "door-side-lean",
+    "doorframe-lean",
+    "dramatic-gasp",
+    "drowsy-recline",
+    "dynamic-reach",
+    "editorial-arm-reach"
+  ]
+}

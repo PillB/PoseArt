@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE 1: OK. Feet on base, spine straight, limbs balanced.\nPOSE 2: ISSUE. Crossed legs unstable, torso twisted, arms asymmetrical.\nPOSE 3: ISSUE. Leaning back excessively, feet off ground, balance lost.\nPOSE 4: ISSUE. Spine severely twisted, arm behind back unnatural, stance awkward.\nPOSE 5: ISSUE. Legs crossed tightly, leaning sideways, poor base of support.\nPOSE 6: OK. Upright posture, feet on base, limbs relaxed and aligned.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785735305,
+  "id": "2026080313350273cda0c6e6814a3e",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "2026080313350273cda0c6e6814a3e",
+  "usage": {
+    "completion_tokens": 110,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 362,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 472
+  }
+}

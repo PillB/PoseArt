@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE 1: ISSUE - Right knee hyperextended, foot placement unstable.\nPOSE 2: OK - Balanced stance, limbs aligned.\nPOSE 3: ISSUE - Floating foot, unnatural limb angles.\nPOSE 4: ISSUE - Knee joint broken, leg disconnected.\nPOSE 5: ISSUE - Spine slumped, arms phasing through object.\nPOSE 6: OK - Dynamic jump, limbs in natural motion.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785735262,
+  "id": "202608031334172ef4e7b176a24fc4",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "202608031334172ef4e7b176a24fc4",
+  "usage": {
+    "completion_tokens": 85,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 362,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 447
+  }
+}

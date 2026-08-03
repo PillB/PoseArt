@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE 1: ISSUE - Crossed ankles, unstable base.\nPOSE 2: OK - Seated twist, balanced.\nPOSE 3: OK - Seated forward fold, stable.\nPOSE 4: ISSUE - Unbalanced, awkward leg lift.\nPOSE 5: ISSUE - Floating, no support.\nPOSE 6: ISSUE - Seated imbalance, leaning.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785735294,
+  "id": "20260803133453d25e0ffb45c14b30",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260803133453d25e0ffb45c14b30",
+  "usage": {
+    "completion_tokens": 75,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 362,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 437
+  }
+}

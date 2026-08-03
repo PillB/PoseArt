@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE 1: ISSUE - Arms detached from torso, legs too thin, no balance point.\nPOSE 2: OK - Natural crouch, feet grounded, spine curved correctly.\nPOSE 3: ISSUE - Floating leg, disjointed limbs, unnatural balance.\nPOSE 4: ISSUE - Knee joint misaligned, foot placement awkward.\nPOSE 5: OK - Dynamic stride, limbs proportional, good weight shift.\nPOSE 6: OK - Symmetrical jump, arms and legs coordinated.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785735239,
+  "id": "20260803133357a3dc2d2fd9214f0f",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260803133357a3dc2d2fd9214f0f",
+  "usage": {
+    "completion_tokens": 99,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 362,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 461
+  }
+}

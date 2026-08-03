@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE 1: ISSUE - Left foot floating, no support.\nPOSE 2: ISSUE - Right foot floating, no support.\nPOSE 3: OK - Feet on platform, balanced stance.\nPOSE 4: OK - Leaning against wall for support, feet grounded.\nPOSE 5: ISSUE - Both ankles crossed, unstable balance.\nPOSE 6: ISSUE - Right leg detached/floating, no support.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785735335,
+  "id": "202608031335337b7c799ec07d421f",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "202608031335337b7c799ec07d421f",
+  "usage": {
+    "completion_tokens": 84,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 362,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 446
+  }
+}

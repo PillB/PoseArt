@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE 1 (Top Left): OK. Neutral stance, balanced, limbs aligned.\nPOSE 2 (Top Center): ISSUE. Right leg detached/floats, unnatural knee angle.\nPOSE 3 (Top Right): OK. Dynamic vault/jump, limbs follow motion.\nPOSE 4 (Bottom Left): ISSUE. Left foot floats above ground plane.\nPOSE 5 (Bottom Center): ISSUE. Unbalanced lean, right leg detaches/floats.\nPOSE 6 (Bottom Right): OK. Balanced landing stance, feet grounded.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785735249,
+  "id": "2026080313340783cb1c700172423a",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "2026080313340783cb1c700172423a",
+  "usage": {
+    "completion_tokens": 109,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 362,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 471
+  }
+}
