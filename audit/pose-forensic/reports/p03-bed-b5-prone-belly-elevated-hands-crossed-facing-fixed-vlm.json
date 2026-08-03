@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "**OK**\n\nThe silhouette depicts a dynamic, balanced action pose (likely a dance or athletic movement) with the following observations:\n\n*   **Head/Neck & Torso:** The head is positioned naturally atop an elongated, twisting spine that conveys fluid motion.\n*   **Limbs:** Arms are bent at the elbows with hands raised in a counter-balancing gesture. The leading leg is extended forward with a visible knee bend, while the trailing leg extends back for balance.\n*   **Balance & Grounding:** The figure's center of gravity appears correctly managed over the base of support (the forward foot), with the back leg acting as a stabilizer. The shadow beneath the feet confirms solid contact with the ground plane.\n*   **Proportions:** The segments (head, torso, limbs) follow standard human proportions suitable for a stylized or simplified figure reference.\n\nNo anatomical or structural errors detected.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785725073,
+  "id": "20260803104431b9d045025b7f4adf",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260803104431b9d045025b7f4adf",
+  "usage": {
+    "completion_tokens": 186,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 159,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 345
+  }
+}

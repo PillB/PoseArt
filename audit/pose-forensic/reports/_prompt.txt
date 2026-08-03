@@ -1,0 +1,23 @@
+Pose: "Tiptoe Reach" (category: standing)
+Description: Rise onto the balls of both feet and stretch one arm fully overhead, fingers reaching past the fingertips' natural limit. Keep the standing leg's calf engaged and let the ribcage lift with the reach, lengthening the whole torso.
+Tip: Point the toes of a slightly lifted back foot to extend the leg line even further.
+
+You are a figure-drawing expert and anatomy reviewer. This image shows a pose-reference figure (avatar = filled silhouette) rendered from a 3D rig. The pose is described in the pose name.
+
+Analyze the figure for ANATOMICAL and VISUAL issues. For each category, state OK or describe the issue precisely:
+
+1. HEAD/NECK: Is the head positioned correctly for the pose? Neck too long/short? Head tilted wrong direction?
+2. SHOULDERS: Are shoulders at the right height/angle for the pose? One too high/low? Arms raised when they shouldn't be?
+3. ARMS/ELBOWS: Are arms in the right position? Elbows bent correctly? Arms should be raised/lowered/crossed?
+4. WRISTS/HANDS: Do hands reach their intended target (face, hip, knee, floor, prop)? Hands floating?
+5. TORSO/SPINE: Is the torso lean correct? Too upright/slouched? Twisted wrong?
+6. HIPS/PELVIS: Is the hip tilt correct? One hip too high/low?
+7. LEGS/KNEES: Are legs in the right position? Knees bent correctly? Legs should be crossed/wide/together?
+8. ANKLES/FEET: Do feet reach the floor/prop? Feet floating? Pointed/flexed correctly?
+9. BALANCE/WEIGHT: Does the figure look balanced? Weight distribution correct?
+10. PROPS: If the pose involves a chair/wall/floor/table, does the figure make contact with it?
+
+Format your response as JSON:
+{"issues": ["issue1", "issue2", ...], "severity": "none|minor|moderate|major", "summary": "one sentence"}
+
+Be specific. 'left arm should be higher' not 'arm position wrong'. If the pose looks correct, return empty issues with severity 'none'.
