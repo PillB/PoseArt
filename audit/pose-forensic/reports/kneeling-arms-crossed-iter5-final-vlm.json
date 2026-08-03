@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "**OK**\n\nThe figure's pose is anatomically sound and balanced:\n*   **Head/Neck:** Centered and aligned with the torso.\n*   **Shoulders/Arms:** Natural positioning with the left arm extended forward (reaching) and the right arm back for counterbalance.\n*   **Torso/Hips:** Upright posture with a slight lean to accommodate the single-leg stance.\n*   **Legs/Feet:** The supporting leg is straight and planted firmly on the base, while the raised leg shows natural knee flexion.\n*   **Balance:** The center of gravity appears stable over the supporting foot, aided by the arm positions. The prop (base) provides appropriate support for the pose.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785726091,
+  "id": "202608031101272e99e48d7bf94ebc",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "202608031101272e99e48d7bf94ebc",
+  "usage": {
+    "completion_tokens": 149,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 144,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 293
+  }
+}

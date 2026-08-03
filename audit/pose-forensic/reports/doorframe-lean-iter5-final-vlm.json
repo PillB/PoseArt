@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "**OK**\n\nThe figure's pose is anatomically sound and balanced:\n*   **Head/Neck:** Centered and aligned with the spine.\n*   **Shoulders/Arms:** Arms raised in a natural \"V\" shape (abduction) without exceeding realistic range of motion; shoulders appear correctly positioned.\n*   **Wrists/Hands:** Hands are positioned at the end of the arm segments, appearing to reach toward or touch the upper frame.\n*   **Torso/Hips:** Upright posture with a slight forward tilt at the hips to counterbalance the leg position.\n*   **Legs/Feet:** Legs are crossed at the ankles in a standing pose; feet are flat on the ground plane within the shadow.\n*   **Balance:** The center of gravity appears stable over the base of support (the feet), appropriate for a static pose against a wall.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785726109,
+  "id": "20260803110133aabc7ae7a9d04a0e",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260803110133aabc7ae7a9d04a0e",
+  "usage": {
+    "completion_tokens": 181,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 144,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 325
+  }
+}
