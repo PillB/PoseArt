@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "**Pose Analysis: Prone Chin**\n\n**Torso/Spine Direction:** **OK**\n- The spine is oriented horizontally (parallel to the ground), which is correct for a prone position. The figure appears to be lying face-down or in a low prone stance with the back flat and aligned properly.\n\n**Shoulder Height:** **OK**\n- The shoulders appear level with each other, which matches the requirements for this pose. There's no visible asymmetry or one shoulder hiking higher than the other.\n\n**Arm Position:** **ISSUE DETECTED**\n- **Problem:** The arms are raised upward in an overhead position (resembling a \"surrender\" or \"U\" shape with elbows bent outward). \n- **For a \"Prone Chin\" pose**, the arms should typically be positioned differently—usually bent with hands near the chin/face, supporting the upper body, or extended forward in a plank-like position, not raised vertically above the torso.\n\n**Conclusion:** While the spine orientation and shoulder alignment are **correct**, the **arm position does not match the described \"Prone Chin\" pose**. The current arm placement suggests a different pose (possibly a \"prone surrender\" or \"skydiving\" position) rather than the standard prone chin configuration where arms would be lower and closer to the head/torso.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785728265,
+  "id": "202608031137348774aced96094137",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "202608031137348774aced96094137",
+  "usage": {
+    "completion_tokens": 271,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 141,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 412
+  }
+}

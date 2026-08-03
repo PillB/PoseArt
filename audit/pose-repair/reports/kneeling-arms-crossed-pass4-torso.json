@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "**Issues.**\n\nThe pose does **not** match the described \"Kneeling Arms Crossed\" pose:\n\n*   **Arm Position (Major Issue):** The arms are **not crossed**. The right arm is extended straight out to the side (horizontal), and the left arm is hanging down by the side.\n*   **Shoulder Height:** The shoulders appear uneven/tilted, with the right shoulder positioned lower than the left to accommodate the outstretched arm, rather than being level or relaxed as typically expected in a neutral kneeling stance.\n*   **Torso/Spine:** The spine appears relatively upright or slightly tilted, which is acceptable for a kneeling pose, but the overall posture is distorted by the incorrect arm positioning.\n\n**Verdict:** The figure is kneeling, but the arm position is completely wrong for the requested \"Arms Crossed\" description.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785728252,
+  "id": "20260803113729b37e2c3578294d11",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260803113729b37e2c3578294d11",
+  "usage": {
+    "completion_tokens": 178,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 144,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 322
+  }
+}

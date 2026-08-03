@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "**Issues.**\n\nThe pose does not match a **Close Embrace** (such as in tango or ballroom dancing). Here are the specific problems:\n\n*   **Arm Position (Major Issue):** The arms are held **wide open and away from the body** with elbows bent outward. A close embrace requires the arms to be wrapped around or resting on the partner's back/shoulders, with forearms and upper arms making contact.\n*   **Torso/Spine Direction:** The figure is standing nearly upright with a very slight backward lean (or neutral). While some close embraces involve leaning, this posture lacks the forward inclination toward a partner that typically characterizes the pose.\n*   **Shoulder Height:** The shoulders appear relatively level, which is acceptable, but the overall arm placement makes it impossible to determine if they are positioned correctly for an embrace.\n\n**Verdict:** This looks more like a \"T-pose\" variation or an open stance rather than a close embrace.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785728270,
+  "id": "202608031137478434df4192c945d3",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "202608031137478434df4192c945d3",
+  "usage": {
+    "completion_tokens": 201,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 141,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 342
+  }
+}

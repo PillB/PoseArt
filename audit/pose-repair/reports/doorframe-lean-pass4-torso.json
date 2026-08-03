@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "Based on the image provided, here is the evaluation of the \"Doorframe Lean\" pose:\n\n*   **Torso/Spine Direction:** **OK.** The spine is leaning slightly backward (away from the viewer), which is consistent with resting one's back against a doorframe or wall.\n*   **Shoulder Height:** **OK.** The shoulders appear level and aligned with the tilt of the torso.\n*   **Arm Position:** **OK.** The arms are raised in a \"V\" shape or goal-post position, which matches the typical arm placement for this pose (resting hands or forearms against the upper doorframe).\n*   **Overall Assessment:** **The pose is correct.** The figure displays the characteristic backward lean and raised arm position of a doorframe lean without any obvious anatomical or proportional issues.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785728237,
+  "id": "2026080311371478a84b6e93a3463b",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "2026080311371478a84b6e93a3463b",
+  "usage": {
+    "completion_tokens": 170,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 141,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 311
+  }
+}

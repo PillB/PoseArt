@@ -2377,7 +2377,7 @@ const POSES_LIBRARY = {
     instructions: 'Stand facing each other, very close, and wrap arms fully around one another in a close embrace. Heads can touch or turn toward the camera.',
     tip: 'The person in front should angle their body slightly -- full front-facing couples look static.',
     // PR-v4 (v1.4) — auto-fix too-subtle joints: spine 5→18. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    joints: {spine: 18, hips: 10, neck: -8.8, leftShoulder: -10, rightShoulder: 8, leftElbow: 30, rightElbow: 30, hipAbductL: 10, hipAbductR: 10, leftKnee: 10, rightKnee: 10, globalRoll: -8, shoulderFwdL: 14},
+    joints: {spine: 18, hips: 10, neck: -8.8, leftShoulder: -40, rightShoulder: -40, leftElbow: 60, rightElbow: 60, hipAbductL: 10, hipAbductR: 10, leftKnee: 10, rightKnee: 10, globalRoll: -8, shoulderFwdL: -50, shoulderFwdR: -50},
     color: 'rgba(201,162,76,0.15)', figure: 'couple-embrace',
     tags: ['romantic', 'beginner', 'couple']
   },
