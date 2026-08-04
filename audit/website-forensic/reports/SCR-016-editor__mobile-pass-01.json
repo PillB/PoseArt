@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "**Screen Identity:** Custom Pose Editor (Gallery/Poses section).\n**Content Status:** Fully loaded. All UI elements (header, 3D models, sliders, labels, bottom nav) are present and rendered.\n**Visible Defects:** None detected. Layout is clean; no overlapping or broken elements.\n**Grid Coordinates:**\n*   **Header (Title & Icons):** A1–P2\n*   **Model Display (Avatar/Skeleton/Ghost):** A3–P8\n*   **Pose Name Input:** A9–P10\n*   **Slider Controls (Spine to R Hip):** A11–P22\n*   **Bottom Navigation Bar:** A23–P24",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785818465,
+  "id": "20260804124103c68f98afc20548db",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260804124103c68f98afc20548db",
+  "usage": {
+    "completion_tokens": 148,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 557,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 705
+  }
+}

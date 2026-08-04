@@ -193,3 +193,22 @@ kbd {
   .kbd-hint { font-size: 9px; }
   kbd { padding: 0 4px; }
 }
+
+/* ── GLOBAL FOCUS-VISIBLE (accessibility — VLM forensic finding) ── */
+/* Ensure all interactive elements have a visible focus indicator */
+*:focus-visible {
+  outline: 3px solid var(--brand-gold, #C9A24C);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+button:focus-visible,
+a:focus-visible,
+[role="button"]:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid var(--brand-gold, #C9A24C);
+  outline-offset: 2px;
+}
+/* Remove default outline only when focus-visible is supported */
+*:focus:not(:focus-visible) {
+  outline: none;
+}

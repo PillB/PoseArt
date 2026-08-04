@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "**Screen:** Pose Library (Gallery/Poses tab)\n**Content:** Fully loaded\n**Defects:** None visible\n**Grid:** A1-P16 (full screen populated)",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785818426,
+  "id": "202608041240250522b13a1d8146a9",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "202608041240250522b13a1d8146a9",
+  "usage": {
+    "completion_tokens": 39,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 557,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 596
+  }
+}

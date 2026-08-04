@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "**Screen Identity:** \"Standing\" category list view (Poses section).\n\n**Completeness:** Content is fully loaded. Header, list items (8 visible), and bottom navigation bar are present.\n\n**Visible Defects:** None. UI elements are clear, text is legible, and layout is consistent.\n\n**Grid Coordinates:**\n*   **Header/Nav:** A1–P2\n*   **List Items:** A3–P17\n*   **Bottom Nav Bar:** P1–P16",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785818436,
+  "id": "202608041240299fc28814c6d14724",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "202608041240299fc28814c6d14724",
+  "usage": {
+    "completion_tokens": 105,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 557,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 662
+  }
+}

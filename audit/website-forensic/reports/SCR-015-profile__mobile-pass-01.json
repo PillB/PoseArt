@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "**Screen Identity:** Profile/Settings screen (likely for \"PoseArt\" app).\n**Content Status:** Fully loaded. All UI elements, text, and toggles are present.\n**Visible Defects:** None observed. Layout is clean and consistent.\n**Grid Coordinates:**\n*   **Header/Avatar:** B2-D4\n*   **Preferences Section:** A6-H12\n*   **About Section:** A13-H15\n*   **Footer Text:** C17-I21\n*   **Log Out Button:** D23-L25\n*   **Creative Tools/Button:** D28-L30\n*   **Navigation Bar (Bottom):** A32-P32",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785818455,
+  "id": "20260804124053a1016a30bc7b437a",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260804124053a1016a30bc7b437a",
+  "usage": {
+    "completion_tokens": 139,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 557,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 696
+  }
+}

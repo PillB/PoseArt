@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "**Screen Identity:** Gallery (Your Gallery view)\n**Content Status:** Loaded (Empty state - 0 captures)\n**Visible Defects:** None\n**Grid Coordinates:**\n- Header (Time/Title): A1-H2\n- Filter Controls: A3-P4\n- Empty Content Area: A5-P16\n- Bottom Navigation Bar: P1-P16",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785818450,
+  "id": "20260804124048c090c247a08740d7",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260804124048c090c247a08740d7",
+  "usage": {
+    "completion_tokens": 77,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 557,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 634
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "**Screen Identity:** Marketplace (Browse tab).\n**Content Status:** Fully loaded. Four product cards displayed.\n**Visible Defects:** None detected. UI is clean and consistent.\n**Grid Coordinates:**\n*   **Header/Nav:** A1–P3\n*   **Search/Filter:** B4–O8\n*   **Product Grid:** B9–O16 (2x2 layout)\n*   **Bottom Nav:** A17–P20",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785818460,
+  "id": "20260804124058b8375e420c70495a",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260804124058b8375e420c70495a",
+  "usage": {
+    "completion_tokens": 96,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 557,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 653
+  }
+}

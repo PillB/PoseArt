@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "**Screen Identity:** Session Setup (for \"Power Stance\" exercise).\n**Content Status:** Fully loaded. All UI elements, text, and graphics are present.\n**Visible Defects:** None detected. Layout is clean and consistent.\n**Grid Coordinates:** Content occupies roughly **B2–O14**, with the header at **B1–O1** and the navigation bar at **P1–P16**.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785818445,
+  "id": "202608041240446b133969f6b3436c",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "202608041240446b133969f6b3436c",
+  "usage": {
+    "completion_tokens": 87,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 557,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 644
+  }
+}

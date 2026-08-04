@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "**Screen Identity:** Pose Detail / Modal Overlay (S-Curve Stand / Power Stance).\n\n**Completeness:** Content fully loaded. No visible defects.\n\n**Grid:** A1-P16 (Full screen coverage).",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785818440,
+  "id": "2026080412403984e8d38bd28a4afb",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "2026080412403984e8d38bd28a4afb",
+  "usage": {
+    "completion_tokens": 44,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 557,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 601
+  }
+}
