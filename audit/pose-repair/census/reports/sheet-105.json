@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE 1 (Top Left): ISSUE. Unstable balance, limbs lack clear support.\nPOSE 2 (Top Middle): OK. Dynamic athletic form, spine and limbs aligned for movement.\nPOSE 3 (Top Right): ISSUE. Spine excessively curved, hands/feet placement awkward.\nPOSE 4 (Bottom Left): ISSUE. Balance compromised, limbs appear disconnected from seat.\nPOSE 5 (Bottom Middle): ISSUE. Center of gravity off-balance, leg position unnatural.\nPOSE 6 (Bottom Right): ISSUE. Posture unbalanced, weight distribution uneven on one leg.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785803948,
+  "id": "202608040839067a3c1c1cc7914a45",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "202608040839067a3c1c1cc7914a45",
+  "usage": {
+    "completion_tokens": 119,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 367,
+    "prompt_tokens_details": {
+      "cached_tokens": 43
+    },
+    "total_tokens": 486
+  }
+}

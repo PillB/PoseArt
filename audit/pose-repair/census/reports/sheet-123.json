@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE 1: OK\nPOSE 2: ISSUE (Knees crossed, unstable)\nPOSE 3: ISSUE (Floating, no support)\nPOSE 4: OK\nPOSE 5: ISSUE (Legs crossed, awkward balance)\nPOSE 6: ISSUE (Missing lower leg/foot)",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785804172,
+  "id": "20260804084251c7c1efb13d014c9d",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260804084251c7c1efb13d014c9d",
+  "usage": {
+    "completion_tokens": 61,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 367,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 428
+  }
+}

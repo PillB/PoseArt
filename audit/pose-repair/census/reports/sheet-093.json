@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE 1 (Top Left): OK\nPOSE 2 (Top Center): ISSUE - Spine/limbs contorted, unnatural balance.\nPOSE 3 (Top Right): OK\nPOSE 4 (Bottom Left): ISSUE - Spine/neck broken, limbs disjointed.\nPOSE 5 (Bottom Center): ISSUE - Spine/neck snapped, limbs detached.\nPOSE 6 (Bottom Right): ISSUE - Spine twisted, limbs misaligned.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785803068,
+  "id": "202608040824265ccac71782be499d",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "202608040824265ccac71782be499d",
+  "usage": {
+    "completion_tokens": 93,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 367,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 460
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE_1: OK\nPOSE_2: ISSUE (Knees crossed, unstable base)\nPOSE_3: ISSUE (Leaning back, poor balance)\nPOSE_4: ISSUE (Seated twist, limbs misaligned)\nPOSE_5: ISSUE (Knees bent inward, weak stance)\nPOSE_6: OK",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785802850,
+  "id": "202608040820499b9f709438f14b5e",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "202608040820499b9f709438f14b5e",
+  "usage": {
+    "completion_tokens": 66,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 367,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 433
+  }
+}

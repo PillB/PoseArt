@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE 1: OK\nPOSE 2: OK\nPOSE 3: ISSUE - Foot detached from leg.\nPOSE 4: OK\nPOSE 5: OK\nPOSE 6: ISSUE - Feet floating above ground.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785804007,
+  "id": "20260804084005d997a460c63844f9",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260804084005d997a460c63844f9",
+  "usage": {
+    "completion_tokens": 47,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 367,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 414
+  }
+}

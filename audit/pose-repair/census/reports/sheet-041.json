@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE_1: ISSUE - Left arm joint dislocated, right knee hyperextended.\nPOSE_2: OK\nPOSE_3: OK\nPOSE_4: ISSUE - Right leg broken/knee dislocated.\nPOSE_5: ISSUE - Legs crossed unnaturally, poor balance.\nPOSE_6: ISSUE - Legs crossed, left foot behind right ankle.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785802333,
+  "id": "202608040812128162c6f53a274a04",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "202608040812128162c6f53a274a04",
+  "usage": {
+    "completion_tokens": 73,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 367,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 440
+  }
+}

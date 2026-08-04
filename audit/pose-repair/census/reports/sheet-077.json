@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE_1: ISSUE - Spine excessively curved, limbs unbalanced.\nPOSE_2: OK - Seated balance stable, limbs natural.\nPOSE_3: OK - Upright spine, limbs contained.\nPOSE_4: OK - Stable seated base, limbs positioned well.\nPOSE_5: ISSUE - Leaning too far, losing seated balance.\nPOSE_6: ISSUE - Feet not on ground, unstable standing pose.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785802896,
+  "id": "202608040821344cfc3ef618914f02",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "202608040821344cfc3ef618914f02",
+  "usage": {
+    "completion_tokens": 88,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 367,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 455
+  }
+}

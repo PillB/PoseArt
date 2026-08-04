@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE_1: ISSUE - Left knee hyperextended, right leg detached.\nPOSE_2: ISSUE - Right leg detached at the knee.\nPOSE_3: OK - Balanced crouch.\nPOSE_4: OK - Balanced dive shape.\nPOSE_5: OK - Balanced landing pose.\nPOSE_6: OK - Dynamic but structurally sound.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785802356,
+  "id": "202608040812344f7cd3728dab4537",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "202608040812344f7cd3728dab4537",
+  "usage": {
+    "completion_tokens": 71,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 367,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 438
+  }
+}

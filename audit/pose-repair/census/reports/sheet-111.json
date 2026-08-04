@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE 1 (Top Left): ISSUE. Spine/limbs contorted, unnatural landing.\nPOSE 2 (Top Center): OK. Balanced, limbs extended naturally.\nPOSE 3 (Top Right): OK. Stable stance, good alignment.\nPOSE 4 (Bottom Left): OK. Upright posture, feet grounded.\nPOSE 5 (Bottom Center): ISSUE. Seated but legs/feet positioning looks awkward.\nPOSE 6 (Bottom Right): ISSUE. Crossed legs and arm placement look unbalanced/stiff.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785804019,
+  "id": "20260804084017e23f53f1604343fc",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260804084017e23f53f1604343fc",
+  "usage": {
+    "completion_tokens": 109,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 367,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 476
+  }
+}

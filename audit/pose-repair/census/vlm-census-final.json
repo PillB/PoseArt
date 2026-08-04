@@ -1,10 +1,9 @@
 {
   "total": 745,
-  "reviewed": 240,
-  "ok": 115,
-  "issues": 39,
-  "unknown": 86,
-  "unreviewed": 505,
+  "reviewed": 745,
+  "ok": 326,
+  "issues": 419,
+  "unreviewed": 0,
   "issuePoses": [
     {
       "poseId": "acrobat-balance",
@@ -27,6 +26,42 @@
       "detail": "bench-lean-side: ISSUE - feet floating above ground"
     },
     {
+      "poseId": "both-look-camera-hold-hands",
+      "detail": "Pose 2: ISSUE - Feet crossed, unstable balance."
+    },
+    {
+      "poseId": "boudoir-aphrodite-knidos",
+      "detail": "Pose 3: ISSUE - Floating feet, no ground contact."
+    },
+    {
+      "poseId": "boudoir-arm-overhead-stretch",
+      "detail": "Pose 4: ISSUE - Arms intersect torso unnaturally."
+    },
+    {
+      "poseId": "boudoir-armchair-twist",
+      "detail": "Pose 5: ISSUE - Legs floating below seat."
+    },
+    {
+      "poseId": "boudoir-clios-dream",
+      "detail": "Pose 2: ISSUE - Floating above ground, unnatural limb angles."
+    },
+    {
+      "poseId": "boudoir-corner-pocket",
+      "detail": "Pose 3: ISSUE - Unnatural balance, limbs appear disconnected."
+    },
+    {
+      "poseId": "boudoir-crouching-venus",
+      "detail": "Pose 4: ISSUE - Floating above ground, awkward spine curvature."
+    },
+    {
+      "poseId": "boudoir-danaïd",
+      "detail": "Pose 5: ISSUE - Floating, extreme and unnatural arm positioning."
+    },
+    {
+      "poseId": "boudoir-diamond-sit",
+      "detail": "Pose 6: ISSUE - Floating, legs positioned unnaturally for a seated pose."
+    },
+    {
       "poseId": "boudoir-dying-slave",
       "detail": "boudoir-dying-slave: ISSUE - right arm position looks unnatural/unclear"
     },
@@ -37,6 +72,34 @@
     {
       "poseId": "boudoir-embrace-pose",
       "detail": "boudoir-embrace-pose: ISSUE - feet off balance, leaning too far back"
+    },
+    {
+      "poseId": "boudoir-extended-leg-sit",
+      "detail": "1: ISSUE - Floating above ground, limbs disconnected."
+    },
+    {
+      "poseId": "boudoir-fireplace-lean",
+      "detail": "2: ISSUE - Floating, unnatural limb angles."
+    },
+    {
+      "poseId": "boudoir-floor-hug-knees-soft",
+      "detail": "3: ISSUE - Levitating, spine direction inconsistent with gravity."
+    },
+    {
+      "poseId": "boudoir-floor-lounge-stretch",
+      "detail": "4: ISSUE - Head/neck detached, floating legs."
+    },
+    {
+      "poseId": "boudoir-forward-chair-straddle",
+      "detail": "5: ISSUE - Multiple overlapping figures, unclear pose."
+    },
+    {
+      "poseId": "boudoir-kneeling-arch-back",
+      "detail": "boudoir-kneeling-arch-: ISSUE - right foot floating"
+    },
+    {
+      "poseId": "boudoir-labandon",
+      "detail": "boudoir-lebandon: ISSUE - feet not touching ground, floating in mid-air"
     },
     {
       "poseId": "boudoir-mermaid-side-sit",
@@ -55,8 +118,16 @@
       "detail": "boudoir-r-evolution: ISSUE - feet crossed, unstable balance"
     },
     {
+      "poseId": "boudoir-seated-legs-crossed-lean",
+      "detail": "boudoir-seated-legs-cr: ISSUE - legs floating above ground"
+    },
+    {
       "poseId": "boudoir-sheet-pull",
       "detail": "POSE 2 (boudoir-sheet-pull): ISSUE - hands appear to float above the sheet surface."
+    },
+    {
+      "poseId": "boudoir-side-pillow-hug",
+      "detail": "POSE 4 (boudoir-side-pillow-hu): ISSUE - left arm/hand appears to clip into or float below the pillow surface."
     },
     {
       "poseId": "boudoir-sleeping-ariadne",
@@ -68,39 +139,19 @@
     },
     {
       "poseId": "boudoir-standing-hair-flip-still",
-      "detail": "boudoir-standing-corset: ISSUE - feet floating above ground"
+      "detail": "boudoir-standing-hair-: ISSUE - feet not touching ground, unbalanced"
     },
     {
-      "poseId": "boudoir-standing-hand-hip",
-      "detail": "boudoir-standing-corset: ISSUE - feet floating above ground"
-    },
-    {
-      "poseId": "boudoir-standing-leg-up-chair",
-      "detail": "boudoir-standing-corset: ISSUE - feet floating above ground"
-    },
-    {
-      "poseId": "boudoir-standing-look-back-drape",
-      "detail": "boudoir-standing-corset: ISSUE - feet floating above ground"
-    },
-    {
-      "poseId": "boudoir-standing-profile-curve",
-      "detail": "boudoir-standing-corset: ISSUE - feet floating above ground"
+      "poseId": "boudoir-supine-arms-up-soft",
+      "detail": "boudoir-supine-arms-up: ISSUE - Feet floating above ground"
     },
     {
       "poseId": "boudoir-the-dawn",
       "detail": "boudoir-the-dawn: ISSUE - Single point of balance, feet off ground"
     },
     {
-      "poseId": "boudoir-the-kiss",
-      "detail": "boudoir-the-dawn: ISSUE - Single point of balance, feet off ground"
-    },
-    {
-      "poseId": "boudoir-the-night",
-      "detail": "boudoir-the-dawn: ISSUE - Single point of balance, feet off ground"
-    },
-    {
       "poseId": "boudoir-the-source",
-      "detail": "boudoir-the-dawn: ISSUE - Single point of balance, feet off ground"
+      "detail": "boudoir-the-source: ISSUE - Floating, no ground contact"
     },
     {
       "poseId": "boudoir-three-goddesses",
@@ -123,12 +174,16 @@
       "detail": "chair-hair-touch: ISSUE - arms appear to float without clear shoulder connection"
     },
     {
+      "poseId": "chair-lean-forward",
+      "detail": "Pose 2: ISSUE - Arms appear to clip through the torso/legs."
+    },
+    {
       "poseId": "chair-reach-diagonal",
       "detail": "chair-reach-diagonal: ISSUE - feet floating off ground"
     },
     {
       "poseId": "chair-reach-floor",
-      "detail": "chair-reach-diagonal: ISSUE - feet floating off ground"
+      "detail": "chair-reach-floor: ISSUE - feet floating off ground"
     },
     {
       "poseId": "chair-turn-twist",
@@ -159,8 +214,1472 @@
       "detail": "dance-arms-up: ISSUE - poor balance, one foot barely touching"
     },
     {
+      "poseId": "diagonal-lean-elbow",
+      "detail": "diagonal-lean-elbow: ISSUE - feet floating above the ground"
+    },
+    {
       "poseId": "double-elbow",
       "detail": "double-elbow: ISSUE - hands not reaching targets, awkward arm positioning"
+    },
+    {
+      "poseId": "editorial-arms-crossed-overhead",
+      "detail": "POSE 1: ISSUE - Arms detached from torso, legs too thin, no balance point."
+    },
+    {
+      "poseId": "editorial-chair-sprawl",
+      "detail": "POSE 3: ISSUE - Floating leg, disjointed limbs, unnatural balance."
+    },
+    {
+      "poseId": "editorial-contorted-reach-floor",
+      "detail": "POSE 4: ISSUE - Knee joint misaligned, foot placement awkward."
+    },
+    {
+      "poseId": "editorial-floor-diagonal-reach",
+      "detail": "POSE 2 (Top Center): ISSUE. Right leg detached/floats, unnatural knee angle."
+    },
+    {
+      "poseId": "editorial-full-body-twist",
+      "detail": "POSE 4 (Bottom Left): ISSUE. Left foot floats above ground plane."
+    },
+    {
+      "poseId": "editorial-geometric-seated",
+      "detail": "POSE 5 (Bottom Center): ISSUE. Unbalanced lean, right leg detaches/floats."
+    },
+    {
+      "poseId": "editorial-hip-thrust-dramatic",
+      "detail": "POSE 1: ISSUE - Right knee hyperextended, foot placement unstable."
+    },
+    {
+      "poseId": "editorial-kneel-collapse",
+      "detail": "POSE 3: ISSUE - Floating foot, unnatural limb angles."
+    },
+    {
+      "poseId": "editorial-leg-kick-freeze",
+      "detail": "POSE 4: ISSUE - Knee joint broken, leg disconnected."
+    },
+    {
+      "poseId": "editorial-mirrored-hands-hip",
+      "detail": "POSE 5: ISSUE - Spine slumped, arms phasing through object."
+    },
+    {
+      "poseId": "editorial-off-camera-stare",
+      "detail": "POSE 1: ISSUE. Limbs: Left leg detached at knee. Balance: Unstable. Feet: Floating. Hands: OK. Spine: OK."
+    },
+    {
+      "poseId": "editorial-one-arm-extreme-reach",
+      "detail": "POSE 2: ISSUE. Limbs: Right leg detached at hip/knee. Balance: Unstable. Feet: Floating. Hands: OK. Spine: OK."
+    },
+    {
+      "poseId": "editorial-power-crouch",
+      "detail": "POSE 3: ISSUE. Limbs: Legs detached, floating. Balance: Unsupported. Feet: Not grounded. Hands: OK. Spine: OK."
+    },
+    {
+      "poseId": "editorial-runway-freeze-turn",
+      "detail": "POSE 4: ISSUE. Limbs: Left leg detached at ankle/foot. Balance: Unstable. Feet: Missing contact. Hands: OK. Spine: OK."
+    },
+    {
+      "poseId": "editorial-shadow-profile-stark",
+      "detail": "POSE 5: ISSUE. Limbs: Both legs detached at ankles. Balance: Unstable. Feet: Floating. Hands: OK. Spine: OK."
+    },
+    {
+      "poseId": "editorial-sharp-angles-stand",
+      "detail": "POSE 6: ISSUE. Limbs: Right leg detached at knee. Balance: Unstable. Feet: Floating. Hands: OK. Spine: OK."
+    },
+    {
+      "poseId": "editorial-side-lunge-sharp",
+      "detail": "POSE 2 (Top Middle): ISSUE. Floating torso/legs disconnected from ground; limbs lack structural logic."
+    },
+    {
+      "poseId": "editorial-wind-machine-lean",
+      "detail": "POSE 6 (Bottom Right): ISSUE. Knee joint appears hyperextended or broken; hip connection looks disjointed."
+    },
+    {
+      "poseId": "elbow-ledge",
+      "detail": "POSE 1: ISSUE - Crossed ankles, unstable base."
+    },
+    {
+      "poseId": "elongated-reach",
+      "detail": "POSE 4: ISSUE - Unbalanced, awkward leg lift."
+    },
+    {
+      "poseId": "extreme-hip",
+      "detail": "POSE 5: ISSUE - Floating, no support."
+    },
+    {
+      "poseId": "face-frame-hands",
+      "detail": "POSE 6: ISSUE - Seated imbalance, leaning."
+    },
+    {
+      "poseId": "facing-away-hold",
+      "detail": "POSE 2: ISSUE. Crossed legs unstable, torso twisted, arms asymmetrical."
+    },
+    {
+      "poseId": "fashion-accessory-focus-hand",
+      "detail": "POSE 3: ISSUE. Leaning back excessively, feet off ground, balance lost."
+    },
+    {
+      "poseId": "fashion-arm-drape-product",
+      "detail": "POSE 4: ISSUE. Spine severely twisted, arm behind back unnatural, stance awkward."
+    },
+    {
+      "poseId": "fashion-back-view-glance",
+      "detail": "POSE 5: ISSUE. Legs crossed tightly, leaning sideways, poor base of support."
+    },
+    {
+      "poseId": "fashion-brand-lean-forward-desk",
+      "detail": "2. **Top Middle:** ISSUE. Left leg appears detached or floating; no clear support."
+    },
+    {
+      "poseId": "fashion-catalog-three-quarter",
+      "detail": "3. **Top Right:** ISSUE. Legs crossed awkwardly, looks unstable or disjointed."
+    },
+    {
+      "poseId": "fashion-cross-leg-standing",
+      "detail": "5. **Bottom Middle:** ISSUE. Right leg seems to pass through left or is misaligned; unnatural stance."
+    },
+    {
+      "poseId": "fashion-crossed-ankle-lean-wall",
+      "detail": "6. **Bottom Right:** ISSUE. Legs crossed, but the positioning looks stiff and potentially unbalanced."
+    },
+    {
+      "poseId": "fashion-editorial-brand-stare",
+      "detail": "POSE 2: ISSUE. Leaning excessively, off-balance."
+    },
+    {
+      "poseId": "fashion-editorial-crossbody-bag",
+      "detail": "POSE 3: ISSUE. Unnatural arm/leg crossing, unstable base."
+    },
+    {
+      "poseId": "fashion-hair-flip-motion",
+      "detail": "POSE 4: ISSUE. Sinking into floor plane, foot penetration."
+    },
+    {
+      "poseId": "fashion-hand-in-pocket-cool",
+      "detail": "POSE 5: ISSUE. Knee hyperextension, awkward leg angle."
+    },
+    {
+      "poseId": "fashion-leg-forward-point",
+      "detail": "POSE 1: ISSUE - Left foot floating, no support."
+    },
+    {
+      "poseId": "fashion-mid-turn-sweep",
+      "detail": "POSE 2: ISSUE - Right foot floating, no support."
+    },
+    {
+      "poseId": "fashion-power-stance-classic",
+      "detail": "POSE 5: ISSUE - Both ankles crossed, unstable balance."
+    },
+    {
+      "poseId": "fashion-power-walk-toward-camera",
+      "detail": "POSE 6: ISSUE - Right leg detached/floating, no support."
+    },
+    {
+      "poseId": "fashion-runway-arms-swing-stride",
+      "detail": "POSE_1: ISSUE - Left arm joint dislocated, right knee hyperextended."
+    },
+    {
+      "poseId": "fashion-seated-floor-brand-cool",
+      "detail": "POSE_4: ISSUE - Right leg broken/knee dislocated."
+    },
+    {
+      "poseId": "fashion-shoulder-back-confident",
+      "detail": "POSE_5: ISSUE - Legs crossed unnaturally, poor balance."
+    },
+    {
+      "poseId": "fashion-shoulder-roll-jacket-on",
+      "detail": "POSE_6: ISSUE - Legs crossed, left foot behind right ankle."
+    },
+    {
+      "poseId": "fashion-sunglasses-tilt-down",
+      "detail": "POSE_2: ISSUE (Knee hyperextension)"
+    },
+    {
+      "poseId": "fashion-walking-motion-blur",
+      "detail": "POSE_3: ISSUE (Foot floating, no support)"
+    },
+    {
+      "poseId": "fashion-wide-leg-stance-bold",
+      "detail": "POSE_4: ISSUE (Knee hyperextension)"
+    },
+    {
+      "poseId": "feet-tucked-under",
+      "detail": "POSE_5: ISSUE (Spine twisted unnaturally, limbs disjointed)"
+    },
+    {
+      "poseId": "feet-up",
+      "detail": "POSE_6: ISSUE (Arm detached from shoulder)"
+    },
+    {
+      "poseId": "fence-lean",
+      "detail": "POSE 1 (Top Left): ISSUE - Legs are detached from the hips, floating in mid-air."
+    },
+    {
+      "poseId": "fineart-classic-arabesque",
+      "detail": "POSE 3 (Top Right): ISSUE - The left leg is detached and floating."
+    },
+    {
+      "poseId": "fineart-kneeling-arms-crossed-chest",
+      "detail": "POSE 5 (Bottom Center): ISSUE - The left foot is detached and floating."
+    },
+    {
+      "poseId": "fineart-kneeling-both-arms-extend-fwd",
+      "detail": "POSE 6 (Bottom Right): ISSUE - The left foot is detached and floating."
+    },
+    {
+      "poseId": "fineart-kneeling-side-stretch",
+      "detail": "POSE_1: ISSUE - Left knee hyperextended, right leg detached."
+    },
+    {
+      "poseId": "fineart-kneeling-torso-extend",
+      "detail": "POSE_2: ISSUE - Right leg detached at the knee."
+    },
+    {
+      "poseId": "fineart-prone-back-lift-elegant",
+      "detail": "POSE 1 (Top Left): ISSUE - Spine hyperextended, balance precarious."
+    },
+    {
+      "poseId": "fineart-seated-forward-fold",
+      "detail": "POSE 3 (Top Right): ISSUE - Left leg detached/unnatural angle."
+    },
+    {
+      "poseId": "fineart-seated-spinal-twist-classic",
+      "detail": "POSE 5 (Bottom Center): ISSUE - Floating above surface, limbs disjointed."
+    },
+    {
+      "poseId": "fineart-standing-back-bend-soft",
+      "detail": "POSE 3 (Top Right): ISSUE. Arms rotated unnaturally at shoulders; elbows hyperextended."
+    },
+    {
+      "poseId": "fineart-standing-cambre-side",
+      "detail": "POSE 4 (Bottom Left): ISSUE. Severe spinal scoliosis/twist; hip misaligned with shoulder."
+    },
+    {
+      "poseId": "fineart-standing-devant-extension",
+      "detail": "POSE 5 (Bottom Center): ISSUE. One leg detached/floating; impossible balance."
+    },
+    {
+      "poseId": "fineart-standing-figure-eight-arms",
+      "detail": "POSE 6 (Bottom Right): ISSUE. Torso twisted excessively relative to hips; arms crossed awkwardly."
+    },
+    {
+      "poseId": "fineart-standing-leg-extension-hand",
+      "detail": "POSE_2: ISSUE - Knee hyperextension, unnatural joint angle."
+    },
+    {
+      "poseId": "fineart-standing-passe-balance",
+      "detail": "POSE_3: ISSUE - Shoulder dislocation, arm angle impossible."
+    },
+    {
+      "poseId": "fineart-standing-toe-touch-reach",
+      "detail": "POSE_6: ISSUE - Foot placement unstable, knee misaligned."
+    },
+    {
+      "poseId": "fineart-torso-curve-floor",
+      "detail": "POSE 2: ISSUE - Asymmetrical leg position, balance unstable."
+    },
+    {
+      "poseId": "floating-gesture",
+      "detail": "POSE 3: ISSUE - Leaning forward excessively, unbalanced posture."
+    },
+    {
+      "poseId": "floor-cross-leg",
+      "detail": "POSE 5: ISSUE - Arms positioned unnaturally behind torso."
+    },
+    {
+      "poseId": "floor-hug-knees",
+      "detail": "POSE 6: ISSUE - Hands resting on knees in an awkward, stiff manner."
+    },
+    {
+      "poseId": "floor-leaning-arms-back",
+      "detail": "POSE_1: ISSUE - Arms intersect torso; legs lack clear joint definition."
+    },
+    {
+      "poseId": "floor-seated-recline",
+      "detail": "POSE_4: ISSUE - Torso transparency reveals conflicting internal geometry."
+    },
+    {
+      "poseId": "floor-side-elbow-leg-raised",
+      "detail": "POSE_5: ISSUE - Limbs overlap confusingly; balance point unclear."
+    },
+    {
+      "poseId": "floor-side-extend",
+      "detail": "POSE_6: ISSUE - Left arm detached from shoulder socket."
+    },
+    {
+      "poseId": "floor-stomach-flip-flop",
+      "detail": "POSE 1: ISSUE - Unnatural limb angles, poor balance."
+    },
+    {
+      "poseId": "floor-tuck-half-recline",
+      "detail": "POSE 3: ISSUE - Broken neck, limbs clipping ground."
+    },
+    {
+      "poseId": "forearms-crossed-table",
+      "detail": "POSE 5: ISSUE - Floating limbs, awkward sitting position."
+    },
+    {
+      "poseId": "forehead-touch",
+      "detail": "POSE 6: ISSUE - Crossed legs, off-center balance."
+    },
+    {
+      "poseId": "forehead-touch-hands-held",
+      "detail": "POSE 1: ISSUE - Left arm dislocated at shoulder; legs crossed unnaturally."
+    },
+    {
+      "poseId": "freeze-frame",
+      "detail": "POSE 3: ISSUE - Left knee hyperextended/broken backward."
+    },
+    {
+      "poseId": "half-turn",
+      "detail": "POSE 2 (Top Middle): ISSUE. Spine excessively curved, knees hyperextended, balance precarious."
+    },
+    {
+      "poseId": "hand-in-hand-walk",
+      "detail": "POSE 5 (Bottom Middle): ISSUE. Knees crossed awkwardly, unstable base of support."
+    },
+    {
+      "poseId": "hand-in-hand-walk-couple",
+      "detail": "POSE 6 (Bottom Right): ISSUE. Feet crossed at ankles, poor balance and unnatural leg alignment."
+    },
+    {
+      "poseId": "hand-in-pocket",
+      "detail": "POSE 1: ISSUE - Unnatural leg crossing, poor balance."
+    },
+    {
+      "poseId": "head-tilt-stand",
+      "detail": "POSE 4: ISSUE - Legs crossed awkwardly, unstable stance."
+    },
+    {
+      "poseId": "highlow-arms-trailing-descent",
+      "detail": "POSE 5: ISSUE - Arm clipping through furniture, unnatural posture."
+    },
+    {
+      "poseId": "highlow-arms-wide-falling-open",
+      "detail": "POSE 6: ISSUE - Spine/neck severely twisted, limbs distorted."
+    },
+    {
+      "poseId": "highlow-cascading-arms-drop",
+      "detail": "POSE 1: ISSUE - Standing leg lacks knee bend; raised foot clips calf."
+    },
+    {
+      "poseId": "highlow-collapse-to-knees-dramatic",
+      "detail": "POSE 2: ISSUE - Floating; no ground contact; stiff, unnatural limb angles."
+    },
+    {
+      "poseId": "highlow-diagonal-fall-freeze",
+      "detail": "POSE 3: ISSUE - Knee hyperextended forward; spine rigid; poor balance."
+    },
+    {
+      "poseId": "highlow-elevated-chair-step-down",
+      "detail": "POSE 4: ISSUE - Asymmetrical arm swing; trailing leg awkwardly bent."
+    },
+    {
+      "poseId": "highlow-final-floor-gaze-up",
+      "detail": "POSE 6: ISSUE - Arms too high for landing; spine over-arched; unstable."
+    },
+    {
+      "poseId": "highlow-full-prone-final-floor",
+      "detail": "POSE 2 (Top Middle): ISSUE. Spine hunched, limbs cramped, poor landing form."
+    },
+    {
+      "poseId": "highlow-kneel-settle-final",
+      "detail": "POSE 5 (Bottom Middle): ISSUE. Unbalanced, one leg missing/awkward, unstable base."
+    },
+    {
+      "poseId": "highlow-knees-bending-controlled",
+      "detail": "POSE 6 (Bottom Right): ISSUE. Leaning forward, off-center, potential balance loss."
+    },
+    {
+      "poseId": "highlow-near-floor-reach-down",
+      "detail": "POSE_2: ISSUE - Missing lower limbs, unbalanced."
+    },
+    {
+      "poseId": "highlow-one-leg-lower-lunge",
+      "detail": "POSE_3: ISSUE - Missing lower limbs, unbalanced."
+    },
+    {
+      "poseId": "highlow-seated-fall-back-catch",
+      "detail": "POSE_4: ISSUE - Asymmetrical limb structure, distorted."
+    },
+    {
+      "poseId": "highlow-standing-arms-cross-drop",
+      "detail": "POSE_6: ISSUE - Missing lower limbs, unbalanced."
+    },
+    {
+      "poseId": "highlow-standing-hip-drop-begin",
+      "detail": "POSE 2: ISSUE (Right leg detached)"
+    },
+    {
+      "poseId": "highlow-standing-lean-back-start",
+      "detail": "POSE 3: ISSUE (Left foot floating, no support)"
+    },
+    {
+      "poseId": "highlow-standing-peak-start",
+      "detail": "POSE 4: ISSUE (Right leg detached/missing)"
+    },
+    {
+      "poseId": "highlow-standing-shoulders-slump-begin",
+      "detail": "POSE 5: ISSUE (Right leg detached/missing)"
+    },
+    {
+      "poseId": "highlow-standing-tiptoe-start-tall",
+      "detail": "POSE 6: ISSUE (Left leg detached)"
+    },
+    {
+      "poseId": "highlow-standing-to-squat-transition",
+      "detail": "POSE_1: ISSUE - Kneeling, but right leg is detached/floating above the knee."
+    },
+    {
+      "poseId": "highlow-torso-spiral-down",
+      "detail": "POSE_4: ISSUE - Jumping pose, but the lower left leg is detached and floating below the knee."
+    },
+    {
+      "poseId": "hip-pop-wall",
+      "detail": "POSE 1 (Top Left): ISSUE. Leaning back excessively; center of gravity is behind the base of support, creating instability."
+    },
+    {
+      "poseId": "hip-shift",
+      "detail": "POSE 2 (Top Center): ISSUE. Standing on one leg with the other leg crossed in front creates a very narrow, unstable base of support; high risk of fall"
+    },
+    {
+      "poseId": "kneeling-arms-crossed",
+      "detail": "POSE 4 (Bottom Left): ISSUE. Standing on one leg while lifting the other high results in poor balance and an unstable foundation."
+    },
+    {
+      "poseId": "kneeling-crossed-arms-look-side",
+      "detail": "POSE 2: ISSUE (Arms too wide, poor balance)"
+    },
+    {
+      "poseId": "kneeling-crouch",
+      "detail": "POSE 3: ISSUE (Arms too wide, poor balance)"
+    },
+    {
+      "poseId": "kneeling-dragon",
+      "detail": "POSE 4: ISSUE (Arms raised, unstable)"
+    },
+    {
+      "poseId": "kneeling-forearm-floor",
+      "detail": "POSE 5: ISSUE (Seated, leg on table, unnatural)"
+    },
+    {
+      "poseId": "kneeling-hug",
+      "detail": "POSE 2 (Top Middle): ISSUE. Balance compromised; center of mass shifted far right, unsupported by base."
+    },
+    {
+      "poseId": "kneeling-prayer-up",
+      "detail": "POSE 6 (Bottom Right): ISSUE. Spine twisted/tilted; left shoulder dropped; balance appears off-center."
+    },
+    {
+      "poseId": "kneeling-reach",
+      "detail": "POSE 2: ISSUE (Elbows flared, poor alignment)"
+    },
+    {
+      "poseId": "kneeling-reach-side",
+      "detail": "POSE 3: ISSUE (Floating, no base of support)"
+    },
+    {
+      "poseId": "kneeling-reach-up-one",
+      "detail": "POSE 4: ISSUE (Shoulders internally rotated, hunched)"
+    },
+    {
+      "poseId": "kneeling-seated-arms-wide",
+      "detail": "POSE 5: ISSUE (Unstable single-leg balance, spine twisted)"
+    },
+    {
+      "poseId": "kneeling-side-stretch",
+      "detail": "POSE 6: ISSUE (Knees collapsed inward, poor posture)"
+    },
+    {
+      "poseId": "kneeling-tuck-forward",
+      "detail": "POSE_2: ISSUE (Asymmetrical arm placement, unbalanced)"
+    },
+    {
+      "poseId": "kneeling-twist-back",
+      "detail": "POSE_3: ISSUE (Feet misaligned with base, awkward posture)"
+    },
+    {
+      "poseId": "kneeling-upright-twist",
+      "detail": "POSE_4: ISSUE (Spine twisted, limbs uncoordinated)"
+    },
+    {
+      "poseId": "knees-apart-forward",
+      "detail": "POSE_5: ISSUE (Knees splayed outward unnaturally)"
+    },
+    {
+      "poseId": "knights-kneel",
+      "detail": "POSE_6: ISSUE (Balance poor, hand placement inconsistent)"
+    },
+    {
+      "poseId": "leap-forward",
+      "detail": "POSE 3: ISSUE (Unstable balance, single leg support without counterweight)"
+    },
+    {
+      "poseId": "leap-freeze",
+      "detail": "POSE 4: ISSUE (Leg penetration through table, unnatural joint angles)"
+    },
+    {
+      "poseId": "look-away",
+      "detail": "POSE 6: ISSUE (Floating feet, no ground contact)"
+    },
+    {
+      "poseId": "look-up-chin-raised",
+      "detail": "POSE_1: ISSUE - Left arm disconnected from shoulder; right hand floating."
+    },
+    {
+      "poseId": "lounger-recline",
+      "detail": "POSE_3: ISSUE - Left leg detached from hip; right foot floating above bench."
+    },
+    {
+      "poseId": "low-wall-sit",
+      "detail": "POSE_4: ISSUE - Right knee joint misaligned/broken; left foot sliding through floor."
+    },
+    {
+      "poseId": "lowhigh-arms-first-lift-floor",
+      "detail": "POSE_5: ISSUE - Left hand passing through table surface; right forearm detached."
+    },
+    {
+      "poseId": "lowhigh-crouch-arms-spread-begin",
+      "detail": "POSE_6: ISSUE - Both feet floating in mid-air; no ground contact."
+    },
+    {
+      "poseId": "lowhigh-floor-bridge-rise-start",
+      "detail": "POSE 3: ISSUE - Missing left foot."
+    },
+    {
+      "poseId": "lowhigh-floor-kneel-hands-overhead-rise",
+      "detail": "POSE 5: ISSUE - Missing right foot."
+    },
+    {
+      "poseId": "lowhigh-floor-lie-back-start",
+      "detail": "POSE 6: ISSUE - Spine/neck broken; head detached."
+    },
+    {
+      "poseId": "lowhigh-floor-reach-up-arms",
+      "detail": "POSE 1: ISSUE - Right leg detached, floating."
+    },
+    {
+      "poseId": "lowhigh-floor-twist-rise-begin",
+      "detail": "POSE 4: ISSUE - Left leg detached, floating."
+    },
+    {
+      "poseId": "lowhigh-half-kneel-arms-rising-wide",
+      "detail": "POSE 6: ISSUE - Right arm disjointed, right leg detached."
+    },
+    {
+      "poseId": "lowhigh-half-standing-arms-mid",
+      "detail": "POSE 1 (Top Left): ISSUE - Right arm detached at shoulder; right hand missing."
+    },
+    {
+      "poseId": "lowhigh-hands-knees-push-up",
+      "detail": "POSE 2 (Top Center): ISSUE - Left arm detached from torso; left hand missing."
+    },
+    {
+      "poseId": "lowhigh-kneel-both-up-transition",
+      "detail": "POSE 3 (Top Right): ISSUE - Left foot detached from ankle."
+    },
+    {
+      "poseId": "lowhigh-kneel-lean-forward-rise",
+      "detail": "POSE 4 (Bottom Left): ISSUE - Limbs detached/ghosted; no solid structure."
+    },
+    {
+      "poseId": "lowhigh-one-knee-rising",
+      "detail": "POSE 6 (Bottom Right): ISSUE - Right hand missing."
+    },
+    {
+      "poseId": "lowhigh-roll-to-side-rise-begin",
+      "detail": "POSE 1 (Top Left): ISSUE - Spine/limbs contorted, unnatural rotation."
+    },
+    {
+      "poseId": "lowhigh-single-leg-plant-rise",
+      "detail": "POSE 4 (Bottom Left): ISSUE - Foot placement awkward, balance off-center."
+    },
+    {
+      "poseId": "lowhigh-standing-crouch-mid-rise",
+      "detail": "POSE 5 (Bottom Center): ISSUE - Arms/legs stiff, unnatural hang."
+    },
+    {
+      "poseId": "lowhigh-standing-final-look-up",
+      "detail": "POSE 6 (Bottom Right): ISSUE - Knee hyperextended, unstable balance."
+    },
+    {
+      "poseId": "lowhigh-standing-jump-reach-top",
+      "detail": "POSE 2: ISSUE (Left leg detached/missing)"
+    },
+    {
+      "poseId": "lowhigh-standing-side-reach-peak",
+      "detail": "POSE 3: ISSUE (Right foot floating, no support)"
+    },
+    {
+      "poseId": "lowhigh-standing-tall-arms-out",
+      "detail": "POSE 4: ISSUE (Right arm disjointed/overlapping torso awkwardly)"
+    },
+    {
+      "poseId": "magic-cast",
+      "detail": "POSE 5: ISSUE (Feet not on ground plane, balance off)"
+    },
+    {
+      "poseId": "martial-arts-guard",
+      "detail": "POSE 6: ISSUE (Leaning too far forward, about to fall)"
+    },
+    {
+      "poseId": "matrix-lean",
+      "detail": "POSE 1: ISSUE - Right arm disconnected from shoulder; right leg appears detached or floating."
+    },
+    {
+      "poseId": "mid-jump",
+      "detail": "POSE 3: ISSUE - Left foot is floating off the ground; balance compromised."
+    },
+    {
+      "poseId": "mirror-lean",
+      "detail": "POSE 4: ISSUE - Left leg is disjointed at the knee and ankle; unnatural angle."
+    },
+    {
+      "poseId": "model-walk",
+      "detail": "POSE 6: ISSUE - Left leg is disjointed at the knee; right hand appears to pass through the table."
+    },
+    {
+      "poseId": "neck-extreme",
+      "detail": "POSE 1: ISSUE - Unnatural leg bend, poor balance."
+    },
+    {
+      "poseId": "neck-roll",
+      "detail": "POSE 3: ISSUE - Unnatural leg crossing, poor balance."
+    },
+    {
+      "poseId": "nose-to-nose",
+      "detail": "POSE 4: ISSUE - Arms too close to body, unnatural stance."
+    },
+    {
+      "poseId": "one-elbow-knee",
+      "detail": "POSE 5: ISSUE - Spine slumped, limbs awkward."
+    },
+    {
+      "poseId": "one-leans-other-stands",
+      "detail": "POSE_2: ISSUE (Knees crossed, unstable base)"
+    },
+    {
+      "poseId": "one-leg-balance",
+      "detail": "POSE_3: ISSUE (Leaning back, poor balance)"
+    },
+    {
+      "poseId": "one-leg-extend-floor",
+      "detail": "POSE_4: ISSUE (Seated twist, limbs misaligned)"
+    },
+    {
+      "poseId": "operatic-arms",
+      "detail": "POSE_5: ISSUE (Knees bent inward, weak stance)"
+    },
+    {
+      "poseId": "p01-master-b1-bench-lean-armrest-hip",
+      "detail": "POSE 3: ISSUE - Unnatural limb angles, poor balance."
+    },
+    {
+      "poseId": "p01-master-b2-bench-lean-armrest-knee",
+      "detail": "POSE 4: ISSUE - Distorted spine, impossible leg position."
+    },
+    {
+      "poseId": "p01-master-b4-bench-lying-underwear-touch",
+      "detail": "POSE 6: ISSUE - Collapsed posture, limbs lack structure."
+    },
+    {
+      "poseId": "p01-master-b6-bench-side-sit-lean-armrest",
+      "detail": "POSE_2: ISSUE (Unstable base, hyperextended spine)"
+    },
+    {
+      "poseId": "p01-master-b7-bench-kneel-hip-knee-touch",
+      "detail": "POSE_3: ISSUE (Imbalanced, limbs collapsed)"
+    },
+    {
+      "poseId": "p01-master-s10-chair-armrest-sit-hip-leg",
+      "detail": "POSE_6: ISSUE (Floating, no ground contact)"
+    },
+    {
+      "poseId": "p01-master-s11-chair-armrest-sit-hair",
+      "detail": "POSE 1: ISSUE - Unnatural floating, limbs lack support."
+    },
+    {
+      "poseId": "p01-master-s12-chair-lean-bra-touch",
+      "detail": "POSE 2: ISSUE - Floating mid-air without base, limbs disconnected."
+    },
+    {
+      "poseId": "p01-master-s15-chair-floor-back-against-hand-floor",
+      "detail": "POSE 5: ISSUE - Legs intersecting seat, unnatural joint angles."
+    },
+    {
+      "poseId": "p01-master-s16-chair-floor-lying-head-on-chair",
+      "detail": "POSE 6: ISSUE - Extreme backbend, torso penetrating surface."
+    },
+    {
+      "poseId": "p01-master-s17-chair-back-seat-hair-touch",
+      "detail": "POSE_1: ISSUE - Spine excessively curved, limbs unbalanced."
+    },
+    {
+      "poseId": "p01-master-s5-chair-hair-touch-hip",
+      "detail": "POSE_5: ISSUE - Leaning too far, losing seated balance."
+    },
+    {
+      "poseId": "p01-master-s6-chair-stand-lean-arch",
+      "detail": "POSE_6: ISSUE - Feet not on ground, unstable standing pose."
+    },
+    {
+      "poseId": "p01-master-s7-chair-lean-eyes-closed",
+      "detail": "POSE_1: ISSUE - Arms intersect torso, unnatural elbow bend."
+    },
+    {
+      "poseId": "p01-master-s9-chair-armrest-sit-straight",
+      "detail": "POSE_3: ISSUE - Right arm passes through right thigh."
+    },
+    {
+      "poseId": "p02-couch-c1-seated-lean-armrest-facing",
+      "detail": "POSE_4: ISSUE - Elbows bent backwards (hyperextension)."
+    },
+    {
+      "poseId": "p02-couch-c2-lying-sideways-breast-touch",
+      "detail": "POSE_5: ISSUE - Left leg detached/floating above ground."
+    },
+    {
+      "poseId": "p02-couch-c3-lying-head-armrest-breast-touch",
+      "detail": "POSE_6: ISSUE - Left leg detached/floating above ground."
+    },
+    {
+      "poseId": "p02-couch-c5-lying-sideways-elevated-hip-hand",
+      "detail": "POSE 2: ISSUE (Floating, no support)"
+    },
+    {
+      "poseId": "p02-couch-c6-lying-sideways-elevated-hip-chin-up",
+      "detail": "POSE 3: ISSUE (Floating, no support)"
+    },
+    {
+      "poseId": "p02-couch-c7-lying-sideways-twisted-breast-touch",
+      "detail": "POSE 4: ISSUE (Foot penetration)"
+    },
+    {
+      "poseId": "p02-couch-c9-armrest-seated-hip-hand-eyes-closed",
+      "detail": "POSE 6: ISSUE (Floating, no support)"
+    },
+    {
+      "poseId": "p03-bed-b1-prone-belly-legs-crossed-shin",
+      "detail": "POSE_1: ISSUE - Spine hyper-extended, limbs splayed unnaturally."
+    },
+    {
+      "poseId": "p03-bed-b11-supine-back-hand-belly-facing",
+      "detail": "POSE_3: ISSUE - Extreme spinal flexion, limbs contorted."
+    },
+    {
+      "poseId": "p03-bed-b12-supine-back-hands-together-facing",
+      "detail": "POSE_4: ISSUE - Neck/Spine bent at impossible angle, legs folded incorrectly."
+    },
+    {
+      "poseId": "p03-bed-b13-supine-legs-bent-hair-breast-eyes-closed",
+      "detail": "POSE_5: ISSUE - Limbs tangled, spine compressed awkwardly."
+    },
+    {
+      "poseId": "p03-bed-b2-prone-belly-arch-hips-up-eyes-closed",
+      "detail": "POSE 1 (Top Left): ISSUE - Spine hyperflexed, limbs splayed awkwardly."
+    },
+    {
+      "poseId": "p03-bed-b4-prone-belly-turned-leg-pushed-side",
+      "detail": "POSE 3 (Top Right): ISSUE - Unstable base, limbs flailing."
+    },
+    {
+      "poseId": "p03-bed-b5-prone-belly-elevated-hands-crossed-facing",
+      "detail": "POSE 4 (Bottom Left): ISSUE - Extreme spinal flexion, poor alignment."
+    },
+    {
+      "poseId": "p03-bed-b7-side-lying-back-camera-hair-hip",
+      "detail": "POSE 6 (Bottom Right): ISSUE - Over-arched back, precarious landing."
+    },
+    {
+      "poseId": "p03-bed-b8-seated-back-straight-knees-touch",
+      "detail": "POSE 1 (Top Left): ISSUE - Spine rigid, limbs stiff, unnatural crouch."
+    },
+    {
+      "poseId": "p04-wall-w1-leaning-arm-overhead-facing",
+      "detail": "POSE 3 (Top Right): ISSUE - Balance off-center, right leg hyperextended, spine awkward."
+    },
+    {
+      "poseId": "p04-wall-w2-leaning-arms-crossed-turned-away",
+      "detail": "POSE 4 (Bottom Left): ISSUE - Torso twisted unnaturally, limbs disjointed, poor balance."
+    },
+    {
+      "poseId": "p04-wall-w4-leaning-sideways-hip-wall-eyes-closed",
+      "detail": "POSE 6 (Bottom Right): ISSUE - Spine arched excessively, limbs flailing, unstable balance."
+    },
+    {
+      "poseId": "p04-wall-w5-leaning-hourglass-hands-hips-eyes-closed",
+      "detail": "POSE 1: ISSUE - Floating leg, unnatural knee/ankle angles."
+    },
+    {
+      "poseId": "p04-wall-w6-back-against-wall-hip-away-eyes-closed",
+      "detail": "POSE 2: ISSUE - Disconnected lower leg, poor balance on one leg."
+    },
+    {
+      "poseId": "p04-wall-w7-back-against-wall-buttocks-touching-facing",
+      "detail": "POSE 3: ISSUE - Missing lower leg, stiff posture."
+    },
+    {
+      "poseId": "p04-wall-w9-standing-45-degree-crossed-facing",
+      "detail": "POSE 5: ISSUE - Twisted spine, awkward leg crossing."
+    },
+    {
+      "poseId": "p05-bench-b1-leaning-armrest-hip",
+      "detail": "POSE 6: ISSUE - Broken neck/spine alignment, disjointed limbs."
+    },
+    {
+      "poseId": "p05-bench-b12-armrest-seated-turned-camera",
+      "detail": "POSE_3 (Top-Right): ISSUE. Knees hyperextended, feet floating."
+    },
+    {
+      "poseId": "p05-bench-b13-standing-arm-raised-lean",
+      "detail": "POSE_4 (Bottom-Left): ISSUE. Spine broken/limp, limbs disjointed."
+    },
+    {
+      "poseId": "p05-bench-b14-standing-lean-facing-camera",
+      "detail": "POSE_5 (Bottom-Middle): ISSUE. Slumped, unbalanced, limbs floppy."
+    },
+    {
+      "poseId": "p05-bench-b2-leaning-armrest-knee",
+      "detail": "POSE_3: ISSUE - Balance/feet off ground, limbs disjointed."
+    },
+    {
+      "poseId": "p05-bench-b5-lying-back-arch-eyes-closed",
+      "detail": "POSE_6: ISSUE - Spine hunched, balance poor."
+    },
+    {
+      "poseId": "p05-bench-b9-kneeling-forward-lean-armrest",
+      "detail": "POSE 4: ISSUE - Knees bent awkwardly inward."
+    },
+    {
+      "poseId": "p06-chair-b10-armrest-hip-hand-leg",
+      "detail": "POSE 6: ISSUE - Legs detached/floating; no ground contact."
+    },
+    {
+      "poseId": "p06-chair-b12-leaning-bra-touch",
+      "detail": "POSE 2: ISSUE (Unstable landing, no base of support)"
+    },
+    {
+      "poseId": "p06-chair-b13-floor-back-against-leg-elevated",
+      "detail": "POSE 3: ISSUE (Extreme hyperextension of supporting leg, poor balance)"
+    },
+    {
+      "poseId": "p06-chair-b14-floor-back-against-knees-apart",
+      "detail": "POSE 4: ISSUE (Knees severely collapsed inward, unnatural joint angle)"
+    },
+    {
+      "poseId": "p06-chair-b15-floor-back-against-hand-floor",
+      "detail": "POSE 5: ISSUE (Unsupported weight on one leg, unstable pivot)"
+    },
+    {
+      "poseId": "p06-chair-b16-floor-lying-head-on-chair",
+      "detail": "POSE 6: ISSUE (Spine excessively rounded/kyphotic, shoulders internally rotated)"
+    },
+    {
+      "poseId": "p06-chair-b17-back-seat-hair-touch",
+      "detail": "POSE_1: ISSUE - Arms disconnected from torso; unnatural horizontal forearm alignment."
+    },
+    {
+      "poseId": "p06-chair-b4-seated-crossed-chin-touch",
+      "detail": "POSE_4: ISSUE - Arms disconnected from torso; unnatural horizontal forearm alignment."
+    },
+    {
+      "poseId": "p06-chair-b5-legs-crossed-hair-hip",
+      "detail": "POSE_5: ISSUE - Foot floating above ground plane."
+    },
+    {
+      "poseId": "p06-chair-b6-standing-lean-arch",
+      "detail": "POSE_6: ISSUE - Arms disconnected from torso; unnatural circular arm path."
+    },
+    {
+      "poseId": "p06-chair-b7-leaning-crossed-elevated-eyes-closed",
+      "detail": "POSE 1: ISSUE - Left arm disconnected from shoulder; foot floats."
+    },
+    {
+      "poseId": "p06-chair-b9-armrest-seated-straight",
+      "detail": "POSE 3: ISSUE - Foot passes through bench; unnatural limb proportions."
+    },
+    {
+      "poseId": "p08-male-r5-reclined-pillows-hand-near-face",
+      "detail": "POSE 4: ISSUE - Right hand detached from wrist; awkward balance on single toe."
+    },
+    {
+      "poseId": "p08-male-r6-lying-back-eyes-closed-fist-face",
+      "detail": "POSE 5: ISSUE - Neck missing; limbs disproportionate; balance unstable."
+    },
+    {
+      "poseId": "p08-male-r7-side-lying-knee-raised-forearm-bedding",
+      "detail": "POSE 6: ISSUE - Head merges with back; spine severely compressed."
+    },
+    {
+      "poseId": "p08-male-se3-chair-diagonal-lean-leg-extended",
+      "detail": "POSE 2 (Top Middle): ISSUE. Unnatural limb angles; balance unstable."
+    },
+    {
+      "poseId": "p08-male-se8-floor-lean-bench-legs-extended",
+      "detail": "POSE 4 (Bottom Left): ISSUE. Spine twisted excessively; arm position awkward."
+    },
+    {
+      "poseId": "p08-male-st1-shirt-pull-overhead",
+      "detail": "POSE 5 (Bottom Middle): ISSUE. Legs splayed unnaturally; poor balance."
+    },
+    {
+      "poseId": "p08-male-st10-standing-back-view-hands-clasped",
+      "detail": "POSE 6 (Bottom Right): ISSUE. Rigid, stiff posture; arms positioned oddly."
+    },
+    {
+      "poseId": "p08-male-st2-hand-behind-neck-waistband",
+      "detail": "POSE 1 (Top Left): ISSUE. Spine is unnaturally arched backward; legs are splayed without clear support."
+    },
+    {
+      "poseId": "p09-unconv-s10-wide-squat-floor-point",
+      "detail": "POSE 3 (Top Right): ISSUE. Spine is severely kinked; neck is craned at an impossible angle."
+    },
+    {
+      "poseId": "p09-unconv-s11-leaning-table-kneel",
+      "detail": "POSE 4 (Bottom Left): ISSUE. Legs are detached from the bench; spine is broken or floating."
+    },
+    {
+      "poseId": "p09-unconv-s12-table-side-extend-leg",
+      "detail": "POSE 5 (Bottom Middle): ISSUE. Feet are misaligned with the direction of travel; balance is off-center."
+    },
+    {
+      "poseId": "p09-unconv-s2-bridge-pose-floor",
+      "detail": "POSE 2: ISSUE. Asymmetric arm position; right leg bent awkwardly."
+    },
+    {
+      "poseId": "p09-unconv-s4-plank-reading-book",
+      "detail": "POSE 4: ISSUE. Left leg/knee appears hyperextended or misaligned relative to the body line."
+    },
+    {
+      "poseId": "p09-unconv-s5-prone-legs-up-chin-hands",
+      "detail": "POSE 5: ISSUE. Spine is excessively arched (swayback); legs are splayed asymmetrically."
+    },
+    {
+      "poseId": "p09-unconv-s6-shoulder-stand-fold",
+      "detail": "POSE 6: ISSUE. Legs are unnaturally straight and vertical; balance looks unstable for a landing."
+    },
+    {
+      "poseId": "p09-unconv-s8-seated-box-knee-crossed",
+      "detail": "POSE 2 (Top Center): ISSUE - Spine/limbs contorted, unnatural balance."
+    },
+    {
+      "poseId": "p10-bench-s1-kneeling-profile-hands-lap",
+      "detail": "POSE 4 (Bottom Left): ISSUE - Spine/neck broken, limbs disjointed."
+    },
+    {
+      "poseId": "p10-bench-s10-recline-legs-up-vertical",
+      "detail": "POSE 5 (Bottom Center): ISSUE - Spine/neck snapped, limbs detached."
+    },
+    {
+      "poseId": "p10-bench-s2-all-fours-arch-back",
+      "detail": "POSE 6 (Bottom Right): ISSUE - Spine twisted, limbs misaligned."
+    },
+    {
+      "poseId": "p10-bench-s4-seated-cross-leg-lean-back",
+      "detail": "POSE_2: ISSUE (Spine/torso distorted, limbs misaligned)"
+    },
+    {
+      "poseId": "p10-bench-s5-side-recline-arm-up",
+      "detail": "POSE_3: ISSUE (Limbs tangled, anatomy unclear)"
+    },
+    {
+      "poseId": "p10-bench-s6-back-view-kneel-lean",
+      "detail": "POSE_4: ISSUE (Leg detached from hip, spine broken)"
+    },
+    {
+      "poseId": "p10-bench-s7-standing-drape-fabric",
+      "detail": "POSE_5: ISSUE (Leg detached, spine disjointed)"
+    },
+    {
+      "poseId": "p10-bench-s8-seated-profile-tiptoe",
+      "detail": "POSE_6: ISSUE (Hand/wrist broken, leg anatomy odd)"
+    },
+    {
+      "poseId": "p11-armchair-s1-legs-crossed-hands-armrests",
+      "detail": "POSE 2: ISSUE - Legs crossed awkwardly, poor balance on small seat."
+    },
+    {
+      "poseId": "p11-armchair-s2-knees-together-lean-side",
+      "detail": "POSE 4: ISSUE - Arms and legs tangled unnaturally, impossible joint angles."
+    },
+    {
+      "poseId": "p11-armchair-s3-recline-legs-extended-diagonal",
+      "detail": "POSE 5: ISSUE - Leg floating/unsupported, no contact with surface."
+    },
+    {
+      "poseId": "p11-armchair-s4-one-leg-kicked-up-armrest",
+      "detail": "POSE 6: ISSUE - Limbs intersecting/floating through body and bench."
+    },
+    {
+      "poseId": "p11-armchair-s5-both-legs-over-armrest-smile",
+      "detail": "POSE 1 (Top Left): ISSUE. Limbs appear disconnected or floating; spine alignment is unclear."
+    },
+    {
+      "poseId": "p11-armchair-s7-lean-back-arm-behind-head",
+      "detail": "POSE 3 (Top Right): ISSUE. Balance is off-center; right leg placement looks unstable."
+    },
+    {
+      "poseId": "p11-armchair-s8-standing-lean-over-back-profile",
+      "detail": "POSE 4 (Bottom Left): ISSUE. Severe spinal distortion/twist; limb proportions look stretched."
+    },
+    {
+      "poseId": "p12-wall-s1-back-lean-arms-up",
+      "detail": "POSE 6 (Bottom Right): ISSUE. Asymmetrical leg positioning creates poor balance; arms are awkwardly raised."
+    },
+    {
+      "poseId": "p12-wall-s2-side-lean-hip-pop",
+      "detail": "POSE 2 (Top Center): ISSUE - Elbow hyperextension, knee misalignment."
+    },
+    {
+      "poseId": "p12-wall-s4-seated-wall-base",
+      "detail": "POSE 4 (Bottom Left): ISSUE - Limb transparency/overlap, unnatural arm curvature."
+    },
+    {
+      "poseId": "p12-wall-s5-profile-hand-wall",
+      "detail": "POSE 5 (Bottom Center): ISSUE - Balance instability, foot placement."
+    },
+    {
+      "poseId": "p12-wall-s7-crouch-wall-base",
+      "detail": "POSE 1: ISSUE - Spine compressed, limbs overlapping unnaturally."
+    },
+    {
+      "poseId": "p12-wall-s9-side-stretch-wall",
+      "detail": "POSE 3: ISSUE - Balance off-center, limbs disjointed."
+    },
+    {
+      "poseId": "p13-floor-s1-knees-hug-chair-base",
+      "detail": "POSE 4: ISSUE - Spine hunched, limbs cramped."
+    },
+    {
+      "poseId": "p13-floor-s10-recline-ottoman-arms-up",
+      "detail": "POSE 5: ISSUE - Spine inverted, limbs floating."
+    },
+    {
+      "poseId": "p13-floor-s2-recline-look-up",
+      "detail": "POSE 6: ISSUE - Limbs splayed, balance unstable."
+    },
+    {
+      "poseId": "p13-floor-s4-side-recline-arm-up",
+      "detail": "POSE 2: ISSUE - Spine hyperextended, limbs lack follow-through."
+    },
+    {
+      "poseId": "p13-floor-s5-blanket-recline-hand-face",
+      "detail": "POSE 3: ISSUE - Unnatural limb angles, poor impact balance."
+    },
+    {
+      "poseId": "p13-floor-s6-knees-bent-arms-crossed",
+      "detail": "POSE 4: ISSUE - Torso too upright, limbs lack water resistance form."
+    },
+    {
+      "poseId": "p13-floor-s7-knees-hug-chin-rest",
+      "detail": "POSE 5: ISSUE - Extreme spinal flexion, limbs tangled."
+    },
+    {
+      "poseId": "p13-floor-s8-plant-side-seated",
+      "detail": "POSE 6: ISSUE - Unbalanced posture, awkward limb placement."
+    },
+    {
+      "poseId": "p14-standing-s1-hip-sway-side-glance",
+      "detail": "POSE_2: ISSUE. Unstable balance, legs splayed awkwardly, unnatural spine curve."
+    },
+    {
+      "poseId": "p14-standing-s3-overhead-arms-stretch",
+      "detail": "POSE_5: ISSUE. Off-center balance, twisted spine, awkward leg placement."
+    },
+    {
+      "poseId": "p14-standing-s4-hand-on-hip-profile",
+      "detail": "POSE_6: ISSUE. Leaning too far forward, unstable base, unnatural spinal arch."
+    },
+    {
+      "poseId": "p14-standing-s6-arms-crossed-chest",
+      "detail": "POSE_2: ISSUE - Knees hyperextended, unnatural leg alignment."
+    },
+    {
+      "poseId": "p14-standing-s7-one-hand-hair",
+      "detail": "POSE_3: ISSUE - Left arm appears detached or misaligned at shoulder; legs stiff."
+    },
+    {
+      "poseId": "p14-standing-s8-side-profile-arch",
+      "detail": "POSE_4: ISSUE - Arms pass through the table surface."
+    },
+    {
+      "poseId": "p14-standing-s9-hands-clasped-front",
+      "detail": "POSE_5: ISSUE - Severe knee hyperextension, legs unnaturally long/thin, poor balance."
+    },
+    {
+      "poseId": "p15-chair-s1-thinker-crossed-ankles",
+      "detail": "POSE_6: ISSUE - Spine/torso twisted unnaturally; limbs tangled."
+    },
+    {
+      "poseId": "p15-chair-s2-forward-elbows-knees",
+      "detail": "POSE 2: ISSUE (Arms detached/unnatural)"
+    },
+    {
+      "poseId": "p15-chair-s4-side-perch-legs-extended",
+      "detail": "POSE 4: ISSUE (Limbs disjointed)"
+    },
+    {
+      "poseId": "p15-chair-s5-side-saddle-look-back",
+      "detail": "POSE 5: ISSUE (Hand/fingers malformed)"
+    },
+    {
+      "poseId": "p15-chair-s6-one-leg-up-chair",
+      "detail": "POSE 6: ISSUE (Spine/torso distorted)"
+    },
+    {
+      "poseId": "p15-chair-s8-profile-cross-legged",
+      "detail": "POSE 2: ISSUE. Left arm appears detached or floating; limb connection unclear."
+    },
+    {
+      "poseId": "p16-bed-b10-seated-legs-bent-lean-back-hands",
+      "detail": "POSE 5: ISSUE. Standing on one leg with knee bent awkwardly inward; poor balance/alignment."
+    },
+    {
+      "poseId": "p16-bed-b3-side-lying-knees-bent-look-camera",
+      "detail": "POSE 1 (Top Left): ISSUE. Spine hyper-extended, limbs floating."
+    },
+    {
+      "poseId": "p16-bed-b5-arch-legs-up-headboard",
+      "detail": "POSE 3 (Top Right): ISSUE. Legs intersecting wall/floor unnaturally."
+    },
+    {
+      "poseId": "p16-bed-b6-legs-up-wall-side-glance",
+      "detail": "POSE 4 (Bottom Left): ISSUE. Spine twisted excessively, balance off."
+    },
+    {
+      "poseId": "p16-bed-b7-prone-legs-kicked-up-look-back",
+      "detail": "POSE 5 (Bottom Middle): ISSUE. Feet overlapping/unclear placement."
+    },
+    {
+      "poseId": "p16-bed-b9-kneeling-arch-hand-in-hair",
+      "detail": "POSE 1 (Top Left): ISSUE. Unstable balance, limbs lack clear support."
+    },
+    {
+      "poseId": "p17-tubes-s10-seated-knees-hugged-chin-rest",
+      "detail": "POSE 3 (Top Right): ISSUE. Spine excessively curved, hands/feet placement awkward."
+    },
+    {
+      "poseId": "p17-tubes-s2-seated-lean-back-hands-support",
+      "detail": "POSE 4 (Bottom Left): ISSUE. Balance compromised, limbs appear disconnected from seat."
+    },
+    {
+      "poseId": "p17-tubes-s3-kneeling-arch-over-tube",
+      "detail": "POSE 5 (Bottom Middle): ISSUE. Center of gravity off-balance, leg position unnatural."
+    },
+    {
+      "poseId": "p17-tubes-s4-standing-lean-one-leg-on-tube",
+      "detail": "POSE 6 (Bottom Right): ISSUE. Posture unbalanced, weight distribution uneven on one leg."
+    },
+    {
+      "poseId": "p17-tubes-s6-side-sit-twist-look-back",
+      "detail": "POSE 2: ISSUE. Seated balance compromised; torso twisted awkwardly, limbs tangled."
+    },
+    {
+      "poseId": "p17-tubes-s7-kneel-drape-tall-tube-leg-back",
+      "detail": "POSE 3: ISSUE. Unstable single-leg perch; spine over-arched, shoulders hunched."
+    },
+    {
+      "poseId": "p17-tubes-s8-seated-foot-on-second-tube",
+      "detail": "POSE 4: ISSUE. Improbable leg lift from seated position; hip angle unnatural."
+    },
+    {
+      "poseId": "p18-lounge-r1-side-recline-arm-drape",
+      "detail": "POSE 6: ISSUE. Extreme spinal flexion; head/neck disconnected from body line."
+    },
+    {
+      "poseId": "p18-lounge-r10-full-length-recline-legs-crossed",
+      "detail": "POSE_1 (Top Left): ISSUE. Spine is unnaturally curved; limbs appear detached or floating above the surface."
+    },
+    {
+      "poseId": "p18-lounge-r3-seated-edge-lean-forward",
+      "detail": "POSE_3 (Top Right): ISSUE. Legs are splayed awkwardly; balance looks unstable; arms are stiff."
+    },
+    {
+      "poseId": "p18-lounge-r4-reclined-knees-up-hand-hair",
+      "detail": "POSE_4 (Bottom Left): ISSUE. Spine is severely kinked; neck is broken; limbs are disjointed."
+    },
+    {
+      "poseId": "p18-lounge-r5-back-lying-arms-overhead",
+      "detail": "POSE_5 (Bottom Center): ISSUE. Spine is bent at an extreme angle; head/neck position is unnatural."
+    },
+    {
+      "poseId": "p18-lounge-r6-kneeling-over-armrest",
+      "detail": "POSE_6 (Bottom Right): ISSUE. Balance is off-center; legs are tangled; torso is twisted."
+    },
+    {
+      "poseId": "p18-lounge-r7-seated-legs-crossed-hand-chin",
+      "detail": "POSE_1: ISSUE - Limbs disconnected, spine broken."
+    },
+    {
+      "poseId": "p18-lounge-r8-side-lying-head-propped",
+      "detail": "POSE_2: ISSUE - Limb proportions distorted, balance off."
+    },
+    {
+      "poseId": "p18-lounge-r9-seated-back-arch-hands-behind",
+      "detail": "POSE_3: ISSUE - Hands/feet detached, anatomy disjointed."
+    },
+    {
+      "poseId": "partners-lean",
+      "detail": "POSE_4: ISSUE - Feet overlapping, unnatural stance."
+    },
+    {
+      "poseId": "peek-over-shoulder",
+      "detail": "POSE_5: ISSUE - Legs crossed unnaturally, poor balance."
+    },
+    {
+      "poseId": "perch-edge",
+      "detail": "POSE_6: ISSUE - Spine rigid, limbs fused to bench."
+    },
+    {
+      "poseId": "piggyback-couple",
+      "detail": "POSE 2: ISSUE (Unnatural leg crossing, poor balance)"
+    },
+    {
+      "poseId": "pillar-wrap",
+      "detail": "POSE 3: ISSUE (Floating foot, awkward arm angle)"
+    },
+    {
+      "poseId": "pillow-hug-seated",
+      "detail": "POSE 4: ISSUE (Spine hunched, limbs cramped)"
+    },
+    {
+      "poseId": "pivot-turn",
+      "detail": "POSE 5: ISSUE (Unstable single-leg balance, stiff posture)"
+    },
+    {
+      "poseId": "pool-float",
+      "detail": "POSE 6: ISSUE (Flat perspective, limbs splayed unnaturally)"
+    },
+    {
+      "poseId": "prayer-kneeling",
+      "detail": "POSE 3: ISSUE - Foot detached from leg."
+    },
+    {
+      "poseId": "prone-push-up-position",
+      "detail": "POSE 6: ISSUE - Feet floating above ground."
+    },
+    {
+      "poseId": "prone-tuck-arms",
+      "detail": "POSE 1 (Top Left): ISSUE. Spine/limbs contorted, unnatural landing."
+    },
+    {
+      "poseId": "reading-position",
+      "detail": "POSE 5 (Bottom Center): ISSUE. Seated but legs/feet positioning looks awkward."
+    },
+    {
+      "poseId": "romantic-reach",
+      "detail": "POSE 6 (Bottom Right): ISSUE. Crossed legs and arm placement look unbalanced/stiff."
+    },
+    {
+      "poseId": "run-freeze",
+      "detail": "POSE 1 (Top Left): ISSUE - Right leg detached from hip, floating in space."
+    },
+    {
+      "poseId": "salsa-step",
+      "detail": "POSE 4 (Bottom Left): ISSUE - Left arm disconnected from shoulder, floating."
+    },
+    {
+      "poseId": "scurve-stand",
+      "detail": "POSE 5 (Bottom Center): ISSUE - Legs crossed unnaturally; right leg appears to pass through left or lacks proper joint structure."
+    },
+    {
+      "poseId": "seated-head-tilt-prop",
+      "detail": "POSE 6 (Bottom Right): ISSUE - Limbs detached from body, floating around the seated torso."
+    },
+    {
+      "poseId": "seated-lean-wall-single",
+      "detail": "POSE_2: ISSUE (Unnatural limb proportions, floating foot)"
+    },
+    {
+      "poseId": "seated-one-stands-behind",
+      "detail": "POSE_3: ISSUE (Floating limbs, poor balance)"
+    },
+    {
+      "poseId": "seated-power",
+      "detail": "POSE_4: ISSUE (Disjointed arms, unnatural hand position)"
+    },
+    {
+      "poseId": "seated-together-back",
+      "detail": "POSE_5: ISSUE (Twisted spine, awkward balance)"
+    },
+    {
+      "poseId": "seated-v-stretch",
+      "detail": "POSE_6: ISSUE (Wide stance, stiff posture)"
+    },
+    {
+      "poseId": "shoulder-drop",
+      "detail": "POSE 1 (Top Left): ISSUE. Knees hyperextended, unnatural inward ankle bend."
+    },
+    {
+      "poseId": "shoulder-roll-back",
+      "detail": "POSE 3 (Top Right): ISSUE. Knees severely crossed and bent awkwardly."
+    },
+    {
+      "poseId": "shoulder-to-shoulder",
+      "detail": "POSE 4 (Bottom Left): ISSUE. Legs crossed unnaturally, poor balance."
+    },
+    {
+      "poseId": "shoulder-wall",
+      "detail": "POSE 5 (Bottom Center): ISSUE. Weight shifted to one side with crossed legs, unstable."
+    },
+    {
+      "poseId": "side-arm-drape",
+      "detail": "POSE 6 (Bottom Right): ISSUE. Seated posture lacks support, limbs disjointed."
+    },
+    {
+      "poseId": "side-fetal",
+      "detail": "POSE_2: ISSUE (Limbs/Spine contorted)"
+    },
+    {
+      "poseId": "side-recline",
+      "detail": "POSE_5: ISSUE (Limbs/Spine distorted)"
+    },
+    {
+      "poseId": "side-recline-gaze-up",
+      "detail": "POSE_6: ISSUE (Spine/Limbs broken)"
+    },
+    {
+      "poseId": "side-saddle",
+      "detail": "POSE 2: ISSUE - Spine slumped, shoulders internally rotated."
+    },
+    {
+      "poseId": "side-straddle",
+      "detail": "POSE 3: ISSUE - Spine excessively rounded, shoulders hunched."
+    },
+    {
+      "poseId": "side-stretch",
+      "detail": "POSE 4: ISSUE - Balance unstable, knee hyperextended."
+    },
+    {
+      "poseId": "sitting-on-heels",
+      "detail": "POSE 5: ISSUE - Shoulders hunched, arms positioned awkwardly."
+    },
+    {
+      "poseId": "sitting-one-standing-one",
+      "detail": "POSE 6: ISSUE - Spine slumped forward, posture collapsed."
+    },
+    {
+      "poseId": "skip-step",
+      "detail": "POSE_1: ISSUE - Left arm detached at shoulder; right hand floating."
+    },
+    {
+      "poseId": "slump-back-chair",
+      "detail": "POSE_3: ISSUE - Right leg detached at knee; left foot floating off bench."
+    },
+    {
+      "poseId": "soft-sit",
+      "detail": "POSE_4: ISSUE - Left hand detached at wrist; right foot floating off bench."
+    },
+    {
+      "poseId": "spin-pose",
+      "detail": "POSE_6: ISSUE - Left hand detached at wrist."
+    },
+    {
+      "poseId": "sprint-lean",
+      "detail": "POSE 2 (Top Center): ISSUE. Dislocated knee/ankle, unnatural limb angle."
+    },
+    {
+      "poseId": "starfish",
+      "detail": "POSE 5 (Bottom Center): ISSUE. Spine hyper-arched, neck/head detached."
+    },
+    {
+      "poseId": "step-lean",
+      "detail": "POSE 2: ISSUE (Unstable balance, crossed legs)"
+    },
+    {
+      "poseId": "stool-lean-back",
+      "detail": "POSE 3: ISSUE (Spine hyperextended, unnatural sitting)"
+    },
+    {
+      "poseId": "street-dance-tilt",
+      "detail": "POSE 4: ISSUE (Unnatural knee/ankle angles)"
+    },
+    {
+      "poseId": "superhero-land",
+      "detail": "POSE 5: ISSUE (Foot placement, awkward landing)"
+    },
+    {
+      "poseId": "superman-arms",
+      "detail": "POSE 6: ISSUE (Spine compressed, limbs cramped)"
+    },
+    {
+      "poseId": "supine-one-knee-up",
+      "detail": "POSE 1 (Top Left): ISSUE. Spine hyper-extended, limbs disjointed from surface."
+    },
+    {
+      "poseId": "table-lean-back-look",
+      "detail": "POSE 4 (Bottom Left): ISSUE. Legs detached/levitating above seat."
+    },
+    {
+      "poseId": "table-lean-forward-arms-wide",
+      "detail": "POSE 5 (Bottom Center): ISSUE. Asymmetrical arm placement, potential balance issue."
+    },
+    {
+      "poseId": "tennis-follow",
+      "detail": "POSE 2: ISSUE. Knees hyperextended, balance precarious."
+    },
+    {
+      "poseId": "theater-bow",
+      "detail": "POSE 3: ISSUE. Feet misaligned, unstable stance."
+    },
+    {
+      "poseId": "thinker-extreme",
+      "detail": "POSE 4: ISSUE. Knee dislocated, unnatural limb angle."
+    },
+    {
+      "poseId": "throw-pose",
+      "detail": "POSE 6: ISSUE. Spine twisted, limbs disjointed, poor balance."
+    },
+    {
+      "poseId": "toss-hair",
+      "detail": "POSE 3: ISSUE (Unstable balance, crossed legs)"
+    },
+    {
+      "poseId": "tree-lean",
+      "detail": "POSE 4: ISSUE (Dislocated knee joint, unnatural leg angle)"
+    },
+    {
+      "poseId": "two-hands-pockets",
+      "detail": "POSE 5: ISSUE (Unnatural hip/leg connection)"
+    },
+    {
+      "poseId": "victory-arms",
+      "detail": "POSE 2: ISSUE (Knees crossed, unstable)"
+    },
+    {
+      "poseId": "villain-stand",
+      "detail": "POSE 3: ISSUE (Floating, no support)"
+    },
+    {
+      "poseId": "waltz-hold",
+      "detail": "POSE 5: ISSUE (Legs crossed, awkward balance)"
+    },
+    {
+      "poseId": "warrior-lunge",
+      "detail": "POSE 6: ISSUE (Missing lower leg/foot)"
+    },
+    {
+      "poseId": "weight-forward",
+      "detail": "POSE 1: ISSUE - Unstable balance, crossed feet, unnatural limb angles."
+    },
+    {
+      "poseId": "whisper-ear",
+      "detail": "POSE 3: ISSUE - Feet are crossed and lack a stable base of support."
+    },
+    {
+      "poseId": "wind-pose",
+      "detail": "POSE 4: ISSUE - Unnatural knee bend and awkward arm positioning."
+    },
+    {
+      "poseId": "windmill-arm",
+      "detail": "POSE 5: ISSUE - Poor balance with legs crossed in an unstable stance."
+    },
+    {
+      "poseId": "window-seat",
+      "detail": "POSE 6: ISSUE - Slumped spine and limbs positioned unnaturally for sitting."
+    },
+    {
+      "poseId": "wrist-rest",
+      "detail": "POSE_1: ISSUE - Spine slumped; left arm detached from shoulder."
     }
   ],
   "okPoses": [
@@ -183,24 +1702,28 @@
     "both-hands-chin",
     "both-knees",
     "both-knees-arms-up",
+    "both-knees-forearms",
+    "boudoir-asymmetric-stool",
     "boudoir-back-one",
     "boudoir-back-to-camera-glance",
     "boudoir-barberini-faun",
     "boudoir-bedsheet-drape-sit",
     "boudoir-both-knees-prayer-soft",
     "boudoir-capitoline-venus",
+    "boudoir-chair-straddle",
     "boudoir-doorframe-hang",
     "boudoir-drape-arms",
     "boudoir-esquiline-venus",
+    "boudoir-hair-tracer",
     "boudoir-half-bent-wrist",
     "boudoir-hip-raise-lying",
     "boudoir-knee-up-profile",
-    "boudoir-kneeling-arch-back",
     "boudoir-kneeling-forward-reach",
     "boudoir-kneeling-sit-back-heels",
     "boudoir-la-priere",
     "boudoir-lazy-lounge",
     "boudoir-little-dancer",
+    "boudoir-m-pose",
     "boudoir-mattress-edge-melt",
     "boudoir-mirror-reflection-pose",
     "boudoir-nymph-fontainebleau",
@@ -214,14 +1737,17 @@
     "boudoir-reclined-back-support",
     "boudoir-s-curve-stand",
     "boudoir-seated-knee-wrap",
-    "boudoir-seated-legs-crossed-lean",
     "boudoir-seated-spine-stretch",
     "boudoir-shadow-silhouette",
     "boudoir-side-lying-top-leg-bent",
-    "boudoir-side-pillow-hug",
     "boudoir-standing-back-arch-wall",
+    "boudoir-standing-hand-hip",
+    "boudoir-standing-leg-up-chair",
+    "boudoir-standing-look-back-drape",
+    "boudoir-standing-profile-curve",
     "boudoir-supine-arch",
-    "boudoir-supine-arms-up-soft",
+    "boudoir-the-kiss",
+    "boudoir-the-night",
     "boudoir-thinker",
     "boudoir-tippy-toe-cross",
     "boudoir-toe-point-recline",
@@ -247,6 +1773,11 @@
     "chair-face-frame",
     "chair-forward-elbows",
     "chair-laugh-gesture",
+    "chair-lean-back-casual",
+    "chair-lean-side",
+    "chair-look-over-shoulder",
+    "chair-meditation",
+    "chair-point-gesture",
     "chair-profile-strong",
     "chair-seated-look-up",
     "chair-self-hug",
@@ -270,7 +1801,6 @@
     "crossed-elbow-crossed-legs",
     "dance-step",
     "diagonal-lean",
-    "diagonal-lean-elbow",
     "diagonal-prop",
     "diagonal-step",
     "door-side-lean",
@@ -278,6 +1808,214 @@
     "dramatic-gasp",
     "drowsy-recline",
     "dynamic-reach",
-    "editorial-arm-reach"
-  ]
+    "editorial-arm-reach",
+    "editorial-back-arch-tension",
+    "editorial-extreme-forward-lean",
+    "editorial-fabric-toss-freeze",
+    "editorial-face-tilt-extreme",
+    "editorial-floor-lie-diagonal",
+    "editorial-hand-face-cover-partial",
+    "editorial-hunched-power-lean",
+    "editorial-negative-space-arm",
+    "editorial-shoulder-drop-asymmetry",
+    "editorial-single-leg-balance-angular",
+    "editorial-vogue-arm-frame",
+    "editorial-wide-stance-power",
+    "elbow-on-thigh-look-away",
+    "elbow-prop",
+    "face-touch",
+    "fashion-backward",
+    "fashion-belt-cinch-waist",
+    "fashion-collapse",
+    "fashion-denim-pocket-thumbs",
+    "fashion-jacket-shoulder-pop",
+    "fashion-oversized-coat-swirl",
+    "fashion-power-jump-freeze",
+    "fashion-runway-stomp-stride",
+    "fashion-seated-editorial-commercial",
+    "fashion-strong-silhouette-cape",
+    "fetal-curl",
+    "fineart-contrapposto-classic",
+    "fineart-lying-fetal-soft-classical",
+    "fineart-lying-leg-raised-line",
+    "fineart-odalisque-recline",
+    "fineart-pieta-kneel",
+    "fineart-releve-reach",
+    "fineart-seated-profile-still",
+    "fineart-side-lying-torso-lift",
+    "fineart-side-plank-elegant",
+    "fineart-standing-arm-sweep",
+    "fineart-standing-hand-to-heart",
+    "fineart-standing-releve-attitude",
+    "fineart-standing-still-life-drape",
+    "fineart-standing-torso-twist-sculpt",
+    "floor-asymmetric",
+    "floor-prop-back",
+    "floor-roll-side",
+    "floor-stretch-legs",
+    "forearm-wall",
+    "forward-lean-power",
+    "gate-lean",
+    "glass-lean",
+    "gravity-defiance",
+    "hair-flip",
+    "hammock-pose",
+    "hand-behind-head",
+    "hand-on-cheek",
+    "hands-clasped-front",
+    "highlow-elevated-platform-start",
+    "highlow-floor-landing-final",
+    "highlow-full-recline-final-settle",
+    "highlow-hands-floor-arch-back",
+    "highlow-landing-crouch-absorb",
+    "highlow-side-fall-catch-arm",
+    "highlow-standing-bow-forward-begin",
+    "highlow-step-down-mid-air",
+    "highlow-torso-begin-fall-forward",
+    "hip-hop-lean",
+    "hip-lean",
+    "karate-chop",
+    "kneeling-back-arch",
+    "kneeling-bow",
+    "kneeling-chest-open",
+    "kneeling-hand-floor",
+    "kneeling-hip-sit",
+    "kneeling-lean-forward",
+    "kneeling-lean-hands-floor",
+    "kneeling-look-back",
+    "kneeling-profile",
+    "kneeling-sit-between-heels",
+    "lead-dance-hand",
+    "lean-no-support",
+    "ledge-lean-elbow",
+    "lounger-back-arm-raised",
+    "lowhigh-crouch-to-stand-explosive",
+    "lowhigh-deep-crouch-start",
+    "lowhigh-floor-child-pose-start",
+    "lowhigh-floor-seated-start",
+    "lowhigh-floor-side-push-up-start",
+    "lowhigh-full-standing-peak",
+    "lowhigh-nearly-standing-stretch",
+    "lowhigh-seated-legs-extend-lift",
+    "lowhigh-seated-to-kneel-transition",
+    "lowhigh-standing-half-turn-rise",
+    "meditation-palms",
+    "mirror-pose",
+    "neck-rest-arm",
+    "one-holds-other-waist",
+    "one-knee-look-up",
+    "ottoman-recline",
+    "over-shoulder-look",
+    "over-shoulder-look-couple",
+    "p01-master-b3-bench-lean-upper-body-hair",
+    "p01-master-b5-bench-lying-back-arch",
+    "p01-master-b8-bench-kneel-elevated-arch",
+    "p01-master-s1-chair-legs-side-crossed",
+    "p01-master-s13-chair-floor-back-against-leg-elevated",
+    "p01-master-s14-chair-floor-back-against-knees-apart",
+    "p01-master-s2-chair-hand-forehead",
+    "p01-master-s3-chair-both-knees-bent-hands-clasped",
+    "p01-master-s4-chair-chin-touch",
+    "p01-master-s8-chair-stand-lean-facing-camera",
+    "p02-couch-c4-seated-lean-armrest-breast-hair",
+    "p02-couch-c8-seated-lean-back-neck-elongated",
+    "p03-bed-b10-kneeling-elbows-elevated-foot",
+    "p03-bed-b14-seated-side-legs-extended-knee-touch",
+    "p03-bed-b3-prone-belly-arch-legs-extended-crossed",
+    "p03-bed-b6-side-lying-hair-touch-hand-bed",
+    "p03-bed-b9-kneeling-hands-knees-eyes-closed",
+    "p04-wall-w3-leaning-hip-breast-touch-facing",
+    "p04-wall-w8-arms-chest-against-wall-back-camera",
+    "p05-bench-b10-kneeling-hands-crossed-elevated-legs",
+    "p05-bench-b11-plank-knees-bent-legs-up",
+    "p05-bench-b15-seated-floor-lean-bench-leg",
+    "p05-bench-b16-floor-head-on-bench-hands-connected",
+    "p05-bench-b17-floor-head-on-bench-hair-underwear",
+    "p05-bench-b3-leaning-upper-body-hair",
+    "p05-bench-b4-lying-underwear-hair-touch",
+    "p05-bench-b6-side-sit-lean-armrest",
+    "p05-bench-b7-kneeling-hip-knee-touch",
+    "p05-bench-b8-kneeling-elevated-forward-lean",
+    "p06-chair-b1-seated-legs-crossed-shin",
+    "p06-chair-b11-armrest-hair-eyes-closed",
+    "p06-chair-b2-seated-hand-forehead",
+    "p06-chair-b3-seated-knees-bent-hands-clasped",
+    "p06-chair-b8-standing-lean-facing-camera",
+    "p08-male-r9-reclined-floral-cushion-eyes-closed",
+    "p08-male-se4-chair-arm-along-back-belt-hand",
+    "p09-unconv-s1-forward-bend-heels",
+    "p09-unconv-s13-bent-over-chair-headdown",
+    "p09-unconv-s14-prone-legs-up-chair",
+    "p09-unconv-s3-legs-up-wall-recline",
+    "p09-unconv-s7-seated-box-arm-overhead",
+    "p09-unconv-s9-back-view-squat-boxes",
+    "p10-bench-s3-recline-arm-overhead",
+    "p10-bench-s9-seated-head-tilt-back",
+    "p11-armchair-s10-floor-recline-head-on-armrest",
+    "p11-armchair-s6-kneeling-back-view-armrest-grip",
+    "p11-armchair-s9-standing-front-hands-armrests",
+    "p12-wall-s10-back-view-reach-up",
+    "p12-wall-s3-forehead-rest",
+    "p12-wall-s6-back-arch-wall",
+    "p12-wall-s8-one-leg-up-wall",
+    "p13-floor-s3-side-seated-look-away",
+    "p13-floor-s9-prone-chin-hand",
+    "p14-standing-s10-window-light-lean",
+    "p14-standing-s2-crossed-legs-lean",
+    "p14-standing-s5-back-to-camera-look",
+    "p15-chair-s10-twist-both-hands-rail",
+    "p15-chair-s3-side-straddle-back",
+    "p15-chair-s7-recline-arms-overhead",
+    "p15-chair-s9-arch-back-hands-behind",
+    "p16-bed-b1-prone-smile-ankles-crossed",
+    "p16-bed-b2-recline-headboard-arm-up",
+    "p16-bed-b4-supine-overhead-view-arms-spread",
+    "p16-bed-b8-prone-forearms-look-camera",
+    "p17-tubes-s1-reclined-across-tubes",
+    "p17-tubes-s5-seated-legs-open-hands-back",
+    "p17-tubes-s9-seated-hand-hair-leg-back",
+    "p18-lounge-r2-prone-feet-up-back-arch",
+    "piggyback",
+    "power-stance",
+    "prayer-hands",
+    "profile-stand",
+    "prone-chin",
+    "puppet-strings",
+    "ragdoll-hang",
+    "railing-lean",
+    "run-stride",
+    "runway-stop",
+    "seated-hug-pillow",
+    "shoulder-lean",
+    "side-by-side-lean",
+    "side-hug",
+    "side-lean-seated",
+    "side-recline-top-leg-bent",
+    "slow-dance",
+    "sphinx-pose",
+    "spread-eagle",
+    "squat-lean",
+    "stair-lean",
+    "stargaze",
+    "statue-freeze",
+    "swivel-twist",
+    "table-elbow-single",
+    "tabletop-sit",
+    "tea-cup-hold",
+    "throne-sit",
+    "tiptoe-reach",
+    "together-arms-up",
+    "two-hands-wall",
+    "upper-reach",
+    "wall-lean",
+    "wheelchair-arms"
+  ],
+  "cats": {
+    "floating": 151,
+    "arm": 91,
+    "spine": 73,
+    "balance": 66,
+    "knee": 17,
+    "other": 21
+  }
 }

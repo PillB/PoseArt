@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE 1: ISSUE - Spine compressed, limbs overlapping unnaturally.\nPOSE 2: OK\nPOSE 3: ISSUE - Balance off-center, limbs disjointed.\nPOSE 4: ISSUE - Spine hunched, limbs cramped.\nPOSE 5: ISSUE - Spine inverted, limbs floating.\nPOSE 6: ISSUE - Limbs splayed, balance unstable.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785803118,
+  "id": "202608040825173a0d0cd8e9464509",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "202608040825173a0d0cd8e9464509",
+  "usage": {
+    "completion_tokens": 77,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 367,
+    "prompt_tokens_details": {
+      "cached_tokens": 43
+    },
+    "total_tokens": 444
+  }
+}

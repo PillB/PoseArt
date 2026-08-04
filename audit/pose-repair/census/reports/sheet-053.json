@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE 1: ISSUE - Unnatural leg crossing, poor balance.\nPOSE 2: OK - Stable seated position, natural limbs.\nPOSE 3: OK - Dynamic but balanced, limbs look functional.\nPOSE 4: ISSUE - Legs crossed awkwardly, unstable stance.\nPOSE 5: ISSUE - Arm clipping through furniture, unnatural posture.\nPOSE 6: ISSUE - Spine/neck severely twisted, limbs distorted.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785802425,
+  "id": "202608040813437e90285b84574ab9",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "202608040813437e90285b84574ab9",
+  "usage": {
+    "completion_tokens": 86,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 367,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 453
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE_1: OK\nPOSE_2: ISSUE (Knee hyperextension)\nPOSE_3: ISSUE (Foot floating, no support)\nPOSE_4: ISSUE (Knee hyperextension)\nPOSE_5: ISSUE (Spine twisted unnaturally, limbs disjointed)\nPOSE_6: ISSUE (Arm detached from shoulder)",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785802341,
+  "id": "20260804081220c98a14784ea14ba9",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260804081220c98a14784ea14ba9",
+  "usage": {
+    "completion_tokens": 68,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 367,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 435
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE 1 (Top Left): OK. Balanced stance, limbs in natural positions.\nPOSE 2 (Top Middle): ISSUE. Spine excessively curved, knees hyperextended, balance precarious.\nPOSE 3 (Top Right): OK. Dynamic mid-air pose, limbs positioned for clearance.\nPOSE 4 (Bottom Left): OK. Relaxed standing pose, weight distributed evenly.\nPOSE 5 (Bottom Middle): ISSUE. Knees crossed awkwardly, unstable base of support.\nPOSE 6 (Bottom Right): ISSUE. Feet crossed at ankles, poor balance and unnatural leg alignment.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785802417,
+  "id": "2026080408133592797502f362477e",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "2026080408133592797502f362477e",
+  "usage": {
+    "completion_tokens": 117,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 367,
+    "prompt_tokens_details": {
+      "cached_tokens": 43
+    },
+    "total_tokens": 484
+  }
+}

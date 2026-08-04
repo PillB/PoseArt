@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE 1: OK\nPOSE 2: ISSUE - Legs crossed awkwardly, poor balance on small seat.\nPOSE 3: OK\nPOSE 4: ISSUE - Arms and legs tangled unnaturally, impossible joint angles.\nPOSE 5: ISSUE - Leg floating/unsupported, no contact with surface.\nPOSE 6: ISSUE - Limbs intersecting/floating through body and bench.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785803088,
+  "id": "202608040824461c0717a5c1c64518",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "202608040824461c0717a5c1c64518",
+  "usage": {
+    "completion_tokens": 80,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 367,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 447
+  }
+}

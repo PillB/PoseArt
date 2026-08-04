@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE 1: ISSUE - Floating leg, unnatural knee/ankle angles.\nPOSE 2: ISSUE - Disconnected lower leg, poor balance on one leg.\nPOSE 3: ISSUE - Missing lower leg, stiff posture.\nPOSE 4: OK - Dynamic stride, limbs connected, balanced.\nPOSE 5: ISSUE - Twisted spine, awkward leg crossing.\nPOSE 6: ISSUE - Broken neck/spine alignment, disjointed limbs.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785802964,
+  "id": "202608040822428334640ae2e94970",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "202608040822428334640ae2e94970",
+  "usage": {
+    "completion_tokens": 91,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 367,
+    "prompt_tokens_details": {
+      "cached_tokens": 43
+    },
+    "total_tokens": 458
+  }
+}

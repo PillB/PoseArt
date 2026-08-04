@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE_1: ISSUE - Spine hyper-extended, limbs splayed unnaturally.\nPOSE_2: OK - Balanced crouch, limbs positioned for landing.\nPOSE_3: ISSUE - Extreme spinal flexion, limbs contorted.\nPOSE_4: ISSUE - Neck/Spine bent at impossible angle, legs folded incorrectly.\nPOSE_5: ISSUE - Limbs tangled, spine compressed awkwardly.\nPOSE_6: OK - Upright posture, balanced stance, natural limb alignment.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785802934,
+  "id": "20260804082213e4f44c82f26546b8",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260804082213e4f44c82f26546b8",
+  "usage": {
+    "completion_tokens": 101,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 367,
+    "prompt_tokens_details": {
+      "cached_tokens": 43
+    },
+    "total_tokens": 468
+  }
+}

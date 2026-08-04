@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE 1 (Top Left): ISSUE. Knees hyperextended, unnatural inward ankle bend.\nPOSE 2 (Top Center): OK. Balanced stance, limbs aligned.\nPOSE 3 (Top Right): ISSUE. Knees severely crossed and bent awkwardly.\nPOSE 4 (Bottom Left): ISSUE. Legs crossed unnaturally, poor balance.\nPOSE 5 (Bottom Center): ISSUE. Weight shifted to one side with crossed legs, unstable.\nPOSE 6 (Bottom Right): ISSUE. Seated posture lacks support, limbs disjointed.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785804063,
+  "id": "202608040841011971c2e28ebf413b",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "202608040841011971c2e28ebf413b",
+  "usage": {
+    "completion_tokens": 109,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 367,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 476
+  }
+}

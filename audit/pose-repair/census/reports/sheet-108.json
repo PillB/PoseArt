@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE_1: ISSUE - Limbs disconnected, spine broken.\nPOSE_2: ISSUE - Limb proportions distorted, balance off.\nPOSE_3: ISSUE - Hands/feet detached, anatomy disjointed.\nPOSE_4: ISSUE - Feet overlapping, unnatural stance.\nPOSE_5: ISSUE - Legs crossed unnaturally, poor balance.\nPOSE_6: ISSUE - Spine rigid, limbs fused to bench.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785803983,
+  "id": "20260804083941b13bac06dcc541a9",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260804083941b13bac06dcc541a9",
+  "usage": {
+    "completion_tokens": 85,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 367,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 452
+  }
+}

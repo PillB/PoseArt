@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE 1: OK\nPOSE 2: ISSUE - Spine slumped, shoulders internally rotated.\nPOSE 3: ISSUE - Spine excessively rounded, shoulders hunched.\nPOSE 4: ISSUE - Balance unstable, knee hyperextended.\nPOSE 5: ISSUE - Shoulders hunched, arms positioned awkwardly.\nPOSE 6: ISSUE - Spine slumped forward, posture collapsed.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785804099,
+  "id": "2026080408413754303ce5f42a46c8",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "2026080408413754303ce5f42a46c8",
+  "usage": {
+    "completion_tokens": 81,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 367,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 448
+  }
+}

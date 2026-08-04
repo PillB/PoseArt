@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE 1: ISSUE - Left arm dislocated at shoulder; legs crossed unnaturally.\nPOSE 2: OK\nPOSE 3: ISSUE - Left knee hyperextended/broken backward.\nPOSE 4: OK\nPOSE 5: OK\nPOSE 6: OK",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785802409,
+  "id": "20260804081328d8ec8f013b0b415c",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260804081328d8ec8f013b0b415c",
+  "usage": {
+    "completion_tokens": 56,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 367,
+    "prompt_tokens_details": {
+      "cached_tokens": 43
+    },
+    "total_tokens": 423
+  }
+}

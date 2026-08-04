@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE 1: OK\nPOSE 2: ISSUE - Spine hyperextended, limbs lack follow-through.\nPOSE 3: ISSUE - Unnatural limb angles, poor impact balance.\nPOSE 4: ISSUE - Torso too upright, limbs lack water resistance form.\nPOSE 5: ISSUE - Extreme spinal flexion, limbs tangled.\nPOSE 6: ISSUE - Unbalanced posture, awkward limb placement.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785803127,
+  "id": "202608040825264f2876924f6440d7",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "202608040825264f2876924f6440d7",
+  "usage": {
+    "completion_tokens": 83,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 367,
+    "prompt_tokens_details": {
+      "cached_tokens": 43
+    },
+    "total_tokens": 450
+  }
+}

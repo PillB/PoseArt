@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE 1: ISSUE - Unnatural floating, limbs lack support.\nPOSE 2: ISSUE - Floating mid-air without base, limbs disconnected.\nPOSE 3: OK - Seated balance stable, spine curved naturally.\nPOSE 4: OK - Symmetrical seated pose, arms balanced.\nPOSE 5: ISSUE - Legs intersecting seat, unnatural joint angles.\nPOSE 6: ISSUE - Extreme backbend, torso penetrating surface.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785802886,
+  "id": "202608040821244c5204c34b7d4a27",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "202608040821244c5204c34b7d4a27",
+  "usage": {
+    "completion_tokens": 89,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 367,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 456
+  }
+}

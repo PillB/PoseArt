@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE 1: OK\nPOSE 2: OK\nPOSE 3: ISSUE (Unstable balance, crossed legs)\nPOSE 4: ISSUE (Dislocated knee joint, unnatural leg angle)\nPOSE 5: ISSUE (Unnatural hip/leg connection)\nPOSE 6: OK",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785804162,
+  "id": "202608040842417ddcc691ecc74d28",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "202608040842417ddcc691ecc74d28",
+  "usage": {
+    "completion_tokens": 59,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 367,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 426
+  }
+}

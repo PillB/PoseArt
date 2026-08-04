@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE 1: OK\nPOSE 2: ISSUE (Unstable balance, crossed legs)\nPOSE 3: ISSUE (Spine hyperextended, unnatural sitting)\nPOSE 4: ISSUE (Unnatural knee/ankle angles)\nPOSE 5: ISSUE (Foot placement, awkward landing)\nPOSE 6: ISSUE (Spine compressed, limbs cramped)",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785804127,
+  "id": "20260804084206ad8682929a6e43ad",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260804084206ad8682929a6e43ad",
+  "usage": {
+    "completion_tokens": 73,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 367,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 440
+  }
+}

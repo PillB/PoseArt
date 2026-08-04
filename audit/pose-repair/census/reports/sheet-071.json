@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE 1: ISSUE - Right arm disconnected from shoulder; right leg appears detached or floating.\nPOSE 2: OK - Seated posture is stable with limbs resting correctly.\nPOSE 3: ISSUE - Left foot is floating off the ground; balance compromised.\nPOSE 4: ISSUE - Left leg is disjointed at the knee and ankle; unnatural angle.\nPOSE 5: OK - T-pose structure is balanced with limbs aligned.\nPOSE 6: ISSUE - Left leg is disjointed at the knee; right hand appears to pass through the table.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785802831,
+  "id": "20260804082030760029a78d9d4948",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260804082030760029a78d9d4948",
+  "usage": {
+    "completion_tokens": 113,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 367,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 480
+  }
+}

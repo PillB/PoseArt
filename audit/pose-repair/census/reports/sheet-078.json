@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE_1: ISSUE - Arms intersect torso, unnatural elbow bend.\nPOSE_2: OK - Leaning pose, limbs clear of body.\nPOSE_3: ISSUE - Right arm passes through right thigh.\nPOSE_4: ISSUE - Elbows bent backwards (hyperextension).\nPOSE_5: ISSUE - Left leg detached/floating above ground.\nPOSE_6: ISSUE - Left leg detached/floating above ground.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785802905,
+  "id": "20260804082144e619eec0e43d4798",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260804082144e619eec0e43d4798",
+  "usage": {
+    "completion_tokens": 85,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 367,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 452
+  }
+}

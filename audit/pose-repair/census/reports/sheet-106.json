@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE 1: OK. Stable seated base, neutral spine, relaxed limbs.\nPOSE 2: ISSUE. Seated balance compromised; torso twisted awkwardly, limbs tangled.\nPOSE 3: ISSUE. Unstable single-leg perch; spine over-arched, shoulders hunched.\nPOSE 4: ISSUE. Improbable leg lift from seated position; hip angle unnatural.\nPOSE 5: OK. Dynamic but balanced; contrapposto stance, clear weight distribution.\nPOSE 6: ISSUE. Extreme spinal flexion; head/neck disconnected from body line.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785803960,
+  "id": "2026080408391822470fecdfc443f9",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "2026080408391822470fecdfc443f9",
+  "usage": {
+    "completion_tokens": 115,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 367,
+    "prompt_tokens_details": {
+      "cached_tokens": 3
+    },
+    "total_tokens": 482
+  }
+}

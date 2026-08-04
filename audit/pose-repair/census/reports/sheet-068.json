@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE 1 (Top Left): ISSUE - Right arm detached at shoulder; right hand missing.\nPOSE 2 (Top Center): ISSUE - Left arm detached from torso; left hand missing.\nPOSE 3 (Top Right): ISSUE - Left foot detached from ankle.\nPOSE 4 (Bottom Left): ISSUE - Limbs detached/ghosted; no solid structure.\nPOSE 5 (Bottom Center): OK - Balanced on one leg; limbs attached.\nPOSE 6 (Bottom Right): ISSUE - Right hand missing.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785802550,
+  "id": "2026080408154897012ef12b174360",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "2026080408154897012ef12b174360",
+  "usage": {
+    "completion_tokens": 104,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 367,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 471
+  }
+}

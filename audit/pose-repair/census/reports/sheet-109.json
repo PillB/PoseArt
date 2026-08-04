@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE 1: OK\nPOSE 2: ISSUE (Unnatural leg crossing, poor balance)\nPOSE 3: ISSUE (Floating foot, awkward arm angle)\nPOSE 4: ISSUE (Spine hunched, limbs cramped)\nPOSE 5: ISSUE (Unstable single-leg balance, stiff posture)\nPOSE 6: ISSUE (Flat perspective, limbs splayed unnaturally)",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785803995,
+  "id": "202608040839546224e10dfee84197",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "202608040839546224e10dfee84197",
+  "usage": {
+    "completion_tokens": 78,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 367,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 445
+  }
+}

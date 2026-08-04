@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE 1: OK\nPOSE 2: ISSUE (Right leg detached)\nPOSE 3: ISSUE (Left foot floating, no support)\nPOSE 4: ISSUE (Right leg detached/missing)\nPOSE 5: ISSUE (Right leg detached/missing)\nPOSE 6: ISSUE (Left leg detached)",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785802465,
+  "id": "20260804081424bbddd84df97d4c95",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260804081424bbddd84df97d4c95",
+  "usage": {
+    "completion_tokens": 64,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 367,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 431
+  }
+}

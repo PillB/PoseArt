@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE 1: OK\nPOSE 2: ISSUE (Arms too wide, poor balance)\nPOSE 3: ISSUE (Arms too wide, poor balance)\nPOSE 4: ISSUE (Arms raised, unstable)\nPOSE 5: ISSUE (Seated, leg on table, unnatural)\nPOSE 6: OK",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785802488,
+  "id": "202608040814472463a6e8d9da47c9",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "202608040814472463a6e8d9da47c9",
+  "usage": {
+    "completion_tokens": 67,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 367,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 434
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE 1 (Top Left): ISSUE. Leaning back excessively; center of gravity is behind the base of support, creating instability.\nPOSE 2 (Top Center): ISSUE. Standing on one leg with the other leg crossed in front creates a very narrow, unstable base of support; high risk of falling.\nPOSE 3 (Top Right): OK. Balanced standing pose with a wide, stable stance and appropriate weight distribution.\nPOSE 4 (Bottom Left): ISSUE. Standing on one leg while lifting the other high results in poor balance and an unstable foundation.\nPOSE 5 (Bottom Center): OK. Kneeling pose with a stable base of support and neutral spine alignment.\nPOSE 6 (Bottom Right): OK. Stable kneeling position with proper weight distribution on the lower legs.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785802481,
+  "id": "20260804081439b23f2213d8814931",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260804081439b23f2213d8814931",
+  "usage": {
+    "completion_tokens": 158,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 367,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 525
+  }
+}

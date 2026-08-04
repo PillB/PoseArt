@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE 1 (Top Left): OK. Neutral standing, limbs symmetrical, spine aligned.\nPOSE 2 (Top Middle): ISSUE. Balance compromised; center of mass shifted far right, unsupported by base.\nPOSE 3 (Top Right): OK. Neutral standing, stable base.\nPOSE 4 (Bottom Left): OK. Stable stance, arms relaxed.\nPOSE 5 (Bottom Middle): OK. Asymmetric arm pose but balanced over feet.\nPOSE 6 (Bottom Right): ISSUE. Spine twisted/tilted; left shoulder dropped; balance appears off-center.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785802498,
+  "id": "2026080408145458db26510c1446e4",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "2026080408145458db26510c1446e4",
+  "usage": {
+    "completion_tokens": 116,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 367,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 483
+  }
+}

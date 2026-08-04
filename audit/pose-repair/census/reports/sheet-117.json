@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE_1: ISSUE - Left arm detached at shoulder; right hand floating.\nPOSE_2: OK\nPOSE_3: ISSUE - Right leg detached at knee; left foot floating off bench.\nPOSE_4: ISSUE - Left hand detached at wrist; right foot floating off bench.\nPOSE_5: OK\nPOSE_6: ISSUE - Left hand detached at wrist.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785804108,
+  "id": "2026080408414727a6286d25674976",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "2026080408414727a6286d25674976",
+  "usage": {
+    "completion_tokens": 77,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 367,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 444
+  }
+}

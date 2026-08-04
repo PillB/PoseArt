@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE_1: OK\nPOSE_2: ISSUE (Unstable base, hyperextended spine)\nPOSE_3: ISSUE (Imbalanced, limbs collapsed)\nPOSE_4: OK\nPOSE_5: OK\nPOSE_6: ISSUE (Floating, no ground contact)",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785802876,
+  "id": "2026080408211501aa2f4e7688469f",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "2026080408211501aa2f4e7688469f",
+  "usage": {
+    "completion_tokens": 57,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 367,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 424
+  }
+}

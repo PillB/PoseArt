@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE 1 (Top Left): ISSUE - Spine/limbs contorted, unnatural rotation.\nPOSE 2 (Top Center): OK - Balanced, limbs aligned.\nPOSE 3 (Top Right): OK - Symmetrical, balanced.\nPOSE 4 (Bottom Left): ISSUE - Foot placement awkward, balance off-center.\nPOSE 5 (Bottom Center): ISSUE - Arms/legs stiff, unnatural hang.\nPOSE 6 (Bottom Right): ISSUE - Knee hyperextended, unstable balance.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785802557,
+  "id": "20260804081556f466a469717c45c8",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260804081556f466a469717c45c8",
+  "usage": {
+    "completion_tokens": 99,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 367,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 466
+  }
+}

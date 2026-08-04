@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE 1: ISSUE - Right leg detached, floating.\nPOSE 2: OK - Balanced on one leg, limbs intact.\nPOSE 3: OK - Balanced on one leg, limbs intact.\nPOSE 4: ISSUE - Left leg detached, floating.\nPOSE 5: OK - Balanced on one leg, limbs intact.\nPOSE 6: ISSUE - Right arm disjointed, right leg detached.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785802542,
+  "id": "20260804081540a261338000204d2d",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260804081540a261338000204d2d",
+  "usage": {
+    "completion_tokens": 82,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 367,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 449
+  }
+}

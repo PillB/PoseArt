@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE 1 (Top Left): ISSUE - Spine hyperextended, balance precarious.\nPOSE 2 (Top Center): OK - Upright posture, stable stance.\nPOSE 3 (Top Right): ISSUE - Left leg detached/unnatural angle.\nPOSE 4 (Bottom Left): OK - Arms raised symmetrically, balanced.\nPOSE 5 (Bottom Center): ISSUE - Floating above surface, limbs disjointed.\nPOSE 6 (Bottom Right): OK - Neutral standing pose.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785802363,
+  "id": "20260804081242e83363ad5c0b4d5e",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260804081242e83363ad5c0b4d5e",
+  "usage": {
+    "completion_tokens": 98,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 367,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 465
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE 1: ISSUE - Unnatural limb angles, poor balance.\nPOSE 2: OK - Stable base, neutral spine.\nPOSE 3: ISSUE - Broken neck, limbs clipping ground.\nPOSE 4: OK - Good posture, balanced stance.\nPOSE 5: ISSUE - Floating limbs, awkward sitting position.\nPOSE 6: ISSUE - Crossed legs, off-center balance.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785802402,
+  "id": "20260804081320ebdda49560474d9e",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260804081320ebdda49560474d9e",
+  "usage": {
+    "completion_tokens": 79,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 367,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 446
+  }
+}

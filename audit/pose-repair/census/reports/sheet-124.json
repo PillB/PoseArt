@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE 1: ISSUE - Unstable balance, crossed feet, unnatural limb angles.\nPOSE 2: OK - Seated posture is stable and structurally sound.\nPOSE 3: ISSUE - Feet are crossed and lack a stable base of support.\nPOSE 4: ISSUE - Unnatural knee bend and awkward arm positioning.\nPOSE 5: ISSUE - Poor balance with legs crossed in an unstable stance.\nPOSE 6: ISSUE - Slumped spine and limbs positioned unnaturally for sitting.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785804183,
+  "id": "20260804084301e5385990377a4250",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260804084301e5385990377a4250",
+  "usage": {
+    "completion_tokens": 99,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 367,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 466
+  }
+}

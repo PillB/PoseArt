@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE_1: ISSUE - Spine slumped; left arm detached from shoulder.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785804192,
+  "id": "2026080408431130bfdc9c39264c1e",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "2026080408431130bfdc9c39264c1e",
+  "usage": {
+    "completion_tokens": 18,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 367,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 385
+  }
+}

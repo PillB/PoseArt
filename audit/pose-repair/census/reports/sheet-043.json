@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE 1 (Top Left): ISSUE - Legs are detached from the hips, floating in mid-air.\nPOSE 2 (Top Middle): OK\nPOSE 3 (Top Right): ISSUE - The left leg is detached and floating.\nPOSE 4 (Bottom Left): OK\nPOSE 5 (Bottom Center): ISSUE - The left foot is detached and floating.\nPOSE 6 (Bottom Right): ISSUE - The left foot is detached and floating.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785802348,
+  "id": "202608040812273905d31fa945471e",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "202608040812273905d31fa945471e",
+  "usage": {
+    "completion_tokens": 91,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 367,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 458
+  }
+}

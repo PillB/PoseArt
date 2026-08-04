@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE_1: OK\nPOSE_2: ISSUE - Knees hyperextended, unnatural leg alignment.\nPOSE_3: ISSUE - Left arm appears detached or misaligned at shoulder; legs stiff.\nPOSE_4: ISSUE - Arms pass through the table surface.\nPOSE_5: ISSUE - Severe knee hyperextension, legs unnaturally long/thin, poor balance.\nPOSE_6: ISSUE - Spine/torso twisted unnaturally; limbs tangled.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785803882,
+  "id": "20260804083800fb3b450e1b6d417d",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260804083800fb3b450e1b6d417d",
+  "usage": {
+    "completion_tokens": 93,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 367,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 460
+  }
+}

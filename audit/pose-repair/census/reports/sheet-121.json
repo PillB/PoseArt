@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE 1: OK. Seated, stable base, spine neutral.\nPOSE 2: ISSUE. Knees hyperextended, balance precarious.\nPOSE 3: ISSUE. Feet misaligned, unstable stance.\nPOSE 4: ISSUE. Knee dislocated, unnatural limb angle.\nPOSE 5: OK. Seated, symmetrical, balanced.\nPOSE 6: ISSUE. Spine twisted, limbs disjointed, poor balance.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785804153,
+  "id": "20260804084231aac5f75301174220",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260804084231aac5f75301174220",
+  "usage": {
+    "completion_tokens": 88,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 367,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 455
+  }
+}

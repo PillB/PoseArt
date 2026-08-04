@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE 1 (Top Left): ISSUE - Right leg detached from hip, floating in space.\nPOSE 2 (Top Center): OK\nPOSE 3 (Top Right): OK\nPOSE 4 (Bottom Left): ISSUE - Left arm disconnected from shoulder, floating.\nPOSE 5 (Bottom Center): ISSUE - Legs crossed unnaturally; right leg appears to pass through left or lacks proper joint structure.\nPOSE 6 (Bottom Right): ISSUE - Limbs detached from body, floating around the seated torso.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785804031,
+  "id": "20260804084029ce4a2875ec9e4d26",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260804084029ce4a2875ec9e4d26",
+  "usage": {
+    "completion_tokens": 103,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 367,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 470
+  }
+}

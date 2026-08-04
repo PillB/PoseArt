@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE 1: OK\nPOSE 2: ISSUE (Left leg detached/missing)\nPOSE 3: ISSUE (Right foot floating, no support)\nPOSE 4: ISSUE (Right arm disjointed/overlapping torso awkwardly)\nPOSE 5: ISSUE (Feet not on ground plane, balance off)\nPOSE 6: ISSUE (Leaning too far forward, about to fall)",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785802821,
+  "id": "202608040820204b8d93e0a0f14514",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "202608040820204b8d93e0a0f14514",
+  "usage": {
+    "completion_tokens": 81,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 367,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 448
+  }
+}

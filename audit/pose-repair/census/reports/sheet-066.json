@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE 1: OK\nPOSE 2: OK\nPOSE 3: ISSUE - Missing left foot.\nPOSE 4: OK\nPOSE 5: ISSUE - Missing right foot.\nPOSE 6: ISSUE - Spine/neck broken; head detached.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785802534,
+  "id": "20260804081533945d19c8a39e4c80",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260804081533945d19c8a39e4c80",
+  "usage": {
+    "completion_tokens": 54,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 367,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 421
+  }
+}

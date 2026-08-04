@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE_1 (Top Left): ISSUE. Spine is unnaturally curved; limbs appear detached or floating above the surface.\nPOSE_2 (Top Center): OK. Balanced stance; limbs and spine aligned correctly for a hurdle motion.\nPOSE_3 (Top Right): ISSUE. Legs are splayed awkwardly; balance looks unstable; arms are stiff.\nPOSE_4 (Bottom Left): ISSUE. Spine is severely kinked; neck is broken; limbs are disjointed.\nPOSE_5 (Bottom Center): ISSUE. Spine is bent at an extreme angle; head/neck position is unnatural.\nPOSE_6 (Bottom Right): ISSUE. Balance is off-center; legs are tangled; torso is twisted.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785803971,
+  "id": "20260804083930ba0dee9faf10477d",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260804083930ba0dee9faf10477d",
+  "usage": {
+    "completion_tokens": 145,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 367,
+    "prompt_tokens_details": {
+      "cached_tokens": 43
+    },
+    "total_tokens": 512
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE 1: ISSUE - Left arm disconnected from shoulder; foot floats.\nPOSE 2: OK\nPOSE 3: ISSUE - Foot passes through bench; unnatural limb proportions.\nPOSE 4: ISSUE - Right hand detached from wrist; awkward balance on single toe.\nPOSE 5: ISSUE - Neck missing; limbs disproportionate; balance unstable.\nPOSE 6: ISSUE - Head merges with back; spine severely compressed.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785803021,
+  "id": "20260804082339e1b12a80186e4356",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260804082339e1b12a80186e4356",
+  "usage": {
+    "completion_tokens": 85,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 367,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 452
+  }
+}

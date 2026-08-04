@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE 1 (Top Left): ISSUE - Spine rigid, limbs stiff, unnatural crouch.\nPOSE 2 (Top Middle): OK - Balanced landing, limbs positioned for impact.\nPOSE 3 (Top Right): ISSUE - Balance off-center, right leg hyperextended, spine awkward.\nPOSE 4 (Bottom Left): ISSUE - Torso twisted unnaturally, limbs disjointed, poor balance.\nPOSE 5 (Bottom Middle): OK - Natural stride, good weight distribution, relaxed posture.\nPOSE 6 (Bottom Right): ISSUE - Spine arched excessively, limbs flailing, unstable balance.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785802954,
+  "id": "202608040822336fe0f382b2974218",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "202608040822336fe0f382b2974218",
+  "usage": {
+    "completion_tokens": 122,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 367,
+    "prompt_tokens_details": {
+      "cached_tokens": 43
+    },
+    "total_tokens": 489
+  }
+}

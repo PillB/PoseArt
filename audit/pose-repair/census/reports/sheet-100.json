@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE_1: OK. Stable base, balanced spine, natural limb positions.\nPOSE_2: ISSUE. Unstable balance, legs splayed awkwardly, unnatural spine curve.\nPOSE_3: OK. Balanced stance, natural arm extension, stable feet.\nPOSE_4: OK. Dynamic but balanced posture, limbs in motion, spine aligned.\nPOSE_5: ISSUE. Off-center balance, twisted spine, awkward leg placement.\nPOSE_6: ISSUE. Leaning too far forward, unstable base, unnatural spinal arch.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785803870,
+  "id": "20260804083746ab355f70a06b46e8",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260804083746ab355f70a06b46e8",
+  "usage": {
+    "completion_tokens": 107,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 367,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 474
+  }
+}

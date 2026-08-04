@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE 1 (Top Left): OK\nPOSE 2 (Top Center): ISSUE - Elbow hyperextension, knee misalignment.\nPOSE 3 (Top Right): OK\nPOSE 4 (Bottom Left): ISSUE - Limb transparency/overlap, unnatural arm curvature.\nPOSE 5 (Bottom Center): ISSUE - Balance instability, foot placement.\nPOSE 6 (Bottom Right): OK",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785803109,
+  "id": "20260804082507c2908a9bbf5a4fd6",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260804082507c2908a9bbf5a4fd6",
+  "usage": {
+    "completion_tokens": 79,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 367,
+    "prompt_tokens_details": {
+      "cached_tokens": 43
+    },
+    "total_tokens": 446
+  }
+}

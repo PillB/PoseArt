@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE 1: OK\nPOSE 2: OK\nPOSE 3: OK\nPOSE 4: ISSUE - Knees bent awkwardly inward.\nPOSE 5: OK\nPOSE 6: ISSUE - Legs detached/floating; no ground contact.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785802992,
+  "id": "20260804082311fd7f7cf14f7646b1",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260804082311fd7f7cf14f7646b1",
+  "usage": {
+    "completion_tokens": 53,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 367,
+    "prompt_tokens_details": {
+      "cached_tokens": 43
+    },
+    "total_tokens": 420
+  }
+}

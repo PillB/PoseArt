@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE 1: OK\nPOSE 2: ISSUE (Elbows flared, poor alignment)\nPOSE 3: ISSUE (Floating, no base of support)\nPOSE 4: ISSUE (Shoulders internally rotated, hunched)\nPOSE 5: ISSUE (Unstable single-leg balance, spine twisted)\nPOSE 6: ISSUE (Knees collapsed inward, poor posture)",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785802505,
+  "id": "20260804081504c8208e2edc25469b",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260804081504c8208e2edc25469b",
+  "usage": {
+    "completion_tokens": 77,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 367,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 444
+  }
+}

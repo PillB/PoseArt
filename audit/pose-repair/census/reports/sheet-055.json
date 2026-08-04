@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE 1 (Top Left): OK. Upright, balanced, limbs symmetrical.\nPOSE 2 (Top Middle): ISSUE. Spine hunched, limbs cramped, poor landing form.\nPOSE 3 (Top Right): OK. Balanced takeoff, limbs extended, spine neutral.\nPOSE 4 (Bottom Left): OK. Symmetrical, stable, good limb positioning.\nPOSE 5 (Bottom Middle): ISSUE. Unbalanced, one leg missing/awkward, unstable base.\nPOSE 6 (Bottom Right): ISSUE. Leaning forward, off-center, potential balance loss.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785802442,
+  "id": "20260804081359e785549af0764a7e",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "20260804081359e785549af0764a7e",
+  "usage": {
+    "completion_tokens": 120,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 367,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 487
+  }
+}

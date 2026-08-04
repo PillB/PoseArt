@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "POSE 1: OK. Arms raised, balanced seated posture.\nPOSE 2: ISSUE. Left arm appears detached or floating; limb connection unclear.\nPOSE 3: OK. Seated straddle with arms overhead, stable base.\nPOSE 4: OK. Wide stance, arms out, balanced athletic pose.\nPOSE 5: ISSUE. Standing on one leg with knee bent awkwardly inward; poor balance/alignment.\nPOSE 6: OK. Crouched lunge or start position, spine extended, grounded.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1785803916,
+  "id": "202608040838358c350b9e2f6c4f96",
+  "model": "glm-5v-turbo",
+  "object": "chat.completion",
+  "request_id": "202608040838358c350b9e2f6c4f96",
+  "usage": {
+    "completion_tokens": 106,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 367,
+    "prompt_tokens_details": {
+      "cached_tokens": 2
+    },
+    "total_tokens": 473
+  }
+}
