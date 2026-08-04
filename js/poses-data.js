@@ -457,7 +457,7 @@ const POSES_LIBRARY = {
     difficulty: 'Beginner', angle: 'Side', intent: 'Social', effort: 'Static',
     instructions: 'Sit on the floor and draw both knees fully into the chest, wrapping both arms around the shins. Rest the cheek against a knee and let one foot untuck slightly so it peeks out from the shape.',
     tip: 'Untuck one foot so it peeks out — it stops the silhouette from reading as one tight, closed ball.',
-    joints: {spine: 25, neck: 10, rightShoulder: -12, leftElbow: 75, rightElbow: 75, leftHip: 115, rightHip: 115, leftKnee: 130, rightKnee: 140, shoulderFwdL: -45, shoulderFwdR: -45},
+    joints: {spine: 25, neck: 10, rightShoulder: -12, leftElbow: 75, rightElbow: 75, leftHip: 115, rightHip: 115, leftKnee: 130, rightKnee: 125, shoulderFwdL: -45, shoulderFwdR: -45},
     color: 'var(--color-teal-200)', figure: 'floor-hug-knees',
     tags: ['cozy', 'beginner', 'seated', 'intimate']
   },
@@ -466,7 +466,7 @@ const POSES_LIBRARY = {
     difficulty: 'Intermediate', angle: '3/4 View', intent: 'Photography', effort: 'Static',
     instructions: 'Sit on the floor with one leg extended straight ahead, angled slightly away from square-to-camera, and the other bent with the foot flat near the opposite knee. Plant one hand on the floor behind you and lift the chest.',
     tip: 'Angle the extended leg slightly off-camera-square — it reads noticeably longer and leaner.',
-    joints: {spine: -5, neck: -3.3, leftShoulder: -30, rightShoulder: -12, leftElbow: 0, rightElbow: 45, hipAbductL: -15, hipAbductR: 25, leftHip: 80, rightHip: 30, leftKnee: 15, rightKnee: 140, shoulderFwdL: 100, shoulderFwdR: -5},
+    joints: {spine: -5, neck: -3.3, leftShoulder: -30, rightShoulder: -12, leftElbow: 0, rightElbow: 45, hipAbductL: -15, hipAbductR: 25, leftHip: 80, rightHip: 30, leftKnee: 15, rightKnee: 125, shoulderFwdL: 100, shoulderFwdR: -5},
     color: 'var(--color-teal-100)', figure: 'seated-floor',
     tags: ['portrait', 'intermediate', 'seated', 'floor']
   },
@@ -550,7 +550,7 @@ const POSES_LIBRARY = {
     difficulty: 'Intermediate', angle: '3/4 View', intent: 'Artistic', effort: 'Static',
     instructions: 'Sit on the floor with one knee bent upward and the other leg tucked beneath the body asymmetrically. Rest one arm across the raised knee and lean the torso a few degrees toward it.',
     tip: 'Keep the two legs deliberately asymmetrical — mirroring them flattens the visual interest.',
-    joints: {spine: 10, hips: 8, neck: -3.3, rightShoulder: -12, leftElbow: 60, rightElbow: 18, hipAbductR: -10, leftHip: 80, rightHip: 80, leftKnee: 90, rightKnee: 140, shoulderFwdL: -50, shoulderFwdR: -5},
+    joints: {spine: 10, hips: 8, neck: -3.3, rightShoulder: -12, leftElbow: 60, rightElbow: 18, hipAbductR: -10, leftHip: 80, rightHip: 80, leftKnee: 90, rightKnee: 125, shoulderFwdL: -50, shoulderFwdR: -5},
     color: 'var(--color-teal-200)', figure: 'seated-floor',
     tags: ['artistic', 'intermediate', 'seated', 'floor']
   },
@@ -568,7 +568,7 @@ const POSES_LIBRARY = {
     difficulty: 'Intermediate', angle: '3/4 View', intent: 'Social', effort: 'Static',
     instructions: 'Sit on the edge of a table with legs dangling or crossed at the ankle. Lean back slightly onto both hands, shoulders relaxed down, and let the feet swing loosely just before the shot.',
     tip: 'Bounce the feet gently right before the shutter — it keeps the pose from freezing into stiffness.',
-    joints: {spine: -10, neck: -3.3, rightShoulder: -12, leftElbow: 65, rightElbow: 45, leftHip: 80, rightHip: 80, leftKnee: 140, rightKnee: 140, leftAnkle: -15, rightAnkle: -15, shoulderFwdL: 25, shoulderFwdR: 25},
+    joints: {spine: -10, neck: -3.3, rightShoulder: -12, leftElbow: 65, rightElbow: 45, leftHip: 80, rightHip: 80, leftKnee: 125, rightKnee: 125, leftAnkle: -15, rightAnkle: -15, shoulderFwdL: 25, shoulderFwdR: 25},
     color: 'var(--color-teal-200)', figure: 'seated-side',
     tags: ['casual', 'intermediate', 'seated', 'social']
   },
@@ -577,7 +577,7 @@ const POSES_LIBRARY = {
     difficulty: 'Beginner', angle: '3/4 View', intent: 'Social', effort: 'Static',
     instructions: 'Sit on a couch and tuck both feet underneath the body to one side. Lean into the armrest with one elbow and let the free hand rest loosely in your lap for a candid, cozy read.',
     tip: 'Tucking the feet under instantly reads as candid — ideal for relaxed lifestyle-style shots.',
-    joints: {spine: 12, hips: -8, neck: -3.3, rightShoulder: -12, leftElbow: 60, rightElbow: 80, hipAbductL: -30, leftHip: 80, rightHip: 80, leftKnee: 138, rightKnee: 138, shoulderFwdL: 7, shoulderFwdR: -5},
+    joints: {spine: 12, hips: -8, neck: -3.3, rightShoulder: -12, leftElbow: 60, rightElbow: 80, hipAbductL: -30, leftHip: 80, rightHip: 80, leftKnee: 125, rightKnee: 125, shoulderFwdL: 7, shoulderFwdR: -5},
     color: 'var(--color-teal-100)', figure: 'seated-floor',
     tags: ['cozy', 'beginner', 'seated', 'lifestyle']
   },
@@ -586,7 +586,7 @@ const POSES_LIBRARY = {
     difficulty: 'Intermediate', angle: '3/4 View', intent: 'Editorial', effort: 'Static',
     instructions: 'Sit back on the heels in a kneeling base and twist the ribcage to one side, planting one hand on the floor behind you for support. Look back over the opposite shoulder while hips stay squared forward.',
     tip: 'Keep hips squared while the ribcage twists — that separation is what gives the line its editorial edge.',
-    joints: {spine: 20, neck: 22, leftShoulder: -30, rightShoulder: -12, leftElbow: 0, rightElbow: 45, leftHip: 40, rightHip: 40, leftKnee: 150, rightKnee: 150, shoulderFwdL: 100, shoulderFwdR: -5, globalTwist: 25},
+    joints: {spine: 20, neck: 22, leftShoulder: -30, rightShoulder: -12, leftElbow: 0, rightElbow: 45, leftHip: 40, rightHip: 40, leftKnee: 125, rightKnee: 125, shoulderFwdL: 100, shoulderFwdR: -5, globalTwist: 25},
     color: 'var(--color-teal-200)', figure: 'seated-floor',
     tags: ['editorial', 'intermediate', 'seated', 'kneeling']
   },
@@ -996,7 +996,7 @@ const POSES_LIBRARY = {
     difficulty: 'Beginner', angle: 'Side', intent: 'Social', effort: 'Static',
     instructions: 'Sit and let the body sink into a controlled, intentional slouch, chest still slightly lifted rather than fully collapsed. Drape one arm over the backrest and cross the legs loosely at the ankle.',
     tip: 'Keep the chest slightly lifted even as you sink back — a full collapse reads tired, not casual.',
-    joints: {spine: 16, hips: 12, neck: -3.3, leftShoulder: -40, rightShoulder: -12, leftElbow: 90, rightElbow: 18, leftHip: 70, rightHip: 70, leftKnee: 135, rightKnee: 135, leftAnkle: -15, rightAnkle: -15, shoulderFwdL: 35, shoulderFwdR: -5},
+    joints: {spine: 16, hips: 12, neck: -3.3, leftShoulder: -40, rightShoulder: -12, leftElbow: 90, rightElbow: 18, leftHip: 70, rightHip: 70, leftKnee: 125, rightKnee: 125, leftAnkle: -15, rightAnkle: -15, shoulderFwdL: 35, shoulderFwdR: -5},
     color: 'var(--color-teal-100)', figure: 'seated-side',
     tags: ['casual', 'beginner', 'seated', 'leaning']
   },
@@ -1330,7 +1330,7 @@ const POSES_LIBRARY = {
     instructions: 'Kneel with both knees down and raise both arms straight overhead in a wide V, chest lifted and open. Keep a soft bend in the elbows for a bold, symmetrical, celebratory shape.',
     tip: 'Keep a soft bend in the elbows overhead — fully locked arms photograph stiff even in a joyful pose.',
     // PR-v4 (v1.4) — auto-fix too-subtle joints: leftShoulder -10→-110, rightShoulder 8→-110. Scaled magnitudes to visible threshold per directive 'pose too subtle' failure class.
-    joints: {spine: -5, neck: 0, leftShoulder: -110, rightShoulder: -110, leftElbow: 70, rightElbow: 70, hipAbductL: 8, hipAbductR: 8, rightHip: 0, leftKnee: 140, rightKnee: 140, leftAnkle: -35, rightAnkle: -35},
+    joints: {spine: -5, neck: 0, leftShoulder: -110, rightShoulder: -110, leftElbow: 70, rightElbow: 70, hipAbductL: 8, hipAbductR: 8, rightHip: 0, leftKnee: 125, rightKnee: 125, leftAnkle: -35, rightAnkle: -35},
     color: 'var(--color-gold-300)', figure: 'seiza',
     tags: ['artistic', 'intermediate', 'kneeling']
   },
@@ -1377,7 +1377,7 @@ const POSES_LIBRARY = {
     difficulty: 'Beginner', angle: '3/4 View', intent: 'Social', effort: 'Static',
     instructions: 'From a low lunge with one knee down, sweep the back leg up and hold the ankle with the same-side hand while the torso opens toward camera. Warm up thoroughly before this deep backbend.',
     tip: 'Warm up hip and back flexibility first — this deep stretch should never be forced.',
-    joints: {spine: -30, neck: 0, leftShoulder: -110, rightShoulder: 0, leftElbow: 30, rightElbow: 60, hipAbductL: 8, hipAbductR: 8, leftHip: -70, rightHip: 70, leftKnee: 160, rightKnee: 80, shoulderFwdL: 50, shoulderFwdR: 0},
+    joints: {spine: -30, neck: 0, leftShoulder: -110, rightShoulder: 0, leftElbow: 30, rightElbow: 60, hipAbductL: 8, hipAbductR: 8, leftHip: -70, rightHip: 70, leftKnee: 125, rightKnee: 80, shoulderFwdL: 50, shoulderFwdR: 0},
     color: 'var(--color-gold-300)', figure: 'both-knees-prayer',
     tags: ['intimate', 'beginner', 'kneeling', 'social']
   },
@@ -1431,7 +1431,7 @@ const POSES_LIBRARY = {
     difficulty: 'Beginner', angle: 'Side', intent: 'Artistic', effort: 'Static',
     instructions: 'Drop into a low crouch with one knee nearly touching the ground and the other foot planted for balance. Rest one forearm across the raised knee, coiled and alert — a sprinter-pose-like silhouette.',
     tip: 'This coiled stance photographs powerfully from a low angle looking slightly upward.',
-    joints: {spine: 20, neck: -8, leftShoulder: 0, leftElbow: 90, rightElbow: 30, hipAbductL: 8, hipAbductR: 8, rightHip: 80, leftKnee: 138, rightKnee: 100, leftAnkle: -35, rightAnkle: -35, shoulderFwdL: -80, shoulderFwdR: -15},
+    joints: {spine: 20, neck: -8, leftShoulder: 0, leftElbow: 90, rightElbow: 30, hipAbductL: 8, hipAbductR: 8, rightHip: 80, leftKnee: 125, rightKnee: 100, leftAnkle: -35, rightAnkle: -35, shoulderFwdL: -80, shoulderFwdR: -15},
     color: 'var(--color-gold-300)', figure: 'kneeling-forward',
     tags: ['restful', 'beginner', 'kneeling', 'artistic']
   },
@@ -2009,7 +2009,7 @@ const POSES_LIBRARY = {
     difficulty: 'Advanced', angle: 'Side', intent: 'Editorial', effort: 'Active',
     instructions: 'Lean the torso dramatically forward from a low sprinter stance, one leg driving back, arms pumping hard in opposition',
     tip: 'The steeper the forward lean, the faster it reads -- keep the front knee bent for genuine support.',
-    joints: {spine: 32, hips: 15, neck: -10.6, leftElbow: 60, rightElbow: 45, hipAbductL: 10, hipAbductR: 10, leftHip: 20, rightHip: -15, leftKnee: 90, rightKnee: 140, rightShoulder: -12, shoulderFwdL: -8, shoulderFwdR: -6, leftAnkle: -15},
+    joints: {spine: 32, hips: 15, neck: -10.6, leftElbow: 60, rightElbow: 45, hipAbductL: 10, hipAbductR: 10, leftHip: 20, rightHip: -15, leftKnee: 90, rightKnee: 125, rightShoulder: -12, shoulderFwdL: -8, shoulderFwdR: -6, leftAnkle: -15},
     color: 'rgba(109,74,114,0.2)', figure: 'run-mid',
     tags: ['advanced', 'editorial', 'dynamic', 'athletic']
   },
@@ -2347,7 +2347,7 @@ const POSES_LIBRARY = {
     difficulty: 'Advanced', angle: '3/4 View', intent: 'Artistic', effort: 'Static',
     instructions: 'Crouch low on the balls of both feet, fingertips grazing the ground, spine curved and head lifted like a predator ready to move. An intense, feline energy.',
     tip: 'Keep weight forward on the toes, not back on the heels, to maintain coiled tension.',
-    joints: { spine: -15, neck: -8, leftElbow: 60, rightShoulder: -12, rightElbow: 30, leftHip: 60, leftKnee: 140, rightHip: 60, rightKnee: 140, shoulderFwdL: 8, shoulderFwdR: -6 },
+    joints: { spine: -15, neck: -8, leftElbow: 60, rightShoulder: -12, rightElbow: 30, leftHip: 60, leftKnee: 125, rightHip: 60, rightKnee: 125, shoulderFwdL: 8, shoulderFwdR: -6 },
     color: 'rgba(74,47,109,0.2)', figure: 'superhero-land',
     tags: ['advanced', 'artistic', 'eccentric', 'intense']
   },
@@ -3831,7 +3831,7 @@ const POSES_LIBRARY = {
       difficulty: 'Intermediate', angle: '3/4 View', intent: 'Boudoir', effort: 'Static',
       instructions: 'Drop down into a deep crouch or sit low on your heels. Turn your knees to the side, twist your upper torso toward the camera, and cross your arms over your body to create an intricate sculptural shape.',
       tip: 'The compact crouch creates maximum visual compression — the viewer wants to see the full figure unfold.',
-      joints: { globalTilt: 50, spine: 15, neck: 8, leftShoulder: 20, leftElbow: 81, rightShoulder: -18, rightElbow: 80, leftHip: 80, leftKnee: 140, leftAnkle: -30, rightHip: 80, rightKnee: 140, rightAnkle: -30, hipAbductL: 25, hipAbductR: 5 },
+      joints: { globalTilt: 50, spine: 15, neck: 8, leftShoulder: 20, leftElbow: 81, rightShoulder: -18, rightElbow: 80, leftHip: 80, leftKnee: 125, leftAnkle: -30, rightHip: 80, rightKnee: 125, rightAnkle: -30, hipAbductL: 25, hipAbductR: 5 },
       figure: 'kneeling',
       tags: ["crouch", "compact", "sculptural", "floor"],
     },
@@ -5210,7 +5210,7 @@ const POSES_LIBRARY = {
       effort: 'Static',
       instructions: 'Still seated on the floor, extend both arms upward and slightly forward as if reaching toward the camera, lifting the chest and gaze with the arms. Keep the hips grounded to hold the sequence\'s low base.',
       tip: 'Capture the arm extension crisply — this frame bridges the seated start and the rise.',
-      joints: {spine: 30, neck: 25, leftElbow: 65, rightElbow: 45, leftHip: 114, rightHip: 60, leftKnee: 124, rightKnee: 140, rightShoulder: -12, globalTilt: 25, leftAnkle: -15},
+      joints: {spine: 30, neck: 25, leftElbow: 65, rightElbow: 45, leftHip: 114, rightHip: 60, leftKnee: 124, rightKnee: 125, rightShoulder: -12, globalTilt: 25, leftAnkle: -15},
       color: 'var(--color-sky-100)',
       figure: 'low-high-crouch',
       tags: ['crouch', 'compact', 'sequence', 'starting-point'],
@@ -5640,7 +5640,7 @@ const POSES_LIBRARY = {
       effort: 'Transitional',
       instructions: 'Bend both knees deeply while lowering the hips straight down and extending both arms forward for balance, controlling the descent rather than falling freely. Keep the spine straight throughout.',
       tip: 'Use this controlled variant for fitness or strength-themed descending sequences.',
-      joints: {spine: 32, neck: 27, leftShoulder: 60, rightShoulder: 20, leftElbow: 70, rightElbow: 50, leftHip: 114, rightHip: 10, leftKnee: 100, rightKnee: 140, globalTilt: -25},
+      joints: {spine: 32, neck: 27, leftShoulder: 60, rightShoulder: 20, leftElbow: 70, rightElbow: 50, leftHip: 114, rightHip: 10, leftKnee: 100, rightKnee: 125, globalTilt: -25},
       color: 'var(--color-amber-100)',
       figure: 'high-low-floor-reach',
       tags: ['descent', 'near-floor', 'compact', 'sequence'],
@@ -5828,7 +5828,7 @@ const POSES_LIBRARY = {
       instructions: 'While descending, spread both arms wide to the sides as if falling open, torso tilting back slightly while the knees bend to control the drop. This dramatic open-arm descent adds a sense of release.',
       tip: 'Reach for this open, vulnerable shape in emotionally driven editorial sequences.',
     // PR-v3 (v1.3) — auto-fix spine sign error: description says back arch but spine is positive (forward fold). Was spine:10, now spine:-10.
-      joints: {spine: -10, neck: 5, leftElbow: 65, rightElbow: 45, leftHip: 114, rightHip: 60, leftKnee: 80, rightKnee: 140, leftAnkle: -15, rightAnkle: -15, rightShoulder: -12, globalTilt: -25},
+      joints: {spine: -10, neck: 5, leftElbow: 65, rightElbow: 45, leftHip: 114, rightHip: 60, leftKnee: 80, rightKnee: 125, leftAnkle: -15, rightAnkle: -15, rightShoulder: -12, globalTilt: -25},
       color: 'var(--color-amber-100)',
       figure: 'high-low-descent',
       tags: ['squat', 'athletic', 'descent', 'sequence'],
