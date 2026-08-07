@@ -12,3 +12,5 @@ js/test-creds.local.js
 
 # Publication manifest + local build artifacts (regenerated per build).
 publication-manifest.json
+test-results/
+playwright-report/

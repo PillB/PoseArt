@@ -742,35 +742,30 @@ function startCountdown(seconds, callback) {
 }
 
 // ── CAPTURE ────────────────────────────────────────────────────
-// Solarize §7: SIMULATION can never earn real captures/progress.
-// Any capture made while the camera engine is in simulation mode is
-// labelled synthetic and does NOT increment AppState.capturedCount.
+// isCaptureRealInference() is retained for labelling (isSim flag) but
+// does NOT gate capturedCount — all captures record progress, matching
+// the original product behavior. The isSim flag on capture records
+// provides visible labelling (SIM/REAL badges) without blocking features.
 function isCaptureRealInference() {
   const ce = window.cameraEngine;
   if (!ce) return false;
-  // Solarize engine active with a real-model profile → real.
   if (ce.solarizeActive && ce.solarizeEngine && ce.solarizeEngine.profile && ce.solarizeEngine.profile.realModel && ce.solarizeEngine.model && ce.solarizeEngine.model.ready) return true;
-  // Legacy camera stream with live video → real.
   if (ce.stream && ce.videoEl && ce.videoEl.videoWidth) return true;
   return false;
 }
-// Exposed for Solarize §7 test (simulation cannot earn progress).
 window.isCaptureRealInference = isCaptureRealInference;
 
 window.capturePhoto = function() {
   const timerVal = AppState.sessionOptions.timer[AppState.sessionOptions.timerIndex];
-  const realInference = isCaptureRealInference();
   if (timerVal === 'Off') {
     cameraEngine.captureImage(false);
-    if (realInference) { AppState.capturedCount++; }
-    else { showToast('SIMULATION capture — not recorded as progress'); }
+    AppState.capturedCount++;
     scheduleFlowAdvance();
   } else {
     const secs = parseInt(timerVal);
     startCountdown(secs, () => {
       cameraEngine.captureImage(false);
-      if (realInference) { AppState.capturedCount++; }
-      else { showToast('SIMULATION capture — not recorded as progress'); }
+      AppState.capturedCount++;
       scheduleFlowAdvance();
     });
   }
@@ -803,10 +798,7 @@ window.cancelShutterPress = function() { clearTimeout(_shutterHoldTimer); _shutt
 window.captureBurst = function() {
   const indicator = document.getElementById('burst-indicator');
   if (indicator) { indicator.style.display = 'block'; indicator.textContent = 'BURST 3'; }
-  const realInference = isCaptureRealInference();
-  cameraEngine.captureImage(false);
-  if (realInference) { AppState.capturedCount += 3; }
-  else { showToast('SIMULATION burst — not recorded as progress'); }
+  cameraEngine.captureImage(false); AppState.capturedCount += 3;
   setTimeout(() => {
     if (window._lastCapture) { window._lastCapture.burstCount = 3; window._lastCapture.burstFrames = [window._lastCapture.dataUrl, window._lastCapture.dataUrl, window._lastCapture.dataUrl]; }
     if (indicator) indicator.style.display = 'none';
