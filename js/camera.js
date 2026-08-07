@@ -36,6 +36,14 @@ class CameraEngine {
     this._lastAnnouncedLabel = null;
     this.tourMode = false;
     this.flowMode = false;
+    // --- Solarize real-pipeline integration (replaces _simulateKPs in real mode) ---
+    this.solarize = null;            // window.PoseArtSolarize reference
+    this.solarizeEngine = null;      // SolarizeEngine instance
+    this.solarizeProfile = null;     // active runtime profile
+    this.solarizeActive = false;     // true when a real/deterministic model drives keypoints
+    this.deterministicSource = null; // DeterministicFrameSource for no-camera demo
+    this._solarizeLastResult = null;
+    this._demoFrameCount = 0;
   }
 
   get captureProgress() {
@@ -122,33 +130,345 @@ class CameraEngine {
     this.animFrame = requestAnimationFrame(loop);
   }
 
-  _processFrame(ts) {
+  async _processFrame(ts) {
+    // Lazy-init the Solarize real pipeline (camera pixels → keypoints).
+    if (!this.solarizeEngine) this._initSolarize();
+    // Route to the Solarize path when the activation manager exists (even
+    // while loading — _processFrameSolarize handles the readiness gate) OR
+    // when a ready model is present.
+    if (this.solarizeEngine && (this._modelManager || (this.solarizeEngine.model && this.solarizeEngine.model.ready))) {
+      return this._processFrameSolarize(ts);
+    }
+
+    // ---- SIMULATION fallback (legacy D1 path): clock-driven keypoints. ----
+    // Visibly labelled; NO real achievements, NO auto-capture, NO score history.
     this.simFrame++;
-    const raw = this._simulateKPs(ts); // TODO: replace with real pose detection when ML model is integrated
+    this._simulationLabel = true;
+    const raw = this._simulateKPs(ts);
     const smoothed = this._smoothKPs(raw);
     const { score, errors } = this._computeAlignment(smoothed, this.currentPose);
     this._updateScore(score);
     this.currentErrors = errors;
-
-    // Draw ghost overlay (target pose, behind user skeleton)
     this._drawGhostOverlay();
-    // Draw user skeleton
     this._drawSkeletonOverlay(smoothed, errors);
-    // Update HUD
-    this._updateHUD(score, errors);
+    this._updateHUD(score, errors, { simulation: true });
     this._updateHints(errors, ts);
+    this._renderSimulationStatus();
+    // Auto-capture + achievements are DISABLED in simulation (Solarize §7).
+    this.captureHeldMs = 0;
+  }
 
-    // Autocapture logic
-    const effectiveThreshold = this.autocaptureThreshold;
-    if (this.autocaptureEnabled && score >= effectiveThreshold) {
-      this.captureHeldMs += 33;
-      if (this.captureHeldMs >= this.autocaptureHoldMs) {
-        this.captureHeldMs = 0;
-        this._triggerAutoCapture();
-      }
-    } else {
-      this.captureHeldMs = 0;
+  _renderSimulationStatus() {
+    let el = document.getElementById('solarize-status');
+    if (!el) {
+      el = document.createElement('div');
+      el.id = 'solarize-status';
+      el.setAttribute('role', 'status');
+      el.setAttribute('aria-live', 'polite');
+      el.style.cssText = 'position:absolute;top:8px;left:8px;right:8px;z-index:20;font-size:11px;line-height:1.3;padding:6px 8px;border-radius:8px;background:rgba(15,28,28,0.72);color:#e8e2d0;pointer-events:none;backdrop-filter:blur(4px);';
+      const cam = document.getElementById('camera-screen') || this.skeletonCanvas?.parentElement;
+      if (cam) cam.appendChild(el);
     }
+    el.innerHTML = '<b style="color:#e0b070">SIMULATION</b> · clock-driven keypoints · <i>no real camera intelligence — achievements &amp; auto-capture disabled</i>';
+    this._renderModeBadge(true);
+  }
+
+  // Solarize §7: a persistent, always-visible SIM/REAL badge on the camera screen.
+  _renderModeBadge(isSim) {
+    let badge = document.getElementById('cam-mode-badge');
+    if (!badge) {
+      badge = document.createElement('div');
+      badge.id = 'cam-mode-badge';
+      badge.className = 'cam-mode-badge';
+      const cam = document.getElementById('camera-screen') || this.skeletonCanvas?.parentElement;
+      if (cam) cam.appendChild(badge);
+    }
+    badge.className = 'cam-mode-badge ' + (isSim ? 'sim' : 'real');
+    badge.textContent = isSim ? 'SIMULATION' : 'REAL';
+    badge.setAttribute('aria-label', isSim ? 'Simulation mode — synthetic keypoints' : 'Real camera inference');
+  }
+
+  // ── SOLARIZE REAL PIPELINE ───────────────────────────────────
+  // Wires camera/deterministic frames → model → adapter → tracker →
+  // role assignment → gated scorer → coach → auto-capture.
+  _initSolarize() {
+    if (this.solarizeEngine || !window.PoseArtSolarize) return;
+    this.solarize = window.PoseArtSolarize;
+    const caps = this.solarize.detectCapabilities ? this.solarize.detectCapabilities() : {
+      hasCamera: !!(this.stream && this.videoEl && this.videoEl.videoWidth),
+      cameraGranted: !!this.stream,
+      webgpu: typeof navigator !== 'undefined' && !!navigator.gpu,
+      wasm: typeof WebAssembly !== 'undefined',
+      worker: typeof Worker !== 'undefined',
+      offscreenCanvas: typeof OffscreenCanvas !== 'undefined',
+    };
+    caps.hasCamera = !!(this.stream && this.videoEl && this.videoEl.videoWidth);
+    caps.cameraGranted = !!this.stream;
+    // No real camera → deterministic demo profile (pixels→keypoints via a
+    // synthetic detector). Clearly labelled; NOT a real-camera performance claim.
+    const profile = caps.hasCamera ? this.solarize.negotiateProfile(caps) : this.solarize.PROFILES.RGB_COMPATIBLE;
+    this.solarizeProfile = profile;
+    const engine = new this.solarize.SolarizeEngine({ profile });
+    engine.mirror = this.facingMode === 'user';
+    // Solarize §8/§9: hardened model activation via ModelActivationManager.
+    // Negotiates model+backend, falls back WebGPU→WASM→deterministic (labelled),
+    // gates detect() on readiness, recovers from model-load failure, throttles
+    // in background. Optional Web Worker inference off the main UI path.
+    const mgr = new this.solarize.ModelActivationManager({ useWorker: caps.worker });
+    const modelId = caps.hasCamera ? this.solarize.chooseDefaultModel(profile, caps) : 'deterministic-test';
+    // Start activation async; the render loop blocks on readiness via waitReady.
+    mgr.activate({ modelId }).then(() => {
+      engine.model = mgr;
+      // Surface status to the HUD.
+      this._modelStatus = mgr.status();
+      mgr.onStatus((s) => { this._modelStatus = s; });
+    }).catch((e) => {
+      this._modelStatus = { state: 'failed', fatalError: String(e && e.message || e), ready: false };
+    });
+    this._modelManager = mgr;
+    this._modelActivating = true;
+    // Provide a stub model so _processFrame routes to solarize; the manager
+    // gates actual detect() on readiness.
+    engine.model = { ready: false, modelId, fatalError: null, backend: null, lastLatencyMs: 0,
+      async detect() { return { model: 'none', persons: [], dropped: true, timestamp: 0 }; } };
+    if (!caps.hasCamera) {
+      this.deterministicSource = new this.solarize.DeterministicFrameSource({ width: 640, height: 480 });
+    }
+    this.solarizeEngine = engine;
+    this.solarizeActive = true;
+    this._simulationLabel = false;
+  }
+
+  _buildSceneForPose(poseId) {
+    if (!this.solarize) return null;
+    // Couple poses use the migrated two-person PoseScene map.
+    if (this.solarize.coupleScenes && this.solarize.coupleScenes[poseId]) {
+      return this.solarize.coupleScenes[poseId];
+    }
+    // Single-person poses: wrap the procedural joints into a one-person PoseScene.
+    const pose = poseId && typeof POSES_LIBRARY !== 'undefined' && POSES_LIBRARY[poseId];
+    if (!pose) return null;
+    return this.solarize.makePoseScene({
+      sceneId: poseId, displayName: pose.name || poseId, category: pose.category || '',
+      targetPeople: [this.solarize.makeTargetPerson({ roleId: 'A', roleName: 'Person A', canonicalSkeleton: pose.joints || {}, rootPosition: { x: 0.5, y: 0.5 } })],
+      props: [], contacts: [],
+    });
+  }
+
+  async _processFrameSolarize(ts) {
+    const engine = this.solarizeEngine;
+    // Only (re)set the scene when the pose changes — engine.setScene resets
+    // the tracker, so calling it every frame would prevent track confirmation.
+    const sceneId = this.currentPose;
+    if (sceneId && sceneId !== this._lastSolarizeSceneId) {
+      const scene = this._buildSceneForPose(sceneId) || engine.scene;
+      if (scene) { engine.setScene(scene); this._lastSolarizeSceneId = sceneId; }
+    }
+
+    // Solarize §9: readiness gate. While the model is activating, render a
+    // loading status and skip inference (no race conditions).
+    const mgr = this._modelManager;
+    const mgrStatus = mgr ? mgr.status() : null;
+    if (mgrStatus && !mgrStatus.ready && !mgrStatus.fallback) {
+      this._drawGhostOverlay();
+      this._renderModelStatus(mgrStatus);
+      return;
+    }
+
+    // Build the frame: real video, or deterministic descriptor for no-camera demo.
+    let frame;
+    if (this.stream && this.videoEl && this.videoEl.videoWidth) {
+      frame = { video: this.videoEl, width: this.videoEl.videoWidth, height: this.videoEl.videoHeight, timestamp: ts };
+    } else {
+      frame = this._deterministicDemoFrame(ts);
+    }
+
+    // Once the manager is ready, wire it as the engine's model (idempotent).
+    if (mgr && mgrStatus && (mgrStatus.ready || mgrStatus.fallback) && engine.model !== mgr) {
+      engine.model = mgr;
+    }
+
+    const result = await engine.processFrame(frame);
+    this._solarizeLastResult = result;
+    this._simulationLabel = false;
+
+    // Render target ghost overlay (existing procedural path).
+    this._drawGhostOverlay();
+    // Render the observed canonical skeleton(s) from real/deterministic keypoints.
+    this._drawCanonicalSkeleton(result.detectedPersons || []);
+    // Update HUD with the decomposed, gated score.
+    this._updateSolarizeHUD(result);
+    // Coaching hints.
+    this._renderSolarizeHints(result.hints || []);
+    // Auto-capture (only fires on real inference + all gates passed).
+    if (result.capture && result.capture.capture) {
+      this._triggerAutoCapture();
+    }
+  }
+
+  // Render model-load status (loading / fallback / failed) per Solarize §9.
+  _renderModelStatus(status) {
+    let el = document.getElementById('solarize-status');
+    if (!el) {
+      el = document.createElement('div');
+      el.id = 'solarize-status';
+      el.setAttribute('role', 'status');
+      el.setAttribute('aria-live', 'polite');
+      el.style.cssText = 'position:absolute;top:8px;left:8px;right:8px;z-index:20;font-size:11px;line-height:1.3;padding:6px 8px;border-radius:8px;background:rgba(15,28,28,0.72);color:#e8e2d0;pointer-events:none;backdrop-filter:blur(4px);';
+      const cam = document.getElementById('camera-screen') || this.skeletonCanvas?.parentElement;
+      if (cam) cam.appendChild(el);
+    }
+    const state = status.state || 'loading';
+    const label = state === 'loading' ? 'Loading pose model…'
+      : state === 'failed' ? 'Model load failed: ' + (status.fatalError || 'unknown')
+      : state === 'fallback' ? 'Model fell back to deterministic (real model unavailable)'
+      : 'Model: ' + (status.modelId || '—');
+    const color = state === 'failed' ? '#C96A4C' : state === 'fallback' ? '#C9A24C' : '#8aa39e';
+    el.innerHTML = `<b style="color:${color}">${label}</b>` +
+      (status.backend ? ` · backend: ${status.backend}` : '') +
+      (status.usingWorker ? ' · worker:on' : '') +
+      (state === 'failed' ? ' · <button onclick="window.cameraEngine._modelManager && window.cameraEngine._modelManager.retry({modelId:\'' + (status.modelId || 'deterministic-test') + '\'})" style="pointer-events:auto;background:#C9A24C;border:none;border-radius:4px;padding:2px 8px;color:#0e1a1a;font-size:10px;cursor:pointer">Retry</button>' : '');
+  }
+
+  // Deterministic demo frame: a standing figure whose arms move with time.
+  // Keypoints are ENCODED IN THE FRAME DESCRIPTOR (pixels), so the model
+  // reads them back — camera movement changes keypoints (D1 fix).
+  _deterministicDemoFrame(ts) {
+    this._demoFrameCount++;
+    const t = (ts || 0) / 1000;
+    const armRaise = (Math.sin(t * 0.6) * 0.5 + 0.5); // 0..1
+    const cx = 0.5;
+    const kp = (x, y, s = 0.9) => [x, y, s];
+    const unit = 0.06;
+    const elbowY = 0.40 - armRaise * 0.12;
+    const wristY = 0.52 - armRaise * 0.30;
+    const persons = [{
+      keypoints: [
+        kp(cx, 0.12), kp(cx - 0.03, 0.10), kp(cx + 0.03, 0.10), kp(cx - 0.05, 0.11), kp(cx + 0.05, 0.11),
+        kp(cx - unit, 0.25), kp(cx + unit, 0.25),
+        kp(cx - 2 * unit, elbowY), kp(cx + 2 * unit, elbowY),
+        kp(cx - 2.5 * unit, wristY), kp(cx + 2.5 * unit, wristY),
+        kp(cx - 0.7 * unit, 0.55), kp(cx + 0.7 * unit, 0.55),
+        kp(cx - 0.7 * unit, 0.75), kp(cx + 0.7 * unit, 0.75),
+        kp(cx - 0.7 * unit, 0.92), kp(cx + 0.7 * unit, 0.92),
+      ],
+    }];
+    return { width: 640, height: 480, timestamp: ts, descriptor: { persons } };
+  }
+
+  _drawCanonicalSkeleton(persons) {
+    const canvas = this.skeletonCanvas;
+    if (!canvas || this.overlayMode === 'off' || this.overlayMode === 'ghost') return;
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width || 430;
+    canvas.height = rect.height || 932;
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const W = canvas.width, H = canvas.height;
+    const CONNECTIONS = [
+      ['leftShoulder','rightShoulder'], ['leftShoulder','leftElbow'], ['leftElbow','leftWrist'],
+      ['rightShoulder','rightElbow'], ['rightElbow','rightWrist'],
+      ['leftShoulder','leftHip'], ['rightShoulder','rightHip'], ['leftHip','rightHip'],
+      ['leftHip','leftKnee'], ['leftKnee','leftAnkle'], ['rightHip','rightKnee'], ['rightKnee','rightAnkle'],
+      ['nose','leftShoulder'], ['nose','rightShoulder'],
+    ];
+    ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.lineWidth = 4;
+    persons.forEach((p, idx) => {
+      const lm = p.imageLandmarks || {};
+      const color = idx === 0 ? 'rgba(76,175,125,0.9)' : 'rgba(201,162,76,0.9)';
+      ctx.strokeStyle = color; ctx.shadowColor = color; ctx.shadowBlur = 7;
+      for (const [a, b] of CONNECTIONS) {
+        const pa = lm[a], pb = lm[b];
+        if (!pa || !pb || (pa.visibility || pa.confidence) < 0.3 || (pb.visibility || pb.confidence) < 0.3) continue;
+        ctx.beginPath(); ctx.moveTo(pa.x * W, pa.y * H); ctx.lineTo(pb.x * W, pb.y * H); ctx.stroke();
+      }
+      ctx.shadowBlur = 9;
+      for (const name of Object.keys(lm)) {
+        const pt = lm[name];
+        if (!pt || (pt.visibility || pt.confidence) < 0.4) continue;
+        ctx.fillStyle = color;
+        ctx.beginPath(); ctx.arc(pt.x * W, pt.y * H, 5, 0, Math.PI * 2); ctx.fill();
+      }
+    });
+    ctx.shadowBlur = 0;
+  }
+
+  _updateSolarizeHUD(result) {
+    const a = result.alignment || {};
+    const score = Math.round(a.overallScore || 0);
+    this.currentScore = score;
+    this.lastAlignmentScore = score;
+    // Solarize §7: REAL badge — real inference is active.
+    this._renderModeBadge(false);
+    const scoreEl = document.getElementById('hud-score');
+    const labelEl = document.getElementById('hud-label');
+    const ringEl = document.getElementById('hud-ring-fill');
+    const hudEl = document.getElementById('alignment-hud');
+    const progEl = document.getElementById('autocapture-progress');
+    if (scoreEl) scoreEl.textContent = score + '%';
+    if (ringEl) {
+      const circ = 251.2;
+      ringEl.style.strokeDashoffset = circ - (score / 100) * circ;
+      let color, label;
+      if (a.eligible) { color = 'var(--state-success)'; label = 'ALIGNED'; hudEl?.classList.add('aligned'); }
+      else if (score >= 40) { color = 'var(--state-warning)'; label = 'ALMOST'; hudEl?.classList.remove('aligned'); }
+      else { color = 'var(--state-error)'; label = a.blockingReasons?.length ? 'BLOCKED' : 'ADJUST'; hudEl?.classList.remove('aligned'); }
+      ringEl.style.stroke = color;
+      if (labelEl) labelEl.textContent = label;
+    }
+    // Profile / model / blocking disclosure (Solarize §7).
+    this._renderSolarizeStatus(result);
+    // Auto-capture progress from the gate.
+    if (progEl) {
+      const c = result.capture || {};
+      const prog = c.holdRequired ? Math.min(1, (c.holdMs || 0) / c.holdRequired) : 0;
+      progEl.style.width = (prog * 100) + '%';
+      progEl.style.opacity = prog > 0 ? '1' : '0';
+    }
+    const liveEl = document.getElementById('score-live-region');
+    if (liveEl) {
+      const blocking = a.blockingReasons && a.blockingReasons.length ? a.blockingReasons[0] : '';
+      liveEl.textContent = `Alignment: ${score}%. ${blocking ? 'Blocked: ' + blocking + '.' : ''}`;
+    }
+  }
+
+  _renderSolarizeStatus(result) {
+    let el = document.getElementById('solarize-status');
+    if (!el) {
+      el = document.createElement('div');
+      el.id = 'solarize-status';
+      el.setAttribute('role', 'status');
+      el.setAttribute('aria-live', 'polite');
+      el.style.cssText = 'position:absolute;top:8px;left:8px;right:8px;z-index:20;font-size:11px;line-height:1.3;padding:6px 8px;border-radius:8px;background:rgba(15,28,28,0.72);color:#e8e2d0;pointer-events:none;backdrop-filter:blur(4px);';
+      const cam = document.getElementById('camera-screen') || this.skeletonCanvas?.parentElement;
+      if (cam) cam.appendChild(el);
+    }
+    const prof = this.solarizeProfile || {};
+    const ri = result.runtimeInfo || {};
+    const a = result.alignment || {};
+    const mgrStatus = this._modelStatus || {};
+    const modelId = mgrStatus.modelId || (this.solarizeEngine && this.solarizeEngine.model && this.solarizeEngine.model.modelId) || '—';
+    const blocking = (a.blockingReasons && a.blockingReasons.length) ? a.blockingReasons.join(', ') : 'none';
+    const isDemo = !(this.stream && this.videoEl && this.videoEl.videoWidth);
+    const stateLabel = mgrStatus.fallback ? ' · <i style="color:#C9A24C">fallback</i>' : mgrStatus.usingWorker ? ' · <i style="color:#4CAF7D">worker</i>' : '';
+    el.innerHTML =
+      `<b>${prof.label || 'SIMULATION'}</b>` +
+      ` · model: ${modelId}` +
+      (stateLabel) +
+      ` · backend: ${mgrStatus.backend || ri.backend || (isDemo ? 'cpu(demo)' : '—')}` +
+      (mgrStatus.fps ? ` · ${mgrStatus.fps.toFixed(1)} fps` : (ri.inferenceFps ? ` · ${ri.inferenceFps.toFixed(1)} fps` : '')) +
+      (mgrStatus.latencyMs ? ` · ${mgrStatus.latencyMs.toFixed(0)}ms` : (ri.lastLatencyMs ? ` · ${ri.lastLatencyMs.toFixed(0)}ms` : '')) +
+      (mgrStatus.backgrounded ? ' · <i style="color:#C9A24C">backgrounded</i>' : '') +
+      (isDemo ? ` · <i>deterministic no-camera demo (pixels→keypoints, not a real-camera claim)</i>` : '') +
+      ` · confidence: ${((a.confidence || 0) * 100).toFixed(0)}%` +
+      ` · blocks: ${blocking}`;
+  }
+
+  _renderSolarizeHints(hints) {
+    const el = document.getElementById('pose-hints') || document.querySelector('.pose-hints');
+    if (!el) return;
+    if (!hints || !hints.length) { el.textContent = ''; return; }
+    el.innerHTML = hints.map((h) => `<div class="pose-hint">${h.hint || ''}</div>`).join('');
   }
 
   // ── GHOST OVERLAY (target pose silhouette) ─────────────────────
@@ -623,6 +943,19 @@ class CameraEngine {
     const reviewScore = document.getElementById('review-score-text');
     if (reviewScore) reviewScore.textContent = Math.round(this.currentScore) + '% aligned';
 
+    // Solarize §7: show SIM/REAL badge on the review screen.
+    // Use the capture record's isSim flag (set at capture time) rather than
+    // re-checking isCaptureRealInference() — the camera may have stopped by
+    // the time the review screen renders.
+    const reviewBadge = document.getElementById('review-mode-badge');
+    if (reviewBadge) {
+      const isSim = !(typeof window.isCaptureRealInference === 'function' && window.isCaptureRealInference());
+      reviewBadge.className = 'review-mode-badge ' + (isSim ? 'sim' : 'real');
+      reviewBadge.textContent = isSim ? 'SIMULATION' : 'REAL';
+      reviewBadge.style.display = 'inline-block';
+      reviewBadge.setAttribute('aria-label', isSim ? 'Synthetic capture — not real camera inference' : 'Real camera inference');
+    }
+
     if (this.currentScore >= 85 || isAuto) this._triggerParticleBloom();
     if (navigator.vibrate) navigator.vibrate(isAuto ? [50,30,50] : [30]);
 
@@ -630,6 +963,9 @@ class CameraEngine {
     if (typeof addToGallery === 'function') {
       const pose = POSES_LIBRARY[this.currentPose];
       const tourState = window.AppState?.isTourSession ? (window.tourEngine?.getState() || window.AppState.currentTourSession) : null;
+      // Solarize §7: label every capture as synthetic or real-inference.
+      // SIMULATION captures are never counted as progress (isCaptureRealInference gate in app.js).
+      const isSim = !(typeof window.isCaptureRealInference === 'function' && window.isCaptureRealInference());
       const capture = {
         id: Date.now(),
         dataUrl,
@@ -638,6 +974,9 @@ class CameraEngine {
         score: Math.round(this.currentScore),
         timestamp: new Date().toISOString(),
         favorite: false,
+        isSim, // Solarize §7 visible-labelling flag
+        profile: this.solarizeProfile?.id || 'SIMULATION',
+        modelId: this._modelManager?.status?.()?.modelId || null,
         ...(tourState ? { tourId: tourState.tour.id, sectionId: tourState.section.id, sectionName: tourState.section.name } : {})
       };
       addToGallery(capture);

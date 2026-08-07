@@ -1,0 +1,36 @@
+{
+  "name": "poseart",
+  "version": "2.6.0-solarize",
+  "private": true,
+  "description": "PoseArt — Solarize continuation. Real camera pose intelligence, multi-person partner coaching, constraint-based pose scenes.",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "test:unit": "vitest run tests/unit",
+    "test:schemas": "vitest run tests/schemas",
+    "test:renderer": "vitest run tests/renderer",
+    "test:pose-model": "vitest run tests/pose-model",
+    "test:tracking": "vitest run tests/tracking",
+    "test:scoring": "vitest run tests/scoring",
+    "test:couples": "vitest run tests/couples",
+    "test:props": "vitest run tests/props",
+    "test:e2e": "playwright test --config=playwright.config.ts",
+    "test:e2e:camera": "playwright test --config=playwright.config.ts --grep @camera",
+    "test:e2e:live": "playwright test --config=playwright.config.ts --grep @live",
+    "test:a11y": "playwright test --config=playwright.config.ts --grep @a11y",
+    "test:visual": "playwright test --config=playwright.config.ts --grep @visual",
+    "test:performance": "vitest run tests/performance",
+    "test:all": "vitest run && playwright test --config=playwright.config.ts --project=smoke --project=camera-chromium --project=permission-chromium --project=responsive-chromium --project=firefox --project=mobile-iphone",
+    "lint": "eslint js/solarize tests",
+    "serve": "bun run scripts/serve-local.js"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.49.1",
+    "eslint": "9",
+    "jsdom": "^25.0.1",
+    "vitest": "^2.1.9"
+  }
+}

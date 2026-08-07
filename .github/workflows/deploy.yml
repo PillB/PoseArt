@@ -1,3 +1,24 @@
+# ============================================================
+# PoseArt Solarize — blocking deploy pipeline (defect D24 fix)
+# ------------------------------------------------------------
+# Replaces the legacy zero-test deploy workflow. This pipeline:
+#   1. cancels superseded runs (concurrency)
+#   2. checks out the exact revision
+#   3. sets up Node 20 + Bun
+#   4. installs reproducibly (bun install --frozen-lockfile)
+#   5. lints (eslint flat config — js/solarize + tests)
+#   6. installs Playwright browsers
+#   7. runs `bun run test:all` (vitest + playwright smoke) — BLOCKING
+#   8. provisions test credentials from CI secrets (fail-closed)
+#   9. generates the publication manifest + injects the build-id meta
+#  10. runs the publication smoke (build-id populated + creds provisioned)
+#  11. uploads test reports + traces as artifacts
+#  12. deploys to GitHub Pages ONLY if all prior steps pass
+#  13. verifies the production publication build-id
+#  14. retains evidence
+#
+# Solarize §20 (auth/privacy), §26 (CI/deployment + manifest).
+# ============================================================
 name: Deploy PoseArt to GitHub Pages
 
 on:
@@ -10,25 +31,124 @@ permissions:
   pages: write
   id-token: write
 
+# Cancel superseded runs on the same ref.
 concurrency:
-  group: pages
+  group: pages-deploy-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  deploy:
+  build-and-deploy:
+    name: Build, test, and deploy
+    runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
     steps:
-      - name: Check out repository
+      # ── 1. Concurrency is handled above ──
+      # ── 2. Check out the exact revision ──
+      - name: Check out repository (exact revision)
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      # ── 3. Set up Node 20 + Bun ──
+      - name: Set up Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      # ── 4. Install reproducibly ──
+      - name: Install dependencies (frozen lockfile)
+        run: bun install --frozen-lockfile
+
+      # ── 5. Lint (eslint flat config) ──
+      - name: Lint (eslint flat config — js/solarize + tests)
+        run: bun run lint
+
+      # ── 6. Install Playwright browsers ──
+      - name: Install Playwright browsers
+        run: bunx playwright install --with-deps chromium
+
+      # ── 7. Run all unit + smoke tests — BLOCKING ──
+      # test:all = vitest run && playwright test --project=smoke
+      # This runs against the source tree (no creds injected yet,
+      # build-id meta is the empty placeholder). The smoke project
+      # asserts the gate is active, disclosure renders, and the
+      # build-id meta tag EXISTS (content may be empty here).
+      - name: Run test:all (vitest + playwright smoke) — blocking
+        run: bun run test:all
+
+      # ── 8. Provision test credentials (fail-closed) ──
+      # Reads POSEART_TEST_USERNAME / POSEART_TEST_PASSWORD from
+      # protected CI secrets and writes the gitignored
+      # js/test-creds.local.js. If the secrets are absent, this
+      # step fails and the deploy is blocked — the gate must NOT
+      # ship without provisioned credentials.
+      - name: Provision test credentials from CI secrets
+        env:
+          POSEART_TEST_USERNAME: ${{ secrets.POSEART_TEST_USERNAME }}
+          POSEART_TEST_PASSWORD: ${{ secrets.POSEART_TEST_PASSWORD }}
+        run: node scripts/inject-test-creds.js
+
+      # ── 9. Generate publication manifest + build-id ──
+      - name: Generate publication manifest + inject build-id
+        env:
+          DEPLOY_URL: ${{ vars.DEPLOY_URL }}
+          GITHUB_SHA: ${{ github.sha }}
+        run: node scripts/build-manifest.js
+
+      # ── 10. Publication smoke — build-id populated + creds provisioned ──
+      # Runs the `publication` Playwright project against the now-
+      # assembled artifact (creds + build-id injected). Verifies the
+      # build-id meta is non-empty, the credential bundle is present
+      # (values never logged), and PoseArtAuth.isProvisioned() is true.
+      - name: Run publication smoke (build-id + creds verified)
+        run: bunx playwright test --config=playwright.config.ts --project=publication
+
+      # ── 11. Upload test reports + traces ──
+      - name: Upload test reports + traces
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: poseart-test-reports
+          path: |
+            test-results/
+            playwright-report/
+            publication-manifest.json
+          retention-days: 30
+          if-no-files-found: warn
+
+      # ── 12. Deploy to GitHub Pages (only if all above passed) ──
       - name: Configure GitHub Pages
+        id: configure
         uses: actions/configure-pages@v5
-      - name: Upload static site
+
+      - name: Upload static site artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: .
-      - name: Deploy
+
+      - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      # ── 13. Verify production publication build-id ──
+      - name: Verify production build-id
+        env:
+          PAGE_URL: ${{ steps.deployment.outputs.page_url }}
+        run: node scripts/verify-build-id.js "$PAGE_URL"
+
+      # ── 14. Retain evidence — upload the final manifest ──
+      - name: Upload final publication manifest
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: poseart-publication-manifest
+          path: publication-manifest.json
+          retention-days: 90
+          if-no-files-found: error
