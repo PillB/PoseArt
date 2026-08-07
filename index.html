@@ -14,6 +14,8 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="PoseArt — Move Like Art">
 <meta name="twitter:description" content="Master 745 studio-quality poses with a live ghost overlay.">
+<!-- Solarize §26 — publication build ID. Populated at build time by scripts/build-manifest.js (short SHA + timestamp). Empty in dev = "dev". -->
+<meta name="poseart-build-id" content="">
 
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1035,6 +1037,16 @@ img { max-width: 100%; }
 .gallery-thumb { width: 100%; height: 100%; object-fit: cover; }
 .gallery-sim-thumb { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: linear-gradient(160deg,#DDEFED,#F6F0E1); }
 .gallery-fav-badge { position: absolute; top: 4px; right: 4px; font-size: 12px; color: #C96A4C; }
+.gallery-sim-badge { position:absolute; top:4px; left:4px; font:700 9px/1 var(--font-body, sans-serif); letter-spacing:0.06em; padding:3px 6px; border-radius:4px; background:rgba(201,162,76,0.92); color:#1a1a1a; z-index:3; }
+.gallery-real-badge { position:absolute; top:4px; left:4px; font:700 9px/1 var(--font-body, sans-serif); letter-spacing:0.06em; padding:3px 6px; border-radius:4px; background:rgba(76,175,125,0.92); color:#0e1a1a; z-index:3; }
+.session-sim-pill { display:inline-block; font:700 8px/1 var(--font-body, sans-serif); letter-spacing:0.06em; padding:2px 5px; border-radius:3px; background:rgba(201,162,76,0.18); color:#8a6a20; border:1px solid rgba(201,162,76,0.4); margin-left:4px; vertical-align:middle; }
+.session-real-pill { display:inline-block; font:700 8px/1 var(--font-body, sans-serif); letter-spacing:0.06em; padding:2px 5px; border-radius:3px; background:rgba(76,175,125,0.18); color:#1A5649; border:1px solid rgba(76,175,125,0.4); margin-left:4px; vertical-align:middle; }
+.cam-mode-badge { position:absolute; top:36px; right:8px; z-index:18; font:700 9px/1 var(--font-body, sans-serif); letter-spacing:0.08em; padding:4px 8px; border-radius:6px; pointer-events:none; backdrop-filter:blur(4px); }
+.cam-mode-badge.sim { background:rgba(201,162,76,0.85); color:#1a1a1a; }
+.cam-mode-badge.real { background:rgba(76,175,125,0.85); color:#0e1a1a; }
+.review-mode-badge { display:inline-block; font:700 10px/1 var(--font-body, sans-serif); letter-spacing:0.06em; padding:4px 8px; border-radius:6px; margin-left:8px; vertical-align:middle; }
+.review-mode-badge.sim { background:rgba(201,162,76,0.92); color:#1a1a1a; }
+.review-mode-badge.real { background:rgba(76,175,125,0.92); color:#0e1a1a; }
 .gallery-item-info {
   position: absolute; bottom: 0; left: 0; right: 0;
   background: var(--overlay-scrim-bottom);
@@ -1500,6 +1512,7 @@ img { max-width: 100%; }
         <button class="btn btn-gold btn-block" data-testid="login-submit" type="submit" style="min-height:48px;">Enter PoseArt →</button>
       </form>
       <p class="login-note">Invite-only preview · Your session remains on this device and closes when this browser tab closes.</p>
+      <p id="login-disclosure" class="login-note" data-testid="login-disclosure" style="margin-top:10px;font-size:10px;opacity:.72;"></p>
     </div>
   </section>
 
@@ -1932,6 +1945,7 @@ img { max-width: 100%; }
     <div class="gallery-toolbar" aria-label="Gallery controls">
       <select id="gallery-filter" onchange="setGalleryFilter(this.value)" aria-label="Filter captures">
         <option value="all">All captures</option><option value="favorite">Favorites</option><option value="tour">Tour captures</option>
+        <option value="synthetic">SIM (synthetic)</option><option value="real">REAL (camera)</option>
         <option value="standing">Standing</option><option value="seated">Seated</option><option value="leaning">Leaning — Standing</option>
         <option value="lean-seat">Leaning — Seated</option><option value="kneeling">Kneeling</option><option value="reclining">Reclining</option>
         <option value="dynamic">Dynamic</option><option value="eccentric">Eccentric</option><option value="couple">Couple</option>
@@ -2012,7 +2026,7 @@ img { max-width: 100%; }
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F6F0E1" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
         </button>
       </div>
-      <div class="review-score-badge"><span id="review-score">92% aligned</span><span id="review-score-text" style="display:none;"></span></div>
+      <div class="review-score-badge"><span id="review-score">92% aligned</span><span id="review-score-text" style="display:none;"></span><span id="review-mode-badge" class="review-mode-badge" style="display:none;"></span></div>
       <canvas id="review-img" width="430" height="760"></canvas>
     </div>
 
@@ -2147,6 +2161,10 @@ img { max-width: 100%; }
         <div class="setting-row">
           <span class="setting-label">Version</span>
           <span style="color:var(--text-secondary); font:var(--type-caption);">2.0.0</span>
+        </div>
+        <div class="setting-row">
+          <span class="setting-label">Build</span>
+          <span id="profile-build-id" data-testid="profile-build-id" style="color:var(--text-secondary); font:var(--type-caption);">dev</span>
         </div>
       </div>
 
@@ -2425,7 +2443,16 @@ img { max-width: 100%; }
 </div>
 
 <!-- ══════════════════════ SCRIPTS ══════════════════════ -->
+<!-- Solarize §20 (D22/D23 fix): test-creds.local.js is gitignored and
+     generated at build time by scripts/inject-test-creds.js from CI
+     secrets. A 404 for this file in unprovisioned builds is expected
+     and leaves the login gate closed. -->
+<script src="js/test-creds.local.js"></script>
 <script src="js/poses-data.js"></script>
+<script type="module" src="js/solarize-bootstrap.js"></script>
+<script type="module" src="js/dossier-bootstrap.js"></script>
+<script src="js/solarize-dossier-panel.js"></script>
+<script src="js/solarize-prop-editor.js"></script>
 <script src="js/pose-skeleton-3d.js"></script>
 <script src="js/camera.js"></script>
 <script src="js/tour-engine.js"></script>

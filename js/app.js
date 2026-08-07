@@ -90,7 +90,33 @@ document.addEventListener('DOMContentLoaded', () => {
   loadSessionStats();
   checkOnboardingStatus();
   updateAuthenticatedProfile();
+  // Solarize §20 (D22/D23): render the auth disclosure so the login
+  // screen states plainly that this is not production authentication.
+  renderAuthDisclosure();
+  // Solarize §26: surface the publication build ID in the profile screen.
+  renderBuildId();
 });
+
+// Solarize §20 (D22/D23 fix) — render the preview-gate disclosure text
+// from PoseArtAuth.disclosure into the login panel. Single source of
+// truth: the string lives in js/auth.js, not duplicated here.
+function renderAuthDisclosure() {
+  const el = document.getElementById('login-disclosure');
+  if (!el) return;
+  const text = window.PoseArtAuth?.disclosure;
+  if (typeof text === 'string' && text.length) el.textContent = text;
+}
+
+// Solarize §26 — read the build-id meta tag (populated at build time
+// by scripts/build-manifest.js) and surface it in the profile About
+// section. Empty/absent in dev → shows "dev".
+function renderBuildId() {
+  const el = document.getElementById('profile-build-id');
+  if (!el) return;
+  const meta = document.querySelector('meta[name="poseart-build-id"]');
+  const id = meta?.getAttribute('content') || '';
+  el.textContent = id && id.trim() ? id.trim() : 'dev';
+}
 
 // Onboarding completion flag.
 // NOTE: localStorage is BLOCKED in the preview iframe sandbox, so this is intentionally
@@ -603,13 +629,17 @@ window.endSession = function() {
   // Only record sessions that actually produced a capture (Z11).
   if (AppState.capturedCount > 0) {
     const pose = POSES_LIBRARY[AppState.selectedPoseId];
+    // Solarize §7: capturedCount only increments on real inference, so
+    // recorded sessions are real. Flag explicitly for the progress badge.
+    const isSim = !(typeof window.isCaptureRealInference === 'function' && window.isCaptureRealInference());
     saveSession({
       id: Date.now(),
       poseId: AppState.selectedPoseId,
       poseName: pose?.name || 'Unknown',
       score: cameraEngine.lastAlignmentScore || 0,
       timestamp: new Date().toISOString(),
-      capturedCount: AppState.capturedCount
+      capturedCount: AppState.capturedCount,
+      isSim
     });
     loadSessionStats();
   }
@@ -712,17 +742,35 @@ function startCountdown(seconds, callback) {
 }
 
 // ── CAPTURE ────────────────────────────────────────────────────
+// Solarize §7: SIMULATION can never earn real captures/progress.
+// Any capture made while the camera engine is in simulation mode is
+// labelled synthetic and does NOT increment AppState.capturedCount.
+function isCaptureRealInference() {
+  const ce = window.cameraEngine;
+  if (!ce) return false;
+  // Solarize engine active with a real-model profile → real.
+  if (ce.solarizeActive && ce.solarizeEngine && ce.solarizeEngine.profile && ce.solarizeEngine.profile.realModel && ce.solarizeEngine.model && ce.solarizeEngine.model.ready) return true;
+  // Legacy camera stream with live video → real.
+  if (ce.stream && ce.videoEl && ce.videoEl.videoWidth) return true;
+  return false;
+}
+// Exposed for Solarize §7 test (simulation cannot earn progress).
+window.isCaptureRealInference = isCaptureRealInference;
+
 window.capturePhoto = function() {
   const timerVal = AppState.sessionOptions.timer[AppState.sessionOptions.timerIndex];
+  const realInference = isCaptureRealInference();
   if (timerVal === 'Off') {
     cameraEngine.captureImage(false);
-    AppState.capturedCount++;
+    if (realInference) { AppState.capturedCount++; }
+    else { showToast('SIMULATION capture — not recorded as progress'); }
     scheduleFlowAdvance();
   } else {
     const secs = parseInt(timerVal);
     startCountdown(secs, () => {
       cameraEngine.captureImage(false);
-      AppState.capturedCount++;
+      if (realInference) { AppState.capturedCount++; }
+      else { showToast('SIMULATION capture — not recorded as progress'); }
       scheduleFlowAdvance();
     });
   }
@@ -755,7 +803,10 @@ window.cancelShutterPress = function() { clearTimeout(_shutterHoldTimer); _shutt
 window.captureBurst = function() {
   const indicator = document.getElementById('burst-indicator');
   if (indicator) { indicator.style.display = 'block'; indicator.textContent = 'BURST 3'; }
-  cameraEngine.captureImage(false); AppState.capturedCount += 3;
+  const realInference = isCaptureRealInference();
+  cameraEngine.captureImage(false);
+  if (realInference) { AppState.capturedCount += 3; }
+  else { showToast('SIMULATION burst — not recorded as progress'); }
   setTimeout(() => {
     if (window._lastCapture) { window._lastCapture.burstCount = 3; window._lastCapture.burstFrames = [window._lastCapture.dataUrl, window._lastCapture.dataUrl, window._lastCapture.dataUrl]; }
     if (indicator) indicator.style.display = 'none';
@@ -912,6 +963,8 @@ function getGalleryViewItems() {
   let items = getGallery();
   if (_galleryFilter === 'favorite') items = items.filter(item => item.favorite);
   else if (_galleryFilter === 'tour') items = items.filter(item => item.tourId);
+  else if (_galleryFilter === 'synthetic') items = items.filter(item => item.isSim); // Solarize §7
+  else if (_galleryFilter === 'real') items = items.filter(item => !item.isSim); // Solarize §7
   else if (_galleryFilter !== 'all') items = items.filter(item => galleryPoseCategory(item) === _galleryFilter);
   items = items.slice().sort((a, b) => {
     if (_galleryGroupByPose && a.poseId !== b.poseId) return String(a.poseId).localeCompare(String(b.poseId));
@@ -970,15 +1023,20 @@ function galleryItemMarkup(item) {
       ? `<img class="gallery-thumb" src="${item.dataUrl}" alt="${item.poseName}" style="filter:${cssFilterFor(item.filter)}">`
       : `<div class="gallery-sim-thumb">${renderPoseFigureSVG(POSES_LIBRARY[item.poseId] || null, false)}</div>`;
     const fav = item.favorite ? '<div class="gallery-fav-badge" aria-label="Favorited">♥</div>' : '';
+    // Solarize §7 visible-labelling badge: SIM (synthetic) vs REAL (real inference).
+    const simBadge = item.isSim
+      ? '<div class="gallery-sim-badge" title="Synthetic capture — not real camera inference" aria-label="Synthetic capture">SIM</div>'
+      : '<div class="gallery-real-badge" title="Real camera inference" aria-label="Real capture">REAL</div>';
     const selected = _gallerySelectedIds.has(String(item.id));
     const groupCount = _galleryGroupByPose ? `<div class="gallery-group-count">${_galleryGroupCounts.get(item.poseId) || 1} for this pose</div>` : (item.sectionName ? `<div class="gallery-group-count">${escapeHtml(item.sectionName)}</div>` : '');
     return `
       <div class="gallery-item${_gallerySelectionMode ? ' selection-active' : ''}${selected ? ' selected' : ''}" onclick="handleGalleryItemClick('${item.id}')" role="listitem" tabindex="0"
            onpointerdown="startGalleryLongPress('${item.id}')" onpointerup="cancelGalleryLongPress()" onpointerleave="cancelGalleryLongPress()"
-           onkeydown="if(event.key==='Enter')handleGalleryItemClick('${item.id}')" aria-label="${item.poseName}, ${item.score}% aligned">
+           onkeydown="if(event.key==='Enter')handleGalleryItemClick('${item.id}')" aria-label="${item.poseName}, ${item.score}% aligned${item.isSim ? ', synthetic' : ', real'}">
         <span class="gallery-select-check" aria-hidden="true">${selected ? '✓' : ''}</span>
         ${thumb}
         ${fav}
+        ${simBadge}
         <div class="gallery-item-info">
           <div class="gallery-pose-name">${item.poseName}</div>
           <div class="gallery-score-pill">${item.score}%</div>
@@ -1068,6 +1126,10 @@ window.bulkDownloadGallery = async function() {
 };
 
 function galleryFileName(item) {
+  // Solarize §7: encode SIM/REAL provenance in the filename.
+  if (window.PoseArtExport && window.PoseArtExport.exportFileName) {
+    return window.PoseArtExport.exportFileName(item);
+  }
   const safeName = String(item?.poseName || 'capture').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
   return `poseart-${safeName || 'capture'}-${item?.id || Date.now()}.jpg`;
 }
@@ -1099,6 +1161,11 @@ window.downloadGalleryItem = async function(id = AppState.gallerySelectedId, sil
   document.body.appendChild(link);
   link.click();
   link.remove();
+  // Solarize §7: download a sidecar .poseart.json metadata file so the
+  // SIM/REAL provenance never detaches from the exported capture.
+  if (window.PoseArtExport && window.PoseArtExport.downloadSidecarMetadata) {
+    try { window.PoseArtExport.downloadSidecarMetadata(item); } catch (_) {}
+  }
   if (!silent) showToast('Photo downloaded');
   return true;
 };
@@ -1115,7 +1182,8 @@ window.saveToPhotos = async function() {
     const blob = dataURLtoBlob(item.dataUrl);
     const file = new File([blob], galleryFileName(item), { type: blob.type || 'image/jpeg' });
     if (navigator.canShare?.({ files: [file] })) {
-      await navigator.share({ files: [file], title: item.poseName || 'PoseArt capture' });
+      const title = (window.PoseArtExport && window.PoseArtExport.shareTitle) ? window.PoseArtExport.shareTitle(item) : (item.poseName || 'PoseArt capture');
+      await navigator.share({ files: [file], title, text: title });
       showToast('Saved ✓');
       return;
     }
@@ -1218,7 +1286,13 @@ window.openGalleryItem = function(id) {
   if (title) title.textContent = item.poseName;
   if (meta) {
     const d = new Date(item.timestamp);
-    meta.textContent = `${item.score}% aligned · ${d.toLocaleDateString([], { month:'short', day:'numeric' })} ${d.toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' })}`;
+    // Solarize §7: show SIM/REAL provenance + profile + modelId in the detail meta.
+    const modeBadge = item.isSim
+      ? '<span class="session-sim-pill" title="Synthetic capture">SIM</span>'
+      : '<span class="session-real-pill" title="Real camera inference">REAL</span>';
+    const profileStr = item.profile ? ` · ${item.profile}` : '';
+    const modelStr = item.modelId ? ` · ${item.modelId}` : '';
+    meta.innerHTML = `${item.score}% aligned · ${d.toLocaleDateString([], { month:'short', day:'numeric' })} ${d.toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' })} ${modeBadge}${profileStr}${modelStr}`;
   }
   if (favBtn) favBtn.classList.toggle('active', !!item.favorite);
 
@@ -1304,6 +1378,11 @@ window.openPoseDetail = function(poseId) {
   }
 
   if (animEl) animEl.innerHTML = renderPoseFigureSVG(pose, true);
+
+  // Solarize dossier panel — shows validation state for couple poses.
+  if (window.PoseArtDossierPanel) {
+    try { window.PoseArtDossierPanel.update(poseId); } catch (_) {}
+  }
 
   // Initialize/update 3D skeleton
   setTimeout(() => {
@@ -1649,12 +1728,16 @@ function loadSessionStats() {
       const date = new Date(s.timestamp);
       const timeStr = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
       const dateStr = date.toLocaleDateString([], { month: 'short', day: 'numeric' });
+      // Solarize §7: badge synthetic sessions distinctly from real-inference sessions.
+      const simBadge = s.isSim
+        ? '<span class="session-sim-pill" title="Synthetic session — not real camera inference">SIM</span>'
+        : '<span class="session-real-pill" title="Real camera inference">REAL</span>';
       return `
         <div class="session-history-item" onclick="openPoseDetail('${s.poseId}')" role="listitem">
           <div class="session-thumb"><span style="font-size:24px;" aria-hidden="true">📸</span></div>
           <div class="session-info">
             <h3>${s.poseName}</h3>
-            <p>${dateStr} · ${timeStr}</p>
+            <p>${dateStr} · ${timeStr} ${simBadge}</p>
           </div>
           ${s.score > 0 ? `<div class="session-score-pill">${s.score}%</div>` : ''}
         </div>`;
@@ -2072,6 +2155,18 @@ window.initPoseEditor = function(poseId) {
   updatePoseEditorPreview();
   updateUndoRedoButtons();
   loadCustomPoseList();
+  // Solarize §17: init prop/contact editor. If loading an existing pose with
+  // props, load them; else infer from description as a migration hint only.
+  if (window.PoseArtPropEditor) {
+    window.PoseArtPropEditor.reset();
+    const existing = poseId && POSES_LIBRARY[poseId];
+    if (existing && Array.isArray(existing.props) && existing.props.length) {
+      window.PoseArtPropEditor.loadState({ props: existing.props, contacts: existing.contacts || [] });
+    } else if (descEl && descEl.value) {
+      window.PoseArtPropEditor.inferFromDescription(descEl.value);
+    }
+    window.PoseArtPropEditor.renderPropList();
+  }
 };
 
 window.onEditorSliderChange = function(jointKey, value) {
@@ -2227,6 +2322,9 @@ window.saveCustomPose = function() {
     instructions: description,
     tip: 'Custom pose created in the pose editor.',
     joints: JSON.parse(JSON.stringify(_editorJoints)),
+    // Solarize §17: explicit props + contacts (not prose-inferred).
+    props: window.PoseArtPropEditor ? JSON.parse(JSON.stringify(window.PoseArtPropEditor.getState().props)) : [],
+    contacts: window.PoseArtPropEditor ? JSON.parse(JSON.stringify(window.PoseArtPropEditor.getState().contacts)) : [],
     color: 'var(--color-teal-100)',
     figure: 'default',
     tags: ['custom', 'user-created'],

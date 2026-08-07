@@ -1,4 +1,14 @@
 .env
+.env.*
 *.bak-pre-*
 node_modules/
 .supabase/
+
+# Solarize §20 / defect D16 / D22 / D23 — NEVER commit preview credentials.
+# js/test-creds.local.js is generated at build time by
+# scripts/inject-test-creds.js from CI secrets (POSEART_TEST_USERNAME /
+# POSEART_TEST_PASSWORD) and is intentionally excluded from version control.
+js/test-creds.local.js
+
+# Publication manifest + local build artifacts (regenerated per build).
+publication-manifest.json
