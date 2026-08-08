@@ -19,6 +19,10 @@ import { buildCoupleScenes } from './solarize/couple-scenes.js';
 import { ModelActivationManager, ACTIVATION_STATE, chooseModel, chooseBackend, detectCapabilities } from './solarize/model-activation.js';
 import { PoseWorkerService } from './solarize/pose-worker-service.js';
 import { exportFileName, exportMetadata, exportSidecarName, downloadSidecarMetadata, shareTitle } from './solarize/export-metadata.js';
+import { FramePoseHeuristic } from './solarize/frame-pose-heuristic.js';
+import { OneEuroFilter, OneEuroKeypointSmoother } from './solarize/one-euro-filter.js';
+import { FramePersonDetector } from './solarize/frame-person-detector.js';
+import { BoneLengthConstraint, ConfidenceGate, FlipDisambiguator } from './solarize/bone-constraints.js';
 
 function boot() {
   // couple-scenes.js runs buildCoupleScenes() on import and sets
@@ -49,6 +53,13 @@ function boot() {
     detectCapabilities,
     PoseWorkerService,
     PoseArtExport: Object.freeze({ exportFileName, exportMetadata, exportSidecarName, downloadSidecarMetadata, shareTitle }),
+    FramePoseHeuristic,
+    OneEuroFilter,
+    OneEuroKeypointSmoother,
+    FramePersonDetector,
+    BoneLengthConstraint,
+    ConfidenceGate,
+    FlipDisambiguator,
     makePoseScene,
     makeTargetPerson,
     makePropRecord,
