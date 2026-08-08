@@ -385,13 +385,38 @@ function updateSessionSetupUI() {
   if (el('opt-timer'))       el('opt-timer').textContent       = opts.timer[opts.timerIndex];
   if (el('opt-sensitivity')) el('opt-sensitivity').textContent = opts.sensitivity[opts.sensitivityIndex];
 
-  // Update the selected-pose label + preview figure
+  // Update the selected-pose label + preview figure + instructions + tip + meta
   const pose = POSES_LIBRARY[AppState.selectedPoseId];
   if (pose) {
     const nameEl = el('setup-pose-name');
     if (nameEl) nameEl.textContent = pose.name;
     const figEl = el('setup-pose-figure');
     if (figEl) figEl.innerHTML = renderPoseFigureSVG(pose, false);
+
+    // Show pose instructions/description
+    const instrEl = el('setup-pose-instructions');
+    if (instrEl) instrEl.textContent = pose.instructions || '';
+
+    // Show tip when present
+    const tipEl = el('setup-pose-tip');
+    if (tipEl) tipEl.textContent = pose.tip ? '💡 ' + pose.tip : '';
+
+    // Show meta tags (category, difficulty, angle)
+    const metaEl = el('setup-pose-meta');
+    if (metaEl) {
+      metaEl.innerHTML = '';
+      const metaItems = [
+        pose.category && pose.category.charAt(0).toUpperCase() + pose.category.slice(1),
+        pose.difficulty,
+        pose.angle
+      ].filter(Boolean);
+      metaItems.forEach(m => {
+        const tag = document.createElement('span');
+        tag.className = 'meta-tag';
+        tag.textContent = m;
+        metaEl.appendChild(tag);
+      });
+    }
   }
 }
 
