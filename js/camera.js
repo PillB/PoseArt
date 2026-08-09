@@ -278,7 +278,7 @@ class CameraEngine {
     // Build the frame: real video, or deterministic descriptor for no-camera demo.
     let frame;
     if (this.stream && this.videoEl && this.videoEl.videoWidth) {
-      frame = { video: this.videoEl, width: this.videoEl.videoWidth, height: this.videoEl.videoHeight, timestamp: ts };
+      frame = await this._captureFrame(ts);
     } else {
       frame = this._deterministicDemoFrame(ts);
     }
@@ -1063,6 +1063,22 @@ class CameraEngine {
     this.currentScore = 45;
     this.captureHeldMs = 0;
     this.smoothedKeypoints = {};
+  }
+
+  // R3 overlay-recovery: capture a frame for pose detection using ImageBitmap
+  // (transferable to Worker) instead of HTMLVideoElement (fails structured clone).
+  async _captureFrame(ts) {
+    if (!this.videoEl || !this.videoEl.videoWidth) return this._deterministicDemoFrame(ts);
+    var w = this.videoEl.videoWidth, h = this.videoEl.videoHeight;
+    if (typeof createImageBitmap === 'function') {
+      try {
+        var bitmap = await createImageBitmap(this.videoEl, { resizeWidth: w, resizeHeight: h });
+        return { bitmap: bitmap, width: w, height: h, timestamp: ts };
+      } catch (e) { /* fall through */ }
+    }
+    var c = document.createElement('canvas'); c.width = w; c.height = h;
+    c.getContext('2d').drawImage(this.videoEl, 0, 0, w, h);
+    return { canvas: c, width: w, height: h, timestamp: ts };
   }
 }
 

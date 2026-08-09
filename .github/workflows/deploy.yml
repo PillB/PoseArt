@@ -23,12 +23,32 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+
+      - name: Build clean production artifact
+        run: |
+          mkdir -p dist
+          # Allowlist only production files
+          cp index.html dist/
+          cp favicon.ico dist/ 2>/dev/null || true
+          cp -r css dist/
+          cp -r js dist/
+          cp -r gifs dist/
+          cp -r vendor dist/ 2>/dev/null || true
+          # Generate robots.txt
+          echo "User-agent: *" > dist/robots.txt
+          echo "Allow: /" >> dist/robots.txt
+          # Do NOT copy: audit/, docs/, .bak-*/, scripts/, artifacts/,
+          # Fixer Agent Instrucitons/, *.docx, *.txt, node_modules/,
+          # package.json, tsconfig.json, eslint.config.mjs, etc.
+
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
+
       - name: Upload static site
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: dist
+
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
