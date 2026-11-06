@@ -45,13 +45,13 @@ Each includes a full instruction/description, novelty rationale, categorical ref
 From repository root with Node installed:
 
 ```sh
-node scripts/run-atlas-geometry.js
-node scripts/build-pose-atlas.js
-node scripts/test-pose-atlas.js
+node scripts/run-legacy-research.cjs run-atlas-geometry.js
+node scripts/run-legacy-research.cjs build-pose-atlas.js
+node scripts/run-legacy-research.cjs test-pose-atlas.js
 python3 scripts/build-pose-report.py
 ```
 
-`run-atlas-geometry.js` defaults to a one-time research run ID and refuses to overwrite its output. To re-run it, set the **same new** `POSEART_AUDIT_RUN_ID` for the geometry and atlas commands; the atlas reads the named sweep. The PDF needs ReportLab and DejaVu font files. The atlas is fully self-contained for offline schematic viewing, but linked GIFs and external search pages need internet.
+`run-atlas-geometry.js` (launched via the isolated CommonJS compatibility runner because the root package uses ES modules) defaults to a one-time research run ID and refuses to overwrite its output. To re-run it, set the **same new** `POSEART_AUDIT_RUN_ID` for the geometry and atlas commands; the atlas reads the named sweep. The PDF needs ReportLab and DejaVu font files. The atlas is fully self-contained for offline schematic viewing, but linked GIFs and external search pages need internet.
 
 The atlas has been tested for JSON integrity, 745 records, JS syntax, search, category filters, pagination, and 64 schematic SVGs for its initial 16-card page. The 24-page PDF was rendered and visually inspected. Physical iPhone/Android/browser testing and independent photo matching are still open release gates; no live deployment is claimed.
 
@@ -60,3 +60,7 @@ The atlas has been tested for JSON integrity, 745 records, JS syntax, search, ca
 For each pose, collect three or four **different** external/owner-produced photographic references. Capture canonical original URL, creator, title, rights/license, date, pose relevance, keypoints, hand/prop contacts, camera view, and explicit accept/reject rationale. Eliminate duplicates and mirror reposts. Keep fitting and held-out references separate; involve a qualified human reviewer. Never commit third-party photos without redistribution permission. For couple scenes, verify both people; for accessible poses, prioritize the subject's own comfort and functional support.
 
 Core research sources are linked and labeled `R1`–`R14` in the manifest. The most applicable are Adobe on sitting and hands, Adobe on couples, Nikon and Canon portrait technique, PPA boudoir guidance, PPA disability-inclusive sessions, Permobil wheelchair photography guidance, the Metropolitan Museum's sculptures, and Google MediaPipe's landmark documentation. These are category-level foundations, not evidence for individual joint targets.
+
+## Phase 3 addendum (2026-11-06)
+
+See [PHASE3.md](PHASE3.md) for the privately supplied 24-PDF / 353-page guide corpus, 66 numbered photo-page links (two rejected), museum artwork references, 14 *unpromoted* proposals (the original eight plus six new), 179 pose IDs with at least one image lead, 566 with none, and hard zero-photo-approval release criteria. GitHub Actions research CI rebuilds this complete atlas using `run-legacy-research.cjs`; neither screenshots nor guide photographs are placed in the public Git repository. Historical source counts above describe the **master snapshot**; the research PR adds Markdown documentation and the reproducibility test compares actual Git-tree counts.
