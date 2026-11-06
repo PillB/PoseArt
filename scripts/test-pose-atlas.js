@@ -20,7 +20,10 @@ assert.equal(m.counts.verifiedIndependentPhotos,0);
 assert.equal(m.proposed.length,8);
 assert.equal(m.docs.countByType.pdf,0);
 assert.equal(m.docs.countByType.docx,3);
-assert.equal(m.docs.countByType.md,267);
+// Track the actual checked-out tree; research documentation grows across PR iterations.
+const cp=require('node:child_process');
+const tracked=cp.execFileSync('git',['ls-tree','-r','--name-only','HEAD'],{cwd:root,encoding:'utf8'}).trim().split('\n');
+assert.equal(m.docs.countByType.md,tracked.filter(p=>p.endsWith('.md')).length);
 assert.equal(m.poses.length,data.poses.length);
 assert(m.poses.every(p=>p.title&&p.description&&p.tip&&p.gif&&p.fourViewsGenerated));
 assert(m.poses.every(p=>Object.values(p.skeleton).every(vec=>vec.every(Number.isFinite))));
