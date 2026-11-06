@@ -32,6 +32,14 @@ jobs:
         run: node scripts/phase3-evidence-gate.cjs
       - name: Verify count, provenance, collisions, and block-by-default policy
         run: node scripts/test-phase3-evidence-gate.cjs
+      - name: Rebuild and verify 745-pose legacy atlas through isolated CJS runner
+        shell: bash
+        run: |
+          set -euo pipefail
+          export POSEART_AUDIT_RUN_ID="run-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}-legacy"
+          node scripts/run-legacy-research.cjs run-atlas-geometry.js
+          node scripts/run-legacy-research.cjs build-pose-atlas.js
+          node scripts/run-legacy-research.cjs test-pose-atlas.js
       - name: Block production geometry edits without independently adjudicated photos
         shell: bash
         run: |
