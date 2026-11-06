@@ -45,8 +45,8 @@ The explicit item-level decisions and root-cause text are in `photo-review-decis
 Dependencies: Python 3, aiohttp, Pillow, ReportLab, DejaVu fonts, Node; the earlier Phase 1 atlas/manifest scripts, git and geometry audit must work first.
 
 ```sh
-node scripts/run-atlas-geometry.js
-node scripts/build-pose-atlas.js
+node scripts/run-legacy-research.cjs run-atlas-geometry.js
+node scripts/run-legacy-research.cjs build-pose-atlas.js
 
 python3 scripts/collect_pose_photo_candidates.py --limit 745 --concurrency 4
 python3 scripts/build_phase2_evidence.py
@@ -93,3 +93,5 @@ The atlas is usable without external images for local geometry inspection; the e
 - [PPA posing tricks](https://www.ppa.com/ppmag/articles/posing-tricks)
 
 Photos in the Commons results are third-party works; link-based research use is not a blanket republication license. The PDF's selected thumbnail credit appendix records original source pages and authors, subject to final legal confirmation.
+
+**Execution compatibility update (2026-11-06):** The repository package sets `type: module`. Use the isolated `scripts/run-legacy-research.cjs` runner for the original CommonJS-based audit and atlas scripts. Direct `node scripts/*.js` invocations are not supported; the Phase 3 GitHub Actions workflow verifies the corrected commands.
