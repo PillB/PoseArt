@@ -19,7 +19,7 @@ function guide(id) {
     if (m) {
       const number = Number(m[1]);
       if (!number || number>arr[1]) throw new Error('Guide page outside source: '+id);
-      return {guide:name,number,pdf_page:number+2,source_family:'believeinboudoir.com/Yuliya-Panchenko',number_match_only:true,visually_approved:false};
+      return {guide:name,number,pdf_page:number+2,source_family:'believeinboudoir.com/Yuliya-Panchenko',number_match_only:true,visually_approved:false,adjudication:(id==='p05-bench-b13-standing-arm-raised-lean'||id==='p05-bench-b14-standing-lean-facing-camera')?'rejected_source_photo_is_seated_not_standing':'pending_visual_and_rights_review'};
     }
   }
   return null;
