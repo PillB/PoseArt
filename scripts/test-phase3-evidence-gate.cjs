@@ -14,6 +14,9 @@ assert(rows.every(p=>p.independently_approved_photos===0&&p.geometry_release==='
 const photos=rows.filter(p=>p.guide_page_lead);
 assert.equal(photos.length,66);
 assert(photos.every(p=>p.guide_page_lead.number_match_only===true&&p.guide_page_lead.visually_approved===false));
+assert.equal(photos.filter(p=>p.guide_page_lead.adjudication==='rejected_source_photo_is_seated_not_standing').length,2);
+assert(['p05-bench-b13-standing-arm-raised-lean','p05-bench-b14-standing-lean-facing-camera'].every(id=>rows.find(p=>p.id===id).guide_page_lead.adjudication==='rejected_source_photo_is_seated_not_standing'));
+assert.equal(photos.filter(p=>p.guide_page_lead.adjudication==='pending_visual_and_rights_review').length,64);
 for(const [flow,count] of Object.entries({chair:17,bench:17,couch:9,bed:14,wall:9})){
  assert.equal(photos.filter(p=>p.guide_page_lead.guide===flow).length,count);
 }
