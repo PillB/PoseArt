@@ -29,9 +29,9 @@ jobs:
         with:
           node-version: "22"
       - name: Generate all 745 evidence query records
-        run: node scripts/phase3-evidence-gate.js
+        run: node scripts/phase3-evidence-gate.cjs
       - name: Verify count, provenance, collisions, and block-by-default policy
-        run: node scripts/test-phase3-evidence-gate.js
+        run: node scripts/test-phase3-evidence-gate.cjs
       - name: Block production geometry edits without independently adjudicated photos
         shell: bash
         run: |
@@ -40,7 +40,7 @@ jobs:
           BASE="$(git merge-base origin/master HEAD)"
           if git diff --name-only "$BASE" HEAD | grep -E '^(js/poses-data\.js|js/pose-skeleton-3d\.js|js/solarize/)'; then
             echo "::error::Production pose/rig edits require signed photo/geometry evidence."
-            node scripts/phase3-evidence-gate.js --require-production-evidence
+            node scripts/phase3-evidence-gate.cjs --require-production-evidence
           else
             echo "PASS: research-only changes; production geometry unchanged."
           fi
