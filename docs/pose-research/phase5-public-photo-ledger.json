@@ -1,0 +1,460 @@
+{
+  "phase": 5,
+  "snapshot_date": "2026-11-06",
+  "base_commit": "5068f7ad23c0dd0c5afa01a812234a88214d9852",
+  "live_poses": 745,
+  "categories": 16,
+  "phase4_raw_covered": 189,
+  "new_raw_covered_pose_ids": [
+    "boudoir-chair-straddle",
+    "fashion-mid-turn-sweep",
+    "forehead-touch",
+    "mid-jump",
+    "one-leg-balance",
+    "p15-chair-s3-side-straddle-back",
+    "sitting-on-heels"
+  ],
+  "cumulative_raw_covered": 196,
+  "raw_uncovered": 549,
+  "expert_approved_photo_count": 0,
+  "minimum_approved_photo_deficit": 2235,
+  "unpromoted_proposals": 20,
+  "source_license_policy": "CC/PD labels need independent per-file rights, model release, share-alike and AI-use review. No photographs copied to repository.",
+  "sources": [
+    {
+      "id": "P5-WC-001",
+      "filename": "Tree_pose.JPG",
+      "creator": "Satheesan.vn",
+      "license": "CC BY-SA 3.0",
+      "source_family": "Satheesan.vn",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Tree_pose.JPG",
+      "media_class": "live_person_photo",
+      "rights_suitable_for_production": false,
+      "person_release_verified": false,
+      "independent_photo_session_verified": false,
+      "expert_approved": false,
+      "poses": [
+        {
+          "pose_id": "one-leg-balance",
+          "review": "partial_anatomy",
+          "reason": "single leg; foot on thigh; arms overhead, unlike text"
+        }
+      ]
+    },
+    {
+      "id": "P5-WC-002",
+      "filename": "Tree_pos.jpg",
+      "creator": "Yogaandayurved",
+      "license": "CC BY-SA 4.0",
+      "source_family": "Yogaandayurved",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Tree_pos.jpg",
+      "media_class": "line_art",
+      "rights_suitable_for_production": false,
+      "person_release_verified": false,
+      "independent_photo_session_verified": false,
+      "expert_approved": false,
+      "poses": [
+        {
+          "pose_id": "one-leg-balance",
+          "review": "reject_not_live_photo",
+          "reason": "JPEG of line illustration, not a human photograph"
+        }
+      ]
+    },
+    {
+      "id": "P5-WC-003",
+      "filename": "Postura da Árvore Yoga.jpg",
+      "creator": "Camilasuga",
+      "license": "CC BY-SA 4.0",
+      "source_family": "Camilasuga",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Postura_da_%C3%81rvore_Yoga.jpg",
+      "media_class": "live_person_photo",
+      "rights_suitable_for_production": false,
+      "person_release_verified": false,
+      "independent_photo_session_verified": false,
+      "expert_approved": false,
+      "poses": [
+        {
+          "pose_id": "one-leg-balance",
+          "review": "reject_multiple_subjects_unsafe_placement",
+          "reason": "group yoga photo with knee-pressure concern"
+        }
+      ]
+    },
+    {
+      "id": "P5-WC-004",
+      "filename": "Seiza.jpg",
+      "creator": "Jmaikido",
+      "license": "CC BY-SA 4.0",
+      "source_family": "Jmaikido",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Seiza.jpg",
+      "media_class": "live_person_photo",
+      "rights_suitable_for_production": false,
+      "person_release_verified": false,
+      "independent_photo_session_verified": false,
+      "expert_approved": false,
+      "poses": [
+        {
+          "pose_id": "sitting-on-heels",
+          "review": "partial_occluded",
+          "reason": "feet and heel contact not visible"
+        }
+      ]
+    },
+    {
+      "id": "P5-WC-005",
+      "filename": "Cross-legged sitting woman.jpg",
+      "creator": "Chi Chang Wu",
+      "license": "CC BY-SA 4.0",
+      "source_family": "Chi Chang Wu",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Cross-legged_sitting_woman.jpg",
+      "media_class": "live_person_photo",
+      "rights_suitable_for_production": false,
+      "person_release_verified": false,
+      "independent_photo_session_verified": false,
+      "expert_approved": false,
+      "poses": [
+        {
+          "pose_id": "floor-cross-leg",
+          "review": "partial_anatomy",
+          "reason": "crosslegged floor, hands on knees; precovered pose"
+        }
+      ]
+    },
+    {
+      "id": "P5-WC-006",
+      "filename": "Cross-legged sitting - woman.jpg",
+      "creator": "Yi-Jen Huang",
+      "license": "CC BY-SA 4.0",
+      "source_family": "Yi-Jen Huang",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Cross-legged_sitting_-_woman.jpg",
+      "media_class": "live_person_photo",
+      "rights_suitable_for_production": false,
+      "person_release_verified": false,
+      "independent_photo_session_verified": false,
+      "expert_approved": false,
+      "poses": [
+        {
+          "pose_id": "floor-cross-leg",
+          "review": "reject_contact_mismatch",
+          "reason": "hands clasp ankles, not on knees"
+        }
+      ]
+    },
+    {
+      "id": "P5-WC-007",
+      "filename": "Forehead Love.jpg",
+      "creator": "Sbagnuolo15",
+      "license": "CC BY-SA 4.0",
+      "source_family": "Sbagnuolo15",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Forehead_Love.jpg",
+      "media_class": "live_person_photo",
+      "rights_suitable_for_production": false,
+      "person_release_verified": false,
+      "independent_photo_session_verified": false,
+      "expert_approved": false,
+      "poses": [
+        {
+          "pose_id": "forehead-touch",
+          "review": "partial_anatomy",
+          "reason": "foreheads touch, lower bodies cropped"
+        }
+      ]
+    },
+    {
+      "id": "P5-WC-008",
+      "filename": "Vrouw poseert andersom gezeten op een stoel Not So Bad (titel op object), RP-F-F10493.jpg",
+      "creator": "Unknown photographer (Rijksmuseum)",
+      "license": "CC0",
+      "source_family": "Rijksmuseum historical stereograph",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Vrouw_poseert_andersom_gezeten_op_een_stoel_Not_So_Bad_(titel_op_object)%2C_RP-F-F10493.jpg",
+      "media_class": "live_person_photo",
+      "rights_suitable_for_production": false,
+      "person_release_verified": false,
+      "independent_photo_session_verified": false,
+      "expert_approved": false,
+      "poses": [
+        {
+          "pose_id": "p15-chair-s3-side-straddle-back",
+          "review": "partial_anatomy",
+          "reason": "one stereo capture, reversed chair straddle; ankle/arch ambiguous"
+        },
+        {
+          "pose_id": "boudoir-chair-straddle",
+          "review": "partial_anatomy",
+          "reason": "one stereo capture, reversed chair straddle; ankle/arch ambiguous"
+        }
+      ]
+    },
+    {
+      "id": "P5-WC-009",
+      "filename": "Peter Ustinov black & white Allan Warren.jpg",
+      "creator": "Allan Warren",
+      "license": "CC BY-SA 3.0",
+      "source_family": "Allan Warren",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Peter_Ustinov_black_%26_white_Allan_Warren.jpg",
+      "media_class": "live_person_photo",
+      "rights_suitable_for_production": false,
+      "person_release_verified": false,
+      "independent_photo_session_verified": false,
+      "expert_approved": false,
+      "poses": [
+        {
+          "pose_id": "p15-chair-s3-side-straddle-back",
+          "review": "partial_anatomy",
+          "reason": "reversed chair with forearm support, feet cropped"
+        },
+        {
+          "pose_id": "boudoir-chair-straddle",
+          "review": "partial_anatomy",
+          "reason": "reversed chair with forearm support, feet cropped"
+        }
+      ]
+    },
+    {
+      "id": "P5-WC-010",
+      "filename": "Annafavella-10.jpg",
+      "creator": "Anna Favella",
+      "license": "CC BY-SA 4.0",
+      "source_family": "Anna Favella",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Annafavella-10.jpg",
+      "media_class": "live_person_photo",
+      "rights_suitable_for_production": false,
+      "person_release_verified": false,
+      "independent_photo_session_verified": false,
+      "expert_approved": false,
+      "poses": [
+        {
+          "pose_id": "p15-chair-s3-side-straddle-back",
+          "review": "partial_anatomy",
+          "reason": "reversed chair with arm support; lower legs cropped"
+        },
+        {
+          "pose_id": "boudoir-chair-straddle",
+          "review": "partial_anatomy",
+          "reason": "reversed chair with arm support; lower legs cropped"
+        }
+      ]
+    },
+    {
+      "id": "P5-WC-011",
+      "filename": "Olivia Evita seated on a chair.jpg",
+      "creator": "Mark J Sebastian",
+      "license": "CC BY-SA 2.0",
+      "source_family": "Mark J Sebastian",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Olivia_Evita_seated_on_a_chair.jpg",
+      "media_class": "live_person_photo",
+      "rights_suitable_for_production": false,
+      "person_release_verified": false,
+      "independent_photo_session_verified": false,
+      "expert_approved": false,
+      "poses": [
+        {
+          "pose_id": "p15-chair-s3-side-straddle-back",
+          "review": "reject_pose_variant",
+          "reason": "asymmetric raised leg and displaced arm contact"
+        }
+      ]
+    },
+    {
+      "id": "P5-WC-012",
+      "filename": "Sunset Hopping.jpg",
+      "creator": "reebs*",
+      "license": "CC BY 2.0",
+      "source_family": "reebs*",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Sunset_Hopping.jpg",
+      "media_class": "live_person_photo",
+      "rights_suitable_for_production": false,
+      "person_release_verified": false,
+      "independent_photo_session_verified": false,
+      "expert_approved": false,
+      "poses": [
+        {
+          "pose_id": "mid-jump",
+          "review": "partial_anatomy",
+          "reason": "two feet off ground, arm V and knee bent, silhouetted landmarks"
+        }
+      ]
+    },
+    {
+      "id": "P5-WC-013",
+      "filename": "VVO 6763 (15495291387).jpg",
+      "creator": "Fedor Leukhin (IRONHIDE)",
+      "license": "CC BY-SA 2.0",
+      "source_family": "Fedor Leukhin (IRONHIDE)",
+      "source_url": "https://commons.wikimedia.org/wiki/File:VVO_6763_(15495291387).jpg",
+      "media_class": "live_person_photo",
+      "rights_suitable_for_production": false,
+      "person_release_verified": false,
+      "independent_photo_session_verified": false,
+      "expert_approved": false,
+      "poses": [
+        {
+          "pose_id": "back-to-back",
+          "review": "reject_support_mismatch",
+          "reason": "two people seated, app requires standing"
+        }
+      ]
+    },
+    {
+      "id": "P5-WC-014",
+      "filename": "Piggyback fursuit.jpg",
+      "creator": "Douglas Muth",
+      "license": "CC BY-SA 2.0",
+      "source_family": "Douglas Muth",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Piggyback_fursuit.jpg",
+      "media_class": "live_person_photo",
+      "rights_suitable_for_production": false,
+      "person_release_verified": false,
+      "independent_photo_session_verified": false,
+      "expert_approved": false,
+      "poses": [
+        {
+          "pose_id": "piggyback",
+          "review": "reject_carrier_contact",
+          "reason": "shoulder ride, not back carry"
+        }
+      ]
+    },
+    {
+      "id": "P5-WC-015",
+      "filename": "Piggyback photographer.jpg",
+      "creator": "Martinvl",
+      "license": "CC BY-SA 4.0",
+      "source_family": "Martinvl",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Piggyback_photographer.jpg",
+      "media_class": "live_person_photo",
+      "rights_suitable_for_production": false,
+      "person_release_verified": false,
+      "independent_photo_session_verified": false,
+      "expert_approved": false,
+      "poses": [
+        {
+          "pose_id": "piggyback",
+          "review": "reject_carrier_contact",
+          "reason": "shoulder ride, not back carry"
+        }
+      ]
+    },
+    {
+      "id": "P5-WC-016",
+      "filename": "Woman Leaning on Wall.jpg",
+      "creator": "Unattributed uploader",
+      "license": "CC0",
+      "source_family": "Unattributed uploader",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Woman_Leaning_on_Wall.jpg",
+      "media_class": "live_person_photo",
+      "rights_suitable_for_production": false,
+      "person_release_verified": false,
+      "independent_photo_session_verified": false,
+      "expert_approved": false,
+      "poses": [
+        {
+          "pose_id": "shoulder-lean",
+          "review": "reject_crop",
+          "reason": "tight face crop not full-body wall support"
+        }
+      ]
+    },
+    {
+      "id": "P5-WC-017",
+      "filename": "2people1wheelchair6yearslove.jpg",
+      "creator": "Kassandra Ruhm",
+      "license": "CC BY-SA 4.0",
+      "source_family": "Kassandra Ruhm",
+      "source_url": "https://commons.wikimedia.org/wiki/File:2people1wheelchair6yearslove.jpg",
+      "media_class": "live_person_photo",
+      "rights_suitable_for_production": false,
+      "person_release_verified": false,
+      "independent_photo_session_verified": false,
+      "expert_approved": false,
+      "poses": [
+        {
+          "pose_id": "forehead-touch",
+          "review": "reject_contact_mismatch",
+          "reason": "no forehead contact"
+        }
+      ]
+    },
+    {
+      "id": "P5-WC-018",
+      "filename": "Helen B. Garrettson, portrait, facing left, standing with hands on hips LCCN91481437.jpg",
+      "creator": "Fredericks / LOC",
+      "license": "PD-US",
+      "source_family": "Fredericks / LOC",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Helen_B._Garrettson%2C_portrait%2C_facing_left%2C_standing_with_hands_on_hips_LCCN91481437.jpg",
+      "media_class": "live_person_photo",
+      "rights_suitable_for_production": false,
+      "person_release_verified": false,
+      "independent_photo_session_verified": false,
+      "expert_approved": false,
+      "poses": [
+        {
+          "pose_id": "fashion-mid-turn-sweep",
+          "review": "partial_with_semantic_title_drift",
+          "reason": "hands-on-hips aligns with misassigned description not actual turn title"
+        }
+      ]
+    },
+    {
+      "id": "P5-WC-019",
+      "filename": "Hugh Duffy, full-length portrait, standing, facing slightly left, in baseball uniform, hands on hips LCCN91783093.tif",
+      "creator": "LOC",
+      "license": "PD-US",
+      "source_family": "LOC",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Hugh_Duffy%2C_full-length_portrait%2C_standing%2C_facing_slightly_left%2C_in_baseball_uniform%2C_hands_on_hips_LCCN91783093.tif",
+      "media_class": "live_person_photo",
+      "rights_suitable_for_production": false,
+      "person_release_verified": false,
+      "independent_photo_session_verified": false,
+      "expert_approved": false,
+      "poses": [
+        {
+          "pose_id": "fashion-mid-turn-sweep",
+          "review": "needs_visual_inspection",
+          "reason": "metadata only; no image-level joint review"
+        }
+      ]
+    },
+    {
+      "id": "P5-WC-020",
+      "filename": "Travel the world.jpg",
+      "creator": "Djoseph123",
+      "license": "CC BY-SA 4.0",
+      "source_family": "Djoseph123",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Travel_the_world.jpg",
+      "media_class": "live_person_photo",
+      "rights_suitable_for_production": false,
+      "person_release_verified": false,
+      "independent_photo_session_verified": false,
+      "expert_approved": false,
+      "poses": [
+        {
+          "pose_id": "mid-jump",
+          "review": "needs_visual_inspection",
+          "reason": "category metadata only; no joint review"
+        }
+      ]
+    },
+    {
+      "id": "P5-WC-021",
+      "filename": "Back-to-Back Statue at the Rogers Centre, July 20 2026.jpg",
+      "creator": "Dillan Payne",
+      "license": "CC BY-SA 4.0",
+      "source_family": "Dillan Payne",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Back-to-Back_Statue_at_the_Rogers_Centre%2C_July_20_2026.jpg",
+      "media_class": "photograph_of_sculpture",
+      "rights_suitable_for_production": false,
+      "person_release_verified": false,
+      "independent_photo_session_verified": false,
+      "expert_approved": false,
+      "poses": [
+        {
+          "pose_id": "back-to-back",
+          "review": "reject_not_live_photo",
+          "reason": "sculpture photographed, not actual people"
+        }
+      ]
+    }
+  ]
+}
