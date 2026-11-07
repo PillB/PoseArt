@@ -32,7 +32,7 @@ assert.equal(photos.filter(p=>p.poses.some(a=>a.review.startsWith('reject'))).le
 assert.equal(photos.filter(p=>p.poses.some(a=>a.review.startsWith('partial'))).length,9);
 assert.equal(photos.filter(p=>p.poses.some(a=>a.review==='needs_visual_inspection')).length,2);
 const byName=(n)=>photos.find(p=>p.filename===n);
-assert.equal(byName('Tree pos.jpg').media_class,'line_art');
+assert.equal(byName('Tree_pos.jpg').media_class,'line_art');
 assert.equal(byName('Back-to-Back Statue at the Rogers Centre, July 20 2026.jpg').media_class,'photograph_of_sculpture');
 assert(byName('VVO 6763 (15495291387).jpg').poses.some(a=>a.review==='reject_support_mismatch'));
 assert(byName('Piggyback fursuit.jpg').poses.some(a=>a.review==='reject_carrier_contact'));
