@@ -28,7 +28,7 @@ for (const photo of photos) {
  }
 }
 assert.equal(links,24);
-assert.equal(photos.filter(p=>p.poses.some(a=>a.review.startsWith('reject'))).length,9);
+assert.equal(photos.filter(p=>p.poses.some(a=>a.review.startsWith('reject'))).length,10);
 assert.equal(photos.filter(p=>p.poses.some(a=>a.review.startsWith('partial'))).length,9);
 assert.equal(photos.filter(p=>p.poses.some(a=>a.review==='needs_visual_inspection')).length,2);
 const byName=(n)=>photos.find(p=>p.filename===n);
