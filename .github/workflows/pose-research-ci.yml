@@ -34,6 +34,8 @@ jobs:
         run: node scripts/test-phase3-evidence-gate.cjs
       - name: Verify Phase 4 37-photo source ledger, 36 unique originals and geometry hold
         run: node scripts/test-phase4-photo-links.cjs
+      - name: Verify Phase 5 licensed-source metadata and negative pose/photo adjudications
+        run: node scripts/test-phase5-photo-evidence.cjs
       - name: Rebuild and verify 745-pose legacy atlas through isolated CJS runner
         shell: bash
         run: |
