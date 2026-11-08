@@ -40,6 +40,8 @@ jobs:
         run: node scripts/test-phase6-photo-evidence.cjs
       - name: Verify Phase 7 25 Commons source files, 27 decisions and 5 new raw leads
         run: node scripts/test-phase7-photo-evidence.cjs
+      - name: Verify Phase 8 source-level 20 reviews and no-photo geometry hold
+        run: node scripts/test-phase8-photo-evidence.cjs
       - name: Rebuild and verify 745-pose legacy atlas through isolated CJS runner
         shell: bash
         run: |
