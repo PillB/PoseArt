@@ -1,0 +1,50 @@
+'use strict';
+// Phase 8 photo provenance/review gate. No source pixels are collected or redistributed.
+const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),assert=require('node:assert/strict');
+const base=path.resolve(__dirname,'..');
+const ledger=JSON.parse(fs.readFileSync(path.join(base,'docs/pose-research/phase8-commons-adjudication.json'),'utf8'));
+const c={};vm.runInNewContext(fs.readFileSync(path.join(base,'js/poses-data.js'),'utf8')+';this.poses=POSES_LIBRARY;this.cats=POSE_CATEGORIES;',c,{timeout:20000});
+const catalog=new Map(Object.values(c.poses).map(p=>[p.id,p]));
+assert.equal(catalog.size,745,'catalog size changed unexpectedly');
+assert.equal(Array.from(c.cats).length,16);
+assert([...catalog.values()].every(p=>typeof p.name==='string'&&p.name.trim()&&typeof p.instructions==='string'&&p.instructions.trim()),'missing pose title/instructions');
+assert.equal(ledger.live_pose_count,745);assert.equal(ledger.live_categories,16);
+assert.equal(ledger.previous_raw_discovery_covered,207);assert.equal(ledger.raw_discovery_covered,212);assert.equal(ledger.zero_raw_photo_leads,533);
+assert.equal(ledger.phase8_source_adjudication_entries,20);assert.equal(ledger.partial_photo_comparisons,10);assert.equal(ledger.rejected_source_mismatches,10);
+assert.equal(ledger.expert_approved_photo_matches,0);assert.equal(ledger.minimum_independent_approved_photo_deficit,2235);
+assert.equal(ledger.unpromoted_pose_proposals,20);
+const refs=ledger.reference_photographs;
+assert.equal(refs.length,20);
+assert.equal(new Set(refs.map(x=>x.source_id)).size,20);
+assert.equal(new Set(refs.map(x=>x.filename)).size,20);
+const expected=['floor-side-extend','knights-kneel','meditation-palms','side-straddle','soft-sit'];
+assert.deepEqual(ledger.newly_raw_covered_pose_ids,expected);
+assert.deepEqual([...new Set(refs.filter(x=>x.status==='partial_visual').map(x=>x.pose_id))].sort(),expected);
+assert.equal(refs.filter(x=>x.status==='partial_visual').length,10);
+assert.equal(refs.filter(x=>x.status.startsWith('rejected')).length,10);
+for(const r of refs){
+ assert(catalog.has(r.pose_id),'nonlive ID '+r.pose_id);
+ assert(r.source_url.startsWith('https://commons.wikimedia.org/wiki/File:'));
+ assert(r.creator&&r.filename&&r.license_claim&&r.status&&r.observed_contacts&&r.unverified_contacts);
+ assert(r.geometry_expert_approved===false&&r.subject_release_verified===false&&r.redistribution_license_verified===false&&r.independent_shoot_verified===false);
+ assert(r.status==='partial_visual'||r.status.startsWith('rejected'));
+ if(r.media_class==='artwork_or_photo_of_sculpture')assert.equal(r.status,'rejected_nonphotographic');
+}
+const rowsFor=id=>refs.filter(x=>x.pose_id===id);
+assert.equal(rowsFor('floor-side-extend').filter(x=>x.status==='partial_visual').length,4);
+assert.equal(new Set(rowsFor('floor-side-extend').filter(x=>x.status==='partial_visual').map(x=>x.source_family)).size,4);
+assert.equal(rowsFor('knights-kneel').filter(x=>x.status==='partial_visual').length,2);
+assert(rowsFor('knights-kneel').some(x=>x.filename==='Jóga.jpg'&&x.status==='rejected_duplicate_session'));
+assert(rowsFor('knights-kneel').some(x=>x.filename.includes('Wille Nude')&&x.status==='rejected_nonphotographic'));
+assert(rowsFor('soft-sit').some(x=>x.filename==='AllisonParrisPhotoShoot.jpg'&&x.status==='rejected_wrong_surface'));
+assert(rowsFor('meditation-palms').some(x=>x.filename==='Buddha Dihana Mudra.JPG'&&x.status==='rejected_nonphotographic'));
+assert(rowsFor('meditation-palms').some(x=>x.status==='rejected_occluded_hands'));
+assert(rowsFor('tiptoe-reach').some(x=>x.status==='rejected_shoe_contact'));
+assert(rowsFor('side-straddle').some(x=>x.status==='rejected_nonphotographic'));
+assert(rowsFor('throne-sit').every(x=>x.status.startsWith('rejected')));
+assert.equal(new Set(expected.filter(x=>catalog.has(x))).size,5);
+// Protect preexisting defects; when they change, update source correction review before dropping this baseline assertion.
+assert(catalog.get('one-leg-balance').instructions.includes('inner calf or knee'),'Tree knee-contact safety issue #32 needs re-review');
+assert(catalog.get('fineart-contrapposto-classic').instructions.includes('extend the other fully behind'),'Fine Art title drift #28 needs re-review');
+if(process.argv.includes('--approve-geometry'))throw Error('RELEASE NO-GO: 0 rights-verified human-expert approved photographs and missing independent photos per pose');
+console.log('PASS Phase 8: 745 titled/described pose IDs / 16 categories, 20 photo assessments (10 partial, 10 reject), five new raw leads (total 212), 533 still uncovered, 0 geometry and rights approvals.');
