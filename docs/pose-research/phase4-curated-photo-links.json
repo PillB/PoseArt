@@ -1,0 +1,637 @@
+{
+  "version": 4,
+  "recorded_at": "2026-11-06",
+  "base_pose_count": 745,
+  "notes": "Research metadata and external source links only; no external image bytes. Numeric page matches, art, diagrams, repeated crops, or photos of sculpture do not count as 3-4 live-human independent references. There are ZERO approvals; creator/site claims require independent license verification.",
+  "source_aggregator": "SketchKit / linked Unsplash originals",
+  "screened_links": 37,
+  "distinct_photo_id_count": 36,
+  "approved_photo_count": 0,
+  "source_files": [
+    {
+      "photo_id": "1T1ieyuAfrY",
+      "source_category": "sitting",
+      "creator": "Alireza Esmaeeli",
+      "source_page": "https://www.sketchkit.art/sitting-pose-reference",
+      "image_url": "https://www.sketchkit.art/references/poses/sitting/alireza-esmaeeli-1T1ieyuAfrY-unsplash.webp",
+      "original_photo_link": "https://unsplash.com/photos/1T1ieyuAfrY",
+      "media_type": "real_person_photo_candidate",
+      "status": "screened_not_approved",
+      "rights_verified": false,
+      "shoot_session_verified": false,
+      "individual_photo_license_verified": false,
+      "decisions": [
+        {
+          "pose_id": "knees-apart-forward",
+          "result": "rejected_mismatch"
+        }
+      ]
+    },
+    {
+      "photo_id": "6vJECjuH6NU",
+      "source_category": "sitting",
+      "creator": "Artem Mihailov",
+      "source_page": "https://www.sketchkit.art/sitting-pose-reference",
+      "image_url": "https://www.sketchkit.art/references/poses/sitting/artem-mihailov-6vJECjuH6NU-unsplash.webp",
+      "original_photo_link": "https://unsplash.com/photos/6vJECjuH6NU",
+      "media_type": "real_person_photo_candidate",
+      "status": "screened_not_approved",
+      "rights_verified": false,
+      "shoot_session_verified": false,
+      "individual_photo_license_verified": false,
+      "decisions": []
+    },
+    {
+      "photo_id": "4JXB_QCHYeM",
+      "source_category": "sitting",
+      "creator": "Bousbia Kadhem",
+      "source_page": "https://www.sketchkit.art/sitting-pose-reference",
+      "image_url": "https://www.sketchkit.art/references/poses/sitting/bousbia-kadhem-4JXB_QCHYeM-unsplash.webp",
+      "original_photo_link": "https://unsplash.com/photos/4JXB_QCHYeM",
+      "media_type": "real_person_photo_candidate",
+      "status": "screened_not_approved",
+      "rights_verified": false,
+      "shoot_session_verified": false,
+      "individual_photo_license_verified": false,
+      "decisions": [
+        {
+          "pose_id": "cross-ankle-sit",
+          "result": "uncertain"
+        }
+      ]
+    },
+    {
+      "photo_id": "EJ08zy1a-UI",
+      "source_category": "sitting",
+      "creator": "David Suarez",
+      "source_page": "https://www.sketchkit.art/sitting-pose-reference",
+      "image_url": "https://www.sketchkit.art/references/poses/sitting/david-suarez-EJ08zy1a-UI-unsplash.webp",
+      "original_photo_link": "https://unsplash.com/photos/EJ08zy1a-UI",
+      "media_type": "real_person_photo_candidate",
+      "status": "screened_not_approved",
+      "rights_verified": false,
+      "shoot_session_verified": false,
+      "individual_photo_license_verified": false,
+      "decisions": [
+        {
+          "pose_id": "p15-chair-s2-forward-elbows-knees",
+          "result": "promising_partial"
+        },
+        {
+          "pose_id": "knees-apart-forward",
+          "result": "promising_partial"
+        }
+      ]
+    },
+    {
+      "photo_id": "gswrotk34cw",
+      "source_category": "sitting",
+      "creator": "Guilherme Caetano",
+      "source_page": "https://www.sketchkit.art/sitting-pose-reference",
+      "image_url": "https://www.sketchkit.art/references/poses/sitting/guilherme-caetano-gswrotk34cw-unsplash.webp",
+      "original_photo_link": "https://unsplash.com/photos/gswrotk34cw",
+      "media_type": "real_person_photo_candidate",
+      "status": "screened_not_approved",
+      "rights_verified": false,
+      "shoot_session_verified": false,
+      "individual_photo_license_verified": false,
+      "decisions": [
+        {
+          "pose_id": "floor-asymmetric",
+          "result": "promising_partial"
+        }
+      ]
+    },
+    {
+      "photo_id": "FoACHbxZ5n0",
+      "source_category": "sitting",
+      "creator": "Guillaume Bleyer",
+      "source_page": "https://www.sketchkit.art/sitting-pose-reference",
+      "image_url": "https://www.sketchkit.art/references/poses/sitting/guillaume-bleyer-FoACHbxZ5n0-unsplash.webp",
+      "original_photo_link": "https://unsplash.com/photos/FoACHbxZ5n0",
+      "media_type": "real_person_photo_candidate",
+      "status": "screened_not_approved",
+      "rights_verified": false,
+      "shoot_session_verified": false,
+      "individual_photo_license_verified": false,
+      "decisions": []
+    },
+    {
+      "photo_id": "LTDE3UZCzAM",
+      "source_category": "sitting",
+      "creator": "Hasibullah Sahil",
+      "source_page": "https://www.sketchkit.art/sitting-pose-reference",
+      "image_url": "https://www.sketchkit.art/references/poses/sitting/hasibullah-sahil-LTDE3UZCzAM-unsplash.webp",
+      "original_photo_link": "https://unsplash.com/photos/LTDE3UZCzAM",
+      "media_type": "real_person_photo_candidate",
+      "status": "screened_not_approved",
+      "rights_verified": false,
+      "shoot_session_verified": false,
+      "individual_photo_license_verified": false,
+      "decisions": [
+        {
+          "pose_id": "cross-ankle-sit",
+          "result": "promising_partial"
+        }
+      ]
+    },
+    {
+      "photo_id": "Z5m0-_Qt8_g",
+      "source_category": "sitting",
+      "creator": "Hunter Newton",
+      "source_page": "https://www.sketchkit.art/sitting-pose-reference",
+      "image_url": "https://www.sketchkit.art/references/poses/sitting/hunter-newton-Z5m0-_Qt8_g-unsplash.webp",
+      "original_photo_link": "https://unsplash.com/photos/Z5m0-_Qt8_g",
+      "media_type": "real_person_photo_candidate",
+      "status": "screened_not_approved",
+      "rights_verified": false,
+      "shoot_session_verified": false,
+      "individual_photo_license_verified": false,
+      "decisions": [
+        {
+          "pose_id": "floor-hug-knees",
+          "result": "rejected_mismatch"
+        }
+      ]
+    },
+    {
+      "photo_id": "9IaHImfKgfI",
+      "source_category": "sitting",
+      "creator": "Marcel Strauss",
+      "source_page": "https://www.sketchkit.art/sitting-pose-reference",
+      "image_url": "https://www.sketchkit.art/references/poses/sitting/marcel-strauss-9IaHImfKgfI-unsplash.webp",
+      "original_photo_link": "https://unsplash.com/photos/9IaHImfKgfI",
+      "media_type": "real_person_photo_candidate",
+      "status": "screened_not_approved",
+      "rights_verified": false,
+      "shoot_session_verified": false,
+      "individual_photo_license_verified": false,
+      "decisions": [
+        {
+          "pose_id": "floor-leaning-arms-back",
+          "result": "promising_partial"
+        }
+      ]
+    },
+    {
+      "photo_id": "5T-uBKa9qC4",
+      "source_category": "sitting",
+      "creator": "Mohammado Shokoofe",
+      "source_page": "https://www.sketchkit.art/sitting-pose-reference",
+      "image_url": "https://www.sketchkit.art/references/poses/sitting/mohammado-shokoofe-5T-uBKa9qC4-unsplash-2.webp",
+      "original_photo_link": "https://unsplash.com/photos/5T-uBKa9qC4",
+      "media_type": "real_person_photo_candidate",
+      "status": "screened_not_approved",
+      "rights_verified": false,
+      "shoot_session_verified": false,
+      "individual_photo_license_verified": false,
+      "decisions": []
+    },
+    {
+      "photo_id": "hBY9STjWJxE",
+      "source_category": "sitting",
+      "creator": "Nicolas Perondi",
+      "source_page": "https://www.sketchkit.art/sitting-pose-reference",
+      "image_url": "https://www.sketchkit.art/references/poses/sitting/nicolas-perondi-hBY9STjWJxE-unsplash.webp",
+      "original_photo_link": "https://unsplash.com/photos/hBY9STjWJxE",
+      "media_type": "real_person_photo_candidate",
+      "status": "screened_not_approved",
+      "rights_verified": false,
+      "shoot_session_verified": false,
+      "individual_photo_license_verified": false,
+      "decisions": [
+        {
+          "pose_id": "cross-ankle-sit",
+          "result": "promising_partial"
+        }
+      ]
+    },
+    {
+      "photo_id": "9N-usDehIHY",
+      "source_category": "sitting",
+      "creator": "Sonnie Hiles",
+      "source_page": "https://www.sketchkit.art/sitting-pose-reference",
+      "image_url": "https://www.sketchkit.art/references/poses/sitting/sonnie-hiles-9N-usDehIHY-unsplash.webp",
+      "original_photo_link": "https://unsplash.com/photos/9N-usDehIHY",
+      "media_type": "real_person_photo_candidate",
+      "status": "screened_not_approved",
+      "rights_verified": false,
+      "shoot_session_verified": false,
+      "individual_photo_license_verified": false,
+      "decisions": [
+        {
+          "pose_id": "bench-sit-side",
+          "result": "promising_partial"
+        }
+      ]
+    },
+    {
+      "photo_id": "agA1Xce1QMY",
+      "source_category": "standing",
+      "creator": "Abdullah Raafat",
+      "source_page": "https://www.sketchkit.art/standing-pose-reference",
+      "image_url": "https://www.sketchkit.art/references/poses/standing/abdullah-raafat-agA1Xce1QMY-unsplash.webp",
+      "original_photo_link": "https://unsplash.com/photos/agA1Xce1QMY",
+      "media_type": "real_person_photo_candidate",
+      "status": "screened_not_approved",
+      "rights_verified": false,
+      "shoot_session_verified": false,
+      "individual_photo_license_verified": false,
+      "decisions": [
+        {
+          "pose_id": "power-stance",
+          "result": "promising_partial"
+        }
+      ]
+    },
+    {
+      "photo_id": "_pG1u1_iItM",
+      "source_category": "standing",
+      "creator": "Bennie Bates",
+      "source_page": "https://www.sketchkit.art/standing-pose-reference",
+      "image_url": "https://www.sketchkit.art/references/poses/standing/bennie-bates-_pG1u1_iItM-unsplash.webp",
+      "original_photo_link": "https://unsplash.com/photos/_pG1u1_iItM",
+      "media_type": "real_person_photo_candidate",
+      "status": "screened_not_approved",
+      "rights_verified": false,
+      "shoot_session_verified": false,
+      "individual_photo_license_verified": false,
+      "decisions": [
+        {
+          "pose_id": "fashion-runway-arms-swing-stride",
+          "result": "title_description_conflict"
+        },
+        {
+          "pose_id": "hand-in-pocket",
+          "result": "promising_partial"
+        }
+      ]
+    },
+    {
+      "photo_id": "2zlvE32dg5I",
+      "source_category": "standing",
+      "creator": "Ilias Chebbi",
+      "source_page": "https://www.sketchkit.art/standing-pose-reference",
+      "image_url": "https://www.sketchkit.art/references/poses/standing/ilias-chebbi-2zlvE32dg5I-unsplash.webp",
+      "original_photo_link": "https://unsplash.com/photos/2zlvE32dg5I",
+      "media_type": "real_person_photo_candidate",
+      "status": "screened_not_approved",
+      "rights_verified": false,
+      "shoot_session_verified": false,
+      "individual_photo_license_verified": false,
+      "decisions": [
+        {
+          "pose_id": "chin-up-stand",
+          "result": "promising_partial"
+        }
+      ]
+    },
+    {
+      "photo_id": "dt_93dQHeTs",
+      "source_category": "standing",
+      "creator": "Ionela Mat",
+      "source_page": "https://www.sketchkit.art/standing-pose-reference",
+      "image_url": "https://www.sketchkit.art/references/poses/standing/ionela-mat-dt_93dQHeTs-unsplash-2.webp",
+      "original_photo_link": "https://unsplash.com/photos/dt_93dQHeTs",
+      "media_type": "real_person_photo_candidate",
+      "status": "screened_not_approved",
+      "rights_verified": false,
+      "shoot_session_verified": false,
+      "individual_photo_license_verified": false,
+      "decisions": []
+    },
+    {
+      "photo_id": "bRkwvng_Efw",
+      "source_category": "standing",
+      "creator": "Laura Chouette",
+      "source_page": "https://www.sketchkit.art/standing-pose-reference",
+      "image_url": "https://www.sketchkit.art/references/poses/standing/laura-chouette-bRkwvng_Efw-unsplash-2.webp",
+      "original_photo_link": "https://unsplash.com/photos/bRkwvng_Efw",
+      "media_type": "real_person_photo_candidate",
+      "status": "screened_not_approved",
+      "rights_verified": false,
+      "shoot_session_verified": false,
+      "individual_photo_license_verified": false,
+      "decisions": []
+    },
+    {
+      "photo_id": "ciZe2UP-Zus",
+      "source_category": "standing",
+      "creator": "Ramzy Massayidi",
+      "source_page": "https://www.sketchkit.art/standing-pose-reference",
+      "image_url": "https://www.sketchkit.art/references/poses/standing/ramzy-massayidi-ciZe2UP-Zus-unsplash.webp",
+      "original_photo_link": "https://unsplash.com/photos/ciZe2UP-Zus",
+      "media_type": "real_person_photo_candidate",
+      "status": "screened_not_approved",
+      "rights_verified": false,
+      "shoot_session_verified": false,
+      "individual_photo_license_verified": false,
+      "decisions": []
+    },
+    {
+      "photo_id": "l9kqKO2MUt8",
+      "source_category": "standing",
+      "creator": "Raphael Nast",
+      "source_page": "https://www.sketchkit.art/standing-pose-reference",
+      "image_url": "https://www.sketchkit.art/references/poses/standing/raphael-nast-l9kqKO2MUt8-unsplash.webp",
+      "original_photo_link": "https://unsplash.com/photos/l9kqKO2MUt8",
+      "media_type": "real_person_photo_candidate",
+      "status": "screened_not_approved",
+      "rights_verified": false,
+      "shoot_session_verified": false,
+      "individual_photo_license_verified": false,
+      "decisions": []
+    },
+    {
+      "photo_id": "fm6egE1yB7A",
+      "source_category": "standing",
+      "creator": "Sadeq Mousavi",
+      "source_page": "https://www.sketchkit.art/standing-pose-reference",
+      "image_url": "https://www.sketchkit.art/references/poses/standing/sadeq-mousavi-fm6egE1yB7A-unsplash-2.webp",
+      "original_photo_link": "https://unsplash.com/photos/fm6egE1yB7A",
+      "media_type": "real_person_photo_candidate",
+      "status": "screened_not_approved",
+      "rights_verified": false,
+      "shoot_session_verified": false,
+      "individual_photo_license_verified": false,
+      "decisions": [
+        {
+          "pose_id": "power-stance",
+          "result": "rejected_mismatch"
+        }
+      ]
+    },
+    {
+      "photo_id": "0cAvA_h3oOQ",
+      "source_category": "standing",
+      "creator": "Serjan Midili",
+      "source_page": "https://www.sketchkit.art/standing-pose-reference",
+      "image_url": "https://www.sketchkit.art/references/poses/standing/serjan-midili-0cAvA_h3oOQ-unsplash.webp",
+      "original_photo_link": "https://unsplash.com/photos/0cAvA_h3oOQ",
+      "media_type": "real_person_photo_candidate",
+      "status": "screened_not_approved",
+      "rights_verified": false,
+      "shoot_session_verified": false,
+      "individual_photo_license_verified": false,
+      "decisions": []
+    },
+    {
+      "photo_id": "XFRtPIZcDBk",
+      "source_category": "standing",
+      "creator": "Tim Schmidbauer",
+      "source_page": "https://www.sketchkit.art/standing-pose-reference",
+      "image_url": "https://www.sketchkit.art/references/poses/standing/tim-schmidbauer-XFRtPIZcDBk-unsplash-2.webp",
+      "original_photo_link": "https://unsplash.com/photos/XFRtPIZcDBk",
+      "media_type": "real_person_photo_candidate",
+      "status": "screened_not_approved",
+      "rights_verified": false,
+      "shoot_session_verified": false,
+      "individual_photo_license_verified": false,
+      "decisions": []
+    },
+    {
+      "photo_id": "UvHDd77eiLY",
+      "source_category": "standing",
+      "creator": "Valeriia Miller",
+      "source_page": "https://www.sketchkit.art/standing-pose-reference",
+      "image_url": "https://www.sketchkit.art/references/poses/standing/valeriia-miller-UvHDd77eiLY-unsplash.webp",
+      "original_photo_link": "https://unsplash.com/photos/UvHDd77eiLY",
+      "media_type": "real_person_photo_candidate",
+      "status": "screened_not_approved",
+      "rights_verified": false,
+      "shoot_session_verified": false,
+      "individual_photo_license_verified": false,
+      "decisions": [
+        {
+          "pose_id": "hand-in-pocket",
+          "result": "promising_partial"
+        }
+      ]
+    },
+    {
+      "photo_id": "qjdZ0KrfMWE",
+      "source_category": "standing",
+      "creator": "Yara Kinds",
+      "source_page": "https://www.sketchkit.art/standing-pose-reference",
+      "image_url": "https://www.sketchkit.art/references/poses/standing/yara-kinds-qjdZ0KrfMWE-unsplash.webp",
+      "original_photo_link": "https://unsplash.com/photos/qjdZ0KrfMWE",
+      "media_type": "real_person_photo_candidate",
+      "status": "screened_not_approved",
+      "rights_verified": false,
+      "shoot_session_verified": false,
+      "individual_photo_license_verified": false,
+      "decisions": [
+        {
+          "pose_id": "power-stance",
+          "result": "promising_partial"
+        }
+      ]
+    },
+    {
+      "photo_id": "9rpSG0UI4Ug",
+      "source_category": "couple",
+      "creator": "Azad Pirayandeh",
+      "source_page": "https://www.sketchkit.art/couple-pose-reference",
+      "image_url": "https://www.sketchkit.art/references/poses/couple/azad-pirayandeh-9rpSG0UI4Ug-unsplash.webp",
+      "original_photo_link": "https://unsplash.com/photos/9rpSG0UI4Ug",
+      "media_type": "real_person_photo_candidate",
+      "status": "screened_not_approved",
+      "rights_verified": false,
+      "shoot_session_verified": false,
+      "individual_photo_license_verified": false,
+      "decisions": [
+        {
+          "pose_id": "lead-dance-hand",
+          "result": "promising_partial"
+        }
+      ]
+    },
+    {
+      "photo_id": "fjjp4p6soaE",
+      "source_category": "couple",
+      "creator": "Carl Barcelo",
+      "source_page": "https://www.sketchkit.art/couple-pose-reference",
+      "image_url": "https://www.sketchkit.art/references/poses/couple/carl-barcelo-fjjp4p6soaE-unsplash.webp",
+      "original_photo_link": "https://unsplash.com/photos/fjjp4p6soaE",
+      "media_type": "real_person_photo_candidate",
+      "status": "screened_not_approved",
+      "rights_verified": false,
+      "shoot_session_verified": false,
+      "individual_photo_license_verified": false,
+      "decisions": []
+    },
+    {
+      "photo_id": "NNzdYYGK8Gg",
+      "source_category": "couple",
+      "creator": "Kazuo Ota",
+      "source_page": "https://www.sketchkit.art/couple-pose-reference",
+      "image_url": "https://www.sketchkit.art/references/poses/couple/kazuo-ota-NNzdYYGK8Gg-unsplash.webp",
+      "original_photo_link": "https://unsplash.com/photos/NNzdYYGK8Gg",
+      "media_type": "real_person_photo_candidate",
+      "status": "screened_not_approved",
+      "rights_verified": false,
+      "shoot_session_verified": false,
+      "individual_photo_license_verified": false,
+      "decisions": [
+        {
+          "pose_id": "waltz-hold",
+          "result": "promising_partial"
+        }
+      ]
+    },
+    {
+      "photo_id": "qtZ36-ODF2A",
+      "source_category": "couple",
+      "creator": "Leo Visions",
+      "source_page": "https://www.sketchkit.art/couple-pose-reference",
+      "image_url": "https://www.sketchkit.art/references/poses/couple/leo_visions-qtZ36-ODF2A-unsplash.webp",
+      "original_photo_link": "https://unsplash.com/photos/qtZ36-ODF2A",
+      "media_type": "real_person_photo_candidate",
+      "status": "screened_not_approved",
+      "rights_verified": false,
+      "shoot_session_verified": false,
+      "individual_photo_license_verified": false,
+      "decisions": []
+    },
+    {
+      "photo_id": "SKWiJNqCmsU",
+      "source_category": "couple",
+      "creator": "Nihal Demirci",
+      "source_page": "https://www.sketchkit.art/couple-pose-reference",
+      "image_url": "https://www.sketchkit.art/references/poses/couple/nihal-demirci-SKWiJNqCmsU-unsplash.webp",
+      "original_photo_link": "https://unsplash.com/photos/SKWiJNqCmsU",
+      "media_type": "real_person_photo_candidate",
+      "status": "screened_not_approved",
+      "rights_verified": false,
+      "shoot_session_verified": false,
+      "individual_photo_license_verified": false,
+      "decisions": []
+    },
+    {
+      "photo_id": "Z_FpnfNnUvE",
+      "source_category": "couple",
+      "creator": "Nihal Demirci",
+      "source_page": "https://www.sketchkit.art/couple-pose-reference",
+      "image_url": "https://www.sketchkit.art/references/poses/couple/nihal-demirci-Z_FpnfNnUvE-unsplash.webp",
+      "original_photo_link": "https://unsplash.com/photos/Z_FpnfNnUvE",
+      "media_type": "real_person_photo_candidate",
+      "status": "screened_not_approved",
+      "rights_verified": false,
+      "shoot_session_verified": false,
+      "individual_photo_license_verified": false,
+      "decisions": []
+    },
+    {
+      "photo_id": "eNWAlzxnzl8",
+      "source_category": "couple",
+      "creator": "Nihal Demirci",
+      "source_page": "https://www.sketchkit.art/couple-pose-reference",
+      "image_url": "https://www.sketchkit.art/references/poses/couple/nihal-demirci-eNWAlzxnzl8-unsplash.webp",
+      "original_photo_link": "https://unsplash.com/photos/eNWAlzxnzl8",
+      "media_type": "real_person_photo_candidate",
+      "status": "screened_not_approved",
+      "rights_verified": false,
+      "shoot_session_verified": false,
+      "individual_photo_license_verified": false,
+      "decisions": []
+    },
+    {
+      "photo_id": "nEq-FWPTDag",
+      "source_category": "couple",
+      "creator": "Nihal Demirci",
+      "source_page": "https://www.sketchkit.art/couple-pose-reference",
+      "image_url": "https://www.sketchkit.art/references/poses/couple/nihal-demirci-nEq-FWPTDag-unsplash.webp",
+      "original_photo_link": "https://unsplash.com/photos/nEq-FWPTDag",
+      "media_type": "real_person_photo_candidate",
+      "status": "screened_not_approved",
+      "rights_verified": false,
+      "shoot_session_verified": false,
+      "individual_photo_license_verified": false,
+      "decisions": []
+    },
+    {
+      "photo_id": "Mw0onbu5KUY",
+      "source_category": "couple",
+      "creator": "Patrik Velich",
+      "source_page": "https://www.sketchkit.art/couple-pose-reference",
+      "image_url": "https://www.sketchkit.art/references/poses/couple/patrik-velich-Mw0onbu5KUY-unsplash.webp",
+      "original_photo_link": "https://unsplash.com/photos/Mw0onbu5KUY",
+      "media_type": "real_person_photo_candidate",
+      "status": "screened_not_approved",
+      "rights_verified": false,
+      "shoot_session_verified": false,
+      "individual_photo_license_verified": false,
+      "decisions": [
+        {
+          "pose_id": "slow-dance",
+          "result": "promising_partial"
+        },
+        {
+          "pose_id": "forehead-touch",
+          "result": "rejected_mismatch"
+        }
+      ]
+    },
+    {
+      "photo_id": "DrUguS1oBGU",
+      "source_category": "couple",
+      "creator": "Robert Collins",
+      "source_page": "https://www.sketchkit.art/couple-pose-reference",
+      "image_url": "https://www.sketchkit.art/references/poses/couple/robert-collins-DrUguS1oBGU-unsplash.webp",
+      "original_photo_link": "https://unsplash.com/photos/DrUguS1oBGU",
+      "media_type": "real_person_photo_candidate",
+      "status": "screened_not_approved",
+      "rights_verified": false,
+      "shoot_session_verified": false,
+      "individual_photo_license_verified": false,
+      "decisions": []
+    },
+    {
+      "photo_id": "lNy5RIiGQ1s",
+      "source_category": "couple",
+      "creator": "Thought Catalog",
+      "source_page": "https://www.sketchkit.art/couple-pose-reference",
+      "image_url": "https://www.sketchkit.art/references/poses/couple/thought-catalog-lNy5RIiGQ1s-unsplash-2.webp",
+      "original_photo_link": "https://unsplash.com/photos/lNy5RIiGQ1s",
+      "media_type": "real_person_photo_candidate",
+      "status": "screened_not_approved",
+      "rights_verified": false,
+      "shoot_session_verified": false,
+      "individual_photo_license_verified": false,
+      "decisions": [
+        {
+          "pose_id": "forehead-touch-hands-held",
+          "result": "rejected_mismatch"
+        }
+      ]
+    },
+    {
+      "photo_id": "MBahMmQhkCs",
+      "source_category": "couple",
+      "creator": "Vitaly Gariev",
+      "source_page": "https://www.sketchkit.art/couple-pose-reference",
+      "image_url": "https://www.sketchkit.art/references/poses/couple/vitaly-gariev-MBahMmQhkCs-unsplash-2.webp",
+      "original_photo_link": "https://unsplash.com/photos/MBahMmQhkCs",
+      "media_type": "real_person_photo_candidate",
+      "status": "screened_not_approved",
+      "rights_verified": false,
+      "shoot_session_verified": false,
+      "individual_photo_license_verified": false,
+      "decisions": []
+    },
+    {
+      "photo_id": "MBahMmQhkCs",
+      "source_category": "couple",
+      "creator": "Vitaly Gariev",
+      "source_page": "https://www.sketchkit.art/couple-pose-reference",
+      "image_url": "https://www.sketchkit.art/references/poses/couple/vitaly-gariev-MBahMmQhkCs-unsplash.webp",
+      "original_photo_link": "https://unsplash.com/photos/MBahMmQhkCs",
+      "media_type": "real_person_photo_candidate",
+      "status": "screened_not_approved",
+      "rights_verified": false,
+      "shoot_session_verified": false,
+      "individual_photo_license_verified": false,
+      "decisions": []
+    }
+  ]
+}

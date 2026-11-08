@@ -1,0 +1,71 @@
+name: PoseArt research evidence gate
+
+on:
+  pull_request:
+    paths:
+      - "js/**"
+      - "scripts/**"
+      - "docs/pose-research/**"
+      - ".github/workflows/pose-research-ci.yml"
+  push:
+    branches:
+      - "research/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  evidence-inventory:
+    name: 745-pose inventory and reference search gates
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code (full refs for production diff check)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Node runtime
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Generate all 745 evidence query records
+        run: node scripts/phase3-evidence-gate.cjs
+      - name: Verify count, provenance, collisions, and block-by-default policy
+        run: node scripts/test-phase3-evidence-gate.cjs
+      - name: Verify Phase 4 37-photo source ledger, 36 unique originals and geometry hold
+        run: node scripts/test-phase4-photo-links.cjs
+      - name: Verify Phase 5 licensed-source metadata and negative pose/photo adjudications
+        run: node scripts/test-phase5-photo-evidence.cjs
+      - name: Verify Phase 6 anatomy-to-photo source adjudication and hard negative controls
+        run: node scripts/test-phase6-photo-evidence.cjs
+      - name: Verify Phase 7 25 Commons source files, 27 decisions and 5 new raw leads
+        run: node scripts/test-phase7-photo-evidence.cjs
+      - name: Verify Phase 8 source-level 20 reviews and no-photo geometry hold
+        run: node scripts/test-phase8-photo-evidence.cjs
+      - name: Rebuild and verify 745-pose legacy atlas through isolated CJS runner
+        shell: bash
+        run: |
+          set -euo pipefail
+          export POSEART_AUDIT_RUN_ID="run-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}-legacy"
+          node scripts/run-legacy-research.cjs run-atlas-geometry.js
+          node scripts/run-legacy-research.cjs build-pose-atlas.js
+          node scripts/run-legacy-research.cjs test-pose-atlas.js
+      - name: Block production geometry edits without independently adjudicated photos
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin master:refs/remotes/origin/master --no-tags
+          BASE="$(git merge-base origin/master HEAD)"
+          if git diff --name-only "$BASE" HEAD | grep -E '^(js/poses-data\.js|js/pose-skeleton-3d\.js|js/solarize/)'; then
+            echo "::error::Production pose/rig edits require signed photo/geometry evidence."
+            node scripts/phase3-evidence-gate.cjs --require-production-evidence
+          else
+            echo "PASS: research-only changes; production geometry unchanged."
+          fi
+      - name: Publish reproducible query plan, never private guide photographs
+        uses: actions/upload-artifact@v4
+        with:
+          name: poseart-phase3-search-plan
+          path: artifacts/research/phase3-search-plan.json
+          if-no-files-found: error
+          retention-days: 14

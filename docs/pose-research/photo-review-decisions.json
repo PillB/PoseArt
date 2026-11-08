@@ -1,0 +1,64 @@
+{
+  "review_date": "2026-11-05",
+  "reviewer": "assistant visual screening of downloaded Wikimedia Commons thumbnails; not an independent professional or legal signoff",
+  "scope": "10 diagnostic poses; an outcome of related is not a production geometry approval",
+  "pose_reviews": {
+    "scurve-stand": {
+      "pose_alignment": "not established",
+      "issue": "Search treats BlackBerry Curve product name as the requested S-curve body stance.",
+      "files": {"19140481": "reject_keyword_collision", "19140483": "reject_keyword_collision"}
+    },
+    "wall-lean": {
+      "pose_alignment": "partially related",
+      "issue": "A wall-leaning person is present in one image, but crossed ankles, shoulder contact and torso orientation are not established.",
+      "files": {"10580351": "related_not_exact", "26242127": "reject_pose_mismatch"}
+    },
+    "hand-in-pocket": {
+      "pose_alignment": "promising photographic analogues",
+      "issue": "Period portraits support the hand-in-pocket gesture, but not all show the opposite arm, weight distribution, or full-body three-quarter orientation.",
+      "files": {"67998112": "related_not_exact", "68000826": "strong_photo_analogue", "68097568": "related_not_exact", "67488228": "related_not_exact"}
+    },
+    "profile-stand": {
+      "pose_alignment": "mixed",
+      "issue": "Semi-profile, stage pose and painting are not equivalent to a straight full-body standing profile.",
+      "files": {"64828162": "related_not_exact", "66216273": "strong_photo_analogue", "67536856": "related_not_exact", "27157155": "reject_nonphotographic_or_pose_mismatch"}
+    },
+    "prayer-kneeling": {
+      "pose_alignment": "catalog semantics conflict",
+      "issue": "The title suggests prayer; the catalog instructions require one knee down with an opposite arm extended dramatically forward. Returned prayer images do not establish that joint configuration.",
+      "files": {"68073371": "reject_pose_mismatch", "22024717": "reject_nonphotographic_or_pose_mismatch", "22180103": "reject_nonphotographic_or_pose_mismatch", "68064524": "reject_pose_mismatch"}
+    },
+    "fineart-classic-arabesque": {
+      "pose_alignment": "catalog semantics conflict",
+      "issue": "The canonical text describes a sharp turning moment with one foot crossing; Degas bronzes show arabesque balances. These are three thematic works, not three live independent body photographs.",
+      "files": {"80585576": "related_artwork_not_photo", "80585588": "related_artwork_not_photo", "80585727": "related_artwork_not_photo"}
+    },
+    "contrapposto": {
+      "pose_alignment": "not established",
+      "issue": "Four photos show exterior architecture rather than the requested human weight shift, despite filenames containing portrait and standing.",
+      "files": {"65533328": "reject_wrong_subject", "65533332": "reject_wrong_subject", "65567115": "reject_wrong_subject", "65567116": "reject_wrong_subject"}
+    },
+    "chin-rest": {
+      "pose_alignment": "mixed; rendered rig concerning",
+      "issue": "Oscar Wilde rests his chin on a hand but does not establish elbow-on-knee geometry; other candidates are artwork. Four-view rig is markedly reclined relative to the written seated instruction.",
+      "files": {"91220487": "related_not_exact", "90175347": "related_artwork_not_photo", "90178732": "reject_nonphotographic_or_pose_mismatch", "90138463": "related_artwork_not_photo"}
+    },
+    "dance-arms-up": {
+      "pose_alignment": "not established",
+      "issue": "Group dance and festival photos do not visibly establish the isolated symmetrical arms-overhead stance, including individual hip/knee placement.",
+      "files": {"46418182": "reject_pose_mismatch", "46418201": "reject_pose_mismatch", "46418200": "reject_pose_mismatch", "115637384": "reject_pose_mismatch"}
+    },
+    "hand-in-hand-walk": {
+      "pose_alignment": "not established; legacy rig insufficient",
+      "issue": "All four retrieved records depict an urban riverwalk scene, not two people holding hands. The current generated preview contains one person rather than a couple.",
+      "files": {"97257816": "reject_wrong_subject", "97257813": "reject_wrong_subject", "97257812": "reject_wrong_subject", "97257825": "reject_wrong_subject"}
+    }
+  },
+  "approval_gates": [
+    "image depicts a real relevant human body and the precise defined pose, not merely a word in a title",
+    "independent photographic reference, not a drawing, sculpture, existing PoseArt render, or near-duplicate crop",
+    "full source page/license/author and attribution independently inspected; privacy/personality rights considered",
+    "photo-to-instructions-to-3D comparison in at least front and oblique views; supports, partners and temporal phases explicitly checked",
+    "qualified human adjudicator and repository reviewer approve evidence before any production geometry edit"
+  ]
+}

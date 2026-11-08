@@ -1,0 +1,50 @@
+'use strict';
+// PoseArt Phase7 verified-source and fail-closed geometry gate.
+// This test checks a research metadata contract: it does not count photographs as approved.
+const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),assert=require('node:assert/strict');
+const root=path.resolve(__dirname,'..');
+const d=JSON.parse(fs.readFileSync(path.join(root,'docs/pose-research/phase7-commons-adjudication.json'),'utf8'));
+const ctx={};vm.runInNewContext(fs.readFileSync(path.join(root,'js/poses-data.js'),'utf8')+';this.lib=POSES_LIBRARY;this.categories=POSE_CATEGORIES;',ctx,{timeout:20000});
+const poses=new Map(Object.values(ctx.lib).map(p=>[p.id,p]));
+assert.equal(poses.size,745);assert.equal(Array.from(ctx.categories).length,16);
+assert([...poses.values()].every(p=>p.id&&p.name&&p.instructions&&p.category),'All 745 existing poses must have title, description and category');
+assert.equal(d.live_poses,745);assert.equal(d.categories,16);
+assert.equal(d.previously_raw_covered,202);assert.equal(d.raw_covered_after_phase7,207);assert.equal(d.raw_uncovered_after_phase7,538);
+assert.equal(d.existing_rig_projections,2980);assert.equal(d.independent_photo_approvals,0);
+assert.equal(d.required_minimum_approvals,2235);assert.equal(d.research_only_new_poses,20);
+assert.equal(d.source_associations,27);assert.equal(d.distinct_source_files,25);
+const sources=d.sources;
+assert.equal(sources.length,27);
+assert.equal(new Set(sources.map(x=>x.filename)).size,25);
+assert.equal(new Set(sources.map(x=>x.id)).size,27);
+assert.equal(sources.filter(x=>x.status==='partial_visual').length,12);
+assert.equal(sources.filter(x=>x.status.startsWith('rejected_')).length,15);
+const expected=['chin-on-fist','column-lean','floor-hug-knees','p14-standing-s9-hands-clasped-front','tree-lean'];
+assert.deepEqual(d.new_raw_covered_pose_ids,expected);
+const positive=[...new Set(sources.filter(x=>x.status==='partial_visual').map(x=>x.pose_id))].sort();
+assert.deepEqual(positive,expected);
+for(const s of sources) {
+ assert(poses.has(s.pose_id),'Unknown live pose: '+s.pose_id);
+ assert(s.id && s.filename && s.creator && s.claimed_license && s.assessment && s.source_family);
+ assert(s.source_url.startsWith('https://commons.wikimedia.org/wiki/File:'));
+ assert(s.approved_photo===false && s.expert_pose_match_approved===false);
+ assert(s.subject_release_verified===false && s.commercial_redistribution_permission_verified===false && s.independent_photo_session_verified===false);
+ assert(s.status==='partial_visual' || s.status.startsWith('rejected_'));
+ if(s.media_type==='artwork_scan')assert.equal(s.status,'rejected_nonphotographic');
+}
+const forId=(id)=>sources.filter(s=>s.pose_id===id && s.status==='partial_visual');
+assert.equal(forId('tree-lean').length,2);
+assert.equal(forId('chin-on-fist').length,4);
+assert.equal(forId('floor-hug-knees').length,2);
+assert.equal(forId('p14-standing-s9-hands-clasped-front').length,3);
+assert.equal(forId('column-lean').length,1);
+assert.equal(new Set(forId('p14-standing-s9-hands-clasped-front').map(x=>x.source_family)).size,3);
+assert(sources.some(s=>s.pose_id==='column-lean' && s.filename==='AO DAI 2015-02-23 - 15.jpg' && s.status==='rejected_wrong_prop'));
+assert(sources.some(s=>s.pose_id==='tree-lean' && s.filename==='Girl in pink coat leaning against a column.jpg' && s.status==='rejected_wrong_prop'));
+assert(sources.some(s=>s.pose_id==='floor-hug-knees'&&s.filename==='Ai Himeno 2.jpg'&&s.status==='rejected_surface'));
+assert(sources.some(s=>s.pose_id==='p14-standing-s9-hands-clasped-front'&&s.media_type==='artwork_scan'));
+assert(sources.some(s=>s.pose_id==='chin-on-fist'&&s.status==='rejected_rights_subject'));
+assert(poses.get('fineart-contrapposto-classic').instructions.includes('extend the other fully behind'));
+assert(poses.get('one-leg-balance').instructions.includes('inner calf or knee'));
+if(process.argv.includes('--approve-geometry'))throw new Error('RELEASE BLOCKED: missing 3 independent approved, rights-cleared live-human photographs per pose');
+console.log('PASS Phase7: 745 titled/described IDs, 27 photo assessments, 25 unique sources, 12 partials, 15 rejected, +5 previously missing raw leads, 538 zero-lead poses, 0 approved references.');
